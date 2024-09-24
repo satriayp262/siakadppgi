@@ -1,4 +1,4 @@
-<div>
+<div class="mx-5">
     <div class="flex justify-between mx-4 mt-4">
         <h1 class="text-2xl font-bold ">Prodi Table</h1>
         <div>

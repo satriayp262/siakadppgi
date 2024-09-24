@@ -32,12 +32,14 @@
                 <th class="px-4 py-2 text-center">Metode Pembelajaran</th>
                 <th class="px-4 py-2 text-center">Tanggal Mulai Efektif</th>
                 <th class="px-4 py-2 text-center">Tanggal Akhir Efektif</th>
+                <th class="px-4 py-2 text-center">Action</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($matkuls as $matkul)
                 <tr class="border-t" wire:key="matkul-{{ $matkul->id_mata_kuliah }}">
                     <td class="px-4 py-2 text-center">{{ $matkul->kode_mata_kuliah }}</td>
+                    <td class="px-4 py-2 text-center">{{ $matkul->nama_mata_kuliah }}</td>
                     <td class="px-4 py-2 text-center">{{ $matkul->jenis_mata_kuliah }}</td>
                     <td class="px-4 py-2 text-center">{{ $matkul->sks_tatap_muka }}</td>
                     <td class="px-4 py-2 text-center">{{ $matkul->sks_praktek }}</td>
