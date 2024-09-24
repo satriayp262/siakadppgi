@@ -11,3 +11,8 @@ route::get('/admin', App\Livewire\Admin\Dashboard\Index::class)->name('admin.das
 Route::prefix('mata_kuliah')->group(function () {
     Route::get('/', App\Livewire\Admin\Matkul\Index::class)->name('admin.mata_kuliah');
 });
+
+Route::prefix('prodi')->group(function () {
+    Route::get('/', App\Livewire\Admin\Prodi\Index::class)->name('admin.prodi');
+});
+
