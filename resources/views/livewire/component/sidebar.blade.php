@@ -1,6 +1,6 @@
 <div>
     <aside id="default-sidebar"
-        class="fixed top-16 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0 bg-gray-800"
+        class="fixed left-0 z-40 w-64 h-screen transition-transform -translate-x-full bg-gray-800 top-16 sm:translate-x-0"
         aria-label="Sidebar">
         <div class="h-full px-3 py-4 overflow-y-auto">
             <ul class="space-y-2 font-medium">
@@ -60,10 +60,9 @@
                     </a>
                 </li>
                 <li>
-                    <a
-                    {{-- <a href="{{ route('mata_kuliah') }}" --}}
-                        class="flex items-center p-2 text-gray-500 rounded-lg group {{ request()->routeIs('mata_kuliah') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
-                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('mata_kuliah') ? 'text-white' : 'text-gray-500' }}"
+                    <a href="{{ route('admin.mata_kuliah') }}"
+                        class="flex items-center p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.mata_kuliah') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
+                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.mata_kuliah') ? 'text-white' : 'text-gray-500' }}"
                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                             fill="currentColor" viewBox="0 0 24 24">
                             <path fill-rule="evenodd"
@@ -84,8 +83,8 @@
                                 d="M15 4h3a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h3m0 3h6m-3 5h3m-6 0h.01M12 16h3m-6 0h.01M10 3v4h4V3h-4Z" />
                         </svg>
 
-                        <span class="flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-100 flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Jadwal</span>
-                        <svg class="w-3 h-3 flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-100" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        <span class="flex-1 flex-shrink-0 text-left text-gray-500 transition duration-75 group-hover:text-gray-100 ms-3 rtl:text-right whitespace-nowrap">Jadwal</span>
+                        <svg class="flex-shrink-0 w-3 h-3 text-gray-500 transition duration-75 group-hover:text-gray-100" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 10 6">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="m1 1 4 4 4-4" />
@@ -115,8 +114,8 @@
                                 d="M5 3a2 2 0 0 0-2 2v5h18V5a2 2 0 0 0-2-2H5ZM3 14v-2h18v2a2 2 0 0 1-2 2h-6v3h2a1 1 0 1 1 0 2H9a1 1 0 1 1 0-2h2v-3H5a2 2 0 0 1-2-2Z"
                                 clip-rule="evenodd" />
                         </svg>
-                        <span class="flex-1 ms-3 text-left rtl:text-right text-gray-500 transition duration-75 group-hover:text-gray-100 flex-1 ms-3 whitespace-nowrap">Nilai</span>
-                        <svg class="w-3 h-3 flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-100" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        <span class="flex-1 text-left text-gray-500 transition duration-75 ms-3 rtl:text-right group-hover:text-gray-100 whitespace-nowrap">Nilai</span>
+                        <svg class="flex-shrink-0 w-3 h-3 text-gray-500 transition duration-75 group-hover:text-gray-100" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 10 6">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="m1 1 4 4 4-4" />
