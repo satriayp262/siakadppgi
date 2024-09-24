@@ -19,11 +19,11 @@
                     </a>
                 </li>
                 <li>
-                    <a
-                    {{-- <a href="{{ route('dosen') }}" --}}
+                    <a {{-- <a href="{{ route('dosen') }}" --}}
                         class="flex items-center p-2 text-gray-500 rounded-lg group {{ request()->routeIs('dosen') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('dosen') ? 'text-white' : 'text-gray-500' }}"
-                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                            viewBox="0 0 20 20">
                             <path fill-rule="evenodd"
                                 d="M8 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4H6Zm7.25-2.095c.478-.86.75-1.85.75-2.905a5.973 5.973 0 0 0-.75-2.906 4 4 0 1 1 0 5.811ZM15.466 20c.34-.588.535-1.271.535-2v-1a5.978 5.978 0 0 0-1.528-4H18a4 4 0 0 1 4 4v1a2 2 0 0 1-2 2h-4.535Z"
                                 clip-rule="evenodd" />
@@ -32,8 +32,7 @@
                     </a>
                 </li>
                 <li>
-                    <a
-                    {{-- <a href="{{ route('mahasiswa') }}" --}}
+                    <a {{-- <a href="{{ route('mahasiswa') }}" --}}
                         class="flex items-center p-2 text-gray-500 rounded-lg group {{ request()->routeIs('mahasiswa') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('mahasiswa') ? 'text-white' : 'text-gray-500' }}"
                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -46,10 +45,9 @@
                     </a>
                 </li>
                 <li>
-                    <a
-                    {{-- <a href="{{ route('prodi') }}" --}}
-                        class="flex items-center p-2 text-gray-500 rounded-lg group {{ request()->routeIs('prodi') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
-                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('prodi') ? 'text-white' : 'text-gray-500' }}"
+                    <a <a href="{{ route('admin.prodi') }}"
+                        class="flex items-center p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.prodi') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
+                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.prodi') ? 'text-white' : 'text-gray-500' }}"
                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                             fill="currentColor" viewBox="0 0 24 24">
                             <path fill-rule="evenodd"
@@ -83,22 +81,21 @@
                                 d="M15 4h3a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h3m0 3h6m-3 5h3m-6 0h.01M12 16h3m-6 0h.01M10 3v4h4V3h-4Z" />
                         </svg>
 
-                        <span class="flex-1 flex-shrink-0 text-left text-gray-500 transition duration-75 group-hover:text-gray-100 ms-3 rtl:text-right whitespace-nowrap">Jadwal</span>
-                        <svg class="flex-shrink-0 w-3 h-3 text-gray-500 transition duration-75 group-hover:text-gray-100" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 10 6">
+                        <span
+                            class="flex-1 flex-shrink-0 text-left text-gray-500 transition duration-75 group-hover:text-gray-100 ms-3 rtl:text-right whitespace-nowrap">Jadwal</span>
+                        <svg class="flex-shrink-0 w-3 h-3 text-gray-500 transition duration-75 group-hover:text-gray-100"
+                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="m1 1 4 4 4-4" />
                         </svg>
                     </button>
                     <ul id="dropdown-Jadwal" class="hidden py-2 space-y-2">
                         <li>
-                            <a
-                            {{-- <a href="#" --}}
+                            <a {{-- <a href="#" --}}
                                 class="flex items-center w-full p-2 text-gray-500 transition duration-75 rounded-lg pl-11 group">Kuliah</a>
                         </li>
                         <li>
-                            <a
-                            {{-- <a href="#" --}}
+                            <a {{-- <a href="#" --}}
                                 class="flex items-center w-full p-2 text-gray-500 transition duration-75 rounded-lg pl-11 group">KSK</a>
                         </li>
                     </ul>
@@ -107,50 +104,51 @@
                     <button type="button"
                         class="flex items-center w-full p-2 text-base text-gray-500 transition duration-75 rounded-lg"
                         aria-controls="dropdown-Nilai" data-collapse-toggle="dropdown-Nilai">
-                        <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-100" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                            viewBox="0 0 24 24">
+                        <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-100"
+                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            fill="currentColor" viewBox="0 0 24 24">
                             <path fill-rule="evenodd"
                                 d="M5 3a2 2 0 0 0-2 2v5h18V5a2 2 0 0 0-2-2H5ZM3 14v-2h18v2a2 2 0 0 1-2 2h-6v3h2a1 1 0 1 1 0 2H9a1 1 0 1 1 0-2h2v-3H5a2 2 0 0 1-2-2Z"
                                 clip-rule="evenodd" />
                         </svg>
-                        <span class="flex-1 text-left text-gray-500 transition duration-75 ms-3 rtl:text-right group-hover:text-gray-100 whitespace-nowrap">Nilai</span>
-                        <svg class="flex-shrink-0 w-3 h-3 text-gray-500 transition duration-75 group-hover:text-gray-100" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 10 6">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="m1 1 4 4 4-4" />
+                        <span
+                            class="flex-1 text-left text-gray-500 transition duration-75 ms-3 rtl:text-right group-hover:text-gray-100 whitespace-nowrap">Nilai</span>
+                        <svg class="flex-shrink-0 w-3 h-3 text-gray-500 transition duration-75 group-hover:text-gray-100"
+                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2" d="m1 1 4 4 4-4" />
                         </svg>
                     </button>
                     <ul id="dropdown-Nilai" class="hidden py-2 space-y-2">
                         <li>
-                            <a
-                            {{-- <a href="#" --}}
-                                class="flex items-center w-full p-2 text-gray-500 transition duration-75 rounded-lg pl-11 group hover:bg-gray-500">Semester 1</a>
+                            <a {{-- <a href="#" --}}
+                                class="flex items-center w-full p-2 text-gray-500 transition duration-75 rounded-lg pl-11 group hover:bg-gray-500">Semester
+                                1</a>
                         </li>
                         <li>
-                            <a
-                            {{-- <a href="#" --}}
-                                class="flex items-center w-full p-2 text-gray-500 transition duration-75 rounded-lg pl-11 group hover:bg-gray-500">Semester 2</a>
+                            <a {{-- <a href="#" --}}
+                                class="flex items-center w-full p-2 text-gray-500 transition duration-75 rounded-lg pl-11 group hover:bg-gray-500">Semester
+                                2</a>
                         </li>
                         <li>
-                            <a
-                            {{-- <a href="#" --}}
-                                class="flex items-center w-full p-2 text-gray-500 transition duration-75 rounded-lg pl-11 group hover:bg-gray-500">Semester 3</a>
+                            <a {{-- <a href="#" --}}
+                                class="flex items-center w-full p-2 text-gray-500 transition duration-75 rounded-lg pl-11 group hover:bg-gray-500">Semester
+                                3</a>
                         </li>
                         <li>
-                            <a
-                            {{-- <a href="#" --}}
-                                class="flex items-center w-full p-2 text-gray-500 transition duration-75 rounded-lg pl-11 group hover:bg-gray-500">Semester 4</a>
+                            <a {{-- <a href="#" --}}
+                                class="flex items-center w-full p-2 text-gray-500 transition duration-75 rounded-lg pl-11 group hover:bg-gray-500">Semester
+                                4</a>
                         </li>
                         <li>
-                            <a
-                            {{-- <a href="#" --}}
-                                class="flex items-center w-full p-2 text-gray-500 transition duration-75 rounded-lg pl-11 group hover:bg-gray-500">Semester 5</a>
+                            <a {{-- <a href="#" --}}
+                                class="flex items-center w-full p-2 text-gray-500 transition duration-75 rounded-lg pl-11 group hover:bg-gray-500">Semester
+                                5</a>
                         </li>
                         <li>
-                            <a
-                            {{-- <a href="#" --}}
-                                class="flex items-center w-full p-2 text-gray-500 transition duration-75 rounded-lg pl-11 group hover:bg-gray-500">Semester 6</a>
+                            <a {{-- <a href="#" --}}
+                                class="flex items-center w-full p-2 text-gray-500 transition duration-75 rounded-lg pl-11 group hover:bg-gray-500">Semester
+                                6</a>
                         </li>
                     </ul>
                 </li>
@@ -159,4 +157,4 @@
     </aside>
     {{-- Add Flowbite Script --}}
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
-    </div>
+</div>
