@@ -1,6 +1,6 @@
 <div>
     <aside id="default-sidebar"
-        class="fixed left-0 z-40 w-64 h-screen transition-transform -translate-x-full bg-gray-800 top-16 sm:translate-x-0"
+        class=" left-0 z-40 w-64 h-full transition-transform -translate-x-full bg-gray-800 top-16 sm:translate-x-0"
         aria-label="Sidebar">
         <div class="h-full px-3 py-4 overflow-y-auto">
             <ul class="space-y-2 font-medium">
@@ -19,11 +19,10 @@
                     </a>
                 </li>
                 <li>
-                    <a {{-- <a href="{{ route('dosen') }}" --}}
-                        class="flex items-center p-2 text-gray-500 rounded-lg group {{ request()->routeIs('dosen') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
-                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('dosen') ? 'text-white' : 'text-gray-500' }}"
-                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                            viewBox="0 0 20 20">
+                    <a href="{{ route('admin.dosen') }}"
+                        class="flex items-center p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.dosen') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
+                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.dosen') ? 'text-white' : 'text-gray-500' }}"
+                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd"
                                 d="M8 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4H6Zm7.25-2.095c.478-.86.75-1.85.75-2.905a5.973 5.973 0 0 0-.75-2.906 4 4 0 1 1 0 5.811ZM15.466 20c.34-.588.535-1.271.535-2v-1a5.978 5.978 0 0 0-1.528-4H18a4 4 0 0 1 4 4v1a2 2 0 0 1-2 2h-4.535Z"
                                 clip-rule="evenodd" />

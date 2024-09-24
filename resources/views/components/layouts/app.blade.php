@@ -14,7 +14,7 @@
         <livewire:component.sidebar />
 
         <div class="flex flex-col flex-1">
-            <main class="flex-1 md:ml-64 mb-16">
+            <main class="flex-1  mb-16">
                 {{ $slot }}
             </main>
             <livewire:component.footer />

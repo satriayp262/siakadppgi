@@ -16,3 +16,7 @@ Route::prefix('prodi')->group(function () {
     Route::get('/', App\Livewire\Admin\Prodi\Index::class)->name('admin.prodi');
 });
 
+Route::prefix('dosen')->group(function () {
+    Route::get('/', App\Livewire\Admin\Dosen\Index::class)->name('admin.dosen');
+});
+
