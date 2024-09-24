@@ -36,6 +36,23 @@ class Edit extends Component
         ];
     }
 
+    public function messages()
+    {
+        return [
+            'kode_mata_kuliah.unique' => 'Kode mata kuliah sudah dipakai',
+            'kode_mata_kuliah.required' => 'Kode mata kuliah tidak boleh kosong',
+            'nama_mata_kuliah.required' => 'Nama mata kuliah tidak boleh kosong',
+            'jenis_mata_kuliah.required' => 'Jenis mata kuliah tidak boleh kosong',
+            'sks_tatap_muka.required' => 'SKS tatap muka tidak boleh kosong',
+            'sks_praktek.required' => 'SKS praktek tidak boleh kosong',
+            'sks_praktek_lapangan.required' => 'SKS praktek lapangan tidak boleh kosong',
+            'sks_simulasi.required' => 'SKS simulasi tidak boleh kosong',
+            'metode_pembelajaran.required' => 'Metode pembelajaran tidak boleh kosong',
+            'tgl_mulai_efektif.required' => 'Tanggal mulai efektif tidak boleh kosong',
+            'tgl_akhir_efektif.required' => 'Tanggal akhir efektif tidak boleh kosong',
+        ];
+    }
+
     public function clear($id_mata_kuliah)
     {
         $this->dispatch('refreshComponent');
