@@ -23,7 +23,7 @@ class Edit extends Component
     public function rules()
     {
         return [
-            'kode_mata_kuliah' => 'required|string',
+            'kode_mata_kuliah' => 'required|string|unique:matkul,kode_mata_kuliah,' . $this->id_mata_kuliah . ',id_mata_kuliah',
             'nama_mata_kuliah' => 'required|string',
             'jenis_mata_kuliah' => 'required|string',
             'sks_tatap_muka' => 'required|integer',
@@ -38,7 +38,6 @@ class Edit extends Component
 
     public function clear($id_mata_kuliah)
     {
-        $this->reset();
         $this->dispatch('refreshComponent');
         $matkul = Matakuliah::find($id_mata_kuliah);
         if ($matkul) {
@@ -96,52 +95,23 @@ class Edit extends Component
     }
     public function update()
     {
-
-        $validatedData = $this->validate([
-            'kode_mata_kuliah' => 'required|string',
-            'nama_mata_kuliah' => 'required|string',
-            'jenis_mata_kuliah' => 'required|string',
-            'sks_tatap_muka' => 'required|integer',
-            'sks_praktek' => 'required|integer',
-            'sks_praktek_lapangan' => 'required|integer',
-            'sks_simulasi' => 'required|integer',
-            'metode_pembelajaran' => 'required|string',
-            'tgl_mulai_efektif' => 'required|date',
-            'tgl_akhir_efektif' => 'required|date',
-        ]);
+        // Validasi data sesuai rules
+        $validatedData = $this->validate();
 
         $matkul = Matakuliah::find($this->id_mata_kuliah);
-        // if ($matkul) {
-        //     // Jika ada gambar baru yang diupload
-        //     if ($this->picture) {
-        //         // Hapus gambar lama jika ada
-        //         if ($matkul->picture) {
-        //             \Storage::disk('public')->delete($matkul->picture);
-        //         }
-        //         // Unggah gambar baru dan simpan path-nya
-        //         $path = $this->picture->store('images/matkul', 'public');
-        //         $matkul->picture = $path;
-        //     }
 
-            // Update data matkul lainnya
-            $matkul->update([
-            'kode_mata_kuliah' => $validatedData['kode_mata_kuliah'],
-            'nama_mata_kuliah' => $validatedData['nama_mata_kuliah'],
-            'jenis_mata_kuliah' => $validatedData['jenis_mata_kuliah'],
-            'sks_tatap_muka' => $validatedData['sks_tatap_muka'],
-            'sks_praktek' => $validatedData['sks_praktek'],
-            'sks_praktek_lapangan' => $validatedData['sks_praktek_lapangan'],
-            'sks_simulasi' => $validatedData['sks_simulasi'],
-            'metode_pembelajaran' => $validatedData['metode_pembelajaran'],
-            'tgl_mulai_efektif' => $validatedData['tgl_mulai_efektif'],
-            'tgl_akhir_efektif' => $validatedData['tgl_akhir_efektif']
-            ]);
+        if ($matkul) {
+            // Update data matkul dengan data yang sudah divalidasi
+            $matkul->update($validatedData);
 
-        // Reset form dan dispatch event
-        $this->reset();
-        $this->dispatch('matkulUpdated');
-        return $matkul;
+            // Reset form dan dispatch event
+            $this->clear($this->id_mata_kuliah);
+            $this->dispatch('matkulUpdated');
+        }
     }
+
+
+
     public function render()
     {
         return view('livewire.admin.matkul.edit');

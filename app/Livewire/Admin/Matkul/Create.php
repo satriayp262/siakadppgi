@@ -23,7 +23,7 @@ class Create extends Component
     public function rules()
     {
         return [
-            'kode_mata_kuliah' => 'required|string',
+            'kode_mata_kuliah' => 'required|string|unique:matkul,kode_mata_kuliah',
             'nama_mata_kuliah' => 'required|string',
             'jenis_mata_kuliah' => 'required|string',
             'sks_tatap_muka' => 'required|integer',
