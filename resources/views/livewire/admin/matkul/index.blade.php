@@ -53,7 +53,7 @@
                             <div class="flex space-x-2">
                                 <livewire:admin.matkul.edit :id_mata_kuliah="$matkul->id_mata_kuliah" wire:key="edit-{{ $matkul->id_mata_kuliah }}" />
                             </div>
-                            <button class="inline-block px-3 py-1 text-white bg-red-500 rounded hover:bg-red-700" 
+                            <button class="inline-block px-3 py-1 mt-2 text-white bg-red-500 rounded hover:bg-red-700" 
                                     wire:click="destroy({{ $matkul->id_mata_kuliah }})" wire:confirm="Are you sure?">Delete</button>
                         </div>
                     </td>

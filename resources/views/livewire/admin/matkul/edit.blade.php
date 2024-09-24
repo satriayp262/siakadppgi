@@ -1,6 +1,6 @@
 <div x-data="{ isOpen: false }" @modal-closed.window="isOpen = false">
     <button @click="isOpen=true"
-        class="inline-block px-3 py-1 text-white bg-blue-500 rounded hover:bg-blue-700">Edit</button>
+        class="inline-block px-5 py-1 text-white bg-blue-500 rounded hover:bg-blue-700">Edit</button>
     <div x-show="isOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-75">
         <div class="w-1/2 bg-white rounded-lg shadow-lg">
             <div class="flex items-center justify-between p-4 bg-gray-200 rounded-t-lg">
