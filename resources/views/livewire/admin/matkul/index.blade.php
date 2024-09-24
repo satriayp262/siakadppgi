@@ -1,5 +1,5 @@
 <div class="mx-5">
-    <div class="flex justify-between mx-4 mt-4">
+    <div class="flex flex-col justify-between mx-4 mt-4">
         <h1 class="text-2xl font-bold ">Berita Table</h1>
         <div>
             @if (session()->has('message'))
@@ -14,8 +14,10 @@
             @endif
         </div>
         <!-- Modal Form -->
-        <input type="text" wire:model.live="search" placeholder="   Search" class="ml-4 border border-gray-300 rounded-lg">
-        {{-- <livewire:berita.create /> --}}
+        <div class="flex justify-between mt-2">
+            <livewire:admin.matkul.create />
+            <input type="text" wire:model.live="search" placeholder="   Search" class="px-2 ml-4 border border-gray-300 rounded-lg">
+        </div>
     </div>
     <table class="min-w-full mt-4 bg-white border border-gray-200">
         <thead>
@@ -33,33 +35,32 @@
             </tr>
         </thead>
         <tbody>
-            {{-- @foreach ($beritas as $berita)
-                <tr class="border-t" wire:key="berita-{{ $berita->id_berita }}">
-                    <td class="max-w-xs px-4 py-2 break-words">{{ $berita->title_berita }}</td>
-                    <td class="px-4 py-2">
-                        {{ \Illuminate\Support\Str::limit($berita->description, 30, '...') }}
-                    </td>
-                    <td class="px-4 py-2">{{ $berita->tanggal }}</td>
-                    <td class="px-4 py-2">{{ $berita->kategori }}</td>
-                    <td class="px-4 py-2">
-                        <img src="{{ asset('storage/' . $berita->picture) }}" alt="Main Picture" class="block w-24 mx-auto mt-2 mb-2">
-                    </td>
-                    <td class="px-4 py-2">
+            @foreach ($matkuls as $matkul)
+                <tr class="border-t" wire:key="matkul-{{ $matkul->id_mata_kuliah }}">
+                    <td class="px-4 py-2 text-center">{{ $matkul->kode_mata_kuliah }}</td>
+                    <td class="px-4 py-2 text-center">{{ $matkul->jenis_mata_kuliah }}</td>
+                    <td class="px-4 py-2 text-center">{{ $matkul->sks_tatap_muka }}</td>
+                    <td class="px-4 py-2 text-center">{{ $matkul->sks_praktek }}</td>
+                    <td class="px-4 py-2 text-center">{{ $matkul->sks_praktek_lapangan }}</td>
+                    <td class="px-4 py-2 text-center">{{ $matkul->sks_simulasi }}</td>
+                    <td class="px-4 py-2 text-center">{{ $matkul->metode_pembelajaran }}</td>
+                    <td class="px-4 py-2 text-center">{{ $matkul->tgl_mulai_efektif }}</td>
+                    <td class="px-4 py-2 text-center">{{ $matkul->tgl_akhir_efektif }}</td>
+                    <td class="px-4 py-2 text-center">
                         <div class="flex flex-col items-center space-y-2">
                             <div class="flex space-x-2">
-                                <livewire:berita.show :id_berita="$berita->id_berita" wire:key="show-{{ $berita->id_berita }}" />
-                                <livewire:berita.form-edit :id_berita="$berita->id_berita" wire:key="edit-{{ $berita->id_berita }}" />
+                                <livewire:admin.matkul.edit :id_mata_kuliah="$matkul->id_mata_kuliah" wire:key="edit-{{ $matkul->id_mata_kuliah }}" />
                             </div>
                             <button class="inline-block px-3 py-1 text-white bg-red-500 rounded hover:bg-red-700" 
-                                    wire:click="destroy({{ $berita->id_berita }})" wire:confirm="Are you sure?">Delete</button>
+                                    wire:click="destroy({{ $matkul->id_Mata_kuliah }})" wire:confirm="Are you sure?">Delete</button>
                         </div>
                     </td>
                 </tr>
-            @endforeach --}}
+            @endforeach
         </tbody>
     </table>
     <!-- Pagination Controls -->
     <div class="py-8 mt-4 text-center">
-        {{-- {{ $beritas->links('pagination::tailwind') }} --}}
+        {{ $matkuls->links('pagination::tailwind') }}
     </div>
 </div>

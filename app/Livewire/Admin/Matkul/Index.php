@@ -4,7 +4,7 @@ namespace App\Livewire\Admin\Matkul;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\Matkul;
+use App\Models\Matakuliah;
 use Livewire\Attributes\On;
 
 class Index extends Component
@@ -21,7 +21,7 @@ class Index extends Component
 
     public function destroy($id_mata_kuliah)
     {
-        $matkul = Matkul::find($id_mata_kuliah);
+        $matkul = Matakuliah::find($id_mata_kuliah);
 
             // Hapus data matkul
             $matkul->delete();
@@ -38,13 +38,11 @@ class Index extends Component
 
     public function render()
     {
-        $matkuls = Matkul::query()
+        $matkuls = Matakuliah::query()
             ->where('kode_mata_kuliah', 'like', '%' . $this->search . '%')
             ->orWhere('nama_mata_kuliah', 'like', '%' . $this->search . '%')
             ->orWhere('jenis_mata_kuliah', 'like', '%' . $this->search . '%')
             ->orWhere('metode_pembelajaran', 'like', '%' . $this->search . '%')
-            ->orWhere('tgl_mulai_efektif', 'like', '%' . $this->search . '%')
-            ->orWhere('tgl_akhir_efektif', 'like', '%' . $this->search . '%')
             ->latest()
             ->paginate(10);
 
