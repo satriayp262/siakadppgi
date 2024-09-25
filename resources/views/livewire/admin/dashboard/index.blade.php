@@ -28,7 +28,7 @@
             <div class="grid grid-cols-1 gap-4 mt-5 sm:grid-cols-2 lg:grid-cols-4">
                 <div class="relative p-4 bg-white rounded-lg shadow-md">
                     <h2 class="text-lg font-semibold">Dosen</h2>
-                    <p class="mt-1 text-xl font-bold">150</p>
+                    <p class="mt-1 text-xl font-bold">{{ $dosen }}</p>
                     <a href="{{ route('admin.dosen') }}" class="absolute text-sm text-blue-500 bottom-4 right-4">Klik disini >></a>
                 </div>
                 <div class="relative p-4 bg-white rounded-lg shadow-md">
