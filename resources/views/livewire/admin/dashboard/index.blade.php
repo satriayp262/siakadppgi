@@ -29,7 +29,7 @@
                 <div class="bg-white shadow-md rounded-lg p-4 relative">
                     <h2 class="text-lg font-semibold">Dosen</h2>
                     <p class="text-xl font-bold mt-1">150</p>
-                    <a href="#" class="text-blue-500 text-sm absolute bottom-4 right-4">Klik disini >></a>
+                    <a href="{{ route('admin.dosen') }}" class="text-blue-500 text-sm absolute bottom-4 right-4">Klik disini >></a>
                 </div>
                 <div class="bg-white shadow-md rounded-lg p-4 relative">
                     <h2 class="text-lg font-semibold">Mahasiswa</h2>
@@ -39,12 +39,12 @@
                 <div class="bg-white shadow-md rounded-lg p-4 relative">
                     <h2 class="text-lg font-semibold">Program Studi</h2>
                     <p class="text-xl font-bold mt-1">10</p>
-                    <a href="#" class="text-blue-500 text-sm absolute bottom-4 right-4">Klik disini >></a>
+                    <a href="{{ route('admin.prodi') }}" class="text-blue-500 text-sm absolute bottom-4 right-4">Klik disini >></a>
                 </div>
                 <div class="bg-white shadow-md rounded-lg p-4 relative">
                     <h2 class="text-lg font-semibold">Mata Kuliah</h2>
                     <p class="text-xl font-bold mt-1">45</p>
-                    <a href="#" class="text-blue-500 text-sm absolute bottom-4 right-4">Klik disini >></a>
+                    <a href="{{ route('admin.mata_kuliah') }}" class="text-blue-500 text-sm absolute bottom-4 right-4">Klik disini >></a>
                 </div>
             </div>
         {{-- @elseif(Auth::user()->role === 'dosen')
