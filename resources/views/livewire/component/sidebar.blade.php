@@ -1,11 +1,10 @@
-<div>
-    <aside id="default-sidebar"
-        class=" left-0 z-40 w-64 min-h-screen transition-transform -translate-x-full bg-gray-800 top-16 sm:translate-x-0"
+<div class="h-screen sticky top-16 left-0 -z-5 relative">
+    <div id="default-sidebar "
+        class="h-full w-64 transition-transform -translate-x-full bg-gray-800 sm:translate-x-0"
         aria-label="Sidebar">
-        <div class="h-full px-3 py-4 overflow-y-auto">
-            <ul class="space-y-2 font-medium">
+        <div class="h-full px-3 py-4 ">
+            <ul class="space-y-2 font-medium relative sticky top-20">
                 <li>
-
                     <a href="{{ route('admin.dashboard') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                         {{ request()->routeIs('admin.dashboard') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
@@ -153,7 +152,7 @@
                 </li>
             </ul>
         </div>
-    </aside>
+    </div>
     {{-- Add Flowbite Script --}}
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
 </div>

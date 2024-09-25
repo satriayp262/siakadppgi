@@ -9,11 +9,12 @@
     <title>SIAKAD {{ $title ?? 'PPGI' }}</title>
 </head>
 
-<body class="flex flex-col w-full">
+<body class="flex flex-col w-fullz-14">
     <livewire:component.navbar />
-    <div class="flex flex-col flex-1 md:flex-row">
-        <livewire:component.sidebar />
-
+    <div class="flex flex-col md:flex-row min-h-screen z-12">
+        <aside class="  h-full z-11">
+            <livewire:component.sidebar />
+        </aside>
         <div class="flex flex-col flex-1">
             <main class="flex-1">
                 {{ $slot }}

@@ -1,5 +1,5 @@
 {{-- <div class="w-full"> --}}
-<nav class="sticky top-0 w-full bg-gray-900 border-gray-200">
+<nav class="sticky relative top-0 w-full bg-gray-900 border-gray-200 z-30">
     <div class="flex items-center justify-between p-4">
         <div class="flex items-center space-x-2">
             <button id="sidebarToggle" aria-controls="default-sidebar" type="button"

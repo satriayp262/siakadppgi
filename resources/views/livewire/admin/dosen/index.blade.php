@@ -46,6 +46,7 @@
     <table class="min-w-full mt-4 bg-white border border-gray-200">
         <thead>
             <tr class="items-center w-full text-sm text-white align-middle bg-gray-800">
+                <th class="px-4 py-2 text-center">No</th>
                 <th class="px-4 py-2 text-center">Nama Dosen</th>
                 <th class="px-4 py-2 text-center">NIDN</th>
                 <th class="px-4 py-2 text-center">Jenis Kelamin</th>
@@ -58,6 +59,7 @@
         <tbody>
             @foreach ($dosens as $dosen)
                 <tr wire:key="dosen-{{ $dosen->id_dosen }}">
+                    <td class="px-4 py-2  text-center">{{ $loop->iteration }}</td>
                     <td class="px-4 py-2  text-center">{{ $dosen->nama_dosen }}</td>
                     <td class="px-4 py-2  text-center">{{ $dosen->nidn }}</td>
                     <td class="px-4 py-2  text-center">{{ $dosen->jenis_kelamin }}</td>
