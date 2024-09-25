@@ -18,9 +18,9 @@
             <main class="flex-1">
                 {{ $slot }}
             </main>
+            <livewire:component.footer />
         </div>
     </div>
-    <livewire:component.footer />
 </body>
 
 </html>

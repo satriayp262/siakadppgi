@@ -1,5 +1,5 @@
 {{-- <div class="w-full"> --}}
-<nav class="w-full bg-gray-900 border-gray-200">
+<nav class="sticky top-0 w-full bg-gray-900 border-gray-200">
     <div class="flex items-center justify-between p-4">
         <div class="flex items-center space-x-2">
             <button id="sidebarToggle" aria-controls="default-sidebar" type="button"
@@ -13,10 +13,10 @@
                 </svg>
             </button>
 
-            <img src="{{ asset('img/piksi.png') }}" class="h-8 w-auto max-w-full" alt="logopiksi" />
+            <img src="{{ asset('img/piksi.png') }}" class="w-auto h-8 max-w-full" alt="logopiksi" />
 
             <span
-                class="hidden sm:block self-center text-white text-sm md:text-lg lg:text-xl font-semibold whitespace-nowrap">
+                class="self-center hidden text-sm font-semibold text-white sm:block md:text-lg lg:text-xl whitespace-nowrap">
                 POLITEKNIK PIKSI GANESHA INDONESIA
             </span>
         </div>
@@ -25,14 +25,14 @@
             <button type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300"
                 id="user-menu-button" aria-expanded="false">
                 <span class="sr-only">Open user menu</span>
-                <svg class="w-8 h-8 rounded-full text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                <svg class="w-8 h-8 text-gray-400 rounded-full" fill="currentColor" viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
                         clip-rule="evenodd"></path>
                 </svg>
             </button>
 
-            <div class="z-50 hidden absolute right-0 top-full mt-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow"
+            <div class="absolute right-0 z-50 hidden mt-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow top-full"
                 id="user-dropdown">
                 <div class="px-4 py-3">
                     {{-- <span class="block text-sm text-gray-900">{{ Auth::user()->name }}</span>
