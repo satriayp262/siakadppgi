@@ -36,14 +36,8 @@
                             <select id="jenis_mata_kuliah" wire:model="jenis_mata_kuliah" name="jenis_mata_kuliah"
                                 class="block w-full py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring px-2focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
                                 <option value="" disabled selected>Select</option>
-                                <option value="Bencana Alam">Bencana Alam</option>
-                                <option value="Pendidikan">Pendidikan</option>
-                                <option value="Sosial & Keagamaan">Sosial & Keagamaan</option>
-                                <option value="Ekonomi">Ekonomi</option>
-                                <option value="Ramadhan">Ramadhan</option>
-                                <option value="Kesehatan">Kesehatan</option>
-                                <option value="Penghargaan">Penghargaan</option>
-                                <option value="Laporan & Publikasi">Laporan & Publikasi</option>
+                                <option value="Umum">Umum</option>
+                                <option value="Khusus Prodi">Khusus Prodi</option>
                             </select>
                             @error('jenis_mata_kuliah')
                                 <span class="mt-1 text-sm text-red-500">{{ $message }}</span>
@@ -97,14 +91,8 @@
                             <select id="metode_pembelajaran" wire:model="metode_pembelajaran" name="metode_pembelajaran"
                                 class="block w-full py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring px-2focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
                                 <option value="" disabled selected>Select</option>
-                                <option value="Bencana Alam">Bencana Alam</option>
-                                <option value="Pendidikan">Pendidikan</option>
-                                <option value="Sosial & Keagamaan">Sosial & Keagamaan</option>
-                                <option value="Ekonomi">Ekonomi</option>
-                                <option value="Ramadhan">Ramadhan</option>
-                                <option value="Kesehatan">Kesehatan</option>
-                                <option value="Penghargaan">Penghargaan</option>
-                                <option value="Laporan & Publikasi">Laporan & Publikasi</option>
+                                <option value="Luring">Luring</option>
+                                <option value="Daring">Daring</option>
                             </select>
                             @error('metode_pembelajaran')
                                 <span class="mt-1 text-sm text-red-500">{{ $message }}</span>

@@ -10,12 +10,12 @@ class Create extends Component
 {
     public $kode_mata_kuliah;
     public $nama_mata_kuliah;
-    public $jenis_mata_kuliah;
+    public $jenis_mata_kuliah = '';
     public $sks_tatap_muka;
     public $sks_praktek;
     public $sks_praktek_lapangan;
     public $sks_simulasi;
-    public $metode_pembelajaran;
+    public $metode_pembelajaran = '';
     public $tgl_mulai_efektif;
     public $tgl_akhir_efektif;
 

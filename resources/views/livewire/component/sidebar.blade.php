@@ -1,6 +1,6 @@
 <div>
     <aside id="default-sidebar"
-        class=" left-0 z-40 w-64 h-full transition-transform -translate-x-full bg-gray-800 top-16 sm:translate-x-0"
+        class=" left-0 z-40 w-64 min-h-screen transition-transform -translate-x-full bg-gray-800 top-16 sm:translate-x-0"
         aria-label="Sidebar">
         <div class="h-full px-3 py-4 overflow-y-auto">
             <ul class="space-y-2 font-medium">

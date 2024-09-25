@@ -53,8 +53,8 @@
                             <div class="flex space-x-2">
                                 <livewire:admin.matkul.edit :id_mata_kuliah="$matkul->id_mata_kuliah" wire:key="edit-{{ $matkul->id_mata_kuliah }}" />
                             </div>
-                            <button class="inline-block px-3 py-1 mt-2 text-white bg-red-500 rounded hover:bg-red-700" 
-                                    wire:click="destroy({{ $matkul->id_mata_kuliah }})" wire:confirm="Are you sure?">Delete</button>
+                            <button class="inline-block px-3 py-1 mt-2 text-white bg-red-500 rounded hover:bg-red-700"
+                                    onclick="confirmDelete({{ $matkul->id_mata_kuliah }}, '{{ $matkul->nama_mata_kuliah }}')">Delete</button>
                         </div>
                     </td>
                 </tr>
@@ -65,4 +65,22 @@
     <div class="py-8 mt-4 text-center">
         {{ $matkuls->links('pagination::tailwind') }}
     </div>
+    <script>
+        function confirmDelete(id, nama_mata_kuliah) {
+            Swal.fire({
+                title: `Apakah anda yakin ingin menghapus Mata Kuliah ${nama_mata_kuliah}?`,
+                text: "Data yang telah dihapus tidak dapat dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Hapus'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Panggil method Livewire jika konfirmasi diterima
+                    @this.call('destroy', id);
+                }
+            });
+        }
+    </script>
 </div>
