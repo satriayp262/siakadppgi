@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Livewire\Admin\Dosen;
+
 use App\Models\Dosen;
 use Livewire\Component;
 
@@ -11,9 +12,8 @@ class Edit extends Component
     public function rules()
     {
         return [
-            'id_dosen' => 'required|string|max:255',
             'nama_dosen' => 'required|string|max:255',
-            'nidn' => 'required|string|max:10|unique:dosen',
+            'nidn' => 'required|string|max:10|unique:dosen' . $this->id_dosen . ',id_dosen',
             'jenis_kelamin' => 'required|in:laki-laki,perempuan',
             'jabatan_fungsional' => 'required|string|max:255',
             'kepangkatan' => 'required|string|max:255',
@@ -75,25 +75,27 @@ class Edit extends Component
     {
 
         $validatedData = $this->validate([
-            'id_dosen' => 'required|string|max:255',
             'nama_dosen' => 'required|string|max:255',
-            'nidn' => 'required|string|max:255|unique:dosen',
+            'nidn' => [
+                'required',
+                'string',
+                'max:255',
+            ],
             'jenis_kelamin' => 'required|in:laki-laki,perempuan',
             'jabatan_fungsional' => 'required|string|max:255',
             'kepangkatan' => 'required|string|max:255',
             'kode_prodi' => 'required|string|max:255',
         ]);
 
-        $dosen = Dosen::find($this->id_mata_kuliah);
-            $dosen->update([
-            'id_dosen' => $validatedData['id_dosen'],
+        $dosen = Dosen::find($this->id_dosen);
+        $dosen->update([
             'nama_dosen' => $validatedData['nama_dosen'],
             'nidn' => $validatedData['nidn'],
             'jenis_kelamin' => $validatedData['jenis_kelamin'],
             'jabatan_fungsional' => $validatedData['jabatan_fungsional'],
             'kepangkatan' => $validatedData['kepangkatan'],
             'kode_prodi' => $validatedData['kode_prodi'],
-            ]);
+        ]);
 
         // Reset form dan dispatch event
         $this->reset();
