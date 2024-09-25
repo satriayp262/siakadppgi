@@ -23,35 +23,26 @@
     <table class="min-w-full mt-4 bg-white border border-gray-200">
         <thead>
             <tr class="items-center w-full text-sm text-white align-middle bg-gray-800">
-                <th class="px-4 py-2 text-center">No.</th>
                 <th class="px-4 py-2 text-center">Kode Prodi</th>
                 <th class="px-4 py-2 text-center">Nama Prodi</th>
             </tr>
         </thead>
         <tbody>
-            {{-- @foreach ($beritas as $berita)
-                <tr class="border-t" wire:key="berita-{{ $berita->id_berita }}">
-                    <td class="max-w-xs px-4 py-2 break-words">{{ $berita->title_berita }}</td>
-                    <td class="px-4 py-2">
-                        {{ \Illuminate\Support\Str::limit($berita->description, 30, '...') }}
-                    </td>
-                    <td class="px-4 py-2">{{ $berita->tanggal }}</td>
-                    <td class="px-4 py-2">{{ $berita->kategori }}</td>
-                    <td class="px-4 py-2">
-                        <img src="{{ asset('storage/' . $berita->picture) }}" alt="Main Picture" class="block w-24 mx-auto mt-2 mb-2">
-                    </td>
-                    <td class="px-4 py-2">
+            @foreach ($prodis as $prodi)
+                <tr class="border-t" wire:key="prodi-{{ $prodi->id_prodi }}">
+                    <td class="px-4 py-2 text-center">{{ $prodi->kode_prodi }}</td>
+                    <td class="px-4 py-2 text-center">{{ $prodi->nama_prodi }}</td>
+                    <td class="px-4 py-2 text-center">
                         <div class="flex flex-col items-center space-y-2">
                             <div class="flex space-x-2">
-                                <livewire:berita.show :id_berita="$berita->id_berita" wire:key="show-{{ $berita->id_berita }}" />
-                                <livewire:berita.form-edit :id_berita="$berita->id_berita" wire:key="edit-{{ $berita->id_berita }}" />
+                                <livewire:admin.matkul.edit :id_mata_kuliah="$matkul->id_mata_kuliah" {{-- wire:key="edit-{{ $matkul->id_mata_kuliah }}" /> --}} </div>
+                                    {{-- <button
+                                        class="inline-block px-3 py-1 mt-2 text-white bg-red-500 rounded hover:bg-red-700"
+                                        onclick="confirmDelete({{ $matkul->id_mata_kuliah }}, '{{ $matkul->nama_mata_kuliah }}')">Delete</button> --}}
                             </div>
-                            <button class="inline-block px-3 py-1 text-white bg-red-500 rounded hover:bg-red-700" 
-                                    wire:click="destroy({{ $berita->id_berita }})" wire:confirm="Are you sure?">Delete</button>
-                        </div>
                     </td>
                 </tr>
-            @endforeach --}}
+            @endforeach
         </tbody>
     </table>
     <!-- Pagination Controls -->
