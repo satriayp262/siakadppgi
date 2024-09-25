@@ -15,12 +15,12 @@ return new class extends Migration
             $table->integer('id_dosen')->autoIncrement()->primary();
             $table->string('nama_dosen');
             $table->string(column: 'nidn');
-            $table->enum('jenis_kelamin',['laki-laki', 'perempuan'])->default('laki-laki');
+            $table->enum('jenis_kelamin', ['laki-laki', 'perempuan'])->default('laki-laki');
             $table->string('jabatan_fungsional');
             $table->string('kepangkatan');
             $table->string('kode_prodi');
             $table->timestamps();
-            $table->foreign('kode_prodi')->references('id_prodi')->on('prodi');
+            $table->foreign('kode_prodi')->references('kode_prodi')->on('prodi');
         });
     }
 

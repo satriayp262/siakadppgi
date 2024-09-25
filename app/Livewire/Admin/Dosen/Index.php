@@ -39,7 +39,18 @@ class Index extends Component
     public $id_dosen, $nama_dosen, $nidn, $jenis_kelamin, $jabatan_fungsional, $kepangkatan, $kode_prodi;
     public function render()
     {
-        $dosen = Dosen::all();
-        return view('livewire.admin.dosen.index', compact('dosen'));
+        $dosens = Dosen::query()
+            ->where('nama_dosen', 'like', '%' . $this->search . '%')
+            ->orWhere('nidn', 'like', '%' . $this->search . '%')
+            ->orWhere('jenis_kelamin', 'like', '%' . $this->search . '%')
+            ->orWhere('jabatan_fungsional', 'like', '%' . $this->search . '%')
+            ->orWhere('kepangkatan', 'like', '%' . $this->search . '%')
+            ->orWhere('kode_prodi', 'like', '%' . $this->search . '%')
+            ->latest()
+            ->paginate(2);
+
+        return view('livewire.admin.dosen.index', [
+            'dosens' => $dosens,
+        ]);
     }
 }
