@@ -14,9 +14,11 @@
             @endif
         </div>
         <!-- Modal Form -->
-        <input type="text" wire:model.live="search" placeholder="   Search"
-            class="ml-4 border border-gray-300 rounded-lg">
-        {{-- <livewire:berita.create /> --}}
+        <div class="flex justify-between mt-2">
+            <livewire:admin.prodi.create />
+            <input type="text" wire:model.live="search" placeholder="   Search"
+                class="px-2 ml-4 border border-gray-300 rounded-lg">
+        </div>
     </div>
     <table class="min-w-full mt-4 bg-white border border-gray-200">
         <thead>

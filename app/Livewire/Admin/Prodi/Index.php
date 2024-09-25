@@ -9,7 +9,8 @@ use Livewire\Attributes\Title;
 
 class Index extends Component
 {
-    
+    public $kode_prodi, $nama_prodi;
+
     public function render()
     {
         return view('livewire.admin.prodi.index');
