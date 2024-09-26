@@ -18,6 +18,7 @@ Route::prefix('mata_kuliah')->group(function () {
     Route::get('/', App\Livewire\Admin\Matkul\Index::class)->name('admin.mata_kuliah');
 });
 
+route::get('/mahasiswa', App\Livewire\Admin\Mahasiswa\Index::class)->name('admin.mahasiswa');
 Route::prefix('prodi')->group(function () {
     Route::get('/', App\Livewire\Admin\Prodi\Index::class)->name('admin.prodi');
 });

@@ -12,7 +12,7 @@ class Edit extends Component
     public $kode_mata_kuliah;
     public $nama_mata_kuliah;
     public $jenis_mata_kuliah = '';
-    public $kode_prodi = '';
+    public $kode_prodi = null;
     public $sks_tatap_muka;
     public $sks_praktek;
     public $sks_praktek_lapangan;
@@ -28,7 +28,7 @@ class Edit extends Component
             'kode_mata_kuliah' => 'required|string|unique:matkul,kode_mata_kuliah,' . $this->id_mata_kuliah . ',id_mata_kuliah',
             'nama_mata_kuliah' => 'required|string',
             'jenis_mata_kuliah' => 'required|string',
-            'kode_prodi' => 'required|string',
+            'kode_prodi' => 'required_if:jenis_mata_kuliah,Khusus Prodi|string|nullable',  // Required only if jenis_mata_kuliah is not "Umum"
             'sks_tatap_muka' => 'required|integer',
             'sks_praktek' => 'required|integer',
             'sks_praktek_lapangan' => 'required|integer',
@@ -46,7 +46,7 @@ class Edit extends Component
             'kode_mata_kuliah.required' => 'Kode mata kuliah tidak boleh kosong',
             'nama_mata_kuliah.required' => 'Nama mata kuliah tidak boleh kosong',
             'jenis_mata_kuliah.required' => 'Jenis mata kuliah tidak boleh kosong',
-            'kode_prodi.required' => 'Kode prodi tidak boleh kosong',
+            'kode_prodi.required_if' => 'Kode prodi tidak boleh kosong',
             'sks_tatap_muka.required' => 'SKS tatap muka tidak boleh kosong',
             'sks_praktek.required' => 'SKS praktek tidak boleh kosong',
             'sks_praktek_lapangan.required' => 'SKS praktek lapangan tidak boleh kosong',
@@ -125,7 +125,19 @@ class Edit extends Component
 
         if ($matkul) {
             // Update data matkul dengan data yang sudah divalidasi
-            $matkul->update($validatedData);
+            $matkul->update([
+            'kode_mata_kuliah' => $validatedData['kode_mata_kuliah'],
+            'nama_mata_kuliah' => $validatedData['nama_mata_kuliah'],
+            'jenis_mata_kuliah' => $validatedData['jenis_mata_kuliah'],
+            'kode_prodi' => ($validatedData['jenis_mata_kuliah'] === 'Umum') ? null : $validatedData['kode_prodi'],
+            'sks_tatap_muka' => $validatedData['sks_tatap_muka'],
+            'sks_praktek' => $validatedData['sks_praktek'],
+            'sks_praktek_lapangan' => $validatedData['sks_praktek_lapangan'],
+            'sks_simulasi' => $validatedData['sks_simulasi'],
+            'metode_pembelajaran' => $validatedData['metode_pembelajaran'],
+            'tgl_mulai_efektif' => $validatedData['tgl_mulai_efektif'],
+            'tgl_akhir_efektif' => $validatedData['tgl_akhir_efektif'],
+        ]);
 
             // Reset form dan dispatch event
             $this->clear($this->id_mata_kuliah);

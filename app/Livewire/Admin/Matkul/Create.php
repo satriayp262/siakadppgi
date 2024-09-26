@@ -28,7 +28,7 @@ class Create extends Component
             'kode_mata_kuliah' => 'required|string|unique:matkul,kode_mata_kuliah',
             'nama_mata_kuliah' => 'required|string',
             'jenis_mata_kuliah' => 'required|string',
-            'kode_prodi' => 'required_if:jenis_mata_kuliah,!Umum|string|nullable',
+            'kode_prodi' => 'required_if:jenis_mata_kuliah,Khusus Prodi|string|nullable',  // Required only if jenis_mata_kuliah is not "Umum"
             'sks_tatap_muka' => 'required|integer',
             'sks_praktek' => 'required|integer',
             'sks_praktek_lapangan' => 'required|integer',
@@ -46,7 +46,7 @@ class Create extends Component
             'kode_mata_kuliah.required' => 'Kode mata kuliah tidak boleh kosong',
             'nama_mata_kuliah.required' => 'Nama mata kuliah tidak boleh kosong',
             'jenis_mata_kuliah.required' => 'Jenis mata kuliah tidak boleh kosong',
-            'kode_prodi.required' => 'Kode prodi tidak boleh kosong',
+            'kode_prodi.required_if' => 'Kode prodi tidak boleh kosong',
             'sks_tatap_muka.required' => 'SKS tatap muka tidak boleh kosong',
             'sks_praktek.required' => 'SKS praktek tidak boleh kosong',
             'sks_praktek_lapangan.required' => 'SKS praktek lapangan tidak boleh kosong',
