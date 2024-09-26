@@ -5,9 +5,9 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-route::get('/', App\Livewire\Admin\Dashboard\Index::class)->name('admin.dashboard');
+route::get('/dashboard', App\Livewire\Admin\Dashboard\Index::class)->name('admin.dashboard');
 
-route::get('/login', App\Livewire\auth\Login::class)->name('login');
+route::get('/', App\Livewire\auth\Login::class)->name('login');
 route::get('/register', App\Livewire\auth\Register::class)->name('register');
 route::get('/forgot-password', App\Livewire\auth\ForgotPassword::class)->name('forgot-password');
 Route::get('password/reset/{token}', App\Livewire\auth\ResetPassword::class)->name('password.reset');
