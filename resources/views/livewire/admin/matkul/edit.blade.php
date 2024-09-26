@@ -49,7 +49,7 @@
                                 <label for="kode_prodi" class="block text-sm font-medium text-gray-700">Prodi</label>
                                 <select id="kode_prodi" wire:model="kode_prodi" name="kode_prodi"
                                     class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
-                                    <option value="" disabled selected>Select</option>
+                                    <option value={{null}} disabled selected>Select</option>
                                     @foreach ($prodis as $prodi)  
                                         <option value="{{ $prodi->kode_prodi }}">{{ $prodi->nama_prodi }}</option>
                                     @endforeach
@@ -61,8 +61,7 @@
                         @endif
 
                             <div class="mb-4">
-                                <label for="sks_tatap_muka" class="block text-sm font-medium text-gray-700">SKS Tatap
-                                    Muka</label>
+                                <label for="sks_tatap_muka" class="block text-sm font-medium text-gray-700">SKS Tatap Muka</label>
                                 <input type="text" id="sks_tatap_muka" wire:model="sks_tatap_muka"
                                     name="sks_tatap_muka"
                                     class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
@@ -139,7 +138,7 @@
                     <div class="flex justify-end p-4 bg-gray-200 rounded-b-lg">
                         <button type="button" wire:click="clear({{$id_mata_kuliah}})" @click="isOpen = false"
                             class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">Close</button>
-                        <button type="submit" @click="isOpen = false"
+                        <button type="submit" @click="isOpen = true"
                             class="px-4 py-2 ml-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">Submit</button>
                     </div>
                 </form>

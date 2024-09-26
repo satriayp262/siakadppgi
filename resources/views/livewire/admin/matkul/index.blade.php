@@ -32,13 +32,17 @@
             </tr>
         </thead>
         <tbody>
+            @php
+                $iteration = ($matkuls->currentPage() - 1) * $matkuls->perPage();
+            @endphp
+
             @foreach ($matkuls as $matkul)
                 <tr class="border-t" wire:key="matkul-{{ $matkul->id_mata_kuliah }}">
-                    <td class="px-4 py-2 text-center">{{ $loop->iteration }}</td>
+                    <td class="px-4 py-2 text-center">{{ ++$iteration }}</td>
                     <td class="px-4 py-2 text-center">{{ $matkul->kode_mata_kuliah }}</td>
                     <td class="px-4 py-2 text-center">{{ $matkul->nama_mata_kuliah }}</td>
                     <td class="px-4 py-2 text-center">{{ $matkul->jenis_mata_kuliah }}</td>
-                    <td class="px-4 py-2 text-center">{{ $matkul->prodi->nama_prodi ?? $matkul->jenis_mata_kuliah }}</td>
+                    <td class="px-4 py-2 text-center">{{ $matkul->prodi->nama_prodi ?? 'Umum' }}</td>
                     <td class="px-4 py-2 text-center">{{ $matkul->metode_pembelajaran }}</td>
                     <td class="px-4 py-2 text-center">
                         <div class="flex items-center">
@@ -54,6 +58,7 @@
                     </td>
                 </tr>
             @endforeach
+
         </tbody>
     </table>
     <!-- Pagination Controls -->
