@@ -6,9 +6,21 @@
                 Link untuk mereset password akan dikirim melalui Email
             </p>
             <div>
+                @if (session()->has('error'))
+                    <div id="flash-message"
+                        class="flex items-center justify-between p-2 mx-8 bg-red-600 mt-4 text-white rounded-lg">
+                        <span>{{ session('error') }}</span>
+                        <button class="p-1"  onclick="document.getElementById('flash-message').style.display='none'"
+                            class="font-bold text-white">
+                            &times;
+                        </button>
+                    </div>
+                @endif
+            </div>
+            <div>
                 @if (session()->has('message'))
                     <div id="flash-message"
-                        class="flex items-center justify-between p-2 mx-8 bg-red-600 mt-4 text-white">
+                        class="flex items-center justify-between p-2 mx-8 bg-green-600 mt-4 text-white rounded-lg">
                         <span>{{ session('message') }}</span>
                         <button class="p-1"  onclick="document.getElementById('flash-message').style.display='none'"
                             class="font-bold text-white">
@@ -30,6 +42,12 @@
                         @error('email')
                             <small class="text-red-500">{{ $message }}</small>
                         @enderror
+                    </div>
+                </div>
+                <div wire:loading>
+                    <div  class="mt-2 w-full flex flex-row items-center space-x-2">
+                        <div class="spinner"></div>
+                        <div class="spinner-text">Mengirimkan email...</div>
                     </div>
                 </div>
                 <!-- Submit Button -->

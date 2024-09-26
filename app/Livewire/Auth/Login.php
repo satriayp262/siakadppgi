@@ -27,7 +27,18 @@ class Login extends Component
         $this->validate();
 
         if (Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
-            return redirect()->intended('/dashboard');
+            $user = Auth::user();
+            dd($user);
+            if($user->role === 'mahasiswa'){
+                //route
+            }elseif($user->role === 'dosen'){
+                //route
+            }elseif($user->role === 'staff'){
+                //route
+            }elseif($user->role === 'admin'){
+                //route
+            }
+            return redirect()->intended('/admin');
         }
 
         if (!User::where('email', $this->email)->exists()) {
