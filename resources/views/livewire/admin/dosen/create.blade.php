@@ -37,7 +37,8 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="jenis_kelamin" class="block text-sm font-medium text-gray-700">Jenis Kelamin</label>
+                            <label for="jenis_kelamin" class="block text-sm font-medium text-gray-700">Jenis
+                                Kelamin</label>
                             <select id="jenis_kelamin" wire:model="jenis_kelamin" name="jenis_kelamin"
                                 class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
                                 <option value="" disabled selected>Select</option>
@@ -50,8 +51,10 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="jabatan_fungsional" class="block text-sm font-medium text-gray-700">Jabatan Fungsional</label>
-                            <input type="text" id="jabatan_fungsional" wire:model="jabatan_fungsional" name="jabatan_fungsional"
+                            <label for="jabatan_fungsional" class="block text-sm font-medium text-gray-700">Jabatan
+                                Fungsional</label>
+                            <input type="text" id="jabatan_fungsional" wire:model="jabatan_fungsional"
+                                name="jabatan_fungsional"
                                 class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
                             @error('jabatan_fungsional')
                                 <span class="text-sm text-red-500">{{ $message }}</span>
@@ -71,9 +74,10 @@
                             <label for="kode_prodi" class="block text-sm font-medium text-gray-700">Kode Prodi</label>
                             <select id="kode_prodi" wire:model="kode_prodi" name="kode_prodi"
                                 class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
-                                <option value="" disabled selected>Select</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
+                                @foreach ($prodi as $p)
+                                    <option value="" disabled selected>Select</option>
+                                    <option value="{{ $p->kode_prodi }}">{{ $p->nama_prodi }}</option>
+                                @endforeach
                             </select>
                             @error('kode_prodi')
                                 <span class="mt-1 text-sm text-red-500">{{ $message }}</span>

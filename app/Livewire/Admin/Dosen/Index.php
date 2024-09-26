@@ -16,7 +16,7 @@ class Index extends Component
     #[On('dosenUpdated')]
     public function handledosenEdited()
     {
-        session()->flash('message', 'Dosen Updated Successfully');
+        session()->flash('message', 'Dosen Berhasil di Update');
     }
 
     public function destroy($id_dosen)
@@ -27,13 +27,13 @@ class Index extends Component
             $dosen->delete();
 
             // Tampilkan pesan sukses
-            session()->flash('message', 'Dosen destroyed successfully.');
+            session()->flash('message', 'Dosen Berhasil di Hapus');
     }
 
     #[On('dosenCreated')]
     public function handledosenCreated()
     {
-            session()->flash('message', 'Dosen created successfully.');
+            session()->flash('message', 'Dosen Berhasil di Tambahkan');
     }
 
     public $id_dosen, $nama_dosen, $nidn, $jenis_kelamin, $jabatan_fungsional, $kepangkatan, $kode_prodi;
@@ -47,7 +47,7 @@ class Index extends Component
             ->orWhere('kepangkatan', 'like', '%' . $this->search . '%')
             ->orWhere('kode_prodi', 'like', '%' . $this->search . '%')
             ->latest()
-            ->paginate(2);
+            ->paginate(5);
 
         return view('livewire.admin.dosen.index', [
             'dosens' => $dosens,
