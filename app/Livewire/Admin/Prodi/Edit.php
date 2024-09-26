@@ -3,10 +3,12 @@
 namespace App\Livewire\Admin\Prodi;
 
 use Livewire\Component;
+use Livewire\WithPagination;
 use App\Models\Prodi;
 
 class Edit extends Component
 {
+    use WithPagination;
     public $id_prodi;
     public $kode_prodi;
     public $nama_prodi;

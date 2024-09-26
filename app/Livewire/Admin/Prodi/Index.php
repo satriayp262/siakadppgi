@@ -19,23 +19,27 @@ class Index extends Component
     public function handleProdiCreated()
     {
         session()->flash('message', 'Prodi Berhasil di Tambahkan');
+        session()->flash('message_type', 'success');
     }
 
     #[On('ProdiUpdated')]
     public function handleProdiUpdated()
     {
         session()->flash('message', 'Prodi Berhasil di Update');
+        session()->flash('message_type', 'warning');
     }
 
     public function destroy($id_prodi)
     {
         $prodi = Prodi::find($id_prodi);
 
+
         // Hapus data prodi
         $prodi->delete();
 
         // Tampilkan pesan sukses
         session()->flash('message', 'Prodi Berhasil di Hapus');
+        session()->flash('message_type', 'error');
     }
 
     public function render()

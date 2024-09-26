@@ -3,14 +3,38 @@
         {{-- <h1 class="text-2xl font-bold ">Prodi Table</h1> --}}
         <div>
             @if (session()->has('message'))
+                @php
+                    $messageType = session('message_type', 'success'); // Default to success
+                    $bgColor =
+                        $messageType === 'error'
+                            ? 'bg-red-500'
+                            : ($messageType === 'warning'
+                                ? 'bg-blue-500'
+                                : 'bg-green-500');
+                @endphp
                 <div id="flash-message"
-                    class="flex items-center justify-between p-4 mx-12 mt-8 mb-4 text-white bg-green-500 rounded">
+                    class="flex items-center justify-between p-4 mx-12 mt-8 mb-4 text-white {{ $bgColor }} rounded">
                     <span>{{ session('message') }}</span>
-                    <button class="p-1" onclick="document.getElementById('flash-message').style.display='none'"
+                    <button class="p-1" onclick="document.getElementById('flash-message').remove();"
                         class="font-bold text-white">
                         &times;
                     </button>
                 </div>
+
+                {{-- <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        setTimeout(function() {
+                            var flashMessage = document.getElementById('flash-message');
+                            if (flashMessage) {
+                                flashMessage.style.transition = 'opacity 0.5s ease';
+                                flashMessage.style.opacity = '0';
+                                setTimeout(function() {
+                                    flashMessage.remove();
+                                }, 500); // Wait for the transition to complete before removing
+                            }
+                        }, 3000);
+                    });
+                </script> --}}
             @endif
         </div>
         <!-- Modal Form -->
@@ -23,7 +47,7 @@
     <table class="min-w-full mt-4 bg-white border border-gray-200">
         <thead>
             <tr class="items-center w-full text-sm text-white align-middle bg-gray-800">
-                {{-- <th class="px-4 py-2 text-center">No.</th> --}}
+                <th class="px-4 py-2 text-center">No.</th>
                 <th class="px-4 py-2 text-center">Kode Prodi</th>
                 <th class="px-4 py-2 text-center">Nama Prodi</th>
                 <th class="px-4 py-2 text-center">Aksi</th>
@@ -32,7 +56,8 @@
         <tbody>
             @foreach ($prodis as $prodi)
                 <tr class="border-t" wire:key="prodi-{{ $prodi->id_prodi }}">
-                    {{-- <td class="px-4 py-2 text-center">{{ $loop->iteration }}</td> --}}
+                    <td class="px-4 py-2 text-center">
+                        {{ ($prodis->currentPage() - 1) * $prodis->perPage() + $loop->iteration }}</td>
                     <td class="px-4 py-2 text-center w-1/4">{{ $prodi->kode_prodi }}</td>
                     <td class="px-4 py-2 text-center w-1/4">{{ $prodi->nama_prodi }}</td>
                     <td class="px-4 py-2 text-center w-1/2">
@@ -50,15 +75,16 @@
     <div class="py-8 mt-4 text-center">
         {{ $prodis->links('pagination::tailwind') }}
     </div>
+
     <script>
         function confirmDelete(id, nama_prodi) {
             Swal.fire({
-                title: `Apakah anda yakin ingin menghapus Mata Kuliah ${nama_prodi}?`,
+                title: `Apakah anda yakin ingin menghapus Prodi ${nama_prodi}?`,
                 text: "Data yang telah dihapus tidak dapat dikembalikan!",
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#28a745',
                 confirmButtonText: 'Hapus'
             }).then((result) => {
                 if (result.isConfirmed) {
