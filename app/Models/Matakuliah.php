@@ -14,6 +14,7 @@ class Matakuliah extends Model
         'kode_mata_kuliah',
         'nama_mata_kuliah',
         'jenis_mata_kuliah',
+        'kode_prodi',   
         'sks_tatap_muka',
         'sks_praktek',
         'sks_praktek_lapangan',
@@ -22,4 +23,10 @@ class Matakuliah extends Model
         'tgl_mulai_efektif',
         'tgl_akhir_efektif',
     ];
+
+    public function prodi()
+    {
+        return $this->belongsTo(Prodi::class, 'kode_prodi', 'kode_prodi');
+    }
+
 }
