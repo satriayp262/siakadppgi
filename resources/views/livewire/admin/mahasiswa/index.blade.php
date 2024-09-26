@@ -1,6 +1,6 @@
 <div class="mx-5">
     <div class="flex flex-col justify-between mx-4 mt-4">
-        <h1 class="text-2xl font-bold ">Table Mata Kuliah</h1>
+        <h1 class="text-2xl font-bold ">Table Mahasiswa</h1>
         <div>
             @if (session()->has('message'))
                 <div id="flash-message"
@@ -15,7 +15,7 @@
         </div>
         <!-- Modal Form -->
         <div class="flex justify-between mt-2">
-            <livewire:admin.matkul.create />
+            <livewire:admin.mahasiswa.create />
             <input type="text" wire:model.live="search" placeholder="   Search" class="px-2 ml-4 border border-gray-300 rounded-lg">
         </div>
     </div>
@@ -23,52 +23,45 @@
         <thead>
             <tr class="items-center w-full text-sm text-white align-middle bg-gray-800">
                 <th class="px-4 py-2 text-center">No</th>
-                <th class="px-4 py-2 text-center">Kode Mata Kuliah</th>
-                <th class="px-4 py-2 text-center">Nama Mata Kuliah</th>
-                <th class="px-4 py-2 text-center">Jenis Mata Kuliah</th>
-                <th class="px-4 py-2 text-center">Prodi</th>
-                <th class="px-4 py-2 text-center">Metode Pembelajaran</th>
+                <th class="px-4 py-2 text-center">NIM Mahasiswa</th>
+                <th class="px-4 py-2 text-center">Nama Mahasiswa</th>
+                <th class="px-4 py-2 text-center">Kelamin Mahasiswa</th>
+                <th class="px-4 py-2 text-center">NIK</th>
                 <th class="px-4 py-2 text-center">Action</th>
             </tr>
         </thead>
         <tbody>
-            @php
-                $iteration = ($matkuls->currentPage() - 1) * $matkuls->perPage();
-            @endphp
-
-            @foreach ($matkuls as $matkul)
-                <tr class="border-t" wire:key="matkul-{{ $matkul->id_mata_kuliah }}">
-                    <td class="px-4 py-2 text-center">{{ ++$iteration }}</td>
-                    <td class="px-4 py-2 text-center">{{ $matkul->kode_mata_kuliah }}</td>
-                    <td class="px-4 py-2 text-center">{{ $matkul->nama_mata_kuliah }}</td>
-                    <td class="px-4 py-2 text-center">{{ $matkul->jenis_mata_kuliah }}</td>
-                    <td class="px-4 py-2 text-center">{{ $matkul->prodi->nama_prodi ?? 'Umum' }}</td>
-                    <td class="px-4 py-2 text-center">{{ $matkul->metode_pembelajaran }}</td>
+            @foreach ($mahasiswas as $mahasiswa)
+                <tr class="border-t" wire:key="matkul-{{ $mahasiswa->id_mahasiswa }}">
+                    <td class="px-4 py-2 text-center">{{ $loop->iteration }}</td>
+                    <td class="px-4 py-2 text-center">{{ $mahasiswa->NIM }}</td>
+                    <td class="px-4 py-2 text-center">{{ $mahasiswa->nama }}</td>
+                    <td class="px-4 py-2 text-center">{{ $mahasiswa->jenis_kelamin }}</td>
+                    <td class="px-4 py-2 text-center">{{ $mahasiswa->NIK }}</td>
                     <td class="px-4 py-2 text-center">
-                        <div class="flex items-center">
+                        <div class="flex flex-col items-center">
                             <div class="flex space-x-2">
-                                <livewire:admin.matkul.edit :id_mata_kuliah="$matkul->id_mata_kuliah" wire:key="edit-{{rand().$matkul->id_mata_kuliah }}" />
+                                <livewire:admin.mahasiswa.edit :id_mahasiswa="$mahasiswa->id_mahasiswa" wire:key="edit-{{rand().$mahasiswa->id_mahasiswa }}" />
                                 <button class="inline-block px-3 py-1 ml-2 text-white bg-red-500 rounded hover:bg-red-700"
-                                        onclick="confirmDelete({{ $matkul->id_mata_kuliah }}, '{{ $matkul->nama_mata_kuliah }}')">Delete</button>
+                                        onclick="confirmDelete('{{ $mahasiswa->id_mahasiswa }}', '{{ $mahasiswa->nama }}')">Delete</button>
                             </div>
-                            <div class="flex mt-2 space-x-2">
-                                <livewire:admin.matkul.selengkapnya :id_mata_kuliah="$matkul->id_mata_kuliah" wire:key="selengkapnya-{{rand(). $matkul->id_mata_kuliah }}" />
+                            <div class="flex justify-center mt-2 w-full">
+                                <livewire:admin.mahasiswa.show :id_mahasiswa="$mahasiswa->id_mahasiswa" wire:key="selengkapnya-{{rand(). $mahasiswa->id_mahasiswa }}" />
                             </div>
                         </div>
                     </td>
                 </tr>
             @endforeach
-
         </tbody>
     </table>
     <!-- Pagination Controls -->
     <div class="mt-4 text-center">
-        {{ $matkuls->links('pagination::tailwind') }}
+        {{ $mahasiswas->links('pagination::tailwind') }}
     </div>
     <script>
-        function confirmDelete(id, nama_mata_kuliah) {
+        function confirmDelete(id, nama) {
             Swal.fire({
-                title: `Apakah anda yakin ingin menghapus Mata Kuliah ${nama_mata_kuliah}?`,
+                title: `Apakah anda yakin ingin menghapus Mahasiswa ${nama}?`,
                 text: "Data yang telah dihapus tidak dapat dikembalikan!",
                 icon: 'warning',
                 showCancelButton: true,
