@@ -41,7 +41,7 @@
                     <td class="px-4 py-2  text-center">{{ $dosen->jenis_kelamin }}</td>
                     <td class="px-4 py-2  text-center">{{ $dosen->jabatan_fungsional }}</td>
                     <td class="px-4 py-2  text-center">{{ $dosen->kepangkatan }}</td>
-                    <td class="px-4 py-2  text-center">{{ $dosen->prodi ? $dosen->prodi->nama_prodi : 'Prodi tidak ditemukan' }}</td>
+                    <td class="px-4 py-2  text-center">{{ $dosen->prodi->nama_prodi }}</td>
                     <td class="px-4 py-2 text-center">
                         <div class="flex flex-col items-center space-y-2">
                             <div class="flex space-x-2">
