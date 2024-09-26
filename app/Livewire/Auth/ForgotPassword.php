@@ -20,22 +20,17 @@ class ForgotPassword extends Component
 
     public function sendResetLink()
     {
-        // Validate the email before sending the reset link
         $this->validate();
 
-        // Attempt to send the reset password link
         $status = Password::sendResetLink(['email' => $this->email]);
 
-        // Check the status and provide feedback
         if ($status === Password::RESET_LINK_SENT) {
             session()->flash('message', 'Tautan reset password telah dikirim ke email Anda.');
         } elseif ($status === Password::RESET_THROTTLED) {
-            // Calculate the wait time until the user can attempt again
-            session()->flash('message', 'Too many attempts. Please wait before trying again.');
+            session()->flash('error', 'Tunggu beberapa saat untuk mencoba lagi');
         } else {
-            session()->flash('message', 'Email tidak ditemukan dalam sistem.');
+            session()->flash('error', 'Email tidak ditemukan dalam sistem.');
         }
-        // dd($status);
     }
 
     public function render()

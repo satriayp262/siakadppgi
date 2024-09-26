@@ -39,15 +39,6 @@ class Register extends Component
         ]);
 
         if ($user) {
-            if($user->role === 'mahasiswa'){ 
-                //route
-            }elseif($user->role === 'dosen'){
-                //route
-            }elseif($user->role === 'staff'){
-                //route
-            }elseif($user->role === 'admin'){
-                //route
-            }
             return redirect()->route('login');
         } else {
             session()->flash('success', 'Registrasi Gagal');
