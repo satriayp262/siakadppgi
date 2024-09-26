@@ -27,7 +27,7 @@ class Login extends Component
         $this->validate();
 
         if (Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
-            return redirect()->intended('/admin');
+            return redirect()->intended('/dashboard');
         }
 
         if (!User::where('email', $this->email)->exists()) {
