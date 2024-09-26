@@ -71,7 +71,7 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="kode_prodi" class="block text-sm font-medium text-gray-700">Kode Prodi</label>
+                            <label for="kode_prodi" class="block text-sm font-medium text-gray-700">Nama Prodi</label>
                             <select id="kode_prodi" wire:model="kode_prodi" name="kode_prodi"
                                 class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
                                 <option value="" disabled selected>Select</option>
