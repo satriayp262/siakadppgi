@@ -35,8 +35,8 @@
             <div class="absolute right-0 z-50 hidden mt-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow top-full"
                 id="user-dropdown">
                 <div class="px-4 py-3">
-                    {{-- <span class="block text-sm text-gray-900">{{ Auth::user()->name }}</span>
-                        <span class="block text-sm text-gray-500 truncate">{{ Auth::user()->email }}</span> --}}
+                    <span class="block font-bold text-sm text-gray-600">{{ Auth::user()->name }}</span>
+                        <span class="block text-sm text-gray-500 truncate">{{ Auth::user()->email }}</span>
                 </div>
                 <ul class="py-2" aria-labelledby="user-menu-button">
                     <li>
