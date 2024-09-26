@@ -26,5 +26,7 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         Dosen::factory(10)->create();
+
+        Matakuliah::factory(20)->create();
     }
 }
