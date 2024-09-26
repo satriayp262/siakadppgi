@@ -19,11 +19,19 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('dosen')->group(function () {
         Route::get('/', App\Livewire\Admin\Dosen\Index::class)->name('admin.dosen');
     });
+
+    Route::prefix('user')->group(function () {
+        Route::get('/', App\Livewire\Admin\User\Index::class)->name('admin.user');
+    });
 });
+
 
 route::get('/', App\Livewire\auth\Login::class)->name('login');
 route::get('/register', App\Livewire\auth\Register::class)->name('register');
 route::get('/forgot-password', App\Livewire\auth\ForgotPassword::class)->name('forgot-password');
 Route::get('password/reset/{token}', App\Livewire\auth\ResetPassword::class)->name('password.reset');
+
+
+
 
 // Auth::routes(['verify' => true]);
