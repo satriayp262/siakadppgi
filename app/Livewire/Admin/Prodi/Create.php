@@ -9,12 +9,14 @@ class Create extends Component
 {
     public $kode_prodi;
     public $nama_prodi;
+    public $jenjang = '';
 
     public function rules()
     {
         return [
             'kode_prodi' => 'required|string|unique:prodi,kode_prodi',
             'nama_prodi' => 'required|string',
+            'jenjang' => 'required|in:D3,D4,S1',
         ];
     }
 
@@ -24,6 +26,7 @@ class Create extends Component
             'kode_prodi.unique' => 'Kode prodi sudah dipakai',
             'kode_prodi.required' => 'Kode prodi tidak boleh kosong',
             'nama_prodi.required' => 'Nama prodi tidak boleh kosong',
+            'jenjang.required' => 'Jenjang harus dipilih',
         ];
     }
 
@@ -35,11 +38,14 @@ class Create extends Component
         $prodi = Prodi::create([
             'kode_prodi' => $validatedData['kode_prodi'],
             'nama_prodi' => $validatedData['nama_prodi'],
+            'jenjang' => $validatedData['jenjang'],
         ]);
 
         $this->reset();
 
         $this->dispatch('ProdiCreated');
+
+
 
         return $prodi;
     }

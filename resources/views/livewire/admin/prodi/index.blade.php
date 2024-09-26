@@ -20,21 +20,16 @@
                         &times;
                     </button>
                 </div>
-
-                {{-- <script>
-                    document.addEventListener('DOMContentLoaded', function() {
-                        setTimeout(function() {
-                            var flashMessage = document.getElementById('flash-message');
+                @push('scripts')
+                    <script>
+                        setTimeout(() => {
+                            const flashMessage = document.getElementById('flash-message');
                             if (flashMessage) {
-                                flashMessage.style.transition = 'opacity 0.5s ease';
-                                flashMessage.style.opacity = '0';
-                                setTimeout(function() {
-                                    flashMessage.remove();
-                                }, 500); // Wait for the transition to complete before removing
+                                flashMessage.remove();
                             }
-                        }, 3000);
-                    });
-                </script> --}}
+                        }, 1000); // Adjust the time (in milliseconds) as needed
+                    </script>
+                @endpush
             @endif
         </div>
         <!-- Modal Form -->
@@ -50,6 +45,7 @@
                 <th class="px-4 py-2 text-center">No.</th>
                 <th class="px-4 py-2 text-center">Kode Prodi</th>
                 <th class="px-4 py-2 text-center">Nama Prodi</th>
+                <th class="px-4 py-2 text-center">Jenjang</th>
                 <th class="px-4 py-2 text-center">Aksi</th>
             </tr>
         </thead>
@@ -60,6 +56,7 @@
                         {{ ($prodis->currentPage() - 1) * $prodis->perPage() + $loop->iteration }}</td>
                     <td class="px-4 py-2 text-center w-1/4">{{ $prodi->kode_prodi }}</td>
                     <td class="px-4 py-2 text-center w-1/4">{{ $prodi->nama_prodi }}</td>
+                    <td class="px-4 py-2 text-center w-1/4">{{ $prodi->jenjang }}</td>
                     <td class="px-4 py-2 text-center w-1/2">
                         <div class="flex items-center justify-center space-x-2">
                             <livewire:admin.prodi.edit :id_prodi="$prodi->id_prodi" wire:key="edit-{{ $prodi->id_prodi }}" />
