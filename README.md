@@ -28,8 +28,8 @@ Fork the repository:
 
 2. Clone your forked repository:
 ```
-git clone https://github.com/your-username/jkb-sistem-perwalian.git
-cd jkb-sistem-perwalian
+git clone https://github.com/your-username/siakadppgi.git
+cd siakadppgi.git
 ```
 3. Create a new branch:
 ```
