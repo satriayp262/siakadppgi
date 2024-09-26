@@ -1,6 +1,5 @@
 <div class="mx-5">
     <div class="flex flex-col justify-between mx-4 ">
-        <h1 class="text-2xl font-bold ">Dosen Table</h1>
         <div>
             @if (session()->has('message'))
                 <div id="flash-message"
@@ -19,7 +18,7 @@
             <input type="text" wire:model.live="search" placeholder="   Search" class="px-2 ml-4 border border-gray-300 rounded-lg">
         </div>
     </div>
-    <table class="min-w-full mt-4 bg-white border border-gray-200">
+    <table class="min-w-full mt-4 bg-white text-sm  border border-gray-200">
         <thead>
             <tr class="items-center w-full text-sm text-white align-middle bg-gray-800">
                 <th class="px-4 py-2 text-center">No</th>
@@ -28,11 +27,12 @@
                 <th class="px-4 py-2 text-center">Jenis Kelamin</th>
                 <th class="px-4 py-2 text-center">Jabatan Fungsional</th>
                 <th class="px-4 py-2 text-center">Kepangkatan</th>
-                <th class="px-4 py-2 text-center">Kode Prodi</th>
+                <th class="px-4 py-2 text-center">Nama Prodi</th>
                 <th class="px-4 py-2 text-center">Aksi</th>
             </tr>
         </thead>
         <tbody>
+            
             @foreach ($dosens as $dosen)
                 <tr wire:key="dosen-{{ $dosen->id_dosen }}">
                     <td class="px-4 py-2  text-center">{{ $loop->iteration }}</td>
@@ -41,11 +41,11 @@
                     <td class="px-4 py-2  text-center">{{ $dosen->jenis_kelamin }}</td>
                     <td class="px-4 py-2  text-center">{{ $dosen->jabatan_fungsional }}</td>
                     <td class="px-4 py-2  text-center">{{ $dosen->kepangkatan }}</td>
-                    <td class="px-4 py-2  text-center">{{ $dosen->kode_prodi }}</td>
+                    <td class="px-4 py-2  text-center">{{ $dosen->prodi->nama_prodi }}</td>
                     <td class="px-4 py-2 text-center">
                         <div class="flex flex-col items-center space-y-2">
                             <div class="flex space-x-2">
-                                <livewire:admin.dosen.edit :id_dosen="$dosen->id_dosen" wire:key="edit-{{ $dosen->id_dosen }}" />
+                                <livewire:admin.dosen.edit :id_dosen="$dosen->id_dosen"  wire:key="edit-{{rand().$dosen->id_dosen }}" />
                             </div>
                             <button  wire:key="delete-{{ $dosen->id_dosen }}" class="inline-block px-3 py-1 mt-2 text-white bg-red-500 rounded hover:bg-red-700"
                                     onclick="confirmDelete({{ $dosen->id_dosen }}, '{{ $dosen->nama_dosen }}')">Delete</button>

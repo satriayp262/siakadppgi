@@ -29,7 +29,7 @@ class Login extends Component
         if (Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
             $user = Auth::user();
             dd($user);
-            if($user->role === 'mahasiswa'){ 
+            if($user->role === 'mahasiswa'){
                 //route
             }elseif($user->role === 'dosen'){
                 //route

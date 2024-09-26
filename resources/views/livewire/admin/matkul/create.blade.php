@@ -36,7 +36,7 @@
                         
                         <div class="mb-4">
                             <label for="jenis_mata_kuliah" class="block text-sm font-medium text-gray-700">Jenis Mata Kuliah</label>
-                            <select id="jenis_mata_kuliah" wire:model="jenis_mata_kuliah" name="jenis_mata_kuliah"
+                            <select id="jenis_mata_kuliah" wire:model.live="jenis_mata_kuliah" name="jenis_mata_kuliah"
                                 class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
                                 <option value="" disabled selected>Select</option>
                                 <option value="Umum">Umum</option>
@@ -46,6 +46,22 @@
                                 <span class="mt-1 text-sm text-red-500">{{ $message }}</span>
                             @enderror
                         </div>
+
+                        @if ($this->jenis_mata_kuliah == 'Khusus Prodi') 
+                            <div class="mb-4">
+                                <label for="kode_prodi" class="block text-sm font-medium text-gray-700">Prodi</label>
+                                <select id="kode_prodi" wire:model="kode_prodi" name="kode_prodi"
+                                    class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
+                                    <option value="" disabled selected>Select</option>
+                                    @foreach ($prodis as $prodi)  
+                                        <option value="{{ $prodi->kode_prodi }}">{{ $prodi->nama_prodi }}</option>
+                                    @endforeach
+                                </select>
+                                @error('kode_prodi')
+                                    <span class="mt-1 text-sm text-red-500">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        @endif
 
                         <div class="mb-4">
                             <label for="sks_tatap_muka" class="block text-sm font-medium text-gray-700">SKS Tatap Muka</label>

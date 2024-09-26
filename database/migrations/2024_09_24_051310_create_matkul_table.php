@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('kode_mata_kuliah')->unique();
             $table->string('nama_mata_kuliah');
             $table->string(column: 'jenis_mata_kuliah');
+            $table->string('kode_prodi')->nullable();
             $table->integer('sks_tatap_muka');
             $table->integer('sks_praktek');
             $table->integer('sks_praktek_lapangan');
@@ -24,6 +25,8 @@ return new class extends Migration
             $table->date('tgl_mulai_efektif');
             $table->date('tgl_akhir_efektif');
             $table->timestamps();
+
+            $table->foreign('kode_prodi')->references('kode_prodi')->on('prodi')->onDelete('cascade');
         });
     }
 

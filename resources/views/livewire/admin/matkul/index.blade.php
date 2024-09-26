@@ -26,6 +26,7 @@
                 <th class="px-4 py-2 text-center">Kode Mata Kuliah</th>
                 <th class="px-4 py-2 text-center">Nama Mata Kuliah</th>
                 <th class="px-4 py-2 text-center">Jenis Mata Kuliah</th>
+                <th class="px-4 py-2 text-center">Prodi</th>
                 <th class="px-4 py-2 text-center">Metode Pembelajaran</th>
                 <th class="px-4 py-2 text-center">Action</th>
             </tr>
@@ -37,6 +38,7 @@
                     <td class="px-4 py-2 text-center">{{ $matkul->kode_mata_kuliah }}</td>
                     <td class="px-4 py-2 text-center">{{ $matkul->nama_mata_kuliah }}</td>
                     <td class="px-4 py-2 text-center">{{ $matkul->jenis_mata_kuliah }}</td>
+                    <td class="px-4 py-2 text-center">{{ $matkul->prodi->nama_prodi ?? $matkul->jenis_mata_kuliah }}</td>
                     <td class="px-4 py-2 text-center">{{ $matkul->metode_pembelajaran }}</td>
                     <td class="px-4 py-2 text-center">
                         <div class="flex items-center">

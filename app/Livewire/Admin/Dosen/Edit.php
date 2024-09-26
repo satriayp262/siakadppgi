@@ -14,7 +14,7 @@ class Edit extends Component
     {
         return [
             'nama_dosen' => 'required|string|max:255',
-            'nidn' => 'required|string|max:10|unique:dosen' . $this->id_dosen . ',id_dosen',
+            'nidn' => 'required|string|min:10|max:10|unique:dosen' . $this->id_dosen . ',id_dosen',
             'jenis_kelamin' => 'required|in:laki-laki,perempuan',
             'jabatan_fungsional' => 'required|string|max:255',
             'kepangkatan' => 'required|string|max:255',
@@ -78,11 +78,7 @@ class Edit extends Component
 
         $validatedData = $this->validate([
             'nama_dosen' => 'required|string|max:255',
-            'nidn' => [
-                'required',
-                'string',
-                'max:255',
-            ],
+            'nidn' => 'required|string|min:10|max:10',
             'jenis_kelamin' => 'required|in:laki-laki,perempuan',
             'jabatan_fungsional' => 'required|string|max:255',
             'kepangkatan' => 'required|string|max:255',

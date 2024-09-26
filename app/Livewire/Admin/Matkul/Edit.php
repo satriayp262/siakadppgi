@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Matkul;
 
 use App\Models\Matakuliah;
+use App\Models\Prodi;
 use Livewire\Component;
 
 class Edit extends Component
@@ -11,6 +12,7 @@ class Edit extends Component
     public $kode_mata_kuliah;
     public $nama_mata_kuliah;
     public $jenis_mata_kuliah = '';
+    public $kode_prodi = '';
     public $sks_tatap_muka;
     public $sks_praktek;
     public $sks_praktek_lapangan;
@@ -26,6 +28,7 @@ class Edit extends Component
             'kode_mata_kuliah' => 'required|string|unique:matkul,kode_mata_kuliah,' . $this->id_mata_kuliah . ',id_mata_kuliah',
             'nama_mata_kuliah' => 'required|string',
             'jenis_mata_kuliah' => 'required|string',
+            'kode_prodi' => 'required|string',
             'sks_tatap_muka' => 'required|integer',
             'sks_praktek' => 'required|integer',
             'sks_praktek_lapangan' => 'required|integer',
@@ -43,6 +46,7 @@ class Edit extends Component
             'kode_mata_kuliah.required' => 'Kode mata kuliah tidak boleh kosong',
             'nama_mata_kuliah.required' => 'Nama mata kuliah tidak boleh kosong',
             'jenis_mata_kuliah.required' => 'Jenis mata kuliah tidak boleh kosong',
+            'kode_prodi.required' => 'Kode prodi tidak boleh kosong',
             'sks_tatap_muka.required' => 'SKS tatap muka tidak boleh kosong',
             'sks_praktek.required' => 'SKS praktek tidak boleh kosong',
             'sks_praktek_lapangan.required' => 'SKS praktek lapangan tidak boleh kosong',
@@ -62,6 +66,7 @@ class Edit extends Component
             $this->kode_mata_kuliah = $matkul->kode_mata_kuliah;
             $this->nama_mata_kuliah = $matkul->nama_mata_kuliah;
             $this->jenis_mata_kuliah = $matkul->jenis_mata_kuliah;
+            $this->kode_prodi = $matkul->kode_prodi;
             $this->sks_tatap_muka = $matkul->sks_tatap_muka;
             $this->sks_praktek = $matkul->sks_praktek;
             $this->sks_praktek_lapangan = $matkul->sks_praktek_lapangan;
@@ -99,6 +104,7 @@ class Edit extends Component
             $this->kode_mata_kuliah = $matkul->kode_mata_kuliah;
             $this->nama_mata_kuliah = $matkul->nama_mata_kuliah;
             $this->jenis_mata_kuliah = $matkul->jenis_mata_kuliah;
+            $this->kode_prodi = $matkul->kode_prodi;
             $this->sks_tatap_muka = $matkul->sks_tatap_muka;
             $this->sks_praktek = $matkul->sks_praktek;
             $this->sks_praktek_lapangan = $matkul->sks_praktek_lapangan;
@@ -131,6 +137,10 @@ class Edit extends Component
 
     public function render()
     {
-        return view('livewire.admin.matkul.edit');
+        $prodis = Prodi::all();
+        
+        return view('livewire.admin.matkul.edit',[
+            'prodis' => $prodis
+        ]);
     }
 }

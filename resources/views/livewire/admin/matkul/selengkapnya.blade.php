@@ -20,6 +20,7 @@
                             <th class="px-4 py-2 text-center">Kode Mata Kuliah</th>
                             <th class="px-4 py-2 text-center">Nama Mata Kuliah</th>
                             <th class="px-4 py-2 text-center">Jenis Mata Kuliah</th>
+                            <th class="px-4 py-2 text-center">Prodi</th>
                             <th class="px-4 py-2 text-center">SKS Tatap Muka</th>
                             <th class="px-4 py-2 text-center">SKS Praktek</th>
                             <th class="px-4 py-2 text-center">SKS Praktek Lapangan</th>
@@ -34,6 +35,7 @@
                             <td class="px-4 py-2 text-center">{{ $matkul->kode_mata_kuliah }}</td>
                             <td class="px-4 py-2 text-center">{{ $matkul->nama_mata_kuliah }}</td>
                             <td class="px-4 py-2 text-center">{{ $matkul->jenis_mata_kuliah }}</td>
+                            <td class="px-4 py-2 text-center">{{ $matkul->prodi->nama_prodi ?? $matkul->jenis_mata_kuliah }}</td>
                             <td class="px-4 py-2 text-center">{{ $matkul->sks_tatap_muka }}</td>
                             <td class="px-4 py-2 text-center">{{ $matkul->sks_praktek }}</td>
                             <td class="px-4 py-2 text-center">{{ $matkul->sks_praktek_lapangan }}</td>
