@@ -29,21 +29,21 @@ class Login extends Component
         if (Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
             $user = Auth::user();
             // dd($user);
-            if($user->role === 'mahasiswa'){
+            if ($user->role === 'mahasiswa') {
                 //route
-            }elseif($user->role === 'dosen'){
+            } elseif ($user->role === 'dosen') {
                 //route
-            }elseif($user->role === 'staff'){
+            } elseif ($user->role === 'staff') {
                 //route
-            }elseif($user->role === 'admin'){
+            } elseif ($user->role === 'admin') {
                 //route
             }
-            return redirect()->intended('/admin');
+            return redirect()->intended('/dashboard');
         }
 
         if (!User::where('email', $this->email)->exists()) {
             session()->flash('message', 'Email tidak ditemukan.');
-        } else if(User::where('email', $this->email)->exists()){
+        } else if (User::where('email', $this->email)->exists()) {
             session()->flash('message', 'Password salah.');
         }
 
