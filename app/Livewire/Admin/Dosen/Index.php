@@ -5,7 +5,10 @@ namespace App\Livewire\Admin\Dosen;
 use App\Models\Dosen;
 use Livewire\WithPagination;
 use Livewire\Component;
+use Livewire\Attributes\Title;
 use Livewire\Attributes\On;
+
+#[Title(' | DOSEN')]
 
 class Index extends Component
 {
@@ -17,6 +20,7 @@ class Index extends Component
     public function handledosenEdited()
     {
         session()->flash('message', 'Dosen Berhasil di Update');
+        session()->flash('message_type', 'warning');
     }
 
     public function destroy($id_dosen)
@@ -28,12 +32,14 @@ class Index extends Component
 
             // Tampilkan pesan sukses
             session()->flash('message', 'Dosen Berhasil di Hapus');
+            session()->flash('message_type', 'error');
     }
 
     #[On('dosenCreated')]
     public function handledosenCreated()
     {
             session()->flash('message', 'Dosen Berhasil di Tambahkan');
+            session()->flash('message_type', 'success');
     }
 
     public $id_dosen, $nama_dosen, $nidn, $jenis_kelamin, $jabatan_fungsional, $kepangkatan, $kode_prodi;
