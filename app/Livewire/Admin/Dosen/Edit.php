@@ -3,11 +3,12 @@
 namespace App\Livewire\Admin\Dosen;
 
 use App\Models\Dosen;
+use App\Models\Prodi;
 use Livewire\Component;
 
 class Edit extends Component
 {
-    public $id_dosen, $nama_dosen, $nidn, $jenis_kelamin, $jabatan_fungsional, $kepangkatan, $kode_prodi;
+    public $id_dosen, $nama_dosen, $nidn, $jenis_kelamin, $jabatan_fungsional, $kepangkatan, $kode_prodi, $prodi;
 
     public function rules()
     {
@@ -59,6 +60,7 @@ class Edit extends Component
     public function mount($id_dosen)
     {
         $dosen = Dosen::find($id_dosen);
+        $this->prodi = Prodi::all();
         if ($dosen) {
             $this->id_dosen = $dosen->id_dosen;
             $this->nama_dosen = $dosen->nama_dosen;
@@ -98,7 +100,7 @@ class Edit extends Component
         ]);
 
         // Reset form dan dispatch event
-        $this->reset();
+        $this->resetExcept('prodi');
         $this->dispatch('dosenUpdated');
         return $dosen;
     }

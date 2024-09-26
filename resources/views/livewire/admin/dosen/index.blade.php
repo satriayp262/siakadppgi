@@ -1,28 +1,4 @@
 <div class="mx-5">
-    <div class="flex justify-between items-center mt-2">
-        <nav aria-label="Breadcrumb">
-            <ol class="flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
-                <li aria-current="page">
-                    <div class="flex items-center">
-                        <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2" d="m1 9 4-4-4-4" />
-                        </svg>
-                        <span class="ms-1 text-sm font-medium text-gray-500 md:ms-2">Dosen</span>
-                    </div>
-                </li>
-            </ol>
-        </nav>
-
-        <div class="text-right">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item text-sm font-medium text-gray-700">
-                    {{ \Carbon\Carbon::now()->locale('id')->isoFormat('dddd, D MMMM Y') }}
-                </li>
-            </ol>
-        </div>
-    </div>
     <div class="flex flex-col justify-between mx-4 ">
         <h1 class="text-2xl font-bold ">Dosen Table</h1>
         <div>
