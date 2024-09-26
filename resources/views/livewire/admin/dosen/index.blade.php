@@ -19,7 +19,7 @@
             <input type="text" wire:model.live="search" placeholder="   Search" class="px-2 ml-4 border border-gray-300 rounded-lg">
         </div>
     </div>
-    <table class="min-w-full mt-4 bg-white border border-gray-200">
+    <table class="min-w-full mt-4 bg-white text-sm  border border-gray-200">
         <thead>
             <tr class="items-center w-full text-sm text-white align-middle bg-gray-800">
                 <th class="px-4 py-2 text-center">No</th>
