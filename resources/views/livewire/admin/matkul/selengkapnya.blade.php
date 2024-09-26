@@ -31,16 +31,16 @@
                     </thead>
                     <tbody>
                         <tr class="border-t">
-                            <td class="px-4 py-2 text-center">{{ $matkuls->kode_mata_kuliah }}</td>
-                            <td class="px-4 py-2 text-center">{{ $matkuls->nama_mata_kuliah }}</td>
-                            <td class="px-4 py-2 text-center">{{ $matkuls->jenis_mata_kuliah }}</td>
-                            <td class="px-4 py-2 text-center">{{ $matkuls->sks_tatap_muka }}</td>
-                            <td class="px-4 py-2 text-center">{{ $matkuls->sks_praktek }}</td>
-                            <td class="px-4 py-2 text-center">{{ $matkuls->sks_praktek_lapangan }}</td>
-                            <td class="px-4 py-2 text-center">{{ $matkuls->sks_simulasi }}</td>
-                            <td class="px-4 py-2 text-center">{{ $matkuls->metode_pembelajaran }}</td>
-                            <td class="px-4 py-2 text-center">{{ $matkuls->tgl_mulai_efektif }}</td>
-                            <td class="px-4 py-2 text-center">{{ $matkuls->tgl_akhir_efektif }}</td>
+                            <td class="px-4 py-2 text-center">{{ $matkul->kode_mata_kuliah }}</td>
+                            <td class="px-4 py-2 text-center">{{ $matkul->nama_mata_kuliah }}</td>
+                            <td class="px-4 py-2 text-center">{{ $matkul->jenis_mata_kuliah }}</td>
+                            <td class="px-4 py-2 text-center">{{ $matkul->sks_tatap_muka }}</td>
+                            <td class="px-4 py-2 text-center">{{ $matkul->sks_praktek }}</td>
+                            <td class="px-4 py-2 text-center">{{ $matkul->sks_praktek_lapangan }}</td>
+                            <td class="px-4 py-2 text-center">{{ $matkul->sks_simulasi }}</td>
+                            <td class="px-4 py-2 text-center">{{ $matkul->metode_pembelajaran }}</td>
+                            <td class="px-4 py-2 text-center">{{ $matkul->tgl_mulai_efektif }}</td>
+                            <td class="px-4 py-2 text-center">{{ $matkul->tgl_akhir_efektif }}</td>
                         </tr>
                     </tbody>
                 </table>

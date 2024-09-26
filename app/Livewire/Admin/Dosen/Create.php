@@ -2,11 +2,12 @@
 
 namespace App\Livewire\Admin\Dosen;
 use App\Models\Dosen;
+use App\Models\Prodi;
 use Livewire\Component;
 
 class Create extends Component
 {
-    public $id_dosen, $nama_dosen, $nidn, $jenis_kelamin = '', $jabatan_fungsional, $kepangkatan, $kode_prodi = '';
+    public $id_dosen, $nama_dosen, $nidn, $jenis_kelamin = '', $jabatan_fungsional, $kepangkatan, $kode_prodi = '',$prodi;
 
     public function rules()
     {
@@ -19,6 +20,12 @@ class Create extends Component
             'kepangkatan' => 'required|string|max:255',
             'kode_prodi' => 'required|string|max:20',
         ];
+    }
+
+    public function mount()
+    {
+        // Ambil data prodi dari database
+        $this->prodi = Prodi::all();
     }
 
     public function save()
@@ -36,8 +43,7 @@ class Create extends Component
             'kode_prodi' => $validatedData['kode_prodi'],
         ]);
 
-
-        $this->reset();
+        $this->resetExcept('prodi');
 
         $this->dispatch('dosenCreated');
 

@@ -18,10 +18,10 @@ class Selengkapnya extends Component
     public function render()
     {
         // Find the Mata Kuliah based on the ID
-        $matkuls = Matakuliah::find($this->id_mata_kuliah);
+        $matkul = Matakuliah::find($this->id_mata_kuliah);
 
         return view('livewire.admin.matkul.selengkapnya', [
-            'matkuls' => $matkuls,
+            'matkul' => $matkul,
         ]);
     }
 }

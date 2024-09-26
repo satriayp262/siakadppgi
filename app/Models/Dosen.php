@@ -21,8 +21,8 @@ class Dosen extends Model
         'kode_prodi',
     ];
 
-    // public function prodi()
-    // {
-    //     return $this->belongsTo(Prodi::class, 'kode_prodi');
-    // }
+    public function prodi()
+    {
+        return $this->belongsTo(Prodi::class, 'kode_prodi', 'kode_prodi');
+    }
 }

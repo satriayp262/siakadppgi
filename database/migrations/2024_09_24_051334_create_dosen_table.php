@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('kepangkatan');
             $table->string('kode_prodi');
             $table->timestamps();
-            $table->foreign('kode_prodi')->references('kode_prodi')->on('prodi');
+            $table->foreign('kode_prodi')->references('kode_prodi')->on('prodi')->onDelete('cascade');
         });
     }
 
