@@ -14,7 +14,7 @@
     <div class="flex flex-col min-h-screen md:flex-row z-12">
         <aside class="h-full z-11">
             <livewire:component.sidebar />
-        </aside>
+        </aside> 
         <div class="flex flex-col flex-1">
             <main class="flex-1">
                 {{ $slot }}
