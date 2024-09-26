@@ -14,7 +14,7 @@ class Create extends Component
         return [
             // 'id_dosen' => 'required|string|max:255',
             'nama_dosen' => 'required|string|max:255',
-            'nidn' => 'required|string|min:10|max:255|unique:dosen',
+            'nidn' => 'required|string|min:10|max:10|unique:dosen',
             'jenis_kelamin' => 'required|in:laki-laki,perempuan',
             'jabatan_fungsional' => 'required|string|max:255',
             'kepangkatan' => 'required|string|max:255',
