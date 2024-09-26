@@ -17,6 +17,36 @@ The system supports four distinct user roles:
 3. Staff
 4. Mahasiswa (Student)
 
+### Role-specific Functionalities
+
+#### 1. Admin
+
+The Admin has full access to master data within the system. This includes the ability to manage and edit fundamental 
+information that underlies the operational aspects of the system, such as user data, 
+curriculum details, and other system settings.
+
+#### 2. Dosen 
+
+The Dosen has access to view and manage data related to courses (matkul) and student grades (nilai). 
+This means lecturers can input, edit, and monitor the grades of students in the courses they teach, 
+as well as manage information about those courses.
+
+#### 3. Mahasiswa
+
+Mahasiswa can access data related to themselves, including personal information as a student, 
+details about the courses they are enrolled in, their grades, and class schedules. 
+This allows students to track their academic progress and interact with information relevant to their studies.
+
+#### 4. Staff 
+
+Staff members have access related to payments. This includes managing student payment data, 
+monitoring payment status, setting up billing, and generating financial reports related to payment 
+administration at the educational institution.
+
+## ERD
+
+![erd siakad(normalized)]()
+
 
 ## Contributing
 
