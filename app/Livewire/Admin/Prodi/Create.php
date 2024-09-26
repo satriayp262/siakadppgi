@@ -36,6 +36,12 @@ class Create extends Component
             'kode_prodi' => $validatedData['kode_prodi'],
             'nama_prodi' => $validatedData['nama_prodi'],
         ]);
+
+        $this->reset();
+
+        $this->dispatch('ProdiCreated');
+
+        return $prodi;
     }
 
     public function render()
