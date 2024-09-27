@@ -8,7 +8,6 @@ use Livewire\Component;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\On;
 
-#[Title(' | DOSEN')]
 
 class Index extends Component
 {
@@ -27,19 +26,19 @@ class Index extends Component
     {
         $dosen = Dosen::find($id_dosen);
 
-            // Hapus data dosen
-            $dosen->delete();
+        // Hapus data dosen
+        $dosen->delete();
 
-            // Tampilkan pesan sukses
-            session()->flash('message', 'Dosen Berhasil di Hapus');
-            session()->flash('message_type', 'error');
+        // Tampilkan pesan sukses
+        session()->flash('message', 'Dosen Berhasil di Hapus');
+        session()->flash('message_type', 'error');
     }
 
     #[On('dosenCreated')]
     public function handledosenCreated()
     {
-            session()->flash('message', 'Dosen Berhasil di Tambahkan');
-            session()->flash('message_type', 'success');
+        session()->flash('message', 'Dosen Berhasil di Tambahkan');
+        session()->flash('message_type', 'success');
     }
 
     public $id_dosen, $nama_dosen, $nidn, $jenis_kelamin, $jabatan_fungsional, $kepangkatan, $kode_prodi;
