@@ -21,6 +21,8 @@
                     <livewire:component.sidebar-dosen />
                 @elseif (auth()->user()->role === 'mahasiswa')
                     <livewire:component.sidebar-mahasiswa />
+                @elseif (auth()->user()->role === 'staff')
+                    <livewire:component.sidebar-staff />
                 @endif
             @endif
         </aside>
