@@ -33,7 +33,7 @@
                 </div>
                 <div class="relative p-4 bg-white rounded-lg shadow-md">
                     <h2 class="text-lg font-semibold">Mahasiswa</h2>
-                    <p class="mt-1 text-xl font-bold">1200</p>
+                    <p class="mt-1 text-xl font-bold">{{ $mahasiswa }}</p>
                     <a href="#" class="absolute text-sm text-blue-500 bottom-4 right-4">Klik disini >></a>
                 </div>
                 <div class="relative p-4 bg-white rounded-lg shadow-md">
