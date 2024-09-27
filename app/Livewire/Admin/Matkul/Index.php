@@ -17,6 +17,7 @@ class Index extends Component
     public function handlematkulEdited()
     {
         session()->flash('message', 'Mata Kuliah Berhasil di Update');
+        session()->flash('message_type', 'warning');
     }
 
     public function destroy($id_mata_kuliah)
@@ -28,12 +29,14 @@ class Index extends Component
 
             // Tampilkan pesan sukses
             session()->flash('message', 'Mata Kuliah Berhasil di Hapus');
+            session()->flash('message_type', 'error');
     }
 
     #[On('matkulCreated')]
     public function handlematkulCreated()
     {
         session()->flash('message', 'Mata Kuliah Berhasil di Tambahkan');
+        session()->flash('message_type', 'success');
     }
 
     public function render()

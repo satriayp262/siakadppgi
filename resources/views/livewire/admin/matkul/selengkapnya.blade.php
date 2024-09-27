@@ -3,7 +3,7 @@
     <button @click="isOpen=true" class="px-4 py-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">Selengkapnya</button>
 
     <!-- Modal Background -->
-    <div x-show="isOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-75">
+    <div x-show="isOpen" class="fixed inset-0 z-50 flex items-center justify-center px-4 bg-gray-600 bg-opacity-75">
         <!-- Modal Content -->
         <div class="bg-white rounded-lg shadow-lg ">
             <!-- Modal Header -->

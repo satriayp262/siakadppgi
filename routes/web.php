@@ -16,7 +16,8 @@ Route::middleware(['auth'])->group(function () {
     })->middleware(['auth', 'signed'])->name('verification.verify');
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth'])->group(function () {
+    // Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', App\Livewire\Admin\Dashboard\Index::class)->name('admin.dashboard');
     Route::prefix('mata_kuliah')->group(function () {
         Route::get('/', App\Livewire\Admin\Matkul\Index::class)->name('admin.mata_kuliah');
