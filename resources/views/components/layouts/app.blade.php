@@ -14,7 +14,15 @@
     <livewire:component.navbar />
     <div class="flex flex-col min-h-screen md:flex-row z-12">
         <aside class="h-full z-11">
-            <livewire:component.sidebar />
+            @if (auth()->check())
+                @if (auth()->user()->role === 'admin')
+                    <livewire:component.sidebar-admin />
+                @elseif (auth()->user()->role === 'dosen')
+                    <livewire:component.sidebar-dosen />
+                @elseif (auth()->user()->role === 'mahasiswa')
+                    <livewire:component.sidebar-mahasiswa />
+                @endif
+            @endif
         </aside>
         <div class="flex flex-col flex-1">
             <main class="flex-1">
