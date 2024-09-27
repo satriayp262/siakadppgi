@@ -20,13 +20,13 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         Mahasiswa::factory(20)->create();
+        Dosen::factory(10)->create();
+        Matakuliah::factory(20)->create();
 
         // User::factory()->create([
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-        Dosen::factory(10)->create();
 
-        Matakuliah::factory(20)->create();
     }
 }
