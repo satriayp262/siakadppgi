@@ -45,7 +45,9 @@
 
             @foreach ($dosens as $dosen)
                 <tr wire:key="dosen-{{ $dosen->id_dosen }}">
-                    <td class="px-4 py-2  text-center">{{ $loop->iteration }}</td>
+                    <td class="px-4 py-2  text-center">
+                        {{ ($dosens->currentPage() - 1) * $dosens->perPage() + $loop->iteration }}</td>
+                    </td>
                     <td class="px-4 py-2  text-center">{{ $dosen->nama_dosen }}</td>
                     <td class="px-4 py-2  text-center">{{ $dosen->nidn }}</td>
                     <td class="px-4 py-2  text-center">{{ $dosen->jenis_kelamin }}</td>
@@ -69,7 +71,7 @@
     </table>
     <!-- Pagination Controls -->
     <div class="py-8 mt-4 text-center">
-        {{ $dosens->links('pagination::tailwind') }}
+        {{ $dosens->links('') }}
     </div>
 
     <script>

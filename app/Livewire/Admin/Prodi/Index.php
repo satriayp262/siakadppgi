@@ -49,7 +49,7 @@ class Index extends Component
             ->orWhere('nama_prodi', 'like', '%' . $this->search . '%')
             ->orWhere('jenjang', 'like', '%' . $this->search . '%')
             ->latest()
-            ->paginate(10);
+            ->paginate(5);
 
         return view('livewire.admin.prodi.index', [
             'prodis' => $prodis,
