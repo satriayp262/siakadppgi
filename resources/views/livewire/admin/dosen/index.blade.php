@@ -1,5 +1,5 @@
 <div class="mx-5">
-    <div class="flex flex-col justify-between mx-4 ">
+    <div class="flex flex-col justify-between mx-4 mt-4 ">
         <div>
             @if (session()->has('message'))
                 @php

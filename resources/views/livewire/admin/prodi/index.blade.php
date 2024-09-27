@@ -1,5 +1,5 @@
 <div class="mx-5">
-    <div class="flex flex-col justify-between mx-4 ">
+    <div class="flex flex-col justify-between mx-4 mt-4">
         {{-- <h1 class="text-2xl font-bold ">Prodi Table</h1> --}}
         <div>
             @if (session()->has('message'))
