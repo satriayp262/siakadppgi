@@ -9,6 +9,12 @@
             <p class="mb-4">
                 Email Dikirim ke: {{ Auth::user()->email }}
             </p>
+            <div wire:loading>
+                <div class="mt-2 w-full flex flex-row items-center space-x-2">
+                    <div class="spinner"></div>
+                    <div class="spinner-text">Memproses Permintaan...</div>
+                </div>
+            </div>
 
             @if (session()->has('message'))
                 <div class="bg-green-200 text-green-800 px-4 py-2 rounded mb-4">
