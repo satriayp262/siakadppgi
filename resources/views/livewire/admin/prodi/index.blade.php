@@ -20,7 +20,7 @@
                         &times;
                     </button>
                 </div>
-                @push('scripts')
+                {{-- @push('scripts')
                     <script>
                         setTimeout(() => {
                             const flashMessage = document.getElementById('flash-message');
@@ -29,7 +29,7 @@
                             }
                         }, 1000); // Adjust the time (in milliseconds) as needed
                     </script>
-                @endpush
+                @endpush --}}
             @endif
         </div>
         <!-- Modal Form -->
@@ -70,7 +70,7 @@
     </table>
     <!-- Pagination Controls -->
     <div class="py-8 mt-4 text-center">
-        {{ $prodis->links('pagination::tailwind') }}
+        {{ $prodis->links('') }}
     </div>
 
     <script>
