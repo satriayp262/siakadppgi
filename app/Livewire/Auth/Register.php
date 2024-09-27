@@ -43,8 +43,8 @@ class Register extends Component
             $user->sendEmailVerificationNotification();
 
             Auth::login($user);
-
-            return redirect()->route('verification.notice');
+            // irit mailtrap
+            // return redirect()->route('verification.notice');
         } else {
             session()->flash('error', 'Registrasi Gagal');
         }
