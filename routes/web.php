@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Livewire\Auth\VerifyEmail;
+use Illuminate\Support\Facades\Auth;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -39,6 +40,14 @@ Route::middleware(['auth'])->group(function () {
 
 
 route::get('/', App\Livewire\auth\Login::class)->name('login');
+
+
+// Sementara Logout e kaya kiye ya wkwk, males gawe livewire e
+Route::post('/logout', function () {
+    Auth::logout();
+    return redirect('/');
+})->name('logout');
+
 route::get('/register', App\Livewire\auth\Register::class)->name('register');
 route::get('/forgot-password', App\Livewire\auth\ForgotPassword::class)->name('forgot-password');
 Route::get('password/reset/{token}', App\Livewire\auth\ResetPassword::class)->name('password.reset');
