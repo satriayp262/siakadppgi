@@ -6,7 +6,7 @@ use App\Models\Dosen;
 use App\Models\Matakuliah;
 use App\Models\User;
 use App\Models\Mahasiswa;
-
+use App\Models\Prodi;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
+        Prodi::factory(10)->create();
         Mahasiswa::factory(20)->create();
         Dosen::factory(10)->create();
         Matakuliah::factory(20)->create();
