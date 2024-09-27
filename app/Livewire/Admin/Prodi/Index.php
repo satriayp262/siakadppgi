@@ -8,11 +8,11 @@ use Livewire\Attributes\Title;
 use Livewire\Attributes\On;
 use App\Models\Prodi;
 
-#[Title(' | PRODI')]
 
 class Index extends Component
 {
     public $search = '';
+
     use WithPagination;
 
     #[On('ProdiCreated')]
@@ -47,8 +47,9 @@ class Index extends Component
         $prodis = Prodi::query()
             ->where('kode_prodi', 'like', '%' . $this->search . '%')
             ->orWhere('nama_prodi', 'like', '%' . $this->search . '%')
+            ->orWhere('jenjang', 'like', '%' . $this->search . '%')
             ->latest()
-            ->paginate(5);
+            ->paginate(10);
 
         return view('livewire.admin.prodi.index', [
             'prodis' => $prodis,

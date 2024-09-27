@@ -1,5 +1,5 @@
 {{-- <div class="w-full"> --}}
-<nav class="sticky relative top-0 w-full bg-gray-900 border-gray-200 z-30">
+<nav class="sticky top-0 w-full bg-gray-900 border-gray-200 z-30">
     <div class="flex items-center justify-between p-4">
         <div class="flex items-center space-x-2">
             <button id="sidebarToggle" aria-controls="default-sidebar" type="button"
@@ -35,8 +35,9 @@
             <div class="absolute right-0 z-50 hidden mt-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow top-full"
                 id="user-dropdown">
                 <div class="px-4 py-3">
-                    <span class="block font-bold text-sm text-gray-600">{{ Auth::user()->name  ?? 'user'}}</span>
-                        <span class="block text-sm text-gray-500 truncate">{{ Auth::user()->email ?? 'user@gmail.com' }}</span>
+                    <span class="block font-bold text-sm text-gray-600">{{ Auth::user()->name ?? 'user' }}</span>
+                    <span
+                        class="block text-sm text-gray-500 truncate">{{ Auth::user()->email ?? 'user@gmail.com' }}</span>
                 </div>
                 <ul class="py-2" aria-labelledby="user-menu-button">
                     <li>
@@ -47,12 +48,13 @@
                     </li>
                     <li>
                         {{-- <a href="{{ route('logout') }}"
-                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign
-                                out</a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
-                                @csrf
-                            </form> --}}
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                            Sign out
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+                            @csrf
+                        </form> --}}
                     </li>
                 </ul>
             </div>

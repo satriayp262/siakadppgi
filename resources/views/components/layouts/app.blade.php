@@ -7,6 +7,7 @@
     @vite('resources/css/app.css')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>SIAKAD {{ $title ?? 'PPGI' }}</title>
+    <link rel="icon" href="{!! asset('img/piksi.png') !!}" />
 </head>
 
 <body class="flex flex-col w-full z-14">
@@ -14,7 +15,7 @@
     <div class="flex flex-col min-h-screen md:flex-row z-12">
         <aside class="h-full z-11">
             <livewire:component.sidebar />
-        </aside> 
+        </aside>
         <div class="flex flex-col flex-1">
             <main class="flex-1">
                 {{ $slot }}

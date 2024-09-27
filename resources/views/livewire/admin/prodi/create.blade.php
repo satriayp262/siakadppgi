@@ -25,7 +25,6 @@
             <div class="p-4">
                 <div class="p-4 max-h-[500px] overflow-y-auto">
                     <form wire:submit="save">
-
                         <div class="mb-4">
                             <label for="kode_prodi" class="block text-sm font-medium text-gray-700">Kode Prodi</label>
                             <input type="text" id="kode_prodi" wire:model="kode_prodi" name="kode_prodi"
@@ -43,6 +42,21 @@
                                 <span class="text-sm text-red-500">{{ $message }}</span>
                             @enderror
                         </div>
+
+                        <div class="mb-4">
+                            <label for="jenjang" class="block text-sm font-medium text-gray-700">Jenjang</label>
+                            <select id="jenjang" wire:model="jenjang" name="jenjang"
+                                class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
+                                <option value="" disabled selected>Pilih jenjang Prodi</option>
+                                <option value="D3">D3</option>
+                                <option value="D4">D4</option>
+                                <option value="S1">S1</option>
+                            </select>
+                            @error('jenjang')
+                                <span class="mt-1 text-sm text-red-500">{{ $message }}</span>
+                            @enderror
+                        </div>
+
                         <!-- Submit Button inside the form -->
                         <div class="flex justify-end p-4 bg-gray-200 rounded-b-lg">
                             <button type="button" @click="isOpen = false"

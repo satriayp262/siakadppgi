@@ -12,6 +12,7 @@ class Edit extends Component
     public $id_prodi;
     public $kode_prodi;
     public $nama_prodi;
+    public $jenjang;
 
 
     public function rules()
@@ -19,6 +20,7 @@ class Edit extends Component
         return [
             'kode_prodi' => 'required|string|unique:prodi,kode_prodi,' . $this->id_prodi . ',id_prodi',
             'nama_prodi' => 'required|string',
+            'jenjang' => 'required|in:D3,D4,S1',
         ];
     }
 
@@ -28,6 +30,7 @@ class Edit extends Component
             'kode_prodi.unique' => 'Kode prodi sudah dipakai',
             'kode_prodi.required' => 'Kode prodi tidak boleh kosong',
             'nama_prodi.required' => 'Nama prodi tidak boleh kosong',
+            'jenjang.required' => 'Jenjang harus dipilih',
         ];
     }
 
@@ -39,6 +42,7 @@ class Edit extends Component
             $this->id_prodi = $prodi->id_prodi;
             $this->kode_prodi = $prodi->kode_prodi;
             $this->nama_prodi = $prodi->nama_prodi;
+            $this->jenjang = $prodi->jenjang;
         }
     }
 
@@ -49,6 +53,7 @@ class Edit extends Component
             $this->id_prodi = $prodi->id_prodi;
             $this->kode_prodi = $prodi->kode_prodi;
             $this->nama_prodi = $prodi->nama_prodi;
+            $this->jenjang = $prodi->jenjang;
         }
         return $prodi;
     }
