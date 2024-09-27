@@ -4,6 +4,7 @@ namespace App\Livewire\Auth;
 
 use Livewire\Component;
 use App\Models\User;
+use Auth;
 
 class Register extends Component
 {
@@ -39,10 +40,13 @@ class Register extends Component
         ]);
 
         if ($user) {
-            return redirect()->route('login');
-        } else {
-            session()->flash('success', 'Registrasi Gagal');
+            $user->sendEmailVerificationNotification();
 
+            Auth::login($user);
+
+            return redirect()->route('verification.notice');
+        } else {
+            session()->flash('error', 'Registrasi Gagal');
         }
     }
     public function render()

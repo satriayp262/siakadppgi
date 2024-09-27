@@ -6,12 +6,14 @@ use Livewire\Component;
 use App\Models\Matakuliah;
 use App\Models\Prodi;
 use App\Models\Dosen;
+use App\Models\Mahasiswa;
 
 class Index extends Component
 {
     public $matakuliah;
     public $prodi;
     public $dosen;
+    public $mahasiswa;
 
     public function mount()
     {
@@ -23,6 +25,9 @@ class Index extends Component
 
         $dosens = Dosen::query()->count();
         $this->dosen = $dosens;
+
+        $mahasiswas = Mahasiswa::query()->count();
+        $this->mahasiswa = $mahasiswas;
     }
 
 

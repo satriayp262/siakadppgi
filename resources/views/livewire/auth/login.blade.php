@@ -49,11 +49,20 @@
                             <small class="text-red-500">{{ $message }}</small>
                         @enderror
                     </div>
+                    <div wire:loading>
+                        <div class="mt-2 w-full flex flex-row items-center space-x-2">
+                            <div class="spinner"></div>
+                            <div class="spinner-text">Memproses Permintaan...</div>
+                        </div>
+                    </div>
                 </div>
 
                 <div>
-                    <button type="submit"
+                    <button type="submit" wire:loading.remove
                         class="flex w-full justify-center rounded-md bg-purple-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-purple-700">Masuk</button>
+                    <button  wire:loading disabled
+                        class="flex w-full justify-center rounded-md bg-purple-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-purple-700">Masuk</button>
+
                 </div>
             </div>
         </form>

@@ -59,10 +59,18 @@
                         @enderror
                     </div>
                 </div>
+                <div wire:loading>
+                    <div class="mt-2 w-full flex flex-row items-center space-x-2">
+                        <div class="spinner"></div>
+                        <div class="spinner-text">Memproses Permintaan...</div>
+                    </div>
+                </div>
 
                 <!-- Submit Button -->
                 <div>
-                    <button type="submit"
+                    <button type="submit" wire:loading.remove
+                        class="flex w-full justify-center rounded-md bg-purple-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-600">Register</button>
+                        <button  disabled wire:loading
                         class="flex w-full justify-center rounded-md bg-purple-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-600">Register</button>
                 </div>
             </div>
