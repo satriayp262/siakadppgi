@@ -29,6 +29,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/', App\Livewire\Admin\Prodi\Index::class)->name('admin.prodi');
     });
 
+    Route::prefix('kelas')->group(function () {
+        Route::get('/', App\Livewire\Admin\Kelas\Index::class)->name('admin.kelas');
+    });
+
     Route::prefix('dosen')->group(function () {
         Route::get('/', App\Livewire\Admin\Dosen\Index::class)->name('admin.dosen');
     });
