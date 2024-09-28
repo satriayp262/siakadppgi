@@ -2,10 +2,19 @@
     <div class="flex flex-col justify-between mx-4 mt-4">
         <div>
             @if (session()->has('message'))
+                @php
+                    $messageType = session('message_type', 'success'); // Default to success
+                    $bgColor =
+                        $messageType === 'error'
+                            ? 'bg-red-500'
+                            : ($messageType === 'warning'
+                                ? 'bg-blue-500'
+                                : 'bg-green-500');
+                @endphp
                 <div id="flash-message"
-                    class="flex items-center justify-between p-4 mx-12 mt-8 mb-4 text-white bg-green-500 rounded">
+                    class="flex items-center justify-between p-4 mx-12 mt-8 mb-4 text-white {{ $bgColor }} rounded">
                     <span>{{ session('message') }}</span>
-                    <button class="p-1" onclick="document.getElementById('flash-message').style.display='none'"
+                    <button class="p-1" onclick="document.getElementById('flash-message').remove();"
                         class="font-bold text-white">
                         &times;
                     </button>

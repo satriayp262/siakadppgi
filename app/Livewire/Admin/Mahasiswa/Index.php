@@ -12,10 +12,10 @@ class Index extends Component
     use WithPagination;
 
     public $search = '';
-    
+
     // Update pagination when 'search' is updated
     protected $updatesQueryString = ['search'];
-    
+
     // Reset pagination page on search update
     public function updatingSearch()
     {
@@ -26,19 +26,22 @@ class Index extends Component
     public function handleMahasiswaEdited()
     {
         session()->flash('message', 'Mahasiswa Berhasil di Update');
+        session()->flash('message_type', 'warning');
     }
 
     public function destroy($id_mahasiswa)
     {
         $mahasiswa = Mahasiswa::find($id_mahasiswa);
-            $mahasiswa->delete();
-            session()->flash('message', 'Mahasiswa Berhasil di Hapus');
+        $mahasiswa->delete();
+        session()->flash('message', 'Mahasiswa Berhasil di Hapus');
+        session()->flash('message_type', 'error');
     }
 
     #[On('mahasiswaCreated')]
     public function handleMahasiswaCreated()
     {
         session()->flash('message', 'Mahasiswa Berhasil di Tambahkan');
+        session()->flash('message_type', 'success');
     }
     // Use render method to return paginated data
     public function render()
@@ -47,8 +50,8 @@ class Index extends Component
 
         if ($this->search) {
             $query->where('nama', 'like', '%' . $this->search . '%')
-                  ->orWhere('NIM', 'like', '%' . $this->search . '%')
-                  ->orWhere('email', 'like', '%' . $this->search . '%');
+                ->orWhere('NIM', 'like', '%' . $this->search . '%')
+                ->orWhere('email', 'like', '%' . $this->search . '%');
         }
 
         $mahasiswas = $query->latest()->paginate(5);
