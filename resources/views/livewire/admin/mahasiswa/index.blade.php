@@ -33,7 +33,9 @@
         <tbody>
             @foreach ($mahasiswas as $mahasiswa)
                 <tr class="border-t" wire:key="matkul-{{ $mahasiswa->id_mahasiswa }}">
-                    <td class="px-4 py-2 text-center">{{ $loop->iteration }}</td>
+                    <td class="px-4 py-2 text-center">
+                        {{ ($mahasiswas->currentPage() - 1) * $mahasiswas->perPage() + $loop->iteration }}</td>
+                    </td>
                     <td class="px-4 py-2 text-center">{{ $mahasiswa->NIM }}</td>
                     <td class="px-4 py-2 text-center">{{ $mahasiswa->nama }}</td>
                     <td class="px-4 py-2 text-center">{{ $mahasiswa->jenis_kelamin }}</td>
@@ -59,7 +61,7 @@
     </table>
     <!-- Pagination Controls -->
     <div class="mt-4 text-center">
-        {{ $mahasiswas->links('pagination::tailwind') }}
+        {{ $mahasiswas->links('') }}
     </div>
     <script>
         function confirmDelete(id, nama) {

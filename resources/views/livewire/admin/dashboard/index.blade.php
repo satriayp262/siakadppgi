@@ -28,25 +28,25 @@
         <div class="relative p-4 bg-white rounded-lg shadow-md">
             <h2 class="text-lg font-semibold">Dosen</h2>
             <p class="mt-1 text-xl font-bold">{{ $dosen }}</p>
-            <a href="{{ route('admin.dosen') }}" class="absolute text-sm text-blue-500 bottom-4 right-4">Klik disini
+            <a href="{{ route('admin.dosen') }}" class="absolute text-sm text-blue-500 bottom-4 right-4">Detail
                 >></a>
         </div>
         <div class="relative p-4 bg-white rounded-lg shadow-md">
             <h2 class="text-lg font-semibold">Mahasiswa</h2>
             <p class="mt-1 text-xl font-bold">{{ $mahasiswa }}</p>
-            <a href="#" class="absolute text-sm text-blue-500 bottom-4 right-4">Klik disini >></a>
+            <a href="#" class="absolute text-sm text-blue-500 bottom-4 right-4">Detail >></a>
         </div>
         <div class="relative p-4 bg-white rounded-lg shadow-md">
             <h2 class="text-lg font-semibold">Program Studi</h2>
             <p class="mt-1 text-xl font-bold">{{ $prodi }}</p>
-            <a href="{{ route('admin.prodi') }}" class="absolute text-sm text-blue-500 bottom-4 right-4">Klik disini
+            <a href="{{ route('admin.prodi') }}" class="absolute text-sm text-blue-500 bottom-4 right-4">Detail
                 >></a>
         </div>
         <div class="relative p-4 bg-white rounded-lg shadow-md">
             <h2 class="text-lg font-semibold">Mata Kuliah</h2>
             <p class="mt-1 text-xl font-bold">{{ $matakuliah }}</p>
-            <a href="{{ route('admin.mata_kuliah') }}" class="absolute text-sm text-blue-500 bottom-4 right-4">Klik
-                disini >></a>
+            <a href="{{ route('admin.mata_kuliah') }}" class="absolute text-sm text-blue-500 bottom-4 right-4">Detail
+                >></a>
         </div>
     </div>
 </div>
