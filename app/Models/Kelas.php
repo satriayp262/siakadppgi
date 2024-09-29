@@ -9,9 +9,10 @@ class Kelas extends Model
 {
     use HasFactory;
     protected $table = 'kelas';
-    protected $primaryKey = 'kode_kelas';
+    protected $primaryKey = 'id_kelas';
     protected $fillable = [
         'kode_kelas',
+        'semester',
         'nama_kelas',
         'kode_prodi',
         'lingkup_kelas',
@@ -19,10 +20,16 @@ class Kelas extends Model
     ];
     public function prodi()
     {
-        return $this->belongsTo(Prodi::class);
+        return $this->belongsTo(Prodi::class, 'kode_prodi', 'kode_prodi');
     }
+
+    public function semester()
+    {
+        return $this->belongsTo(Semester::class, 'semester', 'id_semester');
+    }
+
     public function matkul()
     {
-        return $this->belongsTo(Matakuliah::class);
+        return $this->belongsTo(Matakuliah::class, 'kode_matkul', 'kode_mata_kuliah');
     }
 }
