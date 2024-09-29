@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <title>SIAKAD {{ $title ?? 'PPGI' }}</title>
+    <title> {{ $title ?? 'SIAKAD PPGI' }}</title>
     <link rel="icon" href="{!! asset('img/piksi.png') !!}" />
 </head>
 

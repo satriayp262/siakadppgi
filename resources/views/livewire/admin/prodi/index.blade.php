@@ -81,7 +81,7 @@
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
-                cancelButtonColor: '#28a745',
+                cancelButtonColor: '#6c757d',
                 confirmButtonText: 'Hapus'
             }).then((result) => {
                 if (result.isConfirmed) {
