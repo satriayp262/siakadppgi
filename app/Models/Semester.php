@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Semester extends Model
 {
     protected $table = 'semester';
-    protected $fillable = ['id_semester', 'nama_semester'];
+    protected $primaryKey = 'id_semester';
+    protected $fillable = [
+        'id_semester',
+        'nama_semester'
+    ];
     use HasFactory;
 }

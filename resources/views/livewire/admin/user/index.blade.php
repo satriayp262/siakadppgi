@@ -45,7 +45,6 @@
                 <th class="px-4 py-2 text-center">No.</th>
                 <th class="px-4 py-2 text-center">Nama</th>
                 <th class="px-4 py-2 text-center">Email</th>
-                {{-- <th class="px-4 py-2 text-center">Password</th> --}}
                 <th class="px-4 py-2 text-center">Role</th>
                 <th class="px-4 py-2 text-center">Aksi</th>
             </tr>
@@ -57,14 +56,28 @@
                         {{ ($users->currentPage() - 1) * $users->perPage() + $loop->iteration }}</td>
                     <td class="px-4 py-2 text-center w-1/4">{{ $user->name }}</td>
                     <td class="px-4 py-2 text-center w-1/4">{{ $user->email }}</td>
-                    {{-- <td class="px-4 py-2 text-center w-1/4">{{ $user->password }}</td> --}}
-                    <td class="px-4 py-2 text-center w-1/4">{{ $user->role }}</td>
+                    <td class="px-4 py-2 text-center w-1/4">
+                        @php
+                            $roleColors = [
+                                'admin' => 'bg-blue-400',
+                                'dosen' => 'bg-orange-400',
+                                'mahasiswa' => 'bg-green-400',
+                                'staff' => 'bg-gray-400',
+                            ];
+                            $roleColor = $roleColors[$user->role] ?? 'bg-gray-500';
+                        @endphp
+                        <button class="px-2 py-1 text-xs text-white rounded-full {{ $roleColor }}"
+                            style="width: 80px;">
+                            {{ ucfirst($user->role) }}
+                        </button>
+                    </td>
                     <td class="px-4 py-2 text-center w-1/2">
-                        {{-- <div class="flex items-center justify-center space-x-2">
-                            <livewire:admin.user.edit :id="$user->id" wire:key="edit-{{ $user->id }}" />
+                        <div class="flex items-center justify-center space-x-2">
                             <button class="inline-block px-3 py-1 text-white bg-red-500 rounded hover:bg-red-700"
-                                onclick="confirmDelete('{{ $user->id }}', '{{ $user->name }}')">Delete</button>
-                        </div> --}}
+                                onclick="confirmDelete('{{ $user->id }}', '{{ $user->name }}')">
+                                Delete
+                            </button>
+                        </div>
                     </td>
                 </tr>
             @endforeach
@@ -78,7 +91,7 @@
     <script>
         function confirmDelete(id, nama_prodi) {
             Swal.fire({
-                title: `Apakah anda yakin ingin menghapus Prodi ${nama_prodi}?`,
+                title: `Apakah anda yakin ingin menghapus User ${nama_prodi}?`,
                 text: "Data yang telah dihapus tidak dapat dikembalikan!",
                 icon: 'warning',
                 showCancelButton: true,

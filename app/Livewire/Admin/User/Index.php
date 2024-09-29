@@ -20,6 +20,15 @@ class Index extends Component
         session()->flash('message_type', 'success');
     }
 
+    public function destroy($id)
+    {
+        $user = User::find($id);
+        $user->delete();
+        session()->flash('message', 'User Berhasil di Hapus');
+        session()->flash('message_type', 'error');
+    }
+
+
     public function render()
     {
         $users = User::query()
