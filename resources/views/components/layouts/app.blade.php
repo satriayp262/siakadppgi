@@ -13,7 +13,7 @@
 <body class="flex flex-col w-full z-14">
     <livewire:component.navbar />
     <div class="flex flex-col min-h-screen md:flex-row z-12">
-        <aside class="h-full z-11">
+        <aside class="flex-shrink-0 z-11">
             @if (auth()->check())
                 @if (auth()->user()->role === 'admin')
                     <livewire:component.sidebar-admin />

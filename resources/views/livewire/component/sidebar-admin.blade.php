@@ -1,8 +1,8 @@
-<div class="h-screen sticky top-16 left-0 -z-5 relative">
+<div class="h-screen sticky top-16 left-0 -z-5">
     <div id="default-sidebar " class="h-full w-64 transition-transform -translate-x-full bg-gray-800 sm:translate-x-0"
         aria-label="Sidebar">
         <div class="h-full px-3 py-4 ">
-            <ul class="space-y-2 font-medium relative sticky top-20">
+            <ul class="space-y-2 font-medium  sticky top-20">
                 <li>
                     <a href="{{ route('admin.dashboard') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
