@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('kelas', function (Blueprint $table) {
-            $table->uuid('kode_kelas')->primary();
+            $table->integer('id_kelas')->primary()->autoIncrement();
+            $table->string('kode_kelas')->unique();
             $table->string('nama_kelas');
             $table->string('lingkup_kelas');
             $table->string('kode_prodi');
