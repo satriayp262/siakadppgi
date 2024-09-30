@@ -14,15 +14,16 @@ class Index extends Component
 
     public function render()
     {
-        $semesters = Semester::all();
+        $semesters = Semester::query()
+            ->latest()
+            ->get();
         $tagihans = Tagihan::query()
-
             ->latest()
             ->paginate(5);
 
         return view('livewire.staff.tagihan.index', [
             'tagihans' => $tagihans,
-            'semesters' => $semesters
+            'semesters' => $semesters,
         ]);
     }
 }

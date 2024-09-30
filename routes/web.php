@@ -106,6 +106,9 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->group(function () {
         Route::prefix('user')->group(function () {
             Route::get('/', App\Livewire\Admin\User\Index::class)->name('admin.user');
         });
+        Route::prefix('jadwal')->group(function () {
+            Route::get('/', App\Livewire\Admin\Jadwal\Index::class)->name('admin.jadwal');
+        });
     });
 });
 

@@ -1,3 +1,3 @@
 <div>
-<p>Ini halaman jadwal dosen</p>
+    {{-- The whole world belongs to you. --}}
 </div>
