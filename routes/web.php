@@ -17,33 +17,40 @@ Route::middleware(['auth'])->group(function () {
     })->middleware(['auth', 'signed'])->name('verification.verify');
 });
 
+
+// admin
 Route::middleware(['auth'])->group(function () {
     // Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', App\Livewire\Admin\Dashboard\Index::class)->name('admin.dashboard');
-    Route::prefix('mata_kuliah')->group(function () {
-        Route::get('/', App\Livewire\Admin\Matkul\Index::class)->name('admin.mata_kuliah');
-    });
+    route::prefix('admin')->group(function () {
 
-    route::get('/mahasiswa', App\Livewire\Admin\Mahasiswa\Index::class)->name('admin.mahasiswa');
-    Route::prefix('prodi')->group(function () {
-        Route::get('/', App\Livewire\Admin\Prodi\Index::class)->name('admin.prodi');
-    });
+        Route::get('/dashboard', App\Livewire\Admin\Dashboard\Index::class)->name('admin.dashboard');
+        Route::prefix('mata_kuliah')->group(function () {
+            Route::get('/', App\Livewire\Admin\Matkul\Index::class)->name('admin.mata_kuliah');
+        });
 
-    Route::prefix('kelas')->group(function () {
-        Route::get('/', App\Livewire\Admin\Kelas\Index::class)->name('admin.kelas');
-    });
+        route::get('/mahasiswa', App\Livewire\Admin\Mahasiswa\Index::class)->name('admin.mahasiswa');
+        Route::prefix('prodi')->group(function () {
+            Route::get('/', App\Livewire\Admin\Prodi\Index::class)->name('admin.prodi');
+        });
 
-    Route::prefix('dosen')->group(function () {
-        Route::get('/', App\Livewire\Admin\Dosen\Index::class)->name('admin.dosen');
-    });
+        Route::prefix('kelas')->group(function () {
+            Route::get('/', App\Livewire\Admin\Kelas\Index::class)->name('admin.kelas');
+        });
 
-    Route::prefix('user')->group(function () {
-        Route::get('/', App\Livewire\Admin\User\Index::class)->name('admin.user');
+        Route::prefix('dosen')->group(function () {
+            Route::get('/', App\Livewire\Admin\Dosen\Index::class)->name('admin.dosen');
+        });
+
+        Route::prefix('user')->group(function () {
+            Route::get('/', App\Livewire\Admin\User\Index::class)->name('admin.user');
+        });
     });
 });
+
 Route::middleware(['auth'])->group(function () {
+
     Route::prefix('mahasiswa')->group(function () {
-        route::get('/profile', App\Livewire\Mahasiswa\Profil\Index::class)->name('mahasiswa.profile');
+        route::get('/profil', App\Livewire\Mahasiswa\Profil\Index::class)->name('mahasiswa.profile');
     });
 });
 
