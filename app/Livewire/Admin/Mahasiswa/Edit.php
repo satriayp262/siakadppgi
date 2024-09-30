@@ -12,6 +12,10 @@ class Edit extends Component
 
     public $id_mahasiswa; 
 
+    public function resetFields()
+    {
+        $this->resetExcept('id_mahasiswa'); 
+    }
     public function mount() 
     {
         $mahasiswa = Mahasiswa::find($this->id_mahasiswa);
@@ -47,8 +51,8 @@ class Edit extends Component
     }
 
     public function clear($id){
-        $this->reset();
         $mahasiswa = Mahasiswa::find($id);
+        // $this->reset();
         // dd($mahasiswa);
         $this->nim = $mahasiswa->NIM ?? null;
         $this->nik = $mahasiswa->NIK ?? null;
@@ -188,8 +192,8 @@ class Edit extends Component
 
         session()->flash('message', 'Data mahasiswa berhasil diperbarui!'); 
 
-        $this->reset(); 
-        $this->mount(); 
+        // $this->reset(); 
+        // $this->mount(); 
         $this->dispatch('mahasiswaUpdated'); 
     }
     public function render()
