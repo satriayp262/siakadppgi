@@ -10,14 +10,20 @@ use App\Models\User;
 
 class Index extends Component
 {
-    public $search = '';
-    use WithPagination;
+
 
     #[On('UserCreated')]
     public function handleUserCreated()
     {
         session()->flash('message', 'User Berhasil di Tambahkan');
         session()->flash('message_type', 'success');
+    }
+
+    #[On('UserUpdated')]
+    public function handleUserUpdated()
+    {
+        session()->flash('message', 'User Berhasil di Update');
+        session()->flash('message_type', 'danger');
     }
 
     public function destroy($id)
@@ -32,9 +38,6 @@ class Index extends Component
     public function render()
     {
         $users = User::query()
-            ->where('name', 'like', '%' . $this->search . '%')
-            ->orWhere('email', 'like', '%' . $this->search . '%')
-            ->orWhere('role', 'like', '%' . $this->search . '%')
             ->latest()
             ->paginate(10);
         return view('livewire.admin.user.index', ['users' => $users]);
