@@ -34,7 +34,7 @@ class Login extends Component
             } elseif ($user->role === 'dosen') {
                 return redirect()->intended('/dosen/jadwal');
             } elseif ($user->role === 'staff') {
-                //route
+                return redirect()->intended('/staff/tagihan');
             } elseif ($user->role === 'admin') {
                 //route
             }
