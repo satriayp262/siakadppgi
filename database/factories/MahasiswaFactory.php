@@ -39,7 +39,7 @@ class MahasiswaFactory extends Factory
             'terima_kps' => $this->faker->randomElement(['Ya', 'Tidak']),
             'no_kps' => $this->faker->optional()->numerify('############'),
             'jenis_transportasi' => $this->faker->randomElement(['Sepeda Motor', 'Mobil', 'Jalan Kaki']),
-            'kode_prodi' => $this->faker->bothify('??###'),
+            'kode_prodi' => $this->faker->numerify('PROD#'),
             'SKS_diakui' => $this->faker->numberBetween(0, 144),
             'kode_pt_asal' => $this->faker->optional()->bothify('PT####'),
             'nama_pt_asal' => $this->faker->optional()->company,
@@ -47,6 +47,7 @@ class MahasiswaFactory extends Factory
             'nama_prodi_asal' => $this->faker->optional()->word,
             'jenis_pembiayaan' => $this->faker->randomElement(['Mandiri', 'Beasiswa']),
             'jumlah_biaya_masuk' => $this->faker->numberBetween(1000000, 50000000),
+            'id' => '1',
         ];
     }
 }
