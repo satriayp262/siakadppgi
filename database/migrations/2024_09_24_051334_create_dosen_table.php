@@ -15,7 +15,7 @@ return new class extends Migration
             $table->integer('id_dosen')->autoIncrement()->primary();
             $table->foreignId('id');
             $table->string('nama_dosen');
-            $table->string(column: 'nidn');
+            $table->string('nidn')->unique();
             $table->enum('jenis_kelamin', ['laki-laki', 'perempuan'])->default('laki-laki');
             $table->string('jabatan_fungsional');
             $table->string('kepangkatan');
