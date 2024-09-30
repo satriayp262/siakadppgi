@@ -42,8 +42,9 @@ Route::middleware(['auth'])->group(function () {
     });
 });
 Route::middleware(['auth'])->group(function () {
-route::get('/profile', App\Livewire\Mahasiswa\Profil\Index::class)->name('mahasiswa.profile');
-
+    Route::prefix('mahasiswa')->group(function () {
+        route::get('/profile', App\Livewire\Mahasiswa\Profil\Index::class)->name('mahasiswa.profile');
+    });
 });
 
 
