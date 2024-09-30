@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('mahasiswa', function (Blueprint $table) {
             $table->uuid('id_mahasiswa')->primary();
             $table->string('id_orangtua_wali')->nullable();
+            $table->foreignId('id');
             $table->string('NIM')->unique();
             $table->string('nama');
             $table->string('tempat_lahir');
@@ -43,6 +44,9 @@ return new class extends Migration
             $table->string('jenis_pembiayaan')->nullable();
             $table->integer('jumlah_biaya_masuk')->nullable();
             $table->timestamps();
+
+            $table->foreign('id')->references('id')->on('users')->onDelete('cascade');
+
         });
     }
 

@@ -40,7 +40,7 @@ class Register extends Component
         ]);
 
         if ($user) {
-            $user->sendEmailVerificationNotification();
+            // $user->sendEmailVerificationNotification();
 
             Auth::login($user);
             // irit mailtrap

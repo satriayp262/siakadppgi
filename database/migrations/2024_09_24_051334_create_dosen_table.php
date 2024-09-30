@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('dosen', function (Blueprint $table) {
             $table->integer('id_dosen')->autoIncrement()->primary();
+            $table->foreignId('id');
             $table->string('nama_dosen');
             $table->string(column: 'nidn');
             $table->enum('jenis_kelamin', ['laki-laki', 'perempuan'])->default('laki-laki');
@@ -21,6 +22,9 @@ return new class extends Migration
             $table->string('kode_prodi');
             $table->timestamps();
             $table->foreign('kode_prodi')->references('kode_prodi')->on('prodi')->onDelete('cascade');
+
+            $table->foreign('id')->references('id')->on('users')->onDelete('cascade');
+
         });
     }
 
