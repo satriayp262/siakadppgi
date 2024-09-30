@@ -4,10 +4,10 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Livewire\Auth\VerifyEmail;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Middleware\CheckRole;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+// auth
+route::get('/', App\Livewire\auth\Login::class)->name('login');
 Route::middleware(['auth'])->group(function () {
     Route::get('/email/verify', VerifyEmail::class)->name('verification.notice');
 
@@ -16,11 +16,15 @@ Route::middleware(['auth'])->group(function () {
         return redirect('/dashboard'); // Change this to the desired post-verification route
     })->middleware(['auth', 'signed'])->name('verification.verify');
 });
+route::get('/register', App\Livewire\auth\Register::class)->name('register');
+route::get('/forgot-password', App\Livewire\auth\ForgotPassword::class)->name('forgot-password');
+Route::get('password/reset/{token}', App\Livewire\auth\ResetPassword::class)->name('password.reset');
+
 
 
 // admin
-Route::middleware(['auth'])->group(function () {
-    // Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', CheckRole::class . ':admin'] )->group(function () {
+    // Route::middleware(['auth', 'verified' ,CheckRole::class . ':admin'])->group(function () {
     route::prefix('admin')->group(function () {
 
         Route::get('/dashboard', App\Livewire\Admin\Dashboard\Index::class)->name('admin.dashboard');
@@ -47,7 +51,10 @@ Route::middleware(['auth'])->group(function () {
     });
 });
 
-Route::middleware(['auth'])->group(function () {
+
+
+// mahasiswa
+Route::middleware(['auth', CheckRole::class . ':mahasiswa'])->group(function () {
 
     Route::prefix('mahasiswa')->group(function () {
         route::get('/profil', App\Livewire\Mahasiswa\Profil\Index::class)->name('mahasiswa.profile');
@@ -55,19 +62,12 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-
-route::get('/', App\Livewire\auth\Login::class)->name('login');
-
-
-// Sementara Logout e kaya kiye ya wkwk, males gawe livewire e
+// logout
 Route::post('/logout', function () {
     Auth::logout();
     return redirect('/');
 })->name('logout');
 
-route::get('/register', App\Livewire\auth\Register::class)->name('register');
-route::get('/forgot-password', App\Livewire\auth\ForgotPassword::class)->name('forgot-password');
-Route::get('password/reset/{token}', App\Livewire\auth\ResetPassword::class)->name('password.reset');
 
 
 
