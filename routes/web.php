@@ -41,6 +41,11 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/', App\Livewire\Admin\User\Index::class)->name('admin.user');
     });
 });
+Route::middleware(['auth'])->group(function () {
+route::get('/profile', App\Livewire\Mahasiswa\Profil\Index::class)->name('mahasiswa.profile');
+
+});
+
 
 
 route::get('/', App\Livewire\auth\Login::class)->name('login');
