@@ -119,6 +119,13 @@ Route::middleware(['auth', CheckRole::class . ':mahasiswa'])->group(function () 
     });
 });
 
+Route::middleware(['auth', CheckRole::class . ':dosen'])->group(function () {
+
+    Route::prefix('dosen')->group(function () {
+        route::get('/jadwal', App\Livewire\Dosen\Jadwal\Index::class)->name('dosen.jadwal');
+    });
+});
+
 
 // logout
 Route::post('/logout', function () {

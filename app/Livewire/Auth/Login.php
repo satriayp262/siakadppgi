@@ -32,7 +32,7 @@ class Login extends Component
             if ($user->role === 'mahasiswa') {
                 return redirect()->intended('/mahasiswa/profil');
             } elseif ($user->role === 'dosen') {
-                //route
+                return redirect()->intended('/dosen/jadwal');
             } elseif ($user->role === 'staff') {
                 //route
             } elseif ($user->role === 'admin') {
