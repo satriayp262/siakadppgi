@@ -1,5 +1,5 @@
 {{-- <div class="w-full"> --}}
-<nav class="sticky top-0 w-full bg-gray-900 border-gray-200 z-30">
+<nav class="sticky top-0 z-30 w-full bg-gray-900 border-gray-200">
     <div class="flex items-center justify-between p-4">
         <div class="flex items-center space-x-2">
             <button id="sidebarToggle" aria-controls="default-sidebar" type="button"
@@ -35,16 +35,13 @@
             <div class="absolute right-0 z-50 hidden mt-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow top-full"
                 id="user-dropdown">
                 <div class="px-4 py-3">
-                    <span class="block font-bold text-sm text-gray-600">{{ Auth::user()->name ?? 'user' }}</span>
+                    <span class="block text-sm font-bold text-gray-600">{{ Auth::user()->name ?? 'user' }}</span>
                     <span
                         class="block text-sm text-gray-500 truncate">{{ Auth::user()->email ?? 'user@gmail.com' }}</span>
                 </div>
                 <ul class="py-2" aria-labelledby="user-menu-button">
                     <li>
                         <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
-                    </li>
-                    <li>
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
                     </li>
                     <li>
                         <a href="#" id="logout-link"
@@ -59,7 +56,7 @@
                     <div id="logout-modal" class="fixed inset-0 z-50 hidden overflow-y-auto">
                         <div class="flex items-center justify-center min-h-screen px-4">
                             <div class="relative w-full max-w-md p-4 bg-white rounded-lg shadow-lg">
-                                <div class="flex justify-between items-center pb-3">
+                                <div class="flex items-center justify-between pb-3">
                                     <h3 class="text-lg font-medium text-gray-900">Confirm Logout</h3>
                                     <button id="close-modal" class="text-gray-400 hover:text-gray-600">
                                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
