@@ -30,7 +30,7 @@ class Login extends Component
             $user = Auth::user();
             // dd($user);
             if ($user->role === 'mahasiswa') {
-                //route
+                return redirect()->intended('/mahasiswa/profil');
             } elseif ($user->role === 'dosen') {
                 //route
             } elseif ($user->role === 'staff') {
@@ -38,7 +38,7 @@ class Login extends Component
             } elseif ($user->role === 'admin') {
                 //route
             }
-            return redirect()->intended('/dashboard');
+            return redirect()->intended('/admin/dashboard');
         }
 
         if (!User::where('email', $this->email)->exists()) {

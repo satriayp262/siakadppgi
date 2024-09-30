@@ -48,5 +48,17 @@
             <a href="{{ route('admin.mata_kuliah') }}" class="absolute text-sm text-blue-500 bottom-4 right-4">Detail
                 >></a>
         </div>
+        <div class="relative p-4 bg-white rounded-lg shadow-md">
+            <h2 class="text-lg font-semibold">User</h2>
+            <p class="mt-1 text-xl font-bold">{{ $user }}</p>
+            <a href="{{ route('admin.user') }}" class="absolute text-sm text-blue-500 bottom-4 right-4">Detail
+                >></a>
+        </div>
+        <div class="relative p-4 bg-white rounded-lg shadow-md">
+            <h2 class="text-lg font-semibold">Kelas</h2>
+            <p class="mt-1 text-xl font-bold">{{ $kelas }}</p>
+            <a href="{{ route('admin.kelas') }}" class="absolute text-sm text-blue-500 bottom-4 right-4">Detail
+                >></a>
+        </div>
     </div>
 </div>
