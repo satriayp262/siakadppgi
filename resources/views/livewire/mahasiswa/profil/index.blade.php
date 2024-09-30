@@ -78,7 +78,7 @@
             <form wire:submit.prevent="resetpw">
                 <span class="mb-6 text-lg font-semibold">Reset Password</span>
                 <div class="flex flex-col">
-                    <label>Password Sekarang</label>
+                    <label>Password Lama</label>
                     <div class="flex items-center">
                         <input id="currentPassword" type="password"  wire:model="currentPassword" class="w-1/4 p-2 border border-gray-500 rounded-lg">
                         <button type="button" onclick="togglePassword('currentPassword', this)" class="ml-2">
@@ -111,7 +111,9 @@
                         </button>
                     </div>
                 </div>
-                <button id="submit">Reset Password</button>
+                <button id="submit" class="px-4 py-2 mt-6 ml-48 font-bold text-white bg-green-500 rounded hover:bg-green-700">
+                    Reset Password
+                </button>
             </form>
         </div>
     </div>
