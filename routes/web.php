@@ -28,7 +28,7 @@ Route::middleware(['auth', CheckRole::class . ':admin'] )->group(function () {
     route::prefix('admin')->group(function () {
 
         Route::get('/dashboard', App\Livewire\Admin\Dashboard\Index::class)->name('admin.dashboard');
-    
+
     Route::prefix('profil')->group(function () {
         Route::get('/', App\Livewire\Mahasiswa\Profil\Index::class)->name('mahasiswa.profil');
     });
@@ -38,7 +38,7 @@ Route::middleware(['auth', CheckRole::class . ':admin'] )->group(function () {
         });
 
         route::get('/mahasiswa', App\Livewire\Admin\Mahasiswa\Index::class)->name('admin.mahasiswa');
-    
+
     Route::prefix('prodi')->group(function () {
             Route::get('/', App\Livewire\Admin\Prodi\Index::class)->name('admin.prodi');
         });
@@ -119,6 +119,7 @@ Route::middleware(['auth', CheckRole::class . ':mahasiswa'])->group(function () 
     });
 });
 
+// dosen
 Route::middleware(['auth', CheckRole::class . ':dosen'])->group(function () {
 
     Route::prefix('dosen')->group(function () {
