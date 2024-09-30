@@ -38,7 +38,7 @@ class Login extends Component
             } elseif ($user->role === 'admin') {
                 //route
             }
-            return redirect()->intended('/dashboard');
+            return redirect()->intended('/admin/dashboard');
         }
 
         if (!User::where('email', $this->email)->exists()) {
