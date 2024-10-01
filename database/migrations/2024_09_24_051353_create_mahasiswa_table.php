@@ -45,7 +45,7 @@ return new class extends Migration
             $table->integer('jumlah_biaya_masuk')->nullable();
             $table->timestamps();
 
-            $table->foreign('id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('id')->references('id')->on('users')->onDelete('cascade')->nullable();
 
         });
     }

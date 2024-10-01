@@ -8,6 +8,33 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title> {{ $title ?? 'SIAKAD PPGI' }}</title>
     <link rel="icon" href="{!! asset('img/piksi.png') !!}" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+        }
+        .spinner {
+                border: 5px solid rgba(0, 0, 0, 0.2);
+                /* Light border for background */
+                border-radius: 50%;
+                border-top: 5px solid #3498db;
+                /* Blue border for spinner */
+                width: 36px;
+                /* Increased size for visibility */
+                height: 36px;
+                animation: spin 1s linear infinite;
+            }
+
+            @keyframes spin {
+                0% {
+                    transform: rotate(0deg);
+                }
+
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+    </style>
 </head>
 
 <body class="flex flex-col w-full z-14">

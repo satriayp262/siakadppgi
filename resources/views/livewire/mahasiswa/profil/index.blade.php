@@ -124,12 +124,34 @@
         </div>
     </div>
     <script>
+        function togglePassword(id, button) {
+            const input = document.getElementById(id);
+            const eyeIcon = button.querySelector('svg');
+
+            if (input.type === "password") {
+                input.type = "text";
+                // Change to closed eye icon
+                eyeIcon.innerHTML = `
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.933 13.909A4.357 4.357 0 0 1 3 12c0-1 4-6 9-6m7.6 3.8A5.068 5.068 0 0 1 21 12c0 1-3 6-9 6-.314 0-.62-.014-.918-.04M5 19 19 5m-4 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+
+                `; // Closed eye icon with a cross
+            } else {
+                input.type = "password";
+                // Change back to default eye icon
+                eyeIcon.innerHTML = `
+                    <path stroke="currentColor" stroke-width="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z"/>
+                    <path stroke="currentColor" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                `; // Default eye icon
+            }
+        }
+
+        
         const svg = document.getElementById('moving-svg');
         const container = document.querySelector('.svg-container');
 
         let xPos = 0;
         let yPos = 0;
-        let angle = Math.random() * 70; // Initial random direction
+        let angle = Math.random() * 90; // Initial random direction
 
         function moveForward() {
             const speed = 2; // Speed of movement
@@ -141,7 +163,7 @@
 
             // Keep within bounds of the container
             if (xPos < 0 || xPos + svg.clientWidth > container.clientWidth) {
-                angle = 80 - angle; // Reflect direction horizontally
+                angle = 30 - angle; // Reflect direction horizontally
             }
 
             if (yPos < 0 || yPos + svg.clientHeight > container.clientHeight) {
