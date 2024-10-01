@@ -19,26 +19,36 @@
                         @csrf <!-- CSRF protection for form submission -->
                         <div class="grid grid-cols-2 gap-4">
                             @foreach (['NIM', 'nama', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'NIK', 'agama', 'alamat', 'jalur_pendaftaran', 'kewarganegaraan', 'jenis_pendaftaran', 'tanggal_masuk_kuliah', 'mulai_semester', 'jenis_tempat_tinggal', 'telp_rumah', 'no_hp', 'email', 'terima_kps', 'no_kps', 'jenis_transportasi', 'kode_prodi', 'kode_pt_asal', 'nama_pt_asal', 'kode_prodi_asal', 'nama_prodi_asal', 'jenis_pembiayaan', 'jumlah_biaya_masuk'] as $field)
-                                <div class="mb-4">
-                                    <label for="{{ strtolower($field) }}" class="block text-sm text-left font-medium text-gray-700">{{ $field }}</label>
-                                    @if ($field === 'tanggal_lahir' || $field === 'tanggal_masuk_kuliah') 
-                                        <input type="date" id="{{ strtolower($field) }}" wire:model="{{ strtolower($field) }}" name="{{ strtolower($field) }}"
-                                            class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
-                                    @elseif ($field === 'jenis_kelamin')
-                                        <select id="{{ strtolower($field) }}" wire:model="{{ strtolower($field) }}" name="{{ strtolower($field) }}"
-                                            class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
-                                            <option value="" disabled selected>Select</option>
-                                            <option value="Perempuan">Perempuan</option>
-                                            <option value="Laki-Laki">Laki-Laki</option>
-                                        </select>
-                                    @else
-                                        <input type="text" id="{{ strtolower($field) }}" wire:model="{{ strtolower($field) }}" name="{{ strtolower($field) }}"
-                                            class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
-                                    @endif
-                                    @error(strtolower($field))
-                                        <span class="text-sm text-red-500">{{ $message }}</span>
-                                    @enderror
-                                </div>
+                            <div class="mb-4">
+                                @php
+                                if ($field === 'NIM' || $field === 'NIK') {
+                                    $label = Str::of($field)->replace('_', ' ');
+                                }else{
+                                    $label = Str::of($field)->replace('_', ' ')->title();
+                                }
+                                @endphp
+                                <label for="{{ strtolower($field) }}" class="block text-sm text-left font-medium text-gray-700">{{ $label }}</label>
+                            
+                                @if ($field === 'tanggal_lahir' || $field === 'tanggal_masuk_kuliah') 
+                                    <input type="date" id="{{ strtolower($field) }}" wire:model="{{ strtolower($field) }}" name="{{ strtolower($field) }}"
+                                        class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
+                                @elseif ($field === 'jenis_kelamin')
+                                    <select id="{{ strtolower($field) }}" wire:model="{{ strtolower($field) }}" name="{{ strtolower($field) }}"
+                                        class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
+                                        <option value="" disabled selected>Select</option>
+                                        <option value="Perempuan">Perempuan</option>
+                                        <option value="Laki-Laki">Laki-Laki</option>
+                                    </select>
+                                @else
+                                    <input type="text" id="{{ strtolower($field) }}" wire:model="{{ strtolower($field) }}" name="{{ strtolower($field) }}"
+                                        class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
+                                @endif
+                            
+                                @error(strtolower($field))
+                                    <span class="text-sm text-red-500">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            
                             @endforeach
                         </div>
 

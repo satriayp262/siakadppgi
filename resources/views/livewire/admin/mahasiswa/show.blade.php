@@ -15,25 +15,23 @@
             </div>
             <div class="p-4">
                 <div class="p-4 max-h-[500px] overflow-y-auto">
-                    <form wire:submit.prevent="save">
-                        @csrf <!-- CSRF protection for form submission -->
-                        <div class="grid grid-cols-3">
-                            @foreach (['NIM', 'nama', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'NIK', 'agama', 'alamat', 'jalur_pendaftaran', 'kewarganegaraan', 'jenis_pendaftaran', 'tanggal_masuk_kuliah', 'mulai_semester', 'jenis_tempat_tinggal', 'telp_rumah', 'no_hp', 'email', 'terima_kps', 'no_kps', 'jenis_transportasi', 'kode_prodi', 'SKS_diakui', 'kode_pt_asal', 'nama_pt_asal', 'kode_prodi_asal', 'nama_prodi_asal', 'jenis_pembiayaan', 'jumlah_biaya_masuk'] as $field)
-                                <div class="mb-4 text-left border w-full h-full p-2">
-                                    <label for="{{ strtolower($field) }}" class="block text-sm text-left font-medium text-gray-700">{{ $field }}</label>
-                                    <p class="text-sm text-gray-500">{{ $this->$field ?? 'Data Belum ada' }}</p>
-                                </div>
-                            @endforeach
-                        </div>
+                    <div class="grid grid-cols-3">
+                        @foreach (['NIM', 'nama', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'NIK', 'agama', 'alamat', 'jalur_pendaftaran', 'kewarganegaraan', 'jenis_pendaftaran', 'tanggal_masuk_kuliah', 'mulai_semester', 'jenis_tempat_tinggal', 'telp_rumah', 'no_hp', 'email', 'terima_kps', 'no_kps', 'jenis_transportasi', 'kode_prodi', 'SKS_diakui', 'kode_pt_asal', 'nama_pt_asal', 'kode_prodi_asal', 'nama_prodi_asal', 'jenis_pembiayaan', 'jumlah_biaya_masuk'] as $field)
+                            <div class="mb-4 text-left border w-full h-full p-2">
+                                @php
+                                if ($field === 'NIM' || $field === 'NIK') {
+                                    $label = Str::of($field)->replace('_', ' ');
+                                }else{
+                                    $label = Str::of($field)->replace('_', ' ')->title();
+                                }
+                                @endphp
+                                <label for="{{ strtolower($field) }}" class="block text-sm text-left font-medium text-gray-700">{{ $label }}</label>
+                                <p class="text-sm text-gray-500">{{ $this->$field ?? 'Data Belum ada' }}</p>
+                            </div>
+                        @endforeach
+                    </div>
+                    
 
-                        <!-- Submit Button inside the form -->
-                        <div class="flex justify-end p-4 bg-gray-200 rounded-b-lg">
-                            <button type="button" @click="isOpen = false"
-                                class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">Close</button>
-                            <button type="submit"
-                                class="px-4 py-2 ml-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">Submit</button>
-                        </div>
-                    </form>
                 </div>
             </div>
         </div>
