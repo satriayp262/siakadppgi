@@ -128,6 +128,9 @@ Route::middleware(['auth', CheckRole::class . ':dosen'])->group(function () {
     Route::prefix('dosen')->group(function () {
         route::get('/jadwal', App\Livewire\Dosen\Jadwal\Index::class)->name('dosen.jadwal');
     });
+    Route::prefix('dosen')->group(function () {
+        route::get('/berita_acara', App\Livewire\Dosen\BeritaAcara\Index::class)->name('dosen.berita_acara');
+    });
 });
 
 // staff
