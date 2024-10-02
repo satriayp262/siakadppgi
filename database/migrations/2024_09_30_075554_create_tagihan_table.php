@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('NIM');
             $table->string('id_semester');
             $table->integer('total_tagihan');
-            $table->enum('status_tagihan', ['Sudah Dibayar', 'Belum Dibaayar'])->default('Belum Dibaayar');
+            $table->string('status_tagihan');
             $table->string('bukti_bayar_tagihan');
 
             $table->foreign('NIM')->references('NIM')->on('mahasiswa')->omDelete('cascade');
