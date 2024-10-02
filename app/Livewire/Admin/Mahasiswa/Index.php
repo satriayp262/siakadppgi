@@ -54,18 +54,37 @@ class Index extends Component
     
     public function import()
     {
+        // Validate the uploaded file
         $this->validate([
             'file' => 'required|mimes:xls,xlsx|max:10240',
         ]);
     
+        // Store the uploaded file temporarily
         $path = $this->file->store('temp');
     
-        Excel::import(new MahasiswaImport, Storage::path($path));
-    
-        session()->flash('message', 'Mahasiswa Berhasil dimpor.');
-    
-        $this->reset('file');
+        try {
+            Excel::import(new MahasiswaImport, Storage::path($path));
+            session()->flash('message', 'Mahasiswa Berhasil dimpor.');
+            session()->flash('message_type', 'success');
+        } catch ( \Maatwebsite\Excel\Validators\ValidationException $e) {
+            session()->flash('message', 'Invalid file format: ' . $e->getMessage());
+            session()->flash('message_type', 'error');
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->getCode() === '23000') { 
+                session()->flash('message', 'Duplicate entry or invalid data: ' . $e->getMessage());
+                session()->flash('message_type', 'error');
+            } else {
+                session()->flash('message', 'Database error: ' . $e->getMessage());
+            session()->flash('message_type', 'error');
+            }
+        } catch (\Exception $e) {
+            session()->flash('message', 'An error occurred: ' . $e->getMessage());
+            session()->flash('message_type', 'error');
+        } finally {
+            $this->reset('file');
+        }
     }
+    
     
     public function render()
     {
