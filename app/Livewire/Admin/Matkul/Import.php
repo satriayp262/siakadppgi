@@ -24,11 +24,16 @@ class Import extends Component
         // Store the file temporarily
         $path = $this->file->store('temp');
 
+        $import = new MatkulImport();
+
         // Use Excel to import the file
-        Excel::import(new MatkulImport, Storage::path($path));
+        Excel::import($import, Storage::path($path));
 
         // Emit a success message or refresh the page
-        $this->dispatch('matkulImported');
+        $this->dispatch('matkulImported', [
+            'existingRows' => $import->getExistingRows(),
+            'addedRows' => $import->getAddedRows()
+        ]);
 
         // Optionally, reset the file input after import
         $this->reset('file');

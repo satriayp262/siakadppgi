@@ -1,22 +1,14 @@
 <div class="mx-5">
     <div class="flex flex-col justify-between mx-4 mt-4">
-        @if (session()->has('message'))
+       @if (session()->has('message'))
             @php
                 $messageType = session('message_type', 'success'); // Default to success
-                $bgColor =
-                    $messageType === 'error'
-                        ? 'bg-red-500'
-                        : ($messageType === 'warning'
-                            ? 'bg-blue-500'
-                            : 'bg-green-500');
+                $bgColor = $messageType === 'error' ? 'bg-red-500' : ($messageType === 'warning' ? 'bg-blue-500' : 'bg-green-500');
             @endphp
             <div id="flash-message"
                 class="flex items-center justify-between p-4 mx-12 mt-8 mb-4 text-white {{ $bgColor }} rounded">
                 <span>{{ session('message') }}</span>
-                <button class="p-1" onclick="document.getElementById('flash-message').remove();"
-                    class="font-bold text-white">
-                    &times;
-                </button>
+                <button class="p-1" onclick="document.getElementById('flash-message').remove();">&times;</button>
             </div>
             @push('scripts')
                 <script>
@@ -29,6 +21,31 @@
                 </script>
             @endpush
         @endif
+
+        @if (session()->has('message2'))
+            @php
+                $messageType2 = session('message_type2', 'success'); // Default to success for message2
+                $bgColor2 = $messageType2 === 'error' ? 'bg-red-500' : ($messageType2 === 'warning' ? 'bg-blue-500' : 'bg-green-500');
+            @endphp
+            <div id="flash-message2"
+                class="flex items-center justify-between p-4 mx-12 mt-4 mb-4 text-white {{ $bgColor2 }} rounded">
+                <span>{{ session('message2') }}</span>
+                <button class="p-1" onclick="document.getElementById('flash-message2').remove();">&times;</button>
+            </div>
+            @push('scripts')
+                <script>
+                    setTimeout(() => {
+                        const flashMessage2 = document.getElementById('flash-message2');
+                        if (flashMessage2) {
+                            flashMessage2.remove();
+                        }
+                    }, 1000); // Adjust the time (in milliseconds) as needed
+                </script>
+            @endpush
+        @endif
+
+
+        
         <!-- Modal Form -->
         <div class="flex justify-between mt-2">
             <div class="flex space-x-2">
@@ -68,14 +85,14 @@
                         <div class="flex items-center">
                             <div class="flex space-x-2">
                                 <livewire:admin.matkul.edit :id_mata_kuliah="$matkul->id_mata_kuliah"
-                                    wire:key="edit-{{ rand() . $matkul->id_mata_kuliah }}" />
+                                    wire:key="edit-{{ $matkul->id_mata_kuliah }}" />
                                 <button
                                     class="inline-block px-3 py-1 ml-2 text-white bg-red-500 rounded hover:bg-red-700"
                                     onclick="confirmDelete({{ $matkul->id_mata_kuliah }}, '{{ $matkul->nama_mata_kuliah }}')">Delete</button>
                             </div>
                             <div class="flex mt-2 space-x-2">
                                 <livewire:admin.matkul.selengkapnya :id_mata_kuliah="$matkul->id_mata_kuliah"
-                                    wire:key="selengkapnya-{{ rand() . $matkul->id_mata_kuliah }}" />
+                                    wire:key="selengkapnya-{{ $matkul->id_mata_kuliah }}" />
                             </div>
                         </div>
                     </td>
