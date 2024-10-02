@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\MatkulImport;
+use Illuminate\Support\Facades\Storage;
 
 class Import extends Component
 {
@@ -24,10 +25,10 @@ class Import extends Component
         $path = $this->file->store('temp');
 
         // Use Excel to import the file
-        Excel::import(new MatkulImport, storage_path('app/' . $path));
+        Excel::import(new MatkulImport, Storage::path($path));
 
         // Emit a success message or refresh the page
-        session()->flash('message', 'Mahasiswa Berhasil dimpor.');
+        $this->dispatch('matkulImported');
 
         // Optionally, reset the file input after import
         $this->reset('file');

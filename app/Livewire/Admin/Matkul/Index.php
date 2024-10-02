@@ -39,6 +39,13 @@ class Index extends Component
         session()->flash('message_type', 'success');
     }
 
+    #[On('matkulImported')]
+    public function handlematkulImported()
+    {
+        session()->flash('message', 'Mata Kuliah Berhasil di Import');
+        session()->flash('message_type', 'success');
+    }
+
     public function render()
     {
         $matkuls = Matakuliah::query()
