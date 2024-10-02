@@ -11,12 +11,26 @@ use Carbon\Carbon;
 
 class MatkulImport implements ToModel, WithHeadingRow
 {
+    protected $existingRows = [];  // Array untuk menyimpan kode mata kuliah yang sudah ada
+    protected $addedRows = [];      // Array untuk menyimpan kode mata kuliah yang berhasil ditambahkan
+
     public function model(array $row)
     {
+        // Cek apakah data dengan 'kode_mata_kuliah' yang sama sudah ada
+        $existingMatkul = Matakuliah::where('kode_mata_kuliah', $row['kode_mata_kuliah'])->exists();
+
+        if ($existingMatkul) {
+            $this->existingRows[] = $row['kode_mata_kuliah']; // Simpan kode yang sudah ada
+            return null;  // Skip row if it already exists
+        }
+
+
+        // Convert dates
         $tgl_mulai_efektif = $this->convertExcelDate($row['tgl_mulai_efektif']);
         $tgl_akhir_efektif = $this->convertExcelDate($row['tgl_akhir_efektif']);
-        // dd($tgl_mulai_efektif, $tgl_akhir_efektif);
-        return new Matakuliah([
+
+        // Insert data baru
+        $newMatkul = new Matakuliah([
             'kode_mata_kuliah' => $row['kode_mata_kuliah'],
             'nama_mata_kuliah' => $row['nama_mk'],
             'jenis_mata_kuliah' => $row['jenis_mk'],
@@ -29,6 +43,21 @@ class MatkulImport implements ToModel, WithHeadingRow
             'tgl_mulai_efektif' => $tgl_mulai_efektif,
             'tgl_akhir_efektif' => $tgl_akhir_efektif,
         ]);
+        $this->addedRows[] = $row['kode_mata_kuliah']; // Simpan kode yang berhasil ditambahkan
+        // dd($this->addedRows, $this->existingRows);
+
+        return $newMatkul;
+    }
+
+    // Fungsi untuk mengambil hasil
+    public function getExistingRows()
+    {
+        return $this->existingRows;
+    }
+
+    public function getAddedRows()
+    {
+        return $this->addedRows;
     }
 
     protected function convertExcelDate($excelDate)
@@ -38,7 +67,7 @@ class MatkulImport implements ToModel, WithHeadingRow
             $dateTime = Date::excelToDateTimeObject($excelDate);
             return Carbon::instance($dateTime)->format('Y-m-d');
         }
-        
+
         // If it's a string, try parsing it directly
         try {
             return Carbon::createFromFormat('Y-m-d', trim($excelDate))->format('Y-m-d');
@@ -48,4 +77,3 @@ class MatkulImport implements ToModel, WithHeadingRow
         }
     }
 }
-

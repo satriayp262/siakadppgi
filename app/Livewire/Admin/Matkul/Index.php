@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Matakuliah;
 use Livewire\Attributes\On;
+use App\Imports\MatkulImport;
 
 class Index extends Component
 {
@@ -40,10 +41,25 @@ class Index extends Component
     }
 
     #[On('matkulImported')]
-    public function handlematkulImported()
+    public function handlematkulImported($data)
     {
-        session()->flash('message', 'Mata Kuliah Berhasil di Import');
-        session()->flash('message_type', 'success');
+        $existingRows = $data['existingRows'];
+        $addedRows = $data['addedRows'];
+
+        if (!empty($existingRows)) {
+            session()->flash('message2', 'Baris dengan kode mata kuliah berikut sudah ada: ' . implode(', ', $existingRows));
+            session()->flash('message_type2', 'warning');
+        }
+
+        if (!empty($addedRows)) {
+            session()->flash('message', 'Baris dengan kode mata kuliah berikut berhasil ditambahkan: ' . implode(', ', $addedRows));
+            session()->flash('message_type', 'success');
+        }else{
+            session()->flash('message', 'Tidak ada mata kuliah yang ditambahkan');
+            session()->flash('message_type', 'error');
+        }
+
+        // dd(session()->all());
     }
 
     public function render()
