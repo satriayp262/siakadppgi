@@ -1,24 +1,45 @@
 <?php
-
 namespace App\Imports;
 
 use App\Models\Mahasiswa;
-use Maatwebsite\Excel\Excel;
 use Maatwebsite\Excel\Concerns\ToModel;
-
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Carbon\Carbon;
 
 class MahasiswaImport implements ToModel, WithHeadingRow
 {
+
+    protected $skippedRecords = [];
+    protected $createdRecords = [];
+    protected $incompleteRecords = [];
+    private $rowNumber = 1;
+    protected $requiredFields = ['nim', 'nama', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'nik', 'agama', 'alamat', 'jalur_pendaftaran', 'kewarganegaraan', 'jenis_pendaftaran', 'tanggal_masuk_kuliah', 'mulai_semester', 'jenis_tempat_tinggal', 'telp_rumah', 'no_hp', 'email', 'terima_kps', 'no_kps', 'jenis_transportasi', 'kode_prodi', 'kode_pt_asal', 'nama_pt_asal', 'kode_prodi_asal', 'nama_prodi_asal', 'jenis_pembiayaan', 'jumlah_biaya_masuk'];
+
     public function model(array $row)
     {
         $tanggalLahir = $this->convertExcelDate($row['tanggal_lahir']);
         $tanggalMasukKuliah = $this->convertExcelDate($row['tanggal_masuk_kuliah']);
-        // dd($tanggalLahir);
+
+        foreach ($this->requiredFields as $field) {
+            if (empty($row[$field])) {
+                $this->skippedRecords[] = "Baris ke {$this->rowNumber} {$field} tidak boleh kosong";
+                $this->rowNumber++;
+                return null;
+            }
+        }
+        if ($this->isDuplicate($row['nim'], $row['nik'])) {
+            $this->skippedRecords[] = "NIM {$row['nim']} sudah ada,";
+            $this->rowNumber++;
+            return null;
+        } else {
+            $this->createdRecords[] = "NIM = {$row['nim']} ,";
+            $this->rowNumber++;
+        }
+
+
+
         return new Mahasiswa([
-            // 'id_mahasiswa' => $row['id_mahasiswa'],
             'id_orangtua_wali' => $row['id_orangtua_wali'],
             'id_user' => $row['id'] ?? null,
             'NIM' => $row['nim'],
@@ -52,20 +73,35 @@ class MahasiswaImport implements ToModel, WithHeadingRow
         ]);
     }
 
+    protected function isDuplicate($nim, $nik)
+    {
+        return Mahasiswa::where('NIM', $nim)->exists() || Mahasiswa::where('NIK', $nik)->exists();
+    }
+
     protected function convertExcelDate($excelDate)
-{
-    if (is_numeric($excelDate)) {
-        // If the date is numeric, it's likely an Excel date
-        $dateTime = Date::excelToDateTimeObject($excelDate);
-        return Carbon::instance($dateTime)->format('Y-m-d');
+    {
+        if (is_numeric($excelDate)) {
+            // If the date is numeric, it's likely an Excel date
+            $dateTime = Date::excelToDateTimeObject($excelDate);
+            return Carbon::instance($dateTime)->format('Y-m-d');
+        }
+
+        // If it's a string, try parsing it directly
+        try {
+            return Carbon::createFromFormat('d/m/Y', trim($excelDate))->format('Y-m-d');
+        } catch (\Exception $e) {
+            \Log::error('Date conversion error: ' . $e->getMessage());
+            return null; // or set a default date
+        }
     }
-    
-    // If it's a string, try parsing it directly
-    try {
-        return Carbon::createFromFormat('d/m/Y', trim($excelDate))->format('Y-m-d');
-    } catch (\Exception $e) {
-        \Log::error('Date conversion error: ' . $e->getMessage());
-        return null; // or set a default date
+
+    // Method to get the skipped records
+    public function getSkippedRecords()
+    {
+        return $this->skippedRecords;
     }
-}
+    public function getCreatedRecords()
+    {
+        return $this->createdRecords;
+    }
 }

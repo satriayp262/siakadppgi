@@ -3,17 +3,38 @@
         <div>
             @if (session()->has('message'))
                 @php
-                    $messageType = session('message_type', 'success'); // Default to success
+                    $messageType = session('message_type', 'success'); 
                     $bgColor =
                         $messageType === 'error'
                             ? 'bg-red-500'
                             : ($messageType === 'warning'
-                                ? 'bg-blue-500'
+                                ? 'bg-yellow-500'
                                 : 'bg-green-500');
                 @endphp
                 <div id="flash-message"
                     class="flex items-center justify-between p-4 mx-12 mt-8 mb-4 text-white {{ $bgColor }} rounded">
-                    <span>{{ session('message') }}</span>
+                    <span>{!! session('message') !!}</span>
+                    <button class="p-1" onclick="document.getElementById('flash-message').remove();"
+                        class="font-bold text-white">
+                        &times;
+                    </button>
+                </div>
+            @endif
+        </div>
+        <div>
+            @if (session()->has('message2'))
+                @php
+                    $messageType = session('message_type2', 'warning'); 
+                    $bgColor =
+                        $messageType === 'error'
+                            ? 'bg-red-500'
+                            : ($messageType === 'warning'
+                                ? 'bg-yellow-500'
+                                : 'bg-green-500');
+                @endphp
+                <div id="flash-message"
+                    class="flex items-center justify-between p-4 mx-12 mt-8 mb-4 text-white {{ $bgColor }} rounded">
+                    <span>{!! session('message2') !!}</span>
                     <button class="p-1" onclick="document.getElementById('flash-message').remove();"
                         class="font-bold text-white">
                         &times;

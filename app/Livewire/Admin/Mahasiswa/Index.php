@@ -54,28 +54,41 @@ class Index extends Component
     
     public function import()
     {
-        // Validate the uploaded file
         $this->validate([
             'file' => 'required|mimes:xls,xlsx|max:10240',
         ]);
-    
-        // Store the uploaded file temporarily
         $path = $this->file->store('temp');
     
+        $skippedRecords = [];
+        $createdRecords = [];
+        
+        $import = new MahasiswaImport; 
+        
         try {
-            Excel::import(new MahasiswaImport, Storage::path($path));
-            session()->flash('message', 'Mahasiswa Berhasil dimpor.');
-            session()->flash('message_type', 'success');
-        } catch ( \Maatwebsite\Excel\Validators\ValidationException $e) {
+            Excel::import($import, Storage::path($path)); 
+            
+            $skippedRecords = $import->getSkippedRecords();
+            $createdRecords = $import->getCreatedRecords();
+            if (!empty($createdRecords)) {
+                    session()->flash('message', implode( '<br>', $createdRecords ) . '<br> Berhasil disimpan');
+                    session()->flash('message_type', 'success');
+                }
+            if (!empty($skippedRecords)) {
+                
+                session()->flash('message2', implode( '<br>', $skippedRecords ));
+                session()->flash('message_type2', 'warning');
+
+            }
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
             session()->flash('message', 'Invalid file format: ' . $e->getMessage());
             session()->flash('message_type', 'error');
         } catch (\Illuminate\Database\QueryException $e) {
             if ($e->getCode() === '23000') { 
-                session()->flash('message', 'Duplicate entry or invalid data: ' . $e->getMessage());
+                session()->flash('message', 'Data Sudah Ada ' . $e->getMessage());
                 session()->flash('message_type', 'error');
             } else {
                 session()->flash('message', 'Database error: ' . $e->getMessage());
-            session()->flash('message_type', 'error');
+                session()->flash('message_type', 'error');
             }
         } catch (\Exception $e) {
             session()->flash('message', 'An error occurred: ' . $e->getMessage());
@@ -83,7 +96,11 @@ class Index extends Component
         } finally {
             $this->reset('file');
         }
+    
+        
     }
+    
+    
     
     
     public function render()
