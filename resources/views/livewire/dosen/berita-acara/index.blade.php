@@ -23,7 +23,7 @@
         </div>
         <!-- Modal Form -->
         <div class="flex justify-between mt-2">
-            {{-- <livewire:dosen.berita-acara.create /> --}}
+            <livewire:dosen.berita-acara.create />
             <input type="text" wire:model.live="search" placeholder="   Search"
                 class="px-2 ml-4 border border-gray-300 rounded-lg">
         </div>
