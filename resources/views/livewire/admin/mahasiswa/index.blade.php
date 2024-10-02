@@ -1,5 +1,5 @@
 <div class="mx-5">
-    <div class="flex flex-col justify-between mx-4 mt-4">
+    <div class="flex flex-col justify-between mx-4 mt-2">
         <div>
             @if (session()->has('message'))
                 @php
@@ -12,7 +12,7 @@
                                 : 'bg-green-500');
                 @endphp
                 <div id="flash-message"
-                    class="flex items-center justify-between p-4 mx-12 mt-8 mb-4 text-white {{ $bgColor }} rounded">
+                    class="flex items-center justify-between p-4 mx-12 mt-2 text-white {{ $bgColor }} rounded">
                     <span>{!! session('message') !!}</span>
                     <button class="p-1" onclick="document.getElementById('flash-message').remove();"
                         class="font-bold text-white">
@@ -33,7 +33,7 @@
                                 : 'bg-green-500');
                 @endphp
                 <div id="flash-message"
-                    class="flex items-center justify-between p-4 mx-12 mt-8 mb-4 text-white {{ $bgColor }} rounded">
+                    class="flex items-center justify-between p-4 mx-12 mt-2 mb-4 text-white {{ $bgColor }} rounded">
                     <span>{!! session('message2') !!}</span>
                     <button class="p-1" onclick="document.getElementById('flash-message').remove();"
                         class="font-bold text-white">

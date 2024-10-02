@@ -6,14 +6,15 @@ use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Carbon\Carbon;
+use App\Models\Prodi; 
 
 class MahasiswaImport implements ToModel, WithHeadingRow
 {
 
-    protected $skippedRecords = [];
+    protected $skippedRecords = 0;
     protected $createdRecords = [];
     protected $incompleteRecords = [];
-    private $rowNumber = 1;
+    private $rowNumber = 2;
     protected $requiredFields = ['nim', 'nama', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'nik', 'agama', 'alamat', 'jalur_pendaftaran', 'kewarganegaraan', 'jenis_pendaftaran', 'tanggal_masuk_kuliah', 'mulai_semester', 'jenis_tempat_tinggal', 'telp_rumah', 'no_hp', 'email', 'terima_kps', 'no_kps', 'jenis_transportasi', 'kode_prodi', 'kode_pt_asal', 'nama_pt_asal', 'kode_prodi_asal', 'nama_prodi_asal', 'jenis_pembiayaan', 'jumlah_biaya_masuk'];
 
     public function model(array $row)
@@ -23,13 +24,18 @@ class MahasiswaImport implements ToModel, WithHeadingRow
 
         foreach ($this->requiredFields as $field) {
             if (empty($row[$field])) {
-                $this->skippedRecords[] = "Baris ke {$this->rowNumber} {$field} tidak boleh kosong";
+                $this->incompleteRecords[] = "Baris ke {$this->rowNumber} tidak lengkap, kolom {$field} tidak boleh kosong <br>";
                 $this->rowNumber++;
                 return null;
             }
         }
+        if (!Prodi::where('kode_prodi', $row['kode_prodi'])->exists()) {
+            $this->incompleteRecords[] = "kode_prodi {$row['kode_prodi']} pada baris ke {$this->rowNumber} tidak terdaftar <br>";
+            $this->rowNumber++;
+            return null; 
+        }
         if ($this->isDuplicate($row['nim'], $row['nik'])) {
-            $this->skippedRecords[] = "NIM {$row['nim']} sudah ada,";
+            $this->skippedRecords++;
             $this->rowNumber++;
             return null;
         } else {
@@ -103,5 +109,9 @@ class MahasiswaImport implements ToModel, WithHeadingRow
     public function getCreatedRecords()
     {
         return $this->createdRecords;
+    }
+    public function getIncompleteRecords()
+    {
+        return $this->incompleteRecords;
     }
 }
