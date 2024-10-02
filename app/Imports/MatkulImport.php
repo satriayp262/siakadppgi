@@ -13,14 +13,26 @@ class MatkulImport implements ToModel, WithHeadingRow
 {
     protected $existingRows = [];  // Array untuk menyimpan kode mata kuliah yang sudah ada
     protected $addedRows = [];      // Array untuk menyimpan kode mata kuliah yang berhasil ditambahkan
+    protected $errors = [];
+    private $rowNumber = 2;
+    protected $requiredFields = ['kode_mata_kuliah', 'nama_mk', 'jenis_mk', 'kode_prodi', 'sks_tatap_muka', 'sks_praktek', 'sks_prak_lapangan', 'sks_simulasi', 'metode_pembelajaran', 'tgl_mulai_efektif', 'tgl_akhir_efektif'];
 
     public function model(array $row)
     {
         // Cek apakah data dengan 'kode_mata_kuliah' yang sama sudah ada
         $existingMatkul = Matakuliah::where('kode_mata_kuliah', $row['kode_mata_kuliah'])->exists();
 
+        foreach ($this->requiredFields as $field) {
+            if (empty($row[$field])) {
+                $this->errors[] = "Baris ke {$this->rowNumber}, kolom {$field} tidak boleh kosong <br>";
+                $this->rowNumber++;
+                return null;
+            }
+        }
+
         if ($existingMatkul) {
-            $this->existingRows[] = $row['kode_mata_kuliah']; // Simpan kode yang sudah ada
+            $this->existingRows[] = "{$row['kode_mata_kuliah']} Kode Mata Kuliah sudah ada <br>"; // Simpan kode yang sudah ada
+            $this->rowNumber++;
             return null;  // Skip row if it already exists
         }
 
@@ -44,7 +56,8 @@ class MatkulImport implements ToModel, WithHeadingRow
             'tgl_akhir_efektif' => $tgl_akhir_efektif,
         ]);
         $this->addedRows[] = $row['kode_mata_kuliah']; // Simpan kode yang berhasil ditambahkan
-        // dd($this->addedRows, $this->existingRows);
+
+        $this->rowNumber++;
 
         return $newMatkul;
     }
@@ -58,6 +71,11 @@ class MatkulImport implements ToModel, WithHeadingRow
     public function getAddedRows()
     {
         return $this->addedRows;
+    }
+
+    public function geterrors()
+    {
+        return $this->errors;
     }
 
     protected function convertExcelDate($excelDate)

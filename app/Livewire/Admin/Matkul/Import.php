@@ -32,7 +32,8 @@ class Import extends Component
         // Emit a success message or refresh the page
         $this->dispatch('matkulImported', [
             'existingRows' => $import->getExistingRows(),
-            'addedRows' => $import->getAddedRows()
+            'addedRows' => $import->getAddedRows(),
+            'errors' => $import->geterrors()
         ]);
 
         // Optionally, reset the file input after import

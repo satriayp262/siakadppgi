@@ -45,9 +45,10 @@ class Index extends Component
     {
         $existingRows = $data['existingRows'];
         $addedRows = $data['addedRows'];
+        $errors = $data['errors'];
 
         if (!empty($existingRows)) {
-            session()->flash('message2', 'Baris dengan kode mata kuliah berikut sudah ada: ' . implode(', ', $existingRows));
+            session()->flash('message2',  count( $existingRows) . ' Data sudah ada. <br>' . implode(', ', $errors));
             session()->flash('message_type2', 'warning');
         }
 
