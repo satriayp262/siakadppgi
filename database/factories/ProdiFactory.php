@@ -17,7 +17,7 @@ class ProdiFactory extends Factory
     public function definition(): array
     {
         return [
-            'kode_prodi' => $this->faker->unique()->numerify('PROD#'), // Generate kode prodi unik
+            'kode_prodi' => $this->faker->unique()->numerify('PROD#'), 
             'nama_prodi' => $this->faker->words(3, true), // Generate nama prodi acak
             'jenjang' => $this->faker->randomElement(['D3', 'S1']), // Pilihan jenjang acak
         ];
