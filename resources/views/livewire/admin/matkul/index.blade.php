@@ -31,7 +31,10 @@
         @endif
         <!-- Modal Form -->
         <div class="flex justify-between mt-2">
-            <livewire:admin.matkul.create />
+            <div class="flex space-x-2">
+                <livewire:admin.matkul.create />
+                <livewire:admin.matkul.import />
+            </div>
             <input type="text" wire:model.live="search" placeholder="   Search"
                 class="px-2 ml-4 border border-gray-300 rounded-lg">
         </div>

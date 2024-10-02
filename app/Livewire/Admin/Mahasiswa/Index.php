@@ -66,6 +66,7 @@ class Index extends Component
     
         $this->reset('file');
     }
+    
     public function render()
     {
         $query = Mahasiswa::query();
