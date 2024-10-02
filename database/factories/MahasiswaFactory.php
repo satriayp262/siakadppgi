@@ -47,7 +47,7 @@ class MahasiswaFactory extends Factory
             'nama_prodi_asal' => $this->faker->optional()->word,
             'jenis_pembiayaan' => $this->faker->randomElement(['Mandiri', 'Beasiswa']),
             'jumlah_biaya_masuk' => $this->faker->numberBetween(1000000, 50000000),
-            'id' => '1',
+            'id_user' => '1',
         ];
     }
 }

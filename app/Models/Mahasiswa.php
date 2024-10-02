@@ -53,5 +53,6 @@ class Mahasiswa extends Model
         'nama_prodi_asal',
         'jenis_pembiayaan',
         'jumlah_biaya_masuk',
+        'id_user',
     ];
 }

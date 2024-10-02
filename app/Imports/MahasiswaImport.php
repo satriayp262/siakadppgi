@@ -5,45 +5,66 @@ namespace App\Imports;
 use App\Models\Mahasiswa;
 use Maatwebsite\Excel\Excel;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
+use Carbon\Carbon;
 
-class MahasiswaImport implements ToModel
+class MahasiswaImport implements ToModel, WithHeadingRow
 {
     public function model(array $row)
     {
-
-        // dd($row);
+        $tanggalLahir = $this->convertExcelDate($row['tanggal_lahir']);
+        $tanggalMasukKuliah = $this->convertExcelDate($row['tanggal_masuk_kuliah']);
+        // dd($tanggalLahir);
         return new Mahasiswa([
-            'id_mahasiswa' => $row[0],
-            'id_orangtua_wali' => $row[1],
-            'id' => $row[2],
-            'NIM' => $row[3],
-            'nama' => $row[4],
-            'tempat_lahir' => $row[5],
-            'tanggal_lahir' => \Carbon\Carbon::createFromFormat('Y-m-d', $row[6]),
-            'jenis_kelamin' => $row[7],
-            'NIK' => $row[8],
-            'agama' => $row[9],
-            'alamat' => $row[10],
-            'jalur_pendaftaran' => $row[11],
-            'kewarganegaraan' => $row[12],
-            'jenis_pendaftaran' => $row[13],
-            'tanggal_masuk_kuliah' => \Carbon\Carbon::createFromFormat('Y-m-d', $row[14]),
-            'mulai_semester' => $row[15],
-            'jenis_tempat_tinggal' => $row[16],
-            'telp_rumah' => $row[17],
-            'no_hp' => $row[18],
-            'email' => $row[19],
-            'terima_kps' => $row[20],
-            'no_kps' => $row[21],
-            'jenis_transportasi' => $row[22],
-            'kode_prodi' => $row[23],
-            'SKS_diakui' => $row[24],
-            'kode_pt_asal' => $row[25],
-            'nama_pt_asal' => $row[26],
-            'kode_prodi_asal' => $row[27],
-            'nama_prodi_asal' => $row[28],
-            'jenis_pembiayaan' => $row[29],
-            'jumlah_biaya_masuk' => $row[30],
+            // 'id_mahasiswa' => $row['id_mahasiswa'],
+            'id_orangtua_wali' => $row['id_orangtua_wali'],
+            'id_user' => $row['id'] ?? null,
+            'NIM' => $row['nim'],
+            'nama' => $row['nama'],
+            'tempat_lahir' => $row['tempat_lahir'],
+            'tanggal_lahir' => $tanggalLahir,
+            'jenis_kelamin' => $row['jenis_kelamin'],
+            'NIK' => $row['nik'],
+            'agama' => $row['agama'],
+            'alamat' => $row['alamat'],
+            'jalur_pendaftaran' => $row['jalur_pendaftaran'],
+            'kewarganegaraan' => $row['kewarganegaraan'],
+            'jenis_pendaftaran' => $row['jenis_pendaftaran'],
+            'tanggal_masuk_kuliah' => $tanggalMasukKuliah,
+            'mulai_semester' => $row['mulai_semester'],
+            'jenis_tempat_tinggal' => $row['jenis_tempat_tinggal'],
+            'telp_rumah' => $row['telp_rumah'],
+            'no_hp' => $row['no_hp'],
+            'email' => $row['email'],
+            'terima_kps' => $row['terima_kps'],
+            'no_kps' => $row['no_kps'],
+            'jenis_transportasi' => $row['jenis_transportasi'],
+            'kode_prodi' => $row['kode_prodi'],
+            'SKS_diakui' => $row['sks_diakui'],
+            'kode_pt_asal' => $row['kode_pt_asal'],
+            'nama_pt_asal' => $row['nama_pt_asal'],
+            'kode_prodi_asal' => $row['kode_prodi_asal'],
+            'nama_prodi_asal' => $row['nama_prodi_asal'],
+            'jenis_pembiayaan' => $row['jenis_pembiayaan'],
+            'jumlah_biaya_masuk' => $row['jumlah_biaya_masuk'],
         ]);
     }
+
+    protected function convertExcelDate($excelDate)
+{
+    if (is_numeric($excelDate)) {
+        // If the date is numeric, it's likely an Excel date
+        $dateTime = Date::excelToDateTimeObject($excelDate);
+        return Carbon::instance($dateTime)->format('Y-m-d');
+    }
+    
+    // If it's a string, try parsing it directly
+    try {
+        return Carbon::createFromFormat('d/m/Y', trim($excelDate))->format('Y-m-d');
+    } catch (\Exception $e) {
+        \Log::error('Date conversion error: ' . $e->getMessage());
+        return null; // or set a default date
+    }
+}
 }

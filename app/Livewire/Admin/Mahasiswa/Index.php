@@ -7,6 +7,7 @@ use App\Models\Mahasiswa;
 use Livewire\WithPagination;
 use Livewire\Attributes\On;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\MahasiswaImport;
 
@@ -53,21 +54,16 @@ class Index extends Component
     
     public function import()
     {
-        // Validate that the file is provided and is a valid Excel file
         $this->validate([
-            'file' => 'required|mimes:xls,xlsx|max:10240', // max 10MB
+            'file' => 'required|mimes:xls,xlsx|max:10240',
         ]);
-
-        // Store the file temporarily
+    
         $path = $this->file->store('temp');
-
-        // Use Excel to import the file
-        Excel::import(new MahasiswaImport, storage_path('app/' . $path));
-
-        // Emit a success message or refresh the page
+    
+        Excel::import(new MahasiswaImport, Storage::path($path));
+    
         session()->flash('message', 'Mahasiswa Berhasil dimpor.');
-
-        // Optionally, reset the file input after import
+    
         $this->reset('file');
     }
     public function render()

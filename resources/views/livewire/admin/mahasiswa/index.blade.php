@@ -25,7 +25,7 @@
             <div class="flex space-x-2">
                 <!-- Modal Form -->
                 <livewire:admin.mahasiswa.create />
-                
+                {{-- modal import --}}
                 <div x-data="{ isOpen: false }" @modal-closed.window="isOpen = false">
                     <!-- Button to open the modal -->
                     <button @click="isOpen=true"
@@ -73,8 +73,15 @@
                                                 <span class="text-sm text-red-500">{{ $message }}</span>
                                             @enderror
                                         </div>
+                                        <div wire:loading>
+                                                <div class="mt-2 w-full flex flex-row items-center space-x-2">
+                                                    <div class="spinner"></div>
+                                                    <div class="spinner-text">Memproses Permintaan...</div>
+                                                </div>
+                                            </div>
                                         <!-- Submit Button inside the form -->
                                         <div class="flex justify-end p-4 bg-gray-200 rounded-b-lg">
+                                            
                                             <button type="button" @click="isOpen = false"
                                                 class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">Close</button>
                                             <button type="submit"
@@ -86,7 +93,7 @@
                         </div>
                     </div>
                 </div>
-
+{{-- modal import --}}
             </div>
             <input type="text" wire:model.live="search" placeholder="   Search"
                 class="px-2 ml-4 border border-gray-300 rounded-lg">
