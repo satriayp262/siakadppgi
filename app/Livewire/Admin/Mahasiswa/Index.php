@@ -70,6 +70,7 @@ class Index extends Component
         // Optionally, reset the file input after import
         $this->reset('file');
     }
+    
     public function render()
     {
         $query = Mahasiswa::query();
