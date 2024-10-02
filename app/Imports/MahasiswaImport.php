@@ -10,6 +10,8 @@ class MahasiswaImport implements ToModel
 {
     public function model(array $row)
     {
+
+        // dd($row);
         return new Mahasiswa([
             'id_mahasiswa' => $row[0],
             'id_orangtua_wali' => $row[1],
