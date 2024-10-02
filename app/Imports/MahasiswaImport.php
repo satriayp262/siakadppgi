@@ -53,19 +53,19 @@ class MahasiswaImport implements ToModel, WithHeadingRow
     }
 
     protected function convertExcelDate($excelDate)
-{
-    if (is_numeric($excelDate)) {
-        // If the date is numeric, it's likely an Excel date
-        $dateTime = Date::excelToDateTimeObject($excelDate);
-        return Carbon::instance($dateTime)->format('Y-m-d');
+    {
+        if (is_numeric($excelDate)) {
+            // If the date is numeric, it's likely an Excel date
+            $dateTime = Date::excelToDateTimeObject($excelDate);
+            return Carbon::instance($dateTime)->format('Y-m-d');
+        }
+
+        // If it's a string, try parsing it directly
+        try {
+            return Carbon::createFromFormat('d/m/Y', trim($excelDate))->format('Y-m-d');
+        } catch (\Exception $e) {
+            \Log::error('Date conversion error: ' . $e->getMessage());
+            return null; // or set a default date
+        }
     }
-    
-    // If it's a string, try parsing it directly
-    try {
-        return Carbon::createFromFormat('d/m/Y', trim($excelDate))->format('Y-m-d');
-    } catch (\Exception $e) {
-        \Log::error('Date conversion error: ' . $e->getMessage());
-        return null; // or set a default date
-    }
-}
 }

@@ -7,13 +7,18 @@ use Livewire\WithPagination;
 use Livewire\Component;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\On;
-
+use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\DosenImport;
 
 class Index extends Component
 {
     use WithPagination;
+    use WithFileUploads;
 
     public $search = '';
+    public $file;
 
     #[On('dosenUpdated')]
     public function handledosenEdited()
@@ -39,6 +44,21 @@ class Index extends Component
     {
         session()->flash('message', 'Dosen Berhasil di Tambahkan');
         session()->flash('message_type', 'success');
+    }
+
+    public function import()
+    {
+        $this->validate([
+            'file' => 'required|mimes:xls,xlsx|max:10240',
+        ]);
+
+        $path = $this->file->store('temp');
+
+        Excel::import(new DosenImport, Storage::path($path));
+
+        session()->flash('message', 'Dosen Berhasil dimpor.');
+
+        $this->reset('file');
     }
 
     public $id_dosen, $nama_dosen, $nidn, $jenis_kelamin, $jabatan_fungsional, $kepangkatan, $kode_prodi;
