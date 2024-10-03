@@ -8,7 +8,9 @@
                     $bgColor =
                         $messageType === 'error'
                             ? 'bg-red-500'
-                            : ($messageType === 'warning'
+                            : (($messageType === 'warning'
+                                    ? 'bg-yellow-500'
+                                    : $messageType === 'update')
                                 ? 'bg-blue-500'
                                 : 'bg-green-500');
                 @endphp

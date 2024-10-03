@@ -24,7 +24,7 @@ class Index extends Component
     public function handledosenEdited()
     {
         session()->flash('message', 'Dosen Berhasil di Update');
-        session()->flash('message_type', 'warning');
+        session()->flash('message_type', 'update');
     }
 
     public function destroy($id_dosen)

@@ -18,7 +18,7 @@ class Index extends Component
     public function handlematkulEdited()
     {
         session()->flash('message', 'Mata Kuliah Berhasil di Update');
-        session()->flash('message_type', 'warning');
+        session()->flash('message_type', 'update');
     }
 
     public function destroy($id_mata_kuliah)

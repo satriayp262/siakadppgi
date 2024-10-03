@@ -34,7 +34,7 @@ class Index extends Component
     public function handleMahasiswaEdited()
     {
         session()->flash('message', 'Mahasiswa Berhasil di Update');
-        session()->flash('message_type', 'warning');
+        session()->flash('message_type', 'update');
     }
 
     public function destroy($id_mahasiswa)

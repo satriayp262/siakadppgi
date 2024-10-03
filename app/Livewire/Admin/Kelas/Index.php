@@ -26,7 +26,7 @@ class Index extends Component
     public function handleKelasUpdated()
     {
         session()->flash('message', 'Kelas Berhasil di Update');
-        session()->flash('message_type', 'warning');
+        session()->flash('message_type', 'update');
     }
 
 
