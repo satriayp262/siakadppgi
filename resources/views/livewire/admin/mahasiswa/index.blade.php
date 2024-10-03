@@ -24,12 +24,14 @@
         <div>
             @if (session()->has('message2'))
                 @php
-                    $messageType = session('message_type2', 'warning');
+                    $messageType = session('message_type', 'success'); // Default to success
                     $bgColor =
                         $messageType === 'error'
                             ? 'bg-red-500'
-                            : ($messageType === 'warning'
-                                ? 'bg-yellow-500'
+                            : (($messageType === 'warning'
+                                    ? 'bg-yellow-500'
+                                    : $messageType === 'update')
+                                ? 'bg-blue-500'
                                 : 'bg-green-500');
                 @endphp
                 <div id="flash-message"

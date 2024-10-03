@@ -27,7 +27,7 @@ class Index extends Component
     public function handledosenEdited()
     {
         session()->flash('message', 'Dosen Berhasil di Update');
-        session()->flash('message_type', 'warning');
+        session()->flash('message_type', 'update');
     }
 
     public function destroy($id_dosen)
@@ -124,7 +124,7 @@ class Index extends Component
             ->orWhere('kepangkatan', 'like', '%' . $this->search . '%')
             ->orWhere('kode_prodi', 'like', '%' . $this->search . '%')
             ->latest()
-            ->paginate(5);
+            ->paginate(20);
 
         return view('livewire.admin.dosen.index', [
             'dosens' => $dosens,

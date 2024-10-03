@@ -27,5 +27,8 @@ class Tagihan extends Model
         return $this->belongsTo(Semester::class, 'id_semester', 'id_semester');
     }
 
+    
+
+
     use HasFactory;
 }

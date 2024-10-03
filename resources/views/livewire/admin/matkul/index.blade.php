@@ -8,7 +8,7 @@
                         $messageType === 'error'
                             ? 'bg-red-500'
                             : ($messageType === 'warning'
-                                ? 'bg-yellow-500'
+                                ? 'bg-blue-500'
                                 : 'bg-green-500');
                 @endphp
                 <div id="flash-message"
