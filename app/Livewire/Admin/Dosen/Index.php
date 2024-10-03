@@ -22,6 +22,8 @@ class Index extends Component
 
     public $search = '';
     public $file;
+    // public $selectedDosen = [];
+    // public $selectAll = false;
 
     #[On('dosenUpdated')]
     public function handledosenEdited()
@@ -29,6 +31,28 @@ class Index extends Component
         session()->flash('message', 'Dosen Berhasil di Update');
         session()->flash('message_type', 'update');
     }
+
+    // Fungsi untuk menghapus dosen yang dipilih
+    // public function deleteSelected()
+    // {
+    //     if (count($this->selectedDosen)) {
+    //         Dosen::whereIn('id_dosen', $this->selectedDosen)->delete();
+    //         $this->reset('selectedDosen'); // Reset setelah penghapusan
+    //         session()->flash('message', 'Data dosen berhasil dihapus.');
+    //     } else {
+    //         session()->flash('error', 'Tidak ada dosen yang dipilih.');
+    //     }
+    // }
+
+    // // Fungsi untuk select all checkbox
+    // public function updatedSelectAll($value)
+    // {
+    //     if ($value) {
+    //         $this->selectedDosen = Dosen::pluck('id_dosen')->toArray();
+    //     } else {
+    //         $this->selectedDosen = [];
+    //     }
+    // }
 
     public function destroy($id_dosen)
     {
@@ -84,7 +108,6 @@ class Index extends Component
 
                 session()->flash('message2', $skippedRecords . ' Data sudah ada <br>' . implode($incompleteRecords));
                 session()->flash('message_type2', 'warning');
-
             } elseif ($skippedRecords > 0 && empty($incompleteRecords)) {
                 session()->flash('message2', $skippedRecords . ' Data sudah ada');
                 session()->flash('message_type2', 'warning');
@@ -109,8 +132,6 @@ class Index extends Component
         } finally {
             $this->reset('file');
         }
-
-
     }
 
     public $id_dosen, $nama_dosen, $nidn, $jenis_kelamin, $jabatan_fungsional, $kepangkatan, $kode_prodi;

@@ -120,9 +120,13 @@
                     </div>
                 </div>
                 <button wire:click="downloadTemplate"
-                    class="px-4 py-2 font-bold text-white bg-yellow-400 rounded hover:bg-yellow-500">
+                    class="px-4 py-2 font-bold text-white bg-yellow-500 rounded hover:bg-yellow-700">
                     Unduh Template Excel
                 </button>
+                {{-- <button wire:click="deleteSelected"
+                    class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">
+                    Hapus Data Terpilih
+                </button> --}}
             </div>
 
             <input type="text" wire:model.live="search" placeholder="   Search"
@@ -132,6 +136,7 @@
     <table class="min-w-full mt-4 bg-white text-sm  border border-gray-200">
         <thead>
             <tr class="items-center w-full text-sm text-white align-middle bg-gray-800">
+                {{-- <th class="py-2 px-4"><input type="checkbox" wire:model="selectAll"></th> --}}
                 <th class="px-4 py-2 text-center">No</th>
                 <th class="px-4 py-2 text-center">Nama Dosen</th>
                 <th class="px-4 py-2 text-center">NIDN</th>
@@ -146,6 +151,9 @@
 
             @foreach ($dosens as $dosen)
                 <tr wire:key="dosen-{{ $dosen->id_dosen }}">
+                    {{-- <td class="border px-4 py-2">
+                        <input type="checkbox" wire:model="selectedDosen" value="{{ $dosen->id_dosen }}">
+                    </td> --}}
                     <td class="px-4 py-2  text-center">
                         {{ ($dosens->currentPage() - 1) * $dosens->perPage() + $loop->iteration }}</td>
                     </td>
