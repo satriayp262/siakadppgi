@@ -39,7 +39,7 @@ class MahasiswaFactory extends Factory
             'terima_kps' => $this->faker->randomElement(['Ya', 'Tidak']),
             'no_kps' => $this->faker->optional()->numerify('############'),
             'jenis_transportasi' => $this->faker->randomElement(['Sepeda Motor', 'Mobil', 'Jalan Kaki']),
-            'kode_prodi' => $this->faker->numerify('PROD#'),
+            'kode_prodi' => \App\Models\Prodi::inRandomOrder()->first()->kode_prodi,
             'SKS_diakui' => $this->faker->numberBetween(0, 144),
             'kode_pt_asal' => $this->faker->optional()->bothify('PT####'),
             'nama_pt_asal' => $this->faker->optional()->company,
