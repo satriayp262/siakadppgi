@@ -44,44 +44,15 @@
                         <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
                     </li>
                     <li>
-                        <a href="#" id="logout-link"
-                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                            Sign out
-                        </a>
+                        <button class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
+                            onclick="keluar('{{ $user->id }}', '{{ $user->role }}')">
+                            Log Out
+                        </button>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
                             @csrf
                         </form>
                     </li>
-                    <!-- Modal -->
-                    <div id="logout-modal" class="fixed inset-0 z-50 hidden overflow-y-auto">
-                        <div class="flex items-center justify-center min-h-screen px-4">
-                            <div class="relative w-full max-w-md p-4 bg-white rounded-lg shadow-lg">
-                                <div class="flex items-center justify-between pb-3">
-                                    <h3 class="text-lg font-medium text-gray-900">Confirm Logout</h3>
-                                    <button id="close-modal" class="text-gray-400 hover:text-gray-600">
-                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M6 18L18 6M6 6l12 12"></path>
-                                        </svg>
-                                    </button>
-                                </div>
-                                <div class="py-4">
-                                    <p class="text-sm text-gray-500">Yakin untuk keluar?</p>
-                                </div>
-                                <div class="flex justify-end pt-2">
-                                    <button id="cancel-logout"
-                                        class="px-4 py-2 mr-2 text-sm text-gray-700 bg-gray-200 rounded hover:bg-gray-300">
-                                        Cancel
-                                    </button>
-                                    <button id="confirm-logout"
-                                        class="px-4 py-2 text-sm text-white bg-red-600 rounded hover:bg-red-700">
-                                        Sign out
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                     <script>
                         document.addEventListener('DOMContentLoaded', function() {
                             const logoutLink = document.getElementById('logout-link');
@@ -119,6 +90,23 @@
             </div>
         </div>
     </div>
+    <script>
+        function keluar(id, role) {
+            Swal.fire({
+                title: `Apakah anda yakin ingin keluar sebagai ${role}?`,
+                // text: "Data yang telah dihapus tidak dapat dikembalikan!",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#87CEEB',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Keluar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('logout-form').submit();
+                }
+            });
+        }
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const sidebarToggle = document.getElementById('sidebarToggle');
