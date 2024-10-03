@@ -23,7 +23,7 @@ class Index extends Component
     public function handleUserUpdated()
     {
         session()->flash('message', 'User Berhasil di Update');
-        session()->flash('message_type', 'danger');
+        session()->flash('message_type', 'warning');
     }
 
     public function destroy($id)
