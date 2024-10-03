@@ -120,10 +120,13 @@ class Index extends Component
         if ($this->search) {
             $query->where('nama', 'like', '%' . $this->search . '%')
                 ->orWhere('NIM', 'like', '%' . $this->search . '%')
+                ->orWhereHas('prodi', function ($query) {
+                $query->where('nama_prodi', 'like', '%' . $this->search . '%');
+            })
                 ->orWhere('email', 'like', '%' . $this->search . '%');
         }
 
-        $mahasiswas = $query->latest()->paginate(10);
+        $mahasiswas = $query->latest()->paginate(24);
 
         return view('livewire.admin.mahasiswa.index', [
             'mahasiswas' => $mahasiswas,

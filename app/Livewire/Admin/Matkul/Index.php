@@ -8,6 +8,7 @@ use App\Models\Matakuliah;
 use Livewire\Attributes\On;
 use App\Imports\MatkulImport;
 
+
 class Index extends Component
 {
     use WithPagination;
@@ -68,6 +69,9 @@ class Index extends Component
         $matkuls = Matakuliah::query()
             ->where('kode_mata_kuliah', 'like', '%' . $this->search . '%')
             ->orWhere('nama_mata_kuliah', 'like', '%' . $this->search . '%')
+            ->orWhereHas('prodi', function ($query) {
+                $query->where('nama_prodi', 'like', '%' . $this->search . '%');
+            })
             ->orWhere('jenis_mata_kuliah', 'like', '%' . $this->search . '%')
             ->orWhere('metode_pembelajaran', 'like', '%' . $this->search . '%')
             ->latest()
