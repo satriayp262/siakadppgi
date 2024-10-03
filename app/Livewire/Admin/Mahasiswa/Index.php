@@ -123,7 +123,7 @@ class Index extends Component
                 ->orWhere('email', 'like', '%' . $this->search . '%');
         }
 
-        $mahasiswas = $query->latest()->paginate(5);
+        $mahasiswas = $query->latest()->paginate(10);
 
         return view('livewire.admin.mahasiswa.index', [
             'mahasiswas' => $mahasiswas,

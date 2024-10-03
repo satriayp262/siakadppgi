@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 
+
+
+
 class Mahasiswa extends Model
 {
     use HasFactory;
@@ -55,4 +58,14 @@ class Mahasiswa extends Model
         'jumlah_biaya_masuk',
         'id_user',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user', 'id');
+    }
+
+    public function prodi() 
+    {
+        return $this->belongsTo(Prodi::class, 'kode_prodi', 'kode_prodi');
+    }
 }

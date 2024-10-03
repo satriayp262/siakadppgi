@@ -35,7 +35,7 @@ return new class extends Migration
             $table->string('terima_kps')->nullable();
             $table->string('no_kps')->nullable();
             $table->string('jenis_transportasi')->nullable();
-            $table->string('kode_prodi')->nullable();
+            $table->string('kode_prodi');
             $table->integer('SKS_diakui')->nullable();
             $table->string('kode_pt_asal')->nullable();
             $table->string('nama_pt_asal')->nullable();
@@ -44,6 +44,7 @@ return new class extends Migration
             $table->string('jenis_pembiayaan')->nullable();
             $table->integer('jumlah_biaya_masuk')->nullable();
             $table->foreignId('id_user')->nullable()->constrained('users')->onDelete('cascade');
+            $table->foreign('kode_prodi')->references('kode_prodi')->on('prodi');
             $table->timestamps();
 
 
