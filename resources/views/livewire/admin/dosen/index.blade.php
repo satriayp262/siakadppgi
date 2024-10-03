@@ -21,6 +21,27 @@
                 </div>
             @endif
         </div>
+        <div>
+            @if (session()->has('message2'))
+                @php
+                    $messageType = session('message_type2', 'warning');
+                    $bgColor =
+                        $messageType === 'error'
+                            ? 'bg-red-500'
+                            : ($messageType === 'warning'
+                                ? 'bg-yellow-500'
+                                : 'bg-green-500');
+                @endphp
+                <div id="flash-message"
+                    class="flex items-center justify-between p-4 mx-12 mt-2 mb-4 text-white {{ $bgColor }} rounded">
+                    <span>{!! session('message2') !!}</span>
+                    <button class="p-1" onclick="document.getElementById('flash-message').remove();"
+                        class="font-bold text-white">
+                        &times;
+                    </button>
+                </div>
+            @endif
+        </div>
         <!-- Modal Form -->
         <div class="flex justify-between mt-2">
             <div class="flex space-x-2">
@@ -96,7 +117,12 @@
                         </div>
                     </div>
                 </div>
+                <button wire:click="downloadTemplate"
+                    class="px-4 py-2 font-bold text-white bg-yellow-400 rounded hover:bg-yellow-500">
+                    Unduh Template Excel
+                </button>
             </div>
+
             <input type="text" wire:model.live="search" placeholder="   Search"
                 class="px-2 ml-4 border border-gray-300 rounded-lg">
         </div>
@@ -134,8 +160,16 @@
                                     wire:key="edit-{{ rand() . $dosen->id_dosen }}" />
                             </div>
                             <button wire:key="delete-{{ $dosen->id_dosen }}"
-                                class="inline-block px-3 py-1 mt-2 text-white bg-red-500 rounded hover:bg-red-700"
-                                onclick="confirmDelete({{ $dosen->id_dosen }}, '{{ $dosen->nama_dosen }}')">Delete</button>
+                                class="inline-block px-5 py-1 text-white bg-red-500 rounded hover:bg-red-700"
+                                onclick="confirmDelete({{ $dosen->id_dosen }}, '{{ $dosen->nama_dosen }}')"><svg
+                                    class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                    viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
+                                </svg>
+                            </button>
                         </div>
                     </td>
                 </tr>
