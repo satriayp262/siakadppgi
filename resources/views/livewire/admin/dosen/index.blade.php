@@ -23,6 +23,27 @@
                 </div>
             @endif
         </div>
+        <div>
+            @if (session()->has('message2'))
+                @php
+                    $messageType = session('message_type2', 'warning');
+                    $bgColor =
+                        $messageType === 'error'
+                            ? 'bg-red-500'
+                            : ($messageType === 'warning'
+                                ? 'bg-yellow-500'
+                                : 'bg-green-500');
+                @endphp
+                <div id="flash-message"
+                    class="flex items-center justify-between p-4 mx-12 mt-2 mb-4 text-white {{ $bgColor }} rounded">
+                    <span>{!! session('message2') !!}</span>
+                    <button class="p-1" onclick="document.getElementById('flash-message').remove();"
+                        class="font-bold text-white">
+                        &times;
+                    </button>
+                </div>
+            @endif
+        </div>
         <!-- Modal Form -->
         <div class="flex justify-between mt-2">
             <div class="flex space-x-2">
@@ -98,7 +119,12 @@
                         </div>
                     </div>
                 </div>
+                <button wire:click="downloadTemplate"
+                    class="px-4 py-2 font-bold text-white bg-yellow-400 rounded hover:bg-yellow-500">
+                    Unduh Template Excel
+                </button>
             </div>
+
             <input type="text" wire:model.live="search" placeholder="   Search"
                 class="px-2 ml-4 border border-gray-300 rounded-lg">
         </div>
