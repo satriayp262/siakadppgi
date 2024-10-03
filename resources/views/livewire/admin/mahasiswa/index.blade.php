@@ -3,7 +3,7 @@
         <div>
             @if (session()->has('message'))
                 @php
-                    $messageType = session('message_type', 'success'); 
+                    $messageType = session('message_type', 'success');
                     $bgColor =
                         $messageType === 'error'
                             ? 'bg-red-500'
@@ -24,7 +24,7 @@
         <div>
             @if (session()->has('message2'))
                 @php
-                    $messageType = session('message_type2', 'warning'); 
+                    $messageType = session('message_type2', 'warning');
                     $bgColor =
                         $messageType === 'error'
                             ? 'bg-red-500'
@@ -125,10 +125,10 @@
         <thead>
             <tr class="items-center w-full text-sm text-white align-middle bg-gray-800">
                 <th class="px-4 py-2 text-center">No</th>
-                <th class="px-4 py-2 text-center">NIM Mahasiswa</th>
                 <th class="px-4 py-2 text-center">Nama Mahasiswa</th>
-                <th class="px-4 py-2 text-center">Kelamin Mahasiswa</th>
-                <th class="px-4 py-2 text-center">NIK</th>
+                <th class="px-4 py-2 text-center">NIM Mahasiswa</th>
+                <th class="px-4 py-2 text-center">Jenis Kelamin</th>
+                <th class="px-4 py-2 text-center">Prodi</th>
                 <th class="px-4 py-2 text-center">Action</th>
             </tr>
         </thead>
@@ -138,49 +138,56 @@
                     <td class="px-4 py-2 text-center">
                         {{ ($mahasiswas->currentPage() - 1) * $mahasiswas->perPage() + $loop->iteration }}</td>
                     </td>
-                    <td class="px-4 py-2 text-center">{{ $mahasiswa->NIM }}</td>
                     <td class="px-4 py-2 text-center">{{ $mahasiswa->nama }}</td>
+                    <td class="px-4 py-2 text-center">{{ $mahasiswa->NIM }}</td>
                     <td class="px-4 py-2 text-center">{{ $mahasiswa->jenis_kelamin }}</td>
-                    <td class="px-4 py-2 text-center">{{ $mahasiswa->NIK }}</td>
+                    <td class="px-4 py-2 text-center">{{ $mahasiswa->prodi->nama_prodi }}</td>
                     <td class="px-4 py-2 text-center">
-                        <div class="flex flex-col items-center">
-                            <div class="flex space-x-2">
-                                <livewire:admin.mahasiswa.edit :id_mahasiswa="$mahasiswa->id_mahasiswa"
-                                    wire:key="edit-{{ rand() . $mahasiswa->id_mahasiswa }}" />
-                                <button
-                                    class="inline-block px-3 py-1 ml-2 text-white bg-red-500 rounded hover:bg-red-700"
-                                    onclick="confirmDelete('{{ $mahasiswa->id_mahasiswa }}', '{{ $mahasiswa->nama }}')">Delete</button>
-                            </div>
-                            <div class="flex justify-center mt-2 w-full">
+                        <div class="flex flex-col">
+                            <div class="flex justify-center space-x-2">
                                 <livewire:admin.mahasiswa.show :id_mahasiswa="$mahasiswa->id_mahasiswa"
                                     wire:key="selengkapnya-{{ rand() . $mahasiswa->id_mahasiswa }}" />
+                                <livewire:admin.mahasiswa.edit :id_mahasiswa="$mahasiswa->id_mahasiswa"
+                                    wire:key="edit-{{ rand() . $mahasiswa->id_mahasiswa }}" />
+                                <button class="inline-block px-3 py-2 text-white bg-red-500 rounded hover:bg-red-700"
+                                    onclick="confirmDelete('{{ $mahasiswa->id_mahasiswa }}', '{{ $mahasiswa->nama }}')">
+                                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                        viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
+                                    </svg>
+                                </button>
                             </div>
                         </div>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-    <!-- Pagination Controls -->
-    <div class="mt-4 text-center">
-        {{ $mahasiswas->links('') }}
-    </div>
-    <script>
-        function confirmDelete(id, nama) {
-            Swal.fire({
-                title: `Apakah anda yakin ingin menghapus Mahasiswa ${nama}?`,
-                text: "Data yang telah dihapus tidak dapat dikembalikan!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#6c757d',
-                confirmButtonText: 'Hapus'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Panggil method Livewire jika konfirmasi diterima
-                    @this.call('destroy', id);
-                }
-            });
-        }
-    </script>
+
+</div>
+</td>
+</tr>
+@endforeach
+</tbody>
+</table>
+<!-- Pagination Controls -->
+<div class="mt-4 text-center">
+    {{ $mahasiswas->links('') }}
+</div>
+<script>
+    function confirmDelete(id, nama) {
+        Swal.fire({
+            title: `Apakah anda yakin ingin menghapus Mahasiswa ${nama}?`,
+            text: "Data yang telah dihapus tidak dapat dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Hapus'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Panggil method Livewire jika konfirmasi diterima
+                @this.call('destroy', id);
+            }
+        });
+    }
+</script>
 </div>
