@@ -38,9 +38,11 @@ class Index extends Component
         if (count($this->selectedDosen)) {
             Dosen::whereIn('id_dosen', $this->selectedDosen)->delete();
             $this->reset('selectedDosen'); // Reset setelah penghapusan
-            session()->flash('message', 'Data dosen berhasil dihapus.');
+            session()->flash('message', 'Dosen Berhasil di Hapus');
+            session()->flash('message_type', 'error');
         } else {
-            session()->flash('error', 'Tidak ada dosen yang dipilih.');
+            session()->flash('message', 'Tidak ada dosen yang dipilih.');
+            session()->flash('message_type', 'warning');
         }
     }
 
