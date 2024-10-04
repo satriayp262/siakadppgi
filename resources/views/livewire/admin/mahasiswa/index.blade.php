@@ -167,33 +167,31 @@
                                 </button>
                             </div>
                         </div>
-
-</div>
-</td>
-</tr>
-@endforeach
-</tbody>
-</table>
-<!-- Pagination Controls -->
-<div class="mt-4 text-center">
-    {{ $mahasiswas->links('') }}
-</div>
-<script>
-    function confirmDelete(id, nama) {
-        Swal.fire({
-            title: `Apakah anda yakin ingin menghapus Mahasiswa ${nama}?`,
-            text: "Data yang telah dihapus tidak dapat dikembalikan!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#6c757d',
-            confirmButtonText: 'Hapus'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Panggil method Livewire jika konfirmasi diterima
-                @this.call('destroy', id);
-            }
-        });
-    }
-</script>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+    <!-- Pagination Controls -->
+    <div class="mt-4 mb-4 text-center">
+        {{ $mahasiswas->links('') }}
+    </div>
+    <script>
+        function confirmDelete(id, nama) {
+            Swal.fire({
+                title: `Apakah anda yakin ingin menghapus Mahasiswa ${nama}?`,
+                text: "Data yang telah dihapus tidak dapat dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Hapus'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Panggil method Livewire jika konfirmasi diterima
+                    @this.call('destroy', id);
+                }
+            });
+        }
+    </script>
 </div>

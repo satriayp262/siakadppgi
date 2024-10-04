@@ -2,10 +2,14 @@
 
 namespace App\Livewire\Admin\Matkul;
 
+use App\Exports\MatkulExport;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Matakuliah;
 use Livewire\Attributes\On;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\TemplateExport; // Pastikan TemplateExport sudah dibuat
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use App\Imports\MatkulImport;
 
 
@@ -20,6 +24,11 @@ class Index extends Component
     {
         session()->flash('message', 'Mata Kuliah Berhasil di Update');
         session()->flash('message_type', 'update');
+    }
+
+    public function downloadTemplate(): BinaryFileResponse
+    {
+        return Excel::download(new MatkulExport, 'template_matkul.xlsx');
     }
 
     public function destroy($id_mata_kuliah)

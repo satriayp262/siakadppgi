@@ -42,6 +42,10 @@
             <div class="flex space-x-2">
                 <livewire:admin.matkul.create />
                 <livewire:admin.matkul.import />
+                <button wire:click="downloadTemplate"
+                    class="px-4 py-2 font-bold text-white bg-yellow-500 rounded hover:bg-yellow-700">
+                    Unduh Template Excel
+                </button>
             </div>
             <input type="text" wire:model.live="search" placeholder="   Search"
                 class="px-2 ml-4 border border-gray-300 rounded-lg">
@@ -100,7 +104,7 @@
         </tbody>
     </table>
     <!-- Pagination Controls -->
-    <div class="mt-4 text-center">
+    <div class="mt-4 mb-4 text-center">
         {{ $matkuls->links('') }}
     </div>
     <script>
