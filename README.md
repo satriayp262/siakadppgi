@@ -47,6 +47,38 @@ administration at the educational institution.
 
 ![erd siakad(normalized)]()
 
+## Installation
+
+1. Clone the repository:
+```
+git clone https://github.com/your-username/siakadppgi.git
+cd siakadppgi.git
+```
+2. Install dependencies:
+```
+composer install
+npm install
+npm run dev
+```
+3. Set up the environment:
+
+Copy the .env.example file to .env and update the necessary environment variables.
+```
+cp .env.example .env
+php artisan key:generate
+```
+4. Run database migrations:
+```
+php artisan migrate
+```
+5. Seed the database:
+```
+php artisan db:seed
+```
+6. Start the development server:
+```
+php artisan serve
+```
 
 ## Contributing
 
