@@ -25,6 +25,7 @@ class Index extends Component
     public $selectedDosen = [];
     public $selectAll = false;
 
+
     #[On('dosenUpdated')]
     public function handledosenEdited()
     {
@@ -33,28 +34,31 @@ class Index extends Component
     }
 
     // Fungsi untuk menghapus dosen yang dipilih
-    public function deleteSelected()
-    {
-        if (count($this->selectedDosen)) {
-            Dosen::whereIn('id_dosen', $this->selectedDosen)->delete();
-            $this->reset('selectedDosen'); // Reset setelah penghapusan
-            session()->flash('message', 'Dosen Berhasil di Hapus');
-            session()->flash('message_type', 'error');
-        } else {
-            session()->flash('message', 'Tidak ada dosen yang dipilih.');
-            session()->flash('message_type', 'warning');
-        }
-    }
-
-    // Fungsi untuk select all checkbox
+    // Method ini dipanggil ketika ada perubahan pada checkbox select all
     public function updatedSelectAll($value)
     {
         if ($value) {
+            // Jika selectAll true, pilih semua id_dosen
             $this->selectedDosen = Dosen::pluck('id_dosen')->toArray();
         } else {
+            // Jika selectAll false, hapus semua pilihan
             $this->selectedDosen = [];
         }
     }
+
+    public function destroySelected()
+    {
+        // Hapus data dosen yang terpilih
+        Dosen::whereIn('id_dosen', $this->selectedDosen)->delete();
+
+        // Reset array selectedDosen setelah penghapusan
+        $this->selectedDosen = [];
+        $this->selectAll = false; // Reset juga selectAll
+
+        // Emit event ke frontend untuk reset checkbox
+        $this->dispatch('dosenDeleted');
+    }
+
 
     public function destroy($id_dosen)
     {

@@ -123,8 +123,8 @@
                     class="px-4 py-2 font-bold text-white bg-yellow-500 rounded hover:bg-yellow-700">
                     Unduh Template Excel
                 </button>
-                <button wire:click="deleteSelected"
-                    class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">
+                <button class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700"
+                    onclick="confirmDeleteSelected()">
                     Hapus Data Terpilih
                 </button>
             </div>
@@ -152,7 +152,8 @@
             @foreach ($dosens as $dosen)
                 <tr wire:key="dosen-{{ $dosen->id_dosen }}">
                     <td class="px-4 py-2">
-                        <input type="checkbox" class="selectRow" wire:model="selectedDosen" value="{{ $dosen->id_dosen }}">
+                        <input type="checkbox" class="selectRow" wire:model="selectedDosen"
+                            value="{{ $dosen->id_dosen }}">
                     </td>
                     <td class="px-4 py-2  text-center">
                         {{ ($dosens->currentPage() - 1) * $dosens->perPage() + $loop->iteration }}</td>
@@ -187,24 +188,6 @@
         </tbody>
     </table>
 
-    <script>
-        // Ambil elemen checkbox di header
-        const selectAllCheckbox = document.getElementById('selectAll');
-
-        // Ambil semua checkbox di baris
-        const rowCheckboxes = document.querySelectorAll('.selectRow');
-
-        // Event listener untuk checkbox di header
-        selectAllCheckbox.addEventListener('change', function() {
-            const isChecked = this.checked;
-
-            // Iterasi semua checkbox di row dan ubah status checked sesuai header
-            rowCheckboxes.forEach(function(checkbox) {
-                checkbox.checked = isChecked;
-            });
-        });
-    </script>
-
     <!-- Pagination Controls -->
     <div class="py-8 mt-4 text-center">
         {{ $dosens->links('') }}
@@ -224,6 +207,56 @@
                 if (result.isConfirmed) {
                     // Panggil method Livewire jika konfirmasi diterima
                     @this.call('destroy', id);
+                }
+            });
+        }
+
+        // Ambil elemen checkbox di header
+        const selectAllCheckbox = document.getElementById('selectAll');
+
+        // Ambil semua checkbox di baris
+        const rowCheckboxes = document.querySelectorAll('.selectRow');
+
+        // Event listener untuk checkbox di header
+        selectAllCheckbox.addEventListener('change', function() {
+            const isChecked = this.checked;
+
+            // Iterasi semua checkbox di row dan ubah status checked sesuai header
+            rowCheckboxes.forEach(function(checkbox) {
+                checkbox.checked = isChecked; // Update status checkbox di baris
+            });
+
+            // Jika Anda menggunakan Livewire, Anda bisa memanggil update pada model
+            @this.set('selectedDosen', isChecked ? [...rowCheckboxes].map(cb => cb.value) : []);
+        });
+
+
+        function confirmDeleteSelected() {
+            const selectedDosen = @this.selectedDosen; // Dapatkan data dari Livewire
+
+            console.log(selectedDosen); // Tambahkan log untuk memeriksa nilai
+
+            if (selectedDosen.length === 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Tidak ada data yang dipilih!',
+                    text: 'Silakan pilih data yang ingin dihapus terlebih dahulu.',
+                });
+                return;
+            }
+
+            Swal.fire({
+                title: `Apakah anda yakin ingin menghapus ${selectedDosen.length} data dosen?`,
+                text: "Data yang telah dihapus tidak dapat dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Hapus'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Panggil method Livewire untuk menghapus data terpilih
+                    @this.call('destroySelected');
                 }
             });
         }

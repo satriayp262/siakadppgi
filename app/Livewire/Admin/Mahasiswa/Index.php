@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Mahasiswa;
 
+use App\Exports\MahasiswaExport;
 use Livewire\Component;
 use App\Models\Mahasiswa;
 use Livewire\WithPagination;
@@ -9,6 +10,8 @@ use Livewire\Attributes\On;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\TemplateExport; // Pastikan TemplateExport sudah dibuat
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use App\Imports\MahasiswaImport;
 
 class Index extends Component
@@ -28,6 +31,11 @@ class Index extends Component
     public function updatingSearch()
     {
         $this->resetPage();
+    }
+
+    public function downloadTemplate(): BinaryFileResponse
+    {
+        return Excel::download(new MahasiswaExport, 'template_mahasiswa.xlsx');
     }
 
     #[On('mahasiswaUpdated')]

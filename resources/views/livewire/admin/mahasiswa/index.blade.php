@@ -118,6 +118,10 @@
                         </div>
                     </div>
                 </div>
+                <button wire:click="downloadTemplate"
+                    class="px-4 py-2 font-bold text-white bg-yellow-500 rounded hover:bg-yellow-700">
+                    Unduh Template Excel
+                </button>
             </div>
             <input type="text" wire:model.live="search" placeholder="   Search"
                 class="px-2 ml-4 border border-gray-300 rounded-lg">
