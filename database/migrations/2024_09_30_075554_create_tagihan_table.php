@@ -14,13 +14,10 @@ return new class extends Migration
         Schema::create('tagihan', function (Blueprint $table) {
             $table->integer('id_tagihan')->autoIncrement();
             $table->string('NIM');
-            $table->string('id_semester');
             $table->integer('total_tagihan');
             $table->string('status_tagihan');
-            $table->string('bukti_bayar_tagihan');
-
+            $table->string('bukti_bayar_tagihan')->nullable();
             $table->foreign('NIM')->references('NIM')->on('mahasiswa')->omDelete('cascade');
-            $table->foreign('id_semester')->references('id_semester')->on('semester')->omDelete('cascade');
             $table->timestamps();
         });
     }

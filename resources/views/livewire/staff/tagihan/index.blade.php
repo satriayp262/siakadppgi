@@ -2,7 +2,7 @@
     <div class="mx-5">
         <div class="flex flex-col justify-between mx-4 mt-4">
             <h1>Semester Saat ini :</h1>
-            {{ $semesters[0]->nama_semester }}
+            {{-- {{ $semesters[0]->nama_semester }} --}}
             <div>
                 @if (session()->has('message'))
                     @php
@@ -36,7 +36,6 @@
             </div>
             <!-- Modal Form -->
             <div class="flex justify-between mt-2">
-                {{-- <livewire:admin.prodi.create /> --}}
                 <input type="text" wire:model.live="search" placeholder="   Search"
                     class="px-2 ml-4 border border-gray-300 rounded-lg">
             </div>
@@ -48,7 +47,7 @@
                     <th class="px-4 py-2 text-center">Nama Mahasiswa</th>
                     <th class="px-4 py-2 text-center">NIM</th>
                     <th class="px-4 py-2 text-center">Prodi
-                        <!-- resources/views/components/sortable-column.blade.php -->
+                        {{-- <!-- resources/views/components/sortable-column.blade.php -->
                         @props(['field', 'sortField', 'sortDirection'])
 
                         <a href="#" wire:click.prevent="sortBy('kode_prodi')">
@@ -57,7 +56,7 @@
                                 <path
                                     d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z" />
                             </svg>
-                        </a>
+                        </a> --}}
                     </th>
                     <th class="px-4 py-2 text-center">Aksi</th>
                 </tr>
@@ -70,8 +69,8 @@
                         <td class="px-4 py-2 text-center">{{ $mahasiswa->NIM }}</td>
                         <td class="px-4 py-2 text-center">{{ $mahasiswa->prodi->nama_prodi }}</td>
                         <td class="px-4 py-2 text-center">
-                            <button class="inline-block px-3 py-1 text-white bg-blue-500 rounded hover:bg-blue-700"
-                                wire:click="buatTagihan({{ $mahasiswa->id }})">Buat Tagihan</button>
+                            <livewire:staff.tagihan.create :nim="$mahasiswa->NIM" :nama="$mahasiswa->nama"
+                                wire:key="edit-{{ $mahasiswa->NIM }}" />
                         </td>
                     </tr>
                 @endforeach
@@ -79,24 +78,6 @@
         </table>
         <!-- Pagination Controls -->
         <div class="py-8 mt-4 text-center">
-            {{-- {{ $tagihans->links('') }} --}}
+            {{ $mahasiswas->links() }}
         </div>
-
-        <script>
-            function confirmDelete(id, nama_prodi) {
-                Swal.fire({
-                    title: `Apakah anda yakin ingin menghapus Prodi ${nama_prodi}?`,
-                    text: "Data yang telah dihapus tidak dapat dikembalikan!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#6c757d',
-                    confirmButtonText: 'Hapus'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        @this.call('destroy', id);
-                    }
-                });
-            }
-        </script>
     </div>

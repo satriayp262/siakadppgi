@@ -8,11 +8,14 @@ use App\Models\Tagihan;
 use App\Models\Semester;
 use App\Models\Prodi;
 use App\Models\Mahasiswa;
+use Livewire\Attributes\On;
+
 
 
 class Index extends Component
 {
     use WithPagination;
+
     
     public $sortField = 'kode_prodi';
     public $sortDirection = 'asc';
@@ -29,6 +32,15 @@ class Index extends Component
     }
 
 
+    
+    #[On('tagihanCreated')]
+    public function handletagihan()
+    {
+        session()->flash('message', 'Tagihan Berhasil di dibuat');
+        session()->flash('message_type', 'success');
+    }
+
+
 
     public function render()
     {
@@ -38,16 +50,17 @@ class Index extends Component
         $mahasiswas = Mahasiswa::query()
             ->latest()
             ->orderBy($this->sortField, $this->sortDirection)
-            ->get();
+            ->paginate(24);
         $semesters = Semester::query()
             ->latest()
             ->get();
-        // $tagihans = Tagihan::query()
-        //     ->latest()
-        //     ->paginate(5);
+        $tagihans = Tagihan::query()
+            ->latest()
+            ->get();
 
         return view('livewire.staff.tagihan.index', [
             'semesters' => $semesters,
+            'tagihans' => $tagihans,
             'mahasiswas'=> $mahasiswas,
             'Prodis' => $Prodis,
         ]);
