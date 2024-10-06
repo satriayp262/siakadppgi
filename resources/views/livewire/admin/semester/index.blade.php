@@ -1,7 +1,7 @@
 <div class="mx-5">
     <div class="flex flex-col justify-between mx-4 mt-4">
         {{-- <h1 class="text-2xl font-bold ">Prodi Table</h1> --}}
-        {{-- <h1>Semester saat ini: {{ $semesters->SortByDesc('nama_semester')->first()->nama_semester }}</h1> --}}
+        <h1>Semester saat ini: {{ $semesters->SortByDesc('nama_semester')->first()->nama_semester }}</h1>
         <div>
             @if (session()->has('message'))
                 @php
@@ -22,7 +22,9 @@
                         class="font-bold text-white">
                         &times;
                     </button>
+
                 </div>
+
                 {{-- @push('scripts')
                     <script>
                         setTimeout(() => {
@@ -34,7 +36,12 @@
                     </script>
                 @endpush --}}
             @endif
+            <button class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700"
+                onclick="confirmDeleteSelected()">
+                Hapus Data Terpilih
+            </button>
         </div>
+
         <!-- Modal Form -->
         <div class="flex justify-between mt-2">
             <livewire:admin.semester.create />
@@ -45,6 +52,7 @@
     <table class="min-w-full mt-4 bg-white border border-gray-200">
         <thead>
             <tr class="items-center w-full text-sm text-white align-middle bg-gray-800">
+                <th class="py-2 px-4"><input type="checkbox" id="selectAll" wire:model="selectAll"></th>
                 <th class="px-4 py-2 text-center">No.</th>
                 <th class="px-4 py-2 text-center">Nama Semester</th>
                 <th class="px-4 py-2 text-center">Aksi</th>
@@ -53,6 +61,10 @@
         <tbody>
             @foreach ($semesters as $semester)
                 <tr class="border-t" wire:key="semester-{{ $semester->id_semester }}">
+                    <td class="px-4 py-2">
+                        <input type="checkbox" class="selectRow" wire:model="selectedSemester"
+                            value="{{ $semester->id_semester }}">
+                    </td>
                     <td class="px-4 py-2 text-center">
                         {{ $loop->iteration }}</td>
                     <td class="px-4 py-2 text-center w-1/4">{{ $semester->nama_semester }}</td>
@@ -93,6 +105,56 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     @this.call('destroy', id);
+                }
+            });
+        }
+
+        // Ambil elemen checkbox di header
+        const selectAllCheckbox = document.getElementById('selectAll');
+
+        // Ambil semua checkbox di baris
+        const rowCheckboxes = document.querySelectorAll('.selectRow');
+
+        // Event listener untuk checkbox di header
+        selectAllCheckbox.addEventListener('change', function() {
+            const isChecked = this.checked;
+
+            // Iterasi semua checkbox di row dan ubah status checked sesuai header
+            rowCheckboxes.forEach(function(checkbox) {
+                checkbox.checked = isChecked; // Update status checkbox di baris
+            });
+
+            // Jika Anda menggunakan Livewire, Anda bisa memanggil update pada model
+            @this.set('selectedSemester', isChecked ? [...rowCheckboxes].map(cb => cb.value) : []);
+        });
+
+
+        function confirmDeleteSelected() {
+            const selectedSemester = @this.selectedSemester; // Dapatkan data dari Livewire
+
+            console.log(selectedSemester); // Tambahkan log untuk memeriksa nilai
+
+            if (selectedSemester.length === 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Tidak ada data yang dipilih!',
+                    text: 'Silakan pilih data yang ingin dihapus terlebih dahulu.',
+                });
+                return;
+            }
+
+            Swal.fire({
+                title: `Apakah anda yakin ingin menghapus ${selectedSemester.length} data Semester?`,
+                text: "Data yang telah dihapus tidak dapat dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Hapus'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Panggil method Livewire untuk menghapus data terpilih
+                    @this.call('destroySelected');
                 }
             });
         }

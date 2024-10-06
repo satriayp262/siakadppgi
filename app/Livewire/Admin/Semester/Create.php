@@ -11,7 +11,7 @@ class Create extends Component
 
     public function rules(){
         return [
-            'nama_semester' => 'required|string|unique:semesters,nama_semester',
+            'nama_semester' => 'required|string|unique:semester,nama_semester',
         ];
     }
 
@@ -25,13 +25,24 @@ class Create extends Component
     }
 
     public function save(){
-        $this->validate();
+        $validatedData = $this->validate();
+
+        $validatedData['nama_semester'] = (string) $validatedData['nama_semester'];
         
-        $semester = Semester::create([
-            'nama_semester' => $this->nama_semester,
+        // Save the semester with '1' appended
+        $semester1 = Semester::create([
+            'nama_semester' => $validatedData['nama_semester'] . '1',
         ]);
 
-        return dd($semester);
+        // Save the semester with '2' appended
+        $semester2 = Semester::create([
+            'nama_semester' => $validatedData['nama_semester'] . '2',
+        ]);
+
+        $this->reset();
+        
+        $this->dispatch('semesterCreated');
+        return [$semester1, $semester2];
     }
 
     public function render()

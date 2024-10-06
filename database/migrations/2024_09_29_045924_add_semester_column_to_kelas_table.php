@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('kelas', function (Blueprint $table) {
-            $table->string('semester')->after('kode_mata_kuliah');
+            $table->integer('semester')->after('kode_mata_kuliah');
 
             $table->renameColumn('kode_mata_kuliah', 'kode_matkul');
 

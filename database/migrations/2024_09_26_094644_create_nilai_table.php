@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id_nilai')->primary(); // UUID sebagai primary key
             $table->string('NIM'); // NIM mahasiswa
             $table->string('kode_mata_kuliah'); // Kode mata kuliah
-            $table->string('id_semester'); // Semester
+            $table->integer('id_semester'); // Semester
             $table->string('nilai_huruf'); // Nilai dalam bentuk huruf (A, B, C, dll)
             $table->float('nilai_indeks'); // Nilai indeks
             $table->float('nilai_angka'); // Nilai angka

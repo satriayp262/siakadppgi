@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('semester', function (Blueprint $table) {
-            $table->integer('id_semester')->primary()->autoIncrement();
-            $table->string('nama_semester');
-            $table->timestamps();
+        Schema::table('mahasiswa', function (Blueprint $table) {
+            $table->foreign('mulai_semester')->references('id_semester')->on('semester')->onDelete('cascade');
         });
     }
 
@@ -23,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('semester');
+        Schema::table('mahasiswa', function (Blueprint $table) {
+            //
+        });
     }
 };
