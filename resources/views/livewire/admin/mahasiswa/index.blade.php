@@ -133,7 +133,7 @@
                 <th class="px-4 py-2 text-center">No</th>
                 <th class="px-4 py-2 text-center">Nama Mahasiswa</th>
                 <th class="px-4 py-2 text-center">NIM Mahasiswa</th>
-                <th class="px-4 py-2 text-center">Jenis Kelamin</th>
+                <th class="px-4 py-2 text-center">Semester</th>
                 <th class="px-4 py-2 text-center">Prodi</th>
                 <th class="px-4 py-2 text-center">Action</th>
             </tr>
@@ -146,7 +146,21 @@
                     </td>
                     <td class="px-4 py-2 text-center">{{ $mahasiswa->nama }}</td>
                     <td class="px-4 py-2 text-center">{{ $mahasiswa->NIM }}</td>
-                    <td class="px-4 py-2 text-center">{{ $mahasiswa->jenis_kelamin }}</td>
+                    @php
+
+                        // Ambil semester terbaru
+                        $latestSemester = (int) substr(
+                            $semesters->sortByDesc('nama_semester')->first()->nama_semester,
+                            0,
+                            4,
+                        );
+
+                        // Jika $mahasiswa->semester adalah relasi one-to-many, pastikan Anda memanggil data yang tepat
+                        $currentSemester = (int) substr($mahasiswa->semester->first()->nama_semester ?? '0000', 0, 4);
+
+                        $semesterDifference = $latestSemester - $currentSemester;
+                    @endphp
+                    <td class="px-4 py-2 text-center">{{ $semesterDifference }}</td>
                     <td class="px-4 py-2 text-center">{{ $mahasiswa->prodi->nama_prodi }}</td>
                     <td class="px-4 py-2 text-center">
                         <div class="flex flex-col">
