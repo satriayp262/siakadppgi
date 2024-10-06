@@ -68,4 +68,9 @@ class Mahasiswa extends Model
     {
         return $this->belongsTo(Prodi::class, 'kode_prodi', 'kode_prodi');
     }
+
+    public function semester() 
+    {
+        return $this->belongsTo(Semester::class, 'mulai_semester', 'id_semester');
+    }
 }

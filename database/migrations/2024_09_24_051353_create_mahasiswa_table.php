@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('kewarganegaraan')->nullable();
             $table->string('jenis_pendaftaran')->nullable();
             $table->date('tanggal_masuk_kuliah')->nullable();
-            $table->string('mulai_semester')->nullable();
+            $table->integer('mulai_semester')->nullable();
             $table->string('jenis_tempat_tinggal')->nullable();
             $table->string('telp_rumah')->nullable();
             $table->string('no_hp')->nullable();

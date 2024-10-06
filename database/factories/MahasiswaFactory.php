@@ -31,7 +31,7 @@ class MahasiswaFactory extends Factory
             'kewarganegaraan' => 'Indonesia',
             'jenis_pendaftaran' => $this->faker->randomElement(['Mandiri', 'Beasiswa']),
             'tanggal_masuk_kuliah' => $this->faker->date,
-            'mulai_semester' => '1',
+            'mulai_semester' => \App\Models\Semester::inRandomOrder()->first()->id_semester,
             'jenis_tempat_tinggal' => $this->faker->randomElement(['Kost', 'Asrama', 'Rumah']),
             'telp_rumah' => $this->faker->phoneNumber,
             'no_hp' => $this->faker->phoneNumber,

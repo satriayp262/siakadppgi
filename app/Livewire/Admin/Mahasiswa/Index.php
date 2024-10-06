@@ -5,6 +5,8 @@ namespace App\Livewire\Admin\Mahasiswa;
 use App\Exports\MahasiswaExport;
 use Livewire\Component;
 use App\Models\Mahasiswa;
+use App\Models\Semester;
+use App\Models\Prodi;
 use Livewire\WithPagination;
 use Livewire\Attributes\On;
 use Livewire\WithFileUploads;
@@ -123,6 +125,9 @@ class Index extends Component
 
     public function render()
     {
+        $semesters = Semester::query()
+            ->latest()
+            ->get();
         $query = Mahasiswa::query();
 
         if ($this->search) {
@@ -138,6 +143,7 @@ class Index extends Component
 
         return view('livewire.admin.mahasiswa.index', [
             'mahasiswas' => $mahasiswas,
+            'semesters'=> $semesters
         ]);
     }
 }
