@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('semester', function (Blueprint $table) {
-            $table->string('id_semester')->primary();
+            $table->string('id_semester')->primary()->autoIncrement();
             $table->string('nama_semester');
             $table->timestamps();
         });

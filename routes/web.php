@@ -103,6 +103,10 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->group(function () {
             Route::get('/', App\Livewire\Admin\Dosen\Index::class)->name('admin.dosen');
         });
 
+        Route::prefix('semester')->group(function () {
+            Route::get('/', App\Livewire\Admin\Semester\Index::class)->name('admin.semester');
+        });
+
         Route::prefix('user')->group(function () {
             Route::get('/', App\Livewire\Admin\User\Index::class)->name('admin.user');
         });
