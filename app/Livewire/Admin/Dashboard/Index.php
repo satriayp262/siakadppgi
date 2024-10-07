@@ -9,6 +9,7 @@ use App\Models\Dosen;
 use App\Models\Mahasiswa;
 use App\Models\User;
 use App\Models\Kelas;
+use App\Models\Semester;
 
 class Index extends Component
 {
@@ -18,6 +19,7 @@ class Index extends Component
     public $mahasiswa;
     public $user;
     public $kelas;
+    public $semester;
 
     public function mount()
     {
@@ -38,6 +40,9 @@ class Index extends Component
 
         $kelass = Kelas::query()->count();
         $this->kelas = $kelass;
+
+        $semesters = Semester::query()->count();
+        $this->semester = $semesters;
     }
 
 
