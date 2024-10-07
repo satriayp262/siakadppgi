@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Mahasiswa;
 
 use App\Models\Prodi;
+use App\Models\Semester;
 use Livewire\Component;
 use App\Models\Mahasiswa;
 
@@ -99,7 +100,7 @@ class Edit extends Component
             'kewarganegaraan' => 'nullable|string',
             'jenis_pendaftaran' => 'nullable|string',
             'tanggal_masuk_kuliah' => 'nullable|date',
-            'mulai_semester' => 'nullable|string',
+            'mulai_semester' => 'nullable|integer',
             'jenis_tempat_tinggal' => 'nullable|string',
             'telp_rumah' => 'nullable|string',
             'no_hp' => 'nullable|string',
@@ -135,7 +136,6 @@ class Edit extends Component
             'kewarganegaraan.string' => 'Kewarganegaraan harus berupa string',
             'jenis_pendaftaran.string' => 'Jenis pendaftaran harus berupa string',
             'tanggal_masuk_kuliah.date' => 'Tanggal masuk kuliah tidak valid',
-            'mulai_semester.string' => 'Mulai semester harus berupa string',
             'jenis_tempat_tinggal.string' => 'Jenis tempat tinggal harus berupa string',
             'telp_rumah.string' => 'Telepon rumah harus berupa string',
             'no_hp.string' => 'Nomor HP harus berupa string',
@@ -199,11 +199,13 @@ class Edit extends Component
     }
     public function render()
     {
+        $semesters = Semester::all();
         $prodis = Prodi::query()
         ->latest()
         ->get();
         return view('livewire.admin.mahasiswa.edit',[
-            'prodis'=> $prodis
+            'prodis'=> $prodis,
+            'semesters' => $semesters
         ]);
     }
 }

@@ -48,6 +48,29 @@
                                             <option value="Perempuan">Perempuan</option>
                                             <option value="Laki-Laki">Laki-Laki</option>
                                         </select>
+                                    @elseif ($field === 'mulai_semester')
+                                        <div class="flex items-center">
+                                            <select id="{{ strtolower($field) }}" wire:model="{{ strtolower($field) }}"
+                                                name="{{ strtolower($field) }}"
+                                                class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
+                                                @foreach ($semesters as $semester)
+                                                    <option value="{{ $semester->kode_semester }}">
+                                                        {{ $semester->nama_semester }}
+                                                    </option>
+                                                @endforeach
+                                                <option value="add_new">Tambah Semester</option>
+                                                {{-- <livewire:admin.semester.create /> --}}
+                                            </select>
+                                        </div>
+                                    @elseif($field === 'kode_prodi')
+                                        <select id="{{ strtolower($field) }}" wire:model="{{ strtolower($field) }}"
+                                            name="{{ strtolower($field) }}"
+                                            class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
+                                            @foreach ($prodis as $program)
+                                                <option value="{{ $program->kode_prodi }}">{{ $program->nama_prodi }}
+                                                </option>
+                                            @endforeach
+                                        </select>
                                     @else
                                         <input type="text" id="{{ strtolower($field) }}"
                                             wire:model="{{ strtolower($field) }}" name="{{ strtolower($field) }}"
