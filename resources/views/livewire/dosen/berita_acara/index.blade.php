@@ -14,8 +14,7 @@
                 <div id="flash-message"
                     class="flex items-center justify-between p-4 mx-12 mt-8 mb-4 text-white {{ $bgColor }} rounded">
                     <span>{{ session('message') }}</span>
-                    <button class="p-1" onclick="document.getElementById('flash-message').style.display='none'"
-                        class="font-bold text-white">
+                    <button class="p-1" onclick="document.getElementById('flash-message').style.display='none'">
                         &times;
                     </button>
                 </div>
@@ -28,7 +27,7 @@
                 class="px-2 ml-4 border border-gray-300 rounded-lg">
         </div>
     </div>
-    <table class="min-w-full mt-4 bg-white text-sm  border border-gray-200">
+    <table class="min-w-full mt-4 bg-white text-sm border border-gray-200">
         <thead>
             <tr class="items-center w-full text-sm text-white align-middle bg-gray-800">
                 <th class="px-4 py-2 text-center">No</th>
@@ -43,14 +42,12 @@
         <tbody>
             @foreach ($beritaAcaras as $acara)
                 <tr wire:key="berita_acara-{{ $acara->id_berita_acara }}">
-                    <td class="px-4 py-2  text-center">
-                        {{ ($beritaAcaras->currentPage() - 1) * $beritaAcaras->perPage() + $loop->iteration }}</td>
-                    </td>
-                    <td class="px-4 py-2  text-center">{{ $acara->tanggal }}</td>
-                    <td class="px-4 py-2  text-center">{{ $acara->dosen->nama_dosen }}</td>
-                    <td class="px-4 py-2  text-center">{{ $acara->mataKuliah->nama_mata_kuliah }}</td>
-                    <td class="px-4 py-2  text-center">{{ $acara->materi }}</td>
-                    <td class="px-4 py-2  text-center">{{ $acara->jumlah_mahasiswa }}</td>
+                    <td class="px-4 py-2 text-center">{{ ($beritaAcaras->currentPage() - 1) * $beritaAcaras->perPage() + $loop->iteration }}</td>
+                    <td class="px-4 py-2 text-center">{{ $acara->tanggal }}</td>
+                    <td class="px-4 py-2 text-center">{{ ($acara->dosen)->nama_dosen ?? 'Data tidak ada' }}</td>
+                    <td class="px-4 py-2 text-center">{{ ($acara->mataKuliah)->nama_mata_kuliah ?? 'Data tidak ada' }}</td>
+                    <td class="px-4 py-2 text-center">{{ $acara->materi }}</td>
+                    <td class="px-4 py-2 text-center">{{ $acara->jumlah_mahasiswa }}</td>
                     <td class="px-4 py-2 text-center">
                         <div class="flex flex-col items-center space-y-2">
                             <div class="flex space-x-2">
@@ -68,7 +65,7 @@
     </table>
     <!-- Pagination Controls -->
     {{-- <div class="py-8 mt-4 text-center">
-        {{ $acaras->links('') }}
+        {{ $beritaAcaras->links() }}
     </div> --}}
 
     <script>

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Livewire\Dosen\BeritaAcara;
+
 use Livewire\Component;
 use App\Models\Dosen;
 use App\Models\BeritaAcara;
@@ -24,12 +25,11 @@ class Index extends Component
     public function destroy($id_berita_acara)
     {
         $acara = BeritaAcara::find($id_berita_acara);
-
         // Hapus data dosen
         $acara->delete();
 
         // Tampilkan pesan sukses
-        session()->flash('message', 'Barita Acara Berhasil di Hapus');
+        session()->flash('message', 'Berita Acara Berhasil di Hapus');
         session()->flash('message_type', 'error');
     }
 
@@ -40,10 +40,9 @@ class Index extends Component
         session()->flash('message_type', 'success');
     }
 
-    public $beritaAcaraId, $tanggal, $nidn, $materi, $kode_mata_kuliah, $jumlah_mahasiswa;
     public function render()
     {
-        $beritAcaras = BeritaAcara::query()
+        $beritaAcaras = BeritaAcara::query()
             ->where('nidn', 'like', '%' . $this->search . '%')
             ->orWhere('kode_mata_kuliah', 'like', '%' . $this->search . '%')
             ->orWhere('jumlah_mahasiswa', 'like', '%' . $this->search . '%')
@@ -52,7 +51,7 @@ class Index extends Component
             ->paginate(5);
 
         return view('livewire.dosen.berita_acara.index', [
-            'beritaAcaras' => BeritaAcara::with('dosen', 'mataKuliah')->get(),
+            'beritaAcaras' => $beritaAcaras,
             'dosens' => Dosen::all(),
         ]);
     }
