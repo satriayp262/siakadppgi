@@ -22,9 +22,9 @@ class Index extends Component
 
     public $search = '';
     public $file;
-    public $selectedDosen = [];
-    public $selectAll = false;
 
+public $selectedDosen = [];
+    public $selectAll = false;
 
     #[On('dosenUpdated')]
     public function handledosenEdited()
@@ -149,7 +149,7 @@ class Index extends Component
             ->orWhere('kepangkatan', 'like', '%' . $this->search . '%')
             ->orWhere('kode_prodi', 'like', '%' . $this->search . '%')
             ->latest()
-            ->paginate(20);
+            ->paginate(5);
 
         return view('livewire.admin.dosen.index', [
             'dosens' => $dosens,

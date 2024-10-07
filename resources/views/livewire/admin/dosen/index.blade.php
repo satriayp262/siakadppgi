@@ -1,5 +1,5 @@
 <div class="mx-5">
-    <div class="flex flex-col justify-between mx-4 mt-4 ">
+    <div class="flex flex-col justify-between mx-4 mt-2">
         <div>
             @if (session()->has('message'))
                 @php
@@ -189,7 +189,7 @@
     </table>
 
     <!-- Pagination Controls -->
-    <div class="py-8 mt-4 mb-4 text-center">
+    <div class="mt-4 mb-4 text-center">
         {{ $dosens->links('') }}
     </div>
 

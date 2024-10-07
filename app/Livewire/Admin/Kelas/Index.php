@@ -13,6 +13,8 @@ class Index extends Component
     use WithPagination;
 
     public $search = '';
+    public $selectedKelas = [];
+    public $selectAll = false;
 
     #[On('kelasCreated')]
     public function handleKelasCreated()
@@ -29,7 +31,29 @@ class Index extends Component
         session()->flash('message_type', 'update');
     }
 
+    public function updatedSelectAll($value)
+    {
+        if ($value) {
+            // Jika selectAll true, pilih semua id_dosen
+            $this->selectedKelas = Kelas::pluck('id_kelas')->toArray();
+        } else {
+            // Jika selectAll false, hapus semua pilihan
+            $this->selectedKelas = [];
+        }
+    }
 
+    public function destroySelected()
+    {
+        // Hapus data dosen yang terpilih
+        Kelas::whereIn('id_kelas', $this->selectedKelas)->delete();
+
+        // Reset array selectedDosen setelah penghapusan
+        $this->selectedKelas = [];
+        $this->selectAll = false; // Reset juga selectAll
+
+        // Emit event ke frontend untuk reset checkbox
+        $this->dispatch('kelasDeleted');
+    }
 
 
     public function destroy($id_kelas)

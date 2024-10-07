@@ -133,7 +133,7 @@ class Index extends Component
         $semesters = Semester::query()
             ->latest()
             ->get();
-            
+
         $query = Mahasiswa::query();
 
         if ($this->search) {
@@ -145,7 +145,7 @@ class Index extends Component
                 ->orWhere('email', 'like', '%' . $this->search . '%');
         }
 
-        $mahasiswas = $query->latest()->paginate(24);
+        $mahasiswas = $query->latest()->paginate(5);
 
         return view('livewire.admin.mahasiswa.index', [
             'mahasiswas' => $mahasiswas,

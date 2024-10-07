@@ -36,7 +36,13 @@
         </div>
         <!-- Modal Form -->
         <div class="flex justify-between mt-2">
-            <livewire:admin.kelas.create />
+            <div class="flex space-x-2">
+                <livewire:admin.kelas.create />
+                <button class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700"
+                    onclick="confirmDeleteSelected()">
+                    Hapus Data Terpilih
+                </button>
+            </div>
             <input type="text" wire:model.live="search" placeholder="   Search"
                 class="px-2 ml-4 border border-gray-300 rounded-lg">
         </div>
@@ -44,6 +50,7 @@
     <table class="min-w-full mt-4 bg-white border border-gray-200">
         <thead>
             <tr class="items-center w-full text-sm text-white align-middle bg-gray-800">
+                <th class="py-2 px-4"><input type="checkbox" id="selectAll" wire:model="selectAll"></th>
                 <th class="px-4 py-2 text-center">No.</th>
                 <th class="px-4 py-2 text-center">Kode Kelas</th>
                 <th class="px-4 py-2 text-center">Nama Kelas</th>
@@ -58,6 +65,10 @@
             @foreach ($kelases as $kelas)
                 <tr class="border-t" wire:key="kelas-{{ $kelas->id }}">
                     <td class="px-4 py-2 text-center">
+                        <input type="checkbox" class="selectRow" wire:model="selectedKelas"
+                            value="{{ $kelas->id_kelas }}">
+                    </td>
+                    <td class="px-4 py-2 text-center">
                         {{ ($kelases->currentPage() - 1) * $kelases->perPage() + $loop->iteration }}</td>
                     <td class="px-4 py-2 text-center w-1/4">{{ $kelas->kode_kelas }}</td>
                     <td class="px-4 py-2 text-center w-1/4">{{ $kelas->nama_kelas }}</td>
@@ -65,12 +76,23 @@
                     <td class="px-4 py-2 text-center w-1/4">{{ $kelas->prodi->nama_prodi }}</td>
                     <td class="px-4 py-2 text-center w-1/4">{{ $kelas->matkul->nama_mata_kuliah }}</td>
                     <td class="px-4 py-2 text-center w-1/4">{{ $kelas->lingkup_kelas }}</td>
-                    <td class="px-4 py-2 text-center w-1/2">
-                        <div class="flex items-center justify-center space-x-2">
-                            <livewire:admin.kelas.edit :id_kelas="$kelas->id_kelas"
-                                wire:key="edit-{{ rand() . $kelas->id_kelas }}" />
-                            <button class="inline-block px-3 py-1 text-white bg-red-500 rounded hover:bg-red-700"
-                                onclick="confirmDelete('{{ $kelas->id_kelas }}', '{{ $kelas->nama_kelas }}')">Delete</button>
+                    <td class="px-4 py-2 text-center">
+                        <div class="flex flex-col items-center space-y-2">
+                            <div class="flex justify-center space-x-2">
+                                <livewire:admin.kelas.edit :id_kelas="$kelas->id_kelas"
+                                    wire:key="edit-{{ rand() . $kelas->id_kelas }}" />
+                            </div>
+                            <button wire:key="delete-{{ $kelas->id_kelas }}"
+                                class="inline-block px-4 py-2 mt-1 text-white bg-red-500 rounded hover:bg-red-700"
+                                onclick="confirmDelete({{ $kelas->id_kelas }}, '{{ $kelas->nama_kelas }}')"><svg
+                                    class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                    viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
+                                </svg>
+                            </button>
                         </div>
                     </td>
                 </tr>
@@ -95,6 +117,56 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     @this.call('destroy', id);
+                }
+            });
+        }
+
+        // Ambil elemen checkbox di header
+        const selectAllCheckbox = document.getElementById('selectAll');
+
+        // Ambil semua checkbox di baris
+        const rowCheckboxes = document.querySelectorAll('.selectRow');
+
+        // Event listener untuk checkbox di header
+        selectAllCheckbox.addEventListener('change', function() {
+            const isChecked = this.checked;
+
+            // Iterasi semua checkbox di row dan ubah status checked sesuai header
+            rowCheckboxes.forEach(function(checkbox) {
+                checkbox.checked = isChecked; // Update status checkbox di baris
+            });
+
+            // Jika Anda menggunakan Livewire, Anda bisa memanggil update pada model
+            @this.set('selectedKelas', isChecked ? [...rowCheckboxes].map(cb => cb.value) : []);
+        });
+
+
+        function confirmDeleteSelected() {
+            const selectedKelas = @this.selectedKelas; // Dapatkan data dari Livewire
+
+            console.log(selectedKelas); // Tambahkan log untuk memeriksa nilai
+
+            if (selectedKelas.length === 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Tidak ada data yang dipilih!',
+                    text: 'Silakan pilih data yang ingin dihapus terlebih dahulu.',
+                });
+                return;
+            }
+
+            Swal.fire({
+                title: `Apakah anda yakin ingin menghapus ${selectedKelas.length} data kelas?`,
+                text: "Data yang telah dihapus tidak dapat dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Hapus'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Panggil method Livewire untuk menghapus data terpilih
+                    @this.call('destroySelected');
                 }
             });
         }
