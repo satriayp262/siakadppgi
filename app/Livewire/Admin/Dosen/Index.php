@@ -54,7 +54,8 @@ public $selectedDosen = [];
         $this->selectAll = false; // Reset juga selectAll
 
         // Emit event ke frontend untuk reset checkbox
-        $this->dispatch('dosenDeleted');
+        session()->flash('message', 'Dosen Berhasil di Hapus');
+        session()->flash('message_type', 'error');
     }
 
 
