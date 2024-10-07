@@ -156,9 +156,9 @@
                         );
 
                         // Jika $mahasiswa->semester adalah relasi one-to-many, pastikan Anda memanggil data yang tepat
-                        $currentSemester = (int) substr($mahasiswa->semester->first()->nama_semester ?? '0000', 0, 4);
+                        $initialSemester = (int) substr($mahasiswa->semester->first()->nama_semester ?? '0000', 0, 4);
 
-                        $semesterDifference = $latestSemester - $currentSemester;
+                        $semesterDifference = ($latestSemester - $initialSemester) * 2;
                     @endphp
                     <td class="px-4 py-2 text-center">{{ $semesterDifference }}</td>
                     <td class="px-4 py-2 text-center">{{ $mahasiswa->prodi->nama_prodi }}</td>

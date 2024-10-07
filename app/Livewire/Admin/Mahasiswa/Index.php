@@ -125,9 +125,15 @@ class Index extends Component
 
     public function render()
     {
+
+        $prodis = Prodi::query()
+            ->latest()
+            ->get();
+
         $semesters = Semester::query()
             ->latest()
             ->get();
+            
         $query = Mahasiswa::query();
 
         if ($this->search) {
@@ -143,7 +149,8 @@ class Index extends Component
 
         return view('livewire.admin.mahasiswa.index', [
             'mahasiswas' => $mahasiswas,
-            'semesters'=> $semesters
+            'semesters'=> $semesters,
+            'prodis'=> $prodis,
         ]);
     }
 }

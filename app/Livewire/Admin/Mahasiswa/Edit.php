@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Mahasiswa;
 
+use App\Models\Prodi;
 use Livewire\Component;
 use App\Models\Mahasiswa;
 
@@ -198,6 +199,11 @@ class Edit extends Component
     }
     public function render()
     {
-        return view('livewire.admin.mahasiswa.edit');
+        $prodis = Prodi::query()
+        ->latest()
+        ->get();
+        return view('livewire.admin.mahasiswa.edit',[
+            'prodis'=> $prodis
+        ]);
     }
 }
