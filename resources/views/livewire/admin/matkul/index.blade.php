@@ -46,6 +46,10 @@
                     class="px-4 py-2 font-bold text-white bg-yellow-500 rounded hover:bg-yellow-700">
                     Unduh Template Excel
                 </button>
+                <button class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700"
+                    onclick="confirmDeleteSelected()">
+                    Hapus Data Terpilih
+                </button>
             </div>
             <input type="text" wire:model.live="search" placeholder="   Search"
                 class="px-2 ml-4 border border-gray-300 rounded-lg">
@@ -54,6 +58,7 @@
     <table class="min-w-full mt-4 bg-white border border-gray-200">
         <thead>
             <tr class="items-center w-full text-sm text-white align-middle bg-gray-800">
+                <th class="py-2 px-4"><input type="checkbox" id="selectAll" wire:model="selectAll"></th>
                 <th class="px-4 py-2 text-center">No</th>
                 <th class="px-4 py-2 text-center">Kode Mata Kuliah</th>
                 <th class="px-4 py-2 text-center">Nama Mata Kuliah</th>
@@ -70,6 +75,10 @@
 
             @foreach ($matkuls as $matkul)
                 <tr class="border-t" wire:key="matkul-{{ $matkul->id_mata_kuliah }}">
+                    <td class="px-4 py-2 text-center">
+                        <input type="checkbox" class="selectRow" wire:model="selectedMatkul"
+                            value="{{ $matkul->id_mata_kuliah }}">
+                    </td>
                     <td class="px-4 py-2 text-center">{{ ++$iteration }}</td>
                     <td class="px-4 py-2 text-center">{{ $matkul->kode_mata_kuliah }}</td>
                     <td class="px-4 py-2 text-center">{{ $matkul->nama_mata_kuliah }}</td>
@@ -121,6 +130,56 @@
                 if (result.isConfirmed) {
                     // Panggil method Livewire jika konfirmasi diterima
                     @this.call('destroy', id);
+                }
+            });
+        }
+
+        // Ambil elemen checkbox di header
+        const selectAllCheckbox = document.getElementById('selectAll');
+
+        // Ambil semua checkbox di baris
+        const rowCheckboxes = document.querySelectorAll('.selectRow');
+
+        // Event listener untuk checkbox di header
+        selectAllCheckbox.addEventListener('change', function() {
+            const isChecked = this.checked;
+
+            // Iterasi semua checkbox di row dan ubah status checked sesuai header
+            rowCheckboxes.forEach(function(checkbox) {
+                checkbox.checked = isChecked; // Update status checkbox di baris
+            });
+
+            // Jika Anda menggunakan Livewire, Anda bisa memanggil update pada model
+            @this.set('selectedMatkul', isChecked ? [...rowCheckboxes].map(cb => cb.value) : []);
+        });
+
+
+        function confirmDeleteSelected() {
+            const selectedMatkul = @this.selectedMatkul; // Dapatkan data dari Livewire
+
+            console.log(selectedMatkul); // Tambahkan log untuk memeriksa nilai
+
+            if (selectedMatkul.length === 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Tidak ada data yang dipilih!',
+                    text: 'Silakan pilih data yang ingin dihapus terlebih dahulu.',
+                });
+                return;
+            }
+
+            Swal.fire({
+                title: `Apakah anda yakin ingin menghapus ${selectedMatkul.length} data mata kuliah?`,
+                text: "Data yang telah dihapus tidak dapat dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Hapus'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Panggil method Livewire untuk menghapus data terpilih
+                    @this.call('destroySelected');
                 }
             });
         }

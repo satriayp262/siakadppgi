@@ -33,8 +33,6 @@ class Index extends Component
         session()->flash('message_type', 'update');
     }
 
-    // Fungsi untuk menghapus dosen yang dipilih
-    // Method ini dipanggil ketika ada perubahan pada checkbox select all
     public function updatedSelectAll($value)
     {
         if ($value) {

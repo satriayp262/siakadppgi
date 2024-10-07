@@ -18,6 +18,8 @@ class Index extends Component
     use WithPagination;
 
     public $search = '';
+    public $selectedMatkul = [];
+    public $selectAll = false;
 
     #[On('matkulUpdated')]
     public function handlematkulEdited()
@@ -71,6 +73,30 @@ class Index extends Component
         }
 
         // dd(session()->all());
+    }
+
+    public function updatedSelectAll($value)
+    {
+        if ($value) {
+            // Jika selectAll true, pilih semua id_dosen
+            $this->selectedMatkul = Matakuliah::pluck('id_mata_kuliah')->toArray();
+        } else {
+            // Jika selectAll false, hapus semua pilihan
+            $this->selectedMatkul = [];
+        }
+    }
+
+    public function destroySelected()
+    {
+        // Hapus data dosen yang terpilih
+        Matakuliah::whereIn('id_mata_kuliah', $this->selectedMatkul)->delete();
+
+        // Reset array selectedDosen setelah penghapusan
+        $this->selectedMatkul = [];
+        $this->selectAll = false; // Reset juga selectAll
+
+        // Emit event ke frontend untuk reset checkbox
+        $this->dispatch('matkulDeleted');
     }
 
     public function render()
