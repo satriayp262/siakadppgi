@@ -111,6 +111,6 @@ class Edit extends Component
 
     public function render()
     {
-        return view('livewire.dosen.berita-acara.edit');
+        return view('livewire.dosen.berita_acara.edit');
     }
 }

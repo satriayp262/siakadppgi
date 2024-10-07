@@ -151,7 +151,7 @@
 
             @foreach ($dosens as $dosen)
                 <tr wire:key="dosen-{{ $dosen->id_dosen }}">
-                    <td class="px-4 py-2">
+                    <td class="px-4 py-2 text-center">
                         <input type="checkbox" class="selectRow" wire:model="selectedDosen"
                             value="{{ $dosen->id_dosen }}">
                     </td>

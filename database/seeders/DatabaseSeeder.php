@@ -7,6 +7,7 @@ use App\Models\Matakuliah;
 use App\Models\User;
 use App\Models\Mahasiswa;
 use App\Models\Prodi;
+use App\Models\Semester;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -28,7 +29,6 @@ class DatabaseSeeder extends Seeder
         Dosen::factory(10)->create();
         Matakuliah::factory(20)->create();
         Mahasiswa::factory(20)->create();
-
-
+        // Semester::factory(6)->create();
     }
 }

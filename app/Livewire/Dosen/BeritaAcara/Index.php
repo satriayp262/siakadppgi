@@ -51,7 +51,7 @@ class Index extends Component
             ->latest()
             ->paginate(5);
 
-        return view('livewire.dosen.berita-acara.index', [
+        return view('livewire.dosen.berita_acara.index', [
             'beritaAcaras' => BeritaAcara::with('dosen', 'mataKuliah')->get(),
             'dosens' => Dosen::all(),
         ]);

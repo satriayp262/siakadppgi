@@ -55,7 +55,7 @@
                                 class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
                                 <option value="" disabled selected>Select</option>
                                 @foreach ($matkul as $m)
-                                    <option value="{{ $m->kode_mata_kuliah }}">{{ $p->nama_mata_kuliah}}</option>
+                                    <option value="{{ $m->kode_mata_kuliah }}">{{ $m->nama_mata_kuliah}}</option>
                                 @endforeach
                             </select>
                             @error('kode_mata_kuliah')

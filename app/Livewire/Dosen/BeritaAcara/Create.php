@@ -9,7 +9,7 @@ use Livewire\Component;
 
 class Create extends Component
 {
-    public $beritaAcaraId, $tanggal, $nidn = '', $materi, $kode_mata_kuliah = '', $jumlah_mahasiswa, $matkul, $dosen;
+    public $id_berita_acara, $tanggal, $nidn = '', $materi, $kode_mata_kuliah = '', $jumlah_mahasiswa, $matkul, $dosen;
 
     public function rules()
     {
@@ -24,17 +24,7 @@ class Create extends Component
 
     public function mount()
     {
-        // Ambil data dosen berdasarkan $nidn yang dipilih
-        $dosen = Dosen::where('nidn', $this->nidn)->first();
-
-        // Ambil data matkul yang terkait dengan dosen yang dipilih
-        if ($dosen) {
-            $this->matkul = Matakuliah::where('nidn', $this->nidn)->get();
-        } else {
-            $this->matkul = collect(); // Jika tidak ditemukan dosen, atur $matkul sebagai koleksi kosong
-        }
-
-        // Ambil semua data dosen
+        $this->matkul = Matakuliah::all();
         $this->dosen = Dosen::all();
     }
 
@@ -59,6 +49,6 @@ class Create extends Component
     }
     public function render()
     {
-        return view('livewire.dosen.berita-acara.create');
+        return view('livewire.dosen.berita_acara.create');
     }
 }

@@ -17,7 +17,7 @@ class SemesterFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            // 'nama_semester' => $this->faker->randomElement(['20221', '20222', '20231', '20232', '20241', '20242']),
         ];
     }
 }

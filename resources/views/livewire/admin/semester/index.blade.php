@@ -36,15 +36,17 @@
                     </script>
                 @endpush --}}
             @endif
-            <button class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700"
-                onclick="confirmDeleteSelected()">
-                Hapus Data Terpilih
-            </button>
         </div>
 
         <!-- Modal Form -->
         <div class="flex justify-between mt-2">
-            <livewire:admin.semester.create />
+            <div class="flex space-x-2">
+                <livewire:admin.semester.create />
+                <button class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700"
+                    onclick="confirmDeleteSelected()">
+                    Hapus Data Terpilih
+                </button>
+            </div>
             <input type="text" wire:model.live="search" placeholder="   Search"
                 class="px-2 ml-4 border border-gray-300 rounded-lg">
         </div>
@@ -61,7 +63,7 @@
         <tbody>
             @foreach ($semesters as $semester)
                 <tr class="border-t" wire:key="semester-{{ $semester->id_semester }}">
-                    <td class="px-4 py-2">
+                    <td class="px-4 py-2 text-center">
                         <input type="checkbox" class="selectRow" wire:model="selectedSemester"
                             value="{{ $semester->id_semester }}">
                     </td>
