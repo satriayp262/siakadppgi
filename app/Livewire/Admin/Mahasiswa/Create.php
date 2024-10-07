@@ -5,10 +5,11 @@ namespace App\Livewire\Admin\Mahasiswa;
 use App\Models\Mahasiswa;
 use Livewire\Component;
 use Illuminate\Support\Str;
+use App\Models\Prodi;
 
 class Create extends Component
 {
-    public $NIM, $NIK, $nama, $jenis_kelamin, $tempat_lahir, $tanggal_lahir;
+    public $NIM, $NIK, $nama, $jenis_kelamin = '', $kode_prodi = '', $tempat_lahir, $tanggal_lahir;
     public function rules()
     {
         return [
@@ -57,6 +58,9 @@ class Create extends Component
 
     public function render()
     {
-        return view('livewire.admin.mahasiswa.create');
+        $prodis = Prodi::all();
+        return view('livewire.admin.mahasiswa.create',[
+            'prodis' => $prodis,
+        ]);
     }
 }

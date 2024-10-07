@@ -13,7 +13,7 @@ class Show extends Component
 
     public function mount() 
     {
-        $mahasiswa = Mahasiswa::find($this->id_mahasiswa);
+        // $mahasiswa = Mahasiswa::find($this->id_mahasiswa);
         // dd($mahasiswa);
         $this->NIM = $mahasiswa->NIM ?? null;
         $this->NIK = $mahasiswa->NIK ?? null;
@@ -47,6 +47,9 @@ class Show extends Component
 
     public function render()
     {
-        return view('livewire.admin.mahasiswa.show');
+        $mahasiswa = Mahasiswa::find($this->id_mahasiswa);
+        return view('livewire.admin.mahasiswa.show',[
+            'mahasiswa'=> $mahasiswa,
+        ]);
     }
 }

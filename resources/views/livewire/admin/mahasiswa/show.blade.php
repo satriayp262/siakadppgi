@@ -23,23 +23,193 @@
             <div class="p-4">
                 <div class="p-4 max-h-[500px] overflow-y-auto">
                     <div class="grid grid-cols-3">
-                        @foreach (['NIM', 'nama', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'NIK', 'agama', 'alamat', 'jalur_pendaftaran', 'kewarganegaraan', 'jenis_pendaftaran', 'tanggal_masuk_kuliah', 'mulai_semester', 'jenis_tempat_tinggal', 'telp_rumah', 'no_hp', 'email', 'terima_kps', 'no_kps', 'jenis_transportasi', 'kode_prodi', 'SKS_diakui', 'kode_pt_asal', 'nama_pt_asal', 'kode_prodi_asal', 'nama_prodi_asal', 'jenis_pembiayaan', 'jumlah_biaya_masuk'] as $field)
-                            <div class="mb-4 text-left border w-full h-full p-2">
-                                @php
-                                    if ($field === 'NIM' || $field === 'NIK') {
-                                        $label = Str::of($field)->replace('_', ' ');
-                                    } else {
-                                        $label = Str::of($field)->replace('_', ' ')->title();
-                                    }
-                                @endphp
-                                <label for="{{ strtolower($field) }}"
-                                    class="block text-sm text-left font-medium text-gray-700">{{ $label }}</label>
-                                <p class="text-sm text-gray-500">{{ $this->$field ?? 'Data Belum ada' }}</p>
-                            </div>
-                        @endforeach
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label for="nama" class="block text-sm font-medium text-gray-700">Nama Mahasiswa</label>
+                            <p class="text-sm text-gray-500">{{ $mahasiswa->nama ?? 'Data Belum Ada' }}</p>
+                        </div>
+
+
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label for="NIM" class="block text-sm font-medium text-gray-700">NIM</label>
+                            <p class="text-sm text-gray-500">{{ $mahasiswa->NIM ?? 'Data Belum Ada' }}</p>
+                        </div>
+
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label for="prodi" class="block text-sm font-medium text-gray-700">Prodi</label>
+                            <p class="text-sm text-gray-500">{{ $mahasiswa->prodi->nama_prodi ?? 'Data Belum Ada' }}
+                            </p>
+                        </div>
+
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label for="tempat_lahir" class="block text-sm font-medium text-gray-700">Tempat Tanggal
+                                Lahir</label>
+                            <p class="text-sm text-gray-500">
+                                {{ $mahasiswa->tempat_lahir ?? 'Data Belum Ada' }},
+                                {{ $mahasiswa->tanggal_lahir ? \Carbon\Carbon::parse($mahasiswa->tanggal_lahir)->format('d-m-Y') : 'Data Belum Ada' }}
+                            </p>
+                        </div>
+
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label for="jenis_kelamin" class="block text-sm font-medium text-gray-700">Jenis
+                                Kelamin</label>
+                            <p class="text-sm text-gray-500">{{ $mahasiswa->jenis_kelamin ?? 'Data Belum Ada' }}
+                            </p>
+                        </div>
+
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label for="NIK" class="block text-sm font-medium text-gray-700">NIK</label>
+                            <p class="text-sm text-gray-500">{{ $mahasiswa->NIK ?? 'Data Belum Ada' }}</p>
+                        </div>
+
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label for="agama" class="block text-sm font-medium text-gray-700">Agama</label>
+                            <p class="text-sm text-gray-500">{{ $mahasiswa->agama ?? 'Data Belum Ada' }}</p>
+                        </div>
+
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label for="alamat" class="block text-sm font-medium text-gray-700">Alamat</label>
+                            <p class="text-sm text-gray-500">{{ $mahasiswa->alamat ?? 'Data Belum Ada' }}</p>
+                        </div>
+
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label for="jalur_pendaftaran" class="block text-sm font-medium text-gray-700">Jalur
+                                Pendaftaran</label>
+                            <p class="text-sm text-gray-500">{{ $mahasiswa->jalur_pendaftaran ?? 'Data Belum Ada' }}
+                            </p>
+                        </div>
+
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label for="kewarganegaraan"
+                                class="block text-sm font-medium text-gray-700">Kewarganegaraan</label>
+                            <p class="text-sm text-gray-500">{{ $mahasiswa->kewarganegaraan ?? 'Data Belum Ada' }}
+                            </p>
+                        </div>
+
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label for="jenis_pendaftaran" class="block text-sm font-medium text-gray-700">Jenis
+                                Pendaftaran</label>
+                            <p class="text-sm text-gray-500">{{ $mahasiswa->jenis_pendaftaran ?? 'Data Belum Ada' }}
+                            </p>
+                        </div>
+
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label for="tanggal_masuk_kuliah" class="block text-sm font-medium text-gray-700">Tanggal
+                                Masuk Kuliah</label>
+                            <p class="text-sm text-gray-500">
+                                {{ $mahasiswa->tanggal_masuk_kuliah ? \Carbon\Carbon::parse($mahasiswa->tanggal_masuk_kuliah)->format('d-m-Y') : 'Data Belum Ada' }}
+                            </p>
+                        </div>
+
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label for="mulai_semester"
+                                class="block text-sm font-medium
+                            text-gray-700">Mulai
+                                Semester</label>
+                            <p class="text-sm text-gray-500">
+                                {{ $mahasiswa->semester->nama_semester ?? 'Data Belum Ada' }}
+                            </p>
+                        </div>
+
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label for="jenis_tempat_tinggal" class="block text-sm font-medium text-gray-700">Jenis
+                                Tempat Tinggal</label>
+                            <p class="text-sm text-gray-500">{{ $mahasiswa->jenis_tempat_tinggal ?? 'Data Belum Ada' }}
+                            </p>
+                        </div>
+
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label for="telp_rumah"
+                                class="block text
+                            -sm font-medium text-gray-700">Telp
+                                Rumah</label>
+                            <p class="text-sm text-gray-500">{{ $mahasiswa->telp_rumah ?? 'Data Belum Ada' }}</p>
+                        </div>
+
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label for="no_hp" class="block text-sm font-medium text-gray-700">No HP</label>
+                            <p class="text-sm text-gray-500">{{ $mahasiswa->no_hp ?? 'Data Belum Ada' }}</p>
+                        </div>
+
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                            <p class="text-sm text-gray-500">{{ $mahasiswa->email ?? 'Data Belum Ada' }}</p>
+                        </div>
+
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label for="terima_kps"
+                                class="block text
+                            -sm font-medium text-gray-700">Terima
+                                KPS</label>
+                            <p class="text-sm text-gray-500">{{ $mahasiswa->terima_kps ?? 'Data Belum Ada' }}</p>
+                        </div>
+
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label for="no_kps" class="block text-sm font-medium text-gray-700">No KPS</label>
+                            <p class="text-sm text-gray-500">{{ $mahasiswa->no_kps ?? 'Data Belum Ada' }}</p>
+                        </div>
+
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label for="jenis_transportasi"
+                                class="block text
+                            -sm font-medium text-gray-700">Jenis
+                                Transportasi</label>
+                            <p class="text-sm text-gray-500">{{ $mahasiswa->jenis_transportasi ?? 'Data Belum Ada' }}
+                            </p>
+                        </div>
+
+
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label for="kode_pt_asal"
+                                class="block text
+                            -sm font-medium text-gray-700">Kode
+                                PT Asal</label>
+                            <p class="text-sm text-gray-500">{{ $mahasiswa->kode_pt_asal ?? 'Data Belum Ada' }}</p>
+                        </div>
+
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label for="nama_pt_asal"
+                                class="block text
+                            -sm font-medium text-gray-700">Nama
+                                PT Asal</label>
+                            <p class="text-sm text-gray-500">{{ $mahasiswa->nama_pt_asal ?? 'Data Belum Ada' }}</p>
+                        </div>
+
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label for="kode_prodi_asal"
+                                class="block text
+                            -sm font-medium text-gray-700">Kode
+                                Prodi Asal</label>
+                            <p class="text-sm text-gray-500">{{ $mahasiswa->kode_prodi_asal ?? 'Data Belum Ada' }}</p>
+                        </div>
+
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label for="nama_prodi_asal"
+                                class="block text
+                            -sm font-medium text-gray-700">Nama
+                                Prodi Asal</label>
+                            <p class="text-sm text-gray-500">{{ $mahasiswa->nama_prodi_asal ?? 'Data Belum Ada' }}</p>
+                        </div>
+
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label for="jenis_pembiayaan"
+                                class="block text
+                            -sm font-medium text-gray-700">Jenis
+                                Pembiayaan</label>
+                            <p class="text-sm text-gray-500">{{ $mahasiswa->jenis_pembiayaan ?? 'Data Belum Ada' }}
+                            </p>
+
+                        </div>
+
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label for="jumlah_biaya_masuk"
+                                class="block text
+                            -sm font-medium text-gray-700">Jumlah
+                                Biaya Masuk</label>
+                            <p class="text-sm text-gray-500">Rp.
+                                {{ $mahasiswa->jumlah_biaya_masuk ? number_format($mahasiswa->jumlah_biaya_masuk, 2, ',', '.') : 'Data Belum Ada' }}
+                            </p>
+                        </div>
                     </div>
-
-
                 </div>
             </div>
         </div>
