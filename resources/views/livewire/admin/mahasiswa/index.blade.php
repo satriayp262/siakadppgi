@@ -131,6 +131,11 @@
                 class="px-2 ml-4 border border-gray-300 rounded-lg">
         </div>
     </div>
+    @php
+        // Ambil semester terbaru (secara umum, tidak terkait dengan mahasiswa tertentu)
+        $latestSemester = (int) substr($semesters->sortByDesc('nama_semester')->first()->nama_semester, 0, 4);
+        $latestSemesterDigit5 = (int) substr($semesters->sortByDesc('nama_semester')->first()->nama_semester, 4, 1);
+    @endphp
     <table class="min-w-full mt-4 bg-white border border-gray-200">
         <thead>
             <tr class="items-center w-full text-sm text-white align-middle bg-gray-800">
@@ -151,24 +156,30 @@
                             value="{{ $mahasiswa->id_mahasiswa }}">
                     </td>
                     <td class="px-4 py-2 text-center">
-                        {{ ($mahasiswas->currentPage() - 1) * $mahasiswas->perPage() + $loop->iteration }}</td>
+                        {{ ($mahasiswas->currentPage() - 1) * $mahasiswas->perPage() + $loop->iteration }}
                     </td>
                     <td class="px-4 py-2 text-center">{{ $mahasiswa->nama }}</td>
                     <td class="px-4 py-2 text-center">{{ $mahasiswa->NIM }}</td>
+
                     @php
+                        // Ambil semester awal mahasiswa ini
+                        $initialSemester = (int) substr($mahasiswa->semester->nama_semester ?? '0000', 0, 4);
+                        $initialSemesterDigit5 = (int) substr($mahasiswa->semester->nama_semester ?? '00000', 4, 1);
 
-                        // Ambil semester terbaru
-                        $latestSemester = (int) substr(
-                            $semesters->sortByDesc('nama_semester')->first()->nama_semester,
-                            0,
-                            4,
-                        );
-
-                        // Jika $mahasiswa->semester adalah relasi one-to-many, pastikan Anda memanggil data yang tepat
-                        $initialSemester = (int) substr($mahasiswa->semester->first()->nama_semester ?? '0000', 0, 4);
-
+                        // Hitung perbedaan semester berdasarkan 4 digit pertama
                         $semesterDifference = ($latestSemester - $initialSemester) * 2;
+
+                        // Jika digit kelima berbeda, sesuaikan semesterDifference
+                        if ($latestSemesterDigit5 == $initialSemesterDigit5) {
+                            $semesterDifference += 1; // Tambah 1 jika latestSemester lebih besar
+                        } elseif ($latestSemesterDigit5 > $initialSemesterDigit5) {
+                            $semesterDifference += 2; // Kurangi 1 jika latestSemester lebih kecil
+                        } elseif ($latestSemesterDigit5 < $initialSemesterDigit5) {
+                            $semesterDifference += 0; // Tambah 1 jika sama
+                        }
+
                     @endphp
+
                     <td class="px-4 py-2 text-center">{{ $semesterDifference }}</td>
                     <td class="px-4 py-2 text-center">{{ $mahasiswa->prodi->nama_prodi }}</td>
                     <td class="px-4 py-2 text-center">
