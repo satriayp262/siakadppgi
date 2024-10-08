@@ -23,6 +23,9 @@ class Index extends Component
 
     public $search = '';
 
+    public $selectedMahasiswa = [];
+    public $selectAll = false;
+
 
     public $file;
 
@@ -33,6 +36,31 @@ class Index extends Component
     public function updatingSearch()
     {
         $this->resetPage();
+    }
+
+    public function updatedSelectAll($value)
+    {
+        if ($value) {
+            // Jika selectAll true, pilih semua id_mahasiswa
+            $this->selectedMahasiswa = Mahasiswa::pluck('id_mahasiswa')->toArray();
+        } else {
+            // Jika selectAll false, hapus semua pilihan
+            $this->selectedMahasiswa = [];
+        }
+    }
+
+    public function destroySelected()
+    {
+        // Hapus data mahasiswa yang terpilih
+        Mahasiswa::whereIn('id_mahasiswa', $this->selectedMahasiswa)->delete();
+
+        // Reset array selectedMahasiswa setelah penghapusan
+        $this->selectedMahasiswa = [];
+        $this->selectAll = false; // Reset juga selectAll
+
+        // Emit event ke frontend untuk reset checkbox
+        session()->flash('message', 'Mahasiswa Berhasil di Hapus');
+        session()->flash('message_type', 'error');
     }
 
     public function downloadTemplate(): BinaryFileResponse

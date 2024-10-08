@@ -3,12 +3,14 @@
         <div>
             @if (session()->has('message'))
                 @php
-                    $messageType = session('message_type', 'success');
+                    $messageType = session('message_type', 'success'); // Default to success
                     $bgColor =
                         $messageType === 'error'
                             ? 'bg-red-500'
-                            : ($messageType === 'warning'
-                                ? 'bg-yellow-500'
+                            : (($messageType === 'warning'
+                                    ? 'bg-yellow-500'
+                                    : $messageType === 'update')
+                                ? 'bg-blue-500'
                                 : 'bg-green-500');
                 @endphp
                 <div id="flash-message"
@@ -152,7 +154,7 @@
             @foreach ($mahasiswas as $mahasiswa)
                 <tr class="border-t" wire:key="matkul-{{ $mahasiswa->id_mahasiswa }}">
                     <td class="px-4 py-2 text-center">
-                        <input type="checkbox" class="selectRow" wire:model="selectedSemester"
+                        <input type="checkbox" class="selectRow" wire:model="selectedMahasiswa"
                             value="{{ $mahasiswa->id_mahasiswa }}">
                     </td>
                     <td class="px-4 py-2 text-center">
@@ -243,16 +245,16 @@
             });
 
             // Jika Anda menggunakan Livewire, Anda bisa memanggil update pada model
-            @this.set('selectedSemester', isChecked ? [...rowCheckboxes].map(cb => cb.value) : []);
+            @this.set('selectedMahasiswa', isChecked ? [...rowCheckboxes].map(cb => cb.value) : []);
         });
 
 
         function confirmDeleteSelected() {
-            const selectedSemester = @this.selectedSemester; // Dapatkan data dari Livewire
+            const selectedMahasiswa = @this.selectedMahasiswa; // Dapatkan data dari Livewire
 
-            console.log(selectedSemester); // Tambahkan log untuk memeriksa nilai
+            console.log(selectedMahasiswa); // Tambahkan log untuk memeriksa nilai
 
-            if (selectedSemester.length === 0) {
+            if (selectedMahasiswa.length === 0) {
                 Swal.fire({
                     icon: 'warning',
                     title: 'Tidak ada data yang dipilih!',
@@ -262,7 +264,7 @@
             }
 
             Swal.fire({
-                title: `Apakah anda yakin ingin menghapus ${selectedSemester.length} data Semester?`,
+                title: `Apakah anda yakin ingin menghapus ${selectedMahasiswa.length} data Mahasiswa?`,
                 text: "Data yang telah dihapus tidak dapat dikembalikan!",
                 icon: 'warning',
                 showCancelButton: true,
