@@ -73,4 +73,30 @@ class Mahasiswa extends Model
     {
         return $this->belongsTo(Semester::class, 'mulai_semester', 'id_semester');
     }
+    public function getSemesterDifferenceAttribute() {
+        // Retrieve the latest semester information
+        $latestSemester = Semester::orderBy('nama_semester', 'desc')->first();
+        if (!$latestSemester) {
+            return null; // Handle case when there are no semesters
+        }
+
+        $latestSemesterYear = (int) substr($latestSemester->nama_semester, 0, 4);
+        $latestSemesterDigit5 = (int) substr($latestSemester->nama_semester, 4, 1);
+
+        // Get the initial semester for this mahasiswa
+        $initialSemester = (int) substr($this->semester->nama_semester ?? '0000', 0, 4);
+        $initialSemesterDigit5 = (int) substr($this->semester->nama_semester ?? '00000', 4, 1);
+
+        // Calculate the semester difference
+        $semesterDifference = ($latestSemesterYear - $initialSemester) * 2;
+
+        // Adjust based on the fifth digit
+        if ($latestSemesterDigit5 == $initialSemesterDigit5) {
+            $semesterDifference += 1;
+        } elseif ($latestSemesterDigit5 > $initialSemesterDigit5) {
+            $semesterDifference += 2;
+        }
+
+        return $semesterDifference;
+    }
 }

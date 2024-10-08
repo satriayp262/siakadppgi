@@ -214,7 +214,7 @@
 
                     @endphp
 
-                    <td class="px-4 py-2 text-center">{{ $semesterDifference }}</td>
+                    <td class="px-4 py-2 text-center">{{ $mahasiswa->semesterDifference }}</td>
                     <td class="px-4 py-2 text-center">{{ $mahasiswa->prodi->nama_prodi }}</td>
                     <td class="px-4 py-2 text-center">
                         <div class="flex flex-col">
