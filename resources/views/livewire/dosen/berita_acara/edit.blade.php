@@ -28,7 +28,7 @@
                             <div class="mb-4">
                                 <label for="nidn" class="block text-sm font-medium text-gray-700">Nama
                                     Dosen</label>
-                                <select wire:model="nidn" wire:change="updatedNidn">
+                                <select wire:model="nidn" wire:model="nidn" class="block w-full py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring px-2focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
                                     <option value="">Pilih Dosen</option>
                                     @foreach ($dosen as $d)
                                         <option value="{{ $d->nidn }}">{{ $d->nama_dosen }}</option>
@@ -55,10 +55,9 @@
                             </div>
 
                             <div class="mb-4">
-                                <label for="materi" class="block text-sm font-medium text-gray-700">Jabatan
-                                    Fungsional</label>
-                                <input type="textarea" id="materi" wire:model="materi" name="materi"
-                                    class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
+                                <label for="materi" class="block text-sm font-medium text-gray-700">Materi</label>
+                                <textarea id="materi" wire:model="materi" name="materi"
+                                class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm"></textarea>
                                 @error('materi')
                                     <span class="text-sm text-red-500">{{ $message }}</span>
                                 @enderror
@@ -67,7 +66,7 @@
                             <div class="mb-4">
                                 <label for="jumlah_mahasiswa" class="block text-sm font-medium text-gray-700">Jumlah
                                     Mahasiswa</label>
-                                <input type="text" id="jumlah_mahasiswa" wire:model="jumlah_mahasiswa"
+                                <input type="number" id="jumlah_mahasiswa" wire:model="jumlah_mahasiswa"
                                     name="jumlah_mahasiswa"
                                     class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
                                 @error('jumlah_mahasiswa')
@@ -77,7 +76,7 @@
 
                             <!-- Submit Button inside the form -->
                             <div class="flex justify-end p-4 bg-gray-200 rounded-b-lg">
-                                <button type="button" wire:click="clear({{ $id_dosen }})" @click="isOpen = false"
+                                <button type="button" wire:click="clear({{ $id_berita_acara }})" @click="isOpen = false"
                                     class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">Close</button>
                                 <button type="submit" @click="isOpen = false"
                                     class="px-4 py-2 ml-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">Submit</button>

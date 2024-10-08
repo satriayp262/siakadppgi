@@ -18,14 +18,11 @@
             <!-- Modal Header -->
             <div class="flex items-center justify-between p-4 bg-gray-200 rounded-t-lg">
                 <h3 class="text-xl font-semibold">Tambah Dosen</h3>
-                <div @click="isOpen=false" class="px-3 rounded-sm shadow hover:bg-red-500">
-                    <button class="text-gray-900">&times;</button>
-                </div>
+                <button @click="isOpen=false" class="text-gray-900 px-3 rounded-sm shadow hover:bg-red-500">&times;</button>
             </div>
             <div class="p-4">
                 <div class="p-4 max-h-[500px] overflow-y-auto">
-                    <form wire:submit="save">
-
+                    <form wire:submit.prevent="save">
                         <div class="mb-4">
                             <label for="tanggal" class="block text-sm font-medium text-gray-700">Tanggal</label>
                             <input type="date" id="tanggal" wire:model="tanggal" name="tanggal"
@@ -41,7 +38,7 @@
                                 class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
                                 <option value="" disabled selected>Select</option>
                                 @foreach ($dosen as $d)
-                                    <option value="{{ $d->nidn }}">{{ $d->nama_dosen}}</option>
+                                    <option value="{{ $d->nidn }}">{{ $d->nama_dosen }}</option>
                                 @endforeach
                             </select>
                             @error('nidn')
@@ -55,7 +52,7 @@
                                 class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
                                 <option value="" disabled selected>Select</option>
                                 @foreach ($matkul as $m)
-                                    <option value="{{ $m->kode_mata_kuliah }}">{{ $m->nama_mata_kuliah}}</option>
+                                    <option value="{{ $m->kode_mata_kuliah }}">{{ $m->nama_mata_kuliah }}</option>
                                 @endforeach
                             </select>
                             @error('kode_mata_kuliah')
@@ -65,9 +62,8 @@
 
                         <div class="mb-4">
                             <label for="materi" class="block text-sm font-medium text-gray-700">Materi</label>
-                            <input type="textarea" id="materi" wire:model="materi"
-                                name="materi"
-                                class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
+                            <textarea id="materi" wire:model="materi" name="materi"
+                                class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm"></textarea>
                             @error('materi')
                                 <span class="text-sm text-red-500">{{ $message }}</span>
                             @enderror

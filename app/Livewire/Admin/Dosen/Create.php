@@ -28,6 +28,19 @@ class Create extends Component
         $this->prodi = Prodi::all();
     }
 
+    public function messages()
+    {
+        return [
+            'nidn.unique' => 'NIDN sudah terdaftar',
+            'nidn.required' => 'NIDN tidak boleh kosong',
+            'nama_dosen.required' => 'Nama dosen tidak boleh kosong',
+            'jenis_kelamin.required' => 'Jenis kelamin tidak boleh kosong',
+            'kode_prodi.required' => 'Kode prodi tidak boleh kosong',
+            'jabatan_fungsional.required' => 'Jabatan fungsional tidak boleh kosong',
+            'kepangkatan.required' => 'Kepangkatan tidak boleh kosong',
+        ];
+    }
+
     public function save()
     {
         // Validasi data

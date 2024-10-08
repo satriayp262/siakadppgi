@@ -44,8 +44,8 @@
                 <tr wire:key="berita_acara-{{ $acara->id_berita_acara }}">
                     <td class="px-4 py-2 text-center">{{ ($beritaAcaras->currentPage() - 1) * $beritaAcaras->perPage() + $loop->iteration }}</td>
                     <td class="px-4 py-2 text-center">{{ $acara->tanggal }}</td>
-                    <td class="px-4 py-2 text-center">{{ ($acara->dosen)->nama_dosen ?? 'Data tidak ada' }}</td>
-                    <td class="px-4 py-2 text-center">{{ ($acara->mataKuliah)->nama_mata_kuliah ?? 'Data tidak ada' }}</td>
+                    <td class="px-4 py-2 text-center">{{ $acara->dosen->nidn }}</td>
+                    <td class="px-4 py-2 text-center">{{ $acara->matakuliah->kode_mata_kuliah }}</td>
                     <td class="px-4 py-2 text-center">{{ $acara->materi }}</td>
                     <td class="px-4 py-2 text-center">{{ $acara->jumlah_mahasiswa }}</td>
                     <td class="px-4 py-2 text-center">
@@ -64,9 +64,9 @@
         </tbody>
     </table>
     <!-- Pagination Controls -->
-    {{-- <div class="py-8 mt-4 text-center">
+    <div class="py-8 mt-4 text-center">
         {{ $beritaAcaras->links() }}
-    </div> --}}
+    </div>
 
     <script>
         function confirmDelete(id, tanggal) {

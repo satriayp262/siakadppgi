@@ -9,7 +9,7 @@ use Livewire\Component;
 
 class Edit extends Component
 {
-    public $beritaAcaraId, $tanggal, $nidn = '', $materi, $kode_mata_kuliah = '', $jumlah_mahasiswa, $matkul, $dosen;
+    public $id_berita_acara, $tanggal, $nidn = '', $materi, $kode_mata_kuliah = '', $jumlah_mahasiswa, $matkul, $dosen;
 
     public function rules()
     {
@@ -29,7 +29,7 @@ class Edit extends Component
         $this->dispatch('refreshComponent');
         $acara = BeritaAcara::find($id_berita_acara);
         if ($id_berita_acara) {
-            $this->beritaAcaraId = $id_berita_acara->id_berita_acara;
+            $this->id_berita_acara = $id_berita_acara->id_berita_acara;
             $this->nidn = $id_berita_acara->nidn;
             $this->kode_mata_kuliah = $id_berita_acara->kode_mata_kuliah;
             $this->materi = $id_berita_acara->materi;
@@ -63,25 +63,24 @@ class Edit extends Component
 
         // Jika $acara ditemukan, set nilai properti dari data acara
         if ($acara) {
-            $this->beritaAcaraId = $acara->id_berita_acara;
+            $this->id_berita_acara = $acara->id_berita_acara;
             $this->tanggal = $acara->tanggal;
             $this->nidn = $acara->nidn;
             $this->materi = $acara->materi;
             $this->kode_mata_kuliah = $acara->kode_mata_kuliah;
             $this->jumlah_mahasiswa = $acara->jumlah_mahasiswa;
 
-            // Ambil mata kuliah yang terkait dengan dosen berdasarkan NIDN
-            $this->matkul = Matakuliah::where('nidn', $this->nidn)->get();
+            $this->matkul = Matakuliah::all();
         } else {
             $this->matkul = collect();  // Jika tidak ada acara, set mata kuliah sebagai koleksi kosong
         }
     }
 
-    public function updatedNidn($value)
-    {
-        // Ketika nidn berubah, ambil matkul yang terkait dengan nidn yang dipilih
-        $this->matkul = Matakuliah::where('nidn', $value)->get();
-    }
+    // public function updatedNidn($value)
+    // {
+    //     // Ketika nidn berubah, ambil matkul yang terkait dengan nidn yang dipilih
+    //     $this->matkul = Matakuliah::where('nidn', $value)->get();
+    // }
 
     public function update()
     {

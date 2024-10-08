@@ -15,6 +15,7 @@ class Index extends Component
     public $search = '';
     public $selectedKelas = [];
     public $selectAll = false;
+    public $showDeleteButton = false;
 
     #[On('kelasCreated')]
     public function handleKelasCreated()
@@ -42,6 +43,11 @@ class Index extends Component
         }
     }
 
+    public function updatedSelectedKelas()
+    {
+        // Jika ada dosen yang dipilih, tampilkan tombol, jika tidak, sembunyikan
+        $this->showDeleteButton = count($this->selectedKelas) > 0;
+    }
     public function destroySelected()
     {
         // Hapus data dosen yang terpilih

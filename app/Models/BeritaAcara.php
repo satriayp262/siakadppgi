@@ -17,22 +17,29 @@ class BeritaAcara extends Model
 
     protected $fillable = ['tanggal', 'nidn', 'kode_mata_kuliah', 'materi', 'jumlah_mahasiswa'];
 
+    // Menggunakan boot untuk menghasilkan UUID secara otomatis
     protected static function boot()
     {
         parent::boot();
         static::creating(function ($model) {
+            // Membuat UUID jika id_berita_acara kosong
             if (empty($model->id_berita_acara)) {
                 $model->id_berita_acara = (string) Str::uuid();
             }
         });
     }
 
-    // Dalam model BeritaAcara
+    /**
+     * Relasi dengan model Dosen
+     */
     public function dosen()
     {
         return $this->belongsTo(Dosen::class, 'nidn', 'nidn');
     }
 
+    /**
+     * Relasi dengan model Matakuliah
+     */
     public function mataKuliah()
     {
         return $this->belongsTo(Matakuliah::class, 'kode_mata_kuliah', 'kode_mata_kuliah');

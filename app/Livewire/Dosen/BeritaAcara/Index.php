@@ -4,6 +4,7 @@ namespace App\Livewire\Dosen\BeritaAcara;
 
 use Livewire\Component;
 use App\Models\Dosen;
+use App\Models\Matakuliah;
 use App\Models\BeritaAcara;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\On;
@@ -14,6 +15,8 @@ class Index extends Component
     use WithPagination;
 
     public $search = '';
+
+    public $matkul, $dosen;
 
     #[On('acaraUpdated')]
     public function handledosenEdited()
@@ -40,6 +43,13 @@ class Index extends Component
         session()->flash('message_type', 'success');
     }
 
+    public function mount()
+    {
+        $this->matkul = Matakuliah::all() ?? collect([]);
+        $this->dosen = Dosen::all() ?? collect([]);
+    }
+
+
     public function render()
     {
         $beritaAcaras = BeritaAcara::query()
@@ -52,7 +62,6 @@ class Index extends Component
 
         return view('livewire.dosen.berita_acara.index', [
             'beritaAcaras' => $beritaAcaras,
-            'dosens' => Dosen::all(),
         ]);
     }
 }
