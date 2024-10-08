@@ -96,13 +96,46 @@
                                     <form wire:submit="import">
                                         @csrf <!-- CSRF protection for form submission -->
                                         <div class="mb-4">
-                                            <label for="file"
-                                                class="block text-sm font-medium text-gray-700">File</label>
-                                            <input type="file" id="file" wire:model="file" name="file"
-                                                class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
-                                            @error('file')
-                                                <span class="text-sm text-red-500">{{ $message }}</span>
-                                            @enderror
+                                            <div class="flex flex-col">
+                                                <label for=""
+                                                    class="block text-sm font-medium text-gray-700">Template
+                                                    Dokumen</label>
+                                                <button wire:click="downloadTemplate"
+                                                    class="flex justify-between items-center w-full px-2 py-1 mt-1 text-sm bg-gray-200 rounded-md border-gray-700 shadow-2xl focus:border-indigo-500 sm:text-sm">
+
+                                                    <!-- Left icon -->
+                                                    <svg class="w-6 h-6 text-gray-500" aria-hidden="true"
+                                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                        fill="none" viewBox="0 0 24 24">
+                                                        <path fill="currentColor"
+                                                            d="M9 2.221V7H4.221a2 2 0 0 1 .365-.5L8.5 2.586A2 2 0 0 1 9 2.22ZM11 2v5a2 2 0 0 1-2 2H4v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2h-7Z"
+                                                            clip-rule="evenodd" />
+                                                    </svg>
+
+                                                    <!-- Button text -->
+                                                    <span
+                                                        class="text-left flex-grow px-2 text-black-500 font-medium">Template_Mahasiswa.xlsx</span>
+
+                                                    <!-- Right icon -->
+                                                    <svg class="w-6 h-6 text-gray-500" aria-hidden="true"
+                                                        xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24">
+                                                        <path stroke="currentColor" stroke-linecap="round"
+                                                            stroke-linejoin="round" stroke-width="2"
+                                                            d="M4 15v2a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-2m-8 1V4m0 12-4-4m4 4 4-4" />
+                                                    </svg>
+                                                </button>
+
+
+                                                <br>
+                                                <label for="file"
+                                                    class="block text-sm font-medium text-gray-700">File</label>
+                                                <input type="file" id="file" wire:model="file" name="file"
+                                                    class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
+                                                @error('file')
+                                                    <span class="text-sm text-red-500">{{ $message }}</span>
+                                                @enderror
+                                            </div>
                                         </div>
                                         <div wire:loading>
                                             <div class="mt-2 w-full flex flex-row items-center space-x-2">
@@ -110,6 +143,8 @@
                                                 <div class="spinner-text">Memproses Permintaan...</div>
                                             </div>
                                         </div>
+
+
                                         <!-- Submit Button inside the form -->
                                         <div class="flex justify-end p-4 bg-gray-200 rounded-b-lg">
 
@@ -124,10 +159,7 @@
                         </div>
                     </div>
                 </div>
-                <button wire:click="downloadTemplate"
-                    class="px-4 py-2 font-bold text-white bg-yellow-500 rounded hover:bg-yellow-700">
-                    Unduh Template Excel
-                </button>
+
             </div>
             <input type="text" wire:model.live="search" placeholder="   Search"
                 class="px-2 ml-4 border border-gray-300 rounded-lg">
