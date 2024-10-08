@@ -20,6 +20,7 @@ class Index extends Component
     public $search = '';
     public $selectedMatkul = [];
     public $selectAll = false;
+    public $showDeleteButton = false;
 
     #[On('matkulUpdated')]
     public function handlematkulEdited()
@@ -84,6 +85,12 @@ class Index extends Component
             // Jika selectAll false, hapus semua pilihan
             $this->selectedMatkul = [];
         }
+    }
+
+    public function updatedSelectedMatkul()
+    {
+        // Jika ada dosen yang dipilih, tampilkan tombol, jika tidak, sembunyikan
+        $this->showDeleteButton = count($this->selectedMatkul) > 0;
     }
 
     public function destroySelected()

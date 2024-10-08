@@ -23,8 +23,9 @@ class Index extends Component
     public $search = '';
     public $file;
 
-public $selectedDosen = [];
+    public $selectedDosen = [];
     public $selectAll = false;
+    public $showDeleteButton = false;
 
     #[On('dosenUpdated')]
     public function handledosenEdited()
@@ -42,6 +43,12 @@ public $selectedDosen = [];
             // Jika selectAll false, hapus semua pilihan
             $this->selectedDosen = [];
         }
+    }
+
+    public function updatedSelectedDosen()
+    {
+        // Jika ada dosen yang dipilih, tampilkan tombol, jika tidak, sembunyikan
+        $this->showDeleteButton = count($this->selectedDosen) > 0;
     }
 
     public function destroySelected()
