@@ -7,7 +7,6 @@ use App\Models\Matakuliah;
 use App\Models\User;
 use App\Models\Mahasiswa;
 use App\Models\Prodi;
-use App\Models\Semester;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -26,6 +25,14 @@ class DatabaseSeeder extends Seeder
             'password' => '11111111',
             'role' => 'admin',
         ]);
+
+        User::factory()->create([
+            'name' => 'Test User',
+            'email' => 'staff@gmail.com',
+            'password' => '11111111',
+            'role' => 'staff',
+        ]);
+        
         Prodi::factory()->create([
             'kode_prodi' => 'AK-001',
             'nama_prodi' => 'AKuntansi',
