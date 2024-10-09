@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Dosen;
 use App\Models\Matakuliah;
-use App\Models\Semester;
 use App\Models\User;
 use App\Models\Mahasiswa;
 use App\Models\Prodi;
@@ -49,7 +48,6 @@ class DatabaseSeeder extends Seeder
             'kode_prodi' => 'MSDM-004',
             'nama_prodi' => 'Manajemen SDM',
             'jenjang' => 'S1',
-
         ]);
 
 
@@ -61,7 +59,7 @@ class DatabaseSeeder extends Seeder
             'nama_semester' => '20202',
         ]);
 
-        Semester::factory()->create([    
+        Semester::factory()->create([
             'nama_semester' => '20211',
         ]);
 
