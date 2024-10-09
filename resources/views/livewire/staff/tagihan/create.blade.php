@@ -75,11 +75,11 @@
                             </div>
 
                             <div class="mb-4">
-                                <label for="status_tagihan"
-                                    class="block text-sm font-medium text-gray-700">status_tagihan</label>
+                                <label for="status_tagihan" class="block text-sm font-medium text-gray-700">Status
+                                    Tagihan</label>
                                 <select id="status_tagihan" wire:model="status_tagihan" name="status_tagihan"
                                     class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
-                                    <option value=""disabled selected>Pilih status_tagihan</option>
+                                    <option value=""disabled selected>Pilih Status Tagihan</option>
                                     <option value="Belum Lunas">Belum Lunas</option>
                                     <option value="Lunas">Lunas</option>
                                 </select>

@@ -16,23 +16,15 @@ class Index extends Component
 {
     use WithPagination;
 
-    
-    public $sortField = 'kode_prodi';
-    public $sortDirection = 'asc';
-
-    public function sortBy($field)
+    #[On('tagihanCreated')]
+    public function handletagihanCreated()
     {
-        if ($this->sortField === $field) {
-            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
-        } else {
-            $this->sortDirection = 'asc';
-        }
-
-        $this->sortField = $field;
+        session()->flash('message', 'Tagihan Berhasil di dibuat');
+        session()->flash('message_type', 'success');
     }
 
 
-    
+
     #[On('tagihanCreated')]
     public function handletagihan()
     {
@@ -49,7 +41,6 @@ class Index extends Component
             ->get();
         $mahasiswas = Mahasiswa::query()
             ->latest()
-            ->orderBy($this->sortField, $this->sortDirection)
             ->paginate(24);
         $semesters = Semester::query()
             ->latest()
@@ -61,7 +52,7 @@ class Index extends Component
         return view('livewire.staff.tagihan.index', [
             'semesters' => $semesters,
             'tagihans' => $tagihans,
-            'mahasiswas'=> $mahasiswas,
+            'mahasiswas' => $mahasiswas,
             'Prodis' => $Prodis,
         ]);
     }

@@ -15,6 +15,8 @@ class Create extends Component
     public $id_semester = '';
     public $status_tagihan = '';
 
+    public $semesters = [];
+
     public function rules()
     {
         return [
@@ -40,7 +42,27 @@ class Create extends Component
     {
         $this->nim = $nim;
         $this->nama = $nama;
+
+        // Retrieve the Mahasiswa by NIM
+        $mahasiswa = Mahasiswa::where('NIM', $nim)->first();
+
+        if ($mahasiswa) {
+            // Get the nama_semester of the mahasiswa's mulai_semester
+            $mahasiswaSemester = Semester::where('id_semester', $mahasiswa->mulai_semester)->first();
+
+            if ($mahasiswaSemester) {
+                // Get semesters where nama_semester is greater than or equal to mahasiswa's nama_semester
+                $this->semesters = Semester::where('nama_semester', '>=', $mahasiswaSemester->nama_semester)->get();
+            } else {
+                // Handle case where the mahasiswa's mulai_semester is not found
+                $this->semesters = collect(); // Empty collection
+            }
+        } else {
+            // Handle case where mahasiswa is not found
+            $this->semesters = collect(); // Empty collection
+        }
     }
+
 
     public function save()
     {
@@ -63,9 +85,7 @@ class Create extends Component
     public function render()
     {
         $mahasiswas = Mahasiswa::all();
-        $semesters = Semester::all();
         return view('livewire.staff.tagihan.create', [
-            'semesters' => $semesters,
             'mahasiswas' => $mahasiswas
         ]);
     }
