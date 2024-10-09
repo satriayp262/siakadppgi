@@ -1,8 +1,7 @@
 <div>
     <div class="mx-5">
         <div class="flex flex-col justify-between mx-4 mt-4">
-            <h1>Semester Saat ini :</h1>
-            {{ $semesters->sortByDesc('nama_semester')->first()->nama_semester }}
+
             <div>
                 @if (session()->has('message'))
                     @php
@@ -26,12 +25,16 @@
             </div>
             <!-- Modal Form -->
             <div class="flex justify-between mt-2">
+                <div>
+                    <h1>Semester Saat ini :</h1>
+                    <p class="text-xl font-bold text-purple-500">
+                        {{ $semesters->sortByDesc('nama_semester')->first()->nama_semester }}</p>
+                </div>
                 <input type="text" wire:model.live="search" placeholder="   Search"
                     class="px-2 ml-4 border border-gray-300 rounded-lg">
             </div>
         </div>
         <table class="min-w-full mt-4 bg-white border border-gray-200">
-
             <thead>
                 <tr class="items-center w-full text-sm text-white align-middle bg-gray-800">
                     <th class="px-4 py-2 text-center">No.</th>
