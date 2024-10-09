@@ -135,6 +135,9 @@ Route::middleware(['auth', CheckRole::class . ':dosen'])->group(function () {
     Route::prefix('dosen')->group(function () {
         route::get('/berita_acara', App\Livewire\Dosen\BeritaAcara\Index::class)->name('dosen.berita_acara');
     });
+    Route::prefix('dosen')->group(function () {
+        route::get('/presensi', App\Livewire\Dosen\Presensi\Index::class)->name('dosen.presensi');
+    });
 });
 
 // staff
