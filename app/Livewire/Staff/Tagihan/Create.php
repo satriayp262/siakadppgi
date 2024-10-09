@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Staff\Tagihan;
 
+use App\Models\Semester;
 use App\Models\Tagihan;
 use Livewire\Component;
 use App\Models\Mahasiswa;
@@ -11,53 +12,61 @@ class Create extends Component
     public $nim;
     public $nama;
     public $total_tagihan;
-    public $id_semester;
-    public $status = '';
+    public $id_semester = '';
+    public $status_tagihan = '';
 
     public function rules()
     {
         return [
-            'nim' => 'required|exists:mahasiswa,nim',
-            'nama' => 'required',
+            'nim' => 'required',
             'total_tagihan' => 'required|numeric',
-            'status' => 'required|in:Belum Lunas,Lunas',
+            'status_tagihan' => 'required|in:Belum Lunas,Lunas',
+            'id_semester' => 'required',
         ];
     }
 
     public function messages()
     {
         return [
-            'nim.exists' => 'NIM tidak ditemukan',
-            'nim.required' => 'NIM tidak boleh kosong',
-            'nama.required' => 'Nama tidak boleh kosong',
+            'nim.required' => 'nim tidak boleh kosong',
             'total_tagihan.required' => 'Total tagihan tidak boleh kosong',
             'total_tagihan.numeric' => 'Total tagihan harus berupa angka',
-            'status.required' => 'Status harus dipilih',
+            'status_tagihan.required' => 'Status harus dipilih',
+            'semester.required' => 'Semester harus dipilih',
         ];
+    }
+
+    public function mount($nim, $nama)
+    {
+        $this->nim = $nim;
+        $this->nama = $nama;
     }
 
     public function save()
     {
-       
         $validatedData = $this->validate();
 
         $tagihan = Tagihan::create([
-            'nim' => $validatedData['nim'],
+            'NIM' => $validatedData['nim'],
             'total_tagihan' => $validatedData['total_tagihan'],
-            'status' => $validatedData['status'],
+            'status_tagihan' => $validatedData['status_tagihan'],
+            'id_semester' => $validatedData['id_semester'],
         ]);
 
         $this->reset();
 
         $this->dispatch('TagihanCreated');
 
-        return $tagihan ;
-
-
+        return $tagihan;
     }
 
     public function render()
     {
-        return view('livewire.staff.tagihan.create');
+        $mahasiswas = Mahasiswa::all();
+        $semesters = Semester::all();
+        return view('livewire.staff.tagihan.create', [
+            'semesters' => $semesters,
+            'mahasiswas' => $mahasiswas
+        ]);
     }
 }

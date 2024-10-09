@@ -2,7 +2,7 @@
     <div class="mx-5">
         <div class="flex flex-col justify-between mx-4 mt-4">
             <h1>Semester Saat ini :</h1>
-            {{-- {{ $semesters[0]->nama_semester }} --}}
+            {{ $semesters->sortByDesc('nama_semester')->first()->nama_semester }}
             <div>
                 @if (session()->has('message'))
                     @php
@@ -41,11 +41,13 @@
             </div>
         </div>
         <table class="min-w-full mt-4 bg-white border border-gray-200">
+
             <thead>
                 <tr class="items-center w-full text-sm text-white align-middle bg-gray-800">
                     <th class="px-4 py-2 text-center">No.</th>
                     <th class="px-4 py-2 text-center">Nama Mahasiswa</th>
                     <th class="px-4 py-2 text-center">NIM</th>
+                    <th class="px-4 py-2 text-center">Semester</th>
                     <th class="px-4 py-2 text-center">Prodi
                         {{-- <!-- resources/views/components/sortable-column.blade.php -->
                         @props(['field', 'sortField', 'sortDirection'])
@@ -67,6 +69,7 @@
                         <td class="px-4 py-2 text-center">{{ $loop->iteration }}</td>
                         <td class="px-4 py-2 text-center">{{ $mahasiswa->nama }}</td>
                         <td class="px-4 py-2 text-center">{{ $mahasiswa->NIM }}</td>
+                        <td class="px-4 py-2 text-center">{{ $mahasiswa->semesterDifference }}</td>
                         <td class="px-4 py-2 text-center">{{ $mahasiswa->prodi->nama_prodi }}</td>
                         <td class="px-4 py-2 text-center">
                             <livewire:staff.tagihan.create :nim="$mahasiswa->NIM" :nama="$mahasiswa->nama"

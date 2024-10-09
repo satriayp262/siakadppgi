@@ -16,8 +16,10 @@ return new class extends Migration
             $table->string('NIM');
             $table->integer('total_tagihan');
             $table->string('status_tagihan');
+            $table->integer('id_semester');
             $table->string('bukti_bayar_tagihan')->nullable();
             $table->foreign('NIM')->references('NIM')->on('mahasiswa')->omDelete('cascade');
+            $table->foreign('id_semester')->references('id_semester')->on('semester')->onDelete('cascade');
             $table->timestamps();
         });
     }
