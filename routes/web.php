@@ -86,11 +86,13 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->group(function () {
     route::prefix('admin')->group(function () {
 
         Route::get('/dashboard', App\Livewire\Admin\Dashboard\Index::class)->name('admin.dashboard');
+
         Route::prefix('mata_kuliah')->group(function () {
             Route::get('/', App\Livewire\Admin\Matkul\Index::class)->name('admin.mata_kuliah');
         });
 
         route::get('/mahasiswa', App\Livewire\Admin\Mahasiswa\Index::class)->name('admin.mahasiswa');
+
         Route::prefix('prodi')->group(function () {
             Route::get('/', App\Livewire\Admin\Prodi\Index::class)->name('admin.prodi');
         });
@@ -122,7 +124,8 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->group(function () {
 Route::middleware(['auth', CheckRole::class . ':mahasiswa'])->group(function () {
 
     Route::prefix('mahasiswa')->group(function () {
-        route::get('/profil', App\Livewire\Mahasiswa\Profil\Index::class)->name('mahasiswa.profile');
+        route::get('/profile', App\Livewire\Mahasiswa\Profil\Index::class)->name('mahasiswa.profile');
+        route::get('/keuangan', App\Livewire\Mahasiswa\Keuangan\Index::class)->name('mahasiswa.keuangan');
     });
 });
 

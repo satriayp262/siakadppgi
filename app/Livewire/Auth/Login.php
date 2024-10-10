@@ -30,7 +30,7 @@ class Login extends Component
             $user = Auth::user();
             // dd($user);
             if ($user->role === 'mahasiswa') {
-                return redirect()->intended('/mahasiswa/profil');
+                return redirect()->intended('/mahasiswa/profile');
             } elseif ($user->role === 'dosen') {
                 return redirect()->intended('/dosen/jadwal');
             } elseif ($user->role === 'staff') {
