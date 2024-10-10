@@ -60,6 +60,7 @@
                                 <option value="admin">Admin</option>
                                 <option value="dosen">Dosen</option>
                                 <option value="staff">Staff</option>
+                                <option value="mahasiswa">Mahasiswa</option>
                             </select>
                             @error('jenjang')
                                 <span class="mt-1 text-sm text-red-500">{{ $message }}</span>

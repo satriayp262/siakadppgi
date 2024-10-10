@@ -26,8 +26,8 @@ class Index extends Component
     public function mount()
     {
         $user = Auth::user();
-        $mahasiswa = mahasiswa::where('id', $user->id)->first();
-        $this->nim = $mahasiswa->NIM;
+        $mahasiswa = Mahasiswa::where('id_user', $user->id)->first();
+        $this->nim = $mahasiswa->NIM ?? null;
         $this->nama = $mahasiswa->nama;
         $this->tempat_lahir = $mahasiswa->tempat_lahir;
         $this->tanggal_lahir = $mahasiswa->tanggal_lahir;
@@ -50,11 +50,11 @@ class Index extends Component
                 if ($this->newPassword === $this->currentPassword) {
                     session()->flash('message', 'Password baru tidak boleh sama dengan password lama');
                     session()->flash('message_type', 'error');
-                }else{
+                } else {
                     $user->update([
                         'password' => Hash::make($this->newPassword),
                     ]);
-    
+
                     session()->flash('message', 'Password Berhasil direset');
                     session()->flash('message_type', 'success');
                 }

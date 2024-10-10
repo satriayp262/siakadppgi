@@ -17,7 +17,7 @@ class Mahasiswa extends Model
     public $incrementing = false;
     protected $keyType = 'string';
     protected $table = 'mahasiswa';
-    
+
     protected static function boot()
     {
         parent::boot();
@@ -64,16 +64,22 @@ class Mahasiswa extends Model
         return $this->belongsTo(User::class, 'id_user', 'id');
     }
 
-    public function prodi() 
+    public function prodi()
     {
         return $this->belongsTo(Prodi::class, 'kode_prodi', 'kode_prodi');
     }
 
-    public function semester() 
+    public function semester()
     {
         return $this->belongsTo(Semester::class, 'mulai_semester', 'id_semester');
     }
-    public function getSemesterDifferenceAttribute() {
+
+    public function tagihan()
+    {
+        return $this->hasMany(Tagihan::class, 'nim', 'nim');
+    }
+    public function getSemesterDifferenceAttribute()
+    {
         // Retrieve the latest semester information
         $latestSemester = Semester::orderBy('nama_semester', 'desc')->first();
         if (!$latestSemester) {
