@@ -21,11 +21,12 @@ class Index extends Component
     }
 
     #[On('semesterUpdated')]
-    public function handlesemesterupdate(){
+    public function handlesemesterupdate()
+    {
 
     }
 
-     public function updatedSelectAll($value)
+    public function updatedSelectAll($value)
     {
         if ($value) {
             // Jika selectAll true, pilih semua id_semester
@@ -36,12 +37,25 @@ class Index extends Component
         }
     }
 
-   public function destroy($id_semester)
+    public function destroy($id_semester)
     {
         $semester = Semester::find($id_semester);
         $semester->delete();
         session()->flash('message', 'Semester Berhasil di Hapus');
         session()->flash('message_type', 'error');
+    }
+
+    public function active($id_semester)
+    {
+        // Deactivate all other semesters
+        Semester::query()->update(['is_active' => false]);
+
+        // Activate the selected semester
+        $semester = Semester::find($id_semester);
+        if ($semester) {
+            $semester->is_active = true;
+            $semester->save();
+        }
     }
 
     public function destroySelected()
@@ -60,11 +74,11 @@ class Index extends Component
     public function render()
     {
         $semesters = Semester::query()
-        ->latest()
-        ->get();
-        
-        return view('livewire.admin.semester.index',[
-            'semesters'=> $semesters
+            ->orderBy('id_semester', 'ASC')
+            ->get();
+
+        return view('livewire.admin.semester.index', [
+            'semesters' => $semesters
         ]);
     }
 }

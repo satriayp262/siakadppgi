@@ -52,7 +52,17 @@ class Create extends Component
 
             if ($mahasiswaSemester) {
                 // Get semesters where nama_semester is greater than or equal to mahasiswa's nama_semester
-                $this->semesters = Semester::where('nama_semester', '>=', $mahasiswaSemester->nama_semester)->get();
+                $semesters = Semester::where('nama_semester', '>=', $mahasiswaSemester->nama_semester)->get();
+
+                // Limit the results to stop at the first active semester
+                $this->semesters = collect();
+                foreach ($semesters as $semester) {
+                    $this->semesters->push($semester); // Add the semester to the collection
+
+                    if ($semester->is_active) {
+                        break; // Stop once we hit the active semester
+                    }
+                }
             } else {
                 // Handle case where the mahasiswa's mulai_semester is not found
                 $this->semesters = collect(); // Empty collection
@@ -62,6 +72,7 @@ class Create extends Component
             $this->semesters = collect(); // Empty collection
         }
     }
+
 
 
     public function save()

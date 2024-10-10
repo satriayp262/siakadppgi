@@ -194,26 +194,6 @@
                     </td>
                     <td class="px-4 py-2 text-center">{{ $mahasiswa->nama }}</td>
                     <td class="px-4 py-2 text-center">{{ $mahasiswa->NIM }}</td>
-
-                    @php
-                        // Ambil semester awal mahasiswa ini
-                        $initialSemester = (int) substr($mahasiswa->semester->nama_semester ?? '0000', 0, 4);
-                        $initialSemesterDigit5 = (int) substr($mahasiswa->semester->nama_semester ?? '00000', 4, 1);
-
-                        // Hitung perbedaan semester berdasarkan 4 digit pertama
-                        $semesterDifference = ($latestSemester - $initialSemester) * 2;
-
-                        // Jika digit kelima berbeda, sesuaikan semesterDifference
-                        if ($latestSemesterDigit5 == $initialSemesterDigit5) {
-                            $semesterDifference += 1; // Tambah 1 jika latestSemester lebih besar
-                        } elseif ($latestSemesterDigit5 > $initialSemesterDigit5) {
-                            $semesterDifference += 2; // Kurangi 1 jika latestSemester lebih kecil
-                        } elseif ($latestSemesterDigit5 < $initialSemesterDigit5) {
-                            $semesterDifference += 0; // Tambah 1 jika sama
-                        }
-
-                    @endphp
-
                     <td class="px-4 py-2 text-center">{{ $mahasiswa->semesterDifference }}</td>
                     <td class="px-4 py-2 text-center">{{ $mahasiswa->prodi->nama_prodi }}</td>
                     <td class="px-4 py-2 text-center">

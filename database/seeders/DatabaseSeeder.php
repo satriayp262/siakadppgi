@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Dosen;
 use App\Models\Matakuliah;
 use App\Models\User;
+use App\Models\Semester;
 use App\Models\Mahasiswa;
 use App\Models\Prodi;
 use App\Models\Semester;
@@ -33,7 +34,7 @@ class DatabaseSeeder extends Seeder
             'password' => '11111111',
             'role' => 'staff',
         ]);
-        
+
         Prodi::factory()->create([
             'kode_prodi' => 'AK-001',
             'nama_prodi' => 'AKuntansi',
@@ -61,33 +62,37 @@ class DatabaseSeeder extends Seeder
 
         Semester::factory()->create([
             'nama_semester' => '20201',
+            'is_active' => 0,
         ]);
 
         Semester::factory()->create([
             'nama_semester' => '20202',
+            'is_active' => 0,
         ]);
 
         Semester::factory()->create([
             'nama_semester' => '20211',
+            'is_active' => 0,
         ]);
 
         Semester::factory()->create([
             'nama_semester' => '20212',
+            'is_active' => 0,
         ]);
 
         Semester::factory()->create([
             'nama_semester' => '20221',
+            'is_active' => 0,
         ]);
 
         Semester::factory()->create([
             'nama_semester' => '20222',
+            'is_active' => 1,
         ]);
-
 
         Dosen::factory(10)->create();
         Matakuliah::factory(20)->create();
         Mahasiswa::factory(20)->create();
-
 
     }
 }

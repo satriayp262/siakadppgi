@@ -81,11 +81,10 @@ class Mahasiswa extends Model
     public function getSemesterDifferenceAttribute()
     {
         // Retrieve the latest semester information
-        $latestSemester = Semester::orderBy('nama_semester', 'desc')->first();
+        $latestSemester = Semester::firstWhere('is_active', true);
         if (!$latestSemester) {
             return null; // Handle case when there are no semesters
         }
-
         $latestSemesterYear = (int) substr($latestSemester->nama_semester, 0, 4);
         $latestSemesterDigit5 = (int) substr($latestSemester->nama_semester, 4, 1);
 
