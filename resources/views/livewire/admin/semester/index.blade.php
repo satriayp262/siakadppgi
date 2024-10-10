@@ -78,7 +78,7 @@
                             @if (!$semester->is_active)
                                 <button
                                     class="inline-block px-4 py-1 text-white bg-green-500 rounded hover:bg-green-700"
-                                    wire:click="active({{ $semester->id_semester }})">
+                                    onclick="confirmActive({{ $semester->id_semester }})">
                                     Aktifkan Semester
                                 </button>
                             @endif
@@ -117,6 +117,22 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     @this.call('destroy', id);
+                }
+            });
+        }
+
+        function confirmActive(id) {
+            Swal.fire({
+                title: `Apakah anda yakin ingin mengaktifkan Semester ini?`,
+                text: "Semester yang telah diaktifkan tidak dapat dikembalikan!",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Aktifkan'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    @this.call('active', id);
                 }
             });
         }
