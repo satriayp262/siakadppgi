@@ -7,6 +7,7 @@ use App\Models\Matakuliah;
 use App\Models\User;
 use App\Models\Mahasiswa;
 use App\Models\Prodi;
+use App\Models\Semester;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 

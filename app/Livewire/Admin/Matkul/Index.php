@@ -117,7 +117,7 @@ class Index extends Component
             ->orWhere('jenis_mata_kuliah', 'like', '%' . $this->search . '%')
             ->orWhere('metode_pembelajaran', 'like', '%' . $this->search . '%')
             ->latest()
-            ->paginate(5);
+            ->paginate(10);
 
         return view('livewire.admin.matkul.index', [
             'matkuls' => $matkuls,
