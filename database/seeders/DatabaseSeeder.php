@@ -8,7 +8,6 @@ use App\Models\User;
 use App\Models\Semester;
 use App\Models\Mahasiswa;
 use App\Models\Prodi;
-use App\Models\Semester;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -37,7 +36,7 @@ class DatabaseSeeder extends Seeder
 
         Prodi::factory()->create([
             'kode_prodi' => 'AK-001',
-            'nama_prodi' => 'AKuntansi',
+            'nama_prodi' => 'Akutansi',
             'jenjang' => 'D3',
 
         ]);
