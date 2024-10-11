@@ -127,7 +127,7 @@
                 text: "Semester yang telah diaktifkan tidak dapat dikembalikan!",
                 icon: 'question',
                 showCancelButton: true,
-                confirmButtonColor: '#d33',
+                confirmButtonColor: '#6f42c1',
                 cancelButtonColor: '#6c757d',
                 confirmButtonText: 'Aktifkan'
             }).then((result) => {

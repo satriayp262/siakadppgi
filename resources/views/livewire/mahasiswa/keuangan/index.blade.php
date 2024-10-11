@@ -87,11 +87,10 @@
                                 {{ ucfirst($tagihan->status_tagihan) }}
                             </span>
                         </td>
-                        <td class="px-4 py-2 text-center">{{ $tagihan->aksi }}</td>
-                        {{-- <td class="px-4 py-2 text-center">
-                            <livewire:staff.tagihan.create :nim="$mahasiswa->NIM" :nama="$mahasiswa->nama"
-                                wire:key="edit-{{ $mahasiswa->NIM }}" />
-                        </td> --}}
+                        <td>
+                            <livewire:mahasiswa.keuangan.create :id_semester="$tagihan->semester->nama_semester" :total_tagihan="$tagihan->total_tagihan"
+                                wire:key="edit-{{ $tagihan->NIM }}" />
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
