@@ -24,7 +24,7 @@
                     </svg>
                     Import
                 </button>
-                    <div x-show="isOpen"
+                    <div  x-data="{ load: false }" x-show="isOpen && load" x-init="load = true" wire:init="" x-cloak
                         class="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-75">
                         <div class="w-1/2 bg-white shadow-lg">
                             <div class="flex items-center justify-between p-4 bg-gray-200 rounded-t-lg">
@@ -43,7 +43,7 @@
                                                     class="block text-sm font-medium text-gray-700">Template
                                                     Dokumen</label>
                                                 <button wire:click="downloadTemplate"
-                                                    class="flex justify-between items-center w-full px-2 py-1 mt-1 text-sm bg-gray-200 rounded-md border-gray-700 shadow-2xl focus:border-indigo-500 sm:text-sm">
+                                                    class="flex items-center justify-between w-full px-2 py-1 mt-1 text-sm bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
                                                     <!-- Left icon -->
                                                     <svg class="w-6 h-6 text-gray-500" aria-hidden="true"
                                                         xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -55,7 +55,7 @@
 
                                                     <!-- Button text -->
                                                     <span
-                                                        class="text-left flex-grow px-2 text-black-500 font-medium">Template_Matkul.xlsx</span>
+                                                        class="flex-grow px-2 font-medium text-left text-black-500">Template_Matkul.xlsx</span>
 
                                                     <!-- Right icon -->
                                                     <svg class="w-6 h-6 text-gray-500" aria-hidden="true"
