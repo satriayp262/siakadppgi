@@ -126,6 +126,7 @@ Route::middleware(['auth', CheckRole::class . ':mahasiswa'])->group(function () 
     Route::prefix('mahasiswa')->group(function () {
         route::get('/profile', App\Livewire\Mahasiswa\Profil\Index::class)->name('mahasiswa.profile');
         route::get('/keuangan', App\Livewire\Mahasiswa\Keuangan\Index::class)->name('mahasiswa.keuangan');
+        route::get('/presensi', App\Livewire\Mahasiswa\Presensi\Index::class)->name('mahasiswa.presensi');
     });
 });
 
@@ -134,11 +135,7 @@ Route::middleware(['auth', CheckRole::class . ':dosen'])->group(function () {
 
     Route::prefix('dosen')->group(function () {
         route::get('/jadwal', App\Livewire\Dosen\Jadwal\Index::class)->name('dosen.jadwal');
-    });
-    Route::prefix('dosen')->group(function () {
         route::get('/berita_acara', App\Livewire\Dosen\BeritaAcara\Index::class)->name('dosen.berita_acara');
-    });
-    Route::prefix('dosen')->group(function () {
         route::get('/presensi', App\Livewire\Dosen\Presensi\Index::class)->name('dosen.presensi');
     });
 });

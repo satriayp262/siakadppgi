@@ -12,13 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('presensi', function (Blueprint $table) {
-            $table->uuid('id_presensi')->primary();
-            $table->foreignId('id')->constrained('users'); // Menghubungkan ke tabel users (mahasiswa)
-            $table->string('kode_mata_kuliah'); // Menghubungkan ke tabel matkuls
-            $table->timestamp('submitted_at'); // Waktu submit
-            $table->timestamps(); // Menyimpan created_at dan updated_at
-            $table->foreign('kode_mata_kuliah')->references('kode_mata_kuliah')->on('matkul')->onDelete('cascade');
+            $table->id();
+            $table->string('nama');
+            $table->string('nim');
+            $table->foreignId('id_token')->constrained('token')->onDelete('cascade');
+            $table->timestamp('waktu_submit');
+            $table->timestamps();
         });
+
     }
 
     /**

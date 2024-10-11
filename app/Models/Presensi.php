@@ -9,26 +9,10 @@ class Presensi extends Model
 {
     use HasFactory;
 
-    protected $table = 'presensi';
-    protected $fillable = [
-        'id',
-        'kode_mata_kuliah',
-        'submitted_at',
-    ];
+    protected $fillable = ['nama', 'nim', 'token_id', 'waktu_submit'];
 
-    /**
-     * Relasi ke model User (Mahasiswa)
-     */
-    public function mahasiswa()
+    public function token()
     {
-        return $this->belongsTo(User::class, 'id');
-    }
-
-    /**
-     * Relasi ke model Matkul
-     */
-    public function matkul()
-    {
-        return $this->belongsTo(Matakuliah::class);
+        return $this->belongsTo(Token::class);
     }
 }
