@@ -148,6 +148,10 @@ class Index extends Component
 
     }
 
+    public function loadModal(){
+        
+    }
+
 
 
 
@@ -173,7 +177,7 @@ class Index extends Component
                   ->orWhere('email', 'like', '%' . $this->search . '%');
         }
 
-        $mahasiswas = $query->latest()->paginate(10);
+        $mahasiswas = $query->latest()->paginate(20);
 
         return view('livewire.admin.mahasiswa.index', [
             'mahasiswas' => $mahasiswas,

@@ -85,8 +85,8 @@ class Create extends Component
         $validatedData = $this->validate();
         $mahasiswa = Mahasiswa::create([
             'id_mahasiswa' => (string) Str::uuid(),
-            'NIM' => $validatedData['NIM'],
-            'NIK' => $validatedData['NIK'],
+            'NIM' => $validatedData['nim'],
+            'NIK' => $validatedData['nik'],
             'nama' => $validatedData['nama'],
             'tempat_lahir' => $validatedData['tempat_lahir'],
             'tanggal_lahir' => $validatedData['tanggal_lahir'],

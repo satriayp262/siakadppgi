@@ -11,7 +11,7 @@ class Show extends Component
 
     public $id_mahasiswa; 
 
-    public function mount() 
+    public function loadMahasiswa() 
     {
         // $mahasiswa = Mahasiswa::find($this->id_mahasiswa);
         // dd($mahasiswa);

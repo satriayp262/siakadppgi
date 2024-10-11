@@ -13,6 +13,7 @@ class Edit extends Component
     public $nim,$nik,$nama,$jenis_kelamin,$tempat_lahir,$tanggal_lahir,$agama,$alamat,$jalur_pendaftaran,$kewarganegaraan,$jenis_pendaftaran,$tanggal_masuk_kuliah,$mulai_semester,$jenis_tempat_tinggal,$telp_rumah,$no_hp,$email,$terima_kps,$no_kps,$jenis_transportasi,$kode_prodi,$SKS_diakui,$kode_pt_asal,$nama_pt_asal,$kode_prodi_asal,$nama_prodi_asal,$jenis_pembiayaan,$jumlah_biaya_masuk;
 
     public $id_mahasiswa; 
+    public $mahasiswa; 
 
     public function resetFields()
     {
@@ -51,6 +52,7 @@ class Edit extends Component
         $this->jenis_pembiayaan = $mahasiswa->jenis_pembiayaan ?? null;
         $this->jumlah_biaya_masuk = $mahasiswa->jumlah_biaya_masuk ?? null;
     }
+    
 
     public function clear($id){
         $mahasiswa = Mahasiswa::find($id);
