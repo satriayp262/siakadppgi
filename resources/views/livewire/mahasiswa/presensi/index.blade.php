@@ -1,5 +1,5 @@
 <div class="max-w-md mx-auto mt-10 p-6 bg-white shadow-md rounded-lg">
-    <form  wire:submit.prevent="submit">
+    <form wire:submit.prevent="submit">
         <div class="container mx-auto">
             <p class="text-xl font-semibold text-gray-700 text-center">
                 Absensi Mahasiswa

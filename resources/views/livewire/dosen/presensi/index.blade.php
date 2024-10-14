@@ -39,7 +39,7 @@
                 <input type="date" wire:model="date" class="border p-2 rounded" />
                 <select wire:model="matkulId" class="border p-2 rounded">
                     <option value="">Pilih Mata Kuliah</option>
-                    @foreach($matkul as $matkul)
+                    @foreach ($matkul as $matkul)
                         <option value="{{ $matkul->kode_mata_kuliah }}">{{ $matkul->nama_mata_kuliah }}</option>
                     @endforeach
                 </select>
@@ -47,6 +47,40 @@
             <input type="text" wire:model.live="search" placeholder="   Search"
                 class="px-2 ml-4 border border-gray-300 rounded-lg">
         </div>
+
+        <div class="flex justify-between mt-2">
+            <div class="flex space-x-2 items-center">
+                <h1 class="text-md font-bold text-gray-900">
+                    Token:
+                </h1>
+                <span class="text-md font-bold text-purple-500">
+                    {{ $tokenTerbaru->token ?? 'Belum ada token' }}
+                </span>
+                <button
+                    class="ml-4 px-3 py-1 border border-gray-300 bg-gray-100 text-black rounded hover:bg-gray-200"
+                    onclick="copyToClipboard('{{ $tokenTerbaru->token ?? '' }}')"
+                    {{ $tokenTerbaru ? '' : 'disabled' }}>
+                    Salin Token
+                </button>
+            </div>
+        </div>
+
+        <script>
+            function copyToClipboard(token) {
+                if (token) {
+                    const el = document.createElement('textarea');
+                    el.value = token;
+                    document.body.appendChild(el);
+                    el.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(el);
+
+                    alert('Token telah disalin: ' + token);
+                } else {
+                    alert('Tidak ada token untuk disalin');
+                }
+            }
+        </script>
     </div>
 
     <table class="min-w-full mt-4 bg-white text-sm border border-gray-200">
@@ -60,18 +94,13 @@
             </tr>
         </thead>
         <tbody>
-            {{-- @foreach($presensis as $presensi) --}}
-                <tr>
-                    {{-- <td class="border px-2 py-1">{{ $presensi->users->name}}</td>
+            {{-- @foreach ($presensis as $presensi) --}}
+            <tr>
+                {{-- <td class="border px-2 py-1">{{ $presensi->users->name}}</td>
                     <td class="border px-2 py-1">{{ $presensi->mahasiswa->nim }}</td>
                     <td class="border px-2 py-1">{{ $presensi->matkul->name }}</td>
                     <td class="border px-2 py-1">{{ $presensi->submitted_at }}</td> --}}
-                    <td class="px-4 py-2 text-center"></td>
-                    <td class="px-4 py-2 text-center"></td>
-                    <td class="px-4 py-2 text-center"></td>
-                    <td class="px-4 py-2 text-center"></td>
-                    <td class="px-4 py-2 text-center"></td>
-                </tr>
+            </tr>
             {{-- @endforeach --}}
         </tbody>
     </table>

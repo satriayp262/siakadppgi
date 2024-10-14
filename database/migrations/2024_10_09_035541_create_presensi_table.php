@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('nama');
             $table->string('nim');
-            $table->foreignId('id_token')->constrained('token')->onDelete('cascade');
+            $table->string('token');
             $table->timestamp('waktu_submit');
             $table->timestamps();
+
+            $table->foreign('token')->references('token')->on('token')->onDelete('cascade');
         });
 
     }

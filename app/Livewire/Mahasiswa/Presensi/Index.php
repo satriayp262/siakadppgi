@@ -33,7 +33,7 @@ class Index extends Component
 
 
     protected $rules = [
-        'token' => 'required|string|exists:tokens,token',
+        'token' => 'required|string|exists:token,token',
     ];
 
     public function submit()
@@ -43,11 +43,17 @@ class Index extends Component
         // Cari token berdasarkan input
         $tokenData = Token::where('token', $this->token)->first();
 
+        // Jika token tidak ditemukan, return atau beri pesan error
+        if (!$tokenData) {
+            session()->flash('error', 'Token tidak valid atau tidak ditemukan.');
+            return;
+        }
+
         // Simpan data presensi
         Presensi::create([
             'nama' => $this->nama,
             'nim' => $this->nim,
-            'token_id' => $tokenData->id,
+            'token' => $tokenData->token,
             'waktu_submit' => Carbon::now(),
         ]);
 
