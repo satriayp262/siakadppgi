@@ -71,10 +71,10 @@
         </tbody>
     </table>
 
-    <!-- Pagination Controls -->
+    {{-- <!-- Pagination Controls -->
     <div class="py-8 mt-4 text-center">
         {{ $tokens->links() }} <!-- Gunakan $tokens di sini -->
-    </div>
+    </div> --}}
 
     <script>
         function copyToken(token) {
