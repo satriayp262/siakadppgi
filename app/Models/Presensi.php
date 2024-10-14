@@ -14,7 +14,7 @@ class Presensi extends Model
 
     public function token()
     {
-        return $this->belongsTo(Token::class);
+        return $this->belongsTo(Token::class, 'token', 'token');
     }
 
     public function mahasiswa()
@@ -24,6 +24,6 @@ class Presensi extends Model
 
     public function matkul()
     {
-        return $this->belongsTo(Matakuliah::class);
+        return $this->hasOneThrough(Matakuliah::class, Token::class, 'token', 'kode_mata_kuliah', 'token', 'kode_mata_kuliah');
     }
 }
