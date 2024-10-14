@@ -28,12 +28,41 @@ class MatkulImport implements ToModel, WithHeadingRow
         }
 
         // Check for required fields
+        $error = [];  // Initialize error array outside the loop
         foreach ($this->requiredFields as $field) {
             if (empty($row[$field])) {
-                $this->errors[] = "Baris ke {$this->rowNumber}, kolom {$field} tidak boleh kosong <br>";
-                $this->rowNumber++;
-                return null;
+                // Add field to the error array based on which one is missing
+                if ($field === 'kode_mata_kuliah')
+                    $error[] = 'Kode Mata Kuliah';
+                if ($field === 'nama_mk')
+                    $error[] = 'Nama Mata Kuliah';
+                if ($field === 'jenis_mk')
+                    $error[] = 'Jenis Mata Kuliah';
+                if ($field === 'kode_prodi')
+                    $error[] = 'Kode Prodi';
+                if ($field === 'sks_tatap_muka')
+                    $error[] = 'SKS Tatap Muka';
+                if ($field === 'sks_praktek')
+                    $error[] = 'SKS Praktek';
+                if ($field === 'sks_prak_lapangan')
+                    $error[] = 'SKS Praktek Lapangan';
+                if ($field === 'sks_simulasi')
+                    $error[] = 'SKS Simulasi';
+                if ($field === 'metode_pembelajaran')
+                    $error[] = 'Metode Pembelajaran';
+                if ($field === 'tgl_mulai_efektif')
+                    $error[] = 'Tanggal Mulai Efektif';
+                if ($field === 'tgl_akhir_efektif')
+                    $error[] = 'Tanggal Akhir Efektif';
             }
+        }
+
+        if (!empty($error)) {
+            // After all fields are checked, generate the error message
+            $this->errors[] = "Baris ke {$this->rowNumber}, Kolom " . implode(', ', $error) . " tidak boleh kosong <br>";
+            $this->rowNumber++;  // Increment the row number for the next iteration
+            return null;  // Exit after logging all errors for this row
+        }
 
             // Convert dates
             $tgl_mulai_efektif = $this->convertExcelDate($row['tgl_mulai_efektif']);
@@ -103,7 +132,7 @@ class MatkulImport implements ToModel, WithHeadingRow
 
             return $newMatkul;
         }
-    }
+    
 
 
     // Fungsi untuk mengambil hasil
