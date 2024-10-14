@@ -57,7 +57,7 @@
     <table class="min-w-full mt-4 bg-white border border-gray-200">
         <thead>
             <tr class="items-center w-full text-sm text-white align-middle bg-gray-800">
-                <th class="py-2 px-4"><input type="checkbox" id="selectAll" wire:model="selectAll"></th>
+                <th class="px-4 py-2"><input type="checkbox" id="selectAll" wire:model="selectAll"></th>
                 <th class="px-4 py-2 text-center">No</th>
                 <th class="px-4 py-2 text-center">Kode Mata Kuliah</th>
                 <th class="px-4 py-2 text-center">Nama Mata Kuliah</th>
@@ -81,8 +81,20 @@
                     <td class="px-4 py-2 text-center">{{ ++$iteration }}</td>
                     <td class="px-4 py-2 text-center">{{ $matkul->kode_mata_kuliah }}</td>
                     <td class="px-4 py-2 text-center">{{ $matkul->nama_mata_kuliah }}</td>
-                    <td class="px-4 py-2 text-center">{{ $matkul->jenis_mata_kuliah }}</td>
-                    <td class="px-4 py-2 text-center">{{ $matkul->prodi->nama_prodi ?? 'Umum' }}</td>
+                    <td class="px-4 py-2 text-center">
+                        @if ($matkul->jenis_mata_kuliah == 'W')
+                                    <p>Wajib Nasional</p>
+                                @elseif ($matkul->jenis_mata_kuliah == 'A')
+                                    <p>Wajib Program Studi</p>
+                                @elseif ($matkul->jenis_mata_kuliah == 'B')
+                                    <p>Pilihan</p>
+                                @elseif ($matkul->jenis_mata_kuliah == 'C')
+                                    <p>Peminatan</p>
+                                @elseif ($matkul->jenis_mata_kuliah == 'S')
+                                    <p>TA/SKRIPSI/THESIS/DISERTASI</p>
+                                @endif
+                    </td>
+                    <td class="px-4 py-2 text-center">{{ $matkul->prodi->nama_prodi ?? 'umum' }}</td>
                     <td class="px-4 py-2 text-center">{{ $matkul->metode_pembelajaran }}</td>
                     <td class="px-4 py-2 text-center">
                         <div class="flex flex-row">

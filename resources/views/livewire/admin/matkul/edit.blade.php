@@ -46,15 +46,17 @@
                             <select id="jenis_mata_kuliah" wire:model.live="jenis_mata_kuliah" name="jenis_mata_kuliah"
                                 class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
                                 <option value="" disabled selected>Select</option>
-                                <option value="Umum">Umum</option>
-                                <option value="Khusus Prodi">Khusus Prodi</option>
+                                <option value="W">Wajib Nasional</option>
+                                <option value="A">Wajib Program Studi</option>
+                                <option value="B">Pilihan</option>
+                                <option value="C">Peminatan</option>
+                                <option value="S">TA/SKRIPSI/THESIS/DISERTASI</option>
                             </select>
                             @error('jenis_mata_kuliah')
                                 <span class="mt-1 text-sm text-red-500">{{ $message }}</span>
                             @enderror
                         </div>
 
-                        @if ($this->jenis_mata_kuliah == 'Khusus Prodi')
                             <div class="mb-4">
                                 <label for="kode_prodi" class="block text-sm font-medium text-gray-700">Prodi</label>
                                 <select id="kode_prodi" wire:model="kode_prodi" name="kode_prodi"
@@ -68,7 +70,6 @@
                                     <span class="mt-1 text-sm text-red-500">{{ $message }}</span>
                                 @enderror
                             </div>
-                        @endif
 
                         <div class="mb-4">
                             <label for="sks_tatap_muka" class="block text-sm font-medium text-gray-700">SKS Tatap

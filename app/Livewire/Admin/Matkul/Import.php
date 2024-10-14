@@ -2,13 +2,11 @@
 
 namespace App\Livewire\Admin\Matkul;
 
-use App\Exports\MatkulExport;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\MatkulImport;
 use Illuminate\Support\Facades\Storage;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class Import extends Component
 {
@@ -35,16 +33,14 @@ class Import extends Component
         $this->dispatch('matkulImported', [
             'existingRows' => $import->getExistingRows(),
             'addedRows' => $import->getAddedRows(),
-            'errors' => $import->geterrors()
+            'errors' => $import->geterrors(),
+            'editedRows' => $import->getEditedRows()
         ]);
 
         // Optionally, reset the file input after import
         $this->reset('file');
-    }
 
-    public function downloadTemplate(): BinaryFileResponse
-    {
-        return Excel::download(new MatkulExport, 'template_matkul.xlsx');
+        // dd($import);
     }
 
 
