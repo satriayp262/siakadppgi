@@ -20,88 +20,73 @@
                     </button>
                 </div>
             @endif
-            {{-- <script>
-                function copyToken() {
-                    // Ambil teks token dari elemen dengan ID 'tokenMessage'
-                    const tokenText = document.getElementById('tokenMessage').innerText.replace('Token berhasil dibuat: ', '');
-                    navigator.clipboard.writeText(tokenText).then(() => {
-                        alert('Token berhasil disalin ke clipboard!');
-                    }).catch(err => {
-                        console.error('Gagal menyalin: ', err);
-                    });
-                }
-            </script> --}}
         </div>
         <!-- Modal Form -->
         <div class="flex justify-between mt-2">
             <livewire:dosen.presensi.create-token />
             <div class="flex space-x-4">
                 <input type="date" wire:model="date" class="border p-2 rounded" />
-                <select wire:model="matkulId" class="border p-2 rounded">
+                <select wire:model="kode_mata_kuliah" class="border p-2 rounded">
                     <option value="">Pilih Mata Kuliah</option>
-                    @foreach ($matkul as $matkul)
-                        <option value="{{ $matkul->kode_mata_kuliah }}">{{ $matkul->nama_mata_kuliah }}</option>
+                    @foreach ($matkul as $matkulItem)
+                        <option value="{{ $matkulItem->kode_mata_kuliah }}">{{ $matkulItem->nama_mata_kuliah }}</option>
                     @endforeach
                 </select>
             </div>
             <input type="text" wire:model.live="search" placeholder="   Search"
                 class="px-2 ml-4 border border-gray-300 rounded-lg">
         </div>
-
-        <div class="flex justify-between mt-2">
-            <div class="flex space-x-2 items-center">
-                <h1 class="text-md font-bold text-gray-900">
-                    Token:
-                </h1>
-                <span class="text-md font-bold text-purple-500">
-                    {{ $tokenTerbaru->token ?? 'Belum ada token' }}
-                </span>
-                <button
-                    class="ml-4 px-3 py-1 border border-gray-300 bg-gray-100 text-black rounded hover:bg-gray-200"
-                    onclick="copyToClipboard('{{ $tokenTerbaru->token ?? '' }}')"
-                    {{ $tokenTerbaru ? '' : 'disabled' }}>
-                    Salin Token
-                </button>
-            </div>
-        </div>
-
-        <script>
-            function copyToClipboard(token) {
-                if (token) {
-                    const el = document.createElement('textarea');
-                    el.value = token;
-                    document.body.appendChild(el);
-                    el.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(el);
-
-                    alert('Token telah disalin: ' + token);
-                } else {
-                    alert('Tidak ada token untuk disalin');
-                }
-            }
-        </script>
     </div>
 
-    <table class="min-w-full mt-4 bg-white text-sm border border-gray-200">
+    <table class="min-w-full mt-2 bg-white text-sm">
         <thead>
             <tr class="items-center w-full text-sm text-white align-middle bg-gray-800">
                 <th class="px-4 py-2 text-center">No</th>
-                <th class="px-4 py-2 text-center">Nama Mahasiswa</th>
-                <th class="px-4 py-2 text-center">NIM</th>
                 <th class="px-4 py-2 text-center">Mata Kuliah</th>
-                <th class="px-4 py-2 text-center">Waktu</th>
+                <th class="px-4 py-2 text-center">Token</th>
+                <th class="px-4 py-2 text-center">Tanggal</th>
+                <th class="px-4 py-2 text-center">Valid Sampai</th>
+                <th class="px-4 py-2 text-center">Action</th>
             </tr>
         </thead>
         <tbody>
-            {{-- @foreach ($presensis as $presensi) --}}
-            <tr>
-                {{-- <td class="border px-2 py-1">{{ $presensi->users->name}}</td>
-                    <td class="border px-2 py-1">{{ $presensi->mahasiswa->nim }}</td>
-                    <td class="border px-2 py-1">{{ $presensi->matkul->name }}</td>
-                    <td class="border px-2 py-1">{{ $presensi->submitted_at }}</td> --}}
-            </tr>
-            {{-- @endforeach --}}
+            @foreach ($tokens as $index => $tokenItem)
+                <tr>
+                    <td class="px-2 py-1 text-center">{{ $index + 1 }}</td>
+                    <td class="px-2 py-1 text-center">{{ $tokenItem->matkul->nama_mata_kuliah }}</td>
+                    <td class="px-2 py-1 text-center">{{ $tokenItem->token }}</td>
+                    <td class="px-2 py-1 text-center">
+                        {{ \Carbon\Carbon::parse($tokenItem->created_at)->format('d F Y / H:i:s') }}
+                    </td>
+                    <td class="px-2 py-1 text-center">{{ \Carbon\Carbon::parse($tokenItem->valid_until)->format('d F Y / H:i:s') }}</td>
+                    <td class="px-2 py-1 text-center flex-col space-x-1 items-center">
+                        <button onclick="copyToken('{{ $tokenItem->token }}')"
+                            class="px-4 py-2 text-white bg-blue-500 hover:bg-blue-600 rounded text-center">
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                                <path fill-rule="evenodd" d="M18 3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-1V9a4 4 0 0 0-4-4h-3a1.99 1.99 0 0 0-1 .267V5a2 2 0 0 1 2-2h7Z" clip-rule="evenodd"/>
+                                <path fill-rule="evenodd" d="M8 7.054V11H4.2a2 2 0 0 1 .281-.432l2.46-2.87A2 2 0 0 1 8 7.054ZM10 7v4a2 2 0 0 1-2 2H4v6a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3Z" clip-rule="evenodd"/>
+                              </svg>
+                        </button>
+                        <button onclick="window.location='{{ route('dosen.detail_presensi', $tokenItem->token) }}'"
+                            class="px-4 py-2 text-white bg-yellow-500 hover:bg-yellow-600 rounded">
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                                <path fill-rule="evenodd" d="M4.998 7.78C6.729 6.345 9.198 5 12 5c2.802 0 5.27 1.345 7.002 2.78a12.713 12.713 0 0 1 2.096 2.183c.253.344.465.682.618.997.14.286.284.658.284 1.04s-.145.754-.284 1.04a6.6 6.6 0 0 1-.618.997 12.712 12.712 0 0 1-2.096 2.183C17.271 17.655 14.802 19 12 19c-2.802 0-5.27-1.345-7.002-2.78a12.712 12.712 0 0 1-2.096-2.183 6.6 6.6 0 0 1-.618-.997C2.144 12.754 2 12.382 2 12s.145-.754.284-1.04c.153-.315.365-.653.618-.997A12.714 12.714 0 0 1 4.998 7.78ZM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" clip-rule="evenodd"/>
+                              </svg>
+                        </button>
+                    </td>
+                </tr>
+            @endforeach
         </tbody>
     </table>
+
+
+    <script>
+        function copyToken(token) {
+            navigator.clipboard.writeText(token).then(function() {
+                alert('Token berhasil disalin: ' + token);
+            }, function(err) {
+                console.error('Error copying text: ', err);
+            });
+        }
+    </script>
 </div>

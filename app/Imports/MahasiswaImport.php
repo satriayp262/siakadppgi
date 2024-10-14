@@ -6,7 +6,9 @@ use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Carbon\Carbon;
-use App\Models\Prodi; 
+use App\Models\Orangtua_Wali;
+use App\Models\Prodi;
+use App\Models\Semester;
 
 class MahasiswaImport implements ToModel, WithHeadingRow
 {
@@ -15,25 +17,67 @@ class MahasiswaImport implements ToModel, WithHeadingRow
     protected $createdRecords = [];
     protected $incompleteRecords = [];
     private $rowNumber = 2;
-    protected $requiredFields = ['nim', 'nama', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'nik', 'agama', 'alamat', 'jalur_pendaftaran', 'kewarganegaraan', 'jenis_pendaftaran', 'tanggal_masuk_kuliah', 'mulai_semester', 'jenis_tempat_tinggal', 'telp_rumah', 'no_hp', 'email', 'terima_kps', 'no_kps', 'jenis_transportasi', 'kode_prodi', 'kode_pt_asal', 'nama_pt_asal', 'kode_prodi_asal', 'nama_prodi_asal', 'jenis_pembiayaan', 'jumlah_biaya_masuk'];
+    protected $requiredFields = [
+        'nim',
+        'nama',
+        'tempat_lahir',
+        'tanggal_lahir',
+        'jenis_kelamin',
+        'nik',
+        'agama',
+        'kelurahan',
+        'kecamatan',
+        'jalur_pendaftaran',
+        'kewarganegaraan',
+        'jenis_pendaftaran',
+        'tanggal_masuk_kuliah',
+        'mulai_semester',
+        'jenis_tinggal',
+        'telp_rumah',
+        'no_hp',
+        'email',
+        'terima_kps',
+        'alat_transportasi',
+        'kode_prodi',
+        'kode_pt_asal',
+        'nama_pt_asal',
+        'kode_prodi_asal',
+        'nama_prodi_asal',
+        'jenis_pembiayaan',
+        'jumlah_biaya_masuk'
+    ];
+    
 
     public function model(array $row)
     {
+
+
         $tanggalLahir = $this->convertExcelDate($row['tanggal_lahir']);
         $tanggalMasukKuliah = $this->convertExcelDate($row['tanggal_masuk_kuliah']);
 
+        $alamat =
+            (!empty($row['jalan']) ? $row['jalan'] : '') .
+            (!empty($row['rt']) ? ' RT ' . $row['rt'] : '') .
+            (!empty($row['rw']) ? ' RW ' . $row['rw'] : '') .
+            (!empty($row['nama_dusun']) ? ' ' . $row['nama_dusun'] : '') .
+            ' ' . $row['kelurahan'] . ' ' . $row['kecamatan'];
+
         foreach ($this->requiredFields as $field) {
-            if (empty($row[$field])) {
-                $this->incompleteRecords[] = "Baris ke {$this->rowNumber} tidak lengkap, kolom {$field} tidak boleh kosong <br>";
+            if (is_null($row[$field]) || $row[$field] === '') {
+                $this->incompleteRecords[] =
+                    "Baris ke {$this->rowNumber} tidak lengkap, kolom {$field} tidak boleh kosong <br>";
                 $this->rowNumber++;
                 return null;
             }
         }
+
         if (!Prodi::where('kode_prodi', $row['kode_prodi'])->exists()) {
-            $this->incompleteRecords[] = "kode_prodi {$row['kode_prodi']} pada baris ke {$this->rowNumber} tidak terdaftar <br>";
+            $this->incompleteRecords[] =
+                "kode_prodi {$row['kode_prodi']} pada baris ke {$this->rowNumber} tidak terdaftar <br>";
             $this->rowNumber++;
-            return null; 
+            return null;
         }
+
         if ($this->isDuplicate($row['nim'], $row['nik'])) {
             $this->skippedRecords++;
             $this->rowNumber++;
@@ -42,11 +86,31 @@ class MahasiswaImport implements ToModel, WithHeadingRow
             $this->createdRecords[] = "NIM = {$row['nim']} ,";
             $this->rowNumber++;
         }
+        $idSemester = Semester::where('nama_semester', $row['mulai_semester'])->first()->id_semester;
 
+        $orangtua_wali = Orangtua_Wali::create([
+            'nama_ayah' => $row['nama_ayah'],
+            'NIK_ayah' => $row['nik_ayah'],
+            // 'no_telp_ayah' => $row['no_telp_ayah'],
+            'pendidikan_ayah' => $row['pendidikan_ayah'],
+            'pekerjaan_ayah' => $row['pekerjaan_ayah'],
+            'penghasilan_ayah' => $row['penghasilan_ayah'],
+            'nama_ibu' => $row['nama_ibu'],
+            'NIK_ibu' => $row['nik_ibu'],
+            // 'no_telp_ibu' => $row['no_telp_ibu'],
+            'pendidikan_ibu' => $row['pendidikan_ibu'],
+            'pekerjaan_ibu' => $row['pekerjaan_ibu'],
+            'penghasilan_ibu' => $row['penghasilan_ibu'],
+            'nama_wali' => $row['nama_wali'] ?? null,
+            'NIK_wali' => $row['nik_wali'] ?? null,
+            // 'no_telp_wali' => $row['no_telp_wali'] ?? null,
+            'pendidikan_wali' => $row['pendidikan_wali'] ?? null,
+            'pekerjaan_wali' => $row['pekerjaan_wali'] ?? null,
+            'penghasilan_wali' => $row['penghasilan_wali'] ?? null,
+        ]);
 
-
-        return new Mahasiswa([
-            'id_orangtua_wali' => $row['id_orangtua_wali'] ?? null,
+        $mahasiswa = Mahasiswa::create([
+            'id_orangtua_wali' => $orangtua_wali->id_orangtua_wali,
             'id_user' => $row['id'] ?? null,
             'NIM' => $row['nim'],
             'nama' => $row['nama'],
@@ -55,21 +119,21 @@ class MahasiswaImport implements ToModel, WithHeadingRow
             'jenis_kelamin' => $row['jenis_kelamin'],
             'NIK' => $row['nik'],
             'agama' => $row['agama'],
-            'alamat' => $row['alamat'],
+            'alamat' => $alamat,
             'jalur_pendaftaran' => $row['jalur_pendaftaran'],
             'kewarganegaraan' => $row['kewarganegaraan'],
             'jenis_pendaftaran' => $row['jenis_pendaftaran'],
             'tanggal_masuk_kuliah' => $tanggalMasukKuliah,
-            'mulai_semester' => $row['mulai_semester'],
-            'jenis_tempat_tinggal' => $row['jenis_tempat_tinggal'],
+            'mulai_semester' => $idSemester,
+            'jenis_tempat_tinggal' => $row['jenis_tinggal'],
             'telp_rumah' => $row['telp_rumah'],
             'no_hp' => $row['no_hp'],
             'email' => $row['email'],
             'terima_kps' => $row['terima_kps'],
-            'no_kps' => $row['no_kps'],
-            'jenis_transportasi' => $row['jenis_transportasi'],
+            'no_kps' => $row['no_kps'] ?? null,
+            'jenis_transportasi' => $row['alat_transportasi'],
             'kode_prodi' => $row['kode_prodi'],
-            'SKS_diakui' => $row['sks_diakui'],
+            'sks_diakui' => $row['sks_diakui'],
             'kode_pt_asal' => $row['kode_pt_asal'],
             'nama_pt_asal' => $row['nama_pt_asal'],
             'kode_prodi_asal' => $row['kode_prodi_asal'],
@@ -77,6 +141,8 @@ class MahasiswaImport implements ToModel, WithHeadingRow
             'jenis_pembiayaan' => $row['jenis_pembiayaan'],
             'jumlah_biaya_masuk' => $row['jumlah_biaya_masuk'],
         ]);
+
+        return $mahasiswa;
     }
 
     protected function isDuplicate($nim, $nik)
@@ -87,17 +153,15 @@ class MahasiswaImport implements ToModel, WithHeadingRow
     protected function convertExcelDate($excelDate)
     {
         if (is_numeric($excelDate)) {
-            // If the date is numeric, it's likely an Excel date
             $dateTime = Date::excelToDateTimeObject($excelDate);
             return Carbon::instance($dateTime)->format('Y-m-d');
         }
 
-        // If it's a string, try parsing it directly
         try {
-            return Carbon::createFromFormat('d/m/Y', trim($excelDate))->format('Y-m-d');
+            return Carbon::createFromFormat('Y-m-d', trim($excelDate))->format('Y-m-d');
         } catch (\Exception $e) {
             \Log::error('Date conversion error: ' . $e->getMessage());
-            return null; // or set a default date
+            return null; 
         }
     }
 

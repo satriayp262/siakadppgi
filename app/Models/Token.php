@@ -26,7 +26,7 @@ class Token extends Model
     // Relasi ke mata kuliah
     public function matkul()
     {
-        return $this->belongsTo(Matakuliah::class);
+        return $this->belongsTo(Matakuliah::class, 'kode_mata_kuliah', 'kode_mata_kuliah');
     }
 
     // Cek apakah token masih valid

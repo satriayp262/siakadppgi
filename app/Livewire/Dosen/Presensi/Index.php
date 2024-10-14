@@ -12,54 +12,49 @@ use Livewire\Attributes\On;
 class Index extends Component
 {
     public $date;
-    public $kode_mata_kuliah;
-    public $matkulId;
+    public $kode_mata_kuliah; // Untuk menyimpan kode mata kuliah yang dipilih
     public $search;
-    public $tokenTerbaru; // Deklarasikan variabel
+    public $tokens = []; // Untuk menyimpan semua token
+    public $matkul = []; // Untuk menyimpan mata kuliah yang relevan
 
     public function mount()
     {
-        // Ambil token terbaru saat komponen di-mount
-        $this->getTokenTerbaru();
+        // Ambil token dan mata kuliah yang relevan saat komponen di-mount
+        $this->getTokensByUser();
+        $this->getRelevantMatkul();
     }
 
     #[On('tokenCreated')]
-    public function handletokenCreated($token)
+    public function handleTokenCreated($token)
     {
         session()->flash('message', 'Token berhasil dibuat!');
         session()->flash('message_type', 'success');
     }
 
-
-    protected function getTokenTerbaru()
+    protected function getTokensByUser()
     {
         // Ambil user yang login
         $user = Auth::user();
-        // Ambil token terbaru berdasarkan user yang login
-        $this->tokenTerbaru = Token::where('id', $user->id)
-            ->latest()
-            ->first();
+        // Ambil semua token yang dibuat oleh user ini
+        $this->tokens = Token::where('id', $user->id)->latest()->get(); // Pastikan Anda menggunakan kolom yang tepat untuk ID pengguna
+    }
+
+    protected function getRelevantMatkul()
+    {
+        // Ambil user yang login
+        $user = Auth::user();
+        // Ambil token yang dibuat oleh user
+        $tokens = Token::where('id', $user->id)->get(); // Pastikan menggunakan kolom yang tepat
+
+        // Ambil mata kuliah berdasarkan token
+        $this->matkul = Matakuliah::whereIn('kode_mata_kuliah', $tokens->pluck('kode_mata_kuliah'))->get();
     }
 
     public function render()
     {
-        // Ambil token terbaru setiap kali render dipanggil
-        $this->getTokenTerbaru();
-
-        $matkul = Matakuliah::all(); // Mengambil semua mata kuliah
-
-        $presensi = Presensi::with(['mahasiswa', 'matkul'])
-            ->when($this->date, function ($query) {
-                $query->whereDate('submitted_at', $this->date);
-            })
-            ->when($this->matkulId, function ($query) {
-                $query->whereHas('matkul', function ($query) {
-                    $query->where('kode_mata_kuliah', $this->matkulId);
-                });
-            })
-            ->get();
-
-        // Kembalikan view dengan data yang dibutuhkan
-        return view('livewire.dosen.presensi.index', compact('presensi', 'matkul'));
+        return view('livewire.dosen.presensi.index', [
+            'tokens' => $this->tokens,
+            'matkul' => $this->matkul,
+        ]);
     }
 }
