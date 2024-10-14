@@ -53,10 +53,10 @@
                         $token = \App\Models\Token::first();
                     @endphp
 
-                    <a href="{{ $token ? route('dosen.detail_presensi', ['token' => $token->id]) : route('dosen.presensi') }}"
+                    <a href="{{ route('dosen.presensi') }}"
                        class="flex items-center p-2 rounded-lg transition duration-75 group
-                       {{ request()->routeIs('dosen.presensi') || request()->routeIs('dosen.detail_presensi') ? 'text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
-                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('dosen.presensi') || request()->routeIs('dosen.detail_presensi') ? 'text-white' : 'text-gray-500' }}"
+                       {{ request()->routeIs('dosen.presensi')  ? 'text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
+                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('dosen.presensi') ? 'text-white' : 'text-gray-500' }}"
                              aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                              fill="currentColor" viewBox="0 0 24 24">
                             <path fill-rule="evenodd"

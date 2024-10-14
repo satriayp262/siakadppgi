@@ -32,10 +32,15 @@ class DetailPresensi extends Component
 
     public function render()
     {
-        // Ambil presensi berdasarkan token
-        $presensi = Presensi::with(['mahasiswa'])
-            ->where('token', $this->token->token) // Filter berdasarkan token
-            ->get();
+        $presensi = collect(); // Default nilai presensi adalah koleksi kosong
+
+        // Cek apakah $this->token tidak null sebelum mengambil presensi
+        if ($this->token) {
+            // Ambil presensi berdasarkan token
+            $presensi = Presensi::with(['mahasiswa'])
+                ->where('token', $this->token->token) // Filter berdasarkan token
+                ->get();
+        }
 
         return view('livewire.dosen.presensi.detail_presensi', compact('presensi'));
     }

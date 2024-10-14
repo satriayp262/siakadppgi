@@ -61,8 +61,8 @@ class Index extends Component
             })
             ->orWhere('valid_until', 'like', '%' . $this->search . '%')
             ->orWhere('created_at', 'like', '%' . $this->search . '%')
-            ->latest()
-            ->paginate(8); // Pastikan paginate dipanggil di sini
+            ->latest();
+            // ->paginate(8); // Pastikan paginate dipanggil di sini
 
         return view('livewire.dosen.presensi.index', [
             'tokens' => $tokens, // Ganti 'Tokens' dengan 'tokens' untuk konsistensi
