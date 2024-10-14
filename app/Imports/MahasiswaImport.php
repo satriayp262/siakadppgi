@@ -46,11 +46,20 @@ class MahasiswaImport implements ToModel, WithHeadingRow
         'jenis_pembiayaan',
         'jumlah_biaya_masuk'
     ];
-    
+
 
     public function model(array $row)
     {
 
+        if (
+            collect($row)->every(function ($value) {
+                return is_null($value) || trim($value) === '';
+            })
+        ) {
+            $this->rowNumber++;
+
+            return null;
+        }
 
         $tanggalLahir = $this->convertExcelDate($row['tanggal_lahir']);
         $tanggalMasukKuliah = $this->convertExcelDate($row['tanggal_masuk_kuliah']);
@@ -161,7 +170,7 @@ class MahasiswaImport implements ToModel, WithHeadingRow
             return Carbon::createFromFormat('Y-m-d', trim($excelDate))->format('Y-m-d');
         } catch (\Exception $e) {
             \Log::error('Date conversion error: ' . $e->getMessage());
-            return null; 
+            return null;
         }
     }
 
