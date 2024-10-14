@@ -9,13 +9,13 @@
         @csrf
         <div class="mb-4">
             <label for="nama" class="block text-sm font-medium text-gray-700">Nama</label>
-            <input type="text" id="nama" value="{{ $nama }}"
+            <input type="text" id="nama" wire:model="nama"
                 class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm bg-gray-100" disabled>
         </div>
 
         <div class="mb-4">
             <label for="nim" class="block text-sm font-medium text-gray-700">NIM</label>
-            <input type="text" id="nim" value="{{ $nim }}"
+            <input type="text" id="nim" wire:model="nim"
                 class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm bg-gray-100" disabled>
         </div>
 

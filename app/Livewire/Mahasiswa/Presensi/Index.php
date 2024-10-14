@@ -5,6 +5,7 @@ namespace App\Livewire\Mahasiswa\Presensi;
 use Livewire\Component;
 use App\Models\Token;
 use App\Models\Presensi;
+use App\Models\Mahasiswa;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,11 +19,9 @@ class Index extends Component
     {
         // Ambil user yang login
         $user = Auth::user();
-
-        // Ambil data mahasiswa berdasarkan user yang login
-        $mahasiswa = $user->mahasiswa;
-
-        // Cek apakah data mahasiswa ada
+        $mahasiswa = Mahasiswa::where('id_user', $user->id)->first();
+        $this->nim = $mahasiswa->NIM ?? null;
+        $this->nama = $mahasiswa->nama;
         if ($mahasiswa) {
             $this->nama = $mahasiswa->nama;
             $this->nim = $mahasiswa->NIM;
