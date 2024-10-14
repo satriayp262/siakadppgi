@@ -59,10 +59,18 @@ class Index extends Component
         $existingRows = $data['existingRows'];
         $addedRows = $data['addedRows'];
         $errors = $data['errors'];
+        $editedRows = $data['editedRows'];
 
         if (!empty($existingRows)) {
             session()->flash('message2',  count( $existingRows) . ' Data sudah ada. <br>' . implode(', ', $errors));
             session()->flash('message_type2', 'warning');
+        }
+
+        if (!empty($editedRows)) {
+            // Flash message showing the count of edited rows and details
+            $editedRowsMessage = count($editedRows) . ' Data berhasil diupdate: <br>' . implode(', ', $editedRows);
+            session()->flash('message2', $editedRowsMessage);
+            session()->flash('message_type2', 'info');
         }
 
         if (!empty($addedRows)) {

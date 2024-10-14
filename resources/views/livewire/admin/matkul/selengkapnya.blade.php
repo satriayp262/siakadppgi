@@ -38,14 +38,22 @@
                             <div class="w-full h-full p-2 mb-4 text-left border">
                                 <label for="jenis_mata_kuliah" class="block text-sm font-medium text-gray-700">Jenis
                                     Mata Kuliah</label>
-                                <p class="text-sm text-gray-500">{{ $matkul->jenis_mata_kuliah ?? 'Data Belum Ada' }}
-                                </p>
+                                @if ($matkul->jenis_mata_kuliah == 'W')
+                                    <p class="text-sm text-gray-500">Wajib Nasional</p>
+                                @elseif ($matkul->jenis_mata_kuliah == 'A')
+                                    <p class="text-sm text-gray-500">Wajib Program Studi</p>
+                                @elseif ($matkul->jenis_mata_kuliah == 'B')
+                                    <p class="text-sm text-gray-500">Pilihan</p>
+                                @elseif ($matkul->jenis_mata_kuliah == 'C')
+                                    <p class="text-sm text-gray-500">Peminatan</p>
+                                @elseif ($matkul->jenis_mata_kuliah == 'S')
+                                    <p class="text-sm text-gray-500">TA/SKRIPSI/THESIS/DISERTASI</p>
+                                @endif
                             </div>
 
                             <div class="w-full h-full p-2 mb-4 text-left border">
                                 <label for="prodi" class="block text-sm font-medium text-gray-700">Prodi</label>
-                                <p class="text-sm text-gray-500">{{ $matkul->prodi->nama_prodi ?? 'Prodi Umum' }}
-                                </p>
+                                <p class="text-sm text-gray-500">{{ $matkul->prodi->nama_prodi ?? 'Prodi Umum' }}</p>
                             </div>
 
                             <div class="w-full h-full p-2 mb-4 text-left border">
