@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Dosen;
 use App\Models\Matakuliah;
+use App\Models\Pendidikan_Terakhir;
 use App\Models\User;
 use App\Models\Semester;
 use App\Models\Mahasiswa;

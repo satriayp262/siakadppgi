@@ -146,10 +146,12 @@ class Index extends Component
         }
 
 
+
     }
 
-    public function loadModal(){
-        
+    public function loadModal()
+    {
+
     }
 
 
@@ -166,23 +168,23 @@ class Index extends Component
             ->latest()
             ->get();
 
-         $query = Mahasiswa::with('semester'); // Eager load the semester relationship
+        $query = Mahasiswa::with('semester'); // Eager load the semester relationship
 
         if ($this->search) {
             $query->where('nama', 'like', '%' . $this->search . '%')
-                  ->orWhere('NIM', 'like', '%' . $this->search . '%')
-                  ->orWhereHas('prodi', function ($query) {
-                      $query->where('nama_prodi', 'like', '%' . $this->search . '%');
-                  })
-                  ->orWhere('email', 'like', '%' . $this->search . '%');
+                ->orWhere('NIM', 'like', '%' . $this->search . '%')
+                ->orWhereHas('prodi', function ($query) {
+                    $query->where('nama_prodi', 'like', '%' . $this->search . '%');
+                })
+                ->orWhere('email', 'like', '%' . $this->search . '%');
         }
 
         $mahasiswas = $query->latest()->paginate(20);
 
         return view('livewire.admin.mahasiswa.index', [
             'mahasiswas' => $mahasiswas,
-            'semesters'=> $semesters,
-            'prodis'=> $prodis,
+            'semesters' => $semesters,
+            'prodis' => $prodis,
         ]);
     }
 }

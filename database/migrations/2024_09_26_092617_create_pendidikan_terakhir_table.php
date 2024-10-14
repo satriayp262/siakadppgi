@@ -12,8 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pendidikan_terakhir', function (Blueprint $table) {
-            $table->uuid('id_pendidikan_terakhir')->primary();
+            $table->id('id_pendidikan_terakhir')->primary();
             $table->string('nama_pendidikan_terakhir');
+            $table->string('kode_pendidikan_terakhir');
             $table->timestamps();
         });
     }
