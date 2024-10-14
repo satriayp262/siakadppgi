@@ -21,7 +21,11 @@ class MatkulImport implements ToModel, WithHeadingRow
     public function model(array $row)
     {
         // Check if data with 'kode_mata_kuliah' already exists
-        $existingMatkul = Matakuliah::where('kode_mata_kuliah', $row['kode_mata_kuliah'])->first();
+        $existingRows = Matakuliah::where('kode_mata_kuliah', $row['kode_mata_kuliah'])->first();
+
+        if ($existingRows) {
+            $this->existingRows[] = "Kode Mata Kuliah {$row['kode_mata_kuliah']} sudah ada <br>";
+        }
 
         // Check for required fields
         foreach ($this->requiredFields as $field) {
@@ -30,85 +34,75 @@ class MatkulImport implements ToModel, WithHeadingRow
                 $this->rowNumber++;
                 return null;
             }
-        }
 
-        // Convert dates
-        $tgl_mulai_efektif = $this->convertExcelDate($row['tgl_mulai_efektif']);
-        $tgl_akhir_efektif = $this->convertExcelDate($row['tgl_akhir_efektif']);
+            // Convert dates
+            $tgl_mulai_efektif = $this->convertExcelDate($row['tgl_mulai_efektif']);
+            $tgl_akhir_efektif = $this->convertExcelDate($row['tgl_akhir_efektif']);
 
-        // If the 'kode_mata_kuliah' exists, update if the data is different
-        if ($existingMatkul) {
-            // Compare each field to check for differences
-            $differences = [];
-            if ($existingMatkul->nama_mata_kuliah !== $row['nama_mk']) {
-                $differences[] = 'Nama Mata Kuliah';
-                $existingMatkul->nama_mata_kuliah = $row['nama_mk'];
-            }
-            if ($existingMatkul->jenis_mata_kuliah !== $row['jenis_mk']) {
-                $differences[] = 'Jenis Mata Kuliah';
-                $existingMatkul->jenis_mata_kuliah = $row['jenis_mk'];
-            }
-            if ($existingMatkul->kode_prodi !== $row['kode_prodi']) {
-                $differences[] = 'Kode Prodi';
-                $existingMatkul->kode_prodi = $row['kode_prodi'];
-            }
-            if ($existingMatkul->sks_tatap_muka != $row['sks_tatap_muka']) {
-                $differences[] = 'SKS Tatap Muka';
-                $existingMatkul->sks_tatap_muka = $row['sks_tatap_muka'];
-            }
-            if ($existingMatkul->sks_praktek != $row['sks_praktek']) {
-                $differences[] = 'SKS Praktek';
-                $existingMatkul->sks_praktek = $row['sks_praktek'];
-            }
-            if ($existingMatkul->sks_praktek_lapangan != $row['sks_prak_lapangan']) {
-                $differences[] = 'SKS Praktek Lapangan';
-                $existingMatkul->sks_praktek_lapangan = $row['sks_prak_lapangan'];
-            }
-            if ($existingMatkul->sks_simulasi != $row['sks_simulasi']) {
-                $differences[] = 'SKS Simulasi';
-                $existingMatkul->sks_simulasi = $row['sks_simulasi'];
-            }
-            if ($existingMatkul->metode_pembelajaran !== $row['metode_pembelajaran']) {
-                $differences[] = 'Metode Pembelajaran';
-                $existingMatkul->metode_pembelajaran = $row['metode_pembelajaran'];
-            }
-            if ($existingMatkul->tgl_mulai_efektif !== $tgl_mulai_efektif) {
-                $differences[] = 'Tanggal Mulai Efektif';
-                $existingMatkul->tgl_mulai_efektif = $tgl_mulai_efektif;
-            }
-            if ($existingMatkul->tgl_akhir_efektif !== $tgl_akhir_efektif) {
-                $differences[] = 'Tanggal Akhir Efektif';
-                $existingMatkul->tgl_akhir_efektif = $tgl_akhir_efektif;
-            }
+            // If the 'kode_mata_kuliah' exists, update if the data is different
+            if ($existingRows) {
+                // Compare each field to check for differences
+                $differences = [];
+                if ($existingRows->nama_mata_kuliah !== $row['nama_mk']) {
+                    $differences[] = 'Nama Mata Kuliah';
+                }
+                if ($existingRows->jenis_mata_kuliah !== $row['jenis_mk']) {
+                    $differences[] = 'Jenis Mata Kuliah';
+                }
+                if ($existingRows->kode_prodi !== $row['kode_prodi']) {
+                    $differences[] = 'Kode Prodi';
+                }
+                if ($existingRows->sks_tatap_muka != $row['sks_tatap_muka']) {
+                    $differences[] = 'SKS Tatap Muka';
+                }
+                if ($existingRows->sks_praktek != $row['sks_praktek']) {
+                    $differences[] = 'SKS Praktek';
+                }
+                if ($existingRows->sks_praktek_lapangan != $row['sks_prak_lapangan']) {
+                    $differences[] = 'SKS Praktek Lapangan';
+                }
+                if ($existingRows->sks_simulasi != $row['sks_simulasi']) {
+                    $differences[] = 'SKS Simulasi';
+                }
+                if ($existingRows->metode_pembelajaran !== $row['metode_pembelajaran']) {
+                    $differences[] = 'Metode Pembelajaran';
+                }
+                if ($existingRows->tgl_mulai_efektif !== $tgl_mulai_efektif) {
+                    $differences[] = 'Tanggal Mulai Efektif';
+                }
+                if ($existingRows->tgl_akhir_efektif !== $tgl_akhir_efektif) {
+                    $differences[] = 'Tanggal Akhir Efektif';
+                }
 
-            // If there are differences, update the record and add to edited rows array
-            if (!empty($differences)) {
-                $existingMatkul->save();
-                $this->editedRows[] = "Kode Mata Kuliah {$row['kode_mata_kuliah']} diupdate (kolom diubah: " . implode(', ', $differences) . ") <br>";
+                // If there are differences, update the record and add to edited rows array
+                if (!empty($differences)) {
+                    $existingRows->save();
+                    $this->editedRows[] = "Kode Mata Kuliah {$row['kode_mata_kuliah']} diupdate (kolom diubah: " . implode(', ', $differences) . ") <br>";
+                }
+
+                $this->rowNumber++;
+                return null;  // Skip inserting new record
             }
 
+            // Insert new data if 'kode_mata_kuliah' doesn't exist
+            $newMatkul = new Matakuliah([
+                'kode_mata_kuliah' => $row['kode_mata_kuliah'],
+                'nama_mata_kuliah' => $row['nama_mk'],
+                'jenis_mata_kuliah' => $row['jenis_mk'],
+                'kode_prodi' => $row['kode_prodi'],
+                'sks_tatap_muka' => $row['sks_tatap_muka'],
+                'sks_praktek' => $row['sks_praktek'],
+                'sks_praktek_lapangan' => $row['sks_prak_lapangan'],
+                'sks_simulasi' => $row['sks_simulasi'],
+                'metode_pembelajaran' => $row['metode_pembelajaran'],
+                'tgl_mulai_efektif' => $tgl_mulai_efektif,
+                'tgl_akhir_efektif' => $tgl_akhir_efektif,
+            ]);
+            $this->addedRows[] = "Kode Mata Kuliah {$row['kode_mata_kuliah']} berhasil ditambahkan <br>";
             $this->rowNumber++;
-            return null;  // Skip inserting new record
+
+            return $newMatkul;
         }
-
-        // Insert new data if 'kode_mata_kuliah' doesn't exist
-        $newMatkul = new Matakuliah([
-            'kode_mata_kuliah' => $row['kode_mata_kuliah'],
-            'nama_mata_kuliah' => $row['nama_mk'],
-            'jenis_mata_kuliah' => $row['jenis_mk'],
-            'kode_prodi' => $row['kode_prodi'],
-            'sks_tatap_muka' => $row['sks_tatap_muka'],
-            'sks_praktek' => $row['sks_praktek'],
-            'sks_praktek_lapangan' => $row['sks_prak_lapangan'],
-            'sks_simulasi' => $row['sks_simulasi'],
-            'metode_pembelajaran' => $row['metode_pembelajaran'],
-            'tgl_mulai_efektif' => $tgl_mulai_efektif,
-            'tgl_akhir_efektif' => $tgl_akhir_efektif,
-        ]);
-        $this->addedRows[] = $row['kode_mata_kuliah']; // Save newly added rows
-        $this->rowNumber++;
-
-        return $newMatkul;
     }
 
 

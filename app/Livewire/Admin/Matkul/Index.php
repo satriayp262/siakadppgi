@@ -29,10 +29,6 @@ class Index extends Component
         session()->flash('message_type', 'update');
     }
 
-    public function downloadTemplate(): BinaryFileResponse
-    {
-        return Excel::download(new MatkulExport, 'template_matkul.xlsx');
-    }
 
     public function destroy($id_mata_kuliah)
     {
@@ -62,19 +58,26 @@ class Index extends Component
         $editedRows = $data['editedRows'];
 
         if (!empty($existingRows)) {
-            session()->flash('message2',  count( $existingRows) . ' Data sudah ada. <br>' . implode(', ', $errors));
+            session()->flash('message2',  count( $existingRows) . ' Data sudah ada: <br>' . implode('', $existingRows));
             session()->flash('message_type2', 'warning');
         }
 
         if (!empty($editedRows)) {
             // Flash message showing the count of edited rows and details
-            $editedRowsMessage = count($editedRows) . ' Data berhasil diupdate: <br>' . implode(', ', $editedRows);
+            $editedRowsMessage = count($editedRows) . ' Data berhasil diupdate: <br>' . implode('', $editedRows);
             session()->flash('message2', $editedRowsMessage);
             session()->flash('message_type2', 'info');
         }
 
+        if (!empty($errors)) {
+            // Flash message showing the count of errors and details
+            $errorsMessage = count($errors) . ' Data gagal ditambahkan: <br>' . implode('', $errors);
+            session()->flash('message2', $errorsMessage);
+            session()->flash('message_type2', 'error');
+        }
+
         if (!empty($addedRows)) {
-            session()->flash('message', 'Baris dengan kode mata kuliah berikut berhasil ditambahkan: ' . implode(', ', $addedRows));
+            session()->flash('message', count($addedRows) . ' Data berhasil ditambahkan: <br>' . implode('', $addedRows));
             session()->flash('message_type', 'success');
         }else{
             session()->flash('message', 'Tidak ada mata kuliah yang ditambahkan');
