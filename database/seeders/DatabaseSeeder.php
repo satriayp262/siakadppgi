@@ -34,6 +34,13 @@ class DatabaseSeeder extends Seeder
             'role' => 'staff',
         ]);
 
+        User::factory()->create([
+            'name' => 'dosen',
+            'email' => 'dosen@gmail.com',
+            'password' => '11111111',
+            'role' => 'dosen',
+        ]);
+
         Prodi::factory()->create([
             'kode_prodi' => 'AK-001',
             'nama_prodi' => 'Akutansi',
