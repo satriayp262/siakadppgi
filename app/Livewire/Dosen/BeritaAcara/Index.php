@@ -58,7 +58,7 @@ class Index extends Component
             ->orWhere('jumlah_mahasiswa', 'like', '%' . $this->search . '%')
             ->orWhere('materi', 'like', '%' . $this->search . '%')
             ->latest()
-            ->paginate(5);
+            ->paginate(1);
 
         return view('livewire.dosen.berita_acara.index', [
             'beritaAcaras' => $beritaAcaras,

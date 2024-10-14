@@ -18,13 +18,13 @@ class CreateToken extends Component
         'valid_until' => 'required|date|after:now',
     ];
 
-    public function mount() // Method ini dipanggil saat komponen diinisialisasi
+    public function mount()
     {
         $this->matkul = Matakuliah::all(); // Mengambil semua mata kuliah
     }
+
     public function save()
     {
-
         $this->validate();
 
         $token = Str::random(6); // Generate random token
@@ -35,6 +35,7 @@ class CreateToken extends Component
             'valid_until' => $this->valid_until,
             'id' => Auth::user()->id,
         ]);
+
         $this->resetExcept('matkul');
         $this->dispatch('tokenCreated', $token);
     }
