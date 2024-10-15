@@ -54,6 +54,7 @@
                         <td class="px-4 py-2 text-center">{{ $mahasiswa->NIM }}</td>
                         <td class="px-4 py-2 text-center">{{ $mahasiswa->semesterDifference }}</td>
                         <td class="px-4 py-2 text-center">{{ $mahasiswa->prodi->nama_prodi }}</td>
+                        <td class="px-4 py-2 text-center"></td>
                         <td class="px-4 py-2 text-center">
                             <livewire:staff.tagihan.create :nim="$mahasiswa->NIM" :nama="$mahasiswa->nama"
                                 wire:key="edit-{{ $mahasiswa->NIM }}" />

@@ -76,7 +76,7 @@ class Mahasiswa extends Model
 
     public function tagihan()
     {
-        return $this->hasMany(Tagihan::class, 'nim', 'nim');
+        return $this->hasMany(Tagihan::class, 'NIM', 'NIM');
     }
     public function getSemesterDifferenceAttribute()
     {

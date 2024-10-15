@@ -23,7 +23,8 @@
             </div>
             <div class="p-4 text-left">
                 <div class="p-4 max-h-[500px] overflow-y-auto">
-                    <form wire:submit="save">
+                    <form wire:submit.prevent="save">
+                        <input type="text" hidden wire:model="id_tagihan">
                         <div class="mb-4">
                             <label for="total_tagihan" class="block text-sm font-medium text-gray-700">Total
                                 Tagihan</label>
@@ -45,14 +46,20 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="bukti_pembayaran" class="block text-sm font-medium text-gray-700">Bukti
+                            <label for="bukti_bayar_tagihan" class="block text-sm font-medium text-gray-700">Bukti
                                 Pembayaran</label>
-                            <input type="file" id="bukti_pembayaran" wire:model="bukti_pembayaran"
-                                name="bukti_pembayaran"
+                            <input type="file" id="bukti_bayar_tagihan" wire:model="bukti_bayar_tagihan"
+                                name="bukti_bayar_tagihan"
                                 class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
-                            @error('bukti_pembayaran')
+                            @error('bukti_bayar_tagihan')
                                 <span class="text-sm text-red-500">{{ $message }}</span>
                             @enderror
+                            <div wire:loading>
+                                <div class="mt-2 w-full flex flex-row items-center space-x-2">
+                                    <div class="spinner"></div>
+                                    <div class="spinner-text">Memproses Permintaan...</div>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Submit Button inside the form -->

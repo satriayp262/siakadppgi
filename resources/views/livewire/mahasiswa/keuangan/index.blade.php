@@ -41,6 +41,7 @@
                     <th class="px-4 py-2 text-center">Bulan</th>
                     <th class="px-4 py-2 text-center">Tagihan</th>
                     <th class="px-4 py-2 text-center">Status</th>
+                    <th class="px-4 py-2 text-center">Bukti Pembayaran</th>
                     <th class="px-4 py-2 text-center">Aksi</th>
                 </tr>
             </thead>
@@ -86,6 +87,14 @@
                                 style="width: 80px;">
                                 {{ ucfirst($tagihan->status_tagihan) }}
                             </span>
+                        </td>
+                        <td>
+                            @if ($tagihan->bukti_bayar_tagihan)
+                                <a href="{{ asset('storage/' . $tagihan->bukti_bayar_tagihan) }}" target="_blank"
+                                    class="text-blue-500 underline">Lihat</a>
+                            @else
+                                <span class="text-red-500">Belum ada</span>
+                            @endif
                         </td>
                         <td>
                             <livewire:mahasiswa.keuangan.create :id_semester="$tagihan->semester->nama_semester" :total_tagihan="$tagihan->total_tagihan"
