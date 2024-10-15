@@ -6,7 +6,6 @@ use Livewire\Component;
 use App\Models\Dosen;
 use App\Models\Matakuliah;
 use App\Models\BeritaAcara;
-use Livewire\Attributes\Title;
 use Livewire\Attributes\On;
 use Livewire\WithPagination;
 
@@ -28,10 +27,9 @@ class Index extends Component
     public function destroy($id_berita_acara)
     {
         $acara = BeritaAcara::find($id_berita_acara);
-        // Hapus data dosen
+
         $acara->delete();
 
-        // Tampilkan pesan sukses
         session()->flash('message', 'Berita Acara Berhasil di Hapus');
         session()->flash('message_type', 'error');
     }

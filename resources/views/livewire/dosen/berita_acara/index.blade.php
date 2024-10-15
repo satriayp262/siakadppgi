@@ -3,7 +3,7 @@
         <div>
             @if (session()->has('message'))
                 @php
-                    $messageType = session('message_type', 'success'); // Default to success
+                    $messageType = session('message_type', 'success');
                     $bgColor =
                         $messageType === 'error'
                             ? 'bg-red-500'
@@ -89,7 +89,6 @@
                 confirmButtonText: 'Hapus'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Panggil method Livewire jika konfirmasi diterima
                     @this.call('destroy', id);
                 }
             });

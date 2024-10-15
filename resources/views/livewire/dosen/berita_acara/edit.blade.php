@@ -74,7 +74,6 @@
                                 @enderror
                             </div>
 
-                            <!-- Submit Button inside the form -->
                             <div class="flex justify-end p-4 bg-gray-200 rounded-b-lg">
                                 <button type="button" wire:click="clear({{ $id_berita_acara }})"
                                     @click="isOpen = false"

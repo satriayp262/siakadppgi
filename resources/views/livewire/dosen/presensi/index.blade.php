@@ -14,7 +14,6 @@
                 <div id="flash-message"
                     class="flex items-center justify-between p-4 mx-12 mt-8 mb-4 text-white {{ $bgColor }} rounded">
                     <span>{{ session('message') }}</span>
-                    {{-- <button id="copyToken" class="ml-4 bg-white text-black px-2 rounded" onclick="copyToken()">Salin</button> --}}
                     <button class="p-1" onclick="document.getElementById('flash-message').style.display='none'">
                         &times;
                     </button>
@@ -24,15 +23,6 @@
         <!-- Modal Form -->
         <div class="flex justify-between mt-2">
             <livewire:dosen.presensi.create-token />
-            {{-- <div class="flex space-x-4">
-                <input type="date" wire:model="date" class="border p-2 rounded" />
-                <select wire:model="kode_mata_kuliah" class="border p-2 rounded">
-                    <option value="">Pilih Mata Kuliah</option>
-                    @foreach ($matkul as $matkulItem)
-                        <option value="{{ $matkulItem->kode_mata_kuliah }}">{{ $matkulItem->nama_mata_kuliah }}</option>
-                    @endforeach
-                </select>
-            </div> --}}
             <input type="text" wire:model.live="search" placeholder="   Search"
                 class="px-2 ml-4 border border-gray-300 rounded-lg">
         </div>
@@ -51,13 +41,15 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($tokens as $index => $tokenItem)
-                <tr>
-                    <td class="px-2 py-1 text-center">{{ $index + 1 }}</td>
+            @foreach ($tokens as $tokenItem)
+                <tr wire:key="token-{{ $tokenItem->id_token }}">
+                    <td class="px-4 py-2 text-center">
+                        {{ ($tokens->currentPage() - 1) * $tokens->perPage() + $loop->iteration }}</td>
                     <td class="px-2 py-1 text-center">{{ $tokenItem->matkul->nama_mata_kuliah }}</td>
                     <td class="px-2 py-1 text-center">{{ $tokenItem->token }}</td>
                     <td class="px-2 py-1 text-center">
-                        {{ \Carbon\Carbon::parse($tokenItem->created_at)->format('d F Y / H:i:s') }}</td>
+                        {{ \Carbon\Carbon::parse($tokenItem->created_at)->setTimezone('Asia/Jakarta')->format('d F Y / H:i:s') }}
+                    </td>
                     <td class="px-2 py-1 text-center">
                         {{ \Carbon\Carbon::parse($tokenItem->valid_until)->format('d F Y / H:i:s') }}</td>
                     <td class="px-2 py-1 text-center flex-col space-x-1 items-center">
@@ -71,10 +63,10 @@
         </tbody>
     </table>
 
-    {{-- <!-- Pagination Controls -->
+    <!-- Pagination Controls -->
     <div class="py-8 mt-4 text-center">
-        {{ $tokens->links() }} <!-- Gunakan $tokens di sini -->
-    </div> --}}
+        {{ $tokens->links() }}
+    </div>
 
     <script>
         function copyToken(token) {
