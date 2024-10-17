@@ -9,7 +9,7 @@ use Livewire\Component;
 
 class Edit extends Component
 {
-    public $id_berita_acara, $tanggal, $nidn = '', $materi, $kode_mata_kuliah = '', $jumlah_mahasiswa, $matkul, $dosen;
+    public $id_berita_acara, $tanggal, $nidn = '', $nama_dosen = '', $materi, $kode_mata_kuliah = '', $jumlah_mahasiswa, $matkul, $dosen;
 
     protected $listeners = ['refreshComponent' => '$refresh'];
 
@@ -27,7 +27,7 @@ class Edit extends Component
 
     public function clear($id_berita_acara)
     {
-        $this->reset();
+        $this->resetExcept(['dosen', 'matkul']);
         $this->dispatchBrowserEvent('refreshComponent');
         $acara = BeritaAcara::find($id_berita_acara);
         if ($acara) {
@@ -37,6 +37,7 @@ class Edit extends Component
             $this->kode_mata_kuliah = $acara->kode_mata_kuliah;
             $this->materi = $acara->materi;
             $this->jumlah_mahasiswa = $acara->jumlah_mahasiswa;
+            $this->loadDosenName($this->nidn); // Load nama dosen berdasarkan NIDN
         }
     }
 
@@ -52,7 +53,14 @@ class Edit extends Component
             $this->kode_mata_kuliah = $acara->kode_mata_kuliah;
             $this->materi = $acara->materi;
             $this->jumlah_mahasiswa = $acara->jumlah_mahasiswa;
+            $this->loadDosenName($this->nidn);
         }
+    }
+
+    protected function loadDosenName($nidn)
+    {
+        $dosen = Dosen::where('nidn', $nidn)->first();
+        $this->nama_dosen = $dosen ? $dosen->nama_dosen : '';
     }
 
     public function update()

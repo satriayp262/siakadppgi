@@ -14,16 +14,15 @@
                 <div id="flash-message"
                     class="flex items-center justify-between p-4 mx-12 mt-8 mb-4 text-white {{ $bgColor }} rounded">
                     <span>{{ session('message') }}</span>
-                    <button class="p-1" onclick="document.getElementById('flash-message').style.display='none'">
-                        &times;
-                    </button>
+                    <button class="p-1"
+                        onclick="document.getElementById('flash-message').style.display='none'">&times;</button>
                 </div>
             @endif
         </div>
         <!-- Modal Form -->
         <div class="flex justify-between mt-2">
             <livewire:dosen.berita_acara.create />
-            <input type="text" wire:model.live="search" placeholder="   Search"
+            <input type="text" wire:model.debounce.300ms="search" placeholder="   Search"
                 class="px-2 ml-4 border border-gray-300 rounded-lg">
         </div>
     </div>
@@ -53,19 +52,17 @@
                         <div class="flex flex-row">
                             <div class="flex justify-center space-x-2">
                                 <livewire:dosen.berita_acara.edit :id_berita_acara="$acara->id_berita_acara"
-                                    wire:key="edit-{{ rand() . $acara->id_berita_acara }}" />
+                                    wire:key="edit-{{ $acara->id_berita_acara }}" />
                             </div>
-                            <button wire:key="delete-{{ $acara->id_berita_acara }}"
-                                class="inline-block px-4 py-2 ml-2 text-white bg-red-500 rounded hover:bg-red-700"
-                                onclick="confirmDelete({{ $acara->id_berita_acara }}, '{{ $acara->dosen->nama_dosen }}')"><svg
+                            <button class="inline-block px-4 py-2 ml-2 text-white bg-red-500 rounded hover:bg-red-700"
+                                wire:key="delete-{{ $acara->id_berita_acara }} " onclick="confirmDelete({{ $acara->id_berita_acara }})"><svg
                                     class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
                                     viewBox="0 0 24 24">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                         stroke-width="2"
                                         d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
-                                </svg>
-                            </button>
+                                </svg></button>
                         </div>
                     </td>
                 </tr>
@@ -78,9 +75,9 @@
     </div>
 
     <script>
-        function confirmDelete(id, tanggal) {
+        function confirmDelete(id) {
             Swal.fire({
-                title: `Apakah anda yakin ingin menghapus Berita Acara ${tanggal}?`,
+                title: `Apakah anda yakin ingin menghapus Berita Acara ini?`,
                 text: "Data yang telah dihapus tidak dapat dikembalikan!",
                 icon: 'warning',
                 showCancelButton: true,
@@ -89,6 +86,7 @@
                 confirmButtonText: 'Hapus'
             }).then((result) => {
                 if (result.isConfirmed) {
+                    // Panggil method Livewire jika konfirmasi diterima
                     @this.call('destroy', id);
                 }
             });

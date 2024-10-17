@@ -85,12 +85,6 @@ class Index extends Component
         session()->flash('message_type', 'success');
     }
 
-    // Fungsi untuk mengunduh template Excel
-    public function downloadTemplate(): BinaryFileResponse
-    {
-        return Excel::download(new DosenExport, 'template_dosen.xlsx');
-    }
-
     public function import()
     {
         $this->validate([

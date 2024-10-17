@@ -5,11 +5,12 @@ namespace App\Livewire\Dosen\BeritaAcara;
 use App\Models\Dosen;
 use App\Models\BeritaAcara;
 use App\Models\Matakuliah;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class Create extends Component
 {
-    public $id_berita_acara, $tanggal, $nidn = '', $materi, $kode_mata_kuliah = '', $jumlah_mahasiswa, $matkul, $dosen;
+    public $id_berita_acara, $tanggal, $nidn = '', $nama_dosen = '', $materi, $kode_mata_kuliah = '', $jumlah_mahasiswa, $matkul;
 
     public function rules()
     {
@@ -25,34 +26,42 @@ class Create extends Component
     public function mount()
     {
         $this->matkul = Matakuliah::all() ?? collect([]);
-        $this->dosen = Dosen::all() ?? collect([]);
+
+        // Ambil user yang sedang login
+        $user = Auth::user();
+        $dosen = Dosen::where('id', $user->id)->first();
+
+        if ($dosen) {
+            $this->nidn = $dosen->nidn;
+            $this->nama_dosen = $dosen->nama_dosen; // Set nama dosen berdasarkan NIDN
+        }
     }
 
     public function save()
-    {
-        // Validasi data
-        $validatedData = $this->validate();
+{
+    $validatedData = $this->validate();
 
-        //dd($validatedData);
-        // Simpan data ke database
-        $acara = BeritaAcara::create([
-            'tanggal' => $validatedData['tanggal'],
-            'nidn' => $validatedData['nidn'],
-            'materi' => $validatedData['materi'],
-            'kode_mata_kuliah' => $validatedData['kode_mata_kuliah'],
-            'jumlah_mahasiswa' => $validatedData['jumlah_mahasiswa'],
-        ]);
+    $acara = BeritaAcara::create([
+        'tanggal' => $validatedData['tanggal'],
+        'nidn' => $validatedData['nidn'],
+        'materi' => $validatedData['materi'],
+        'kode_mata_kuliah' => $validatedData['kode_mata_kuliah'],
+        'jumlah_mahasiswa' => $validatedData['jumlah_mahasiswa'],
+    ]);
 
-        $this->resetExcept(['dosen', 'matkul']);
-        $this->dispatch('acaraCreated');
+    // Reset form kecuali 'nama_dosen'
+    $this->reset(['tanggal', 'materi', 'jumlah_mahasiswa']);
 
-        return $acara;
-    }
+    $this->dispatch('acaraCreated');
+
+    return $acara;
+}
+
 
     public function messages()
     {
         return [
-            'nidn.required' => 'NIDN tidak boleh kosong',
+            'nidn.required' => 'Nama dosen tidak boleh kosong',
             'tanggal.required' => 'Tanggal tidak boleh kosong',
             'materi.required' => 'Materi tidak boleh kosong',
             'kode_mata_kuliah.required' => 'Mata kuliah tidak boleh kosong',

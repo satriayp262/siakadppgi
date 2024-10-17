@@ -30,14 +30,11 @@
 
                             <div class="mb-4">
                                 <label for="nidn" class="block text-sm font-medium text-gray-700">Nama Dosen</label>
-                                <select wire:model="nidn" class="block w-full py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring px-2 focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
-                                    <option value="">Pilih Dosen</option>
-                                    @foreach ($dosen as $d)
-                                        <option value="{{ $d->nidn }}">{{ $d->nama_dosen }}</option>
-                                    @endforeach
-                                </select>
+                                <input type="text" id="nidn" value="{{ $nama_dosen }}" disabled
+                                    name="nidn"
+                                    class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
                                 @error('nidn')
-                                    <span class="mt-1 text-sm text-red-500">{{ $message }}</span>
+                                    <span class="text-sm text-red-500">{{ $message }}</span>
                                 @enderror
                             </div>
 

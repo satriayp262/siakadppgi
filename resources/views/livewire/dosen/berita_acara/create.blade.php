@@ -18,7 +18,8 @@
             <!-- Modal Header -->
             <div class="flex items-center justify-between p-4 bg-gray-200 rounded-t-lg">
                 <h3 class="text-xl font-semibold">Tambah Dosen</h3>
-                <button @click="isOpen=false" class="text-gray-900 px-3 rounded-sm shadow hover:bg-red-500">&times;</button>
+                <button @click="isOpen=false"
+                    class="text-gray-900 px-3 rounded-sm shadow hover:bg-red-500">&times;</button>
             </div>
             <div class="p-4">
                 <div class="p-4 max-h-[500px] overflow-y-auto">
@@ -33,21 +34,14 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="nidn" class="block text-sm font-medium text-gray-700">Nama Dosen</label>
-                            <select id="nidn" wire:model="nidn" name="nidn"
-                                class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
-                                <option value="" disabled selected>Select</option>
-                                @foreach ($dosen as $d)
-                                    <option value="{{ $d->nidn }}">{{ $d->nama_dosen }}</option>
-                                @endforeach
-                            </select>
-                            @error('nidn')
-                                <span class="mt-1 text-sm text-red-500">{{ $message }}</span>
-                            @enderror
+                            <label for="nama_dosen" class="block text-sm font-medium text-gray-700">Nama Dosen</label>
+                            <input type="text" id="nama_dosen" name="nama_dosen" value="{{ $nama_dosen }}" disabled
+                                class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 sm:text-sm">
                         </div>
 
                         <div class="mb-4">
-                            <label for="kode_mata_kuliah" class="block text-sm font-medium text-gray-700">Mata Kuliah</label>
+                            <label for="kode_mata_kuliah" class="block text-sm font-medium text-gray-700">Mata
+                                Kuliah</label>
                             <select id="kode_mata_kuliah" wire:model="kode_mata_kuliah" name="kode_mata_kuliah"
                                 class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
                                 <option value="" disabled selected>Select</option>
@@ -70,8 +64,10 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="jumlah_mahasiswa" class="block text-sm font-medium text-gray-700">Jumlah Mahasiswa</label>
-                            <input type="text" id="jumlah_mahasiswa" wire:model="jumlah_mahasiswa" name="jumlah_mahasiswa"
+                            <label for="jumlah_mahasiswa" class="block text-sm font-medium text-gray-700">Jumlah
+                                Mahasiswa</label>
+                            <input type="text" id="jumlah_mahasiswa" wire:model="jumlah_mahasiswa"
+                                name="jumlah_mahasiswa"
                                 class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
                             @error('jumlah_mahasiswa')
                                 <span class="text-sm text-red-500">{{ $message }}</span>

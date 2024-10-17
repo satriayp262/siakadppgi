@@ -17,6 +17,10 @@ class Index extends Component
 
     public $matkul, $dosen;
 
+    protected $listeners = [
+        'deleteBeritaAcara' => 'destroy',
+    ];
+
     #[On('acaraUpdated')]
     public function handledosenEdited()
     {
@@ -30,9 +34,11 @@ class Index extends Component
 
         $acara->delete();
 
+        // Tampilkan pesan sukses
         session()->flash('message', 'Berita Acara Berhasil di Hapus');
         session()->flash('message_type', 'error');
     }
+
 
     #[On('acaraCreated')]
     public function handledosenCreated()
@@ -46,7 +52,6 @@ class Index extends Component
         $this->matkul = Matakuliah::all() ?? collect([]);
         $this->dosen = Dosen::all() ?? collect([]);
     }
-
 
     public function render()
     {
