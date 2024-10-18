@@ -54,7 +54,7 @@
                             @error('bukti_bayar_tagihan')
                                 <span class="text-sm text-red-500">{{ $message }}</span>
                             @enderror
-                            <div wire:loading>
+                            <div wire:loading wire:target="bukti_bayar_tagihan">
                                 <div class="mt-2 w-full flex flex-row items-center space-x-2">
                                     <div class="spinner"></div>
                                     <div class="spinner-text">Memproses Permintaan...</div>

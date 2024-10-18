@@ -20,6 +20,7 @@ class Index extends Component
             $query->where('id_user', $user->id); // Match the user with mahasiswa
         })->get();
 
+        // dd($tagihans);
 
         return view('livewire.mahasiswa.keuangan.index', [
             'tagihans' => $tagihans,

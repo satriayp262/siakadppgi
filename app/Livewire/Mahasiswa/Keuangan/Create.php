@@ -7,79 +7,66 @@ use Livewire\Component;
 use App\Models\Semester;
 use App\Models\Tagihan;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+
 
 class Create extends Component
 {
 
     use WithFileUploads;
 
-    public $nim;
+    public $NIM;
     public $total_tagihan;
     public $id_semester;
     public $bukti_bayar_tagihan;
     public $tagihan;
     public $id_tagihan;
-    public $path;
+    public $status_tagihan;
 
 
 
     public function rules()
     {
         return [
-            'bukti_bayar_tagihan' => 'nullable|image',
+            'bukti_bayar_tagihan' => 'required|image', // Assuming the file is an image and max size is 1MB
         ];
     }
 
     public function messages()
     {
         return [
-            'bukti_bayar_tagihan.image' => 'Bukti Pembayaran harus berupa gambar',
-            'bukti_bayar_tagihan.mimes' => 'Bukti Pembayaran harus berupa gambar dengan format jpeg, png, jpg, atau svg',
+            'bukti_bayar_tagihan.required' => 'Bukti bayar tagihan tidak boleh kosong',
+            'bukti_bayar_tagihan.image' => 'Bukti bayar tagihan harus berupa gambar',
         ];
     }
-    public function mount(Tagihan $tagihan)
+
+    public function mount()
     {
-        // Get the mahasiswa based on the authenticated user
-        $mahasiswa = Mahasiswa::where('id_user', auth()->user()->id)->first();
+        $this->tagihan = Tagihan::find($this->id_tagihan);
 
-        // Fetch the tagihan based on NIM and set the necessary properties
-        $this->tagihan = Tagihan::where('NIM', $mahasiswa->NIM)
-            ->where('id_tagihan', $this->id_tagihan)
-            ->first();
-
-        if (!$this->tagihan) {
-            // Handle the case where tagihan is not found
-            session()->flash('error', 'Tagihan not found');
-            return;
+        if ($this->tagihan) {
+            $this->NIM = $this->tagihan->mahasiswa->NIM;
+            $this->total_tagihan = $this->tagihan->total_tagihan;
+            $this->id_semester = $this->tagihan->semester->nama_semester;
+            $this->status_tagihan = $this->tagihan->status_tagihan;
         }
-
-        $this->nim = $this->tagihan->NIM;
-        $this->id_semester = Semester::where('id_semester', $this->tagihan->id_semester)->first()->nama_semester;
-        $this->total_tagihan = $this->tagihan->total_tagihan;
-
     }
 
     public function save()
     {
-        $mahasiswa = Mahasiswa::where('id_user', auth()->user()->id)->first();
-        $this->tagihan = Tagihan::where('NIM', $mahasiswa->NIM)
-            ->where('id_tagihan', $this->id_tagihan)
-            ->first();
-        $path = $this->bukti_bayar_tagihan->storeAs('public/storage/bukti_pembayaran', $this->bukti_bayar_tagihan->getClientOriginalName());
+        // Validate the input fields
+        $this->validate();
+
+        $filename = Str::random(10) . '.' . $this->bukti_bayar_tagihan->getClientOriginalExtension();
+        $this->bukti_bayar_tagihan->storeAs('public/images/bukti_pembayaran', $filename);
+
 
         if ($this->tagihan) {
-            $this->tagihan->save(
-                [
-                    'bukti_bayar_tagihan' => $path,
-                ]
-            );
-            dd($this);
+            $this->tagihan->update([
+                'bukti_bayar_tagihan' => $filename,
+            ]);
         }
 
-        $this->reset();
-        $this->dispatch('TagihanAdded');
     }
 
     public function render()
