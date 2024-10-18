@@ -22,7 +22,7 @@ class Index extends Component
     ];
 
     #[On('acaraUpdated')]
-    public function handledosenEdited()
+    public function handleacaraUpdated()
     {
         session()->flash('message', 'Berita Acara Berhasil di Update');
         session()->flash('message_type', 'warning');
@@ -34,14 +34,12 @@ class Index extends Component
 
         $acara->delete();
 
-        // Tampilkan pesan sukses
         session()->flash('message', 'Berita Acara Berhasil di Hapus');
         session()->flash('message_type', 'error');
     }
 
-
     #[On('acaraCreated')]
-    public function handledosenCreated()
+    public function handleacaraCreated()
     {
         session()->flash('message', 'Berita Acara Berhasil di Tambahkan');
         session()->flash('message_type', 'success');
