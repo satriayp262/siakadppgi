@@ -9,7 +9,8 @@
     </button>
 
     <!-- Modal Background -->
-    <div x-show="isOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-75">
+    <div x-data="{ load: false }" x-show="isOpen && load" x-init="load = true" wire:init="" x-cloak
+        class="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-75">
         <!-- Modal Content -->
         <div class="w-1/2 bg-white rounded-lg shadow-lg">
             <!-- Modal Header -->

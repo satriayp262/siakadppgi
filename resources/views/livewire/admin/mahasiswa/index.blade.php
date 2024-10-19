@@ -154,17 +154,11 @@
                     </div>
                 </div>
 
-
             </div>
             <input type="text" wire:model.live="search" placeholder="   Search"
                 class="px-2 ml-4 border border-gray-300 rounded-lg">
         </div>
     </div>
-    @php
-        // Ambil semester terbaru (secara umum, tidak terkait dengan mahasiswa tertentu)
-        $latestSemester = (int) substr($semesters->sortByDesc('nama_semester')->first()->nama_semester, 0, 4);
-        $latestSemesterDigit5 = (int) substr($semesters->sortByDesc('nama_semester')->first()->nama_semester, 4, 1);
-    @endphp
     <table class="min-w-full mt-4 bg-white border border-gray-200">
         <thead>
             <tr class="items-center w-full text-sm text-white align-middle bg-gray-800">

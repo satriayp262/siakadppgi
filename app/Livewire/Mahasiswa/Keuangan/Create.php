@@ -65,6 +65,8 @@ class Create extends Component
             $this->tagihan->update([
                 'bukti_bayar_tagihan' => $filename,
             ]);
+
+            $this->dispatch('TagihanUpdated');
         }
 
     }

@@ -5,7 +5,9 @@
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M10.779 17.779 4.36 19.918 6.5 13.5m4.279 4.279 8.364-8.643a3.027 3.027 0 0 0-2.14-5.165 3.03 3.03 0 0 0-2.14.886L6.5 13.5m4.279 4.279L6.499 13.5m2.14 2.14 6.213-6.504M12.75 7.04 17 11.28" />
         </svg></button>
-    <div  x-data="{ load: false }" x-show="isOpen && load" x-init="load = true" wire:init="" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-75">
+    <!-- Modal Background -->
+    <div x-data="{ load: false }" x-show="isOpen && load" x-init="load = true" wire:init="" x-cloak
+        class="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-75">
         <div class="w-1/2 bg-white rounded-lg shadow-lg">
             <div class="flex items-center justify-between p-4 bg-gray-200 rounded-t-lg">
                 <h3 class="text-xl font-semibold">Edit Berita</h3>
@@ -57,19 +59,19 @@
                             @enderror
                         </div>
 
-                            <div class="mb-4">
-                                <label for="kode_prodi" class="block text-sm font-medium text-gray-700">Prodi</label>
-                                <select id="kode_prodi" wire:model="kode_prodi" name="kode_prodi"
-                                    class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
-                                    <option value={{ null }} disabled selected>Select</option>
-                                    @foreach ($prodis as $prodi)
-                                        <option value="{{ $prodi->kode_prodi }}">{{ $prodi->nama_prodi }}</option>
-                                    @endforeach
-                                </select>
-                                @error('kode_prodi')
-                                    <span class="mt-1 text-sm text-red-500">{{ $message }}</span>
-                                @enderror
-                            </div>
+                        <div class="mb-4">
+                            <label for="kode_prodi" class="block text-sm font-medium text-gray-700">Prodi</label>
+                            <select id="kode_prodi" wire:model="kode_prodi" name="kode_prodi"
+                                class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
+                                <option value={{ null }} disabled selected>Select</option>
+                                @foreach ($prodis as $prodi)
+                                    <option value="{{ $prodi->kode_prodi }}">{{ $prodi->nama_prodi }}</option>
+                                @endforeach
+                            </select>
+                            @error('kode_prodi')
+                                <span class="mt-1 text-sm text-red-500">{{ $message }}</span>
+                            @enderror
+                        </div>
 
                         <div class="mb-4">
                             <label for="sks_tatap_muka" class="block text-sm font-medium text-gray-700">SKS Tatap
