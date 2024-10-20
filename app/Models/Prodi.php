@@ -15,4 +15,9 @@ class Prodi extends Model
         'nama_prodi',
         'jenjang',
     ];
+
+    public function matakuliah()
+    {
+        return $this->hasMany(Matakuliah::class, 'kode_prodi', 'kode_prodi');
+    }
 }

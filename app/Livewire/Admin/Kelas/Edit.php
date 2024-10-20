@@ -24,7 +24,7 @@ class Edit extends Component
         return [
             'kode_kelas' => 'required|string|unique:kelas,kode_kelas,' . $this->id_kelas . ',id_kelas',
             'nama_kelas' => 'required|string',
-            'semester' => 'required|string',
+            'semester' => 'required|int',
             'kode_prodi' => 'required|string',
             'lingkup_kelas' => 'required|string',
             'kode_matkul' => 'required|string',
@@ -60,6 +60,22 @@ class Edit extends Component
         return $kelas;
     }
 
+    public function clear($id_kelas)
+    {
+        $this->resetExcept('kode_prodi', 'kode_matkul', 'semester');
+        $kelas = Kelas::find($id_kelas);
+        if ($kelas) {
+            $this->id_kelas = $kelas->id_kelas;
+            $this->kode_kelas = $kelas->kode_kelas;
+            $this->nama_kelas = $kelas->nama_kelas;
+            $this->semester = $kelas->semester;
+            $this->kode_prodi = $kelas->kode_prodi;
+            $this->lingkup_kelas = $kelas->lingkup_kelas;
+            $this->kode_matkul = $kelas->kode_matkul;
+        }
+
+    }
+
     public function update()
     {
         // Validasi data sesuai rules
@@ -79,10 +95,11 @@ class Edit extends Component
             ]);
 
             // Reset form dan dispatch event
-            $this->reset();
+            $this->resetExcept('kode_prodi', 'kode_matkul', 'semester');
             $this->dispatch('kelasUpdated');
         }
     }
+
 
 
     public function render()

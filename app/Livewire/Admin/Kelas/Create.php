@@ -57,26 +57,23 @@ class Create extends Component
             'lingkup_kelas' => $validatedData['lingkup_kelas'],
             'kode_matkul' => $validatedData['kode_matkul'],
         ]);
-
         $this->reset();
-
         $this->dispatch('kelasCreated');
-
         return $kelas;
     }
 
+
     public function render()
     {
-        $prodi = Prodi::all();
         $Semester = Semester::all();
         $mata_kuliah = Matakuliah::all();
 
         return view(
             'livewire.admin.kelas.create',
             [
-                'prodi' => $prodi,
+                'prodi' => Prodi::all(),
                 'Semester' => $Semester,
-                'mata_kuliah' => $mata_kuliah
+                'mata_kuliah' => $mata_kuliah,
             ]
         );
     }
