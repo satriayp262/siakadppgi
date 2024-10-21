@@ -25,7 +25,7 @@ class Index extends Component
 
     public $selectedMahasiswa = [];
     public $selectAll = false;
-
+    public $showDeleteButton = false;
 
     public $file;
 
@@ -41,7 +41,7 @@ class Index extends Component
     public function updatedSelectAll($value)
     {
         if ($value) {
-            // Jika selectAll true, pilih semua id_mahasiswa
+            // Jika selectAll true, pilih semua id_dosen
             $this->selectedMahasiswa = Mahasiswa::pluck('id_mahasiswa')->toArray();
         } else {
             // Jika selectAll false, hapus semua pilihan
@@ -49,23 +49,24 @@ class Index extends Component
         }
     }
 
+    public function updatedselectedMahasiswa()
+    {
+        // Jika ada Mahasiswa yang dipilih, tampilkan tombol, jika tidak, sembunyikan
+        $this->showDeleteButton = count($this->selectedMahasiswa) > 0;
+    }
+
     public function destroySelected()
     {
-        // Hapus data mahasiswa yang terpilih
-        Mahasiswa::whereIn('id_mahasiswa', $this->selectedMahasiswa)->delete();
+        // Hapus data Mahasiswa yang terpilih
+        Mahasiswa::whereIn('id_dosen', $this->selectedMahasiswa)->delete();
 
         // Reset array selectedMahasiswa setelah penghapusan
         $this->selectedMahasiswa = [];
         $this->selectAll = false; // Reset juga selectAll
 
         // Emit event ke frontend untuk reset checkbox
-        session()->flash('message', 'Mahasiswa Berhasil di Hapus');
+        session()->flash('message', 'Dosen Berhasil di Hapus');
         session()->flash('message_type', 'error');
-    }
-
-    public function downloadTemplate(): BinaryFileResponse
-    {
-        return Excel::download(new MahasiswaExport, 'template_mahasiswa.xlsx');
     }
 
     #[On('mahasiswaUpdated')]

@@ -151,7 +151,7 @@ class Index extends Component
             ->orWhere('kepangkatan', 'like', '%' . $this->search . '%')
             ->orWhere('kode_prodi', 'like', '%' . $this->search . '%')
             ->latest()
-            ->paginate(5);
+            ->paginate(10);
 
         return view('livewire.admin.dosen.index', [
             'dosens' => $dosens,

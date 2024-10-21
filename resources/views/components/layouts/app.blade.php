@@ -38,7 +38,7 @@
     </style>
 </head>
 
-<body class="flex flex-col w-full z-14">
+<body class="flex flex-col w-full z-14 bg-gray-100">
     <livewire:component.navbar />
     <div class="flex flex-col min-h-screen md:flex-row z-12">
         <aside class="flex-shrink-0 z-11">

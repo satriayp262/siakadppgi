@@ -160,7 +160,7 @@
                 class="px-2 ml-4 border border-gray-300 rounded-lg">
         </div>
     </div>
-    <table class="min-w-full mt-4 bg-white text-sm  border border-gray-200">
+    <table class="min-w-full mt-4 bg-white border border-gray-200">
         <thead>
             <tr class="items-center w-full text-sm text-white align-middle bg-gray-800">
                 <th class="py-2 px-4"><input type="checkbox" id="selectAll" wire:model="selectAll"></th>
@@ -175,9 +175,8 @@
             </tr>
         </thead>
         <tbody>
-
             @foreach ($dosens as $dosen)
-                <tr wire:key="dosen-{{ $dosen->id_dosen }}">
+                <tr class="border-t" wire:key="dosen-{{ $dosen->id_dosen }}">
                     <td class="px-4 py-2 text-center">
                         <input type="checkbox" class="selectRow" wire:model="selectedDosen"
                             value="{{ $dosen->id_dosen }}">

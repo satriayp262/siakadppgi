@@ -50,10 +50,6 @@
             <div class="flex space-x-2">
                 <!-- Modal Form -->
                 <livewire:admin.mahasiswa.create />
-                <button class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700"
-                    onclick="confirmDeleteSelected()">
-                    Hapus Data Terpilih
-                </button>
                 {{-- modal import --}}
                 <div x-data="{ isOpen: false, load: false }" @modal-closed.window="isOpen = false">
                     <!-- Button to open the modal -->
@@ -153,7 +149,12 @@
                         </div>
                     </div>
                 </div>
-
+                @if ($showDeleteButton)
+                    <button id="deleteButton" class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700"
+                        onclick="confirmDeleteSelected()">
+                        Hapus Data Terpilih
+                    </button>
+                @endif
             </div>
             <input type="text" wire:model.live="search" placeholder="   Search"
                 class="px-2 ml-4 border border-gray-300 rounded-lg">
@@ -232,28 +233,29 @@
         }
         // Ambil elemen checkbox di header
         const selectAllCheckbox = document.getElementById('selectAll');
-
-        // Ambil semua checkbox di baris
         const rowCheckboxes = document.querySelectorAll('.selectRow');
 
-        // Event listener untuk checkbox di header
         selectAllCheckbox.addEventListener('change', function() {
             const isChecked = this.checked;
 
-            // Iterasi semua checkbox di row dan ubah status checked sesuai header
             rowCheckboxes.forEach(function(checkbox) {
-                checkbox.checked = isChecked; // Update status checkbox di baris
+                checkbox.checked = isChecked;
             });
 
-            // Jika Anda menggunakan Livewire, Anda bisa memanggil update pada model
             @this.set('selectedMahasiswa', isChecked ? [...rowCheckboxes].map(cb => cb.value) : []);
+        });
+
+        rowCheckboxes.forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                @this.set('selectedMahasiswa', [...rowCheckboxes].filter(cb => cb.checked).map(cb => cb.value));
+            });
         });
 
 
         function confirmDeleteSelected() {
-            const selectedMahasiswa = @this.selectedMahasiswa; // Dapatkan data dari Livewire
+            const selectedMahasiswa = @this.selectedMahasiswa;
 
-            console.log(selectedMahasiswa); // Tambahkan log untuk memeriksa nilai
+            console.log(selectedMahasiswa);
 
             if (selectedMahasiswa.length === 0) {
                 Swal.fire({
@@ -265,7 +267,7 @@
             }
 
             Swal.fire({
-                title: `Apakah anda yakin ingin menghapus ${selectedMahasiswa.length} data Mahasiswa?`,
+                title: `Apakah anda yakin ingin menghapus ${selectedMahasiswa.length} data dosen?`,
                 text: "Data yang telah dihapus tidak dapat dikembalikan!",
                 icon: 'warning',
                 showCancelButton: true,
@@ -274,11 +276,9 @@
                 confirmButtonText: 'Hapus'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Panggil method Livewire untuk menghapus data terpilih
                     @this.call('destroySelected');
                 }
             });
-
-        };
+        }
     </script>
 </div>
