@@ -83,6 +83,7 @@ Route::middleware(['auth', CheckRole::class . ':dosen'])->prefix('dosen')->group
 // staff
 Route::middleware(['auth', CheckRole::class . ':staff'])->prefix('staff')->group(function () {
     Route::get('/tagihan', App\Livewire\Staff\Tagihan\Index::class)->name('staff.tagihan');
+    Route::get('/pembayaran', App\Livewire\Staff\Tagihan\Show::class)->name('staff.pembayaran');
 });
 
 // Auth::routes(['verify' => true]);

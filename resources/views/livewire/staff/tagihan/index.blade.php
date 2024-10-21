@@ -25,8 +25,8 @@
             </div>
             <!-- Modal Form -->
             <div class="flex justify-between mt-2">
-                <div>
-                    <h1>Semester Saat ini :</h1>
+                <div class="flex items-center px-4 py-2">
+                    <h1>Semester Saat ini : </h1>
                     <p class="text-xl font-bold text-purple-500">
                         {{ $semesters->firstWhere('is_active', true)->nama_semester ?? 'Tidak ada semester aktif' }}</p>
                 </div>
@@ -41,20 +41,18 @@
                     <th class="px-4 py-2 text-center">Nama Mahasiswa</th>
                     <th class="px-4 py-2 text-center">NIM</th>
                     <th class="px-4 py-2 text-center">Semester</th>
-                    <th class="px-4 py-2 text-center">Prodi
-                    </th>
+                    <th class="px-4 py-2 text-center">Prodi</th>
                     <th class="px-4 py-2 text-center">Aksi</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($mahasiswas as $mahasiswa)
-                    <tr class="border-t" wire:key="mahasiswa-{{ $mahasiswa->id }}">
+                    <tr class="border-t" wire:key="mahasiswa-{{ $mahasiswa->id_mahasiswa }}">
                         <td class="px-4 py-2 text-center">{{ $loop->iteration }}</td>
                         <td class="px-4 py-2 text-center">{{ $mahasiswa->nama }}</td>
                         <td class="px-4 py-2 text-center">{{ $mahasiswa->NIM }}</td>
                         <td class="px-4 py-2 text-center">{{ $mahasiswa->semesterDifference }}</td>
                         <td class="px-4 py-2 text-center">{{ $mahasiswa->prodi->nama_prodi }}</td>
-                        <td class="px-4 py-2 text-center"></td>
                         <td class="px-4 py-2 text-center">
                             <livewire:staff.tagihan.create :nim="$mahasiswa->NIM" :nama="$mahasiswa->nama"
                                 wire:key="edit-{{ $mahasiswa->NIM }}" />

@@ -16,14 +16,14 @@ class Index extends Component
 {
     use WithPagination;
 
-    #[On('tagihanCreated')]
+    public $search = '';
+
+    #[On('TagihanCreated')]
     public function handletagihanCreated()
     {
         session()->flash('message', 'Tagihan Berhasil di dibuat');
         session()->flash('message_type', 'success');
     }
-
-
 
     #[On('tagihanCreated')]
     public function handletagihan()
@@ -32,22 +32,15 @@ class Index extends Component
         session()->flash('message_type', 'success');
     }
 
-
-
     public function render()
     {
-        $Prodis = Prodi::query()
-            ->latest()
-            ->get();
+        $Prodis = Prodi::all();
         $mahasiswas = Mahasiswa::query()
+            ->where('nama', 'like', '%' . $this->search . '%')
             ->latest()
             ->paginate(24);
-        $semesters = Semester::query()
-            ->latest()
-            ->get();
-        $tagihans = Tagihan::query()
-            ->latest()
-            ->get();
+        $semesters = Semester::all();
+        $tagihans = Tagihan::all();
 
         return view('livewire.staff.tagihan.index', [
             'semesters' => $semesters,

@@ -18,6 +18,7 @@ class Create extends Component
     public $lingkup_kelas;
     public $kode_matkul = '';
 
+
     public function rules()
     {
         return [
@@ -62,18 +63,18 @@ class Create extends Component
         return $kelas;
     }
 
-
     public function render()
     {
+        $prodi = Prodi::all();
         $Semester = Semester::all();
         $mata_kuliah = Matakuliah::all();
 
         return view(
             'livewire.admin.kelas.create',
             [
-                'prodi' => Prodi::all(),
                 'Semester' => $Semester,
                 'mata_kuliah' => $mata_kuliah,
+                'prodi' => $prodi,
             ]
         );
     }
