@@ -19,7 +19,7 @@ class Update extends Component
     public $bukti_bayar_tagihan;
     public $tagihan;
     public $id_tagihan;
-    public $status_tagihan;
+    public $status_tagihan = '';
 
 
 
@@ -62,6 +62,7 @@ class Update extends Component
         if ($this->tagihan) {
             $this->tagihan->update([
                 'bukti_bayar_tagihan' => $filename,
+                'status_tagihan' => $this->status_tagihan,
             ]);
 
             $this->dispatch('TagihanUpdated');

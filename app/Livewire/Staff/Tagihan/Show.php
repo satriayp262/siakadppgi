@@ -21,17 +21,8 @@ class Show extends Component
             ->latest()
             ->paginate(24);
         $semesters = Semester::all();
-        $nimList = $mahasiswas->pluck('NIM')->toArray(); // Mengambil array dari NIM mahasiswa
-
-        // Ambil tagihan berdasarkan NIM yang ada di dalam $nimList
-        $tagihans = Tagihan::query()
-            ->whereIn('NIM', $nimList)
-            ->select('NIM', 'id_tagihan')
-            ->distinct()
-            ->get(); // get() karena paginate tidak diperlukan di sini
         return view('livewire.staff.tagihan.show', [
             'semesters' => $semesters,
-            'tagihans' => $tagihans,
             'mahasiswas' => $mahasiswas,
             'Prodis' => $Prodis,
         ]);
