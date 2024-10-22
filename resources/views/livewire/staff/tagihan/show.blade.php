@@ -46,17 +46,19 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($tagihans as $tagihan)
-                    <tr class="border-t" wire:key="mahasiswa-{{ $tagihan->id_tagihan }}">
+                @foreach ($mahasiswas as $mahasiswa)
+                    <tr class="border-t" wire:key="mahasiswa-{{ $mahasiswa->NIM }}">
                         <td class="px-4 py-2 text-center">{{ $loop->iteration }}</td>
-                        <td class="px-4 py-2 text-center">{{ $tagihan->mahasiswa->nama }}</td>
-                        <td class="px-4 py-2 text-center">{{ $tagihan->mahasiswa->NIM }}</td>
-                        <td class="px-4 py-2 text-center">{{ $tagihan->mahasiswa->semesterDifference }}</td>
-                        <td class="px-4 py-2 text-center">{{ $tagihan->mahasiswa->prodi->nama_prodi }}</td>
-                        {{-- <td class="px-4 py-2 text-center">
-                            <livewire:staff.tagihan.create :nim="$mahasiswa->NIM" :nama="$mahasiswa->nama"
-                                wire:key="edit-{{ $mahasiswa->NIM }}" />
-                        </td> --}}
+                        <td class="px-4 py-2 text-center">{{ $mahasiswa->nama }}</td>
+                        <td class="px-4 py-2 text-center">{{ $mahasiswa->NIM }}</td>
+                        <td class="px-4 py-2 text-center">{{ $mahasiswa->semesterDifference }}</td>
+                        <td class="px-4 py-2 text-center">{{ $mahasiswa->prodi->nama_prodi }}</td>
+                        <!-- Button that opens the detail component -->
+                        <td class="px-4 py-2 text-center">
+                            <button onclick="window.location='{{ route('staff.detail', $mahasiswa->NIM) }}'"
+                                class="px-2 py-1 text-white bg-yellow-500 hover:bg-yellow-600 rounded">Detail
+                            </button>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
