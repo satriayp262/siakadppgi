@@ -6,6 +6,7 @@ use App\Models\Mahasiswa;
 use Livewire\Component;
 use App\Models\Tagihan;
 use App\Models\Semester;
+use Livewire\Attributes\On;
 
 class Detail extends Component
 {
@@ -23,6 +24,13 @@ class Detail extends Component
         $this->total_tagihan = $this->tagihan->total_tagihan;
         $this->id_semester = $this->tagihan->id_semester;
         $this->status_tagihan = $this->tagihan->status_tagihan;
+    }
+
+    #[On('TagihanUpdated')]
+    public function handleTagihanUpdated()
+    {
+        session()->flash('message', 'Tagihan Berhasil di Update');
+        session()->flash('message_type', 'success');
     }
 
 

@@ -97,7 +97,7 @@
                             @endif
                         </td>
                         <td>
-                            <livewire:mahasiswa.keuangan.create :id_tagihan="$tagihan->id_tagihan"
+                            <livewire:staff.tagihan.update :id_tagihan="$tagihan->id_tagihan"
                                 wire:key="edit-{{ $tagihan->id_tagihan }}" />
                         </td>
                     </tr>
