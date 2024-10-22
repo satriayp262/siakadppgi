@@ -16,6 +16,7 @@ class Show extends Component
     {
         $Prodis = Prodi::all();
         $mahasiswas = Mahasiswa::query()
+            ->whereHas('tagihan')
             ->where('nama', 'like', '%' . $this->search . '%')
             ->latest()
             ->paginate(24);
@@ -25,6 +26,8 @@ class Show extends Component
         // Ambil tagihan berdasarkan NIM yang ada di dalam $nimList
         $tagihans = Tagihan::query()
             ->whereIn('NIM', $nimList)
+            ->select('NIM', 'id_tagihan')
+            ->distinct()
             ->get(); // get() karena paginate tidak diperlukan di sini
         return view('livewire.staff.tagihan.show', [
             'semesters' => $semesters,
