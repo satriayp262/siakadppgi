@@ -1,6 +1,6 @@
 <div class="mx-5">
     {{-- <div class=" bg-white shadow-lg p-4 mt-4 rounded-lg"> --}}
-    <div class="flex flex-col justify-between mt-4">
+    <div class="flex flex-col justify-between mx-4 mt-4">
         <!-- Modal Form -->
         <div class="flex justify-between">
             <div class="flex space-x-2">
@@ -163,38 +163,38 @@
         @endif
     </div>
 
-    <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg">
-        <table class="min-w-full table-auto border border-gray-200">
+    <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
+        <table class="w-full table-auto border border-gray-200">
             <thead>
                 <tr class="items-center w-full text-sm text-white align-middle bg-gray-800">
-                    <th class="py-2 px-4"><input type="checkbox" id="selectAll" wire:model="selectAll"></th>
-                    <th class="px-4 py-2 text-center">No</th>
-                    <th class="px-4 py-2 text-center">Nama Dosen</th>
-                    <th class="px-4 py-2 text-center">NIDN</th>
-                    <th class="px-4 py-2 text-center">Jenis Kelamin</th>
-                    <th class="px-4 py-2 text-center">Jabatan Fungsional</th>
-                    <th class="px-4 py-2 text-center">Kepangkatan</th>
-                    <th class="px-4 py-2 text-center">Nama Prodi</th>
-                    <th class="px-4 py-2 text-center">Aksi</th>
+                    <th class="px-3 py-2 text-center"><input type="checkbox" id="selectAll" wire:model="selectAll"></th>
+                    <th class="px-3 py-2 text-center">No</th>
+                    <th class="px-3 py-2 text-center">Nama Dosen</th>
+                    <th class="px-3 py-2 text-center">NIDN</th>
+                    <th class="px-3 py-2 text-center">Jenis Kelamin</th>
+                    <th class="px-3 py-2 text-center">Jabatan Fungsional</th>
+                    <th class="px-3 py-2 text-center">Kepangkatan</th>
+                    <th class="px-3 py-2 text-center">Nama Prodi</th>
+                    <th class="px-3 py-2 text-center">Aksi</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($dosens as $dosen)
                     <tr class="border-t" wire:key="dosen-{{ $dosen->id_dosen }}">
-                        <td class="px-4 py-2 text-center">
+                        <td class="px-3 py-2 text-center">
                             <input type="checkbox" class="selectRow" wire:model="selectedDosen"
                                 value="{{ $dosen->id_dosen }}">
                         </td>
-                        <td class="px-4 py-2  text-center">
+                        <td class="px-3 py-2  text-center">
                             {{ ($dosens->currentPage() - 1) * $dosens->perPage() + $loop->iteration }}</td>
                         </td>
-                        <td class="px-4 py-2  text-center">{{ $dosen->nama_dosen }}</td>
-                        <td class="px-4 py-2  text-center">{{ $dosen->nidn }}</td>
-                        <td class="px-4 py-2  text-center">{{ $dosen->jenis_kelamin }}</td>
-                        <td class="px-4 py-2  text-center">{{ $dosen->jabatan_fungsional }}</td>
-                        <td class="px-4 py-2  text-center">{{ $dosen->kepangkatan }}</td>
-                        <td class="px-4 py-2  text-center">{{ $dosen->prodi->nama_prodi }}</td>
-                        <td class="px-4 py-2 text-center">
+                        <td class="px-3 py-2  text-center">{{ $dosen->nama_dosen }}</td>
+                        <td class="px-3 py-2  text-center">{{ $dosen->nidn }}</td>
+                        <td class="px-3 py-2  text-center">{{ $dosen->jenis_kelamin }}</td>
+                        <td class="px-3 py-2  text-center">{{ $dosen->jabatan_fungsional }}</td>
+                        <td class="px-3 py-2  text-center">{{ $dosen->kepangkatan }}</td>
+                        <td class="px-3 py-2  text-center">{{ $dosen->prodi->nama_prodi }}</td>
+                        <td class="px-3 py-2 text-center">
                             <div class="flex flex-row">
                                 <div class="flex justify-center space-x-2">
                                     <livewire:admin.dosen.edit :id_dosen="$dosen->id_dosen"
