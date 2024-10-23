@@ -55,7 +55,7 @@
             @endif
         </aside>
         <div class="flex flex-col flex-1">
-            <main class="flex-1 bg-gray-100">
+            <main class="flex-1 bg-gray-200">
                 {{ $slot }}
             </main>
             <livewire:component.footer />
