@@ -37,7 +37,7 @@
             @endif
         </div>
     </div>
-    <div class="bg-sky-200 shadow-lg p-2 px-4 mt-4 rounded-lg max-w-full">
+    <div class="bg-purple-200 shadow-lg p-2 px-4 mt-4 rounded-lg max-w-full">
         <div class="flex justify-between">
             <h1><b>Semester saat ini:</b>
                 {{ $semesters->firstWhere('is_active', true)->nama_semester ?? 'Tidak ada semester aktif' }}</h1>
