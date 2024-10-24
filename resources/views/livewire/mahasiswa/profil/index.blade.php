@@ -1,5 +1,5 @@
 <div class="flex flex-col p-4">
-    <div class="w-full p-4 mb-6 border border-gray-500 rounded-lg">
+    <div class="bg-white shadow-lg w-full p-4 mb-6 rounded-lg">
         <div class="flex flex-col">
             <span class="mb-6 text-lg font-semibold">
                 Data Mahasiswa
@@ -44,7 +44,7 @@
             </div>
         </div>
     </div>
-    <div class="flex w-full p-4 border border-gray-500 rounded-lg">
+    <div class="bg-white shadow-lg flex w-full p-4 rounded-lg">
         <!-- Form on the left side -->
         <div class="flex flex-col w-full">
             @if (session()->has('message'))
@@ -145,7 +145,7 @@
             }
         }
 
-        
+
         const svg = document.getElementById('moving-svg');
         const container = document.querySelector('.svg-container');
 
@@ -185,7 +185,7 @@
             height: 200px;
             border: 1px transparent #ccc;
         }
-        
+
         #moving-svg {
             transition: transform 0.1s linear; /* Smooth transition for movement */
         }
