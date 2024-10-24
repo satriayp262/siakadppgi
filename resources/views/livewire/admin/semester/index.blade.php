@@ -1,8 +1,17 @@
 <div class="mx-5">
-    <div class="flex flex-col justify-between mx-4 mt-4">
-        {{-- <h1 class="text-2xl font-bold ">Prodi Table</h1> --}}
-        <h1>Semester saat ini:
-            {{ $semesters->firstWhere('is_active', true)->nama_semester ?? 'Tidak ada semester aktif' }}</h1>
+    <div class="flex flex-col justify-between mx-4 mt-2">
+        <!-- Modal Form -->
+        <div class="flex justify-between mt-2">
+            <div class="flex space-x-2">
+                <livewire:admin.semester.create />
+                <button class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700"
+                    onclick="confirmDeleteSelected()">
+                    Hapus Data Terpilih
+                </button>
+            </div>
+            <input type="text" wire:model.live="search" placeholder="   Search"
+                class="px-2 ml-4 border border-gray-300 rounded-lg">
+        </div>
         <div>
             @if (session()->has('message'))
                 @php
@@ -17,7 +26,7 @@
                                 : 'bg-green-500');
                 @endphp
                 <div id="flash-message"
-                    class="flex items-center justify-between p-4 mx-12 mt-8 mb-4 text-white {{ $bgColor }} rounded">
+                    class="flex items-center justify-between p-2 mx-2 mt-4 text-white {{ $bgColor }} rounded">
                     <span>{{ session('message') }}</span>
                     <button class="p-1" onclick="document.getElementById('flash-message').remove();"
                         class="font-bold text-white">
@@ -27,63 +36,64 @@
                 </div>
             @endif
         </div>
-
-        <!-- Modal Form -->
-        <div class="flex justify-between mt-2">
-            <div class="flex space-x-2">
-                <livewire:admin.semester.create />
-                <button class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700"
-                    onclick="confirmDeleteSelected()">
-                    Hapus Data Terpilih
-                </button>
+    </div>
+    <div class="bg-sky-200 shadow-lg p-2 px-4 mt-4 rounded-lg max-w-full">
+        <div class="flex justify-between">
+            <h1><b>Semester saat ini:</b>
+                {{ $semesters->firstWhere('is_active', true)->nama_semester ?? 'Tidak ada semester aktif' }}</h1>
+            <div class="text-right">
+                <ol class="breadcrumb">
+                    <li class="text-md font-medium text-gray-900 breadcrumb-item">
+                        <h1>{{ \Carbon\Carbon::now()->locale('id')->isoFormat('dddd, D MMMM Y') }}</h1>
+                    </li>
+                </ol>
             </div>
-            <input type="text" wire:model.live="search" placeholder="   Search"
-                class="px-2 ml-4 border border-gray-300 rounded-lg">
         </div>
     </div>
-    <table class="min-w-full mt-4 bg-white border border-gray-200">
-        <thead>
-            <tr class="items-center w-full text-sm text-white align-middle bg-gray-800">
-                <th class="py-2 px-4"><input type="checkbox" id="selectAll" wire:model="selectAll"></th>
-                <th class="px-4 py-2 text-center">Nama Semester</th>
-                <th class="px-4 py-2 text-center">Semester Aktif</th>
-                <th class="px-4 py-2 text-center">Aksi</th>
+    <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
+        <table class="min-w-full mt-4 bg-white border border-gray-200">
+            <thead>
+                <tr class="items-center w-full text-sm text-white align-middle bg-gray-800">
+                    <th class="py-2 px-4"><input type="checkbox" id="selectAll" wire:model="selectAll"></th>
+                    <th class="px-4 py-2 text-center">Nama Semester</th>
+                    <th class="px-4 py-2 text-center">Semester Aktif</th>
+                    <th class="px-4 py-2 text-center">Aksi</th>
 
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($semesters as $semester)
-                <tr class="border-t" wire:key="semester-{{ $semester->id_semester }}">
-                    <td class="px-4 py-2 text-center">
-                        <input type="checkbox" class="selectRow" wire:model="selectedSemester"
-                            value="{{ $semester->id_semester }}">
-                    </td>
-                    <td class="px-4 py-2 text-center w-1/4">{{ $semester->nama_semester }}</td>
-                    <td class="px-4 py-2 text-center w-1/4">
-                        @php
-                            $activedsemester = [
-                                '1' => 'bg-blue-400 ',
-                                '0' => 'bg-red-400',
-                            ];
-                            $is_active = $activedsemester[$semester->is_active] ?? 'bg-gray-500';
-                        @endphp
-                        <span class="px-2.5  me-2 p-0.5 rounded-full text-xs text-white  {{ $is_active }}"
-                            style="width: 80px;">
-                            {{ $semester->is_active ? 'Aktif' : 'Tidak Aktif' }}
-                        </span>
-                    </td>
-                    <td class="px-4 py-2 text-center w-1/2">
-                        <div class="flex justify-center space-x-2">
-                            {{-- <livewire:admin.semester.edit :id_semester="$semester->id_semester" wire:key="edit-{{ $semester->id_semester }}" /> --}}
-                            @if (!$semester->is_active)
-                                <button
-                                    class="inline-block px-4 py-1 text-white bg-green-500 rounded hover:bg-green-700"
-                                    onclick="confirmActive({{ $semester->id_semester }})">
-                                    Aktifkan Semester
-                                </button>
-                            @endif
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($semesters as $semester)
+                    <tr class="border-t" wire:key="semester-{{ $semester->id_semester }}">
+                        <td class="px-4 py-2 text-center">
+                            <input type="checkbox" class="selectRow" wire:model="selectedSemester"
+                                value="{{ $semester->id_semester }}">
+                        </td>
+                        <td class="px-4 py-2 text-center w-1/4">{{ $semester->nama_semester }}</td>
+                        <td class="px-4 py-2 text-center w-1/4">
+                            @php
+                                $activedsemester = [
+                                    '1' => 'bg-blue-400 ',
+                                    '0' => 'bg-red-400',
+                                ];
+                                $is_active = $activedsemester[$semester->is_active] ?? 'bg-gray-500';
+                            @endphp
+                            <span class="px-2.5  me-2 p-0.5 rounded-full text-xs text-white  {{ $is_active }}"
+                                style="width: 80px;">
+                                {{ $semester->is_active ? 'Aktif' : 'Tidak Aktif' }}
+                            </span>
+                        </td>
+                        <td class="px-4 py-2 text-center w-1/2">
+                            <div class="flex justify-center space-x-2">
+                                {{-- <livewire:admin.semester.edit :id_semester="$semester->id_semester" wire:key="edit-{{ $semester->id_semester }}" /> --}}
+                                @if (!$semester->is_active)
+                                    <button
+                                        class="inline-block px-4 py-1 text-white bg-green-500 rounded hover:bg-green-700"
+                                        onclick="confirmActive({{ $semester->id_semester }})">
+                                        Aktifkan Semester
+                                    </button>
+                                @endif
 
-                            {{-- <button class="inline-block px-4 py-1 text-white bg-red-500 rounded hover:bg-red-700"
+                                {{-- <button class="inline-block px-4 py-1 text-white bg-red-500 rounded hover:bg-red-700"
                                 onclick="confirmDelete('{{ $semester->id_semester }}', '{{ $semester->nama_semester }}')"><svg
                                     class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
@@ -93,15 +103,16 @@
                                         d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
                                 </svg>
                             </button> --}}
-                        </div>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-    <!-- Pagination Controls -->
-    <div class="py-8 mt-4 mb-4 text-center">
-        {{-- {{ $prodis->links('') }} --}}
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+        <!-- Pagination Controls -->
+        <div class="py-8 mt-4 mb-4 text-center">
+            {{-- {{ $prodis->links('') }} --}}
+        </div>
     </div>
 
     <script>

@@ -97,7 +97,7 @@ class DatabaseSeeder extends Seeder
             'is_active' => 1,
         ]);
 
-        Dosen::factory(10)->create();
+        Dosen::factory(30)->create();
         Matakuliah::factory(20)->create();
         Mahasiswa::factory(20)->create();
 
