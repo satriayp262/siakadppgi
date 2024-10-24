@@ -21,7 +21,7 @@ class Create extends Component
     {
         return [
             'nim' => 'required',
-            'total_tagihan' => 'required|numeric',
+            'total_tagihan' => 'required',
             'status_tagihan' => 'required|in:Belum Lunas,Lunas',
             'id_semester' => 'required',
         ];
@@ -79,6 +79,9 @@ class Create extends Component
     {
         $validatedData = $this->validate();
 
+        $validatedData['total_tagihan'] = preg_replace('/\D/', '', $validatedData['total_tagihan']);
+
+
         $tagihan = Tagihan::create([
             'NIM' => $validatedData['nim'],
             'total_tagihan' => $validatedData['total_tagihan'],
@@ -86,7 +89,7 @@ class Create extends Component
             'id_semester' => $validatedData['id_semester'],
         ]);
 
-        $this->reset();
+        $this->resetExcept($this->semesters);
 
         $this->dispatch('TagihanCreated');
 

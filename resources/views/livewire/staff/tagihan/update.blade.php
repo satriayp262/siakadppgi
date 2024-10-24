@@ -3,15 +3,15 @@
     <button @click="isOpen=true"
         class="flex items-center px-2 py-1 font-bold text-white bg-purple-500 rounded hover:bg-purple-700">
         <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-            width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-            <path fill-rule="evenodd"
-                d="M12 3a1 1 0 0 1 .78.375l4 5a1 1 0 1 1-1.56 1.25L13 6.85V14a1 1 0 1 1-2 0V6.85L8.78 9.626a1 1 0 1 1-1.56-1.25l4-5A1 1 0 0 1 12 3ZM9 14v-1H5a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2h-4v1a3 3 0 1 1-6 0Zm8 2a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2H17Z"
-                clip-rule="evenodd" />
+            width="24" height="24" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M10.779 17.779 4.36 19.918 6.5 13.5m4.279 4.279 8.364-8.643a3.027 3.027 0 0 0-2.14-5.165 3.03 3.03 0 0 0-2.14.886L6.5 13.5m4.279 4.279L6.499 13.5m2.14 2.14 6.213-6.504M12.75 7.04 17 11.28" />
         </svg>
     </button>
 
     <!-- Modal Background -->
-    <div x-show="isOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-75">
+    <div x-data="{ load: false }" x-show="isOpen && load" x-init="load = true" wire:init="" x-cloak
+        class="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-75">
         <!-- Modal Content -->
         <div class="w-1/2 bg-white rounded-lg shadow-lg">
             <!-- Modal Header -->
@@ -28,13 +28,14 @@
                         <div class="mb-4">
                             <label for="total_tagihan" class="block text-sm font-medium text-gray-700">Total
                                 Tagihan</label>
-                            <input type="text" disabled id="total_tagihan" wire:model="total_tagihan"
-                                name="total_tagihan"
+                            <input type="text" disabled id="total_tagihan_display"
+                                value="Rp {{ number_format($total_tagihan, 0, ',', '.') }}"
                                 class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
                             @error('total_tagihan')
                                 <span class="text-sm text-red-500">{{ $message }}</span>
                             @enderror
                         </div>
+
 
                         <div class="mb-4">
                             <label for="id_semester" class="block text-sm font-medium text-gray-700">Semester</label>
@@ -46,20 +47,14 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="bukti_bayar_tagihan" class="block text-sm font-medium text-gray-700">Bukti
+                            <label for="total_bayar" class="block text-sm font-medium text-gray-700">Jumlah
                                 Pembayaran</label>
-                            <input type="file" id="bukti_bayar_tagihan" wire:model="bukti_bayar_tagihan"
-                                name="bukti_bayar_tagihan"
-                                class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
-                            @error('bukti_bayar_tagihan')
+                            <input type="text" id="formatted_bayar" wire:model="total_bayar" name="total_bayar"
+                                class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm"
+                                oninput="formatCurrency(this)">
+                            @error('total_bayar')
                                 <span class="text-sm text-red-500">{{ $message }}</span>
                             @enderror
-                            <div wire:loading wire:target="bukti_bayar_tagihan">
-                                <div class="mt-2 w-full flex flex-row items-center space-x-2">
-                                    <div class="spinner"></div>
-                                    <div class="spinner-text">Memproses Permintaan...</div>
-                                </div>
-                            </div>
                         </div>
 
                         <div class="mb-4">
@@ -89,3 +84,31 @@
         </div>
     </div>
 </div>
+
+<script>
+    function formatCurrency(input) {
+        // Get the value of the input and remove non-numeric characters (except for periods or commas)
+        let value = input.value.replace(/[^,\d]/g, '');
+
+        // Format the value into Indonesian Rupiah currency
+        let numberString = value.replace(/[^,\d]/g, '').toString(),
+            split = numberString.split(','),
+            remainder = split[0].length % 3,
+            rupiah = split[0].substr(0, remainder),
+            thousand = split[0].substr(remainder).match(/\d{3}/gi);
+
+        if (thousand) {
+            let separator = remainder ? '.' : '';
+            rupiah += separator + thousand.join('.');
+        }
+
+        // Combine with decimal if present
+        rupiah = split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
+
+        // Update the displayed value
+        input.value = rupiah;
+
+        // Set the actual model value as the unformatted integer value (without dots or commas)
+        @this.set('total_bayar', value.replace(/\./g, ''));
+    }
+</script>
