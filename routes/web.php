@@ -70,6 +70,7 @@ Route::middleware(['auth', CheckRole::class . ':mahasiswa'])->prefix('mahasiswa'
     Route::get('/profil', App\Livewire\Mahasiswa\Profil\Index::class)->name('mahasiswa.profile');
     Route::get('/keuangan', App\Livewire\Mahasiswa\Keuangan\Index::class)->name('mahasiswa.keuangan');
     Route::get('/presensi', App\Livewire\Mahasiswa\Presensi\Index::class)->name('mahasiswa.presensi');
+    Route::get('/download/{id_tagihan}', [App\Http\Controllers\PDFController::class, 'generatePDF'])->name('mahasiswa.download');
 });
 
 // dosen
