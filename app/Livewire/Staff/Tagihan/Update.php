@@ -15,6 +15,7 @@ class Update extends Component
 
     public $NIM;
     public $total_tagihan;
+    public $total_bayar;
     public $id_semester;
     public $bukti_bayar_tagihan;
     public $tagihan;
@@ -26,15 +27,14 @@ class Update extends Component
     public function rules()
     {
         return [
-            'bukti_bayar_tagihan' => 'required|image', // Assuming the file is an image and max size is 1MB
+            'total_bayar' => 'required',
         ];
     }
 
     public function messages()
     {
         return [
-            'bukti_bayar_tagihan.required' => 'Bukti bayar tagihan tidak boleh kosong',
-            'bukti_bayar_tagihan.image' => 'Bukti bayar tagihan harus berupa gambar',
+            'total_bayar.required' => 'Total bayar tidak boleh kosong',
         ];
     }
 
@@ -54,14 +54,12 @@ class Update extends Component
     {
         // Validate the input fields
         $this->validate();
-
-        $filename = Str::random(10) . '.' . $this->bukti_bayar_tagihan->getClientOriginalExtension();
-        $this->bukti_bayar_tagihan->storeAs('public/images/bukti_pembayaran', $filename);
+        $total_tagihan_cleaned = preg_replace('/\D/', '', $this->total_bayar);
 
 
         if ($this->tagihan) {
             $this->tagihan->update([
-                'bukti_bayar_tagihan' => $filename,
+                'total_bayar' => $total_tagihan_cleaned,
                 'status_tagihan' => $this->status_tagihan,
             ]);
 

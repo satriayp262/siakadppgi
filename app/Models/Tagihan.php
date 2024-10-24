@@ -14,7 +14,7 @@ class Tagihan extends Model
         'total_tagihan',
         'status_tagihan',
         'id_semester',
-        'bukti_bayar_tagihan',
+        'total_bayar',
     ];
 
     public function mahasiswa()
@@ -27,7 +27,7 @@ class Tagihan extends Model
         return $this->belongsTo(Semester::class, 'id_semester', 'id_semester');
     }
 
-    
+
 
 
     use HasFactory;

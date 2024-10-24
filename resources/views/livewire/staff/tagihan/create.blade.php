@@ -39,7 +39,8 @@
                             </div>
 
                             <div class="mb-4">
-                                <label for="nim" class="block text-sm font-medium text-gray-700">NIM</label>
+                                <label for="nim" id="formatted_bayar"
+                                    class="block text-sm font-medium text-gray-700">NIM</label>
                                 <input type="text" disabled id="nim" wire:model="nim" name="nim"
                                     class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
                                 @error('nim')
@@ -51,9 +52,12 @@
                                 <label for="total_tagihan" class="block text-sm font-medium text-gray-700">Total
                                     Tagihan</label>
                                 <input type="text" id="total_tagihan" wire:model="total_tagihan" name="total_tagihan"
-                                    class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
+                                    class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm"
+                                    oninput="formatCurrency(this)">
                                 @error('total_tagihan')
-                                    <span class="text-sm text-red-500">{{ $message }}</span>
+                                    <span
+                                        class="text-sm
+                                    text-red-500">{{ $message }}</span>
                                 @enderror
                             </div>
 
@@ -105,3 +109,30 @@
         </div>
     </div>
 </div>
+<script>
+    function formatCurrency(input) {
+        // Get the value of the input and remove non-numeric characters (except for periods or commas)
+        let value = input.value.replace(/[^,\d]/g, '');
+
+        // Format the value into Indonesian Rupiah currency
+        let numberString = value.replace(/[^,\d]/g, '').toString(),
+            split = numberString.split(','),
+            remainder = split[0].length % 3,
+            rupiah = split[0].substr(0, remainder),
+            thousand = split[0].substr(remainder).match(/\d{3}/gi);
+
+        if (thousand) {
+            let separator = remainder ? '.' : '';
+            rupiah += separator + thousand.join('.');
+        }
+
+        // Combine with decimal if present
+        rupiah = split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
+
+        // Update the displayed value
+        input.value = rupiah;
+
+        // Set the actual model value as the unformatted integer value (without dots or commas)
+        @this.set('total_tagihan', value.replace(/\./g, ''));
+    }
+</script>

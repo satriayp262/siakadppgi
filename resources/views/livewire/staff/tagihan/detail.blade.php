@@ -1,6 +1,27 @@
 <div>
     <div class="mx-5">
         <div class="flex flex-col justify-between mx-4 mt-4">
+            <nav aria-label="Breadcrumb">
+                <ol class="flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+                    <li>
+                        <a href="{{ route('staff.pembayaran') }}"
+                            class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
+                            Bukti Pembayaran
+                        </a>
+                    </li>
+                    <li aria-current="page">
+                        <div class="flex items-center">
+                            <svg class="w-3 h-3 mx-1 text-gray-400 rtl:rotate-180" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="m1 9 4-4-4-4" />
+                            </svg>
+                            <span class="text-sm font-medium text-gray-500 ms-1 md:ms-2">{{ $tagihan->mahasiswa->nama }}
+                                ({{ $tagihan->mahasiswa->NIM }})</span>
+                        </div>
+                    </li>
+                </ol>
+            </nav>
             <div>
                 @if (session()->has('message'))
                     @php
@@ -24,8 +45,8 @@
             </div>
             <!-- Modal Form -->
             <div class="flex justify-between mt-2">
-                <div>
-                    <h1>Semester Saat ini :</h1>
+                <div class="flex items-center px-4 py-2">
+                    <h1>Semester Saat ini : </h1>
                     <p class="text-xl font-bold text-purple-500">
                         {{ $semesters->firstWhere('is_active', true)->nama_semester ?? 'Tidak ada semester aktif' }}</p>
                 </div>
@@ -41,7 +62,7 @@
                     <th class="px-4 py-2 text-center">Bulan</th>
                     <th class="px-4 py-2 text-center">Tagihan</th>
                     <th class="px-4 py-2 text-center">Status</th>
-                    <th class="px-4 py-2 text-center">Bukti Pembayaran</th>
+                    <th class="px-4 py-2 text-center">Jumlah Pembayaran</th>
                     <th class="px-4 py-2 text-center">Aksi</th>
                 </tr>
             </thead>
@@ -79,7 +100,7 @@
                             @php
                                 $status = [
                                     'Belum Lunas' => 'bg-red-100 text-red-800',
-                                    'lunas' => 'bg-green-400 text-green-800',
+                                    'Lunas' => 'bg-blue-400 text-blue-800',
                                 ];
                                 $status = $status[$tagihan->status_tagihan] ?? 'bg-gray-500';
                             @endphp
@@ -88,13 +109,11 @@
                                 {{ ucfirst($tagihan->status_tagihan) }}
                             </span>
                         </td>
-                        <td>
-                            @if ($tagihan->bukti_bayar_tagihan)
-                                <a href="{{ asset('storage/images/bukti_pembayaran/' . $tagihan->bukti_bayar_tagihan) }}"
-                                    target="_blank" class="text-blue-500 underline">Lihat</a>
-                            @else
-                                <span class="text-red-500">Belum ada</span>
-                            @endif
+                        <td class="px-4 py-2 text-center italic font-semibold">
+                            @php
+                                $formattedTotalBayar = 'Rp. ' . number_format($tagihan->total_bayar, 0, ',', '.');
+                            @endphp
+                            {{ $formattedTotalBayar }}
                         </td>
                         <td>
                             <livewire:staff.tagihan.update :id_tagihan="$tagihan->id_tagihan"
