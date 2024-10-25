@@ -1,7 +1,16 @@
 <div>
     <div class="mx-5">
-        <div class="flex flex-col justify-between mx-4 mt-4">
-
+        <div class="flex flex-col justify-between mt-2">
+            <!-- Modal Form -->
+            <div class="flex justify-between mt-2 bg-purple-200 shadow-lg rounded-lg p-2">
+                <div class="flex items-center px-4 py-2">
+                    <h1><b>Semester Saat ini :</b></h1>
+                    <p class="text-md text-gray-900 ml-1">
+                        {{ $semesters->firstWhere('is_active', true)->nama_semester ?? 'Tidak ada semester aktif' }}</p>
+                </div>
+                <input type="text" wire:model.live="search" placeholder="   Search"
+                    class="px-2 ml-4 border border-gray-300 rounded-lg">
+            </div>
             <div>
                 @if (session()->has('message'))
                     @php
@@ -14,7 +23,7 @@
                                     : 'bg-green-500');
                     @endphp
                     <div id="flash-message"
-                        class="flex items-center justify-between p-4 mx-12 mt-8 mb-4 text-white {{ $bgColor }} rounded">
+                        class="flex items-center justify-between p-2 mx-2 mt-2 text-white {{ $bgColor }} rounded">
                         <span>{{ session('message') }}</span>
                         <button class="p-1" onclick="document.getElementById('flash-message').remove();"
                             class="font-bold text-white">
@@ -22,16 +31,6 @@
                         </button>
                     </div>
                 @endif
-            </div>
-            <!-- Modal Form -->
-            <div class="flex justify-between mt-2">
-                <div class="flex items-center px-4 py-2">
-                    <h1>Semester Saat ini : </h1>
-                    <p class="text-xl font-bold text-purple-500">
-                        {{ $semesters->firstWhere('is_active', true)->nama_semester ?? 'Tidak ada semester aktif' }}</p>
-                </div>
-                <input type="text" wire:model.live="search" placeholder="   Search"
-                    class="px-2 ml-4 border border-gray-300 rounded-lg">
             </div>
         </div>
         <table class="min-w-full mt-4 bg-white border border-gray-200">
