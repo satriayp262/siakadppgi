@@ -39,15 +39,15 @@
                             </div>
 
                             <div class="mb-4">
-                                <label for="kode_mata_kuliah" class="block text-sm font-medium text-gray-700">Mata Kuliah</label>
-                                <select id="kode_mata_kuliah" wire:model="kode_mata_kuliah" name="kode_mata_kuliah"
+                                <label for="id_mata_kuliah" class="block text-sm font-medium text-gray-700">Mata Kuliah</label>
+                                <select id="id_mata_kuliah" wire:model="id_mata_kuliah" name="id_mata_kuliah"
                                     class="block w-full py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring px-2 focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
                                     <option value="" disabled selected>Select</option>
                                     @foreach ($matkul as $m)
-                                        <option value="{{ $m->kode_mata_kuliah }}">{{ $m->nama_mata_kuliah }}</option>
+                                        <option value="{{ $m->id_mata_kuliah }}">{{ $m->nama_mata_kuliah }}</option>
                                     @endforeach
                                 </select>
-                                @error('kode_mata_kuliah')
+                                @error('id_mata_kuliah')
                                     <span class="mt-1 text-sm text-red-500">{{ $message }}</span>
                                 @enderror
                             </div>

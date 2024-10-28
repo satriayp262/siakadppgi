@@ -14,11 +14,11 @@
                 <div class="p-4 max-h-[500px] overflow-y-auto">
                     <form wire:submit.prevent="save">
                         <div class="mb-4">
-                            <label for="kode_mata_kuliah">Mata Kuliah</label>
-                            <select wire:model="kode_mata_kuliah" class="border p-2 rounded w-full" required>
+                            <label for="id_mata_kuliah">Mata Kuliah</label>
+                            <select wire:model="id_mata_kuliah" class="border p-2 rounded w-full" required>
                                 <option value="">Pilih Mata Kuliah</option>
                                 @foreach($matkul as $matkul)
-                                    <option value="{{ $matkul->kode_mata_kuliah }}">{{ $matkul->nama_mata_kuliah }}</option>
+                                    <option value="{{ $matkul->id_mata_kuliah }}">{{ $matkul->nama_mata_kuliah }}</option>
                                 @endforeach
                             </select>
                         </div>
