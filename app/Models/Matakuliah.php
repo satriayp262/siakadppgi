@@ -14,6 +14,7 @@ class Matakuliah extends Model
         'kode_mata_kuliah',
         'nama_mata_kuliah',
         'jenis_mata_kuliah',
+        'nidn',
         'kode_prodi',   
         'sks_tatap_muka',
         'sks_praktek',
@@ -27,6 +28,11 @@ class Matakuliah extends Model
     public function prodi()
     {
         return $this->belongsTo(Prodi::class, 'kode_prodi', 'kode_prodi');
+    }
+
+    public function dosen()
+    {
+        return $this->belongsTo(Dosen::class, 'nidn', 'nidn');
     }
 
 }

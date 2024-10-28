@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Matkul;
 
 use App\Models\Matakuliah;
+use App\Models\Dosen;
 use App\Models\Prodi;
 use Livewire\Component;
 
@@ -12,6 +13,7 @@ class Create extends Component
     public $kode_mata_kuliah;
     public $nama_mata_kuliah;
     public $jenis_mata_kuliah = '';
+    public $nidn = '';
     public $kode_prodi = '';
     public $sks_tatap_muka;
     public $sks_praktek;
@@ -22,12 +24,14 @@ class Create extends Component
     public $tgl_akhir_efektif;
 
 
+
     public function rules()
     {
         return [
-            'kode_mata_kuliah' => 'required|string|unique:matkul,kode_mata_kuliah',
+            'kode_mata_kuliah' => 'required|string',
             'nama_mata_kuliah' => 'required|string',
             'jenis_mata_kuliah' => 'required|string',
+            'nidn' => 'nullable|string',
             'kode_prodi' => 'required_if:jenis_mata_kuliah,Khusus Prodi|string|nullable',  // Required only if jenis_mata_kuliah is not "Umum"
             'sks_tatap_muka' => 'required|integer',
             'sks_praktek' => 'required|integer',
@@ -67,6 +71,7 @@ class Create extends Component
             'kode_mata_kuliah' => $validatedData['kode_mata_kuliah'],
             'nama_mata_kuliah' => $validatedData['nama_mata_kuliah'],
             'jenis_mata_kuliah' => $validatedData['jenis_mata_kuliah'],
+            'nidn' => $validatedData['nidn'],
             'kode_prodi' => ($validatedData['jenis_mata_kuliah'] === 'Umum') ? null : $validatedData['kode_prodi'],
             'sks_tatap_muka' => $validatedData['sks_tatap_muka'],
             'sks_praktek' => $validatedData['sks_praktek'],
@@ -88,9 +93,11 @@ class Create extends Component
     public function render()
     {
         $prodis = Prodi::all();
+        $dosens = Dosen::query()->orderBy('kode_prodi')->get();
 
         return view('livewire.admin.matkul.create',[
-            'prodis' => $prodis
+            'prodis' => $prodis,
+            'dosens' => $dosens
         ]);
     }
 }
