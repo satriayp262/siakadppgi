@@ -28,7 +28,7 @@ class Index extends Component
             ->where('id', $user->id)
             ->whereHas('matkul', function ($query) {
                 $query->where('nama_mata_kuliah', 'like', '%' . $this->search . '%')
-                      ->orWhere('kode_mata_kuliah', 'like', '%' . $this->search . '%');
+                      ->orWhere('id_mata_kuliah', 'like', '%' . $this->search . '%');
             })
             ->orWhere('valid_until', 'like', '%' . $this->search . '%')
             ->orWhere('created_at', 'like', '%' . $this->search . '%')

@@ -1,4 +1,4 @@
-<div x-data="{ isOpen: false }" @modal-closed.window="isOpen = false">
+<div x-data="{ isOpen: false }" @modal-closed.window="isOpen = false" @acaraCreated.window="isOpen = false">
     <!-- Button to open the modal -->
     <button @click="isOpen=true"
         class="flex items-center px-4 py-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">
@@ -7,7 +7,6 @@
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
                 d="M5 12h14m-7 7V5" />
         </svg>
-
         Tambah
     </button>
 
@@ -17,7 +16,7 @@
         <div class="w-1/2 bg-white rounded-lg shadow-lg">
             <!-- Modal Header -->
             <div class="flex items-center justify-between p-4 bg-gray-200 rounded-t-lg">
-                <h3 class="text-xl font-semibold">Tambah Dosen</h3>
+                <h3 class="text-xl font-semibold">Tambah Berita Acara</h3>
                 <button @click="isOpen=false"
                     class="text-gray-900 px-3 rounded-sm shadow hover:bg-red-500">&times;</button>
             </div>
@@ -40,11 +39,10 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="id_mata_kuliah" class="block text-sm font-medium text-gray-700">Mata
-                                Kuliah</label>
+                            <label for="id_mata_kuliah" class="block text-sm font-medium text-gray-700">Mata Kuliah</label>
                             <select id="id_mata_kuliah" wire:model="id_mata_kuliah" name="id_mata_kuliah"
                                 class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
-                                <option value="" disabled selected>Select</option>
+                                <option value="">Pilih Mata Kuliah</option>
                                 @foreach ($matkul as $m)
                                     <option value="{{ $m->id_mata_kuliah }}">{{ $m->nama_mata_kuliah }}</option>
                                 @endforeach

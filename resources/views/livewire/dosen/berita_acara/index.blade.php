@@ -81,7 +81,7 @@
     </div>
 
     <script>
-        function confirmDelete(id) {
+        function confirmDelete(id_berita_acara) {
             Swal.fire({
                 title: 'Apakah anda yakin ingin menghapus Berita Acara ini?',
                 text: "Data yang telah dihapus tidak dapat dikembalikan!",
@@ -93,7 +93,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     // Panggil method Livewire jika konfirmasi diterima
-                    @this.call('destroy', id);
+                    @this.call('destroy', id_berita_acara);
                 }
             });
         }

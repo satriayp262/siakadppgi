@@ -24,6 +24,6 @@ class Presensi extends Model
 
     public function matkul()
     {
-        return $this->hasOneThrough(Matakuliah::class, Token::class, 'token', 'kode_mata_kuliah', 'token', 'kode_mata_kuliah');
+        return $this->hasOneThrough(Matakuliah::class, Token::class, 'token', 'id_mata_kuliah', 'token', 'id_mata_kuliah');
     }
 }

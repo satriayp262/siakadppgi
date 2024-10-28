@@ -33,30 +33,33 @@ class Create extends Component
 
         if ($dosen) {
             $this->nidn = $dosen->nidn;
-            $this->nama_dosen = $dosen->nama_dosen; // Set nama dosen berdasarkan NIDN
+            $this->nama_dosen = $dosen->nama_dosen;
         }
     }
 
+    public function resetForm()
+    {
+        $this->reset(['tanggal', 'materi', 'jumlah_mahasiswa']);
+    }
+
+
     public function save()
-{
-    $validatedData = $this->validate();
+    {
+        $validatedData = $this->validate();
 
-    $acara = BeritaAcara::create([
-        'tanggal' => $validatedData['tanggal'],
-        'nidn' => $validatedData['nidn'],
-        'materi' => $validatedData['materi'],
-        'id_mata_kuliah' => $validatedData['id_mata_kuliah'],
-        'jumlah_mahasiswa' => $validatedData['jumlah_mahasiswa'],
-    ]);
+        BeritaAcara::create([
+            'tanggal' => $validatedData['tanggal'],
+            'nidn' => $validatedData['nidn'],
+            'id_mata_kuliah' => $validatedData['id_mata_kuliah'],
+            'materi' => $validatedData['materi'],
+            'jumlah_mahasiswa' => $validatedData['jumlah_mahasiswa'],
+        ]);
 
-    // Reset form kecuali 'nama_dosen'
-    $this->reset(['tanggal', 'materi', 'jumlah_mahasiswa']);
+        $this->dispatch('acaraCreated');
 
-    $this->dispatch('acaraCreated');
-
-    return $acara;
-}
-
+        // Call resetForm method
+        $this->resetForm();
+    }
 
     public function messages()
     {

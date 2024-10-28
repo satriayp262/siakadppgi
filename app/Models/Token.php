@@ -12,7 +12,7 @@ class Token extends Model
     protected $table = 'token';
     protected $fillable = [
         'token',
-        'kode_mata_kuliah',
+        'id_mata_kuliah',
         'valid_until',
         'id',
     ];
@@ -26,7 +26,7 @@ class Token extends Model
     // Relasi ke mata kuliah
     public function matkul()
     {
-        return $this->belongsTo(Matakuliah::class, 'kode_mata_kuliah', 'kode_mata_kuliah');
+        return $this->belongsTo(Matakuliah::class, 'id_mata_kuliah', 'id_mata_kuliah');
     }
 
     // Cek apakah token masih valid

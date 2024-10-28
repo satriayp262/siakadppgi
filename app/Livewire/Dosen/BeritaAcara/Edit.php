@@ -28,13 +28,14 @@ class Edit extends Component
     public function clear($id_berita_acara)
     {
         $this->resetExcept(['dosen', 'matkul']);
-        $this->dispatchBrowserEvent('refreshComponent');
+        $this->dispatch('refreshComponent');
+
         $acara = BeritaAcara::find($id_berita_acara);
         if ($acara) {
             $this->id_berita_acara = $acara->id_berita_acara;
             $this->tanggal = $acara->tanggal;
             $this->nidn = $acara->nidn;
-            $this->id_mata_kuliah = $acara->id_mata_kuliah;
+            $this->id_mata_kuliah = (string) $acara->id_mata_kuliah; // Pastikan ini adalah string
             $this->materi = $acara->materi;
             $this->jumlah_mahasiswa = $acara->jumlah_mahasiswa;
             $this->loadDosenName($this->nidn); // Load nama dosen berdasarkan NIDN
@@ -43,18 +44,9 @@ class Edit extends Component
 
     public function mount($id_berita_acara)
     {
-        $acara = BeritaAcara::find($id_berita_acara);
         $this->dosen = Dosen::all();
         $this->matkul = Matakuliah::all();
-        if ($acara) {
-            $this->id_berita_acara = $acara->id_berita_acara;
-            $this->tanggal = $acara->tanggal;
-            $this->nidn = $acara->nidn;
-            $this->id_mata_kuliah = $acara->id_mata_kuliah;
-            $this->materi = $acara->materi;
-            $this->jumlah_mahasiswa = $acara->jumlah_mahasiswa;
-            $this->loadDosenName($this->nidn);
-        }
+        $this->clear($id_berita_acara); // Panggil clear untuk mengisi data saat mount
     }
 
     protected function loadDosenName($nidn)
@@ -67,13 +59,20 @@ class Edit extends Component
     {
         $validatedData = $this->validate();
 
+        // Pastikan id_mata_kuliah adalah string
+        $validatedData['id_mata_kuliah'] = (string) $validatedData['id_mata_kuliah'];
+
         $acara = BeritaAcara::find($this->id_berita_acara);
         if ($acara) {
-            $acara->update($validatedData);
+            try {
+                $acara->update($validatedData);
 
-            // Reset form except 'dosen' and 'matkul'
-            $this->resetExcept(['dosen', 'matkul']);
-            $this->dispatch('acaraUpdated');
+                // Reset form except 'dosen' and 'matkul'
+                $this->resetExcept(['dosen', 'matkul']);
+                $this->dispatch('acaraUpdated');
+            } catch (\Exception $e) {
+                session()->flash('error', 'Gagal memperbarui data: ' . $e->getMessage());
+            }
         }
     }
 

@@ -55,7 +55,7 @@ class Index extends Component
     {
         $beritaAcaras = BeritaAcara::query()
             ->where('nidn', 'like', '%' . $this->search . '%')
-            ->orWhere('kode_mata_kuliah', 'like', '%' . $this->search . '%')
+            ->orWhere('id_mata_kuliah', 'like', '%' . $this->search . '%')
             ->orWhere('jumlah_mahasiswa', 'like', '%' . $this->search . '%')
             ->orWhere('materi', 'like', '%' . $this->search . '%')
             ->latest()
