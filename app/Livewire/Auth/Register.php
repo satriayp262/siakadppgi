@@ -13,16 +13,19 @@ class Register extends Component
     public $name;
     public $password;
     public $password_confirmation;
+
     protected $rules = [
-        'email' => ['required', 'regex:/^[\w\.-]+@gmail\.com$/'],
+        'email' => ['required', 'regex:/^[\w\.-]+@gmail\.com$/', 'unique:users,email'],
         'name' => 'required|string',
         'password' => 'required|min:8|same:password_confirmation',
         'password_confirmation' => 'required'
     ];
+    
 
     protected $messages = [
         'name.required' => 'Nama wajib diisi',
         'email.required' => 'Email wajib diisi',
+        'email.unique' => 'Email sudah terdaftar',
         'email.regex' => 'Email harus berupa @gmail.com',
         'password.required' => 'Password wajib diisi',
         'password.min' => 'Password harus minimal 8 karakter',
@@ -43,7 +46,6 @@ class Register extends Component
             // $user->sendEmailVerificationNotification();
 
             Auth::login($user);
-            // irit mailtrap
             // return redirect()->route('verification.notice');
         } else {
             session()->flash('error', 'Registrasi Gagal');

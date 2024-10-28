@@ -46,7 +46,7 @@
                                         <select id="{{ strtolower($field) }}" wire:model="{{ strtolower($field) }}"
                                             name="{{ strtolower($field) }}"
                                             class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
-                                            <option value="" disabled selected>Select</option>
+                                            <option value=" " disabled selected>Select</option>
                                             <option value="Perempuan">Perempuan</option>
                                             <option value="Laki-Laki">Laki-Laki</option>
                                         </select>
@@ -54,7 +54,7 @@
                                         <select id="{{ strtolower($field) }}" wire:model="{{ strtolower($field) }}"
                                             name="{{ strtolower($field) }}"
                                             class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
-                                            <option value="" disabled selected>Select</option>
+                                            <option value=" " disabled selected>Select</option>
                                             <option value="islam">Islam</option>
                                             <option value="kristen">Kristen</option>
                                             <option value="katolik">Katolik</option>
@@ -68,8 +68,11 @@
                                             <select id="{{ strtolower($field) }}"
                                                 wire:model="{{ strtolower($field) }}" name="{{ strtolower($field) }}"
                                                 class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
+                                                <option value=" " disabled>
+                                                    Select
+                                                </option>
                                                 @foreach ($semesters as $semester)
-                                                    <option value="{{ $semester->kode_semester }}">
+                                                    <option value="{{ $semester->id_semester }}">
                                                         {{ $semester->nama_semester }}
                                                     </option>
                                                 @endforeach
@@ -78,9 +81,12 @@
                                             </select>
                                         </div>
                                     @elseif($field === 'kode_prodi')
-                                        <select id="{{ strtolower($field) }}" wire:model="{{ strtolower($field) }}"
+                                        <select id="{{ strtolower($field) }}" wire:model="{{ $field }}"
                                             name="{{ strtolower($field) }}"
                                             class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
+                                            <option value=" " disabled>
+                                                Select
+                                            </option>
                                             @foreach ($prodis as $program)
                                                 <option value="{{ $program->kode_prodi }}">
                                                     {{ $program->nama_prodi }}

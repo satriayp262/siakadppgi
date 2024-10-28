@@ -10,7 +10,7 @@ use App\Models\Semester;
 
 class Create extends Component
 {
-    public $nim,$nik,$nama,$jenis_kelamin = '',$tempat_lahir,$tanggal_lahir,$agama = '',$alamat,$jalur_pendaftaran,$kewarganegaraan,$jenis_pendaftaran,$tanggal_masuk_kuliah,$mulai_semester = '',$jenis_tempat_tinggal,$telp_rumah,$no_hp,$email,$terima_kps,$no_kps,$jenis_transportasi,$kode_prodi = '',$SKS_diakui,$kode_pt_asal,$nama_pt_asal,$kode_prodi_asal,$nama_prodi_asal,$jenis_pembiayaan,$jumlah_biaya_masuk;
+    public $nim, $nik, $nama, $jenis_kelamin = ' ', $tempat_lahir, $tanggal_lahir, $agama = ' ', $alamat, $jalur_pendaftaran, $kewarganegaraan, $jenis_pendaftaran, $tanggal_masuk_kuliah, $mulai_semester = ' ', $jenis_tempat_tinggal, $telp_rumah, $no_hp, $email, $terima_kps, $no_kps, $jenis_transportasi, $kode_prodi = ' ', $SKS_diakui, $kode_pt_asal, $nama_pt_asal, $kode_prodi_asal, $nama_prodi_asal, $jenis_pembiayaan, $jumlah_biaya_masuk;
     public function rules()
     {
         return [
@@ -97,7 +97,7 @@ class Create extends Component
             'kewarganegaraan' => $validatedData['kewarganegaraan'],
             'jenis_pendaftaran' => $validatedData['jenis_pendaftaran'],
             'tanggal_masuk_kuliah' => $validatedData['tanggal_masuk_kuliah'],
-            'mulai_semester' => $validatedData['mulai_semester'],
+            'mulai_semester' =>  $validatedData['mulai_semester'],
             'jenis_tempat_tinggal' => $validatedData['jenis_tempat_tinggal'],
             'telp_rumah' => $validatedData['telp_rumah'],
             'no_hp' => $validatedData['no_hp'],
@@ -127,7 +127,7 @@ class Create extends Component
     {
         $semesters = Semester::all();
         $prodis = Prodi::all();
-        return view('livewire.admin.mahasiswa.create',[
+        return view('livewire.admin.mahasiswa.create', [
             'prodis' => $prodis,
             'semesters' => $semesters,
         ]);

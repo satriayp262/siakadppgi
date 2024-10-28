@@ -72,23 +72,29 @@ class Index extends Component
     #[On('mahasiswaUpdated')]
     public function handleMahasiswaEdited()
     {
-        session()->flash('message', 'Mahasiswa Berhasil di Update');
-        session()->flash('message_type', 'update');
+        $this->dispatch('updated', ['message' => 'Mahasiswa Edited Successfully']);
+
+        // session()->flash('message', 'Mahasiswa Berhasil di Update');
+        // session()->flash('message_type', 'update');
     }
 
     public function destroy($id_mahasiswa)
     {
         $mahasiswa = Mahasiswa::find($id_mahasiswa);
         $mahasiswa->delete();
-        session()->flash('message', 'Mahasiswa Berhasil di Hapus');
-        session()->flash('message_type', 'error');
+        $this->dispatch('destroyed', ['message' => 'Mahasiswa deleted Successfully']);
+
+        // session()->flash('message', 'Mahasiswa Berhasil di Hapus');
+        // session()->flash('message_type', 'error');
     }
 
     #[On('mahasiswaCreated')]
     public function handleMahasiswaCreated()
     {
-        session()->flash('message', 'Mahasiswa Berhasil di Tambahkan');
-        session()->flash('message_type', 'success');
+        $this->dispatch('created', ['message' => 'Mahasiswa Created Successfully']);
+
+        // session()->flash('message', 'Mahasiswa Berhasil di Tambahkan');
+        // session()->flash('message_type', 'success');
     }
 
     public function import()
