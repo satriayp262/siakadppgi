@@ -15,12 +15,12 @@ return new class extends Migration
             $table->uuid('id_berita_acara')->primary();
             $table->date('tanggal');
             $table->string('nidn');
-            $table->string('kode_mata_kuliah');
+            $table->integer('id_mata_kuliah');
             $table->string('materi');
             $table->integer('jumlah_mahasiswa');
             $table->timestamps();
             $table->foreign('nidn')->references('nidn')->on('dosen')->onDelete('cascade');
-            $table->foreign('kode_mata_kuliah')->references('kode_mata_kuliah')->on('matkul')->onDelete('cascade');
+            $table->foreign('id_mata_kuliah')->references('id_mata_kuliah')->on('matkul')->onDelete('cascade');
         });
     }
 

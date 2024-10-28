@@ -17,10 +17,10 @@ return new class extends Migration
             $table->string('nama_kelas');
             $table->string('lingkup_kelas');
             $table->string('kode_prodi');
-            $table->string('kode_mata_kuliah');
+            $table->integer('id_mata_kuliah');
             $table->timestamps();
             $table->foreign('kode_prodi')->references('kode_prodi')->on('prodi')->onDelete('cascade');
-            $table->foreign('kode_mata_kuliah')->references('kode_mata_kuliah')->on('matkul')->onDelete('cascade');
+            $table->foreign('id_mata_kuliah')->references('id_mata_kuliah')->on('matkul')->onDelete('cascade');
         });
     }
 

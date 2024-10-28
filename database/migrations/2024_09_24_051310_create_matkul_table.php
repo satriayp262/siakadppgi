@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('matkul', function (Blueprint $table) {
             $table->integer('id_mata_kuliah')->autoIncrement()->primary();
-            $table->string('kode_mata_kuliah')->unique();
+            $table->string('kode_mata_kuliah');
             $table->string('nama_mata_kuliah');
             $table->string(column: 'jenis_mata_kuliah');
             $table->string('kode_prodi')->nullable();

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('jadwal', function (Blueprint $table) {
             $table->uuid('id_jadwal')->autoIncrement()->primary();
             $table->string('nidn');
-            $table->string('kode_mata_kuliah');
+            $table->integer('id_mata_kuliah');
             $table->string('kode_kelas');
             $table->integer('minggu'); // Menyimpan minggu ke berapa jadwal ini berlaku
             $table->string('hari'); // Hari dalam seminggu
@@ -23,7 +23,7 @@ return new class extends Migration
             $table->time('jam_selesai'); // Jam selesai
             $table->timestamps();
             $table->foreign('nidn')->references('nidn')->on('dosen')->onDelete('cascade');
-            $table->foreign('kode_mata_kuliah')->references('kode_mata_kuliah')->on('matkul')->onDelete('cascade');
+            $table->foreign('id_mata_kuliah')->references('id_mata_kuliah')->on('matkul')->onDelete('cascade');
             $table->foreign('kode_kelas')->references('kode_kelas')->on('kelas')->onDelete('cascade');
         });
     }

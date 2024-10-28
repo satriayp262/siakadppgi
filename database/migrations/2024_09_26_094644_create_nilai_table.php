@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('nilai', function (Blueprint $table) {
             $table->uuid('id_nilai')->primary(); // UUID sebagai primary key
             $table->string('NIM'); // NIM mahasiswa
-            $table->string('kode_mata_kuliah'); // Kode mata kuliah
+            $table->integer('id_mata_kuliah');
             $table->integer('id_semester'); // Semester
             $table->string('nilai_huruf'); // Nilai dalam bentuk huruf (A, B, C, dll)
             $table->float('nilai_indeks'); // Nilai indeks
@@ -30,7 +30,7 @@ return new class extends Migration
             $table->string('kode_kelas'); // Kode prodi kelas
 
             $table->foreign('NIM')->references('NIM')->on('mahasiswa')->onDelete('cascade');
-            $table->foreign('kode_mata_kuliah')->references('kode_mata_kuliah')->on('matkul')->onDelete('cascade');
+            $table->foreign('id_mata_kuliah')->references('id_mata_kuliah')->on('matkul')->onDelete('cascade');
             $table->foreign('id_semester')->references('id_semester')->on('semester')->onDelete('cascade');
             $table->timestamps();
         });

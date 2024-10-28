@@ -15,10 +15,10 @@ return new class extends Migration
             $table->uuid('id_kurikulum')->primary(); // UUID sebagai primary key
             $table->string('nama_kurikulum');
             $table->date('mulai_berlaku'); // Tanggal mulai berlaku kurikulum
-            $table->string('kode_mata_kuliah');
+            $table->integer('id_mata_kuliah');
             $table->string('kode_prodi'); // Kode program studi
             $table->foreign('kode_prodi')->references('kode_prodi')->on('prodi'); // Menambah foreign key kode_prodi yang merujuk ke kode_prodi pada tabel prodi
-            $table->foreign('kode_mata_kuliah')->references('kode_mata_kuliah')->on('matkul')->onDelete('cascade');
+            $table->foreign('id_mata_kuliah')->references('id_mata_kuliah')->on('matkul')->onDelete('cascade');
             $table->timestamps();
         });
     }
