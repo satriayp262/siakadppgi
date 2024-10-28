@@ -10,11 +10,11 @@ use Illuminate\Support\Facades\Auth;
 
 class CreateToken extends Component
 {
-    public $kode_mata_kuliah, $matkul;
+    public $id_mata_kuliah, $matkul;
     public $valid_until;
 
     protected $rules = [
-        'kode_mata_kuliah' => 'required|exists:matkul,kode_mata_kuliah',
+        'id_mata_kuliah' => 'required|exists:matkul,id_mata_kuliah',
         'valid_until' => 'required|date|after:now',
     ];
 
@@ -31,7 +31,7 @@ class CreateToken extends Component
 
         Token::create([
             'token' => $token,
-            'kode_mata_kuliah' => $this->kode_mata_kuliah,
+            'id_mata_kuliah' => $this->id_mata_kuliah,
             'valid_until' => $this->valid_until,
             'id' => Auth::user()->id,
         ]);

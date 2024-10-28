@@ -10,7 +10,7 @@ use Livewire\Component;
 
 class Create extends Component
 {
-    public $id_berita_acara, $tanggal, $nidn = '', $nama_dosen = '', $materi, $kode_mata_kuliah = '', $jumlah_mahasiswa, $matkul;
+    public $id_berita_acara, $tanggal, $nidn = '', $nama_dosen = '', $materi, $id_mata_kuliah = '', $jumlah_mahasiswa, $matkul;
 
     public function rules()
     {
@@ -18,7 +18,7 @@ class Create extends Component
             'tanggal' => 'required|date',
             'nidn' => 'required|string|min:10|max:10',
             'materi' => 'required|string',
-            'kode_mata_kuliah' => 'required|string|max:255',
+            'id_mata_kuliah' => 'required|string|max:255',
             'jumlah_mahasiswa' => 'required|integer',
         ];
     }
@@ -45,7 +45,7 @@ class Create extends Component
         'tanggal' => $validatedData['tanggal'],
         'nidn' => $validatedData['nidn'],
         'materi' => $validatedData['materi'],
-        'kode_mata_kuliah' => $validatedData['kode_mata_kuliah'],
+        'id_mata_kuliah' => $validatedData['id_mata_kuliah'],
         'jumlah_mahasiswa' => $validatedData['jumlah_mahasiswa'],
     ]);
 
@@ -64,7 +64,7 @@ class Create extends Component
             'nidn.required' => 'Nama dosen tidak boleh kosong',
             'tanggal.required' => 'Tanggal tidak boleh kosong',
             'materi.required' => 'Materi tidak boleh kosong',
-            'kode_mata_kuliah.required' => 'Mata kuliah tidak boleh kosong',
+            'id_mata_kuliah.required' => 'Mata kuliah tidak boleh kosong',
             'jumlah_mahasiswa.required' => 'Jumlah mahasiswa tidak boleh kosong',
         ];
     }

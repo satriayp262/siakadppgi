@@ -16,7 +16,7 @@ class Create extends Component
     public $semester = '';
     public $kode_prodi = '';
     public $lingkup_kelas;
-    public $kode_matkul = '';
+    public $id_mata_kuliah = '';
 
 
     public function rules()
@@ -27,7 +27,7 @@ class Create extends Component
             'semester' => 'required|string',
             'kode_prodi' => 'required|string',
             'lingkup_kelas' => 'required|string',
-            'kode_matkul' => 'required|string',
+            'id_mata_kuliah' => 'required|string',
         ];
     }
 
@@ -40,7 +40,7 @@ class Create extends Component
             'semester.required' => 'Semester tidak boleh kosong',
             'kode_prodi.required' => 'Kode prodi tidak boleh kosong',
             'lingkup_kelas.required' => 'Lingkup kelas tidak boleh kosong',
-            'kode_matkul.required' => 'Kode mata kuliah tidak boleh kosong',
+            'id_mata_kuliah.required' => 'Mata kuliah tidak boleh kosong',
         ];
     }
 
@@ -56,7 +56,7 @@ class Create extends Component
             'semester' => $validatedData['semester'],
             'kode_prodi' => $validatedData['kode_prodi'],
             'lingkup_kelas' => $validatedData['lingkup_kelas'],
-            'kode_matkul' => $validatedData['kode_matkul'],
+            'id_mata_kuliah' => $validatedData['id_mata_kuliah'],
         ]);
         $this->reset();
         $this->dispatch('kelasCreated');

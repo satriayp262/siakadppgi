@@ -9,7 +9,7 @@ use Livewire\Component;
 
 class Edit extends Component
 {
-    public $id_berita_acara, $tanggal, $nidn = '', $nama_dosen = '', $materi, $kode_mata_kuliah = '', $jumlah_mahasiswa, $matkul, $dosen;
+    public $id_berita_acara, $tanggal, $nidn = '', $nama_dosen = '', $materi, $id_mata_kuliah = '', $jumlah_mahasiswa, $matkul, $dosen;
 
     protected $listeners = ['refreshComponent' => '$refresh'];
 
@@ -20,7 +20,7 @@ class Edit extends Component
             'tanggal' => 'required|date',
             'nidn' => 'required|string|min:10|max:10',
             'materi' => 'required|string',
-            'kode_mata_kuliah' => 'required|string|max:255',
+            'id_mata_kuliah' => 'required|string|max:255',
             'jumlah_mahasiswa' => 'required|integer|min:1',
         ];
     }
@@ -34,7 +34,7 @@ class Edit extends Component
             $this->id_berita_acara = $acara->id_berita_acara;
             $this->tanggal = $acara->tanggal;
             $this->nidn = $acara->nidn;
-            $this->kode_mata_kuliah = $acara->kode_mata_kuliah;
+            $this->id_mata_kuliah = $acara->id_mata_kuliah;
             $this->materi = $acara->materi;
             $this->jumlah_mahasiswa = $acara->jumlah_mahasiswa;
             $this->loadDosenName($this->nidn); // Load nama dosen berdasarkan NIDN
@@ -50,7 +50,7 @@ class Edit extends Component
             $this->id_berita_acara = $acara->id_berita_acara;
             $this->tanggal = $acara->tanggal;
             $this->nidn = $acara->nidn;
-            $this->kode_mata_kuliah = $acara->kode_mata_kuliah;
+            $this->id_mata_kuliah = $acara->id_mata_kuliah;
             $this->materi = $acara->materi;
             $this->jumlah_mahasiswa = $acara->jumlah_mahasiswa;
             $this->loadDosenName($this->nidn);

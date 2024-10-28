@@ -32,13 +32,11 @@ class DetailPresensi extends Component
 
     public function render()
     {
-        $presensi = collect(); // Default nilai presensi adalah koleksi kosong
+        $presensi = collect();
 
-        // Cek apakah $this->token tidak null sebelum mengambil presensi
         if ($this->token) {
-            // Ambil presensi berdasarkan token
             $presensi = Presensi::with(['mahasiswa'])
-                ->where('token', $this->token->token) // Filter berdasarkan token
+                ->where('token', $this->token->token) 
                 ->get();
         }
 
