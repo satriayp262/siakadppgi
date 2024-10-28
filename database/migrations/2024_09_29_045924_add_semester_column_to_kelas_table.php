@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('kelas', function (Blueprint $table) {
-            $table->integer('semester')->after('kode_mata_kuliah');
+            $table->integer('semester')->after('id_mata_kuliah');
 
-            $table->renameColumn('kode_mata_kuliah', 'kode_matkul');
+            $table->renameColumn('id_mata_kuliah', 'id_matkul');
 
             $table->foreign('semester')->references('id_semester')->on('semester')->onDelete('cascade');
         });
