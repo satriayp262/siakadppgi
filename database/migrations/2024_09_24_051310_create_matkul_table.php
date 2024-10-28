@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('nama_mata_kuliah');
             $table->string(column: 'jenis_mata_kuliah');
             $table->string('kode_prodi')->nullable();
+            $table->string('nidn')->nullable();
             $table->integer('sks_tatap_muka');
             $table->integer('sks_praktek');
             $table->integer('sks_praktek_lapangan');
