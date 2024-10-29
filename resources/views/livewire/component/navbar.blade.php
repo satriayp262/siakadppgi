@@ -14,7 +14,6 @@
             </button>
 
             <img src="{{ asset('img/piksi.png') }}" class="w-auto h-8 max-w-full" alt="logopiksi" />
-
             <span
                 class="self-center hidden text-sm font-semibold text-white sm:block md:text-lg lg:text-xl whitespace-nowrap">
                 POLITEKNIK PIKSI GANESHA INDONESIA
@@ -97,7 +96,7 @@
                 // text: "Data yang telah dihapus tidak dapat dikembalikan!",
                 icon: 'question',
                 showCancelButton: true,
-                confirmButtonColor: '#87CEEB',
+                confirmButtonColor: '#800080',
                 cancelButtonColor: '#6c757d',
                 confirmButtonText: 'Keluar'
             }).then((result) => {

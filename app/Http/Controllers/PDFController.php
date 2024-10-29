@@ -9,19 +9,6 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class PDFController extends Controller
 {
-    public function mount($id_tagihan)
-    {
-        $tagihan = Tagihan::find($id_tagihan);
-        if ($tagihan) {
-            $this->id_tagihan = $tagihan->id_tagihan;
-            $this->NIM = $tagihan->NIM;
-            $this->total_tagihan = $tagihan->total_tagihan;
-            $this->id_semester = $tagihan->semester->nama_semester;
-            $this->total_bayar = $tagihan->total_bayar;
-            $this->status_tagihan = $tagihan->status_tagihan;
-        }
-    }
-
     public function generatePDF($id_tagihan)
     {
         $tagihan = Tagihan::with(['mahasiswa', 'semester'])->where('id_tagihan', $id_tagihan)->first();
@@ -31,6 +18,7 @@ class PDFController extends Controller
         }
 
         $data = [
+            'title' => 'BuktiPembayaran-' . $tagihan->mahasiswa->nama . '-' . $tagihan->semester->nama_semester,
             'id_tagihan' => $tagihan->id_tagihan,
             'nama' => $tagihan->mahasiswa->nama,
             'NIM' => $tagihan->NIM,
@@ -40,12 +28,10 @@ class PDFController extends Controller
             'status_tagihan' => $tagihan->status_tagihan,
         ];
 
-
-
         // Load the view and pass data to it, then generate the PDF
-        $pdf = Pdf::loadView('livewire.mahasiswa.keuangan.download', $data);
+        $pdf = Pdf::loadView('livewire.mahasiswa.keuangan.download', $data)->setPaper('a4', 'landscape');
 
         // Return the generated PDF file as a response for download
-        return $pdf->download('BuktiPembayaran-' . $tagihan->mahasiswa->nama . '-' . $tagihan->semester->nama_semester . '.pdf');
+        return $pdf->stream('BuktiPembayaran-' . $tagihan->mahasiswa->nama . '-' . $tagihan->semester->nama_semester . '.pdf');
     }
 }
