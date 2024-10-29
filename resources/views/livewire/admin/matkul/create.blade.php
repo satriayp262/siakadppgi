@@ -85,7 +85,7 @@
                             class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
                             <option value="" disabled selected>Select</option>
                             @foreach ($dosens as $dosen)
-                                <option value="{{ $dosen->nidn }}">{{ $dosen->nama_dosen.' ('.$dosen->prodi->nama_prodi.')' }}</option>
+                                <option value="{{ $dosen->nidn }}">{{ $dosen->nama_dosen.' ('. $dosen->prodi->nama_prodi .')' }}</option>
                             @endforeach
                         </select>
                         @error('nidn')

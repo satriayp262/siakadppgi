@@ -25,8 +25,7 @@ class Index extends Component
     #[On('matkulUpdated')]
     public function handlematkulEdited()
     {
-        session()->flash('message', 'Mata Kuliah Berhasil di Update');
-        session()->flash('message_type', 'update');
+        $this->dispatch('updated', ['message' => 'Matakuliah Edited Successfully']);
     }
 
 
@@ -38,15 +37,13 @@ class Index extends Component
             $matkul->delete();
 
             // Tampilkan pesan sukses
-            session()->flash('message', 'Mata Kuliah Berhasil di Hapus');
-            session()->flash('message_type', 'error');
+        $this->dispatch('destroyed', ['message' => 'Matakuliah Deleted Successfully']);
     }
 
     #[On('matkulCreated')]
     public function handlematkulCreated()
     {
-        session()->flash('message', 'Mata Kuliah Berhasil di Tambahkan');
-        session()->flash('message_type', 'success');
+        $this->dispatch('created', ['message' => 'Matkul Created Successfully']);
     }
 
     #[On('matkulImported')]

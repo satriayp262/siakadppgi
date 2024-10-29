@@ -57,6 +57,11 @@
                             </div>
 
                             <div class="w-full h-full p-2 mb-4 text-left border">
+                                <label for="nidn" class="block text-sm font-medium text-gray-700">Dosen</label>
+                                <p class="text-sm text-gray-500">{{ $matkul->dosen->nama_dosen }}</p>
+                            </div>
+
+                            <div class="w-full h-full p-2 mb-4 text-left border">
                                 <label for="sks_tatap_muka" class="block text-sm font-medium text-gray-700">SKS Tatap
                                     Muka</label>
                                 <p class="text-sm text-gray-500">{{ $matkul->sks_tatap_muka ?? 'Data Belum Ada' }}</p>

@@ -107,9 +107,9 @@
         document.addEventListener('DOMContentLoaded', function() {
             window.addEventListener('destroyed', event => {
                 Swal.fire({
-                    title: 'Warning!',
+                    title: 'Success!',
                     text: event.detail[0].message,
-                    icon: 'warning',
+                    icon: 'success ',
                     confirmButtonText: 'OK'
                 }).then(() => {
                     // Dispatch the modal-closed event to close the modal

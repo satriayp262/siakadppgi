@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Matkul;
 
+use App\Models\Dosen;
 use App\Models\Matakuliah;
 use App\Models\Prodi;
 use Livewire\Component;
@@ -12,6 +13,7 @@ class Edit extends Component
     public $kode_mata_kuliah;
     public $nama_mata_kuliah;
     public $jenis_mata_kuliah = '';
+    public $nidn = null;
     public $kode_prodi = null;
     public $sks_tatap_muka;
     public $sks_praktek;
@@ -25,9 +27,10 @@ class Edit extends Component
     public function rules()
     {
         return [
-            'kode_mata_kuliah' => 'required|string|unique:matkul,kode_mata_kuliah,' . $this->id_mata_kuliah . ',id_mata_kuliah',
+            'kode_mata_kuliah' => 'required|string',
             'nama_mata_kuliah' => 'required|string',
             'jenis_mata_kuliah' => 'required|string',
+            'nidn' => 'nullable|string',
             'kode_prodi' => 'required_if:jenis_mata_kuliah,Khusus Prodi|string|nullable',  // Required only if jenis_mata_kuliah is not "Umum"
             'sks_tatap_muka' => 'required|integer',
             'sks_praktek' => 'required|integer',
@@ -67,6 +70,7 @@ class Edit extends Component
             $this->nama_mata_kuliah = $matkul->nama_mata_kuliah;
             $this->jenis_mata_kuliah = $matkul->jenis_mata_kuliah;
             $this->kode_prodi = $matkul->kode_prodi;
+            $this->nidn = $matkul->nidn;
             $this->sks_tatap_muka = $matkul->sks_tatap_muka;
             $this->sks_praktek = $matkul->sks_praktek;
             $this->sks_praktek_lapangan = $matkul->sks_praktek_lapangan;
@@ -105,6 +109,7 @@ class Edit extends Component
             $this->nama_mata_kuliah = $matkul->nama_mata_kuliah;
             $this->jenis_mata_kuliah = $matkul->jenis_mata_kuliah;
             $this->kode_prodi = $matkul->kode_prodi;
+            $this->nidn = $matkul->nidn;
             $this->sks_tatap_muka = $matkul->sks_tatap_muka;
             $this->sks_praktek = $matkul->sks_praktek;
             $this->sks_praktek_lapangan = $matkul->sks_praktek_lapangan;
@@ -129,6 +134,7 @@ class Edit extends Component
             'kode_mata_kuliah' => $validatedData['kode_mata_kuliah'],
             'nama_mata_kuliah' => $validatedData['nama_mata_kuliah'],
             'jenis_mata_kuliah' => $validatedData['jenis_mata_kuliah'],
+            'nidn' => $validatedData['nidn'],
             'kode_prodi' => ($validatedData['jenis_mata_kuliah'] === 'Umum') ? null : $validatedData['kode_prodi'],
             'sks_tatap_muka' => $validatedData['sks_tatap_muka'],
             'sks_praktek' => $validatedData['sks_praktek'],
@@ -150,9 +156,11 @@ class Edit extends Component
     public function render()
     {
         $prodis = Prodi::all();
+        $dosens = Dosen::query()->orderBy('kode_prodi')->get();
         
         return view('livewire.admin.matkul.edit',[
-            'prodis' => $prodis
+            'prodis' => $prodis,
+            'dosens' => $dosens
         ]);
     }
 }
