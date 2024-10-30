@@ -9,76 +9,103 @@
 </head>
 
 <body>
-    <style>
-        h1,
-        h2,
-        h3,
-        h5,
-        h6 {
-            text-align: center;
-            color: darkviolet;
-        }
+    <table style="width: 100%; border: none;">
+        <tr>
+            <!-- Logo Kiri -->
+            <td style="width: 10%; text-align: left;">
+                <img style="width: 80px;" src="img/Politeknik_Piksi_Ganesha_Bandung.png">
+            </td>
 
-
-        .header-container img {
-            width: auto;
-            height: 100px;
-        }
-
-        /*
-        .row {
-            margin-top: 20px;
-        }
-
-        .keclogo {
-            font-size: 24px;
-            font-size: 3vw;
-        }
-
-        .kablogo {
-            font-size: 2vw;
-        }
-
-        .alamatlogo {
-            font-size: 1.5vw;
-        }
-
-        .kodeposlogo {
-            font-size: 1.7vw;
-        }
-
-        #tls {
-            text-align: right;
-        }
-
-        .alamat-tujuan {
-            margin-left: 50%;
-        } */
-
-        .garis1 {
-            border-top: 3px solid darkviolet;
-            height: 2px;
-            border-bottom: 1px solid darkviolet;
-        }
-    </style>
-
-    <header>
-        <div class="header-container">
-            <img id="logo" src="img/Politeknik_Piksi_Ganesha_Bandung.png" />
-            <div id="text-header">
-                <h2 class="keclogo"><strong>POLITEKNIK PIKSI GANESHA INDONESIA</strong></h2>
-                <h6 class="alamatlogo">
+            <!-- Informasi Kontak -->
+            <td style="width: 80%; text-align: center;">
+                <p style="color: darkviolet; font-size:24px; margin: 5px 0; font-family:'Segoe UI'">
+                    <strong>POLITEKNIK
+                        PIKSI
+                        GANESHA
+                        INDONESIA</strong>
+                </p>
+                <p style="color: darkviolet; margin: 5px 0; font-size:13px;">
                     Jln. Letnan Jendral Suprapto No. 73, Kranggan, Bumirejo, Kec. Kebumen, Kab. Kebumen, Jawa
                     Tengah,
                     Kebumen, Jawa Tengah, Indonesia 54311,
-                </h6>
-                <h6>
+                </p>
+                <p style="color: darkviolet; margin: 5px 0; font-size:12px">
                     Telepon/Faximile (0287) 381116, 383800 | email : politeknik
-                </h6>
-            </div>
+                </p>
+            </td>
+
+
+            <!-- Logo Kanan -->
+            <td style="width: 10%; text-align: right;">
+                <img style="width: 80px; color:darkviolet; opacity:50%" src="img/tut2.png">
+            </td>
+
+        </tr>
+    </table>
+    <hr style="border-top: 3px solid darkviolet; height: 2px; border-bottom: 1px solid darkviolet;">
+
+    <h3 style="font-family: helvetica; margin-top: 30px;color:darkviolet">
+        Bukti Pembayaran
+    </h3>
+
+    <table style="margin-left: 20px">
+        <tr>
+            <td style="padding: 5px;">NIM/Nama</td>
+            <td style="padding: 5px;">:</td>
+            <td style="padding: 5px;">{{ $NIM }} / {{ $nama }}</td>
+        </tr>
+        <tr>
+            <td style="padding: 5px;">Guna Pembayaran</td>
+            <td style="padding: 5px;">:</td>
+            <td style="padding: 5px;">Uang Kuliah Tunggal Semester {{ $semester }}</td>
+        </tr>
+        <tr>
+            <td style="padding: 5px;">Total Tagihan</td>
+            <td style="padding: 5px;">:</td>
+            <td style="padding: 5px;">{{ $total_tagihan }}</td>
+        </tr>
+        <tr>
+            <td style="padding: 5px;">Terbilang</td>
+            <td style="padding: 5px;">:</td>
+            <td style="padding: 5px;">{{ $x }} RUPIAH</td>
+        </tr>
+        <tr>
+            <td style="padding: 5px;">Sisa yang belum dibayar</td>
+            <td style="padding: 5px;">:</td>
+            <td style="padding: 5px;">{{ $kurang }}</td>
+        </tr>
+        <tr>
+            <td style="padding: 5px;">Status Pembayaran</td>
+            <td style="padding: 5px;">:</td>
+            <td style="padding: 5px;">{{ $status }}</td>
+        </tr>
+    </table>
+    <h3 style="font-family: helvetica; margin-top: 30px; color:darkviolet; margin-bottom:0%">
+        Catatan
+    </h3>
+    <ul style="margin-top: 0%">
+        <li style="padding:12px">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Animi veniam fugiat cum cupiditate repudiandae
+            alias sit, eaque est ut quibusdam corrupti voluptatem debitis illo recusandae nemo dolor,
+            necessitatibus, non natus.
+        </li>
+        <li style="padding:12px">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Animi veniam fugiat cum cupiditate repudiandae
+            alias sit, eaque est ut quibusdam corrupti voluptatem debitis illo recusandae nemo dolor,
+            necessitatibus, non natus.
+        </li>
+    </ul>
+    <div style="margin-top: 16%">
+        <div class="col-md-4"></div>
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <p style=" text-align:center;"><strong>Kebumen, {{ $tanggal }}</strong></p>
+            <p style=" text-align:center;"><strong>Penerima,</strong></p>
+            <div style="margin-top:100px;text-align:center;"><strong><u>TRI MARTONO, SH, MM</u></strong><br />
+                Pembina Tk. I<br />
+                NIP. 196703221995031001</div>
         </div>
-    </header>
-    <hr class="garis1" />
+    </div>
 </body>
 
 </html>

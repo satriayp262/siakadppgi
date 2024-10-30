@@ -59,6 +59,7 @@
                                 class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
                                 <option value="" disabled selected>Role</option>
                                 <option value="admin">Admin</option>
+                                <option value="mahasiswa">Mahasiswa</option>
                                 <option value="dosen">Dosen</option>
                                 <option value="staff">Staff</option>
                             </select>
