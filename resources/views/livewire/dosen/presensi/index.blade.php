@@ -4,7 +4,7 @@
         <div class="flex justify-between mt-2">
             <livewire:dosen.presensi.create-token />
             <input type="text" wire:model.live="search" placeholder="   Search"
-            class="px-2 ml-4 border border-gray-300 rounded-lg">
+                class="px-2 ml-4 border border-gray-300 rounded-lg">
         </div>
         <div>
             @if (session()->has('message'))
@@ -53,8 +53,11 @@
                         <td class="px-4 py-2 text-center">
                             {{ \Carbon\Carbon::parse($tokenItem->valid_until)->format('d F Y / H:i:s') }}</td>
                         <td class="px-4 py-2 text-center flex-col space-x-1 items-center">
-                            <button onclick="copyToken('{{ $tokenItem->token }}')"
-                                class="px-2 py-1 text-white bg-blue-500 hover:bg-blue-600 rounded text-center">
+                            <button
+                                onclick="{{ $tokenItem->valid_until < now() ? '' : 'copyToken(\'' . $tokenItem->token . '\')' }}"
+                                class="px-2 py-1 text-white bg-blue-500 hover:bg-blue-600 rounded text-center
+                                {{ $tokenItem->valid_until < now() ? 'bg-gray-500 hover:bg-gray-600 cursor-not-allowed' : '' }}"
+                                {{ $tokenItem->valid_until < now() ? 'disabled' : '' }}>
                                 <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                                     viewBox="0 0 24 24">
@@ -66,6 +69,7 @@
                                         clip-rule="evenodd" />
                                 </svg>
                             </button>
+
                             <button onclick="window.location='{{ route('dosen.detail_presensi', $tokenItem->token) }}'"
                                 class="px-2 py-1 text-white bg-yellow-500 hover:bg-yellow-600 rounded"><svg
                                     class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"

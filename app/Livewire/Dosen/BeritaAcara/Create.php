@@ -18,7 +18,7 @@ class Create extends Component
             'tanggal' => 'required|date',
             'nidn' => 'required|string|min:10|max:10',
             'materi' => 'required|string',
-            'id_mata_kuliah' => 'required|string|max:255',
+            'id_mata_kuliah' => 'required|integer|max:255',
             'jumlah_mahasiswa' => 'required|integer',
         ];
     }
