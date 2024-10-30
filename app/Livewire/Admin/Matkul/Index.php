@@ -122,9 +122,12 @@ class Index extends Component
             ->orWhereHas('prodi', function ($query) {
                 $query->where('nama_prodi', 'like', '%' . $this->search . '%');
             })
+            ->orWhereHas('dosen', function ($query) {
+                $query->where('nama_dosen', 'like', '%' . $this->search . '%');
+            })
             ->orWhere('jenis_mata_kuliah', 'like', '%' . $this->search . '%')
             ->orWhere('metode_pembelajaran', 'like', '%' . $this->search . '%')
-            ->latest()
+            ->orderBy('kode_mata_kuliah')
             ->paginate(10);
 
         return view('livewire.admin.matkul.index', [

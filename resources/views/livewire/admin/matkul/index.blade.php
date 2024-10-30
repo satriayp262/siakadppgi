@@ -158,36 +158,5 @@
                 .value));
             });
         });
-
-
-        function confirmDeleteSelected() {
-            const selectedMatkul = @this.selectedMatkul; // Dapatkan data dari Livewire
-
-            console.log(selectedMatkul); // Tambahkan log untuk memeriksa nilai
-
-            if (selectedMatkul.length === 0) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Tidak ada data yang dipilih!',
-                    text: 'Silakan pilih data yang ingin dihapus terlebih dahulu.',
-                });
-                return;
-            }
-
-            Swal.fire({
-                title: `Apakah anda yakin ingin menghapus ${selectedMatkul.length} data mata kuliah?`,
-                text: "Data yang telah dihapus tidak dapat dikembalikan!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#6c757d',
-                confirmButtonText: 'Hapus'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Panggil method Livewire untuk menghapus data terpilih
-                    @this.call('destroySelected');
-                }
-            });
-        }
     </script>
 </div>
