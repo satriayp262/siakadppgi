@@ -36,12 +36,15 @@ class CreateToken extends Component
             'id' => Auth::user()->id,
         ]);
 
-        $this->resetExcept('matkul');
+        $this->reset();
         $this->dispatch('tokenCreated', $token);
     }
 
     public function render()
     {
-        return view('livewire.dosen.presensi.create-token');
+        $matkuls = Matakuliah::all();
+        return view('livewire.dosen.presensi.create-token',[
+            'matkuls' => $matkuls
+        ]);
     }
 }

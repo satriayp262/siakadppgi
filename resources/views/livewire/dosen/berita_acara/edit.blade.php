@@ -44,7 +44,7 @@
                                 <select id="id_mata_kuliah" wire:model="id_mata_kuliah" name="id_mata_kuliah"
                                     class="block w-full py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring px-2 focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
                                     <option value="">Pilih Mata Kuliah</option>
-                                    @foreach ($matkul as $m)
+                                    @foreach ($matkuls as $m)
                                         <option value="{{ (string) $m->id_mata_kuliah }}">{{ $m->nama_mata_kuliah }}
                                         </option>
                                     @endforeach

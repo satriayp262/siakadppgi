@@ -82,7 +82,7 @@ class Index extends Component
     {
         $mahasiswa = Mahasiswa::find($id_mahasiswa);
         $mahasiswa->delete();
-        $this->dispatch('destroyed', ['message' => 'Mahasiswa deleted Successfully']);
+        $this->dispatch('destroyed', params: ['message' => 'Mahasiswa deleted Successfully']);
 
         // session()->flash('message', 'Mahasiswa Berhasil di Hapus');
         // session()->flash('message_type', 'error');
