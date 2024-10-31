@@ -10,6 +10,7 @@ class Create extends Component
 {
     public $name;
     public $email;
+    public $nim;
     public $password;
     public $role = '';
 
@@ -18,6 +19,7 @@ class Create extends Component
         return [
             'name' => 'required|string',
             'email' => 'required|email|unique:users,email',
+            'nim' => 'nullable|string|unique:users,nim_nidn',
             'password' => 'required|min:8',
             'role' => 'required|in:admin,dosen,mahasiswa,staff',
         ];
@@ -31,6 +33,7 @@ class Create extends Component
             'email.required' => 'Email tidak boleh kosong',
             'email.email' => 'Email tidak valid',
             'email.unique' => 'Email sudah terdaftar',
+            'nim.unique' => 'NIM / NIDN sudah terdaftar',
             'password.required' => 'Password tidak boleh kosong',
             'password.min' => 'Password minimal 8 karakter',
             'role.required' => 'Role tidak boleh kosong',
@@ -45,6 +48,7 @@ class Create extends Component
         $user = User::create([
             'name' => $validatedData['name'],
             'email' => $validatedData['email'],
+            'nim_nidn' => $validatedData['nim'],
             'password' => Hash::make($validatedData['password']),
             'role' => $validatedData['role'],
         ]);

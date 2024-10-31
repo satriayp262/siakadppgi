@@ -145,6 +145,11 @@ class Index extends Component
         }
     }
 
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+
     public $id_dosen, $nama_dosen, $nidn, $jenis_kelamin, $jabatan_fungsional, $kepangkatan, $kode_prodi;
     public function render()
     {

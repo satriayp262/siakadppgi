@@ -79,6 +79,7 @@ Route::middleware(['auth', CheckRole::class . ':dosen'])->prefix('dosen')->group
     Route::get('/berita_acara', App\Livewire\Dosen\BeritaAcara\Index::class)->name('dosen.berita_acara');
     Route::get('/presensi', App\Livewire\Dosen\Presensi\Index::class)->name('dosen.presensi');
     Route::get('/presensi/{token}', App\Livewire\Dosen\Presensi\DetailPresensi::class)->name('dosen.detail_presensi');
+    Route::get('/input_nilai', App\Livewire\Dosen\InputNilai\Index::class)->name('dosen.input_nilai');
 });
 
 // staff

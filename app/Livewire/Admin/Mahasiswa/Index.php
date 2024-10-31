@@ -161,8 +161,10 @@ class Index extends Component
 
     }
 
-
-
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
 
     public function render()
     {

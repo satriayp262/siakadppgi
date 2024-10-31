@@ -41,13 +41,14 @@
         </div>
     </div>
 
-    <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
+    <div class="max-w-full p-4 mt-4 mb-4 bg-white rounded-lg shadow-lg">
         <table class="min-w-full mt-4 bg-white border border-gray-200">
             <thead>
                 <tr class="items-center w-full text-sm text-white align-middle bg-gray-800">
                     <th class="px-4 py-2 text-center">No.</th>
                     <th class="px-4 py-2 text-center">Nama</th>
                     <th class="px-4 py-2 text-center">Email</th>
+                    <th class="px-4 py-2 text-center">NIM / NIDN</th>
                     <th class="px-4 py-2 text-center">Role</th>
                     <th class="px-4 py-2 text-center">Aksi</th>
                 </tr>
@@ -57,9 +58,10 @@
                     <tr class="border-t" wire:key="user-{{ $user->id }}">
                         <td class="px-4 py-2 text-center">
                             {{ ($users->currentPage() - 1) * $users->perPage() + $loop->iteration }}</td>
-                        <td class="px-4 py-2 text-center w-1/4">{{ $user->name }}</td>
-                        <td class="px-4 py-2 text-center w-1/4">{{ $user->email }}</td>
-                        <td class="px-4 py-2 text-center w-1/4">
+                        <td class="w-1/4 px-4 py-2 text-center">{{ $user->name }}</td>
+                        <td class="w-1/4 px-4 py-2 text-center">{{ $user->email }}</td>
+                        <td class="w-1/4 px-4 py-2 text-center">{{ $user->nim_nidn }}</td>
+                        <td class="w-1/4 px-4 py-2 text-center">
                             @php
                                 $roleColors = [
                                     'admin' => 'bg-blue-400 ',
@@ -73,7 +75,7 @@
                                 {{ ucfirst($user->role) }}
                             </span>
                         </td>
-                        <td class="px-4 py-2 text-center w-1/2">
+                        <td class="w-1/2 px-4 py-2 text-center">
                             <div class="flex justify-center space-x-2">
                                 <livewire:admin.user.edit :id="$user->id" wire:key="edit-{{ $user->id }}" />
                                 <button class="inline-block px-4 py-1 text-white bg-red-500 rounded hover:bg-red-700"

@@ -71,6 +71,11 @@ class Index extends Component
         $this->dispatch('semesterDeleted');
     }
 
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+
     public function render()
     {
         $semesters = Semester::query()
