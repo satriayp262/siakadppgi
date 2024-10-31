@@ -74,6 +74,11 @@ class Index extends Component
         session()->flash('message_type', 'error');
     }
 
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+
     public function render()
     {
         $kelases = Kelas::query()
