@@ -114,6 +114,11 @@ class Index extends Component
         $this->dispatch('matkulDeleted');
     }
 
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+
     public function render()
     {
         $matkuls = Matakuliah::query()
