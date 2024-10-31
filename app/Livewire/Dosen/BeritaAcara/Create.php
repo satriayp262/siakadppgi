@@ -37,12 +37,6 @@ class Create extends Component
         }
     }
 
-    public function resetForm()
-    {
-        $this->reset(['tanggal', 'materi', 'jumlah_mahasiswa']);
-    }
-
-
     public function save()
     {
         $validatedData = $this->validate();
@@ -55,10 +49,9 @@ class Create extends Component
             'jumlah_mahasiswa' => $validatedData['jumlah_mahasiswa'],
         ]);
 
-        $this->dispatch('acaraCreated');
+        $this->reset();
 
-        // Call resetForm method
-        $this->resetForm();
+        $this->dispatch('acaraCreated');
     }
 
     public function messages()
@@ -74,6 +67,9 @@ class Create extends Component
 
     public function render()
     {
-        return view('livewire.dosen.berita_acara.create');
+        $matkuls = Matakuliah::all();
+        return view('livewire.dosen.berita_acara.create',[
+            'matkuls' => $matkuls
+        ]);
     }
 }

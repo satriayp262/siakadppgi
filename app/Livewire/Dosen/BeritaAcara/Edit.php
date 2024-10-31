@@ -24,7 +24,7 @@ class Edit extends Component
 
     public function clear($id_berita_acara)
     {
-        $this->resetExcept('matkul');
+        $this->reset();
 
         $acara = BeritaAcara::find($id_berita_acara);
         if ($acara) {
@@ -40,9 +40,19 @@ class Edit extends Component
 
     public function mount($id_berita_acara)
     {
+        $acara = BeritaAcara::find($id_berita_acara);
         $this->dosen = Dosen::all();
         $this->matkul = Matakuliah::all();
-        $this->clear($id_berita_acara);
+
+        if ($acara) {
+            $this->id_berita_acara = $acara->id_berita_acara;
+            $this->tanggal = $acara->tanggal;
+            $this->nidn = $acara->nidn;
+            $this->id_mata_kuliah = $acara->id_mata_kuliah;
+            $this->materi = $acara->materi;
+            $this->jumlah_mahasiswa = $acara->jumlah_mahasiswa;
+            $this->loadDosenName($acara->nidn);
+        }
     }
 
     protected function loadDosenName($nidn)
@@ -59,13 +69,16 @@ class Edit extends Component
         if ($acara) {
             $acara->update($validatedData);
 
-            $this->resetExcept('matkul');
+            $this->reset();
             $this->dispatch('acaraUpdated');
         }
     }
 
     public function render()
     {
-        return view('livewire.dosen.berita_acara.edit');
+        $matkuls = Matakuliah::all();
+        return view('livewire.dosen.berita_acara.edit', [
+            'matkuls' => $matkuls
+        ]);
     }
 }

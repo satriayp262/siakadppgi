@@ -17,7 +17,7 @@
                             <label for="id_mata_kuliah">Mata Kuliah</label>
                             <select wire:model="id_mata_kuliah" class="border p-2 rounded w-full" required>
                                 <option value="">Pilih Mata Kuliah</option>
-                                @foreach($matkul as $matkul)
+                                @foreach($matkuls as $matkul)
                                     <option value="{{ $matkul->id_mata_kuliah }}">{{ $matkul->nama_mata_kuliah }}</option>
                                 @endforeach
                             </select>

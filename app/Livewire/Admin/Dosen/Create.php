@@ -56,7 +56,7 @@ class Create extends Component
             'kode_prodi' => $validatedData['kode_prodi'],
         ]);
 
-        $this->resetExcept('prodi');
+        $this->reset();
 
         $this->dispatch('dosenCreated');
 
@@ -66,6 +66,10 @@ class Create extends Component
 
     public function render()
     {
-        return view('livewire.admin.dosen.create');
+        $prodis = Prodi::all();
+
+        return view('livewire.admin.dosen.create',[
+            'prodis' => $prodis
+        ]);
     }
 }
