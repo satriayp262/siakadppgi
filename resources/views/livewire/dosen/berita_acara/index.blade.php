@@ -92,10 +92,26 @@
                 confirmButtonText: 'Hapus'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Panggil method Livewire jika konfirmasi diterima
                     @this.call('destroy', id_berita_acara);
                 }
             });
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const events = ['updated', 'created', 'destroyed'];
+            events.forEach(eventType => {
+                window.addEventListener(eventType, event => {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: event.detail.params.message,
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        window.dispatchEvent(new CustomEvent('modal-closed'));
+                    });
+                });
+            });
+        });
     </script>
+
 </div>

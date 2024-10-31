@@ -24,8 +24,10 @@ class Index extends Component
     #[On('acaraUpdated')]
     public function handleacaraUpdated()
     {
-        session()->flash('message', 'Berita Acara Berhasil di Update');
-        session()->flash('message_type', 'warning');
+        $this->dispatch('updated', params: ['message' => 'Berita Acara updated Successfully']);
+
+        // session()->flash('message', 'Berita Acara Berhasil di Update');
+        // session()->flash('message_type', 'warning');
     }
 
     public function destroy($id_berita_acara)
@@ -34,15 +36,19 @@ class Index extends Component
 
         $acara->delete();
 
-        session()->flash('message', 'Berita Acara Berhasil di Hapus');
-        session()->flash('message_type', 'error');
+        $this->dispatch('destroyed', params: ['message' => 'Berita Acara deleted Successfully']);
+
+        // session()->flash('message', 'Berita Acara Berhasil di Hapus');
+        // session()->flash('message_type', 'error');
     }
 
     #[On('acaraCreated')]
     public function handleacaraCreated()
     {
-        session()->flash('message', 'Berita Acara Berhasil di Tambahkan');
-        session()->flash('message_type', 'success');
+        $this->dispatch('created', params: ['message' => 'Berita Acara created Successfully']);
+
+        // session()->flash('message', 'Berita Acara Berhasil di Tambahkan');
+        // session()->flash('message_type', 'success');
     }
 
     public function mount()

@@ -54,6 +54,7 @@ class Create extends Component
         $this->dispatch('acaraCreated');
     }
 
+
     public function messages()
     {
         return [
@@ -68,7 +69,7 @@ class Create extends Component
     public function render()
     {
         $matkuls = Matakuliah::all();
-        return view('livewire.dosen.berita_acara.create',[
+        return view('livewire.dosen.berita_acara.create', [
             'matkuls' => $matkuls
         ]);
     }

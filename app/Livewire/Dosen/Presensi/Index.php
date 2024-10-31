@@ -17,8 +17,10 @@ class Index extends Component
     #[On('tokenCreated')]
     public function handletokenCreated($token)
     {
-        session()->flash('message', 'Token berhasil dibuat!');
-        session()->flash('message_type', 'success');
+        $this->dispatch('created', params: ['message' => 'Token created Successfully']);
+
+        // session()->flash('message', 'Token berhasil dibuat!');
+        // session()->flash('message_type', 'success');
     }
 
     public function render()

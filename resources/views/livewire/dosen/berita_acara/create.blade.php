@@ -1,4 +1,4 @@
-<div x-data="{ isOpen: false }" @modal-closed.window="isOpen = false" @acaraCreated.window="isOpen = false">
+<div x-data="{ isOpen: false }" @modal-closed.window="isOpen = false">
     <!-- Button to open the modal -->
     <button @click="isOpen=true"
         class="flex items-center px-4 py-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">
@@ -75,7 +75,7 @@
                         <div class="flex justify-end p-4 bg-gray-200 rounded-b-lg">
                             <button type="button" @click="isOpen = false"
                                 class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">Close</button>
-                            <button type="submit"
+                            <button type="submit" @click="isOpen = false"
                                 class="px-4 py-2 ml-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">Submit</button>
                         </div>
                     </form>
