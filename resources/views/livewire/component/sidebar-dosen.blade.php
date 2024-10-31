@@ -1,8 +1,8 @@
-<div class="h-screen sticky top-16 left-0 -z-5 relative">
-    <div id="default-sidebar " class="h-full w-64 transition-transform -translate-x-full bg-gray-800 sm:translate-x-0"
+<div class="relative sticky left-0 h-screen top-16 -z-5">
+    <div id="default-sidebar " class="w-64 h-full transition-transform -translate-x-full bg-gray-800 sm:translate-x-0"
         aria-label="Sidebar">
         <div class="h-full px-3 py-4 ">
-            <ul class="space-y-2 font-medium relative sticky top-20">
+            <ul class="relative sticky space-y-2 font-medium top-20">
                 <li>
                     <a href="{{ route('dosen.jadwal') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
@@ -19,10 +19,10 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#"
+                    <a href="{{ route('dosen.input_nilai') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
-                        {{ request()->routeIs('dosen.nilai') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
-                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('dosen.nilai') ? 'text-white' : 'text-gray-500' }}"
+                        {{ request()->routeIs('dosen.input_nilai') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
+                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('dosen.input_nilai') ? 'text-white' : 'text-gray-500' }}"
                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                             fill="currentColor" viewBox="0 0 24 24">
                             <path fill-rule="evenodd"
