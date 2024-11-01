@@ -55,7 +55,7 @@ class Index extends Component
                         'password' => Hash::make($this->newPassword),
                     ]);
 
-                    $this->dispatch('updated', ['message' => 'Password Updated Successfully']);
+                    $this->dispatch('updated', ['message' => 'Password Berhasil di Update']);
                 }
             } else {
                 $this->dispatch('warning', ['message' => 'Password Baru Tidak Sama']);

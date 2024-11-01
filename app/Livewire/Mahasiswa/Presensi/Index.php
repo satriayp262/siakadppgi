@@ -29,20 +29,20 @@ class Index extends Component
     }
 
 
-    protected $rules = [
-        'token' => 'required|string|exists:token,token',
-    ];
+    // protected $rules = [
+    //     'token' => 'required|string|exists:token,token',
+    // ];
 
     public function submit()
     {
-        $this->validate();
+        // $this->validate();
 
         // Cari token berdasarkan input
         $tokenData = Token::where('token', $this->token)->first();
 
         // Jika token tidak ditemukan, return atau beri pesan error
         if (!$tokenData) {
-            session()->flash('error', 'Token tidak valid atau tidak ditemukan.');
+            $this->dispatch('warning', ['message' => 'Token tidak ditemukan']);
             return;
         }
 
@@ -54,7 +54,7 @@ class Index extends Component
             'waktu_submit' => Carbon::now(),
         ]);
 
-        session()->flash('message', 'Presensi berhasil disubmit!');
+        $this->dispatch('updated', ['message' => 'Presensi Berhasil di Submit']);
         $this->reset(['token']);
     }
 
