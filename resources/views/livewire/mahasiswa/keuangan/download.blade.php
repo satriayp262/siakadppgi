@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <table style="width: 100%; border: none;">
+    <table style="width: 100%; border: none; margin:0%">
         <tr>
             <!-- Logo Kiri -->
             <td style="width: 10%; text-align: left;">
@@ -30,7 +30,7 @@
                     Kebumen, Jawa Tengah, Indonesia 54311,
                 </p>
                 <p style="color: darkviolet; margin: 5px 0; font-size:12px">
-                    Telepon/Faximile (0287) 381116, 383800 | email : politeknik
+                    Telepon/Faximile (0287) 381116, 383800 | email : info@politeknik-kebumen.ac.id
                 </p>
             </td>
 
@@ -44,13 +44,13 @@
     </table>
     <hr style="border-top: 3px solid darkviolet; height: 2px; border-bottom: 1px solid darkviolet;">
 
-    <h3 style="font-family: helvetica; margin-top: 30px;color:darkviolet">
+    <h3 style="font-family: helvetica; margin-top: 30px;color:darkviolet;margin-top:2%">
         Bukti Pembayaran
     </h3>
 
-    <table style="margin-left: 20px">
+    <table style="margin-left: 20px margin-bottom:0%">
         <tr>
-            <td style="padding: 5px;">NIM/Nama</td>
+            <td style="padding: 5px;">NIM / Nama</td>
             <td style="padding: 5px;">:</td>
             <td style="padding: 5px;">{{ $NIM }} / {{ $nama }}</td>
         </tr>
@@ -80,30 +80,33 @@
             <td style="padding: 5px;">{{ $status }}</td>
         </tr>
     </table>
-    <h3 style="font-family: helvetica; margin-top: 30px; color:darkviolet; margin-bottom:0%">
+    <h3 style="font-family: helvetica; margin-top: 30px; color:darkviolet; margin-top:2%">
         Catatan
     </h3>
-    <ul style="margin-top: 0%">
-        <li style="padding:12px">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Animi veniam fugiat cum cupiditate repudiandae
-            alias sit, eaque est ut quibusdam corrupti voluptatem debitis illo recusandae nemo dolor,
-            necessitatibus, non natus.
+    <ul style="margin-top: 0%; margin-bottom:0%">
+        <li style="padding:1px">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Animi veniam fugiat cum cupiditate repudiandae.
         </li>
-        <li style="padding:12px">
+        <li style="padding:1px">
             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Animi veniam fugiat cum cupiditate repudiandae
-            alias sit, eaque est ut quibusdam corrupti voluptatem debitis illo recusandae nemo dolor,
-            necessitatibus, non natus.
+            alias sit, eaque est ut.
         </li>
     </ul>
-    <div style="margin-top: 16%">
-        <div class="col-md-4"></div>
-        <div class="col-md-4"></div>
+    <div style="margin-top: 0%">
         <div class="col-md-4">
-            <p style=" text-align:center;"><strong>Kebumen, {{ $tanggal }}</strong></p>
-            <p style=" text-align:center;"><strong>Penerima,</strong></p>
-            <div style="margin-top:100px;text-align:center;"><strong><u>TRI MARTONO, SH, MM</u></strong><br />
+            <p style=" text-align:center; margin-bottom:0%"><strong>Kebumen, {{ $tanggal }}</strong></p>
+            <p style=" text-align:center;position: relative; left: -60px; margin-top:0%"><strong>Penerima,</strong></p>
+            <div style="position: relative; text-align: center;margin-bottom:30px">
+                <img src="img/ttd.jpg" alt=""
+                    style="width: auto; height:100px; position: absolute; top: 0; left: 50%; transform: translateX(-50%);">
+                <img src="img/Politeknik_Piksi_Ganesha_Bandung.png" alt=""
+                    style="opacity:50%; width:auto; height:90px; position: relative; left: -60px; transform: rotate(-10deg);">
+            </div>
+            <div style="margin-top:200px;text-align:center;margin-top:0%"><strong>TRI MARTONO, SH,
+                    MM</strong><br />
                 Pembina Tk. I<br />
-                NIP. 196703221995031001</div>
+                NIP. 196703221995031001
+            </div>
         </div>
     </div>
 </body>

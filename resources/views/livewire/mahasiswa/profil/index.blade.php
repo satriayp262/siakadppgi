@@ -1,5 +1,5 @@
 <div class="flex flex-col p-4">
-    <div class="bg-white shadow-lg w-full p-4 mb-6 rounded-lg">
+    <div class="w-full p-4 mb-6 bg-white rounded-lg shadow-lg">
         <div class="flex flex-col">
             <span class="mb-6 text-lg font-semibold">
                 Data Mahasiswa
@@ -44,7 +44,7 @@
             </div>
         </div>
     </div>
-    <div class="bg-white shadow-lg flex w-full p-4 rounded-lg">
+    <div class="flex w-full p-4 bg-white rounded-lg shadow-lg">
         <!-- Form on the left side -->
         <div class="flex flex-col w-full">
             @if (session()->has('message'))
@@ -80,7 +80,7 @@
                 <div class="flex flex-col">
                     <label>Password Lama</label>
                     <div class="flex items-center">
-                        <input id="currentPassword" type="password"  wire:model="currentPassword" class="w-1/4 p-2 border border-gray-500 rounded-lg">
+                        <input id="currentPassword" type="password"  wire:model="currentPassword" wire:key="currentPassword-{{ now() }}" class="w-1/4 p-2 border border-gray-500 rounded-lg">
                         <button type="button" onclick="togglePassword('currentPassword', this)" class="ml-2">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 eye-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke="currentColor" stroke-width="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z"/>
@@ -91,7 +91,7 @@
 
                     <label>Password Baru</label>
                     <div class="flex items-center">
-                        <input id="newPassword" type="password" wire:model="newPassword" class="w-1/4 p-2 border border-gray-500 rounded-lg">
+                        <input id="newPassword" type="password" wire:model="newPassword" wire:key="newPassword-{{ now() }}" class="w-1/4 p-2 border border-gray-500 rounded-lg">
                         <button type="button" onclick="togglePassword('newPassword', this)" class="ml-2">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 eye-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke="currentColor" stroke-width="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z"/>
@@ -102,7 +102,7 @@
 
                     <label>Konfirmasi Password Baru</label>
                     <div class="flex items-center">
-                        <input id="confirmPassword" type="password" wire:model="confirmPassword" class="w-1/4 p-2 border border-gray-500 rounded-lg">
+                        <input id="confirmPassword" type="password" wire:model="confirmPassword" wire:key="confirmPassword-{{ now() }}" class="w-1/4 p-2 border border-gray-500 rounded-lg">
                         <button type="button" onclick="togglePassword('confirmPassword', this)" class="ml-2">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 eye-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke="currentColor" stroke-width="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z"/>

@@ -18,10 +18,7 @@ class Index extends Component
     public function mount()
     {
         // Ambil user yang login
-        $user = Auth::user();
-        $mahasiswa = Mahasiswa::where('id_user', $user->id)->first();
-        $this->nim = $mahasiswa->NIM ?? null;
-        $this->nama = $mahasiswa->nama;
+        $mahasiswa = Mahasiswa::where('NIM', Auth()->user()->nim_nidn)->first();
         if ($mahasiswa) {
             $this->nama = $mahasiswa->nama;
             $this->nim = $mahasiswa->NIM;
@@ -32,20 +29,20 @@ class Index extends Component
     }
 
 
-    protected $rules = [
-        'token' => 'required|string|exists:token,token',
-    ];
+    // protected $rules = [
+    //     'token' => 'required|string|exists:token,token',
+    // ];
 
     public function submit()
     {
-        $this->validate();
+        // $this->validate();
 
         // Cari token berdasarkan input
         $tokenData = Token::where('token', $this->token)->first();
 
         // Jika token tidak ditemukan, return atau beri pesan error
         if (!$tokenData) {
-            session()->flash('error', 'Token tidak valid atau tidak ditemukan.');
+            $this->dispatch('warning', ['message' => 'Token tidak ditemukan']);
             return;
         }
 
@@ -57,7 +54,7 @@ class Index extends Component
             'waktu_submit' => Carbon::now(),
         ]);
 
-        session()->flash('message', 'Presensi berhasil disubmit!');
+        $this->dispatch('updated', ['message' => 'Presensi Berhasil di Submit']);
         $this->reset(['token']);
     }
 
