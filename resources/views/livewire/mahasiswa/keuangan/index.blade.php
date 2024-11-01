@@ -98,18 +98,44 @@
                                 </span>
                             </td>
                             <td class="px-4 py-2 text-center">
-
-                                <a href="{{ route('mahasiswa.download', $tagihan->id_tagihan) }}" target="_blank"
-                                    class="inline-block px-4 py-1 text-white bg-purple-500 hover:bg-purple-600 rounded">
-                                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
-                                        viewBox="0 0 24 24">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M4 15v2a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-2m-8 1V4m0 12-4-4m4 4 4-4" />
-                                    </svg>
-
-                                </a>
+                                @if ($tagihan->status_tagihan === 'Lunas')
+                                    <a href="{{ route('mahasiswa.download', $tagihan->id_tagihan) }}" target="_blank"
+                                        class="inline-block px-4 py-1 text-white bg-purple-500 hover:bg-purple-600 rounded">
+                                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M4 15v2a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-2m-8 1V4m0 12-4-4m4 4 4-4" />
+                                        </svg>
+                                    </a>
+                                @else
+                                    @if ($tagihan->total_bayar == 0)
+                                        <button
+                                            onclick="Swal.fire('Reminder', 'UKT nya dibayar dulu ya gesss', 'warning')"
+                                            class="inline-block px-4 py-1 text-white bg-red-500 hover:bg-red-600 rounded">
+                                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                fill="none" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" stroke-linecap="round"
+                                                    stroke-linejoin="round" stroke-width="2"
+                                                    d="M4 15v2a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-2m-8 1V4m0 12-4-4m4 4 4-4" />
+                                            </svg>
+                                        </button>
+                                    @else
+                                        <a href="{{ route('mahasiswa.download', $tagihan->id_tagihan) }}"
+                                            target="_blank"
+                                            class="inline-block px-4 py-1 text-white bg-purple-500 hover:bg-purple-600 rounded">
+                                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                fill="none" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" stroke-linecap="round"
+                                                    stroke-linejoin="round" stroke-width="2"
+                                                    d="M4 15v2a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-2m-8 1V4m0 12-4-4m4 4 4-4" />
+                                            </svg>
+                                        </a>
+                                    @endif
+                                @endif
                             </td>
                         </tr>
                     @endforeach
