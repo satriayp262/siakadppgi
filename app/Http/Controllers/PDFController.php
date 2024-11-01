@@ -166,31 +166,32 @@ class PDFController extends Controller
         }
 
 
-        $tagihan->y = 'Rp. ' . number_format($tagihan->total_tagihan, 2, ',', '.');
+        $y = 'Rp. ' . number_format($tagihan->total_tagihan, 2, ',', '.');
 
-        $tagihan->total_tagihan_terbilang = $this->terbilang($tagihan->total_tagihan);
+        $total_tagihan_terbilang = $this->terbilang($tagihan->total_tagihan);
 
-        $tagihan->z = (int) $tagihan->total_tagihan - (int) $tagihan->total_bayar;
+        $z = (int) $tagihan->total_tagihan - (int) $tagihan->total_bayar;
 
-        $tagihan->q = 'Rp. ' . number_format($tagihan->z, 2, ',', '.');
+        $q = 'Rp. ' . number_format($z, 2, ',', '.');
 
+        $tanggal = $tagihan->updated_at->locale('id')->isoFormat('D MMMM YYYY');
 
         $pdfData = [
             'title' => 'BuktiPembayaran-' . $tagihan->mahasiswa->nama . '-' . $tagihan->semester->nama_semester,
-            'tanggal' => date('d F Y'),
-            'kurang' => $tagihan->q,
+            'tanggal' => $tanggal,
+            'kurang' => $q,
             'id_tagihan' => $tagihan->id_tagihan,
             'nama' => $tagihan->mahasiswa->nama,
             'NIM' => $tagihan->NIM,
-            'total_tagihan' => $tagihan->y,
-            'x' => $tagihan->total_tagihan_terbilang,
+            'total_tagihan' => $y,
+            'x' => $total_tagihan_terbilang,
             'semester' => $tagihan->semester->nama_semester,
             'total_bayar' => $tagihan->total_bayar,
             'status' => $tagihan->status_tagihan,
         ];
 
         // Load the view and pass data to it, then generate the PDF
-        $pdf = Pdf::loadView('livewire.mahasiswa.keuangan.download', $pdfData)->setPaper('a4', 'portrait');
+        $pdf = Pdf::loadView('livewire.mahasiswa.keuangan.download', $pdfData)->setPaper('a4', 'landscape');
 
         // Return the generated PDF file as a response for download
         return $pdf->stream('BuktiPembayaran-' . $tagihan->mahasiswa->nama . '-' . $tagihan->semester->nama_semester . '.pdf');
