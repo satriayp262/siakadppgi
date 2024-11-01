@@ -18,10 +18,7 @@ class Index extends Component
     public function mount()
     {
         // Ambil user yang login
-        $user = Auth::user();
-        $mahasiswa = Mahasiswa::where('id_user', $user->id)->first();
-        $this->nim = $mahasiswa->NIM ?? null;
-        $this->nama = $mahasiswa->nama;
+        $mahasiswa = Mahasiswa::where('NIM', Auth()->user()->nim_nidn)->first();
         if ($mahasiswa) {
             $this->nama = $mahasiswa->nama;
             $this->nim = $mahasiswa->NIM;

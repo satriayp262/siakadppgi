@@ -19,14 +19,14 @@ class Index extends Component
     public $jenis_pendaftaran;
     public $no;
     public $prodi;
-    public $currentPassword;
-    public $newPassword;
-    public $confirmPassword;
+    public $NIM;
+    public $currentPassword = '';
+    public $newPassword = '';
+    public $confirmPassword = '';
 
     public function mount()
     {
-        $user = Auth::user();
-        $mahasiswa = Mahasiswa::where('id_user', $user->id)->first();
+        $mahasiswa = Mahasiswa::where('NIM', Auth()->user()->nim_nidn)->first();
         $this->nim = $mahasiswa->NIM ?? null;
         $this->nama = $mahasiswa->nama;
         $this->tempat_lahir = $mahasiswa->tempat_lahir;
@@ -36,6 +36,7 @@ class Index extends Component
         $this->jenis_pendaftaran = $mahasiswa->jalur_pendaftaran;
         $this->no = $mahasiswa->no_hp;
         $this->prodi = Prodi::where('kode_prodi', $mahasiswa->kode_prodi)->first()->nama_prodi;
+        $this->NIM = $mahasiswa->NIM;
     }
 
     public function resetpw()
@@ -48,29 +49,23 @@ class Index extends Component
             if ($this->newPassword === $this->confirmPassword) {
                 // Update the user's password with the hashed new password
                 if ($this->newPassword === $this->currentPassword) {
-                    session()->flash('message', 'Password baru tidak boleh sama dengan password lama');
-                    session()->flash('message_type', 'error');
+                    $this->dispatch('warning', ['message' => 'Password Baru Tidak Boleh Sama Dengan Password Lama']);
                 } else {
                     $user->update([
                         'password' => Hash::make($this->newPassword),
                     ]);
 
-                    session()->flash('message', 'Password Berhasil direset');
-                    session()->flash('message_type', 'success');
+                    $this->dispatch('updated', ['message' => 'Password Updated Successfully']);
                 }
             } else {
-                session()->flash('message', 'Password baru tidak sama');
-                session()->flash('message_type', 'error');
+                $this->dispatch('warning', ['message' => 'Password Baru Tidak Sama']);
+
             }
         } else {
-            session()->flash('message', 'Password lama salah');
-            session()->flash('message_type', 'error');
+            $this->dispatch('warning', ['message' => 'Password Lama Tidak Sesuai']);
         }
-
-        $this->currentPassword = null;
-        $this->newPassword = null;
-        $this->confirmPassword = null;
-
+        $this->reset('currentPassword', 'newPassword', 'confirmPassword');
+        // dd($this->currentPassword, $this->newPassword, $this->confirmPassword);
     }
 
     public function render()

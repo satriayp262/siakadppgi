@@ -117,6 +117,20 @@
                 });
             });
         });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            window.addEventListener('warning', event => {
+                Swal.fire({
+                    title: 'Error!',
+                    text: event.detail[0].message,
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    // Dispatch the modal-closed event to close the modal
+                    window.dispatchEvent(new CustomEvent('modal-closed'));
+                });
+            });
+        });
     </script>
     @livewireScripts
 </body>
