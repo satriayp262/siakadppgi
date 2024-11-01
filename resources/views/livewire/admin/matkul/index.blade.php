@@ -85,7 +85,7 @@
                         <td class="px-3 py-1 text-center">{{ ++$iteration }}</td>
                         <td class="px-3 py-1 text-center">{{ $matkul->kode_mata_kuliah }}</td>
                         <td class="px-3 py-1 text-center">{{ $matkul->nama_mata_kuliah }}</td>
-                        <td class="px-3 py-1 text-center">{{ $matkul->dosen->nama_dosen }}</td>
+                        <td class="px-3 py-1 text-center">{{ $matkul->dosen->nama_dosen ?? '-' }}</td>
                         <td class="px-3 py-1 text-center">{{ $matkul->prodi->nama_prodi ?? 'umum' }}</td>
                         <td class="px-3 py-1 text-center">{{ $matkul->metode_pembelajaran }}</td>
                         <td class="px-3 py-1 text-center">

@@ -14,7 +14,7 @@ class Edit extends Component
     {
         return [
             'nama_dosen' => 'required|string|max:255',
-            'nidn' => 'required|string|min:10|max:10|unique:dosen,nidn,' . $this->id_dosen,
+            'nidn' => 'required|string|min:10|max:10|unique:dosen,nidn,' . $this->id_dosen . ',id_dosen',
             'jenis_kelamin' => 'required|in:laki-laki,perempuan',
             'jabatan_fungsional' => 'required|string|max:255',
             'kepangkatan' => 'required|string|max:255',
@@ -68,7 +68,10 @@ class Edit extends Component
 
     public function render()
     {
-        return view('livewire.admin.dosen.edit');
+        $prodis = Prodi::all();
+
+        return view('livewire.admin.dosen.edit', [
+            'prodis' => $prodis,
+        ]);
     }
 }
-

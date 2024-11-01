@@ -113,6 +113,20 @@
                 console.error('Error copying text: ', err);
             });
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            window.addEventListener('created', event => {
+                Swal.fire({
+                    title: 'Success!',
+                    text: event.detail.params.message,
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    // Dispatch the modal-closed event to close the modal
+                    window.dispatchEvent(new CustomEvent('modal-closed'));
+                });
+            });
+        });
     </script>
 
 </div>

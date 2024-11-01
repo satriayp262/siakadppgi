@@ -84,7 +84,7 @@
                             <select id="kode_prodi" wire:model="kode_prodi" name="kode_prodi"
                                 class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
                                 <option value="" disabled selected>Select</option>
-                                @foreach ($prodi as $p)
+                                @foreach ($prodis as $p)
                                     <option value="{{ $p->kode_prodi }}">{{ $p->nama_prodi }}</option>
                                 @endforeach
                             </select>
@@ -97,7 +97,7 @@
                         <div class="flex justify-end p-4 bg-gray-200 rounded-b-lg">
                             <button type="button" @click="isOpen = false"
                                 class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">Close</button>
-                            <button type="submit"
+                            <button type="submit" @click="isOpen = false"
                                 class="px-4 py-2 ml-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">Submit</button>
                         </div>
                     </form>

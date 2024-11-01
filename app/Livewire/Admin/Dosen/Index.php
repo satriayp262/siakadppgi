@@ -27,11 +27,36 @@ class Index extends Component
     public $selectAll = false;
     public $showDeleteButton = false;
 
+    #[On('dosenCreated')]
+    public function handledosenCreated()
+    {
+        $this->dispatch('created', params: ['message' => 'Dosen created Successfully']);
+
+        // session()->flash('message', 'Dosen Berhasil di Tambahkan');
+        // session()->flash('message_type', 'success');
+    }
+
     #[On('dosenUpdated')]
     public function handledosenEdited()
     {
-        session()->flash('message', 'Dosen Berhasil di Update');
-        session()->flash('message_type', 'update');
+        $this->dispatch('updated', params: ['message' => 'Dosen updated Successfully']);
+
+        // session()->flash('message', 'Dosen Berhasil di Update');
+        // session()->flash('message_type', 'update');
+    }
+
+    public function destroy($id_dosen)
+    {
+        $dosen = Dosen::find($id_dosen);
+
+        // Hapus data dosen
+        $dosen->delete();
+
+        $this->dispatch('destroyed', params: ['message' => 'Dosen deleted Successfully']);
+
+        // Tampilkan pesan sukses
+        // session()->flash('message', 'Dosen Berhasil di Hapus');
+        // session()->flash('message_type', 'error');
     }
 
     public function updatedSelectAll($value)
@@ -63,26 +88,6 @@ class Index extends Component
         // Emit event ke frontend untuk reset checkbox
         session()->flash('message', 'Dosen Berhasil di Hapus');
         session()->flash('message_type', 'error');
-    }
-
-
-    public function destroy($id_dosen)
-    {
-        $dosen = Dosen::find($id_dosen);
-
-        // Hapus data dosen
-        $dosen->delete();
-
-        // Tampilkan pesan sukses
-        session()->flash('message', 'Dosen Berhasil di Hapus');
-        session()->flash('message_type', 'error');
-    }
-
-    #[On('dosenCreated')]
-    public function handledosenCreated()
-    {
-        session()->flash('message', 'Dosen Berhasil di Tambahkan');
-        session()->flash('message_type', 'success');
     }
 
     public function import()
@@ -138,6 +143,11 @@ class Index extends Component
         } finally {
             $this->reset('file');
         }
+    }
+
+    public function updatedSearch()
+    {
+        $this->resetPage();
     }
 
     public $id_dosen, $nama_dosen, $nidn, $jenis_kelamin, $jabatan_fungsional, $kepangkatan, $kode_prodi;

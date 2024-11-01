@@ -17,7 +17,7 @@
                             <label for="id_mata_kuliah">Mata Kuliah</label>
                             <select wire:model="id_mata_kuliah" class="border p-2 rounded w-full" required>
                                 <option value="">Pilih Mata Kuliah</option>
-                                @foreach($matkul as $matkul)
+                                @foreach($matkuls as $matkul)
                                     <option value="{{ $matkul->id_mata_kuliah }}">{{ $matkul->nama_mata_kuliah }}</option>
                                 @endforeach
                             </select>
@@ -31,7 +31,7 @@
                         <div class="flex justify-end p-4 bg-gray-200 rounded-b-lg">
                             <button type="button" @click="isOpen = false"
                                 class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">Close</button>
-                            <button type="submit"
+                            <button type="submit" @click="isOpen = false"
                                 class="px-4 py-2 ml-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">Submit</button>
                         </div>
                     </form>
