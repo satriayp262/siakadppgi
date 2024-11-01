@@ -19,19 +19,19 @@ class Orangtua_Wali extends Model
         'id_orangtua_wali',
         'nama_ayah',
         'NIK_ayah',
-        'no_telp_ayah',
+        'tanggal_lahir_ayah',
         'pendidikan_ayah',
         'pekerjaan_ayah',
         'penghasilan_ayah',
         'nama_ibu',
         'NIK_ibu',
-        'no_telp_ibu',
+        'tanggal_lahir_ibu',
         'pendidikan_ibu',
         'pekerjaan_ibu',
         'penghasilan_ibu',
         'nama_wali',
         'NIK_wali',
-        'no_telp_wali',
+        'tanggal_lahir_wali',
         'pendidikan_wali',
         'pekerjaan_wali',
         'penghasilan_wali'
@@ -39,16 +39,16 @@ class Orangtua_Wali extends Model
 
     public function pendidikanAyah()
     {
-        return $this->belongsTo(Pendidikan_Terakhir::class, 'pendidikan_ayah', 'id_pendidikan_terakhir');
+        return $this->belongsTo(Pendidikan_Terakhir::class, 'pendidikan_ayah', 'kode_pendidikan_terakhir');
     }
 
     public function pendidikanIbu()
     {
-        return $this->belongsTo(Pendidikan_Terakhir::class, 'pendidikan_ibu', 'id_pendidikan_terakhir');
+        return $this->belongsTo(Pendidikan_Terakhir::class, 'pendidikan_ibu', 'kode_pendidikan_terakhir');
     }
 
     public function pendidikanWali()
     {
-        return $this->belongsTo(Pendidikan_Terakhir::class, 'pendidikan_wali', 'id_pendidikan_terakhir');
+        return $this->belongsTo(Pendidikan_Terakhir::class, 'pendidikan_wali', 'kode_pendidikan_terakhir');
     }
 }

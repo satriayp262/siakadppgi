@@ -10,7 +10,8 @@
     </button>
 
     <!-- Modal Background -->
-    <div x-data="{ load: false }" x-show="isOpen && load" x-init="load = true" wire:init="loadMahasiswa" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-75">
+    <div x-data="{ load: false }" x-show="isOpen && load" x-init="load = true" wire:init="" x-cloak
+        class="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-75">
         <!-- Modal Content -->
         <div class="w-1/2 bg-white rounded-lg shadow-lg">
             <!-- Modal Header -->
@@ -208,6 +209,135 @@
                             <p class="text-sm text-gray-500">Rp.
                                 {{ $mahasiswa->jumlah_biaya_masuk ? number_format($mahasiswa->jumlah_biaya_masuk, 2, ',', '.') : 'Data Belum Ada' }}
                             </p>
+                        </div>
+
+                    </div>
+                    <h1 class="mt-2 text-xl font-bold text-left">Data Orang tua Wali</h1>
+                    <div class="grid grid-cols-3 mt-4">
+                        @php
+                            $penghasilan = [
+                                11 => 'Kurang dari Rp. 500,000',
+                                12 => 'Rp. 500,000 - Rp. 999,999',
+                                13 => 'Rp. 1,000,000 - Rp. 1,999,999',
+                                14 => 'Rp. 2,000,000 - Rp. 4,999,999',
+                                15 => 'Rp. 5,000,000 - Rp. 20,000,000',
+                                16 => 'Lebih dari Rp. 20,000,000',
+                            ];
+                            $kodePenghasilanAyah = $mahasiswa->orangtuaWali->penghasilan_ayah ?? null;
+                            $penghasilanAyah = $penghasilan[$kodePenghasilanAyah] ?? null;
+                            $kodePenghasilanIbu = $mahasiswa->orangtuaWali->penghasilan_ibu ?? null;
+                            $penghasilanIbu = $penghasilan[$kodePenghasilanIbu] ?? null;
+                            $kodePenghasilanWali = $mahasiswa->orangtuaWali->penghasilan_wali ?? null;
+                            $penghasilanWali = $penghasilan[$kodePenghasilanWali] ?? null;
+
+                            $pekerjaan = [
+                                1 => 'Tidak bekerja',
+                                2 => 'Nelayan',
+                                3 => 'Petani',
+                                4 => 'Peternak',
+                                5 => 'PNS/TNI/Polri',
+                                6 => 'Karyawan Swasta',
+                                7 => 'Pedagang Kecil',
+                                8 => 'Pedagang Besar',
+                                9 => 'Wiraswasta',
+                                10 => 'Wirausaha',
+                                11 => 'Buruh',
+                                12 => 'Pensiunan',
+                                13 => 'Peneliti',
+                                14 => 'Tim Ahli / Konsultan',
+                                15 => 'Magang',
+                                16 => 'Tenaga Pengajar / Instruktur / Fasilitator',
+                                17 => 'Pimpinan / Manajerial',
+                                98 => 'Sudah Meninggal',
+                                99 => 'Lainnya',
+                            ];
+                            $kodepekerjaanAyah = $mahasiswa->orangtuaWali->pekerjaan_ayah ?? null;
+                            $pekerjaanAyah = $pekerjaan[$kodepekerjaanAyah] ?? null;
+                            $kodepekerjaanIbu = $mahasiswa->orangtuaWali->pekerjaan_ibu ?? null;
+                            $pekerjaanIbu = $pekerjaan[$kodepekerjaanIbu] ?? null;
+                            $kodepekerjaanWali = $mahasiswa->orangtuaWali->pekerjaan_wali ?? null;
+                            $pekerjaanWali = $pekerjaan[$kodepekerjaanWali] ?? null;
+                        @endphp
+
+
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label class="block text-sm font-medium text-gray-700">Nama Ayah</label>
+                            <p class="text-sm text-gray-500">
+                                {{ $mahasiswa->orangtuaWali->nama_ayah ?? 'Data Belum Ada' }}</p>
+                        </div>
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label class="block text-sm font-medium text-gray-700">NIK Ayah</label>
+                            <p class="text-sm text-gray-500">
+                                {{ $mahasiswa->orangtuaWali->NIK_ayah ?? 'Data Belum Ada' }}</p>
+                        </div>
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label class="block text-sm font-medium text-gray-700">Pendidikan Ayah</label>
+                            <p class="text-sm text-gray-500">
+                                {{ $mahasiswa->orangtuaWali->pendidikanAyah->nama_pendidikan_terakhir ?? 'Data Belum Ada' }}
+                            </p>
+                        </div>
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label class="block text-sm font-medium text-gray-700">Pekerjaan Ayah</label>
+                            <p class="text-sm text-gray-500">
+                                {{ $pekerjaanAyah ?? 'Data Belum Ada' }}</p>
+                        </div>
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label class="block text-sm font-medium text-gray-700">Penghasilan Ayah</label>
+                            <p class="text-sm text-gray-500">{{ $penghasilanAyah ?? 'Data Belum Ada' }}</p>
+                        </div>
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label class="block text-sm font-medium text-gray-700">Nama Ibu</label>
+                            <p class="text-sm text-gray-500">
+                                {{ $mahasiswa->orangtuaWali->nama_ibu ?? 'Data Belum Ada' }}</p>
+                        </div>
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label class="block text-sm font-medium text-gray-700">NIK Ibu</label>
+                            <p class="text-sm text-gray-500">
+                                {{ $mahasiswa->orangtuaWali->NIK_ibu ?? 'Data Belum Ada' }}</p>
+                        </div>
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label class="block text-sm font-medium text-gray-700">Pendidikan Ibu</label>
+                            <p class="text-sm text-gray-500">
+                                {{ $mahasiswa->orangtuaWali->pendidikanIbu->nama_pendidikan_terakhir ?? 'Data Belum Ada' }}
+                            </p>
+                        </div>
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label class="block text-sm font-medium text-gray-700">Pekerjaan Ibu</label>
+                            <p class="text-sm text-gray-500">
+                                {{ $pekerjaanIbu ?? 'Data Belum Ada' }}
+                            </p>
+                        </div>
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label class="block text-sm font-medium text-gray-700">Penghasilan Ibu</label>
+                            <p class="text-sm text-gray-500">
+                                {{ $penghasilanIbu ?? 'Data Belum Ada' }}</p>
+                        </div>
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label class="block text-sm font-medium text-gray-700">Nama Wali</label>
+                            <p class="text-sm text-gray-500">
+                                {{ $mahasiswa->orangtuaWali->nama_wali ?? 'Data Belum Ada' }}</p>
+                        </div>
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label class="block text-sm font-medium text-gray-700">NIK Wali</label>
+                            <p class="text-sm text-gray-500">
+                                {{ $mahasiswa->orangtuaWali->NIK_wali ?? 'Data Belum Ada' }}</p>
+                        </div>
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label class="block text-sm font-medium text-gray-700">Pekerjaan Wali</label>
+                            <p class="text-sm text-gray-500">
+                                {{ $pekerjaanWali ?? 'Data Belum Ada' }}
+                            </p>
+                        </div>
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label class="block text-sm font-medium text-gray-700">Pendidikan Wali</label>
+                            <p class="text-sm text-gray-500">
+                                {{ $mahasiswa->orangtuaWali->pendidikanWali->nama_pendidikan_terakhir ?? 'Data Belum Ada' }}
+                            </p>
+                        </div>
+                        <div class="mb-4 text-left border w-full h-full p-2">
+                            <label class="block text-sm font-medium text-gray-700">Penghasilan Wali</label>
+                            <p class="text-sm text-gray-500">
+                                {{ $penghasilanWali ?? 'Data Belum Ada' }}</p>
                         </div>
                     </div>
                 </div>

@@ -13,27 +13,28 @@ return new class extends Migration
     {
         Schema::create('orangtua_wali', function (Blueprint $table) {
             $table->uuid('id_orangtua_wali')->primary();  // UUID sebagai primary key
-            $table->string('nama_ayah');
-            $table->string('NIK_ayah');
-            // $table->string('no_telp_ayah');
-            $table->string('pendidikan_ayah');
-            $table->string('pekerjaan_ayah');
-            $table->integer('penghasilan_ayah');
+            $table->string('nama_ayah')->nullable();
+            $table->string('NIK_ayah')->nullable();
+            $table->string('tanggal_lahir_ayah')->nullable();
+            $table->string('pendidikan_ayah')->nullable();
+            $table->string('pekerjaan_ayah')->nullable();
+            $table->string('penghasilan_ayah')->nullable();
 
             $table->string('nama_ibu');
-            $table->string('NIK_ibu');
-            // $table->string('no_telp_ibu');
-            $table->string('pekerjaan_ibu');
-            $table->string('pendidikan_ibu');
-            $table->integer('penghasilan_ibu');
+            $table->string('NIK_ibu')->nullable();
+            $table->string('tanggal_lahir_ibu')->nullable();
+            $table->string('no_telp_ibu')->nullable();
+            $table->string('pekerjaan_ibu')->nullable();
+            $table->string('pendidikan_ibu')->nullable();
+            $table->string('penghasilan_ibu')->nullable();
 
             // Field wali yang nullable
             $table->string('nama_wali')->nullable();
             $table->string('NIK_wali')->nullable();
-            // $table->string('no_telp_wali')->nullable();
+            $table->string('tanggal_lahir_wali')->nullable();
             $table->string('pekerjaan_wali')->nullable();
             $table->string('pendidikan_wali')->nullable();
-            $table->integer('penghasilan_wali')->nullable();
+            $table->string('penghasilan_wali')->nullable();
             $table->timestamps();
         });
     }
