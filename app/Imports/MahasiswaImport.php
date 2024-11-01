@@ -9,6 +9,8 @@ use Carbon\Carbon;
 use App\Models\Orangtua_Wali;
 use App\Models\Prodi;
 use App\Models\Semester;
+use App\Models\User;
+use Hash;
 
 class MahasiswaImport implements ToModel, WithHeadingRow
 {
@@ -95,24 +97,49 @@ class MahasiswaImport implements ToModel, WithHeadingRow
             $this->createdRecords[] = "NIM = {$row['nim']} ,";
             $this->rowNumber++;
         }
+
         $idSemester = Semester::where('nama_semester', $row['mulai_semester'])->first()->id_semester;
 
+        $existingUser = User::where('email', $row['email'])->first();
+
+        if ($existingUser) {
+            if ($existingUser->nim_nidn === $row['nim']) {
+                // Update existing user if nim_nidn matches
+                $existingUser->update([
+                'name' => $row['nama'],
+                'role' => 'mahasiswa'
+                ]);
+
+                $this->createdRecords[] = "Updated existing user with email {$row['email']} on row {$this->rowNumber}.<br>";
+            } else {
+                // If email exists but nim_nidn does not match, consider it a duplicate
+                $this->incompleteRecords[] = "Email {$row['email']} pada baris {$this->rowNumber} sudah terdaftar pada user lain.<br>";
+            }
+        } else {
+            $user = User::create([
+                'name' => $row['nama'],
+                'email' => $row['email'],
+                'password' => Hash::make($row['email']),
+                'nim_nidn' => $row['nim'],
+                'role' => 'mahasiswa'
+            ]);
+        }
         $orangtua_wali = Orangtua_Wali::create([
             'nama_ayah' => $row['nama_ayah'],
             'NIK_ayah' => $row['nik_ayah'],
-            // 'no_telp_ayah' => $row['no_telp_ayah'],
+            'tanggal_lahir_ayah' => $row['tanggal_lahir_ayah'],
             'pendidikan_ayah' => $row['pendidikan_ayah'],
             'pekerjaan_ayah' => $row['pekerjaan_ayah'],
             'penghasilan_ayah' => $row['penghasilan_ayah'],
             'nama_ibu' => $row['nama_ibu'],
             'NIK_ibu' => $row['nik_ibu'],
-            // 'no_telp_ibu' => $row['no_telp_ibu'],
+            'tanggal_lahir_ibu' => $row['tanggal_lahir_ibu'],
             'pendidikan_ibu' => $row['pendidikan_ibu'],
             'pekerjaan_ibu' => $row['pekerjaan_ibu'],
             'penghasilan_ibu' => $row['penghasilan_ibu'],
             'nama_wali' => $row['nama_wali'] ?? null,
             'NIK_wali' => $row['nik_wali'] ?? null,
-            // 'no_telp_wali' => $row['no_telp_wali'] ?? null,
+            'tanggal_lahir_wali' => $row['tanggal_lahir_wali'] ?? null,
             'pendidikan_wali' => $row['pendidikan_wali'] ?? null,
             'pekerjaan_wali' => $row['pekerjaan_wali'] ?? null,
             'penghasilan_wali' => $row['penghasilan_wali'] ?? null,

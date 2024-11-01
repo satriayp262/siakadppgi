@@ -29,7 +29,7 @@ class Create extends Component
     $telp_rumah, 
     $no_hp, 
     $email, 
-    $terima_kps, 
+    $terima_kps = " ", 
     $no_kps, 
     $jenis_transportasi, 
     $kode_prodi = ' ', 

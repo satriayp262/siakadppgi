@@ -141,7 +141,9 @@
                                 class="block text
                             -sm font-medium text-gray-700">Terima
                                 KPS</label>
-                            <p class="text-sm text-gray-500">{{ $mahasiswa->terima_kps ?? 'Data Belum Ada' }}</p>
+                            <p class="text-sm text-gray-500">
+                                {{ $mahasiswa->terima_kps === '1' ? 'Iya' : ($mahasiswa->terima_kps === '0'? 'Tidak' : 'Data Belum Ada') }}
+                            </p>
                         </div>
 
                         <div class="mb-4 text-left border w-full h-full p-2">
@@ -191,12 +193,20 @@
                             <p class="text-sm text-gray-500">{{ $mahasiswa->nama_prodi_asal ?? 'Data Belum Ada' }}</p>
                         </div>
 
+                        @php
+                            $pembiayaan = [
+                                1 => 'Mandiri',
+                                2 => 'Beasiswa Tidak Penuh',
+                                3 => 'Beasiswa Penuh',
+                            ];
+                        @endphp
                         <div class="mb-4 text-left border w-full h-full p-2">
                             <label for="jenis_pembiayaan"
                                 class="block text
                             -sm font-medium text-gray-700">Jenis
                                 Pembiayaan</label>
-                            <p class="text-sm text-gray-500">{{ $mahasiswa->jenis_pembiayaan ?? 'Data Belum Ada' }}
+                            <p class="text-sm text-gray-500">
+                                {{ $pembiayaan[$mahasiswa->jenis_pembiayaan] ?? 'Data Belum Ada' }}
                             </p>
 
                         </div>

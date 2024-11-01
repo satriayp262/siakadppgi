@@ -56,13 +56,9 @@ class Mahasiswa extends Model
         'nama_prodi_asal',
         'jenis_pembiayaan',
         'jumlah_biaya_masuk',
-        'id_user',
     ];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'id_user', 'id');
-    }
+
     public function orangtuaWali()
     {
         return $this->belongsTo(Orangtua_Wali::class, 'id_orangtua_wali', 'id_orangtua_wali');

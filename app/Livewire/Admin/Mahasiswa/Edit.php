@@ -257,9 +257,6 @@ class Edit extends Component
             'jumlah_biaya_masuk.numeric' => 'Jumlah biaya masuk harus berupa angka',
             'mulai_semester.required' => 'Mulai semester tidak boleh kosong',
             'nama_ibu.required' => 'Nama ibu tidak boleh kosong',
-            'tanggal_lahir_ibu.date' => 'Tanggal lahir ibu tidak valid',
-            'tanggal_lahir_ayah.date' => 'Tanggal lahir ayah tidak valid',
-            'tanggal_lahir_wali.date' => 'Tanggal lahir wali tidak valid',
             
         ];
     }
