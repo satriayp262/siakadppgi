@@ -142,7 +142,11 @@ class PDFController extends Controller
         // Handle hundreds
         if ($number >= 100) {
             $hundreds = (int) ($number / 100);
-            $result .= ($result ? " " : "") . $this->terbilang($hundreds) . " RATUS";
+            if ($hundreds == 1 && $number % 100 == 0) {
+                $result .= ($result ? " " : "") . "SERATUS";
+            } else {
+                $result .= ($result ? " " : "") . $this->terbilang($hundreds) . " RATUS";
+            }
             $number %= 100; // Get the remainder
         }
 

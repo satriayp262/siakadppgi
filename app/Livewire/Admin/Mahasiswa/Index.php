@@ -58,14 +58,14 @@ class Index extends Component
     public function destroySelected()
     {
         // Hapus data Mahasiswa yang terpilih
-        Mahasiswa::whereIn('id_dosen', $this->selectedMahasiswa)->delete();
+        Mahasiswa::whereIn('id_mahasiswa', $this->selectedMahasiswa)->delete();
 
         // Reset array selectedMahasiswa setelah penghapusan
         $this->selectedMahasiswa = [];
         $this->selectAll = false; // Reset juga selectAll
 
         // Emit event ke frontend untuk reset checkbox
-        session()->flash('message', 'Dosen Berhasil di Hapus');
+        session()->flash('message', 'Mahasiswa Berhasil di Hapus');
         session()->flash('message_type', 'error');
     }
 

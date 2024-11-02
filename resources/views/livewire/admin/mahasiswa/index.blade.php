@@ -273,7 +273,7 @@
             }
 
             Swal.fire({
-                title: `Apakah anda yakin ingin menghapus ${selectedMahasiswa.length} data dosen?`,
+                title: `Apakah anda yakin ingin menghapus ${selectedMahasiswa.length} data mahasiswaz?`,
                 text: "Data yang telah dihapus tidak dapat dikembalikan!",
                 icon: 'warning',
                 showCancelButton: true,

@@ -130,7 +130,7 @@ class DatabaseSeeder extends Seeder
 
         Dosen::factory(30)->create();
         Matakuliah::factory(20)->create();
-        Mahasiswa::factory(20)->create();
+        // Mahasiswa::factory(20)->create();
 
     }
 }

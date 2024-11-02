@@ -27,7 +27,7 @@ class Index extends Component
         $user = auth()->user(); // Get the currently logged-in user
 
         $tagihans = Tagihan::whereHas('mahasiswa', function ($query) use ($user) {
-            $query->where('id_user', $user->id); // Match the user with mahasiswa
+            $query->where('NIM', $user->nim_nidn); // Match the user with mahasiswa
         })->get();
 
         // dd($tagihans);
