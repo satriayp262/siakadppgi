@@ -50,7 +50,7 @@
                                             <div class="flex flex-col">
                                                 <label class="block text-sm font-medium text-gray-700">Template
                                                     Dokumen</label>
-                                                <a href="{{ asset('template/Mahasiswi.xlsx') }}"
+                                                <a href="{{ asset('template/template_mahasiswa.xlsx') }}"
                                                     class="flex items-center justify-between w-full px-2 py-1 mt-1 text-sm bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
 
                                                     <!-- Left icon -->
@@ -85,12 +85,12 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div wire:loading>
+                                        {{-- <div wire:loading wire:target="import">
                                             <div class="mt-2 w-full flex flex-row items-center space-x-2">
                                                 <div class="spinner"></div>
                                                 <div class="spinner-text">Memproses Permintaan...</div>
                                             </div>
-                                        </div>
+                                        </div> --}}
                                         <div class="flex justify-end p-4 bg-gray-200 rounded-b-lg">
                                             <button type="button" @click="isOpen = false"
                                                 class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">Close</button>
