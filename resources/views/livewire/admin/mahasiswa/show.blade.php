@@ -50,10 +50,17 @@
                             </p>
                         </div>
 
+                        @php
+                            $jk = [
+                                'L' => 'Laki-laki',
+                                'P' => 'Perempuan',
+                            ];
+                        @endphp
                         <div class="mb-4 text-left border w-full h-full p-2">
                             <label for="jenis_kelamin" class="block text-sm font-medium text-gray-700">Jenis
                                 Kelamin</label>
-                            <p class="text-sm text-gray-500">{{ $mahasiswa->jenis_kelamin ?? 'Data Belum Ada' }}
+                            <p class="text-sm text-gray-500">
+                                {{ $jk[$mahasiswa->jenis_kelamin ?? null] ?? 'Data Belum Ada' }}
                             </p>
                         </div>
 
@@ -61,21 +68,46 @@
                             <label for="NIK" class="block text-sm font-medium text-gray-700">NIK</label>
                             <p class="text-sm text-gray-500">{{ $mahasiswa->NIK ?? 'Data Belum Ada' }}</p>
                         </div>
-
+                        @php
+                            $agama = [
+                                1 => 'Islam',
+                                2 => 'Kristen',
+                                3 => 'Katolik',
+                                4 => 'Hindu',
+                                5 => 'Buddha',
+                                6 => 'Konghucu',
+                                99 => 'Lainnya',
+                            ];
+                        @endphp
                         <div class="mb-4 text-left border w-full h-full p-2">
                             <label for="agama" class="block text-sm font-medium text-gray-700">Agama</label>
-                            <p class="text-sm text-gray-500">{{ $mahasiswa->agama ?? 'Data Belum Ada' }}</p>
+                            <p class="text-sm text-gray-500">{{ $agama[$mahasiswa->agama ?? null] ?? 'Data Belum Ada' }}
+                            </p>
                         </div>
 
                         <div class="mb-4 text-left border w-full h-full p-2">
                             <label for="alamat" class="block text-sm font-medium text-gray-700">Alamat</label>
                             <p class="text-sm text-gray-500">{{ $mahasiswa->alamat ?? 'Data Belum Ada' }}</p>
                         </div>
+                        @php
+                            $jalur_pendaftaran = [
+                                3 => 'Penelusuran Minat dan Kemampuan (PMDK)',
+                                4 => 'Prestasi',
+                                9 => 'Program Internasional',
+                                11 => 'Program Kerjasama Perusahaan/Institusi/Pemerintah',
+                                12 => 'Seleksi Mandiri',
+                                13 => 'Ujian Masuk Bersama Lainnya',
+                                14 => 'Seleksi Nasional Berdasarkan Tes (SNBT)',
+                                15 => 'Seleksi Nasional Berdasarkan Prestasi (SNBP)',
+                            ];
+                        @endphp
+
 
                         <div class="mb-4 text-left border w-full h-full p-2">
                             <label for="jalur_pendaftaran" class="block text-sm font-medium text-gray-700">Jalur
                                 Pendaftaran</label>
-                            <p class="text-sm text-gray-500">{{ $mahasiswa->jalur_pendaftaran ?? 'Data Belum Ada' }}
+                            <p class="text-sm text-gray-500">
+                                {{ $jalur_pendaftaran[$mahasiswa->jalur_pendaftaran ?? null] ?? 'Data Belum Ada' }}
                             </p>
                         </div>
 
@@ -86,10 +118,26 @@
                             </p>
                         </div>
 
+                        @php
+                            $jenis_pendaftaran = [
+                                1 => 'Peserta didik baru',
+                                2 => 'Pindahan',
+                                3 => 'Naik Kelas',
+                                4 => 'Akselerasi',
+                                5 => 'Mengulang',
+                                6 => 'Lanjutan semester',
+                                8 => 'Pindahan Alih Bentuk',
+                                13 => 'RPL Perolehan SKS',
+                                14 => 'Pendidikan Non Gelar (Course)',
+                                15 => 'Fast Track',
+                                16 => 'RPL Transfer SKS',
+                            ];
+                        @endphp
                         <div class="mb-4 text-left border w-full h-full p-2">
                             <label for="jenis_pendaftaran" class="block text-sm font-medium text-gray-700">Jenis
                                 Pendaftaran</label>
-                            <p class="text-sm text-gray-500">{{ $mahasiswa->jenis_pendaftaran ?? 'Data Belum Ada' }}
+                            <p class="text-sm text-gray-500">
+                                {{ $jenis_pendaftaran[$mahasiswa->jenis_pendaftaran ?? null] ?? 'Data Belum Ada' }}
                             </p>
                         </div>
 
@@ -110,11 +158,22 @@
                                 {{ $mahasiswa->semester->nama_semester ?? 'Data Belum Ada' }}
                             </p>
                         </div>
-
+                        @php
+                            $jenis_tempat_tinggal = [
+                                1 => 'Bersama orang tua',
+                                2 => 'Wali',
+                                3 => 'Kost',
+                                4 => 'Asrama',
+                                5 => 'Panti asuhan',
+                                10 => 'Rumah sendiri',
+                                99 => 'Lainnya',
+                            ];
+                        @endphp
                         <div class="mb-4 text-left border w-full h-full p-2">
                             <label for="jenis_tempat_tinggal" class="block text-sm font-medium text-gray-700">Jenis
                                 Tempat Tinggal</label>
-                            <p class="text-sm text-gray-500">{{ $mahasiswa->jenis_tempat_tinggal ?? 'Data Belum Ada' }}
+                            <p class="text-sm text-gray-500">
+                                {{ $jenis_tempat_tinggal[$mahasiswa->jenis_tempat_tinggal ?? null] ?? 'Data Belum Ada' }}
                             </p>
                         </div>
 
@@ -142,7 +201,7 @@
                             -sm font-medium text-gray-700">Terima
                                 KPS</label>
                             <p class="text-sm text-gray-500">
-                                {{ $mahasiswa->terima_kps === '1' ? 'Iya' : ($mahasiswa->terima_kps === '0'? 'Tidak' : 'Data Belum Ada') }}
+                                {{ $mahasiswa->terima_kps === '1' ? 'Iya' : ($mahasiswa->terima_kps === '0' ? 'Tidak' : 'Data Belum Ada') }}
                             </p>
                         </div>
 
@@ -150,13 +209,28 @@
                             <label for="no_kps" class="block text-sm font-medium text-gray-700">No KPS</label>
                             <p class="text-sm text-gray-500">{{ $mahasiswa->no_kps ?? 'Data Belum Ada' }}</p>
                         </div>
-
+                        @php
+                            $jenis_transportasi = [
+                                1 => 'Jalan kaki',
+                                3 => 'Angkutan umum/bus/pete-pete',
+                                4 => 'Mobil/bus antar jemput',
+                                5 => 'Kereta api',
+                                6 => 'Ojek',
+                                7 => 'Andong/bendi/sado/dokar/delman/becak',
+                                8 => 'Perahu penyeberangan/rakit/getek',
+                                11 => 'Kuda',
+                                12 => 'Sepeda',
+                                13 => 'Sepeda motor',
+                                14 => 'Mobil pribadi',
+                                99 => 'Lainnya',
+                            ];
+                        @endphp
                         <div class="mb-4 text-left border w-full h-full p-2">
                             <label for="jenis_transportasi"
                                 class="block text
                             -sm font-medium text-gray-700">Jenis
                                 Transportasi</label>
-                            <p class="text-sm text-gray-500">{{ $mahasiswa->jenis_transportasi ?? 'Data Belum Ada' }}
+                            <p class="text-sm text-gray-500">{{ $jenis_transportasi[$mahasiswa->jenis_transportasi ?? null ] ?? 'Data Belum Ada' }}
                             </p>
                         </div>
 

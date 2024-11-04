@@ -28,6 +28,7 @@ class Index extends Component
     public $showDeleteButton = false;
 
     public $file;
+    public $importing  = false;
 
     // Update pagination when 'search' is updated
     protected $updatesQueryString = ['search'];
@@ -102,6 +103,7 @@ class Index extends Component
         $this->validate([
             'file' => 'required|mimes:xls,xlsx|max:10240',
         ]);
+
         $path = $this->file->store('temp');
 
         // $skippedRecords = [];

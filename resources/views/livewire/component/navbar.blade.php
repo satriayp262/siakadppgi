@@ -61,22 +61,22 @@
                             const confirmLogout = document.getElementById('confirm-logout');
                             const logoutForm = document.getElementById('logout-form');
 
-                            logoutLink.addEventListener('click', function(event) {
-                                event.preventDefault();
-                                logoutModal.classList.remove('hidden');
-                            });
+                            // logoutLink.addEventListener('click', function(event) {
+                            //     event.preventDefault();
+                            //     logoutModal.classList.remove('hidden');
+                            // });
 
-                            closeModal.addEventListener('click', function() {
-                                logoutModal.classList.add('hidden');
-                            });
+                            // closeModal.addEventListener('click', function() {
+                            //     logoutModal.classList.add('hidden');
+                            // });
 
-                            cancelLogout.addEventListener('click', function() {
-                                logoutModal.classList.add('hidden');
-                            });
+                            // cancelLogout.addEventListener('click', function() {
+                            //     logoutModal.classList.add('hidden');
+                            // });
 
-                            confirmLogout.addEventListener('click', function() {
-                                logoutForm.submit();
-                            });
+                            // confirmLogout.addEventListener('click', function() {
+                            //     logoutForm.submit();
+                            // });
 
                             document.addEventListener('click', function(event) {
                                 if (!logoutModal.contains(event.target) && !logoutLink.contains(event.target)) {

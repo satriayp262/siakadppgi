@@ -50,8 +50,92 @@
                                                     name="{{ strtolower($field) }}"
                                                     class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
                                                     <option value="" disabled selected>Select</option>
-                                                    <option value="Perempuan">Perempuan</option>
-                                                    <option value="Laki-Laki">Laki-Laki</option>
+                                                    <option value="P">Perempuan</option>
+                                                    <option value="L">Laki-Laki</option>
+                                                </select>
+                                            @elseif($field === 'agama')
+                                                <select id="{{ strtolower($field) }}"
+                                                    wire:model="{{ strtolower($field) }}"
+                                                    name="{{ strtolower($field) }}"
+                                                    class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
+                                                    <option value=" " disabled selected>Select</option>
+                                                    <option value="1">Islam</option>
+                                                    <option value="2">Kristen</option>
+                                                    <option value="3">Katolik</option>
+                                                    <option value="4">Hindu</option>
+                                                    <option value="5">Buddha</option>
+                                                    <option value="6">Konghucu</option>
+                                                    <option value="99">Lainnya</option>
+                                                </select>
+                                            @elseif($field === 'jalur_pendaftaran')
+                                                <select id="{{ strtolower($field) }}"
+                                                    wire:model="{{ strtolower($field) }}"
+                                                    name="{{ strtolower($field) }}"
+                                                    class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
+                                                    <option value=" " disabled selected>Select</option>
+                                                    <option value="3">Penelusuran Minat dan Kemampuan (PMDK)
+                                                    </option>
+                                                    <option value="4">Program Internasional</option>
+                                                    <option value="9">Katolik</option>
+                                                    <option value="11">Program Kerjasama
+                                                        Perusahaan/Institusi/Pemerintah</option>
+                                                    <option value="12">Seleksi Mandiri</option>
+                                                    <option value="13">Ujian Masuk Bersama Lainnya</option>
+                                                    <option value="14">Seleksi Nasional Berdasarkan Tes (SNBT)
+                                                    </option>
+                                                    <option value="15">Seleksi Nasional Berdasarkan Prestasi (SNBP)
+                                                    </option>
+                                                </select>
+                                            @elseif($field === 'jenis_pendaftaran')
+                                                <select id="{{ strtolower($field) }}"
+                                                    wire:model="{{ strtolower($field) }}"
+                                                    name="{{ strtolower($field) }}"
+                                                    class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
+                                                    <option value=" " disabled selected>Select</option>
+                                                    <option value="1">Peserta didik baru</option>
+                                                    <option value="2">Pindahan</option>
+                                                    <option value="3">Naik Kelas</option>
+                                                    <option value="4">Akselerasi</option>
+                                                    <option value="5">Mengulang</option>
+                                                    <option value="6">Lanjutan semester</option>
+                                                    <option value="8">Pindahan Alih Bentuk</option>
+                                                    <option value="13">RPL Perolehan SKS</option>
+                                                    <option value="14">Pendidikan Non Gelar (Course)</option>
+                                                    <option value="15">Fast Track</option>
+                                                    <option value="16">RPL Transfer SKS</option>
+                                                </select>
+                                            @elseif($field === 'jenis_tempat_tinggal')
+                                                <select id="{{ strtolower($field) }}"
+                                                    wire:model="{{ strtolower($field) }}"
+                                                    name="{{ strtolower($field) }}"
+                                                    class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
+                                                    <option value=" " disabled selected>Select</option>
+                                                    <option value="1">Bersama orang tua</option>
+                                                    <option value="2">Wali</option>
+                                                    <option value="3">Kost</option>
+                                                    <option value="4">Asrama</option>
+                                                    <option value="5">Panti asuhan</option>
+                                                    <option value="10">Rumah sendiri</option>
+                                                    <option value="99">Lainnya</option>
+                                                </select>
+                                                @elseif($field === 'jenis_transportasi')
+                                                <select id="{{ strtolower($field) }}"
+                                                    wire:model="{{ strtolower($field) }}"
+                                                    name="{{ strtolower($field) }}"
+                                                    class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
+                                                    <option value=" " disabled selected>Select</option>
+                                                    <option value="1">Jalan kaki</option>
+                                                    <option value="3">Angkutan umum/bus/pete-pete</option>
+                                                    <option value="4">Mobil/bus antar jemput</option>
+                                                    <option value="5">Kereta api</option>
+                                                    <option value="6">Ojek</option>
+                                                    <option value="7">Andong/bendi/sado/dokar/delman/becak</option>
+                                                    <option value="8">Perahu penyeberangan/rakit/getek</option>
+                                                    <option value="11">Kuda</option>
+                                                    <option value="12">Sepeda</option>
+                                                    <option value="13">Sepeda motor</option>
+                                                    <option value="14">Mobil pribadi</option>
+                                                    <option value="99">Lainnya</option>
                                                 </select>
                                             @elseif ($field === 'mulai_semester')
                                                 <div class="flex items-center">
