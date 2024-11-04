@@ -16,8 +16,7 @@ class Index extends Component
     #[On('semesterCreated')]
     public function handlesemesterCreated()
     {
-        session()->flash('message', 'Semester Berhasil di Tambahkan');
-        session()->flash('message_type', 'success');
+        $this->dispatch('created', ['message' => 'Semester Berhasil Disimpan']);
     }
 
     #[On('semesterUpdated')]

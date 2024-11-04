@@ -44,6 +44,10 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
         Route::get('/', App\Livewire\Admin\Prodi\Index::class)->name('admin.prodi');
     });
 
+    Route::prefix('kurikulum')->group(function () {
+        Route::get('/', App\Livewire\Admin\Kurikulum\Index::class)->name('admin.kurikulum');
+    });
+
     Route::prefix('kelas')->group(function () {
         Route::get('/', App\Livewire\Admin\Kelas\Index::class)->name('admin.kelas');
     });

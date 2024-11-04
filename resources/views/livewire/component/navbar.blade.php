@@ -96,7 +96,7 @@
                 // text: "Data yang telah dihapus tidak dapat dikembalikan!",
                 icon: 'question',
                 showCancelButton: true,
-                confirmButtonColor: '#800080',
+                confirmButtonColor: '#9400D3',
                 cancelButtonColor: '#6c757d',
                 confirmButtonText: 'Keluar'
             }).then((result) => {

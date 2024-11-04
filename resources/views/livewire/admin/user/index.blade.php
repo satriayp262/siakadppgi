@@ -103,7 +103,7 @@
     <script>
         function confirmDelete(id, name) {
             Swal.fire({
-                title: `Apakah anda yakin ingin menghapus User ${nama_prodi}?`,
+                title: `Apakah anda yakin ingin menghapus User ${name}?`,
                 text: "Data yang telah dihapus tidak dapat dikembalikan!",
                 icon: 'warning',
                 showCancelButton: true,

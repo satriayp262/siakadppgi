@@ -9,7 +9,8 @@ class Create extends Component
 {
     public $nama_semester;
 
-    public function rules(){
+    public function rules()
+    {
         return [
             'nama_semester' => 'required|string|unique:semester,nama_semester',
         ];
@@ -17,18 +18,20 @@ class Create extends Component
 
 
 
-    public function messages(){
+    public function messages()
+    {
         return [
             'nama_semester.required' => 'Semester tidak boleh kosong',
             'nama_semester.unique' => 'Semester sudah ada',
         ];
     }
 
-    public function save(){
+    public function save()
+    {
         $validatedData = $this->validate();
 
         $validatedData['nama_semester'] = (string) $validatedData['nama_semester'];
-        
+
         // Save the semester with '1' appended
         $semester1 = Semester::create([
             'nama_semester' => $validatedData['nama_semester'] . '1',
@@ -40,7 +43,7 @@ class Create extends Component
         ]);
 
         $this->reset();
-        
+
         $this->dispatch('semesterCreated');
         return [$semester1, $semester2];
     }

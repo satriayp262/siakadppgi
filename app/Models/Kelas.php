@@ -17,6 +17,7 @@ class Kelas extends Model
         'kode_prodi',
         'lingkup_kelas',
         'kode_matkul',
+        'id_mata_kuliah',
     ];
     public function prodi()
     {
@@ -30,6 +31,6 @@ class Kelas extends Model
 
     public function matkul()
     {
-        return $this->belongsTo(Matakuliah::class, 'kode_matkul', 'kode_mata_kuliah');
+        return $this->belongsTo(Matakuliah::class, 'id_mata_kuliah', 'id_mata_kuliah');
     }
 }
