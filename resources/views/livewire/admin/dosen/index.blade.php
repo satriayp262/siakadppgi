@@ -7,9 +7,9 @@
                 <!-- Modal Form -->
                 <livewire:admin.dosen.create />
                 {{-- modal import --}}
-                <div x-data="{ isOpen: false }" @modal-closed.window="isOpen = false">
+                <div x-data="{ isOpen: false, load: false }" @modal-closed.window="isOpen = false">
                     <!-- Button to open the modal -->
-                    <button @click="isOpen=true"
+                    <button @click="isOpen=true; load=true"
                         class="flex items-center pr-4 py-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">
                         <svg class="mx-2" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="26"
                             height="26" viewBox="0 0 48 48">
@@ -34,7 +34,7 @@
                         </svg>
                         Import
                     </button>
-                    <div x-show="isOpen"
+                    <div x-show="isOpen && load" x-cloak
                         class="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-75">
                         <div class="w-1/2 bg-white  shadow-lg">
                             <div class="flex items-center justify-between p-4 bg-gray-200 rounded-t-lg">
