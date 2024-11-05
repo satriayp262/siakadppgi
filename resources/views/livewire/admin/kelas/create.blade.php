@@ -70,7 +70,6 @@
                                     <option value="{{ $p->kode_prodi }}">{{ $p->nama_prodi }}</option>
                                 @endforeach
                             </select>
-                            {{ $kode_prodi }}
                             @error('kode_prodi')
                                 <span class="mt-1 text-sm text-red-500">{{ $message }}</span>
                             @enderror

@@ -44,6 +44,17 @@ class Create extends Component
         ];
     }
 
+    private function resetInputFields()
+    {
+        $this->kode_kelas = '';
+        $this->nama_kelas = '';
+        $this->semester = '';
+        $this->kode_prodi = '';
+        $this->lingkup_kelas = '';
+        $this->id_mata_kuliah = '';
+    }
+
+
     public function save()
     {
         // Validasi data
@@ -58,16 +69,22 @@ class Create extends Component
             'lingkup_kelas' => $validatedData['lingkup_kelas'],
             'id_mata_kuliah' => $validatedData['id_mata_kuliah'],
         ]);
-        $this->reset();
+
+        $this->resetInputFields();
         $this->dispatch('kelasCreated');
         return $kelas;
     }
+
+
 
     public function render()
     {
         $prodi = Prodi::all();
         $Semester = Semester::all();
         $mata_kuliah = Matakuliah::all();
+        if ($this->kode_prodi) {
+            $mata_kuliah = Matakuliah::where('kode_prodi', $this->kode_prodi)->get();
+        }
 
         return view(
             'livewire.admin.kelas.create',

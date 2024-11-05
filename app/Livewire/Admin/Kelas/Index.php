@@ -20,8 +20,7 @@ class Index extends Component
     #[On('kelasCreated')]
     public function handleKelasCreated()
     {
-        session()->flash('message', 'Kelas Berhasil di Tambahkan');
-        session()->flash('message_type', 'success');
+        $this->dispatch('created', ['message' => 'Kelas Berhasil Disimpan']);
     }
 
 
@@ -69,9 +68,7 @@ class Index extends Component
         // Hapus data kelas
         $kelas->delete();
 
-        // Tampilkan pesan sukses
-        session()->flash('message', 'Kelas Berhasil di Hapus');
-        session()->flash('message_type', 'error');
+        $this->dispatch('destroyed', params: ['message' => 'Kelas deleted Successfully']);
     }
 
     public function updatedSearch()
