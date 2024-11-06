@@ -11,9 +11,12 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('kurikulum', function (Blueprint $table) {
-            $table->uuid('id_kurikulum')->primary(); // UUID sebagai primary key
+            $table->integer('id_kurikulum')->primary()->autoIncrement();
             $table->string('nama_kurikulum');
             $table->integer('mulai_berlaku');
+            $table->integer('jumlah_sks_lulus');
+            $table->integer('jumlah_sks_wajib');
+            $table->integer('jumlah_sks_pilihan');
             $table->foreign('mulai_berlaku')->references('id_semester')->on('semester');
             $table->string('kode_prodi'); // Kode program studi
             $table->foreign('kode_prodi')->references('kode_prodi')->on('prodi');

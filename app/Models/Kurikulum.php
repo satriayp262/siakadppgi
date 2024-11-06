@@ -26,6 +26,6 @@ class Kurikulum extends Model
 
     public function semester()
     {
-        return $this->hasMany(Semester::class, 'mulai_berlaku', 'id_semester');
+        return $this->belongsTo(Semester::class, 'mulai_berlaku', 'id_semester');
     }
 }

@@ -14,40 +14,6 @@
             <input type="text" wire:model.live="search" placeholder="   Search"
                 class="px-2 ml-4 border border-gray-300 rounded-lg">
         </div>
-
-        <div>
-            @if (session()->has('message'))
-                @php
-                    $messageType = session('message_type', 'success'); // Default to success
-                    $bgColor =
-                        $messageType === 'error'
-                            ? 'bg-red-500'
-                            : (($messageType === 'warning'
-                                    ? 'bg-yellow-500'
-                                    : $messageType === 'update')
-                                ? 'bg-blue-500'
-                                : 'bg-green-500');
-                @endphp
-                <div id="flash-message"
-                    class="flex items-center justify-between p-2 mx-2 mt-4 text-white {{ $bgColor }} rounded">
-                    <span>{{ session('message') }}</span>
-                    <button class="p-1" onclick="document.getElementById('flash-message').remove();"
-                        class="font-bold text-white">
-                        &times;
-                    </button>
-                </div>
-                @push('scripts')
-                    <script>
-                        setTimeout(() => {
-                            const flashMessage = document.getElementById('flash-message');
-                            if (flashMessage) {
-                                flashMessage.remove();
-                            }
-                        }, 1000); // Adjust the time (in milliseconds) as needed
-                    </script>
-                @endpush
-            @endif
-        </div>
     </div>
 
     <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
