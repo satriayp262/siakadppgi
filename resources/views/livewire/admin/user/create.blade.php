@@ -25,56 +25,76 @@
             </div>
             <div class="p-4">
                 <div class="p-4 max-h-[500px] overflow-y-auto">
-                    <form wire:submit="save">
-                        <div class="mb-4">
-                            <label for="name" class="block text-sm font-medium text-gray-700">Nama</label>
-                            <input type="text" id="name" wire:model="name" name="name"
-                                class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
-                            @error('name')
-                                <span class="text-sm text-red-500">{{ $message }}</span>
-                            @enderror
-                        </div>
+                    <form wire:submit.prevent="save">
 
-                        <div class="mb-4">
-                            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                            <input type="text" id="email" wire:model="email" name="email"
-                                class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
-                            @error('email')
-                                <span class="text-sm text-red-500">{{ $message }}</span>
-                            @enderror
-                        </div>
+                        <div>
+                            <div class="mb-4">
+                                <label for="role" class="block text-sm font-medium text-gray-700">Role</label>
+                                <select id="role" wire:model="role" name="role"
+                                    class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
+                                    <option value="" disabled selected>Role</option>
+                                    <option value="admin">Admin</option>
+                                    <option value="dosen">Dosen</option>
+                                    <option value="staff">Staff</option>
+                                    <option value="mahasiswa">Mahasiswa</option>
+                                </select>
+                                @error('role')
+                                    <span class="mt-1 text-sm text-red-500">{{ $message }}</span>
+                                @enderror
+                            </div>
 
-                        <div class="mb-4">
-                            <label for="nim" class="block text-sm font-medium text-gray-700">NIM / NIDN</label>
-                            <input type="text" id="nim" wire:model="nim" name="nim"
-                                class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
-                            @error('nim')
-                                <span class="text-sm text-red-500">{{ $message }}</span>
-                            @enderror
-                        </div>
+                            <div class="mb-4">
+                                <label for="name" class="block text-sm font-medium text-gray-700">Nama</label>
+                                <input type="text" id="name" wire:model="name" name="name"
+                                    class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
+                                @error('name')
+                                    <span class="text-sm text-red-500">{{ $message }}</span>
+                                @enderror
+                            </div>
 
-                        <div class="mb-4">
-                            <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-                            <input type="password" id="password" wire:model="password" name="password"
-                                class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
-                            @error('password')
-                                <span class="text-sm text-red-500">{{ $message }}</span>
-                            @enderror
-                        </div>
+                            <div class="mb-4">
+                                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                                <input type="text" id="email" wire:model="email" name="email"
+                                    class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
+                                @error('email')
+                                    <span class="text-sm text-red-500">{{ $message }}</span>
+                                @enderror
+                            </div>
 
-                        <div class="mb-4">
-                            <label for="role" class="block text-sm font-medium text-gray-700">Role</label>
-                            <select id="role" wire:model="role" name="role"
-                                class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
-                                <option value="" disabled selected>Role</option>
-                                <option value="admin">Admin</option>
-                                <option value="dosen">Dosen</option>
-                                <option value="staff">Staff</option>
-                                <option value="mahasiswa">Mahasiswa</option>
-                            </select>
-                            @error('jenjang')
-                                <span class="mt-1 text-sm text-red-500">{{ $message }}</span>
-                            @enderror
+                            <!-- Conditionally show NIM/NIDN field based on role -->
+                            @if ($role && ($role === 'mahasiswa' || $role === 'dosen'))
+                                <div class="mb-4">
+                                    <label for="nim" class="block text-sm font-medium text-gray-700">NIM /
+                                        NIDN</label>
+                                    <input type="text" id="nim" wire:model="nim" name="nim"
+                                        class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
+                                    @error('nim')
+                                        <span class="text-sm text-red-500">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            @endif
+
+                            <div class="mb-4">
+                                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                                <div class="relative">
+                                    <input type="password" id="confirmPassword" wire:model="confirmPassword"
+                                        name="confirmPassword"
+                                        class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
+                                    <button type="button" onclick="togglePassword('confirmPassword', this)"
+                                        class="absolute inset-y-0 right-0 flex items-center px-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 eye-icon" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke="currentColor" stroke-width="2"
+                                                d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z" />
+                                            <path stroke="currentColor" stroke-width="2"
+                                                d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                                @error('password')
+                                    <span class="text-sm text-red-500">{{ $message }}</span>
+                                @enderror
+                            </div>
                         </div>
 
                         <!-- Submit Button inside the form -->
@@ -90,3 +110,25 @@
         </div>
     </div>
 </div>
+<script>
+    function togglePassword(id, button) {
+        const input = document.getElementById(id);
+        const eyeIcon = button.querySelector('svg');
+
+        if (input.type === "password") {
+            input.type = "text";
+            // Change to closed eye icon
+            eyeIcon.innerHTML = `
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.933 13.909A4.357 4.357 0 0 1 3 12c0-1 4-6 9-6m7.6 3.8A5.068 5.068 0 0 1 21 12c0 1-3 6-9 6-.314 0-.62-.014-.918-.04M5 19 19 5m-4 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+
+                `; // Closed eye icon with a cross
+        } else {
+            input.type = "password";
+            // Change back to default eye icon
+            eyeIcon.innerHTML = `
+                    <path stroke="currentColor" stroke-width="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z"/>
+                    <path stroke="currentColor" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                `; // Default eye icon
+        }
+    }
+</script>

@@ -48,7 +48,6 @@
                     <th class="px-4 py-2 text-center">No.</th>
                     <th class="px-4 py-2 text-center">Nama</th>
                     <th class="px-4 py-2 text-center">Email</th>
-                    <th class="px-4 py-2 text-center">NIM / NIDN</th>
                     <th class="px-4 py-2 text-center">Role</th>
                     <th class="px-4 py-2 text-center">Aksi</th>
                 </tr>
@@ -60,7 +59,6 @@
                             {{ ($users->currentPage() - 1) * $users->perPage() + $loop->iteration }}</td>
                         <td class="w-1/4 px-4 py-2 text-center">{{ $user->name }}</td>
                         <td class="w-1/4 px-4 py-2 text-center">{{ $user->email }}</td>
-                        <td class="w-1/4 px-4 py-2 text-center">{{ $user->nim_nidn }}</td>
                         <td class="w-1/4 px-4 py-2 text-center">
                             @php
                                 $roleColors = [

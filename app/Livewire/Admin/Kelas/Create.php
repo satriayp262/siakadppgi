@@ -44,16 +44,6 @@ class Create extends Component
         ];
     }
 
-    private function resetInputFields()
-    {
-        $this->kode_kelas = '';
-        $this->nama_kelas = '';
-        $this->semester = '';
-        $this->kode_prodi = '';
-        $this->lingkup_kelas = '';
-        $this->id_mata_kuliah = '';
-    }
-
 
     public function save()
     {
@@ -70,7 +60,7 @@ class Create extends Component
             'id_mata_kuliah' => $validatedData['id_mata_kuliah'],
         ]);
 
-        $this->resetInputFields();
+        $this->reset();
         $this->dispatch('kelasCreated');
         return $kelas;
     }
