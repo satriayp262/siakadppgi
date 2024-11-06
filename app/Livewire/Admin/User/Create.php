@@ -12,7 +12,7 @@ class Create extends Component
     public $email;
     public $nim;
     public $password;
-    public $role = '';
+    public $role = ' ';
 
     public function rules()
     {
