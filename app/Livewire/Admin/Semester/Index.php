@@ -12,17 +12,12 @@ class Index extends Component
 
     public $selectedSemester = [];
     public $selectAll = false;
+    public $showDeleteButton = false;
 
     #[On('semesterCreated')]
     public function handlesemesterCreated()
     {
         $this->dispatch('created', ['message' => 'Semester Berhasil Disimpan']);
-    }
-
-    #[On('semesterUpdated')]
-    public function handlesemesterupdate()
-    {
-
     }
 
     public function updatedSelectAll($value)
@@ -34,6 +29,24 @@ class Index extends Component
             // Jika selectAll false, hapus semua pilihan
             $this->selectedSemester = [];
         }
+    }
+
+    public function updatedSelectedSemester()
+    {
+        $this->showDeleteButton = count($this->selectedSemester) > 0;
+    }
+
+    public function destroySelected()
+    {
+        // Hapus data dosen yang terpilih
+        Semester::whereIn('id_semester', $this->selectedSemester)->delete();
+
+        // Reset array selectedDosen setelah penghapusan
+        $this->selectedSemester = [];
+        $this->selectAll = false; // Reset juga selectAll
+
+        // Emit event ke frontend untuk reset checkbox
+        $this->dispatch('semesterDeleted');
     }
 
     public function destroy($id_semester)
@@ -56,25 +69,6 @@ class Index extends Component
             $semester->save();
         }
     }
-
-    public function destroySelected()
-    {
-        // Hapus data semester yang terpilih
-        Semester::whereIn('id_semester', $this->selectedSemester)->delete();
-
-        // Reset array selectedSemester setelah penghapusan
-        $this->selectedSemester = [];
-        $this->selectAll = false; // Reset juga selectAll
-
-        // Emit event ke frontend untuk reset checkbox
-        $this->dispatch('semesterDeleted');
-    }
-
-    public function updatedSearch()
-    {
-        $this->resetPage();
-    }
-
     public function render()
     {
         $semesters = Semester::query()

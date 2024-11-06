@@ -4,13 +4,13 @@
         <div class="flex justify-between mt-2">
             <div class="flex space-x-2">
                 <livewire:admin.semester.create />
-                <button class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700"
-                    onclick="confirmDeleteSelected()">
-                    Hapus Data Terpilih
-                </button>
+                @if ($showDeleteButton)
+                    <button id="deleteButton" class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700"
+                        onclick="confirmDeleteSelected()">
+                        Hapus Data Terpilih
+                    </button>
+                @endif
             </div>
-            <input type="text" wire:model.live="search" placeholder="   Search"
-                class="px-2 ml-4 border border-gray-300 rounded-lg">
         </div>
         <div>
             @if (session()->has('message'))
@@ -66,7 +66,7 @@
                 @foreach ($semesters as $semester)
                     <tr class="border-t" wire:key="semester-{{ $semester->id_semester }}">
                         <td class="px-4 py-2 text-center">
-                            <input type="checkbox" class="selectRow" wire:model="selectedSemester"
+                            <input type="checkbox" class="selectRow" wire:model.live="selectedSemester"
                                 value="{{ $semester->id_semester }}">
                         </td>
                         <td class="px-4 py-2 text-center w-1/4">{{ $semester->nama_semester }}</td>
@@ -85,7 +85,7 @@
                         </td>
                         <td class="px-4 py-2 text-center w-1/2">
                             <div class="flex justify-center space-x-2">
-                                {{-- <livewire:admin.semester.edit :id_semester="$semester->id_semester" wire:key="edit-{{ $semester->id_semester }}" /> --}}
+
                                 @if (!$semester->is_active)
                                     <button
                                         class="inline-block px-4 py-1 text-white bg-green-500 rounded hover:bg-green-700"
@@ -100,17 +100,6 @@
 
                                     </button>
                                 @endif
-
-                                {{-- <button class="inline-block px-4 py-1 text-white bg-red-500 rounded hover:bg-red-700"
-                                onclick="confirmDelete('{{ $semester->id_semester }}', '{{ $semester->nama_semester }}')"><svg
-                                    class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
-                                    viewBox="0 0 24 24">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
-                                </svg>
-                            </button> --}}
                             </div>
                         </td>
                     </tr>
@@ -119,7 +108,7 @@
         </table>
         <!-- Pagination Controls -->
         <div class="py-8 mt-4 mb-4 text-center">
-            {{-- {{ $prodis->links('') }} --}}
+            {{-- {{ $semesters->links('') }} --}}
         </div>
     </div>
 
@@ -176,20 +165,10 @@
             @this.set('selectedSemester', isChecked ? [...rowCheckboxes].map(cb => cb.value) : []);
         });
 
-
         function confirmDeleteSelected() {
             const selectedSemester = @this.selectedSemester; // Dapatkan data dari Livewire
 
             console.log(selectedSemester); // Tambahkan log untuk memeriksa nilai
-
-            if (selectedSemester.length === 0) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Tidak ada data yang dipilih!',
-                    text: 'Silakan pilih data yang ingin dihapus terlebih dahulu.',
-                });
-                return;
-            }
 
             Swal.fire({
                 title: `Apakah anda yakin ingin menghapus ${selectedSemester.length} data Semester?`,
