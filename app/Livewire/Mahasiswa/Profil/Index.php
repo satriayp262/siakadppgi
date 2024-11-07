@@ -10,34 +10,9 @@ use App\Models\Prodi;
 
 class Index extends Component
 {
-    public $nim;
-    public $nama;
-    public $tempat_lahir;
-    public $tanggal_lahir;
-    public $agama;
-    public $alamat;
-    public $jenis_pendaftaran;
-    public $no;
-    public $prodi;
-    public $NIM;
     public $currentPassword = '';
     public $newPassword = '';
     public $confirmPassword = '';
-
-    public function mount()
-    {
-        $mahasiswa = Mahasiswa::where('NIM', Auth()->user()->nim_nidn)->first();
-        $this->nim = $mahasiswa->NIM ?? null;
-        $this->nama = $mahasiswa->nama;
-        $this->tempat_lahir = $mahasiswa->tempat_lahir;
-        $this->tanggal_lahir = $mahasiswa->tanggal_lahir;
-        $this->agama = $mahasiswa->agama;
-        $this->alamat = $mahasiswa->alamat;
-        $this->jenis_pendaftaran = $mahasiswa->jalur_pendaftaran;
-        $this->no = $mahasiswa->no_hp;
-        $this->prodi = Prodi::where('kode_prodi', $mahasiswa->kode_prodi)->first()->nama_prodi;
-        $this->NIM = $mahasiswa->NIM;
-    }
 
     public function resetpw()
     {
@@ -70,6 +45,11 @@ class Index extends Component
 
     public function render()
     {
-        return view('livewire.mahasiswa.profil.index');
+        $mahasiswa = Mahasiswa::where('NIM', Auth()->user()->nim_nidn)->first();
+
+        // dd($mahasiswa->nama);
+        return view('livewire.mahasiswa.profil.index',[
+            'mahasiswa' => $mahasiswa
+        ]);
     }
 }
