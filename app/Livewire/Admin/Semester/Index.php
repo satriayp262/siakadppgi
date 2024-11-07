@@ -53,8 +53,9 @@ class Index extends Component
     {
         $semester = Semester::find($id_semester);
         $semester->delete();
-        session()->flash('message', 'Semester Berhasil di Hapus');
-        session()->flash('message_type', 'error');
+        // session()->flash('message', 'Semester Berhasil di Hapus');
+        // session()->flash('message_type', 'error');
+        $this->dispatch('destroyed', ['message' => 'Semester Berhasil di Hapus']);
     }
 
     public function active($id_semester)

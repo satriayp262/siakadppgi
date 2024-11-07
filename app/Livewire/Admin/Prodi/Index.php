@@ -18,15 +18,17 @@ class Index extends Component
     #[On('ProdiCreated')]
     public function handleProdiCreated()
     {
-        session()->flash('message', 'Prodi Berhasil di Tambahkan');
-        session()->flash('message_type', 'success');
+        // session()->flash('message', 'Prodi Berhasil di Tambahkan');
+        // session()->flash('message_type', 'success');
+        $this->dispatch('ceated', ['message' => 'Prodi Berhasil di Tambahkan']);
     }
 
     #[On('ProdiUpdated')]
     public function handleProdiUpdated()
     {
-        session()->flash('message', 'Prodi Berhasil di Update');
-        session()->flash('message_type', 'update');
+        // session()->flash('message', 'Prodi Berhasil di Update');
+        // session()->flash('message_type', 'update');
+        $this->dispatch('updated', ['message' => 'Prodi Berhasil di Update']);
     }
 
     public function destroy($id_prodi)
@@ -38,8 +40,9 @@ class Index extends Component
         $prodi->delete();
 
         // Tampilkan pesan sukses
-        session()->flash('message', 'Prodi Berhasil di Hapus');
-        session()->flash('message_type', 'error');
+        // session()->flash('message', 'Prodi Berhasil di Hapus');
+        // session()->flash('message_type', 'error');
+        $this->dispatch('destroyed', ['message' => 'Prodi Berhasil di Hapus']);
     }
 
     public function updatedSearch()
