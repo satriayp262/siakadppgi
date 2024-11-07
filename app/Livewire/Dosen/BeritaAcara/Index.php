@@ -62,7 +62,7 @@ class Index extends Component
             $this->nama_dosen = $dosen->nama;
             $this->nidn = $dosen->nidn;
         } else {
-            session()->flash('error', 'Data mahasiswa tidak ditemukan.');
+            session()->flash('error', 'Data Dosen tidak ditemukan.');
             // Redirect atau tindakan lain jika perlu
         }
     }
