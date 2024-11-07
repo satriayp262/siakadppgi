@@ -15,23 +15,26 @@ class Index extends Component
     #[On('UserCreated')]
     public function handleUserCreated()
     {
-        session()->flash('message', 'User Berhasil di Tambahkan');
-        session()->flash('message_type', 'success');
+        // session()->flash('message', 'User Berhasil di Tambahkan');
+        // session()->flash('message_type', 'success');
+        $this->dispatch('created', ['message' => 'User Berhasil di Tambahkan']);
     }
 
     #[On('UserUpdated')]
     public function handleUserUpdated()
     {
-        session()->flash('message', 'User Berhasil di Update');
-        session()->flash('message_type', 'update');
+        // session()->flash('message', 'User Berhasil di Update');
+        // session()->flash('message_type', 'update');
+        $this->dispatch('updated', ['message' => 'User Berhasil di Update']);
     }
 
     public function destroy($id)
     {
         $user = User::find($id);
         $user->delete();
-        session()->flash('message', 'User Berhasil di Hapus');
-        session()->flash('message_type', 'error');
+        // session()->flash('message', 'User Berhasil di Hapus');
+        // session()->flash('message_type', 'error');
+        $this->dispatch('destroyed', ['message' => 'User Berhasil di Hapus']);
     }
 
     public function updatedSearch()
