@@ -67,10 +67,10 @@ class MahasiswaImport implements ToModel, WithHeadingRow
         $tanggalMasukKuliah = $this->convertExcelDate($row['tanggal_masuk_kuliah']);
 
         $alamat =
-            (!empty($row['jalan']) ? $row['jalan'] : '') .
+            (!empty($row['jalan']) ? $row['jalan']. ',' : '') .
             (!empty($row['rt']) ? ' RT ' . $row['rt'] : '') .
-            (!empty($row['rw']) ? ' RW ' . $row['rw'] : '') .
-            (!empty($row['nama_dusun']) ? ' ' . $row['nama_dusun'] : '') .
+            (!empty($row['rw']) ? ' RW ' . $row['rw'].',' : '') .
+            (!empty($row['nama_dusun']) ? ' ' . $row['nama_dusun'].',' : '') .
             ' ' . $row['kelurahan'] . ' ' . $row['kecamatan'];
 
         foreach ($this->requiredFields as $field) {
@@ -103,18 +103,7 @@ class MahasiswaImport implements ToModel, WithHeadingRow
         $existingUser = User::where('email', $row['email'])->first();
 
         if ($existingUser) {
-            if ($existingUser->nim_nidn === $row['nim']) {
-                // Update existing user if nim_nidn matches
-                $existingUser->update([
-                'name' => $row['nama'],
-                'role' => 'mahasiswa'
-                ]);
-
-                $this->createdRecords[] = "Updated existing user with email {$row['email']} on row {$this->rowNumber}.<br>";
-            } else {
-                // If email exists but nim_nidn does not match, consider it a duplicate
-                $this->incompleteRecords[] = "Email {$row['email']} pada baris {$this->rowNumber} sudah terdaftar pada user lain.<br>";
-            }
+                $this->incompleteRecords[] = "Email {$row['email']} pada baris {$this->rowNumber} sudah terdaftar pada user lain, Mahasiswa ini aka dibuat tanpa user.<br>";
         } else {
             $user = User::create([
                 'name' => $row['nama'],
