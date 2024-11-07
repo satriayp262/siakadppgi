@@ -4,6 +4,7 @@ namespace App\Livewire\Component;
 
 use Livewire\Component;
 use App\Models\Mahasiswa;
+use App\Models\Prodi;
 
 class ChartComponent extends Component
 {
@@ -11,15 +12,16 @@ class ChartComponent extends Component
 
     public function mount()
     {
-        // Menghitung jumlah mahasiswa berdasarkan kode program studi
-        $mahasiswaByProdi = Mahasiswa::select('kode_prodi')
-                                      ->selectRaw('COUNT(*) as count')
-                                      ->groupBy('kode_prodi')
-                                      ->get();
+        // Menghitung jumlah mahasiswa berdasarkan nama program studi
+        $mahasiswaByProdi = Mahasiswa::select('prodi.nama_prodi')
+            ->selectRaw('COUNT(*) as count')
+            ->join('prodi', 'mahasiswa.kode_prodi', '=', 'prodi.kode_prodi')
+            ->groupBy('prodi.nama_prodi')
+            ->get();
 
         // Membuat data untuk chart
         $this->chartData = [
-            'labels' => $mahasiswaByProdi->pluck('kode_prodi'), // Mengambil kategori program studi
+            'labels' => $mahasiswaByProdi->pluck('nama_prodi'), // Mengambil nama program studi
             'datasets' => [
                 [
                     'label' => 'Jumlah Mahasiswa',

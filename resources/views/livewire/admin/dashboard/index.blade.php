@@ -11,7 +11,7 @@
         }
     </style>
 
-    <div class="flex items-center justify-between mb-4">
+    {{-- <div class="flex items-center justify-between mb-4">
         <nav aria-label="Breadcrumb">
             <ol class="flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
                 <li aria-current="page">
@@ -33,12 +33,13 @@
                 </li>
             </ol>
         </div>
-    </div>
+    </div> --}}
 
-    <div class="overflow-hidden bg-yellow-400 shadow-lg rounded-lg p-2">
-        <p class="inline-block whitespace-nowrap text-lg font-semibold text-white" style="animation: marquee 10s linear infinite;">
-            Selamat Datang di halaman admin <span class="text-red-500">SISTEM INFORMASI AKADEMIK POLITEKNIK PIKSI
-            GANESHA INDONESIA.</span>
+    <div class="overflow-hidden bg-purple-700 shadow-lg rounded-lg p-2">
+        <p class="inline-block whitespace-nowrap text-lg font-semibold text-white"
+            style="animation: marquee 10s linear infinite;">
+            Selamat Datang di halaman admin <span class="text-yellow-500">SISTEM INFORMASI AKADEMIK POLITEKNIK PIKSI
+                GANESHA INDONESIA</span>.
         </p>
     </div>
 
@@ -88,6 +89,13 @@
                 class="absolute hover:text-gray-500 text-sm text-white bottom-4 right-4">Detail
                 >></a>
         </div>
+        <div class="border-l-4 border-neutral-600 relative p-4 bg-neutral-400 rounded-lg shadow-md">
+            <h2 class="text-lg font-semibold text-white">Kurikulum</h2>
+            <p class="mt-1 text-xl font-bold text-white">{{ $kurikulum }}</p>
+            <a href="{{ route('admin.kurikulum') }}"
+                class="absolute hover:text-gray-500 text-sm text-white bottom-4 right-4">Detail
+                >></a>
+        </div>
     </div>
 
     <div class="flex space-x-4 mt-5">
@@ -96,7 +104,43 @@
         </div>
 
         <div class="bg-white shadow-lg rounded-lg p-4 w-1/2">
-            <p class="text-3xl font-semibold text-center">COOMING SOON!</p>
+            <p class="text-3xl font-semibold text-center">COMING SOON!</p>
+            <div class="flex items-center justify-center mt-4 mb-4 rounded-lg p-4 border-4 bg-neutral-400 border-gray-600">
+                <svg width="200px" height="200px" viewBox="0 0 120.00 120.00" id="Layer_1" version="1.1"
+                    xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                    fill="#000000" stroke="#000000" stroke-width="0.0012000000000000001">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                    <g id="SVGRepo_iconCarrier">
+                        <style type="text/css">
+                            .st0 {
+                                fill: #ffdd00;
+                            }
+
+                            .st1 {
+                                fill: #E8E9EA;
+                            }
+
+                            .st2 {
+                                fill: #4D96FF;
+                            }
+                        </style>
+                        <g>
+                            <path class="st0"
+                                d="M66.7,31.5c-0.2-0.8,0-1.7,0.6-2.3l11.6-11.6c0.6-0.6,1.5-0.8,2.3-0.6l8.2,2.2l-9.3,9.3 c-0.6,0.6-0.8,1.5-0.6,2.3l1.7,6.4c0.2,0.8,0.9,1.5,1.7,1.7l6.4,1.7c0.8,0.2,1.7,0,2.3-0.6l9.3-9.3l2.2,8.2c0.2,0.8,0,1.7-0.6,2.3 L90.8,52.7c-0.6,0.6-1.5,0.8-2.3,0.6l-9.6-2.6L50.8,78.9l2.6,9.6c0.2,0.8,0,1.7-0.6,2.3l-11.6,11.6c-0.6,0.6-1.5,0.8-2.3,0.6 l-8.2-2.2l9.3-9.3c0.6-0.6,0.8-1.5,0.6-2.3l-1.7-6.4c-0.2-0.8-0.9-1.5-1.7-1.7l-6.4-1.7c-0.8-0.2-1.7,0-2.3,0.6l-9.3,9.3L17,81.2 c-0.2-0.8,0-1.7,0.6-2.3l11.6-11.6c0.6-0.6,1.5-0.8,2.3-0.6l9.6,2.6l28.1-28.1L66.7,31.5z">
+                            </path>
+                            <g>
+                                <polygon class="st1"
+                                    points="102.4,98.1 98.1,102.4 92.5,99.3 91,95.4 56.2,60.6 60.6,56.2 95.3,90.9 99.2,92.4 ">
+                                </polygon>
+                                <path class="st2"
+                                    d="M55.9,42.4L31.5,18c-0.6-0.6-1.6-0.5-2.3,0.1L18.1,29.2c-0.7,0.7-0.7,1.7-0.1,2.3l24.4,24.4 c0.6,0.6,1.6,0.5,2.3-0.1h0c0.7-0.7,1.7-0.7,2.3-0.1l0.6,0.6c0.6,0.6,0.5,1.6-0.1,2.3l0,0c-0.7,0.7-0.7,1.7-0.1,2.3l5.9,5.9 c0.6,0.6,1.6,0.5,2.3-0.1l11.1-11.1c0.7-0.7,0.7-1.7,0.1-2.3l-5.9-5.9c-0.6-0.6-1.6-0.5-2.3,0.1l0,0c-0.7,0.7-1.7,0.7-2.3,0.1 L55.6,47c-0.6-0.6-0.5-1.6,0.1-2.3l0,0C56.4,44,56.5,43,55.9,42.4z">
+                                </path>
+                            </g>
+                        </g>
+                    </g>
+                </svg>
+            </div>
         </div>
     </div>
 

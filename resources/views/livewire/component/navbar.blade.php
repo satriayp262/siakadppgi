@@ -1,4 +1,3 @@
-{{-- <div class="w-full"> --}}
 <nav class="sticky top-0 z-30 w-full bg-gray-900">
     <div class="flex items-center justify-between p-4">
         <div class="flex items-center space-x-2">
@@ -20,8 +19,11 @@
             </span>
         </div>
 
-        <div class="relative">
-            <button type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300"
+        <div class="relative flex items-center space-x-4">
+            <div>
+                <p class="text-white text-sm font-semibold">Hi, {{ Auth::user()->name ?? 'user' }}!</p>
+            </div>
+            <button type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 border-2 border-wwhite"
                 id="user-menu-button" aria-expanded="false">
                 <span class="sr-only">Open user menu</span>
                 <svg class="w-8 h-8 text-gray-400 rounded-full" fill="currentColor" viewBox="0 0 20 20"
@@ -60,23 +62,6 @@
                             const cancelLogout = document.getElementById('cancel-logout');
                             const confirmLogout = document.getElementById('confirm-logout');
                             const logoutForm = document.getElementById('logout-form');
-
-                            // logoutLink.addEventListener('click', function(event) {
-                            //     event.preventDefault();
-                            //     logoutModal.classList.remove('hidden');
-                            // });
-
-                            // closeModal.addEventListener('click', function() {
-                            //     logoutModal.classList.add('hidden');
-                            // });
-
-                            // cancelLogout.addEventListener('click', function() {
-                            //     logoutModal.classList.add('hidden');
-                            // });
-
-                            // confirmLogout.addEventListener('click', function() {
-                            //     logoutForm.submit();
-                            // });
 
                             document.addEventListener('click', function(event) {
                                 if (!logoutModal.contains(event.target) && !logoutLink.contains(event.target)) {
@@ -141,5 +126,3 @@
         });
     </script>
 </nav>
-
-{{-- </div> --}}
