@@ -29,8 +29,7 @@ class Detail extends Component
     #[On('TagihanUpdated')]
     public function handleTagihanUpdated()
     {
-        session()->flash('message', 'Tagihan Berhasil di Update');
-        session()->flash('message_type', 'success');
+        $this->dispatch('updated', ['message' => 'Pembayaran Berhasil Diinput']);
     }
 
 

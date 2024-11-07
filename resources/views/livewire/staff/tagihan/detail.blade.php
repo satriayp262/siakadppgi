@@ -44,15 +44,6 @@
                 @endif
             </div>
             <!-- Modal Form -->
-            <div class="flex justify-between mt-2">
-                <div class="flex items-center px-4 py-2">
-                    <h1>Semester Saat ini : </h1>
-                    <p class="text-xl font-bold text-purple-500">
-                        {{ $semesters->firstWhere('is_active', true)->nama_semester ?? 'Tidak ada semester aktif' }}</p>
-                </div>
-                {{-- <input type="text" wire:model.live="search" placeholder="   Search"
-                    class="px-2 ml-4 border border-gray-300 rounded-lg"> --}}
-            </div>
         </div>
         <table class="min-w-full mt-4 bg-white border border-gray-200">
             <thead>

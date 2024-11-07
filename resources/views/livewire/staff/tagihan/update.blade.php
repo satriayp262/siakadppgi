@@ -49,9 +49,9 @@
                         <div class="mb-4">
                             <label for="total_bayar" class="block text-sm font-medium text-gray-700">Jumlah
                                 Pembayaran</label>
-                            <input type="text" id="formatted_bayar" wire:model="total_bayar" name="total_bayar"
+                            <input type="text" id="formatted_bayar" wire:model.live="total_bayar" name="total_bayar"
                                 class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm"
-                                oninput="formatCurrency(this)">
+                                oninput="formatCurrency(this); checkTotalBayar()">
                             @error('total_bayar')
                                 <span class="text-sm text-red-500">{{ $message }}</span>
                             @enderror

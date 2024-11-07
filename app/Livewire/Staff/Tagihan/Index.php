@@ -21,16 +21,9 @@ class Index extends Component
     #[On('TagihanCreated')]
     public function handletagihanCreated()
     {
-        session()->flash('message', 'Tagihan Berhasil di dibuat');
-        session()->flash('message_type', 'success');
+        $this->dispatch('created', ['message' => 'Tagihan Berhasil Ditambahkan']);
     }
 
-    #[On('tagihanCreated')]
-    public function handletagihan()
-    {
-        session()->flash('message', 'Tagihan Berhasil di dibuat');
-        session()->flash('message_type', 'success');
-    }
 
     public function render()
     {

@@ -12,35 +12,10 @@
                 @endif
             </div>
         </div>
-        <div>
-            @if (session()->has('message'))
-                @php
-                    $messageType = session('message_type', 'success'); // Default to success
-                    $bgColor =
-                        $messageType === 'error'
-                            ? 'bg-red-500'
-                            : (($messageType === 'warning'
-                                    ? 'bg-yellow-500'
-                                    : $messageType === 'update')
-                                ? 'bg-blue-500'
-                                : 'bg-green-500');
-                @endphp
-                <div id="flash-message"
-                    class="flex items-center justify-between p-2 mx-2 mt-4 text-white {{ $bgColor }} rounded">
-                    <span>{{ session('message') }}</span>
-                    <button class="p-1" onclick="document.getElementById('flash-message').remove();"
-                        class="font-bold text-white">
-                        &times;
-                    </button>
-
-                </div>
-            @endif
-        </div>
     </div>
     <div class="bg-yellow-200 shadow-lg p-2 px-4 mt-4 rounded-lg max-w-full">
         <div class="flex justify-between">
             <h1><b>Semester saat ini:</b>
-
                 {{ $semesters->firstWhere('is_active', true)->nama_semester ?? 'Tidak ada semester aktif' }}</h1>
             <div class="text-right">
                 <ol class="breadcrumb">
