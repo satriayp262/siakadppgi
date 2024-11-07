@@ -33,9 +33,28 @@
             Presensi</button>
     </form>
 
-    @if (session()->has('message'))
-        <div class="mt-4 p-2 bg-green-100 text-green-700 rounded">
-            {{ session('message') }}
+    @if (session()->has('message') || session()->has('error'))
+        <div id="alert-message"
+            class="mt-4 p-2 rounded
+        {{ session()->has('message') ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' }}">
+            {{ session('message') ?? session('error') }}
         </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Menghilangkan pesan setelah 3 detik
+                setTimeout(() => {
+                    const alertMessage = document.getElementById('alert-message');
+                    if (alertMessage) {
+                        alertMessage.style.transition = 'opacity 0.5s ease';
+                        alertMessage.style.opacity = '0'; // Menyembunyikan dengan efek pelan
+                        setTimeout(() => alertMessage.remove(), 500); // Menghapus elemen setelah efek selesai
+                    }
+                }, 3000); // 3000 milidetik = 3 detik
+            });
+        </script>
     @endif
+
+
+
 </div>
