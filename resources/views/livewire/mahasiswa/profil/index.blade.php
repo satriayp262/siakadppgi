@@ -375,32 +375,106 @@
 
         let xPos = 0;
         let yPos = 0;
-        let angle = Math.random() * 90; // Direction
+        let angle = 90; // Initial angle (facing to the right)
+        const moveDistance = 100.; // Distance to move in each direction
+        const rotationAngle = 90; // Rotation angle after each movement
+        const delayTime = 500; // Delay in milliseconds (1 second)
 
-        function moveForward() {
-            const speed = 5; // Speed
-            const angleChange = (Math.random() - 0.5) * 0.1; // Change direction
+        let sequence = 1
 
-            angle += angleChange;
-            xPos += Math.cos(angle) * speed;
-            yPos += Math.sin(angle) * speed;
+        function moveInSequence() {
+            setTimeout(() => {
+                if (sequence === 1) {
+                    xPos += moveDistance;
+                    sequence = 2;
+                } else if (sequence === 2) {
+                    xPos += moveDistance;
+                    sequence = 3;
+                } else if (sequence === 3) {
+                    xPos += moveDistance;
+                    sequence = 4;
+                } else if (sequence === 4) {
+                    xPos += moveDistance;
+                    sequence = 5;
+                }else if (sequence === 5) {
+                    angle = (angle + rotationAngle) % 360;
+                    sequence = 6;
+                }else if (sequence === 6) {
+                    yPos += moveDistance;
+                    sequence = 7;
+                }else if (sequence === 7) {
+                    yPos += moveDistance;
+                    sequence = 8;
+                }else if (sequence === 8) {
+                    angle = (angle + rotationAngle) % 360;
+                    sequence = 9;
+                }else if (sequence === 9) {
+                    xPos -= moveDistance;
+                    sequence = 10;
+                }else if (sequence === 10) {
+                    xPos -= moveDistance;
+                    sequence = 11;
+                }else if (sequence === 11) {
+                    xPos -= moveDistance;
+                    sequence = 12;
+                }else if (sequence === 12) {
+                    xPos -= moveDistance;
+                    sequence = 13;
+                }else if (sequence === 13){
+                    angle = (angle + rotationAngle) % 360;
+                    sequence = 14
+                }else if (sequence === 14){
+                    yPos -= moveDistance;
+                    sequence = 15
+                }else if (sequence === 15){
+                    yPos -= moveDistance;
+                    sequence = 16
+                }else if (sequence === 16){
+                    angle = (angle + rotationAngle) % 360;
+                    sequence = 1
+                }
 
-            // Container
-            if (xPos < 0 || xPos + svg.clientWidth > container.clientWidth) {
-                angle = 30 - angle; // Reflect direction horizontally
-            }
+                // Update the SVG's position and rotation
+                svg.style.transform = `translate(${xPos}px, ${yPos}px) rotate(${angle}deg)`;
 
-            if (yPos < 0 || yPos + svg.clientHeight > container.clientHeight) {
-                angle = -angle; // Reflect direction vertically
-            }
+                // Update the angle for the next movement (rotate 90 degrees clockwise)
 
-            // Apply movement and rotation
-            svg.style.transform = `translate(${xPos}px, ${yPos}px) rotate(${angle}deg)`;
-
-            requestAnimationFrame(moveForward); // Continue the animation
+                // Continue the sequence
+                moveInSequence();
+            }, delayTime); // Delay each movement
         }
 
-        requestAnimationFrame(moveForward);
+        moveInSequence();
+
+        // const svg = document.getElementById('moving-svg');
+        // const container = document.querySelector('.svg-container');
+
+        // let xPos = 0;
+        // let yPos = 0;
+        // let angle = Math.random() * 90; // Direction
+
+        // function moveForward() {
+        //     const speed = 5; // Speed
+        //     const angleChange = (Math.random() - 0.5) * 0.1; // Change direction
+
+        //     angle += angleChange;
+        //     xPos += Math.cos(angle) * speed;
+        //     yPos += Math.sin(angle) * speed;
+
+        //     // Container
+        //     if (xPos < 0 || xPos + svg.clientWidth > container.clientWidth) {
+        //         angle = 30 - angle; // Reflect direction horizontally
+        //     }
+
+        //     if (yPos < 0 || yPos + svg.clientHeight > container.clientHeight) {
+        //         angle = -angle; // Reflect direction vertically
+        //     }
+
+        //     // Apply movement and rotation
+        //     svg.style.transform = translate(${xPos}px, ${yPos}px) rotate(${angle}deg);
+
+        //     requestAnimationFrame(moveForward); // Continue the animation
+        // }
     </script>
 
     <style>
