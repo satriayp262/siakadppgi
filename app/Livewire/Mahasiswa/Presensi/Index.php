@@ -46,6 +46,16 @@ class Index extends Component
             return;
         }
 
+        // Cek apakah mahasiswa sudah pernah presensi dengan token yang sama
+        $existingPresensi = Presensi::where('nim', $this->nim)
+            ->where('token', $tokenData->token)
+            ->exists();
+
+        if ($existingPresensi) {
+            session()->flash('error', 'Anda sudah melakukan presensi dengan token ini.');
+            return;
+        }
+
         // Simpan data presensi
         Presensi::create([
             'nama' => $this->nama,
@@ -57,6 +67,7 @@ class Index extends Component
         $this->dispatch('updated', ['message' => 'Presensi Berhasil di Submit']);
         $this->reset(['token']);
     }
+
 
     public function render()
     {
