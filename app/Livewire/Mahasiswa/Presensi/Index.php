@@ -16,17 +16,17 @@ class Index extends Component
     public $token;
 
     public function mount()
-    {
-        // Ambil user yang login
-        $mahasiswa = Mahasiswa::where('NIM', Auth()->user()->nim_nidn)->first();
-        if ($mahasiswa) {
-            $this->nama = $mahasiswa->nama;
-            $this->nim = $mahasiswa->NIM;
-        } else {
-            session()->flash('error', 'Data mahasiswa tidak ditemukan.');
-            // Redirect atau tindakan lain jika perlu
-        }
+{
+    // Ambil user yang login
+    $mahasiswa = Mahasiswa::where('NIM', Auth::user()->nim_nidn)->first();
+    if ($mahasiswa) {
+        $this->nama = $mahasiswa->nama;
+        $this->nim = $mahasiswa->NIM;
+    } else {
+        session()->flash('error', 'Data mahasiswa tidak ditemukan.');
+        // Redirect atau tindakan lain jika perlu
     }
+}
 
 
     // protected $rules = [

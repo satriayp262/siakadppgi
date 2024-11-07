@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('dosen', function (Blueprint $table) {
             $table->integer('id_dosen')->autoIncrement()->primary();
-            $table->foreignId('id')->nullable()->constrained('users')->onDelete('cascade');
             $table->string('nama_dosen');
             $table->string('nidn')->unique();
             $table->enum('jenis_kelamin', ['laki-laki', 'perempuan'])->default('laki-laki');

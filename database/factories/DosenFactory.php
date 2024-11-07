@@ -29,7 +29,6 @@ class DosenFactory extends Factory
             'jabatan_fungsional' => $faker->randomElement(['Asisten Ahli', 'Lektor', 'Lektor Kepala', 'Guru Besar']),
             'kepangkatan' => $faker->randomElement(['Penata Muda', 'Penata', 'Penata Tingkat I', 'Pembina', 'Pembina Utama']),
             'kode_prodi' => Prodi::inRandomOrder()->first()->kode_prodi,
-            'id' => '1',
         ];
     }
 }
