@@ -11,7 +11,7 @@ class Create extends Component
     public $name;
     public $email;
     public $nim;
-    public $password;
+    public $confirmPassword;
     public $role = ' ';
 
     public function rules()
@@ -20,11 +20,11 @@ class Create extends Component
             'name' => 'required|string',
             'email' => 'required|email|unique:users,email',
             'nim' => 'nullable|string|unique:users,nim_nidn',
-            'password' => 'required|min:8',
+            'confirmPassword' => 'required|min:8',
             'role' => 'required|in:admin,dosen,mahasiswa,staff',
         ];
     }
-
+    
     public function message()
     {
         return [
@@ -34,13 +34,13 @@ class Create extends Component
             'email.email' => 'Email tidak valid',
             'email.unique' => 'Email sudah terdaftar',
             'nim.unique' => 'NIM / NIDN sudah terdaftar',
-            'password.required' => 'Password tidak boleh kosong',
-            'password.min' => 'Password minimal 8 karakter',
+            'confirmPassword.required' => 'Password tidak boleh kosong',
+            'confirmPassword.min' => 'Password minimal 8 karakter',
             'role.required' => 'Role tidak boleh kosong',
             'role.in' => 'Role tidak valid',
         ];
     }
-
+    
     public function save()
     {
         $validatedData = $this->validate();
@@ -49,7 +49,7 @@ class Create extends Component
             'name' => $validatedData['name'],
             'email' => $validatedData['email'],
             'nim_nidn' => $validatedData['nim'],
-            'password' => Hash::make($validatedData['password']),
+            'password' => Hash::make($validatedData['confirmPassword']),
             'role' => $validatedData['role'],
         ]);
 
