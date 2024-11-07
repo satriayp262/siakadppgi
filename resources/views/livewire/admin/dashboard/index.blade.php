@@ -14,14 +14,6 @@
                 </li>
             </ol>
         </nav>
-
-        <div class="text-right">
-            <ol class="breadcrumb">
-                <li class="text-sm font-medium text-gray-700 breadcrumb-item">
-                    {{ \Carbon\Carbon::now()->locale('id')->isoFormat('dddd, D MMMM Y') }}
-                </li>
-            </ol>
-        </div>
     </div>
 
     <div class="grid grid-cols-1 gap-4 mt-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -33,7 +25,8 @@
         <div class="border-l-4 border-yellow-400 relative p-4 bg-white rounded-lg shadow-md">
             <h2 class="text-lg font-semibold">Mahasiswa</h2>
             <p class="mt-1 text-xl font-bold">{{ $mahasiswa }}</p>
-            <a href="{{ route('admin.mahasiswa') }}" class="absolute text-sm text-blue-500 bottom-4 right-4">Detail >></a>
+            <a href="{{ route('admin.mahasiswa') }}" class="absolute text-sm text-blue-500 bottom-4 right-4">Detail
+                >></a>
         </div>
         <div class="border-l-4 border-red-600 relative p-4 bg-white rounded-lg shadow-md">
             <h2 class="text-lg font-semibold">Program Studi</h2>
@@ -43,7 +36,8 @@
         <div class="border-l-4 border-pink-500 relative p-4 bg-white rounded-lg shadow-md">
             <h2 class="text-lg font-semibold">Mata Kuliah</h2>
             <p class="mt-1 text-xl font-bold">{{ $matakuliah }}</p>
-            <a href="{{ route('admin.mata_kuliah') }}" class="absolute text-sm text-blue-500 bottom-4 right-4">Detail >></a>
+            <a href="{{ route('admin.mata_kuliah') }}" class="absolute text-sm text-blue-500 bottom-4 right-4">Detail
+                >></a>
         </div>
         <div class="border-l-4 border-purple-500 relative p-4 bg-white rounded-lg shadow-md">
             <h2 class="text-lg font-semibold">User</h2>
@@ -58,7 +52,8 @@
         <div class="border-l-4 border-green-500 relative p-4 bg-white rounded-lg shadow-md">
             <h2 class="text-lg font-semibold">Semester</h2>
             <p class="mt-1 text-xl font-bold">{{ $semester }}</p>
-            <a href="{{ route('admin.semester') }}" class="absolute text-sm text-blue-500 bottom-4 right-4">Detail >></a>
+            <a href="{{ route('admin.semester') }}" class="absolute text-sm text-blue-500 bottom-4 right-4">Detail
+                >></a>
         </div>
     </div>
 </div>

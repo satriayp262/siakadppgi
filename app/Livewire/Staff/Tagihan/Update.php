@@ -56,7 +56,6 @@ class Update extends Component
         $this->validate();
         $total_tagihan_cleaned = preg_replace('/\D/', '', $this->total_bayar);
 
-
         if ($this->tagihan) {
             $this->tagihan->update([
                 'total_bayar' => $total_tagihan_cleaned,
