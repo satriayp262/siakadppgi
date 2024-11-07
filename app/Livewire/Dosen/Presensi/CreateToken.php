@@ -18,11 +18,6 @@ class CreateToken extends Component
         'valid_until' => 'required|date|after:now',
     ];
 
-    public function mount()
-    {
-        $this->matkul = Matakuliah::all(); // Mengambil semua mata kuliah
-    }
-
     public function save()
     {
         $this->validate();
@@ -42,7 +37,7 @@ class CreateToken extends Component
 
     public function render()
     {
-        $matkuls = Matakuliah::all();
+        $matkuls = Matakuliah::where('nidn', Auth()->user()->nim_nidn)->get();
         return view('livewire.dosen.presensi.create-token',[
             'matkuls' => $matkuls
         ]);

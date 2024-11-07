@@ -16,6 +16,7 @@ class Index extends Component
     public $search = '';
 
     public $matkul, $dosen;
+    public $nama_dosen, $nidn;
 
     protected $listeners = [
         'deleteBeritaAcara' => 'destroy',
@@ -54,7 +55,16 @@ class Index extends Component
     public function mount()
     {
         $this->matkul = Matakuliah::all() ?? collect([]);
-        $this->dosen = Dosen::all() ?? collect([]);
+        // $this->dosen = Dosen::all() ?? collect([]);
+
+        $dosen = Dosen::where('nidn', Auth()->user()->nim_nidn)->first();
+        if ($dosen) {   
+            $this->nama_dosen = $dosen->nama;
+            $this->nidn = $dosen->nidn;
+        } else {
+            session()->flash('error', 'Data Dosen tidak ditemukan.');
+            // Redirect atau tindakan lain jika perlu
+        }
     }
 
     public function render()
