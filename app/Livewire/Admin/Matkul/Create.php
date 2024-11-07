@@ -93,9 +93,14 @@ class Create extends Component
     public function render()
     {
         $prodis = Prodi::all();
-        $dosens = Dosen::query()->orderBy('kode_prodi')->get();
+        //get dosen by kode_prodi
+        $dosens = Dosen::query()
+            ->when($this->kode_prodi, function ($query) {
+                $query->where('kode_prodi', $this->kode_prodi);
+            })
+            ->get();
 
-        return view('livewire.admin.matkul.create',[
+        return view('livewire.admin.matkul.create', [
             'prodis' => $prodis,
             'dosens' => $dosens
         ]);
