@@ -15,7 +15,6 @@ use Livewire\Attributes\On;
 class Index extends Component
 {
     use WithPagination;
-
     public $search = '';
 
     #[On('TagihanCreated')]
@@ -30,6 +29,7 @@ class Index extends Component
         $Prodis = Prodi::all();
         $mahasiswas = Mahasiswa::query()
             ->where('nama', 'like', '%' . $this->search . '%')
+            ->orWhere('NIM', 'like', '%' . $this->search . '%')
             ->latest()
             ->paginate(24);
         $semesters = Semester::all();

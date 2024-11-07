@@ -61,6 +61,6 @@
     </table>
     <!-- Pagination Controls -->
     <div class="py-8 mt-4 text-center">
-        {{ $mahasiswas->links() }}
+        {{ $mahasiswas->links('') }}
     </div>
 </div>

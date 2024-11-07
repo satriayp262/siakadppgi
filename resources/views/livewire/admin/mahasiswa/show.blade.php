@@ -24,51 +24,11 @@
             <div class="p-4">
                 <div class="p-4 max-h-[500px] overflow-y-auto">
                     <div class="grid grid-cols-3">
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label for="nama" class="block text-sm font-medium text-gray-700">Nama Mahasiswa</label>
-                            <p class="text-sm text-gray-500">{{ $mahasiswa->nama ?? 'Data Belum Ada' }}</p>
-                        </div>
-
-
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label for="NIM" class="block text-sm font-medium text-gray-700">NIM</label>
-                            <p class="text-sm text-gray-500">{{ $mahasiswa->NIM ?? 'Data Belum Ada' }}</p>
-                        </div>
-
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label for="prodi" class="block text-sm font-medium text-gray-700">Prodi</label>
-                            <p class="text-sm text-gray-500">{{ $mahasiswa->prodi->nama_prodi ?? 'Data Belum Ada' }}
-                            </p>
-                        </div>
-
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label for="tempat_lahir" class="block text-sm font-medium text-gray-700">Tempat Tanggal
-                                Lahir</label>
-                            <p class="text-sm text-gray-500">
-                                {{ $mahasiswa->tempat_lahir ?? 'Data Belum Ada' }},
-                                {{ $mahasiswa->tanggal_lahir ? \Carbon\Carbon::parse($mahasiswa->tanggal_lahir)->format('d-m-Y') : 'Data Belum Ada' }}
-                            </p>
-                        </div>
-
                         @php
                             $jk = [
                                 'L' => 'Laki-laki',
                                 'P' => 'Perempuan',
                             ];
-                        @endphp
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label for="jenis_kelamin" class="block text-sm font-medium text-gray-700">Jenis
-                                Kelamin</label>
-                            <p class="text-sm text-gray-500">
-                                {{ $jk[$mahasiswa->jenis_kelamin ?? null] ?? 'Data Belum Ada' }}
-                            </p>
-                        </div>
-
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label for="NIK" class="block text-sm font-medium text-gray-700">NIK</label>
-                            <p class="text-sm text-gray-500">{{ $mahasiswa->NIK ?? 'Data Belum Ada' }}</p>
-                        </div>
-                        @php
                             $agama = [
                                 1 => 'Islam',
                                 2 => 'Kristen',
@@ -78,18 +38,6 @@
                                 6 => 'Konghucu',
                                 99 => 'Lainnya',
                             ];
-                        @endphp
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label for="agama" class="block text-sm font-medium text-gray-700">Agama</label>
-                            <p class="text-sm text-gray-500">{{ $agama[$mahasiswa->agama ?? null] ?? 'Data Belum Ada' }}
-                            </p>
-                        </div>
-
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label for="alamat" class="block text-sm font-medium text-gray-700">Alamat</label>
-                            <p class="text-sm text-gray-500">{{ $mahasiswa->alamat ?? 'Data Belum Ada' }}</p>
-                        </div>
-                        @php
                             $jalur_pendaftaran = [
                                 3 => 'Penelusuran Minat dan Kemampuan (PMDK)',
                                 4 => 'Prestasi',
@@ -100,25 +48,6 @@
                                 14 => 'Seleksi Nasional Berdasarkan Tes (SNBT)',
                                 15 => 'Seleksi Nasional Berdasarkan Prestasi (SNBP)',
                             ];
-                        @endphp
-
-
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label for="jalur_pendaftaran" class="block text-sm font-medium text-gray-700">Jalur
-                                Pendaftaran</label>
-                            <p class="text-sm text-gray-500">
-                                {{ $jalur_pendaftaran[$mahasiswa->jalur_pendaftaran ?? null] ?? 'Data Belum Ada' }}
-                            </p>
-                        </div>
-
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label for="kewarganegaraan"
-                                class="block text-sm font-medium text-gray-700">Kewarganegaraan</label>
-                            <p class="text-sm text-gray-500">{{ $mahasiswa->kewarganegaraan ?? 'Data Belum Ada' }}
-                            </p>
-                        </div>
-
-                        @php
                             $jenis_pendaftaran = [
                                 1 => 'Peserta didik baru',
                                 2 => 'Pindahan',
@@ -132,33 +61,6 @@
                                 15 => 'Fast Track',
                                 16 => 'RPL Transfer SKS',
                             ];
-                        @endphp
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label for="jenis_pendaftaran" class="block text-sm font-medium text-gray-700">Jenis
-                                Pendaftaran</label>
-                            <p class="text-sm text-gray-500">
-                                {{ $jenis_pendaftaran[$mahasiswa->jenis_pendaftaran ?? null] ?? 'Data Belum Ada' }}
-                            </p>
-                        </div>
-
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label for="tanggal_masuk_kuliah" class="block text-sm font-medium text-gray-700">Tanggal
-                                Masuk Kuliah</label>
-                            <p class="text-sm text-gray-500">
-                                {{ $mahasiswa->tanggal_masuk_kuliah ? \Carbon\Carbon::parse($mahasiswa->tanggal_masuk_kuliah)->format('d-m-Y') : 'Data Belum Ada' }}
-                            </p>
-                        </div>
-
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label for="mulai_semester"
-                                class="block text-sm font-medium
-                            text-gray-700">Mulai
-                                Semester</label>
-                            <p class="text-sm text-gray-500">
-                                {{ $mahasiswa->semester->nama_semester ?? 'Data Belum Ada' }}
-                            </p>
-                        </div>
-                        @php
                             $jenis_tempat_tinggal = [
                                 1 => 'Bersama orang tua',
                                 2 => 'Wali',
@@ -168,48 +70,6 @@
                                 10 => 'Rumah sendiri',
                                 99 => 'Lainnya',
                             ];
-                        @endphp
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label for="jenis_tempat_tinggal" class="block text-sm font-medium text-gray-700">Jenis
-                                Tempat Tinggal</label>
-                            <p class="text-sm text-gray-500">
-                                {{ $jenis_tempat_tinggal[$mahasiswa->jenis_tempat_tinggal ?? null] ?? 'Data Belum Ada' }}
-                            </p>
-                        </div>
-
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label for="telp_rumah"
-                                class="block text
-                            -sm font-medium text-gray-700">Telp
-                                Rumah</label>
-                            <p class="text-sm text-gray-500">{{ $mahasiswa->telp_rumah ?? 'Data Belum Ada' }}</p>
-                        </div>
-
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label for="no_hp" class="block text-sm font-medium text-gray-700">No HP</label>
-                            <p class="text-sm text-gray-500">{{ $mahasiswa->no_hp ?? 'Data Belum Ada' }}</p>
-                        </div>
-
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                            <p class="text-sm text-gray-500">{{ $mahasiswa->email ?? 'Data Belum Ada' }}</p>
-                        </div>
-
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label for="terima_kps"
-                                class="block text
-                            -sm font-medium text-gray-700">Terima
-                                KPS</label>
-                            <p class="text-sm text-gray-500">
-                                {{ $mahasiswa->terima_kps === '1' ? 'Iya' : ($mahasiswa->terima_kps === '0' ? 'Tidak' : 'Data Belum Ada') }}
-                            </p>
-                        </div>
-
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label for="no_kps" class="block text-sm font-medium text-gray-700">No KPS</label>
-                            <p class="text-sm text-gray-500">{{ $mahasiswa->no_kps ?? 'Data Belum Ada' }}</p>
-                        </div>
-                        @php
                             $jenis_transportasi = [
                                 1 => 'Jalan kaki',
                                 3 => 'Angkutan umum/bus/pete-pete',
@@ -224,77 +84,65 @@
                                 14 => 'Mobil pribadi',
                                 99 => 'Lainnya',
                             ];
-                        @endphp
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label for="jenis_transportasi"
-                                class="block text
-                            -sm font-medium text-gray-700">Jenis
-                                Transportasi</label>
-                            <p class="text-sm text-gray-500">{{ $jenis_transportasi[$mahasiswa->jenis_transportasi ?? null ] ?? 'Data Belum Ada' }}
-                            </p>
-                        </div>
-
-
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label for="kode_pt_asal"
-                                class="block text
-                            -sm font-medium text-gray-700">Kode
-                                PT Asal</label>
-                            <p class="text-sm text-gray-500">{{ $mahasiswa->kode_pt_asal ?? 'Data Belum Ada' }}</p>
-                        </div>
-
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label for="nama_pt_asal"
-                                class="block text
-                            -sm font-medium text-gray-700">Nama
-                                PT Asal</label>
-                            <p class="text-sm text-gray-500">{{ $mahasiswa->nama_pt_asal ?? 'Data Belum Ada' }}</p>
-                        </div>
-
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label for="kode_prodi_asal"
-                                class="block text
-                            -sm font-medium text-gray-700">Kode
-                                Prodi Asal</label>
-                            <p class="text-sm text-gray-500">{{ $mahasiswa->kode_prodi_asal ?? 'Data Belum Ada' }}</p>
-                        </div>
-
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label for="nama_prodi_asal"
-                                class="block text
-                            -sm font-medium text-gray-700">Nama
-                                Prodi Asal</label>
-                            <p class="text-sm text-gray-500">{{ $mahasiswa->nama_prodi_asal ?? 'Data Belum Ada' }}</p>
-                        </div>
-
-                        @php
                             $pembiayaan = [
                                 1 => 'Mandiri',
                                 2 => 'Beasiswa Tidak Penuh',
                                 3 => 'Beasiswa Penuh',
                             ];
                         @endphp
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label for="jenis_pembiayaan"
-                                class="block text
-                            -sm font-medium text-gray-700">Jenis
-                                Pembiayaan</label>
-                            <p class="text-sm text-gray-500">
-                                {{ $pembiayaan[$mahasiswa->jenis_pembiayaan] ?? 'Data Belum Ada' }}
-                            </p>
-
-                        </div>
-
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label for="jumlah_biaya_masuk"
-                                class="block text
-                            -sm font-medium text-gray-700">Jumlah
-                                Biaya Masuk</label>
-                            <p class="text-sm text-gray-500">Rp.
-                                {{ $mahasiswa->jumlah_biaya_masuk ? number_format($mahasiswa->jumlah_biaya_masuk, 2, ',', '.') : 'Data Belum Ada' }}
-                            </p>
-                        </div>
-
+                        @foreach (['NIM' => 'NIM', 'NIK' => 'NIK', 'nama' => 'Nama Mahasiswa', 'tempat_lahir' => 'Tempat Lahir', 'tanggal_lahir' => 'Tanggal Lahir', 'jenis_kelamin' => 'Jenis Kelamin', 'mulai_semester' => 'Mulai Semester', 'kode_prodi' => 'Prodi', 'agama' => 'Agama', 'alamat' => 'Alamat', 'jalur_pendaftaran' => 'Jalur Pendaftaran', 'kewarganegaraan' => 'Kewarganegaraan', 'jenis_pendaftaran' => 'Jenis Pendaftaran', 'tanggal_masuk_kuliah' => 'Tanggal Masuk Kuliah', 'jenis_tempat_tinggal' => 'Jenis Tempat Tinggal', 'telp_rumah' => 'Telp Rumah', 'no_hp' => 'No HP', 'email' => 'Email', 'terima_kps' => 'Terima KPS', 'no_kps' => 'No KPS', 'jenis_transportasi' => 'Jenis Transportasi', 'kode_pt_asal' => 'Kode PT Asal', 'nama_pt_asal' => 'Nama PT Asal', 'kode_prodi_asal' => 'Kode Prodi Asal', 'nama_prodi_asal' => 'Nama Prodi Asal', 'jenis_pembiayaan' => 'Jenis Pembiayaan', 'jumlah_biaya_masuk' => 'Jumlah Biaya Masuk'] as $field => $label)
+                            <div class="mb-4 text-left border w-full h-full p-2">
+                                <label for="{{ $field }}"
+                                    class="block text-sm font-medium text-gray-700">{{ $label }}</label>
+                                <p class="text-sm text-gray-500">
+                                    @php
+                                        if ($field == 'agama') {
+                                            $value = $agama[$mahasiswa->$field] ?? 'Data Belum Ada';
+                                        } elseif ($field == 'jalur_pendaftaran') {
+                                            $value = $jalur_pendaftaran[$mahasiswa->$field] ?? 'Data Belum Ada';
+                                        } elseif ($field == 'jenis_pendaftaran') {
+                                            $value = $jenis_pendaftaran[$mahasiswa->$field] ?? 'Data Belum Ada';
+                                        } elseif ($field == 'jenis_tempat_tinggal') {
+                                            $value = $jenis_tempat_tinggal[$mahasiswa->$field] ?? 'Data Belum Ada';
+                                        } elseif ($field == 'jenis_transportasi') {
+                                            $value = $jenis_transportasi[$mahasiswa->$field] ?? 'Data Belum Ada';
+                                        } elseif ($field == 'jenis_pembiayaan') {
+                                            $value = $pembiayaan[$mahasiswa->$field] ?? 'Data Belum Ada';
+                                        } elseif ($field == 'jenis_kelamin') {
+                                            $value = $jk[$mahasiswa->$field] ?? 'Data Belum Ada';
+                                        } elseif ($field == 'kode_prodi') {
+                                            $value = $mahasiswa->prodi->nama_prodi ?? 'Data Belum Ada';
+                                        } elseif ($field == 'mulai_semester') {
+                                            $value = $mahasiswa->semester->nama_semester ?? 'Data Belum Ada';
+                                        } elseif ($field == 'tanggal_lahir') {
+                                            $value = $mahasiswa->tanggal_lahir
+                                                ? \Carbon\Carbon::parse($mahasiswa->tanggal_lahir)->format('d-m-Y')
+                                                : 'Data Belum Ada';
+                                        } elseif ($field == 'tanggal_masuk_kuliah') {
+                                            $value = $mahasiswa->tanggal_masuk_kuliah
+                                                ? \Carbon\Carbon::parse($mahasiswa->tanggal_masuk_kuliah)->format(
+                                                    'd-m-Y',
+                                                )
+                                                : 'Data Belum Ada';
+                                        } elseif ($field == 'jenis_kelamin') {
+                                            $value =
+                                                $mahasiswa->terima_kps === '1'
+                                                    ? 'Iya'
+                                                    : ($mahasiswa->terima_kps === '0'
+                                                        ? 'Tidak'
+                                                        : 'Data Belum Ada');
+                                        } elseif ($field == 'jumlah_biaya_masuk') {
+                                            $value = $mahasiswa->jumlah_biaya_masuk
+                                                ? number_format($mahasiswa->jumlah_biaya_masuk, 2, ',', '.')
+                                                : 'Data Belum Ada';
+                                        } else {
+                                            $value = $mahasiswa->$field ?? 'Data Belum Ada';
+                                        }
+                                    @endphp
+                                    {{ $value }}
+                                </p>
+                            </div>
+                        @endforeach
                     </div>
                     <h1 class="mt-2 text-xl font-bold text-left">Data Orang tua Wali</h1>
                     <div class="grid grid-cols-3 mt-4">
@@ -341,88 +189,41 @@
                             $pekerjaanIbu = $pekerjaan[$kodepekerjaanIbu] ?? null;
                             $kodepekerjaanWali = $mahasiswa->orangtuaWali->pekerjaan_wali ?? null;
                             $pekerjaanWali = $pekerjaan[$kodepekerjaanWali] ?? null;
+                            $parentData = [
+                                'Nama Ayah' => $mahasiswa->orangtuaWali->nama_ayah ?? 'Data Belum Ada',
+                                'Nama Ibu' => $mahasiswa->orangtuaWali->nama_ibu ?? 'Data Belum Ada',
+                                'Nama Wali' => $mahasiswa->orangtuaWali->nama_wali ?? 'Data Belum Ada',
+
+                                'NIK Ayah' => $mahasiswa->orangtuaWali->NIK_ayah ?? 'Data Belum Ada',
+                                'NIK Ibu' => $mahasiswa->orangtuaWali->NIK_ibu ?? 'Data Belum Ada',
+                                'NIK Wali' => $mahasiswa->orangtuaWali->NIK_wali ?? 'Data Belum Ada',
+
+                                'Pendidikan Ayah' =>
+                                    $mahasiswa->orangtuaWali->pendidikanAyah->nama_pendidikan_terakhir ??
+                                    'Data Belum Ada',
+                                'Pendidikan Ibu' =>
+                                    $mahasiswa->orangtuaWali->pendidikanIbu->nama_pendidikan_terakhir ??
+                                    'Data Belum Ada',
+                                'Pendidikan Wali' =>
+                                    $mahasiswa->orangtuaWali->pendidikanWali->nama_pendidikan_terakhir ??
+                                    'Data Belum Ada',
+
+                                'Pekerjaan Ayah' => $pekerjaanAyah ?? 'Data Belum Ada',
+                                'Pekerjaan Ibu' => $pekerjaanIbu ?? 'Data Belum Ada',
+                                'Pekerjaan Wali' => $pekerjaanWali ?? 'Data Belum Ada',
+
+                                'Penghasilan Ayah' => $penghasilanAyah ?? 'Data Belum Ada',
+                                'Penghasilan Ibu' => $penghasilanIbu ?? 'Data Belum Ada',
+                                'Penghasilan Wali' => $penghasilanWali ?? 'Data Belum Ada',
+                            ];
                         @endphp
 
-
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label class="block text-sm font-medium text-gray-700">Nama Ayah</label>
-                            <p class="text-sm text-gray-500">
-                                {{ $mahasiswa->orangtuaWali->nama_ayah ?? 'Data Belum Ada' }}</p>
-                        </div>
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label class="block text-sm font-medium text-gray-700">NIK Ayah</label>
-                            <p class="text-sm text-gray-500">
-                                {{ $mahasiswa->orangtuaWali->NIK_ayah ?? 'Data Belum Ada' }}</p>
-                        </div>
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label class="block text-sm font-medium text-gray-700">Pendidikan Ayah</label>
-                            <p class="text-sm text-gray-500">
-                                {{ $mahasiswa->orangtuaWali->pendidikanAyah->nama_pendidikan_terakhir ?? 'Data Belum Ada' }}
-                            </p>
-                        </div>
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label class="block text-sm font-medium text-gray-700">Pekerjaan Ayah</label>
-                            <p class="text-sm text-gray-500">
-                                {{ $pekerjaanAyah ?? 'Data Belum Ada' }}</p>
-                        </div>
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label class="block text-sm font-medium text-gray-700">Penghasilan Ayah</label>
-                            <p class="text-sm text-gray-500">{{ $penghasilanAyah ?? 'Data Belum Ada' }}</p>
-                        </div>
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label class="block text-sm font-medium text-gray-700">Nama Ibu</label>
-                            <p class="text-sm text-gray-500">
-                                {{ $mahasiswa->orangtuaWali->nama_ibu ?? 'Data Belum Ada' }}</p>
-                        </div>
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label class="block text-sm font-medium text-gray-700">NIK Ibu</label>
-                            <p class="text-sm text-gray-500">
-                                {{ $mahasiswa->orangtuaWali->NIK_ibu ?? 'Data Belum Ada' }}</p>
-                        </div>
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label class="block text-sm font-medium text-gray-700">Pendidikan Ibu</label>
-                            <p class="text-sm text-gray-500">
-                                {{ $mahasiswa->orangtuaWali->pendidikanIbu->nama_pendidikan_terakhir ?? 'Data Belum Ada' }}
-                            </p>
-                        </div>
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label class="block text-sm font-medium text-gray-700">Pekerjaan Ibu</label>
-                            <p class="text-sm text-gray-500">
-                                {{ $pekerjaanIbu ?? 'Data Belum Ada' }}
-                            </p>
-                        </div>
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label class="block text-sm font-medium text-gray-700">Penghasilan Ibu</label>
-                            <p class="text-sm text-gray-500">
-                                {{ $penghasilanIbu ?? 'Data Belum Ada' }}</p>
-                        </div>
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label class="block text-sm font-medium text-gray-700">Nama Wali</label>
-                            <p class="text-sm text-gray-500">
-                                {{ $mahasiswa->orangtuaWali->nama_wali ?? 'Data Belum Ada' }}</p>
-                        </div>
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label class="block text-sm font-medium text-gray-700">NIK Wali</label>
-                            <p class="text-sm text-gray-500">
-                                {{ $mahasiswa->orangtuaWali->NIK_wali ?? 'Data Belum Ada' }}</p>
-                        </div>
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label class="block text-sm font-medium text-gray-700">Pekerjaan Wali</label>
-                            <p class="text-sm text-gray-500">
-                                {{ $pekerjaanWali ?? 'Data Belum Ada' }}
-                            </p>
-                        </div>
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label class="block text-sm font-medium text-gray-700">Pendidikan Wali</label>
-                            <p class="text-sm text-gray-500">
-                                {{ $mahasiswa->orangtuaWali->pendidikanWali->nama_pendidikan_terakhir ?? 'Data Belum Ada' }}
-                            </p>
-                        </div>
-                        <div class="mb-4 text-left border w-full h-full p-2">
-                            <label class="block text-sm font-medium text-gray-700">Penghasilan Wali</label>
-                            <p class="text-sm text-gray-500">
-                                {{ $penghasilanWali ?? 'Data Belum Ada' }}</p>
-                        </div>
+                        @foreach ($parentData as $label => $value)
+                            <div class="mb-4 text-left border w-full h-full p-2">
+                                <label class="block text-sm font-medium text-gray-700">{{ $label }}</label>
+                                <p class="text-sm text-gray-500">{{ $value }}</p>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
