@@ -118,7 +118,7 @@
                                                     <option value="10">Rumah sendiri</option>
                                                     <option value="99">Lainnya</option>
                                                 </select>
-                                                @elseif($field === 'jenis_transportasi')
+                                            @elseif($field === 'jenis_transportasi')
                                                 <select id="{{ strtolower($field) }}"
                                                     wire:model="{{ strtolower($field) }}"
                                                     name="{{ strtolower($field) }}"
@@ -129,7 +129,8 @@
                                                     <option value="4">Mobil/bus antar jemput</option>
                                                     <option value="5">Kereta api</option>
                                                     <option value="6">Ojek</option>
-                                                    <option value="7">Andong/bendi/sado/dokar/delman/becak</option>
+                                                    <option value="7">Andong/bendi/sado/dokar/delman/becak
+                                                    </option>
                                                     <option value="8">Perahu penyeberangan/rakit/getek</option>
                                                     <option value="11">Kuda</option>
                                                     <option value="12">Sepeda</option>
@@ -176,6 +177,24 @@
                                                         ];
                                                     @endphp
                                                     @foreach ($kps as $key => $value)
+                                                        <option value="{{ $key }}">{{ $value }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            @elseif($field === 'jenis_pembiayaan')
+                                                <select id="{{ strtolower($field) }}"
+                                                    wire:model="{{ strtolower($field) }}"
+                                                    name="{{ strtolower($field) }}"
+                                                    class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
+                                                    <option value=" " disabled selected>Select</option>
+                                                    @php
+                                                        $jenis_pembiayaan = [
+                                                            1 => 'Mandiri',
+                                                            2 => 'Beasiswa Tidak Penuh',
+                                                            3 => 'Beasiswa Penuh',
+                                                        ];
+                                                    @endphp
+                                                    @foreach ($jenis_pembiayaan as $key => $value)
                                                         <option value="{{ $key }}">{{ $value }}
                                                         </option>
                                                     @endforeach
@@ -280,24 +299,6 @@
                                                         ];
                                                     @endphp
                                                     @foreach ($penghasilan as $key => $value)
-                                                        <option value="{{ $key }}">{{ $value }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            @elseif($field === 'jenis_pembiayaan')
-                                                <select id="{{ strtolower($field) }}"
-                                                    wire:model="{{ strtolower($field) }}"
-                                                    name="{{ strtolower($field) }}"
-                                                    class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
-                                                    <option value=" " disabled selected>Select</option>
-                                                    @php
-                                                        $jenis_pembiayaan = [
-                                                            1 => 'Mandiri',
-                                                            2 => 'Beasiswa Tidak Penuh',
-                                                            3 => 'Beasiswa Penuh',
-                                                        ];
-                                                    @endphp
-                                                    @foreach ($jenis_pembiayaan as $key => $value)
                                                         <option value="{{ $key }}">{{ $value }}
                                                         </option>
                                                     @endforeach

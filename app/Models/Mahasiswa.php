@@ -104,4 +104,115 @@ class Mahasiswa extends Model
 
         return $semesterDifference;
     }
+
+
+    private static $jenisKelaminOptions = [
+        'L' => 'Laki-laki',
+        'P' => 'Perempuan',
+    ];
+
+    private static $agamaOptions = [
+        1 => 'Islam',
+        2 => 'Kristen',
+        3 => 'Katolik',
+        4 => 'Hindu',
+        5 => 'Buddha',
+        6 => 'Konghucu',
+        99 => 'Lainnya',
+    ];
+
+    private static $jalurPendaftaranOptions = [
+        3 => 'Penelusuran Minat dan Kemampuan (PMDK)',
+        4 => 'Prestasi',
+        9 => 'Program Internasional',
+        11 => 'Program Kerjasama Perusahaan/Institusi/Pemerintah',
+        12 => 'Seleksi Mandiri',
+        13 => 'Ujian Masuk Bersama Lainnya',
+        14 => 'Seleksi Nasional Berdasarkan Tes (SNBT)',
+        15 => 'Seleksi Nasional Berdasarkan Prestasi (SNBP)',
+    ];
+
+    private static $jenisPendaftaranOptions = [
+        1 => 'Peserta didik baru',
+        2 => 'Pindahan',
+        3 => 'Naik Kelas',
+        4 => 'Akselerasi',
+        5 => 'Mengulang',
+        6 => 'Lanjutan semester',
+        8 => 'Pindahan Alih Bentuk',
+        13 => 'RPL Perolehan SKS',
+        14 => 'Pendidikan Non Gelar (Course)',
+        15 => 'Fast Track',
+        16 => 'RPL Transfer SKS',
+    ];
+
+    private static $jenisTempatTinggalOptions = [
+        1 => 'Bersama orang tua',
+        2 => 'Wali',
+        3 => 'Kost',
+        4 => 'Asrama',
+        5 => 'Panti asuhan',
+        10 => 'Rumah sendiri',
+        99 => 'Lainnya',
+    ];
+
+    private static $jenisTransportasiOptions = [
+        1 => 'Jalan kaki',
+        3 => 'Angkutan umum/bus/pete-pete',
+        4 => 'Mobil/bus antar jemput',
+        5 => 'Kereta api',
+        6 => 'Ojek',
+        7 => 'Andong/bendi/sado/dokar/delman/becak',
+        8 => 'Perahu penyeberangan/rakit/getek',
+        11 => 'Kuda',
+        12 => 'Sepeda',
+        13 => 'Sepeda motor',
+        14 => 'Mobil pribadi',
+        99 => 'Lainnya',
+    ];
+
+    private static $jenisPembiayaanOptions = [
+        1 => 'Mandiri',
+        2 => 'Beasiswa Tidak Penuh',
+        3 => 'Beasiswa Penuh',
+    ];
+
+    
+    public function getJenisKelamin()
+    {
+        return self::$jenisKelaminOptions[$this->attributes['jenis_kelamin']] ?? 'Data Invalid';
+    }
+
+    public function getAgama()
+    {
+        return self::$agamaOptions[$this->attributes['agama']] ?? 'Data Invalid';
+    }
+
+    public function getJalurPendaftaran()
+    {
+        return self::$jalurPendaftaranOptions[$this->attributes['jalur_pendaftaran']] ?? 'Data Invalid';
+    }
+
+    public function getJenisPendaftaran()
+    {
+        return self::$jenisPendaftaranOptions[$this->attributes['jenis_pendaftaran']] ?? 'Data Invalid';
+    }
+
+    public function getJenisTempatTinggal()
+    {
+        return self::$jenisTempatTinggalOptions[$this->attributes['jenis_tempat_tinggal']] ?? 'Data Invalid';
+    }
+
+    public function getJenisTransportasi()
+    {
+        return self::$jenisTransportasiOptions[$this->attributes['jenis_transportasi']] ?? 'Data Invalid';
+    }
+
+    public function getJenisPembiayaan()
+    {
+        return self::$jenisPembiayaanOptions[$this->attributes['jenis_pembiayaan']] ?? 'Data Invalid';
+    }
 }
+
+
+

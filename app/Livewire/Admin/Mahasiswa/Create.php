@@ -38,7 +38,7 @@ class Create extends Component
     $nama_pt_asal, 
     $kode_prodi_asal, 
     $nama_prodi_asal, 
-    $jenis_pembiayaan, 
+    $jenis_pembiayaan =' ', 
     $jumlah_biaya_masuk,
     $nama_ayah,
     $nik_ayah,
