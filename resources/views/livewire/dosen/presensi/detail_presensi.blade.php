@@ -15,13 +15,18 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($presensi as $key => $presensiItem)
+            @if(!isset($presensi) && $presensi)
                 <tr>
-                    <td class="px-2 py-1 text-center">{{ $key + 1 }}</td>
-                    <td class="px-2 py-1 text-center">{{ $presensiItem->nama }}</td>
-                    <td class="px-2 py-1 text-center">{{ $presensiItem->nim }}</td>
-                    <td class="px-2 py-1 text-center">{{ $presensiItem->matkul->nama_mata_kuliah }}</td>
-                    <td class="px-2 py-1 text-center">{{ \Carbon\Carbon::parse($presensiItem->waktu_submit)->timezone('Asia/Jakarta')->format('d/m/Y H:i') }}</td>
+                    <td colspan="5" class="px-2 py-4 text-center">Tidak ada data</td>
+                </tr>
+            @endif
+            @foreach ($presensi as $key => $presensiItem)
+                <tr class="border-t">
+                    <td class="px-2 py-2 text-center">{{ $key + 1 }}</td>
+                    <td class="px-2 py-2 text-center">{{ $presensiItem->nama }}</td>
+                    <td class="px-2 py-2 text-center">{{ $presensiItem->nim }}</td>
+                    <td class="px-2 py-2 text-center">{{ $presensiItem->matkul->nama_mata_kuliah }}</td>
+                    <td class="px-2 py-2 text-center">{{ \Carbon\Carbon::parse($presensiItem->waktu_submit)->timezone('Asia/Jakarta')->format('d/m/Y H:i') }}</td>
                 </tr>
             @endforeach
         </tbody>

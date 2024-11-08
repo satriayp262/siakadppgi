@@ -61,7 +61,6 @@ class Index extends Component
             'waktu_submit' => Carbon::now(),
         ]);
 
-        $this->reset();
         $this->dispatch('updated', ['message' => 'Presensi Berhasil di Submit']);
     }
 
