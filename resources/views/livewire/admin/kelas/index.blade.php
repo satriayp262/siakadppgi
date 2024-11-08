@@ -22,12 +22,13 @@
                 <tr class="items-center w-full text-sm text-white align-middle bg-gray-800">
                     <th class="py-2 px-4"><input type="checkbox" id="selectAll" wire:model="selectAll"></th>
                     <th class="px-4 py-2 text-center">No.</th>
-                    <th class="px-4 py-2 text-center">Kode Kelas</th>
-                    <th class="px-4 py-2 text-center">Nama Kelas</th>
                     <th class="px-4 py-2 text-center">Semester</th>
-                    <th class="px-4 py-2 text-center">Prodi</th>
                     <th class="px-4 py-2 text-center">Mata Kuliah</th>
-                    <th class="px-4 py-2 text-center">Lingkup kelas</th>
+                    <th class="px-4 py-2 text-center">Nama Kelas</th>
+                    <th class="px-4 py-2 text-center">Bahasan</th>
+                    <th class="px-4 py-2 text-center">Lingkup Kelas</th>
+                    <th class="px-4 py-2 text-center">Mode Kuliah</th>
+                    <th class="px-4 py-2 text-center">Prodi</th>
                     <th class="px-4 py-2 text-center">Aksi</th>
                 </tr>
             </thead>
@@ -40,12 +41,29 @@
                         </td>
                         <td class="px-4 py-2 text-center">
                             {{ ($kelases->currentPage() - 1) * $kelases->perPage() + $loop->iteration }}</td>
-                        <td class="px-4 py-2 text-center w-1/4">{{ $kelas->kode_kelas }}</td>
-                        <td class="px-4 py-2 text-center w-1/4">{{ $kelas->nama_kelas }}</td>
                         <td class="px-4 py-2 text-center w-1/4">{{ $kelas->Semester->nama_semester }}</td>
-                        <td class="px-4 py-2 text-center w-1/4">{{ $kelas->prodi->nama_prodi }}</td>
                         <td class="px-4 py-2 text-center w-1/4">{{ $kelas->matkul->nama_mata_kuliah }}</td>
-                        <td class="px-4 py-2 text-center w-1/4">{{ $kelas->lingkup_kelas }}</td>
+                        <td class="px-4 py-2 text-center w-1/4">{{ $kelas->nama_kelas }}</td>
+                        <td class="px-4 py-2 text-center w-1/4">{{ $kelas->bahasan }}</td>
+                        <td class="px-4 py-2 text-center w-1/4">
+                            @if ($kelas->lingkup_kelas == 1)
+                                Internal
+                            @elseif ($kelas->lingkup_kelas == 2)
+                                Eksternal
+                            @elseif ($kelas->lingkup_kelas == 3)
+                                Campuran
+                            @endif
+                        </td>
+                        <td class="px-4 py-2 text-center w-1/4">
+                            @if ($kelas->mode_kuliah == 'O')
+                                Online
+                            @elseif ($kelas->mode_kuliah == 'F')
+                                Offline
+                            @elseif ($kelas->mode_kuliah == 'M')
+                                Campuran
+                            @endif
+                        </td>
+                        <td class="px-4 py-2 text-center w-1/4">{{ $kelas->prodi->nama_prodi }}</td>
                         <td class="px-4 py-2 text-center">
                             <div class="flex flex-row">
                                 <div class="flex justify-center space-x-2">

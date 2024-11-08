@@ -27,8 +27,7 @@ class Index extends Component
     #[On('kelasUpdated')]
     public function handleKelasUpdated()
     {
-        session()->flash('message', 'Kelas Berhasil di Update');
-        session()->flash('message_type', 'update');
+        $this->dispatch('updated', ['message' => 'Kelas Berhasil Diupdate']);
     }
 
     public function updatedSelectAll($value)
@@ -79,8 +78,7 @@ class Index extends Component
     public function render()
     {
         $kelases = Kelas::query()
-            ->where('kode_kelas', 'like', '%' . $this->search . '%')
-            ->orWhere('nama_kelas', 'like', '%' . $this->search . '%')
+            ->Where('nama_kelas', 'like', '%' . $this->search . '%')
             ->latest()
             ->paginate(5);
 
