@@ -40,7 +40,7 @@
                                 <label for="nama_kelas" class="block text-sm font-medium text-gray-700">Nama
                                     Mata Kuliah</label>
                                 <p class="text-sm text-gray-500">
-                                    {{ $kelases->matkul->nama_mata_kuliah ?? 'Data Belum Ada' }}</p>
+                                    {{ $kelases->matkul->nama_mata_kuliah . ' ' . '(' . $kelases->matkul->dosen->nama_dosen . ')' ?? 'Data Belum Ada' }}</p>
                             </div>
                             <div class="w-full h-full p-2 mb-4 text-left border">
                                 <label for="nama_kelas" class="block text-sm font-medium text-gray-700">Nama
@@ -75,9 +75,9 @@
                                     {{ $kelases->matkul->metode_pembelajaran ?? 'Data Belum Ada' }}</p>
                             </div>
                             <div class="w-full h-full p-2 mb-4 text-left border">
-                                <label for="kode_prodi" class="block text-sm font-medium text-gray-700">Kode
+                                <label for="kode_prodi" class="block text-sm font-medium text-gray-700">
                                     Prodi</label>
-                                <p class="text-sm text-gray-500">{{ $kelases->prodi->kode_prodi ?? 'Data Belum Ada' }}
+                                <p class="text-sm text-gray-500">{{ $kelases->prodi->nama_prodi ?? 'Data Belum Ada' }}
                                 </p>
                             </div>
                             <div class="w-full h-full p-2 mb-4 text-left border">

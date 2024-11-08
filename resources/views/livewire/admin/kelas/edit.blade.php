@@ -75,7 +75,7 @@
                                 class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
                                 <option value="" disabled selected>Select</option>
                                 @foreach ($mata_kuliah as $mk)
-                                    <option value="{{ $mk->id_mata_kuliah }}">{{ $mk->nama_mata_kuliah }}</option>
+                                    <option value="{{ $mk->id_mata_kuliah }}">{{ $mk->nama_mata_kuliah . ' ' . '(' . $mk->dosen->nama_dosen . ')'}}</option>
                                 @endforeach
                             </select>
                             @error('mata_kuliah')

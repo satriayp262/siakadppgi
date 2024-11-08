@@ -16,7 +16,7 @@ class Edit extends Component
     public $semester = '';
     public $kode_prodi = '';
     public $lingkup_kelas;
-    public $kode_mata_kuliah = '';
+    public $id_mata_kuliah = '';
 
 
     public function rules()
@@ -27,7 +27,7 @@ class Edit extends Component
             'semester' => 'required|int',
             'kode_prodi' => 'required|string',
             'lingkup_kelas' => 'required|string',
-            'kode_mata_kuliah' => 'required|string',
+            'id_mata_kuliah' => 'required|string',
         ];
     }
 
@@ -41,7 +41,7 @@ class Edit extends Component
             'semester.required' => 'Semester tidak boleh kosong',
             'kode_prodi.required' => 'Kode prodi tidak boleh kosong',
             'lingkup_kelas.required' => 'Lingkup kelas tidak boleh kosong',
-            'kode_mata_kuliah.required' => 'Kode mata kuliah tidak boleh kosong',
+            'id_mata_kuliah.required' => 'mata kuliah tidak boleh kosong',
         ];
     }
 
@@ -55,14 +55,14 @@ class Edit extends Component
             $this->semester = $kelas->semester;
             $this->kode_prodi = $kelas->kode_prodi;
             $this->lingkup_kelas = $kelas->lingkup_kelas;
-            $this->kode_mata_kuliah = $kelas->kode_mata_kuliah;
+            $this->id_mata_kuliah = $kelas->id_mata_kuliah;
         }
         return $kelas;
     }
 
     public function clear($id_kelas)
     {
-        $this->resetExcept('kode_prodi', 'kode_mata_kuliah', 'semester');
+        $this->resetExcept('kode_prodi', 'id_mata_kuliah', 'semester');
         $kelas = Kelas::find($id_kelas);
         if ($kelas) {
             $this->id_kelas = $kelas->id_kelas;
@@ -71,7 +71,7 @@ class Edit extends Component
             $this->semester = $kelas->semester;
             $this->kode_prodi = $kelas->kode_prodi;
             $this->lingkup_kelas = $kelas->lingkup_kelas;
-            $this->kode_mata_kuliah = $kelas->kode_mata_kuliah;
+            $this->id_mata_kuliah = $kelas->id_mata_kuliah;
         }
 
     }
@@ -91,11 +91,11 @@ class Edit extends Component
                 'semester' => $validatedData['semester'],
                 'kode_prodi' => $validatedData['kode_prodi'],
                 'lingkup_kelas' => $validatedData['lingkup_kelas'],
-                'kode_mata_kuliah' => $validatedData['kode_mata_kuliah'],
+                'id_mata_kuliah' => $validatedData['id_mata_kuliah'],
             ]);
 
             // Reset form dan dispatch event
-            $this->resetExcept('kode_prodi', 'kode_mata_kuliah', 'semester');
+            $this->resetExcept('kode_prodi', 'id_mata_kuliah', 'semester');
             $this->dispatch('kelasUpdated');
         }
     }
@@ -107,6 +107,10 @@ class Edit extends Component
         $prodi = Prodi::all();
         $Semester = Semester::all();
         $mata_kuliah = Matakuliah::all();
+        if ($this->kode_prodi) {
+            $mata_kuliah = Matakuliah::where('kode_prodi', $this->kode_prodi)->get();
+        }
+        
         return view(
             'livewire.admin.kelas.edit',
             [

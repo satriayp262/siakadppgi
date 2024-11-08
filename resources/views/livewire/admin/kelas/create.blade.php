@@ -3,7 +3,7 @@
     <!-- Button to open the modal -->
     <button @click="isOpen=true"
         class="flex items-center px-4 py-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">
-        <svg class="w-6 h-6 mr-2 text-gray-800 dark:text-white font-black" aria-hidden="true"
+        <svg class="w-6 h-6 mr-2 font-black text-gray-800 dark:text-white" aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
                 d="M5 12h14m-7 7V5" />
@@ -82,7 +82,7 @@
                                 class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
                                 <option value="" disabled selected>Select</option>
                                 @foreach ($mata_kuliah as $mk)
-                                    <option value="{{ $mk->id_mata_kuliah }}">{{ $mk->nama_mata_kuliah }}</option>
+                                    <option value="{{ $mk->id_mata_kuliah }}">{{ $mk->nama_mata_kuliah . ' ' . '(' . $mk->dosen->nama_dosen . ')' }}</option>
                                 @endforeach
                             </select>
                             @error('mata_kuliah')
