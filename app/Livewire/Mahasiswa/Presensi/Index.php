@@ -16,22 +16,17 @@ class Index extends Component
     public $token;
 
     public function mount()
-{
-    // Ambil user yang login
-    $mahasiswa = Mahasiswa::where('NIM', Auth::user()->nim_nidn)->first();
-    if ($mahasiswa) {
-        $this->nama = $mahasiswa->nama;
-        $this->nim = $mahasiswa->NIM;
-    } else {
-        session()->flash('error', 'Data mahasiswa tidak ditemukan.');
-        // Redirect atau tindakan lain jika perlu
+    {
+        // Ambil user yang login
+        $mahasiswa = Mahasiswa::where('NIM', Auth::user()->nim_nidn)->first();
+        if ($mahasiswa) {
+            $this->nama = $mahasiswa->nama;
+            $this->nim = $mahasiswa->NIM;
+        } else {
+            session()->flash('error', 'Data mahasiswa tidak ditemukan.');
+            // Redirect atau tindakan lain jika perlu
+        }
     }
-}
-
-
-    // protected $rules = [
-    //     'token' => 'required|string|exists:token,token',
-    // ];
 
     public function submit()
     {
@@ -43,6 +38,7 @@ class Index extends Component
         // Jika token tidak ditemukan, return atau beri pesan error
         if (!$tokenData) {
             $this->dispatch('warning', ['message' => 'Token tidak ditemukan']);
+            $this->reset();
             return;
         }
 
@@ -53,6 +49,7 @@ class Index extends Component
 
         if ($existingPresensi) {
             session()->flash('error', 'Anda sudah melakukan presensi dengan token ini.');
+            $this->reset();
             return;
         }
 
@@ -64,8 +61,8 @@ class Index extends Component
             'waktu_submit' => Carbon::now(),
         ]);
 
+        $this->reset();
         $this->dispatch('updated', ['message' => 'Presensi Berhasil di Submit']);
-        $this->reset(['token']);
     }
 
 

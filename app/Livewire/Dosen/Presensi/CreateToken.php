@@ -37,8 +37,9 @@ class CreateToken extends Component
 
     public function render()
     {
-        $matkuls = Matakuliah::where('nidn', Auth()->user()->nim_nidn)->get();
-        return view('livewire.dosen.presensi.create-token',[
+        // $matkuls = Matakuliah::where('nidn', auth()->user()->nim_nidn)->get();
+        $matkuls = Matakuliah::all();
+        return view('livewire.dosen.presensi.create-token', [
             'matkuls' => $matkuls
         ]);
     }
