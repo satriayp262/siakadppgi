@@ -7,7 +7,8 @@
         </svg>
     </button>
     <div>
-        <div x-show="isOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-75">
+        <div x-data="{ load: false }" x-show="isOpen && load" x-init="load = true" wire:init="" x-cloak
+            class="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-75">
             <div class="w-1/2 bg-white rounded-lg shadow-lg">
                 <div class="flex items-center justify-between p-4 bg-gray-200 rounded-t-lg">
                     <h3 class="text-xl font-semibold">Edit Dosen</h3>
@@ -77,7 +78,7 @@
 
                             <div class="flex justify-end p-4 bg-gray-200 rounded-b-lg gap-2">
                                 <button type="button" @click="isOpen=false"
-                                class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">Close</button>
+                                    class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">Close</button>
                                 <button type="submit" @click="isOpen = false"
                                     class="px-4 py-2 ml-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">
                                     Submit
@@ -90,5 +91,3 @@
         </div>
     </div>
 </div>
-
-

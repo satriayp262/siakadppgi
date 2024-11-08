@@ -4,11 +4,13 @@
         Buat Token
     </button>
 
-    <div x-show="isOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-75">
+    <div x-data="{ load: false }" x-show="isOpen && load" x-init="load = true" wire:init="" x-cloak
+        class="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-75">
         <div class="w-1/2 bg-white rounded-lg shadow-lg">
             <div class="flex items-center justify-between p-4 bg-gray-200 rounded-t-lg">
                 <h3 class="text-xl font-semibold">Buat Token</h3>
-                <button @click="isOpen=false" class="text-gray-900 px-3 rounded-sm shadow hover:bg-red-500">&times;</button>
+                <button @click="isOpen=false"
+                    class="text-gray-900 px-3 rounded-sm shadow hover:bg-red-500">&times;</button>
             </div>
             <div class="p-4">
                 <div class="p-4 max-h-[500px] overflow-y-auto">
@@ -17,15 +19,17 @@
                             <label for="id_mata_kuliah">Mata Kuliah</label>
                             <select wire:model="id_mata_kuliah" class="border p-2 rounded w-full" required>
                                 <option value="">Pilih Mata Kuliah</option>
-                                @foreach($matkuls as $matkul)
-                                    <option value="{{ $matkul->id_mata_kuliah }}">{{ $matkul->nama_mata_kuliah }}</option>
+                                @foreach ($matkuls as $matkul)
+                                    <option value="{{ $matkul->id_mata_kuliah }}">{{ $matkul->nama_mata_kuliah }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
 
                         <div class="mb-4">
                             <label for="valid_until">Berlaku Hingga</label>
-                            <input type="datetime-local" wire:model="valid_until" class="border p-2 rounded w-full" required />
+                            <input type="datetime-local" wire:model="valid_until" class="border p-2 rounded w-full"
+                                required />
                         </div>
 
                         <div class="flex justify-end p-4 bg-gray-200 rounded-b-lg">
