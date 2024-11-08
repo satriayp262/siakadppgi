@@ -13,19 +13,6 @@
             </div>
         </div>
     </div>
-    <div class="bg-yellow-200 shadow-lg p-2 px-4 mt-4 rounded-lg max-w-full">
-        <div class="flex justify-between">
-            <h1><b>Semester saat ini:</b>
-                {{ $semesters->firstWhere('is_active', true)->nama_semester ?? 'Tidak ada semester aktif' }}</h1>
-            <div class="text-right">
-                <ol class="breadcrumb">
-                    <li class="text-md font-medium text-gray-900 breadcrumb-item">
-                        <h1>{{ \Carbon\Carbon::now()->locale('id')->isoFormat('dddd, D MMMM Y') }}</h1>
-                    </li>
-                </ol>
-            </div>
-        </div>
-    </div>
     <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
         <table class="min-w-full mt-4 bg-white border border-gray-200">
             <thead>

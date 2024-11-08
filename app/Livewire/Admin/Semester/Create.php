@@ -41,10 +41,8 @@ class Create extends Component
         $semester2 = Semester::create([
             'nama_semester' => $validatedData['nama_semester'] . '2',
         ]);
-
-        $this->reset();
-
         $this->dispatch('semesterCreated');
+        $this->reset();
         return [$semester1, $semester2];
     }
 

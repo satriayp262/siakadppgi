@@ -61,8 +61,8 @@ class Create extends Component
             'bahasan' => $validatedData['bahasan'],
             'mode_kuliah' => $validatedData['mode_kuliah'],
         ]);
-        $this->reset();
         $this->dispatch('kelasCreated');
+        $this->reset();
         return $kelas;
     }
 
