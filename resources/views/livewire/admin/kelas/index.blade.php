@@ -41,12 +41,13 @@
                         </td>
                         <td class="px-4 py-2 text-center">
                             {{ ($kelases->currentPage() - 1) * $kelases->perPage() + $loop->iteration }}</td>
-                        <td class="w-1/4 px-4 py-2 text-center">{{ $kelas->kode_kelas }}</td>
-                        <td class="w-1/4 px-4 py-2 text-center">{{ $kelas->nama_kelas }}</td>
                         <td class="w-1/4 px-4 py-2 text-center">{{ $kelas->Semester->nama_semester }}</td>
-                        <td class="w-1/4 px-4 py-2 text-center">{{ $kelas->prodi->nama_prodi }}</td>
                         <td class="w-1/4 px-4 py-2 text-center">{{ $kelas->matkul->nama_mata_kuliah }}</td>
+                        <td class="w-1/4 px-4 py-2 text-center">{{ $kelas->nama_kelas }}</td>
+                        <td class="w-1/4 px-4 py-2 text-center">{{ $kelas->bahasan }}</td>
                         <td class="w-1/4 px-4 py-2 text-center">{{ $kelas->lingkup_kelas }}</td>
+                        <td class="w-1/4 px-4 py-2 text-center">{{ $kelas->mode_kuliah }}</td>
+                        <td class="w-1/4 px-4 py-2 text-center">{{ $kelas->prodi->nama_prodi }}</td>
                         <td class="px-4 py-2 text-center">
                             <div class="flex flex-row">
                                 <div class="flex justify-center space-x-2">
