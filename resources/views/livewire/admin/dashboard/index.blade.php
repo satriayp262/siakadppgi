@@ -37,8 +37,8 @@
 
     <div class="overflow-hidden bg-purple-700 shadow-lg rounded-lg p-2">
         <p class="inline-block whitespace-nowrap text-lg font-semibold text-white"
-            style="animation: marquee 10s linear infinite;">
-            Selamat Datang di halaman admin <span class="text-yellow-500">SISTEM INFORMASI AKADEMIK POLITEKNIK PIKSI
+            style="animation: marquee 15s linear infinite;">
+            Selamat Datang di halaman admin <span class="text-yellow-400">SISTEM INFORMASI AKADEMIK POLITEKNIK PIKSI
                 GANESHA INDONESIA</span>.
         </p>
     </div>
