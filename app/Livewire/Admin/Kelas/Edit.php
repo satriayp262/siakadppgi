@@ -99,9 +99,9 @@ class Edit extends Component
                 'bahasan' => $validatedData['bahasan'],
                 'mode_kuliah' => $validatedData['mode_kuliah'],
             ]);
+            $this->dispatch('kelasUpdated');
+            $this->reset();
         }
-        $this->dispatch('kelasUpdated');
-        $this->reset();
     }
 
     public function render()

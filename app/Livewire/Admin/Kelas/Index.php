@@ -4,14 +4,20 @@ namespace App\Livewire\Admin\Kelas;
 
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\WithFileUploads;
 use App\Models\Kelas;
+use App\Imports\KelasImport;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\On;
 
 class Index extends Component
 {
 
     use WithPagination;
+    use WithFileUploads;
 
+    public $file;
     public $search = '';
     public $selectedKelas = [];
     public $selectAll = false;
@@ -68,6 +74,61 @@ class Index extends Component
         $kelas->delete();
 
         $this->dispatch('destroyed', params: ['message' => 'Kelas deleted Successfully']);
+    }
+
+    public function import()
+    {
+        $this->validate([
+            'file' => 'required|mimes:xls,xlsx|max:10240',
+        ]);
+        $path = $this->file->store('temp');
+
+        // $skippedRecords = [];
+        $createdRecords = [];
+
+        $import = new KelasImport();
+
+        try {
+            Excel::import($import, Storage::path($path));
+
+            $skippedRecords = $import->getSkippedRecords();
+            $createdRecords = $import->getCreatedRecords();
+            $incompleteRecords = $import->getIncompleteRecords();
+            if (empty($createdRecords)) {
+                session()->flash('message', 'Tidak ada data yang disimpan');
+                session()->flash('message_type', 'error');
+            } else {
+                session()->flash('message', count($createdRecords) . ' Data Berhasil disimpan');
+                session()->flash('message_type', 'success');
+            }
+            if ($skippedRecords > 0 && !empty($incompleteRecords)) {
+
+                session()->flash('message2', $skippedRecords . ' Data sudah ada <br>' . implode($incompleteRecords));
+                session()->flash('message_type2', 'warning');
+            } elseif ($skippedRecords > 0 && empty($incompleteRecords)) {
+                session()->flash('message2', $skippedRecords . ' Data sudah ada');
+                session()->flash('message_type2', 'warning');
+            } elseif ($skippedRecords == 0 && !empty($incompleteRecords)) {
+                session()->flash('message2', implode($incompleteRecords));
+                session()->flash('message_type2', 'warning');
+            }
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            session()->flash('message', 'Invalid file format: ' . $e->getMessage());
+            session()->flash('message_type', 'error');
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->getCode() === '23000') {
+                session()->flash('message', 'Data Sudah Ada ' . $e->getMessage());
+                session()->flash('message_type', 'error');
+            } else {
+                session()->flash('message', 'Database error: ' . $e->getMessage());
+                session()->flash('message_type', 'error');
+            }
+        } catch (\Exception $e) {
+            session()->flash('message', 'An error occurred: ' . $e->getMessage());
+            session()->flash('message_type', 'error');
+        } finally {
+            $this->reset('file');
+        }
     }
 
     public function updatedSearch()
