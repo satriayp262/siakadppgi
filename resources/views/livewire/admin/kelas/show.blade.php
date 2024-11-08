@@ -64,7 +64,16 @@
                             <div class="w-full h-full p-2 mb-4 text-left border">
                                 <label for="lingkup_kelas" class="block text-sm font-medium text-gray-700">Lingkup
                                     Kelas</label>
-                                <p class="text-sm text-gray-500">{{ $kelases->lingkup_kelas ?? 'Data Belum Ada' }}
+                                <p class="text-sm text-gray-500">
+                                    @if ($kelases->lingkup_kelas == 1)
+                                        Internal
+                                    @elseif($kelases->lingkup_kelas == 2)
+                                        Eksternal
+                                    @elseif($kelases->lingkup_kelas == 3)
+                                        Campuran
+                                    @else
+                                        Data Belum Ada
+                                    @endif
                                 </p>
                             </div>
 
@@ -72,7 +81,21 @@
                                 <label for="nama_kelas" class="block text-sm font-medium text-gray-700">Mode
                                     Kuliah</label>
                                 <p class="text-sm text-gray-500">
-                                    {{ $kelases->matkul->metode_pembelajaran ?? 'Data Belum Ada' }}</p>
+                                    @if ($kelases->mode_kuliah == 'O')
+                                        Online
+                                    @elseif($kelases->mode_kuliah == 'F')
+                                        Offline
+                                    @elseif($kelases->mode_kuliah == 'M')
+                                        Campuran
+                                    @else
+                                        Data Belum Ada
+                                    @endif
+                                </p>
+                            </div>
+                            <div class="w-full h-full p-2 mb-4 text-left border">
+                                <label for="bahasan" class="block text-sm font-medium text-gray-700">Bahasan</label>
+                                <p class="text-sm text-gray-500">
+                                    {{ $kelases->bahasan ?? 'Data Belum Ada' }}</p>
                             </div>
                             <div class="w-full h-full p-2 mb-4 text-left border">
                                 <label for="kode_prodi" class="block text-sm font-medium text-gray-700">

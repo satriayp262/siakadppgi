@@ -26,28 +26,9 @@
             <div class="p-4">
                 <div class="p-4 max-h-[500px] overflow-y-auto">
                     <form wire:submit="save">
-
-                        <div class="mb-4">
-                            <label for="kode_kelas" class="block text-sm font-medium text-gray-700">Kode Kelas</label>
-                            <input type="text" id="kode_kelas" wire:model="kode_kelas" name="kode_kelas"
-                                class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
-                            @error('kode_kelas')
-                                <span class="text-sm text-red-500">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="nama_kelas" class="block text-sm font-medium text-gray-700">Nama Kelas</label>
-                            <input type="text" id="nama_kelas" wire:model="nama_kelas" name="nama_kelas"
-                                class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
-                            @error('nama_kelas')
-                                <span class="text-sm text-red-500">{{ $message }}</span>
-                            @enderror
-                        </div>
-
                         <div class="mb-4">
                             <label for="semester" class="block text-sm font-medium text-gray-700">Semester</label>
-                            <select id="semester" wire:model="semester" name="semester"
+                            <select id="semester" wire:model.live="semester" name="semester"
                                 class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
                                 <option value="" disabled selected>Select</option>
                                 @foreach ($Semester as $semester1)
@@ -58,7 +39,6 @@
                             @error('semester')
                                 <span class="mt-1 text-sm text-red-500">{{ $message }}</span>
                             @enderror
-
                         </div>
 
                         <div class="mb-4">
@@ -91,15 +71,51 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="lingkup_kelas" class="block text-sm font-medium text-gray-700">Lingkup
-                                Kelas</label>
-                            <input type="text" id="lingkup_kelas" wire:model="lingkup_kelas" name="lingkup_kelas"
+                            <label for="nama_kelas" class="block text-sm font-medium text-gray-700">Nama Kelas</label>
+                            <input type="text" id="nama_kelas" wire:model="nama_kelas" name="nama_kelas"
                                 class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
-                            @error('lingkup_kelas')
+                            @error('nama_kelas')
                                 <span class="text-sm text-red-500">{{ $message }}</span>
                             @enderror
                         </div>
 
+                        <div class="mb-4">
+                            <label for="bahasan" class="block text-sm font-medium text-gray-700">Bahasan</label>
+                            <input type="text" id="bahasan" wire:model="bahasan" name="bahasan"
+                                class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
+                            @error('bahasan')
+                                <span class="text-sm text-red-500">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="lingkup_kelas" class="block text-sm font-medium text-gray-700">Lingkup
+                                Kelas</label>
+                            <select id="lingkup_kelas" wire:model="lingkup_kelas" name="lingkup_kelas"
+                                class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
+                                <option value="" disabled selected>Select</option>
+                                <option value="1">Internal</option>
+                                <option value="2">Eksternal</option>
+                                <option value="3">Campuran</option>
+                            </select>
+                            @error('lingkup_kelas')
+                                <span class="mt-1 text-sm text-red-500">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="mode_kuliah" class="block text-sm font-medium text-gray-700">Mode Kuliah</label>
+                            <select id="mode_kuliah" wire:model="mode_kuliah" name="mode_kuliah"
+                                class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
+                                <option value="" disabled selected>Select</option>
+                                <option value="O">Online</option>
+                                <option value="F">Offline</option>
+                                <option value="M">Campuran</option>
+                            </select>
+                            @error('mode_kuliah')
+                                <span class="mt-1 text-sm text-red-500">{{ $message }}</span>
+                            @enderror
+                        </div>
 
                         <!-- Submit Button inside the form -->
                         <div class="flex justify-end p-4 bg-gray-200 rounded-b-lg">
