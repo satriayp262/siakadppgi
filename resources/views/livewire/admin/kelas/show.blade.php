@@ -23,7 +23,7 @@
             <div class="p-4">
                 <div class="p-4">
                     <div class="p-4 max-h-[500px] overflow-y-auto">
-                        <div class="grid grid-cols-3">
+                        <div class="grid grid-cols-4">
                             <div class="w-full h-full p-2 mb-4 text-left border">
                                 <label for="semester" class="block text-sm font-medium text-gray-700">
                                     Semester</label>
@@ -40,7 +40,13 @@
                                 <label for="nama_kelas" class="block text-sm font-medium text-gray-700">Nama
                                     Mata Kuliah</label>
                                 <p class="text-sm text-gray-500">
-                                    {{ $kelases->matkul->nama_mata_kuliah . ' ' . '(' . $kelases->matkul->dosen->nama_dosen . ')' ?? 'Data Belum Ada' }}</p>
+                                    {{ $kelases->matkul->nama_mata_kuliah ?? 'Data Belum Ada' }}</p>
+                            </div>
+                            <div class="w-full h-full p-2 mb-4 text-left border">
+                                <label for="nama_dosen" class="block text-sm font-medium text-gray-700">Nama
+                                    Dosen</label>
+                                <p class="text-sm text-gray-500">
+                                    {{ $kelases->matkul->dosen->nama_dosen ?? 'Data Belum Ada' }}</p>
                             </div>
                             <div class="w-full h-full p-2 mb-4 text-left border">
                                 <label for="nama_kelas" class="block text-sm font-medium text-gray-700">Nama
