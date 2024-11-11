@@ -6,6 +6,7 @@ use App\Livewire\Auth\VerifyEmail;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Middleware\CheckRole;
 
+
 // auth
 Route::get('/', App\Livewire\Auth\Login::class)->name('login');
 Route::get('/register', App\Livewire\Auth\Register::class)->name('register');
@@ -17,7 +18,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
         $request->fulfill();
-        return redirect('/dashboard'); // Change this to the desired post-verification route
+        return redirect()->intended();
     })->middleware(['signed'])->name('verification.verify');
 
     Route::post('/logout', function () {
@@ -70,7 +71,7 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
 });
 
 // mahasiswa
-Route::middleware(['auth', CheckRole::class . ':mahasiswa'])->prefix('mahasiswa')->group(function () {
+Route::middleware(['auth', CheckRole::class . ':mahasiswa', 'verified'])->prefix('mahasiswa')->group(function () {
     Route::get('/profil', App\Livewire\Mahasiswa\Profil\Index::class)->name('mahasiswa.profile');
     Route::get('/keuangan', App\Livewire\Mahasiswa\Keuangan\Index::class)->name('mahasiswa.keuangan');
     Route::get('/presensi', App\Livewire\Mahasiswa\Presensi\Index::class)->name('mahasiswa.presensi');
@@ -78,7 +79,7 @@ Route::middleware(['auth', CheckRole::class . ':mahasiswa'])->prefix('mahasiswa'
 });
 
 // dosen
-Route::middleware(['auth', CheckRole::class . ':dosen'])->prefix('dosen')->group(function () {
+Route::middleware(['auth', CheckRole::class . ':dosen', 'verified'])->prefix('dosen')->group(function () {
     Route::get('/jadwal', App\Livewire\Dosen\Jadwal\Index::class)->name('dosen.jadwal');
     Route::get('/berita_acara', App\Livewire\Dosen\BeritaAcara\Index::class)->name('dosen.berita_acara');
     Route::get('/presensi', App\Livewire\Dosen\Presensi\Index::class)->name('dosen.presensi');
@@ -93,5 +94,4 @@ Route::middleware(['auth', CheckRole::class . ':staff'])->prefix('staff')->group
     Route::get('/detail/{NIM}', App\Livewire\Staff\Tagihan\Detail::class)->name('staff.detail');
 });
 
-// Auth::routes(['verify' => true]);
 
