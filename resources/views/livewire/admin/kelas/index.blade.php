@@ -8,7 +8,7 @@
                 <div x-data="{ isOpen: false, load: false }" @modal-closed.window="isOpen = false">
                     <!-- Button to open the modal -->
                     <button @click="isOpen=true; load=true"
-                        class="flex items-center pr-4 py-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">
+                        class="flex items-center py-2 pr-4 font-bold text-white bg-green-500 rounded hover:bg-green-700">
                         <svg class="mx-2" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="26"
                             height="26" viewBox="0 0 48 48">
                             <path fill="#169154" d="M29,6H15.744C14.781,6,14,6.781,14,7.744v7.259h15V6z"></path>
@@ -34,7 +34,7 @@
                     </button>
                     <div x-show="isOpen && load" x-cloak
                         class="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-75">
-                        <div class="w-1/2 bg-white  shadow-lg">
+                        <div class="w-1/2 bg-white shadow-lg">
                             <div class="flex items-center justify-between p-4 bg-gray-200 rounded-t-lg">
                                 <h3 class="text-xl font-semibold">Import Data Kelas</h3>
                                 <div @click="isOpen=false" class="px-3 rounded-sm shadow hover:bg-red-500">
@@ -51,7 +51,7 @@
                                                     class="block text-sm font-medium text-gray-700">Template
                                                     Dokumen</label>
                                                 <a href="{{ asset('template/template_dosen.xlsx') }}"
-                                                    class="flex justify-between items-center w-full px-2 py-1 mt-1 text-sm bg-gray-200 rounded-md border-gray-700 shadow-2xl focus:border-indigo-500 sm:text-sm">
+                                                    class="flex items-center justify-between w-full px-2 py-1 mt-1 text-sm bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
                                                     <!-- Left icon -->
                                                     <svg class="w-6 h-6 text-gray-500" aria-hidden="true"
                                                         xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -63,7 +63,7 @@
 
                                                     <!-- Button text -->
                                                     <span
-                                                        class="text-left flex-grow px-2 text-black-500 font-medium">Template_Import_Kelas.xlsx</span>
+                                                        class="flex-grow px-2 font-medium text-left text-black-500">Template_Import_Kelas.xlsx</span>
 
                                                     <!-- Right icon -->
                                                     <svg class="w-6 h-6 text-gray-500" aria-hidden="true"
@@ -85,7 +85,7 @@
                                             </div>
                                         </div>
                                         <div wire:loading>
-                                            <div class="mt-2 w-full flex flex-row items-center space-x-2">
+                                            <div class="flex flex-row items-center w-full mt-2 space-x-2">
                                                 <div class="spinner"></div>
                                                 <div class="spinner-text">Memproses Permintaan...</div>
                                             </div>
@@ -124,6 +124,7 @@
                     <th class="px-4 py-2 text-center">No.</th>
                     <th class="px-4 py-2 text-center">Semester</th>
                     <th class="px-4 py-2 text-center">Mata Kuliah</th>
+                    <th class="px-4 py-2 text-center">Nama Dosen</th>
                     <th class="px-4 py-2 text-center">Nama Kelas</th>
                     <th class="px-4 py-2 text-center">Bahasan</th>
                     <th class="px-4 py-2 text-center">Lingkup Kelas</th>
@@ -143,6 +144,7 @@
                             {{ ($kelases->currentPage() - 1) * $kelases->perPage() + $loop->iteration }}</td>
                         <td class="w-1/4 px-4 py-2 text-center">{{ $kelas->Semester->nama_semester }}</td>
                         <td class="w-1/4 px-4 py-2 text-center">{{ $kelas->matkul->nama_mata_kuliah }}</td>
+                        <td class="w-1/4 px-4 py-2 text-center">{{ $kelas->matkul->dosen->nama_dosen }}</td>
                         <td class="w-1/4 px-4 py-2 text-center">{{ $kelas->nama_kelas }}</td>
                         <td class="w-1/4 px-4 py-2 text-center">{{ $kelas->bahasan }}</td>
                         <td class="w-1/4 px-4 py-2 text-center">
