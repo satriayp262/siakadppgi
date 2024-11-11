@@ -81,18 +81,14 @@ class Create extends Component
 
         $validatedData['total_tagihan'] = preg_replace('/\D/', '', $validatedData['total_tagihan']);
 
-
         $tagihan = Tagihan::create([
             'NIM' => $validatedData['nim'],
             'total_tagihan' => $validatedData['total_tagihan'],
             'status_tagihan' => $validatedData['status_tagihan'],
             'id_semester' => $validatedData['id_semester'],
         ]);
-
-        $this->resetExcept($this->semesters);
-
         $this->dispatch('TagihanCreated');
-
+        $this->reset();
         return $tagihan;
     }
 

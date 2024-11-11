@@ -63,6 +63,7 @@ class Update extends Component
             ]);
 
             $this->dispatch('TagihanUpdated');
+            $this->reset();
         }
 
     }
