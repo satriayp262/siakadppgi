@@ -89,8 +89,8 @@ class Index extends Component
         $import = new KelasImport();
 
         try {
-            Excel::import($import, Storage::path($path));
 
+            Excel::import($import, Storage::path($path));
             $skippedRecords = $import->getSkippedRecords();
             $createdRecords = $import->getCreatedRecords();
             $incompleteRecords = $import->getIncompleteRecords();
@@ -127,7 +127,7 @@ class Index extends Component
             session()->flash('message', 'An error occurred: ' . $e->getMessage());
             session()->flash('message_type', 'error');
         } finally {
-            $this->reset('file');
+
         }
     }
 

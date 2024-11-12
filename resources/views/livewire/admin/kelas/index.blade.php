@@ -77,22 +77,27 @@
                                                 <br>
                                                 <label for="file"
                                                     class="block text-sm font-medium text-gray-700">File</label>
-                                                <input type="file" id="file" wire:model="file" name="file"
-                                                    class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
-                                                @error('file')
-                                                    <span class="text-sm text-red-500">{{ $message }}</span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div wire:loading>
-                                            <div class="flex flex-row items-center w-full mt-2 space-x-2">
-                                                <div class="spinner"></div>
-                                                <div class="spinner-text">Memproses Permintaan...</div>
-                                            </div>
-                                        </div>
-                                        <!-- Submit Button inside the form -->
-                                        <div class="flex justify-end p-4 bg-gray-200 rounded-b-lg">
+                                                <div x-data="{ uploading: false, timeout: null }"
+                                                    x-on:livewire-upload-start="uploading = true; clearTimeout(timeout);"
+                                                    x-on:livewire-upload-finish="timeout = setTimeout(() => { uploading = false; }, 1000);"
+                                                    x-on:livewire-upload-progress="progress = $event.detail.progress">
+                                                    <input type="file" id="file" wire:model="file"
+                                                        name="file"
+                                                        class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
+                                                    @error('file')
+                                                        <span class="text-sm text-red-500">{{ $message }}</span>
+                                                    @enderror
 
+                                                    <div x-show="uploading" class="mt-2">
+                                                        <div class="mt-2 w-full flex flex-row items-center space-x-2">
+                                                            <div class="spinner"></div>
+                                                            <div class="spinner-text">Memproses Permintaan...</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex justify-end p-4 bg-gray-200 rounded-b-lg">
                                             <button type="button" @click="isOpen = false"
                                                 class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">Close</button>
                                             <button type="submit"
@@ -103,6 +108,52 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div>
+                    @if (session()->has('message'))
+                        @php
+                            $messageType = session('message_type', 'success'); // Default to success
+                            $bgColor =
+                                $messageType === 'error'
+                                    ? 'bg-red-500'
+                                    : (($messageType === 'warning'
+                                            ? 'bg-yellow-500'
+                                            : $messageType === 'update')
+                                        ? 'bg-blue-500'
+                                        : 'bg-green-500');
+                        @endphp
+                        <div id="flash-message"
+                            class="flex items-center justify-between p-2 mx-2 mt-4 text-white {{ $bgColor }} rounded">
+                            <span>{!! session('message') !!}</span>
+                            <button class="p-1" onclick="document.getElementById('flash-message').remove();"
+                                class="font-bold text-white">
+                                &times;
+                            </button>
+                        </div>
+                    @endif
+                </div>
+                <div>
+                    @if (session()->has('message2'))
+                        @php
+                            $messageType = session('message_type', 'success'); // Default to success
+                            $bgColor =
+                                $messageType === 'error'
+                                    ? 'bg-red-500'
+                                    : (($messageType === 'warning'
+                                            ? 'bg-yellow-500'
+                                            : $messageType === 'update')
+                                        ? 'bg-blue-500'
+                                        : 'bg-green-500');
+                        @endphp
+                        <div id="flash-message"
+                            class="flex items-center justify-between p-2 mx-2 mt-4 text-white {{ $bgColor }} rounded">
+                            <span>{!! session('message2') !!}</span>
+                            <button class="p-1" onclick="document.getElementById('flash-message').remove();"
+                                class="font-bold text-white">
+                                &times;
+                            </button>
+                        </div>
+                    @endif
                 </div>
                 @if ($showDeleteButton)
                     <button id="deleteButton" class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700"
@@ -124,7 +175,6 @@
                     <th class="px-4 py-2 text-center">No.</th>
                     <th class="px-4 py-2 text-center">Semester</th>
                     <th class="px-4 py-2 text-center">Mata Kuliah</th>
-                    <th class="px-4 py-2 text-center">Nama Dosen</th>
                     <th class="px-4 py-2 text-center">Nama Kelas</th>
                     <th class="px-4 py-2 text-center">Bahasan</th>
                     <th class="px-4 py-2 text-center">Lingkup Kelas</th>
@@ -144,7 +194,6 @@
                             {{ ($kelases->currentPage() - 1) * $kelases->perPage() + $loop->iteration }}</td>
                         <td class="px-4 py-2 text-center">{{ $kelas->Semester->nama_semester }}</td>
                         <td class="px-4 py-2 text-center">{{ $kelas->matkul->nama_mata_kuliah }}</td>
-                        <td class="px-4 py-2 text-center">{{ $kelas->matkul->dosen->nama_dosen }}</td>
                         <td class="px-4 py-2 text-center">{{ $kelas->nama_kelas }}</td>
                         <td class="px-4 py-2 text-center">{{ $kelas->bahasan }}</td>
                         <td class="px-4 py-2 text-center">

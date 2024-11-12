@@ -23,27 +23,72 @@ class KelasImport implements ToModel, WithHeadingRow
     protected $createdRecords = [];
     protected $incompleteRecords = [];
     private $rowNumber = 2;
-    protected $requiredFields = ['nama_kelas', 'bahasan', 'lingkup_kelas', 'mode_kelas', 'id_mata_kuliah', 'semester', 'kode_prodi'];
+    protected $requiredFields = ['semester', 'id_mata_kuliah', 'nama_kelas', 'bahasan', 'lingkup_kelas', 'mode_kuliah', 'kode_prodi'];
     public function __construct()
     {
         $this->validKodeProdi = Prodi::pluck('kode_prodi')->toArray();
-        $this->validSemester = Semester::pluck('semester')->toArray();
+        $this->validSemester = Semester::pluck('id_semester')->toArray();
         $this->validMatkul = Matakuliah::pluck('id_mata_kuliah')->toArray();
-
     }
 
     public function model(array $row)
     {
+        foreach ($this->requiredFields as $field) {
+            if (empty($row[$field])) {
+                $this->incompleteRecords[] = "Baris ke {$this->rowNumber} tidak lengkap, kolom {$field} tidak boleh kosong <br>";
+                $this->rowNumber++;
+                return null;
+            }
 
-        return new Kelas([
-            'id' => $row['id'] ?? null,
-            'nama_kelas' => $row['nama_kelas'],
-            'semester' => $row['semester'],
-            'lingkup_kelas' => $row['lingkup_kelas'],
-            'mode_kelas' => $row['mode_kelas'],
-            'id_mata_kuliah' => $row['id_mata_kuliah'],
-            'kode_prodi' => $row['kode_prodi'],
-        ]);
+            if (!Prodi::where('kode_prodi', $row['kode_prodi'])->exists()) {
+                $this->incompleteRecords[] = "kode_prodi {$row['kode_prodi']} pada baris ke {$this->rowNumber} tidak terdaftar <br>";
+                $this->rowNumber++;
+                return null;
+            }
+
+            if (!Semester::where('nama_semester', $row['semester'])->exists()) {
+                $this->incompleteRecords[] = "semester {$row['semester']} pada baris ke {$this->rowNumber} tidak terdaftar <br>";
+                $this->rowNumber++;
+                return null;
+            } else {
+                $idSemester = Semester::where('nama_semester', $row['semester'])->first()->id_semester;
+            }
+
+            if (!Matakuliah::where('id_mata_kuliah', $row['kode_mata_kuliah'])->exists()) {
+                $this->incompleteRecords[] = "kode_mata_kuliah {$row['kode_mata_kuliah']} pada baris ke {$this->rowNumber} tidak terdaftar <br>";
+                $this->rowNumber++;
+                return null;
+            } else {
+                $idMatkul = Matakuliah::where('kode_mata_kuliah', $row['kode_mata_kuliah'])->first()->id_mata_kuliah;
+            }
+
+            $this->createdRecords[] = "nama_kelas = {$row['nama_kelas']} ,";
+            $this->rowNumber++;
+
+
+
+            return new Kelas([
+                'id' => $row['id'] ?? null,
+                'semester' => $idSemester,
+                'id_mata_kuliah' => $idMatkul,
+                'nama_kelas' => $row['nama_kelas'],
+                'bahasan' => $row['bahasan'],
+                'lingkup_kelas' => $row['lingkup_kelas'],
+                'mode_kuliah' => $row['mode_kuliah'],
+                'kode_prodi' => $row['kode_prodi'],
+            ]);
+        }
     }
-
+    public function getSkippedRecords()
+    {
+        return $this->skippedRecords;
+    }
+    public function getCreatedRecords()
+    {
+        return $this->createdRecords;
+    }
+    public function getIncompleteRecords()
+    {
+        return $this->incompleteRecords;
+    }
 }
