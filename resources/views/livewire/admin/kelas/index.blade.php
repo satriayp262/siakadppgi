@@ -75,24 +75,44 @@
                                                     </svg>
                                                 </a>
                                                 <br>
-                                                <label for="file"
-                                                    class="block text-sm font-medium text-gray-700">File</label>
-                                                <input type="file" id="file" wire:model="file" name="file"
-                                                    class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
+                                                <label for=""
+                                                    class="block text-sm font-medium text-gray-700">Upload
+                                                    Dokumen</label>
+                                                <div class="flex items-center justify-center w-full mt-1">
+                                                    <label for="dropzone-file"
+                                                        class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50  hover:bg-gray-10">
+                                                        <div
+                                                            class="flex flex-col items-center justify-center pt-5 pb-6">
+                                                            <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                                                                aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                                fill="none" viewBox="0 0 20 16">
+                                                                <path stroke="currentColor" stroke-linecap="round"
+                                                                    stroke-linejoin="round" stroke-width="2"
+                                                                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                                                            </svg>
+                                                            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                                                                <span class="font-semibold">Click to upload</span> or
+                                                                drag and drop
+                                                            </p>
+                                                            <p class="text-xs text-gray-500 dark:text-gray-400">xlxs
+                                                                (MAX. 800x400px)</p>
+                                                        </div>
+                                                        <input id="dropzone-file" type="file" class="hidden" />
+                                                    </label>
+                                                </div>
                                                 @error('file')
                                                     <span class="text-sm text-red-500">{{ $message }}</span>
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div wire:loading>
-                                            <div class="flex flex-row items-center w-full mt-2 space-x-2">
+                                        <div x-show="uploading" class="mt-2">
+                                            <div class="mt-2 w-full flex flex-row items-center space-x-2">
                                                 <div class="spinner"></div>
                                                 <div class="spinner-text">Memproses Permintaan...</div>
                                             </div>
                                         </div>
                                         <!-- Submit Button inside the form -->
                                         <div class="flex justify-end p-4 bg-gray-200 rounded-b-lg">
-
                                             <button type="button" @click="isOpen = false"
                                                 class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">Close</button>
                                             <button type="submit"
