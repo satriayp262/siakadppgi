@@ -27,7 +27,7 @@ class KelasImport implements ToModel, WithHeadingRow
     public function __construct()
     {
         $this->validKodeProdi = Prodi::pluck('kode_prodi')->toArray();
-        $this->validSemester = Semester::pluck('semester')->toArray();
+        $this->validSemester = Semester::pluck('id_semester')->toArray();
         $this->validMatkul = Matakuliah::pluck('id_mata_kuliah')->toArray();
     }
 
@@ -48,11 +48,11 @@ class KelasImport implements ToModel, WithHeadingRow
 
             return new Kelas([
                 'id' => $row['id'] ?? null,
+                'semester' => $row['semester'],
+                'id_mata_kuliah' => $row['id_mata_kuliah'],
                 'nama_kelas' => $row['nama_kelas'],
-                'semester' => $row['Semester'],
                 'lingkup_kelas' => $row['lingkup_kelas'],
                 'mode_kelas' => $row['mode_kelas'],
-                'id_mata_kuliah' => $row['id_mata_kuliah'],
                 'kode_prodi' => $row['kode_prodi'],
             ]);
         }

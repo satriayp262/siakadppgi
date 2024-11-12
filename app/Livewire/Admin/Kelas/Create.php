@@ -50,7 +50,6 @@ class Create extends Component
     {
         // Validasi data
         $validatedData = $this->validate();
-
         // Simpan data ke database
         $kelas = Kelas::create([
             'nama_kelas' => $validatedData['nama_kelas'],
