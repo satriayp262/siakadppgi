@@ -38,6 +38,9 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
     Route::prefix('mata_kuliah')->group(function () {
         Route::get('/', App\Livewire\Admin\Matkul\Index::class)->name('admin.mata_kuliah');
     });
+    Route::prefix('ruangan')->group(function () {
+        Route::get('/', App\Livewire\Admin\Ruangan\Index::class)->name('admin.ruangan');
+    });
 
     Route::get('/mahasiswa', App\Livewire\Admin\Mahasiswa\Index::class)->name('admin.mahasiswa');
 

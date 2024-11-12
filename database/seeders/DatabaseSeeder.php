@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Dosen;
 use App\Models\Matakuliah;
 use App\Models\Pendidikan_Terakhir;
+use App\Models\Ruangan;
 use App\Models\User;
 use App\Models\Semester;
 use App\Models\Mahasiswa;
@@ -130,6 +131,7 @@ class DatabaseSeeder extends Seeder
 
         Dosen::factory(30)->create();
         Matakuliah::factory(20)->create();
+        Ruangan::factory(20)->create();
         // Mahasiswa::factory(20)->create();
 
     }
