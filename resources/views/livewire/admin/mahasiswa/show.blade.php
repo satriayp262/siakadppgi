@@ -49,6 +49,8 @@
                                                 'jenis_tempat_tinggal' => $mahasiswa->getJenisTempatTinggal(),
                                                 'jenis_transportasi' => $mahasiswa->getJenisTransportasi(),
                                                 'jenis_pembiayaan' => $mahasiswa->getJenisPembiayaan(),
+                                                'mulai_semester' => $mahasiswa->semester->nama_semester,
+                                                'kode_prodi' => $mahasiswa->prodi->nama_prodi,
                                                 default => $mahasiswa->$field,
                                             };
                                         }
