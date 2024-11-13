@@ -106,6 +106,52 @@
                         </div>
                     </div>
                 </div>
+                <div>
+                    @if (session()->has('message'))
+                        @php
+                            $messageType = session('message_type', 'success'); // Default to success
+                            $bgColor =
+                                $messageType === 'error'
+                                    ? 'bg-red-500'
+                                    : (($messageType === 'warning'
+                                            ? 'bg-yellow-500'
+                                            : $messageType === 'update')
+                                        ? 'bg-blue-500'
+                                        : 'bg-green-500');
+                        @endphp
+                        <div id="flash-message"
+                            class="flex items-center justify-between p-2 mx-2 mt-4 text-white {{ $bgColor }} rounded">
+                            <span>{!! session('message') !!}</span>
+                            <button class="p-1" onclick="document.getElementById('flash-message').remove();"
+                                class="font-bold text-white">
+                                &times;
+                            </button>
+                        </div>
+                    @endif
+                </div>
+                <div>
+                    @if (session()->has('message2'))
+                        @php
+                            $messageType = session('message_type', 'success'); // Default to success
+                            $bgColor =
+                                $messageType === 'error'
+                                    ? 'bg-red-500'
+                                    : (($messageType === 'warning'
+                                            ? 'bg-yellow-500'
+                                            : $messageType === 'update')
+                                        ? 'bg-blue-500'
+                                        : 'bg-green-500');
+                        @endphp
+                        <div id="flash-message"
+                            class="flex items-center justify-between p-2 mx-2 mt-4 text-white {{ $bgColor }} rounded">
+                            <span>{!! session('message2') !!}</span>
+                            <button class="p-1" onclick="document.getElementById('flash-message').remove();"
+                                class="font-bold text-white">
+                                &times;
+                            </button>
+                        </div>
+                    @endif
+                </div>
                 @if ($showDeleteButton)
                     <button id="deleteButton" class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700"
                         onclick="confirmDeleteSelected()">
@@ -167,7 +213,8 @@
         <table class="w-full table-auto border border-gray-200 mt-4">
             <thead>
                 <tr class="items-center w-full text-sm text-white align-middle bg-gray-800">
-                    <th class="px-3 py-2 text-center"><input type="checkbox" id="selectAll" wire:model="selectAll"></th>
+                    <th class="px-3 py-2 text-center"><input type="checkbox" id="selectAll" wire:model="selectAll">
+                    </th>
                     <th class="px-3 py-2 text-center">No</th>
                     <th class="px-3 py-2 text-center">Nama Dosen</th>
                     <th class="px-3 py-2 text-center">NIDN</th>
