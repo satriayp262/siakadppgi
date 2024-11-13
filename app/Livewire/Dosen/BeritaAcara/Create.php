@@ -29,7 +29,7 @@ class Create extends Component
 
         // Ambil user yang sedang login
         $user = Auth::user();
-        $dosen = Dosen::where('id', $user->id)->first();
+        $dosen = Dosen::where('nidn', $user->nim_nidn)->first();
 
         if ($dosen) {
             $this->nidn = $dosen->nidn;

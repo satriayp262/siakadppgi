@@ -96,7 +96,7 @@
                                         </svg>
                                     </button>
                                 </div>
-                                @error('password')
+                                @error('confirmPassword')
                                     <span class="text-sm text-red-500">{{ $message }}</span>
                                 @enderror
                             </div>
