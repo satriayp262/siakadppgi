@@ -23,7 +23,7 @@ class Create extends Component
             'nama_kurikulum' => 'required|string',
             'mulai_berlaku' => 'required',
             'kode_prodi' => 'required',
-            'jumlah_sks_lulus' => 'required|numeric',
+            'jumlah_sks_lulus' => 'nullable|numeric',
             'jumlah_sks_wajib' => 'required|numeric',
             'jumlah_sks_pilihan' => 'required|numeric',
         ];
@@ -35,7 +35,7 @@ class Create extends Component
             'nama_kurikulum.required' => 'Nama kurikulum tidak boleh kosong',
             'mulai_berlaku.required' => 'Semester tidak boleh kosong',
             'kode_prodi.required' => 'Prodi tidak boleh kosong',
-            'jumlah_sks_lulus.required' => 'Jumlah SKS lulus tidak boleh kosong',
+            'jumlah_sks_lulus.numeric' => 'Jumlah SKS lulus harus berupa angka',
             'jumlah_sks_wajib.required' => 'Jumlah SKS wajib tidak boleh kosong',
             'jumlah_sks_pilihan.required' => 'Jumlah SKS pilihan tidak boleh kosong',
         ];

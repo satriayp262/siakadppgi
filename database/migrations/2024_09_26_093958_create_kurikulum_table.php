@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->integer('id_kurikulum')->primary()->autoIncrement();
             $table->string('nama_kurikulum');
             $table->integer('mulai_berlaku');
-            $table->integer('jumlah_sks_lulus');
+            $table->integer('jumlah_sks_lulus')->nullable();
             $table->integer('jumlah_sks_wajib');
             $table->integer('jumlah_sks_pilihan');
             $table->foreign('mulai_berlaku')->references('id_semester')->on('semester');

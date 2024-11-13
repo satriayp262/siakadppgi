@@ -127,7 +127,7 @@ class Index extends Component
             session()->flash('message', 'An error occurred: ' . $e->getMessage());
             session()->flash('message_type', 'error');
         } finally {
-
+            $this->reset('file');
         }
     }
 
