@@ -1,4 +1,4 @@
-<div class="flex min-h-screen items-center justify-center w-full">
+<div class="flex items-center justify-center w-full min-h-screen bg-custom-bg bg-contain bg-repeat" style="background-image: url('{{ asset('img/background.jpg') }}');">
     <div class="py-8 px-4 w-[400px] space-y-8 bg-white shadow-md rounded-lg">
         <div class="text-center">
             <img class="mx-auto h-20" src="{{ asset('img/siakad_polda_logo.png') }}" alt="Your Company">

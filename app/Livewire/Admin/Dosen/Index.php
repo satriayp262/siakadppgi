@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Admin\Dosen;
 
-use App\Exports\DosenExport;
 use App\Models\Dosen;
 use Livewire\WithPagination;
 use Livewire\Component;
@@ -11,8 +10,6 @@ use Livewire\Attributes\On;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\TemplateExport; // Pastikan TemplateExport sudah dibuat
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use App\Imports\DosenImport;
 
 class Index extends Component
@@ -23,6 +20,7 @@ class Index extends Component
     public $search = '';
     public $file;
 
+    public $id_dosen, $nama_dosen, $nidn, $jenis_kelamin, $jabatan_fungsional, $kepangkatan, $kode_prodi, $email, $password;
     public $selectedDosen = [];
     public $selectAll = false;
     public $showDeleteButton = false;
@@ -31,19 +29,19 @@ class Index extends Component
     public function handledosenCreated()
     {
         $this->dispatch('created', params: ['message' => 'Dosen created Successfully']);
-
-        // session()->flash('message', 'Dosen Berhasil di Tambahkan');
-        // session()->flash('message_type', 'success');
+    }
+    #[On('userCreated')]
+    public function handleuserCreated()
+    {
+        $this->dispatch('created', params: ['message' => 'User created Successfully']);
     }
 
     #[On('dosenUpdated')]
     public function handledosenEdited()
     {
         $this->dispatch('updated', params: ['message' => 'Dosen updated Successfully']);
-
-        // session()->flash('message', 'Dosen Berhasil di Update');
-        // session()->flash('message_type', 'update');
     }
+
 
     public function destroy($id_dosen)
     {
@@ -53,10 +51,6 @@ class Index extends Component
         $dosen->delete();
 
         $this->dispatch('destroyed', params: ['message' => 'Dosen deleted Successfully']);
-
-        // Tampilkan pesan sukses
-        // session()->flash('message', 'Dosen Berhasil di Hapus');
-        // session()->flash('message_type', 'error');
     }
 
     public function updatedSelectAll($value)
@@ -72,20 +66,15 @@ class Index extends Component
 
     public function updatedSelectedDosen()
     {
-        // Jika ada dosen yang dipilih, tampilkan tombol, jika tidak, sembunyikan
         $this->showDeleteButton = count($this->selectedDosen) > 0;
     }
 
     public function destroySelected()
     {
-        // Hapus data dosen yang terpilih
         Dosen::whereIn('id_dosen', $this->selectedDosen)->delete();
 
-        // Reset array selectedDosen setelah penghapusan
         $this->selectedDosen = [];
-        $this->selectAll = false; // Reset juga selectAll
-
-        // Emit event ke frontend untuk reset checkbox
+        $this->selectAll = false;
         session()->flash('message', 'Dosen Berhasil di Hapus');
         session()->flash('message_type', 'error');
     }
@@ -97,7 +86,6 @@ class Index extends Component
         ]);
         $path = $this->file->store('temp');
 
-        // $skippedRecords = [];
         $createdRecords = [];
 
         $import = new DosenImport();
@@ -149,7 +137,8 @@ class Index extends Component
         $this->resetPage();
     }
 
-    public $id_dosen, $nama_dosen, $nidn, $jenis_kelamin, $jabatan_fungsional, $kepangkatan, $kode_prodi;
+
+
     public function render()
     {
         $dosens = Dosen::query()
