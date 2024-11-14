@@ -28,7 +28,7 @@ class Index extends Component
     public $showDeleteButton = false;
 
     public $file;
-    public $importing  = false;
+    public $importing = false;
 
     // Update pagination when 'search' is updated
     protected $updatesQueryString = ['search'];
@@ -121,8 +121,7 @@ class Index extends Component
                 session()->flash('message', 'Tidak ada data yang disimpan');
                 session()->flash('message_type', 'error');
             } else {
-                session()->flash('message', count($createdRecords) . ' Data Berhasil disimpan');
-                session()->flash('message_type', 'success');
+                $this->dispatch('created', ['message' => count($createdRecords) . ' Mahasiswa Berhasil disimpan']);
             }
             if ($skippedRecords > 0 && !empty($incompleteRecords)) {
 

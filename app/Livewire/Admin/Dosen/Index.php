@@ -112,8 +112,7 @@ class Index extends Component
                 session()->flash('message', 'Tidak ada data yang disimpan');
                 session()->flash('message_type', 'error');
             } else {
-                session()->flash('message', count($createdRecords) . ' Data Berhasil disimpan');
-                session()->flash('message_type', 'success');
+                $this->dispatch('created', ['message' => count($createdRecords) . ' Dosen Berhasil disimpan']);
             }
             if ($skippedRecords > 0 && !empty($incompleteRecords)) {
 
