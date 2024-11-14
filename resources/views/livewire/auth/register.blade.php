@@ -1,8 +1,8 @@
-<div class="flex items-center justify-center w-full min-h-screen">
+<div class="flex items-center justify-center w-full min-h-screen bg-custom-bg bg-contain bg-repeat" style="background-image: url('{{ asset('img/background.jpg') }}');">
     <div class="py-8 px-4 w-[400px] space-y-8 bg-white shadow-md rounded-lg">
         <div class="text-center">
             <img class="h-20 mx-auto" src="{{ asset('img/siakad_polda_logo.png') }}" alt="Your Company">
-            
+
         </div>
         <form wire:submit="save" class="h-full">
             <div class="space-y-6">

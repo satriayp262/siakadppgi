@@ -1,9 +1,9 @@
-<div class="container mx-auto mt-10">
+<div class="flex items-center justify-center w-full min-h-screen bg-custom-bg bg-contain bg-repeat" style="background-image: url('{{ asset('img/background.jpg') }}');">
     <div class="flex justify-center">
         <div class="w-full max-w-md bg-white shadow-md rounded-lg px-8 py-6">
             <h2 class="text-xl font-bold mb-4">Verifikasi Email Anda</h2>
             <p class="mb-4">
-                Sebelum melanjutkan, periksa email Anda untuk tautan verifikasi. 
+                Sebelum melanjutkan, periksa email Anda untuk tautan verifikasi.
                 Jika Anda tidak menerima email, Anda dapat mengirim ulang tautan verifikasi.
             </p>
             <p class="mb-4">
@@ -28,8 +28,8 @@
                 </div>
             @endif
 
-            <button 
-                wire:click="resendVerificationLink" 
+            <button
+                wire:click="resendVerificationLink"
                 class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
                 Kirim Ulang Tautan Verifikasi
             </button>
