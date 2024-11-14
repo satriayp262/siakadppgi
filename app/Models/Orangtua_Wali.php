@@ -87,33 +87,51 @@ class Orangtua_Wali extends Model
         ];
     }
 
-    public function getPenghasilanAyahAttribute()
+    public function getPenghasilanAyah()
     {
+        if ($this->attributes['penghasilan_ayah'] == null) {
+            return 'Data belum ada';
+        }
         return $this->getPenghasilanOptions()[$this->attributes['penghasilan_ayah']] ?? 'Data Invalid';
     }
 
-    public function getPenghasilanIbuAttribute()
+    public function getPenghasilanIbu()
     {
+        if ($this->attributes['penghasilan_ibu'] == null) {
+            return 'Data belum ada';
+        }
         return $this->getPenghasilanOptions()[$this->attributes['penghasilan_ibu']] ?? 'Data Invalid';
     }
 
-    public function getPenghasilanWaliAttribute()
+    public function getPenghasilanWali()
     {
+        if ($this->attributes['penghasilan_wali'] == null) {
+            return 'Data belum ada';
+        }
         return $this->getPenghasilanOptions()[$this->attributes['penghasilan_wali']] ?? 'Data Invalid';
     }
 
-    public function getPekerjaanAyahAttribute()
+    public function getPekerjaanAyah()
     {
+        if ($this->attributes['pekerjaan_ayah'] == null) {
+            return 'Data belum ada';
+        }
         return $this->getPekerjaanOptions()[$this->attributes['pekerjaan_ayah']] ?? 'Data Invalid';
     }
 
-    public function getPekerjaanIbuAttribute()
+    public function getPekerjaanIbu()
     {
+        if ($this->attributes['pekerjaan_ibu'] == null) {
+            return 'Data belum ada';
+        }
         return $this->getPekerjaanOptions()[$this->attributes['pekerjaan_ibu']] ?? 'Data Invalid';
     }
 
-    public function getPekerjaanWaliAttribute()
-    {
+    public function getPekerjaanWali()
+    { 
+        if ($this->attributes['pekerjaan_wali'] == null) {
+        return 'Data belum ada';
+    }
         return $this->getPekerjaanOptions()[$this->attributes['pekerjaan_wali']] ?? 'Data Invalid';
     }
 

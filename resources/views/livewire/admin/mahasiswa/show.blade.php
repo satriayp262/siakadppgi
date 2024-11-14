@@ -30,30 +30,25 @@
                                     class="block text-sm font-medium text-gray-700">{{ $label }}</label>
                                 <p class="text-sm text-gray-500">
                                     @php
-                                        if ($field == 'tanggal_masuk_kuliah') {
-                                            $value = $mahasiswa->tanggal_masuk_kuliah
+                                        $value = match ($field) {
+                                            'jenis_kelamin' => $mahasiswa->getJenisKelamin(),
+                                            'agama' => $mahasiswa->getAgama(),
+                                            'jalur_pendaftaran' => $mahasiswa->getJalurPendaftaran(),
+                                            'jenis_pendaftaran' => $mahasiswa->getJenisPendaftaran(),
+                                            'jenis_tempat_tinggal' => $mahasiswa->getJenisTempatTinggal(),
+                                            'jenis_transportasi' => $mahasiswa->getJenisTransportasi(),
+                                            'jenis_pembiayaan' => $mahasiswa->getJenisPembiayaan(),
+                                            'mulai_semester' => $mahasiswa->semester->nama_semester,
+                                            'jumlah_biaya_masuk' => $mahasiswa->jumlah_biaya_masuk
+                                                ? number_format($mahasiswa->jumlah_biaya_masuk, 2, ',', '.')
+                                                : 'Data Belum Ada',
+                                            'tanggal_masuk_kuliah' => $mahasiswa->tanggal_masuk_kuliah
                                                 ? \Carbon\Carbon::parse($mahasiswa->tanggal_masuk_kuliah)->format(
                                                     'd-m-Y',
                                                 )
-                                                : 'Data Belum Ada';
-                                        } elseif ($field == 'jumlah_biaya_masuk') {
-                                            $value = $mahasiswa->jumlah_biaya_masuk
-                                                ? number_format($mahasiswa->jumlah_biaya_masuk, 2, ',', '.')
-                                                : 'Data Belum Ada';
-                                        } else {
-                                            $value = match ($field) {
-                                                'jenis_kelamin' => $mahasiswa->getJenisKelamin(),
-                                                'agama' => $mahasiswa->getAgama(),
-                                                'jalur_pendaftaran' => $mahasiswa->getJalurPendaftaran(),
-                                                'jenis_pendaftaran' => $mahasiswa->getJenisPendaftaran(),
-                                                'jenis_tempat_tinggal' => $mahasiswa->getJenisTempatTinggal(),
-                                                'jenis_transportasi' => $mahasiswa->getJenisTransportasi(),
-                                                'jenis_pembiayaan' => $mahasiswa->getJenisPembiayaan(),
-                                                'mulai_semester' => $mahasiswa->semester->nama_semester,
-                                                'kode_prodi' => $mahasiswa->prodi->nama_prodi,
-                                                default => $mahasiswa->$field,
-                                            };
-                                        }
+                                                : 'Data Belum Ada',
+                                            default => $mahasiswa->$field ?? 'Data Belum Ada',
+                                        };
                                     @endphp
                                     {{ $value }}
                                 </p>
@@ -82,13 +77,13 @@
                                     $mahasiswa->orangtuaWali->pendidikanWali->nama_pendidikan_terakhir ??
                                     'Data Belum Ada',
 
-                                'Pekerjaan Ayah' => $mahasiswa->orangtuaWali->pekerjaan_ayah ?? 'Data Belum Ada',
-                                'Pekerjaan Ibu' => $mahasiswa->orangtuaWali->pekerjaan_ibu ?? 'Data Belum Ada',
-                                'Pekerjaan Wali' => $mahasiswa->orangtuaWali->pekerjaan_wali ?? 'Data Belum Ada',
+                                'Pekerjaan Ayah' => $mahasiswa->orangtuaWali->getPekerjaanAyah() ?? 'Data Belum Ada',
+                                'Pekerjaan Ibu' => $mahasiswa->orangtuaWali->getPekerjaanIbu() ?? 'Data Belum Ada',
+                                'Pekerjaan Wali' => $mahasiswa->orangtuaWali->getPekerjaanWali() ?? 'Data Belum Ada',
 
-                                'Penghasilan Ayah' => $mahasiswa->orangtuaWali->penghasilan_ayah ?? 'Data Belum Ada',
-                                'Penghasilan Ibu' => $mahasiswa->orangtuaWali->penghasilan_ibu ?? 'Data Belum Ada',
-                                'Penghasilan Wali' => $mahasiswa->orangtuaWali->penghasilan_wali ?? 'Data Belum Ada',
+                                'Penghasilan Ayah' => $mahasiswa->orangtuaWali->getPenghasilanAyah() ?? 'Data Belum Ada',
+                                'Penghasilan Ibu' => $mahasiswa->orangtuaWali->getPenghasilanIbu() ?? 'Data Belum Ada',
+                                'Penghasilan Wali' => $mahasiswa->orangtuaWali->getPenghasilanWali() ?? 'Data Belum Ada',
                             ];
                         @endphp
 
