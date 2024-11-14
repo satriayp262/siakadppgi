@@ -18,9 +18,9 @@ return new class extends Migration
             $table->integer('id_mata_kuliah');
             $table->integer('id_kelas');
             $table->integer('id_prodi');
-            $table->string('nilai_huruf');
-            $table->string('nilai_index');
-            $table->string('nilai_angka');
+            $table->string('nilai_huruf')->nullable();
+            $table->string('nilai_index')->nullable();
+            $table->string('nilai_angka')->nullable();
             $table->timestamps();
         });
     }

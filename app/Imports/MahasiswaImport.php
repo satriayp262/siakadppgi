@@ -89,21 +89,13 @@ class MahasiswaImport implements ToModel, WithHeadingRow
             return null;
         }
 
-        if ($this->isDuplicate($row['nim'], $row['nik'])) {
-            $this->skippedRecords++;
-            $this->rowNumber++;
-            return null;
-        } else {
-            $this->createdRecords[] = "NIM = {$row['nim']} ,";
-            $this->rowNumber++;
-        }
-
+        
         $idSemester = Semester::where('nama_semester', $row['mulai_semester'])->first()->id_semester;
-
+        
         $existingUser = User::where('email', $row['email'])->first();
-
+        
         if ($existingUser) {
-                $this->incompleteRecords[] = "Email {$row['email']} pada baris {$this->rowNumber} sudah terdaftar pada user lain, Mahasiswa ini aka dibuat tanpa user.<br>";
+            $this->incompleteRecords[] = "Email {$row['email']} pada baris {$this->rowNumber} sudah terdaftar pada user lain, Mahasiswa ini aka dibuat tanpa user.<br>";
         } else {
             $user = User::create([
                 'name' => $row['nama'],
@@ -112,6 +104,14 @@ class MahasiswaImport implements ToModel, WithHeadingRow
                 'nim_nidn' => $row['nim'],
                 'role' => 'mahasiswa'
             ]);
+            if ($this->isDuplicate($row['nim'], $row['nik'])) {
+                $this->skippedRecords++;
+                $this->rowNumber++;
+                return null;
+            } else {
+                $this->createdRecords[] = "NIM = {$row['nim']} ,";
+                $this->rowNumber++;
+            }
         }
         $orangtua_wali = Orangtua_Wali::create([
             'nama_ayah' => $row['nama_ayah'],
