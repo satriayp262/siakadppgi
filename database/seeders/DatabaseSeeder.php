@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Semester;
 use App\Models\Mahasiswa;
 use App\Models\Prodi;
+use App\Models\Kelas;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -130,9 +131,45 @@ class DatabaseSeeder extends Seeder
         }
 
         Dosen::factory(30)->create();
-        Matakuliah::factory(20)->create();
+        
+        $matakuliahData = [
+            [
+                'kode_mata_kuliah' => 'STATIS',
+                'nama_mata_kuliah' => 'Statistika',
+            ],
+            [
+                'kode_mata_kuliah' => 'PROWEB',
+                'nama_mata_kuliah' => 'Pemrograman Web',
+            ],
+            [
+                'kode_mata_kuliah' => 'BASDAT',
+                'nama_mata_kuliah' => 'Basis Data',
+            ],
+            [
+                'kode_mata_kuliah' => 'MOBILE',
+                'nama_mata_kuliah' => 'Mobile Programming',
+            ],
+            [
+                'kode_mata_kuliah' => 'SISTOP',
+                'nama_mata_kuliah' => 'Sistem Operasi',
+            ],
+            [
+                'kode_mata_kuliah' => 'ERPEEL',
+                'nama_mata_kuliah' => 'RPL',
+            ],
+        ];
+
+        // Create each Matakuliah using the predefined data
+        foreach ($matakuliahData as $data) {
+            Matakuliah::factory()->create([
+                'kode_mata_kuliah' => $data['kode_mata_kuliah'],
+                'nama_mata_kuliah' => $data['nama_mata_kuliah'],
+            ]);
+        }
+        Kelas::factory(6)->create();
+
         Ruangan::factory(20)->create();
-        // Mahasiswa::factory(20)->create();
+        
 
     }
 }
