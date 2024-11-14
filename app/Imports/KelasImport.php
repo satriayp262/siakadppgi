@@ -54,7 +54,7 @@ class KelasImport implements ToModel, WithHeadingRow
                 $idSemester = Semester::where('nama_semester', $row['semester'])->first()->id_semester;
             }
 
-            if (!Matakuliah::where('id_mata_kuliah', $row['kode_mata_kuliah'])->exists()) {
+            if (!Matakuliah::where('kode_mata_kuliah', $row['kode_mata_kuliah'])->exists()) {
                 $this->incompleteRecords[] = "kode_mata_kuliah {$row['kode_mata_kuliah']} pada baris ke {$this->rowNumber} tidak terdaftar <br>";
                 $this->rowNumber++;
                 return null;

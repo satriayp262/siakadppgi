@@ -21,6 +21,7 @@
                                         'jenis_transportasi' => $mahasiswa->getJenisTransportasi(),
                                         'jenis_pembiayaan' => $mahasiswa->getJenisPembiayaan(),
                                         'mulai_semester' => $mahasiswa->semester->nama_semester,
+                                        'terima_kps' => $mahasiswa->terima_kps === '1' ? 'Ya' : 'Tidak',
                                         'jumlah_biaya_masuk' => $mahasiswa->jumlah_biaya_masuk
                                             ? number_format($mahasiswa->jumlah_biaya_masuk, 2, ',', '.')
                                             : 'Data Belum Ada',

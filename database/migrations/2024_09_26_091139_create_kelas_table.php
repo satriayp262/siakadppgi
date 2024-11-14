@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('kelas', function (Blueprint $table) {
             $table->integer('id_kelas')->primary()->autoIncrement();
-            $table->string('nama_kelas', 5);
+            $table->string('nama_kelas');
             $table->string('kode_prodi');
             $table->integer('id_mata_kuliah');
             $table->integer('semester');
