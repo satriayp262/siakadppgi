@@ -87,7 +87,7 @@ class Index extends Component
         })->paginate(10);
 
         return view('livewire.admin.krs.index', [
-            'mahasiswa' => $mahasiswa
+            'mahasiswa' => $mahasiswa,
         ]);
     }
 }

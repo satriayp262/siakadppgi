@@ -50,7 +50,7 @@
                                             <div class="flex flex-col">
                                                 <label class="block text-sm font-medium text-gray-700">Template
                                                     Dokumen</label>
-                                                <a href="{{ asset('template/template_krs.xlsx') }}"
+                                                <a href="{{ asset('template/template_import_krs.xlsx') }}"
                                                     class="flex items-center justify-between w-full px-2 py-1 mt-1 text-sm bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
 
                                                     <!-- Left icon -->
@@ -186,7 +186,7 @@
             <tbody>
                 @foreach ($mahasiswa as $item)
                     <tr class="border-t" wire:key="matkul-{{ $item->id_krs }}">
-                        <td class="px-4 py-2 text-center">{{ $item->mahasiswa->NIM }}</td>
+                        <td class="px-4 py-2 text-center">{{ $item->NIM }}</td>
                         <td class="px-4 py-2 text-center">{{ $item->mahasiswa->nama }}</td>
                         <td class="px-4 py-2 text-center">{{ $item->mahasiswa->semesterDifference }}</td>
                         <td class="px-4 py-2 text-center">{{ $item->mahasiswa->prodi->nama_prodi }}</td>
@@ -194,7 +194,7 @@
                         <td class="px-4 py-2 text-center">
                             <div class="flex flex-col">
                                 <div class="flex justify-center space-x-2">
-                                    <a href="{{route('admin.ruangan')}}" class="py-2 px-4 bg-blue-500 hover:bg-blue-700 rounded">
+                                    <a href="{{route('admin.krs.mahasiswa',['NIM' => $item->NIM])}}" class="py-2 px-4 bg-blue-500 hover:bg-blue-700 rounded">
                                         <p>▶</p>
                                     </a>
 
