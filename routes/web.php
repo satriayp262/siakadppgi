@@ -83,6 +83,7 @@ Route::middleware(['auth', CheckRole::class . ':mahasiswa', 'verified'])->prefix
 
 // dosen
 Route::middleware(['auth', CheckRole::class . ':dosen', 'verified'])->prefix('dosen')->group(function () {
+    Route::get('/Dashboard', App\Livewire\Dosen\Home\Dashboard::class)->name('dosen.dashboard');
     Route::get('/jadwal', App\Livewire\Dosen\Jadwal\Index::class)->name('dosen.jadwal');
     Route::get('/berita_acara', App\Livewire\Dosen\BeritaAcara\Index::class)->name('dosen.berita_acara');
     Route::get('/presensi', App\Livewire\Dosen\Presensi\Index::class)->name('dosen.presensi');
