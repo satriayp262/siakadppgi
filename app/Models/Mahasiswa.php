@@ -180,36 +180,57 @@ class Mahasiswa extends Model
     
     public function getJenisKelamin()
     {
+        if ($this->attributes['jenis_kelamin'] == null) {
+            return 'Data belum ada';
+        }
         return self::$jenisKelaminOptions[$this->attributes['jenis_kelamin']] ?? 'Data Invalid';
     }
 
     public function getAgama()
     {
+        if ($this->attributes['agama'] == null) {
+            return 'Data belum ada';
+        }
         return self::$agamaOptions[$this->attributes['agama']] ?? 'Data Invalid';
     }
 
     public function getJalurPendaftaran()
     {
+        if ($this->attributes['jalur_pendaftaran'] == null) {
+            return 'Data belum ada';
+        }
         return self::$jalurPendaftaranOptions[$this->attributes['jalur_pendaftaran']] ?? 'Data Invalid';
     }
 
     public function getJenisPendaftaran()
     {
+        if ($this->attributes['jenis_pendaftaran'] == null) {
+            return 'Data belum ada';
+        }
         return self::$jenisPendaftaranOptions[$this->attributes['jenis_pendaftaran']] ?? 'Data Invalid';
     }
 
     public function getJenisTempatTinggal()
     {
+        if ($this->attributes['jenis_tempat_tinggal'] == null) {
+            return 'Data belum ada';
+        }
         return self::$jenisTempatTinggalOptions[$this->attributes['jenis_tempat_tinggal']] ?? 'Data Invalid';
     }
 
     public function getJenisTransportasi()
     {
+        if ($this->attributes['jenis_transportasi'] == null) {
+            return 'Data belum ada';
+        }
         return self::$jenisTransportasiOptions[$this->attributes['jenis_transportasi']] ?? 'Data Invalid';
     }
 
     public function getJenisPembiayaan()
     {
+        if ($this->attributes['jenis_pembiayaan'] == null) {
+            return 'Data belum ada';
+        }
         return self::$jenisPembiayaanOptions[$this->attributes['jenis_pembiayaan']] ?? 'Data Invalid';
     }
 }

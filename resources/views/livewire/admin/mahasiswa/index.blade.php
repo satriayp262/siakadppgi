@@ -49,7 +49,7 @@
                                         <div class="mb-4">
                                             <div class="flex flex-col">
                                                 <label class="block text-sm font-medium text-gray-700">Template Dokumen</label>
-                                                <a href="{{ asset('template/template_mahasiswa2.xlsx') }}"
+                                                <a href="{{ asset('template/template_mahasiswa3.xlsx') }}"
                                                     class="flex items-center justify-between w-full px-2 py-1 mt-1 text-sm bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
                                     
                                                     <!-- Left icon -->
