@@ -13,7 +13,6 @@ class KRS extends Model
     protected $fillable = [
         'id_krs',
         'NIM',
-        'nama',
         'id_semester',
         'id_mata_kuliah',
         'id_kelas',
