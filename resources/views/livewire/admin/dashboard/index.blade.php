@@ -11,32 +11,8 @@
         }
     </style>
 
-    {{-- <div class="flex items-center justify-between mb-4">
-        <nav aria-label="Breadcrumb">
-            <ol class="flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
-                <li aria-current="page">
-                    <div class="flex items-center">
-                        <svg class="w-3 h-3 mx-1 text-gray-400 rtl:rotate-180" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="m1 9 4-4-4-4" />
-                        </svg>
-                        <span class="text-sm font-medium text-gray-500 ms-1 md:ms-2">Dashboard</span>
-                    </div>
-                </li>
-            </ol>
-        </nav>
-        <div class="text-right">
-            <ol class="breadcrumb">
-                <li class="text-md font-medium text-gray-500 breadcrumb-item">
-                    <h1>{{ \Carbon\Carbon::now()->locale('id')->isoFormat('dddd, D MMMM Y') }}</h1>
-                </li>
-            </ol>
-        </div>
-    </div> --}}
-
     <div class="overflow-hidden bg-purple-700 shadow-lg rounded-lg p-2">
-        <p class="inline-block whitespace-nowrap text-lg font-semibold text-white"
+        <p class="inline-block whitespace-nowrap text-md font-semibold text-white"
             style="animation: marquee 15s linear infinite;">
             Selamat Datang di halaman admin <span class="text-yellow-400">SISTEM INFORMASI AKADEMIK POLITEKNIK PIKSI
                 GANESHA INDONESIA</span>.
@@ -105,7 +81,8 @@
 
         <div class="bg-white shadow-lg rounded-lg p-4 w-1/2">
             <p class="text-3xl font-semibold text-center">COMING SOON!</p>
-            <div class="flex items-center justify-center mt-4 mb-4 rounded-lg p-4 border-4 bg-neutral-400 border-gray-600">
+            <div
+                class="flex items-center justify-center mt-4 mb-4 rounded-lg p-4 border-4 bg-neutral-400 border-gray-600">
                 <svg width="200px" height="200px" viewBox="0 0 120.00 120.00" id="Layer_1" version="1.1"
                     xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     fill="#000000" stroke="#000000" stroke-width="0.0012000000000000001">
