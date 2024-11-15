@@ -19,9 +19,9 @@
                 </li>
                 <li>
                     <button type="button"
-                        class="flex items-center w-full py-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        class="flex items-center w-full py-2 text-base transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                         aria-controls="dropdown-sistem" data-collapse-toggle="dropdown-sistem">
-                        <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Pengaturan Sistem</span>
+                        <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Sistem</span>
                         <svg class="w-3 h-3 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 10 6">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -32,7 +32,7 @@
                         class="{{ request()->routeIs('admin.user') ? '' : 'hidden' }} py-2 space-y-2">
                         <li>
                             <a href="{{ route('admin.user') }}"
-                                class="flex items-center p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.user') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
+                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.user') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
                                 <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.user') ? 'text-white' : 'text-gray-500' }}"
                                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                     fill="currentColor" viewBox="0 0 24 24">
@@ -47,9 +47,9 @@
                 </li>
                 <li>
                     <button type="button"
-                        class="flex items-center w-full py-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        class="flex items-center w-full py-2 text-base transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                         aria-controls="dropdown-akademik" data-collapse-toggle="dropdown-akademik">
-                        <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Manajemen Akademik</span>
+                        <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Akademik</span>
                         <svg class="w-3 h-3 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 10 6">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -59,7 +59,7 @@
                     <ul id="dropdown-akademik" class="py-2 space-y-2 {{ request()->routeIs(['admin.kurikulum', 'admin.semester', 'admin.mata_kuliah', 'admin.prodi', 'admin.kelas', 'admin.ruangan']) ? '' : 'hidden' }}">
                         <li>
                             <a href="{{ route('admin.kurikulum') }}"
-                                class="flex items-center p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.kurikulum') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
+                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.kurikulum') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
                                 <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.kurikulum') ? 'text-white' : 'text-gray-500' }}"
                                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                     fill="none" viewBox="0 0 24 24">
@@ -72,7 +72,7 @@
                         </li>
                         <li>
                             <a href="{{ route('admin.semester') }}"
-                                class="flex items-center p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.semester') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
+                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.semester') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
                                 <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.semester') ? 'text-white' : 'text-gray-500' }}"
                                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                     fill="currentColor" viewBox="0 0 24 24">
@@ -85,7 +85,7 @@
                         </li>
                         <li>
                             <a href="{{ route('admin.mata_kuliah') }}"
-                                class="flex items-center p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.mata_kuliah') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
+                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.mata_kuliah') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
                                 <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.mata_kuliah') ? 'text-white' : 'text-gray-500' }}"
                                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                     fill="currentColor" viewBox="0 0 24 24">
@@ -98,7 +98,7 @@
                         </li>
                         <li>
                             <a href="{{ route('admin.prodi') }}"
-                                class="flex items-center p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.prodi') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
+                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.prodi') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
                                 <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.prodi') ? 'text-white' : 'text-gray-500' }}"
                                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                                     height="24" fill="currentColor" viewBox="0 0 24 24">
@@ -111,7 +111,7 @@
                         </li>
                         <li>
                             <a href="{{ route('admin.kelas') }}"
-                                class="flex items-center p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.kelas') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
+                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.kelas') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
                                 <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.kelas') ? 'text-white' : 'text-gray-500' }}"
                                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                                     height="24" fill="currentColor" viewBox="0 0 24 24">
@@ -125,7 +125,7 @@
                         </li>
                         <li>
                             <a href="{{ route('admin.ruangan') }}"
-                                class="flex items-center p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.ruangan') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
+                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.ruangan') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
                                 <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.ruangan') ? 'text-white' : 'text-gray-500' }}"
                                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                                     height="24" fill="currentColor" viewBox="0 0 24 24">
@@ -142,9 +142,9 @@
 
                 <li>
                     <button type="button"
-                        class="flex items-center w-full py-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        class="flex items-center w-full py-2 text-base transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                         aria-controls="dropdown-mahasiswa" data-collapse-toggle="dropdown-mahasiswa">
-                        <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Manajemen Mahasiswa</span>
+                        <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Mahasiswa</span>
                         <svg class="w-3 h-3 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                             fill="none" viewBox="0 0 10 6">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -154,7 +154,7 @@
                     <ul id="dropdown-mahasiswa"  class="py-2 space-y-2 {{ request()->routeIs(['admin.mahasiswa', 'admin.krs']) ? '' : 'hidden' }}">
                         <li>
                             <a href="{{ route('admin.mahasiswa') }}"
-                                class="flex items-center p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.mahasiswa') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
+                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.mahasiswa') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
                                 <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.mahasiswa') ? 'text-white' : 'text-gray-500' }}"
                                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                                     height="24" fill="currentColor" viewBox="0 0 24 24">
@@ -167,7 +167,7 @@
                         </li>
                         <li>
                             <a href="{{ route('admin.krs') }}"
-                                class="flex items-center p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.krs') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
+                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.krs') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
                                 <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.krs') ? 'text-white' : 'text-gray-500' }}"
                                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                                     height="24" fill="currentColor" viewBox="0 0 24 24">
@@ -183,9 +183,9 @@
 
                 <li>
                     <button type="button"
-                        class="flex items-center w-full py-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        class="flex items-center w-full py-2 text-base transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                         aria-controls="dropdown-dosen" data-collapse-toggle="dropdown-dosen">
-                        <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Manajemen Dosen</span>
+                        <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Dosen</span>
                         <svg class="w-3 h-3 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                             fill="none" viewBox="0 0 10 6">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -195,7 +195,7 @@
                     <ul id="dropdown-dosen" class="py-2 space-y-2 {{ request()->routeIs('admin.dosen') || request()->routeIs('admin.jadwal') ? 'block' : 'hidden' }}">
                         <li>
                             <a href="{{ route('admin.dosen') }}"
-                                class="flex items-center p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.dosen') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
+                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.dosen') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
                                 <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.dosen') ? 'text-white' : 'text-gray-500' }}"
                                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                                     viewBox="0 0 20 20">
@@ -208,7 +208,7 @@
                         </li>
                         <li>
                             <a href="{{ route('admin.jadwal') }}"
-                                class="flex items-center p-2 rounded-lg transition duration-75 group
+                                class="flex items-center mx-4 p-2 rounded-lg transition duration-75 group
                                 {{ request()->routeIs('admin.jadwal') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
                                 <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.jadwal') ? 'text-white' : 'text-gray-500' }}"
                                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
