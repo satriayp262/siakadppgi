@@ -44,6 +44,7 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
     Route::prefix('krs')->group(function () {
         Route::get('/', App\Livewire\Admin\Krs\Index::class)->name('admin.krs');
         Route::get('/{NIM}', App\Livewire\Admin\Krs\Mahasiswa\Index::class)->name('admin.krs.mahasiswa');
+        Route::get('/{NIM}/{semester}', App\Livewire\Admin\Krs\Mahasiswa\Edit::class)->name('admin.krs.edit');
     });
 
     Route::get('/mahasiswa', App\Livewire\Admin\Mahasiswa\Index::class)->name('admin.mahasiswa');
