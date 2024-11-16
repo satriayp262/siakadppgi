@@ -17,7 +17,17 @@
                     <tr wire:key="krs-{{ $item['id_krs'] }}">
                         <td class="px-4 py-2 border">{{ $item['matkul']['nama_mata_kuliah'] }}</td>
                         <td class="px-4 py-2 border">{{ $item['matkul']['dosen']['nama_dosen'] }}</td>
-                        <td class="px-4 py-2 border">{{ $item['kelas']['nama_kelas'] }}</td>
+                        <td class="px-4 py-2 border">
+                            <select wire:model="selectedKelas.{{ $index }}" class="w-48 px-2 py-1 border">
+                                <option disabled value="">-- Pilih Kelas --</option>
+                                @foreach ($kelas as $k)
+                                    <option value="{{ $k['id_kelas'] }}">
+                                        {{ $k['nama_kelas'] }} ({{ $k['matkul']['dosen']['nama_dosen'] ?? 'Tidak Ada Dosen' }})
+                                    </option>
+                                @endforeach
+                            </select>
+                        </td>
+                        
                         <td class="px-4 py-2 border">
                             <input type="text" wire:model="krsRecords.{{ $index }}.nilai_huruf" class="w-full px-2 py-1 border">
                         </td>
