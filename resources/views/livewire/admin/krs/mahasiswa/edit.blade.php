@@ -1,5 +1,8 @@
 <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full mx-2">
-    <h2 class="text-lg font-bold mb-4">Edit KRS {{ $mahasiswa->nama }} Semester {{ $semester }}</h2>
+    <div class="flex justify-between mb-4 items-center">
+        <h2 class="text-lg  font-bold mb-4">Edit KRS {{ $mahasiswa->nama }} Semester {{ $semester }}</h2>
+        <livewire:admin.krs.mahasiswa.create :nim="$NIM" :semester="$semester" />
+    </div>
     <form wire:submit.prevent="save">
         <table class="min-w-full table-auto border-collapse">
             <thead>
@@ -18,24 +21,28 @@
                         <td class="px-4 py-2 border">{{ $item['matkul']['nama_mata_kuliah'] }}</td>
                         <td class="px-4 py-2 border">{{ $item['matkul']['dosen']['nama_dosen'] }}</td>
                         <td class="px-4 py-2 border">
-                            <select wire:model="selectedKelas.{{ $index }}" class="w-48 px-2 py-1 border">
+                            <select wire:model="selectedKelas.{{ $index }}" class="w-full px-2 py-1 border">
                                 <option disabled value="">-- Pilih Kelas --</option>
                                 @foreach ($kelas as $k)
                                     <option value="{{ $k['id_kelas'] }}">
-                                        {{ $k['nama_kelas'] }} ({{ $k['matkul']['dosen']['nama_dosen'] ?? 'Tidak Ada Dosen' }})
+                                        {{ $k['nama_kelas'] }}
+                                        ({{ $k['matkul']['dosen']['nama_dosen'] ?? 'Tidak Ada Dosen' }})
                                     </option>
                                 @endforeach
                             </select>
                         </td>
-                        
+
                         <td class="px-4 py-2 border">
-                            <input type="text" wire:model="krsRecords.{{ $index }}.nilai_huruf" class="w-full px-2 py-1 border">
+                            <input type="text" wire:model="krsRecords.{{ $index }}.nilai_huruf"
+                                class="w-24 px-2 py-1 border">
                         </td>
                         <td class="px-4 py-2 border">
-                            <input type="text" wire:model="krsRecords.{{ $index }}.nilai_index" class="w-full px-2 py-1 border">
+                            <input type="text" wire:model="krsRecords.{{ $index }}.nilai_index"
+                                class="w-24 px-2 py-1 border">
                         </td>
                         <td class="px-4 py-2 border">
-                            <input type="number" wire:model="krsRecords.{{ $index }}.nilai_angka" class="w-full px-2 py-1 border">
+                            <input type="number" wire:model="krsRecords.{{ $index }}.nilai_angka"
+                                class="w-24 px-2 py-1 border">
                         </td>
                     </tr>
                 @endforeach
@@ -48,15 +55,27 @@
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-            window.addEventListener('updatedKRS', event => {
-                Swal.fire({
-                    title: 'Success!',
-                    text: event.detail[0],
-                    icon: 'success',
-                    confirmButtonText: 'OK'
-                }).then(() => {
-                    window.dispatchEvent(new CustomEvent('modal-closed'));
-                });
+        window.addEventListener('updatedKRS', event => {
+            Swal.fire({
+                title: 'Success!',
+                text: event.detail[0],
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                window.dispatchEvent(new CustomEvent('modal-closed'));
             });
         });
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+        window.addEventListener('warningKRS', event => {
+            Swal.fire({
+                title: 'Warning',
+                text: event.detail[0],
+                icon: 'warning',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                window.dispatchEvent(new CustomEvent('modal-closed'));
+            });
+        });
+    });
 </script>

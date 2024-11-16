@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\KRS;
 use App\Models\Mahasiswa;
 use App\Models\Kelas;
+use Livewire\Attributes\On;
 
 class Edit extends Component
 {
@@ -64,6 +65,10 @@ class Edit extends Component
             ]);
         }
 
+        $this->alert();        
+    }
+    #[On('KRSUpdated')] 
+    public function alert(){
         $this->dispatch('updatedKRS', ['Update KRS Berhasil']);
         $this->loadKRSRecords();
     }
