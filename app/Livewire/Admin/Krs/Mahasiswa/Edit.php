@@ -72,6 +72,12 @@ class Edit extends Component
         $this->dispatch('updatedKRS', ['Update KRS Berhasil']);
         $this->loadKRSRecords();
     }
+    public function destroy($id_krs)
+    {
+        krs::find($id_krs)->delete();
+        $this->dispatch('destroyedKRS', ['message' => 'KRS deleted Successfully']);
+        $this->loadKRSRecords();
+    }
 
 
     public function render()

@@ -13,6 +13,7 @@
                     <th class="px-4 py-2 text-[15px] text-left border">Nilai Huruf</th>
                     <th class="px-4 py-2 text-[15px] text-left border">Nilai Indeks</th>
                     <th class="px-4 py-2 text-[15px] text-left border">Nilai Angka</th>
+                    <th class="px-4 py-2 text-[15px] text-left border">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -43,6 +44,18 @@
                         <td class="px-4 py-2 border">
                             <input type="number" wire:model="krsRecords.{{ $index }}.nilai_angka"
                                 class="w-24 px-2 py-1 border">
+                        </td>
+                        <td class="px-4 py-2 border">
+                            <button type="button" class="inline-block px-4 py-1 text-white bg-red-500 rounded hover:bg-red-700"
+                                onclick="confirmDelete('{{ $item['id_krs'] }}', '{{ $item['kelas']['nama_kelas'] }}')"><svg
+                                    class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                    viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
+                                </svg>
+                            </button>
                         </td>
                     </tr>
                 @endforeach
@@ -78,4 +91,32 @@
             });
         });
     });
+    document.addEventListener('DOMContentLoaded', function() {
+        window.addEventListener('destroyedKRS', event => {
+            Swal.fire({
+                title: 'Warning',
+                text: event.detail[0].message,
+                icon: 'warning',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                window.dispatchEvent(new CustomEvent('modal-closed'));
+            });
+        });
+    });
+
+    function confirmDelete(id, nama_kelas) {
+        Swal.fire({
+            title: `Apakah anda yakin ingin menghapus KRS kelas ${nama_kelas}?`,
+            text: "Data yang telah dihapus tidak dapat dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Hapus'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                @this.call('destroy', id);
+            }
+        });
+    }
 </script>
