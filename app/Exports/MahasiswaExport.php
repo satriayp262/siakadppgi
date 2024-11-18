@@ -323,7 +323,6 @@ Contoh: 2000-02-20.',
                     'Tidak Wajib diisi',
                     'Tidak Wajib diisi',
                     'Tidak Wajib diisi',
-                    'Tidak Wajib diisi',
                     '1: Mandiri
 2: Beasiswa Tidak Penuh
 3: Beasiswa Penuh',
