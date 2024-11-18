@@ -17,6 +17,8 @@ class Edit extends Component
     public $nim,
     $nik,
     $nama,
+    $nisn,
+    $npwp,
     $jenis_kelamin,
     $tempat_lahir,
     $tanggal_lahir,
@@ -70,6 +72,8 @@ class Edit extends Component
         // dd($mahasiswa);
         $this->nim = $mahasiswa->NIM ?? null;
         $this->nik = $mahasiswa->NIK ?? null;
+        $this->nisn = $mahasiswa->NISN ?? null;
+        $this->npwp = $mahasiswa->NPWP ?? null;
         $this->nama = $mahasiswa->nama ?? null;
         $this->jenis_kelamin = $mahasiswa->jenis_kelamin ?? null;
         $this->tempat_lahir = $mahasiswa->tempat_lahir ?? null;
@@ -125,6 +129,8 @@ class Edit extends Component
         // dd($mahasiswa);
         $this->nim = $mahasiswa->NIM ?? null;
         $this->nik = $mahasiswa->NIK ?? null;
+        $this->nisn = $mahasiswa->NISN ?? null;
+        $this->npwp = $mahasiswa->NPWP ?? null;
         $this->nama = $mahasiswa->nama ?? null;
         $this->jenis_kelamin = $mahasiswa->jenis_kelamin ?? null;
         $this->tempat_lahir = $mahasiswa->tempat_lahir ?? null;
@@ -176,6 +182,8 @@ class Edit extends Component
         return [
             'nim' => 'required|string|unique:mahasiswa,NIM,' . $this->id_mahasiswa . ',id_mahasiswa',
             'nik' => 'required|string|unique:mahasiswa,NIK,' . $this->id_mahasiswa . ',id_mahasiswa',
+            'nisn' => 'required|string',
+            'npwp' => 'nullable|string',
             'nama' => 'required|string',
             'tempat_lahir' => 'required|string',
             'tanggal_lahir' => 'required|date',
@@ -229,6 +237,7 @@ class Edit extends Component
             'nim.unique' => 'NIM harus unik',
             'nim.required' => 'NIM tidak boleh kosong',
             'nik.unique' => 'NIK harus unik',
+            'nisn.required' => 'NISN tidak boleh kosong',
             'nik.required' => 'NIK tidak boleh kosong',
             'nama.required' => 'Nama tidak boleh kosong',
             'jenis_kelamin.required' => 'Jenis kelamin tidak boleh kosong',
@@ -316,6 +325,8 @@ class Edit extends Component
             'NIM' => $validatedData['nim'],
             'NIK' => $validatedData['nik'],
             'nama' => $validatedData['nama'],
+            'NISN' => $validatedData['nisn'],
+            'NPWP' => $validatedData['npwp'],
             'jenis_kelamin' => $validatedData['jenis_kelamin'],
             'tempat_lahir' => $validatedData['tempat_lahir'],
             'tanggal_lahir' => $validatedData['tanggal_lahir'],
