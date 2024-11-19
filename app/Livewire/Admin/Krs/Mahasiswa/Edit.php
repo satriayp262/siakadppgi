@@ -7,6 +7,10 @@ use App\Models\KRS;
 use App\Models\Mahasiswa;
 use App\Models\Kelas;
 use Livewire\Attributes\On;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\KRSExport;
+use App\Models\Semester;
+
 
 class Edit extends Component
 {
@@ -14,16 +18,16 @@ class Edit extends Component
     public $krsRecords = [];
     public $NIM;
     public $kode_prodi;
-    public $kelas = []; // Daftar kelas untuk dropdown
-    public $selectedKelas = []; // ID kelas yang dipilih untuk setiap record
+    public $kelas = []; 
+    public $selectedKelas = []; 
 
 
     public function mount($semester, $NIM)
     {
         $this->semester = $semester;
         $this->NIM = $NIM;
-        $this->kode_prodi = Mahasiswa::where('NIM', $NIM)->first()->prodi->kode_prodi;
         $this->mahasiswa = Mahasiswa::where('NIM', $NIM)->first();
+        $this->kode_prodi = $this->mahasiswa->prodi->kode_prodi;
         $this->loadKRSRecords();
     }
 
@@ -79,7 +83,11 @@ class Edit extends Component
         $this->loadKRSRecords();
     }
 
-
+    public function export()
+    {
+        $fileName = 'Data KRS ' . now()->format('Y-m-d') . '.xlsx';
+        return Excel::download(new KRSExport(semester::where('id_semester', $this->semester)->first()->nama_semester,$this->NIM), $fileName);
+    }
     public function render()
     {
         return view('livewire.admin.krs.mahasiswa.edit');

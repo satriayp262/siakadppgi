@@ -79,7 +79,7 @@ class Index extends Component
     public function export()
     {
         $fileName = 'Data KRS ' . now()->format('Y-m-d') . '.xlsx';
-        return Excel::download(new KRSExport, $fileName);
+        return Excel::download(new KRSExport(null,null), $fileName);
     }
     public function render()
     {
