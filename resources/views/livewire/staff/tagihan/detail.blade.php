@@ -62,25 +62,7 @@
                     <tr class="border-t" wire:key="tagihan-{{ $tagihan->nim }}">
                         <td class="px-4 py-2 text-center">{{ $loop->iteration }}</td>
                         <td class="px-4 py-2 text-center">{{ $tagihan->semester->nama_semester }}</td>
-                        @php
-                            $months = [
-                                '01' => 'Januari',
-                                '02' => 'Februari',
-                                '03' => 'Maret',
-                                '04' => 'April',
-                                '05' => 'Mei',
-                                '06' => 'Juni',
-                                '07' => 'Juli',
-                                '08' => 'Agustus',
-                                '09' => 'September',
-                                '10' => 'Oktober',
-                                '11' => 'November',
-                                '12' => 'Desember',
-                            ];
-                            $bulan = $months[$tagihan->created_at->format('m')];
-                            $tahun = $tagihan->created_at->format('Y');
-                        @endphp
-                        <td class="px-4 py-2 text-center">{{ $bulan }}, {{ $tahun }}</td>
+                        <td class="px-4 py-2 text-center">{{ $tagihan->Bulan }}</td>
                         <td class="px-4 py-2 text-center italic font-semibold">
                             @php
                                 $formattedTotalTagihan = 'Rp. ' . number_format($tagihan->total_tagihan, 0, ',', '.');
