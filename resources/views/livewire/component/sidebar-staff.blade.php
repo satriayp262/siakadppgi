@@ -1,13 +1,13 @@
 <div class="h-screen sticky top-16 left-0 -z-5 relative">
-    <div id="default-sidebar " class="h-full w-64 transition-transform -translate-x-full bg-gray-800 sm:translate-x-0"
+    <div id="default-sidebar " class="h-full w-64 transition-transform -translate-x-full bg-customPurple sm:translate-x-0"
         aria-label="Sidebar">
         <div class="h-full px-3 py-4 ">
             <ul class="space-y-2 font-medium relative sticky top-20">
                 <li>
                     <a href="{{ route('staff.tagihan') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
-                        {{ request()->routeIs('staff.tagihan') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
-                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('staff.tagihan') ? 'text-white' : 'text-gray-500' }}"
+                        {{ request()->routeIs('staff.tagihan') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
+                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('staff.tagihan') ? 'text-white' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                             fill="currentColor" viewBox="0 0 24 24">
                             <path fill-rule="evenodd"
@@ -24,8 +24,8 @@
                 <li>
                     <a href="{{ route('staff.pembayaran') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
-                        {{ request()->routeIs('staff.pembayaran') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
-                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('staff.pembayaran') ? 'text-white' : 'text-gray-500' }}"
+                        {{ request()->routeIs('staff.pembayaran') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white ?>' }}">
+                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('staff.pembayaran') ? 'text-white' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                             fill="currentColor" viewBox="0 0 24 24">
                             <path fill-rule="evenodd"
