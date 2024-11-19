@@ -14,7 +14,7 @@ class Create extends Component
     public $total_tagihan;
     public $id_semester = '';
     public $status_tagihan = '';
-
+    public $Bulan;
     public $semesters = [];
 
     public function rules()
@@ -23,6 +23,7 @@ class Create extends Component
             'nim' => 'required',
             'total_tagihan' => 'required',
             'status_tagihan' => 'required|in:Belum Lunas,Lunas',
+            'Bulan' => 'required',
             'id_semester' => 'required',
         ];
     }
@@ -34,6 +35,7 @@ class Create extends Component
             'total_tagihan.required' => 'Total tagihan tidak boleh kosong',
             'total_tagihan.numeric' => 'Total tagihan harus berupa angka',
             'status_tagihan.required' => 'Status harus dipilih',
+            'Bulan.required' => 'Bulan harus dipilih',
             'semester.required' => 'Semester harus dipilih',
         ];
     }
@@ -85,6 +87,7 @@ class Create extends Component
             'NIM' => $validatedData['nim'],
             'total_tagihan' => $validatedData['total_tagihan'],
             'status_tagihan' => $validatedData['status_tagihan'],
+            'Bulan' => $validatedData['Bulan'],
             'id_semester' => $validatedData['id_semester'],
         ]);
         $this->dispatch('TagihanCreated');

@@ -80,6 +80,29 @@
                             </div>
 
                             <div class="mb-4">
+                                <label for="Bulan" class="block text-sm font-medium text-gray-700">Bulan</label>
+                                <select id="Bulan" wire:model="Bulan" name="Bulan"
+                                    class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
+                                    <option value="" disabled selected>Pilih Bulan</option>
+                                    <option value="Januari">Januari</option>
+                                    <option value="Februari">Februari</option>
+                                    <option value="Maret">Maret</option>
+                                    <option value="April">April</option>
+                                    <option value="Mei">Mei</option>
+                                    <option value="Juni">Juni</option>
+                                    <option value="Juli">Juli</option>
+                                    <option value="Agustus">Agustus</option>
+                                    <option value="September">September</option>
+                                    <option value="Oktober">Oktober</option>
+                                    <option value="November">November</option>
+                                    <option value="Desember">Desember</option>
+                                </select>
+                                @error('Bulan')
+                                    <span class="text-sm text-red-500">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <div class="mb-4">
                                 <label for="status_tagihan" class="block text-sm font-medium text-gray-700">Status
                                     Tagihan</label>
                                 <select id="status_tagihan" wire:model="status_tagihan" name="status_tagihan"
