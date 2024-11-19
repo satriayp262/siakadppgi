@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\KRS;
+use App\Models\Semester;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithStyles;
@@ -14,9 +15,63 @@ use Maatwebsite\Excel\Concerns\FromQuery;
 
 class KRSExport implements FromQuery, WithHeadings, WithMapping, WithStyles, WithEvents
 {
+
+    protected $semester;
+    protected $NIM;
+    protected $prodi;
+
+    public function __construct($semester, $NIM, $prodi)
+    {
+        $this->semester = $semester ?? null;
+        $this->NIM = $NIM ?? null;
+        $this->prodi = $prodi ?? null;
+    }
     public function query()
     {
-        return KRS::query()->with(['prodi', 'matkul','kelas','mahasiswa']);
+        if ($this->prodi && $this->semester && !$this->NIM) {
+            return KRS::query()
+                ->where('id_prodi', $this->prodi)
+                ->where('id_semester', $this->semester)
+                ->join('semester', 'krs.id_semester', '=', 'semester.id_semester')
+                ->orderBy('id_prodi', 'asc')
+                ->orderBy('NIM', 'asc')
+                ->orderByDesc('semester.nama_semester')
+                ->orderBy('id_kelas', 'asc');
+        } else if ($this->prodi && !$this->semester && !$this->NIM) {
+            return KRS::query()
+                ->where('id_prodi', $this->prodi)
+                ->orderBy('id_prodi', 'asc')
+                ->join('semester', 'krs.id_semester', '=', 'semester.id_semester')
+                ->orderBy('NIM', 'asc')
+                ->orderByDesc('semester.nama_semester')
+                ->orderBy('id_kelas', 'asc');
+        } else if ($this->NIM && $this->semester) {
+            return KRS::query()
+                ->where('NIM', $this->NIM)
+                ->where('id_semester', $this->semester)
+                ->orderBy('NIM', 'asc')
+                ->orderBy('id_kelas', 'asc');
+        } else if ($this->NIM && !$this->semester) {
+            return KRS::query()
+                ->where('NIM', $this->NIM)
+                ->join('semester', 'krs.id_semester', '=', 'semester.id_semester')
+                ->orderBy('NIM', 'asc')
+                ->orderByDesc('semester.nama_semester')
+                ->orderBy('id_kelas', 'asc')
+                ->select('krs.*');
+        } else if ($this->semester && !$this->NIM && !$this->prodi) {
+            return KRS::query()
+                ->where('id_semester', $this->semester)
+                ->orderBy('NIM', 'asc')
+                ->orderBy('id_kelas', 'asc');
+        } else {
+            return KRS::query()
+                ->join('semester', 'krs.id_semester', '=', 'semester.id_semester') // Join with semester
+                ->orderBy('NIM', 'asc')
+                ->orderByDesc('semester.nama_semester')
+                ->orderBy('id_kelas', 'asc')
+                ->select('krs.*');
+        }
     }
 
     public function headings(): array
@@ -127,19 +182,33 @@ Warna Hijau : Boleh Kosong
     public function styles(Worksheet $sheet)
     {
         $greenColumns = [
-            'I', 'J', 'K'
+            'I',
+            'J',
+            'K'
         ];
         $yellowColumns = [
-            'B', 'E', 'H'
+            'B',
+            'E',
+            'H'
         ];
-    
+
         $columns = [
-            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K'
+            'A',
+            'B',
+            'C',
+            'D',
+            'E',
+            'F',
+            'G',
+            'H',
+            'I',
+            'J',
+            'K'
         ];
-    
+
         foreach ($columns as $column) {
-            $cell = $column . '1'; 
-    
+            $cell = $column . '1';
+
             if (in_array($column, $greenColumns)) {
                 $sheet->getStyle($cell)->applyFromArray([
                     'font' => ['bold' => true, 'color' => ['argb' => '000000']], // Black bold font
@@ -149,7 +218,7 @@ Warna Hijau : Boleh Kosong
                     ],
                     'alignment' => ['horizontal' => 'center', 'vertical' => 'center'],
                 ]);
-            } else if(in_array($column, $yellowColumns)){
+            } else if (in_array($column, $yellowColumns)) {
                 $sheet->getStyle($cell)->applyFromArray([
                     'font' => ['bold' => true, 'color' => ['argb' => '000000']], // Black bold font
                     'fill' => [
@@ -158,8 +227,7 @@ Warna Hijau : Boleh Kosong
                     ],
                     'alignment' => ['horizontal' => 'center', 'vertical' => 'center'],
                 ]);
-            } 
-            else {
+            } else {
                 $sheet->getStyle($cell)->applyFromArray([
                     'font' => ['bold' => true, 'color' => ['argb' => 'FFFFFF']], // White bold font
                     'fill' => [
@@ -171,7 +239,7 @@ Warna Hijau : Boleh Kosong
             }
         }
     }
-    
+
 
     public function map($krs): array
     {
