@@ -18,7 +18,7 @@ class Index extends Component
     {
         $nama = Mahasiswa::where('NIM', $this->NIM)->first()->nama;
         $fileName = 'Data KRS ' . $nama .' '. now()->format('Y-m-d') . '.xlsx';
-        return Excel::download(new KRSExport(null,$this->NIM), $fileName);
+        return Excel::download(new KRSExport(null,$this->NIM,null), $fileName);
     }
     public function render()
     {

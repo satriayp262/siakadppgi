@@ -83,10 +83,12 @@ class Edit extends Component
         $this->loadKRSRecords();
     }
 
+
     public function export()
     {
-        $fileName = 'Data KRS ' . now()->format('Y-m-d') . '.xlsx';
-        return Excel::download(new KRSExport(semester::where('id_semester', $this->semester)->first()->nama_semester,$this->NIM), $fileName);
+        $semester = semester::where('id_semester', $this->semester)->first()->nama_semester;
+        $fileName = 'Data KRS '.' '.$this->mahasiswa->nama.' semester '.$semester .' '. now()->format('Y-m-d') . '.xlsx';
+        return Excel::download(new KRSExport($semester,$this->NIM,null), $fileName);
     }
     public function render()
     {

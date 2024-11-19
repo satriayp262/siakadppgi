@@ -18,48 +18,60 @@ class KRSExport implements FromQuery, WithHeadings, WithMapping, WithStyles, Wit
 
     protected $semester;
     protected $NIM;
+    protected $prodi;
 
-    public function __construct($semester, $NIM)
+    public function __construct($semester, $NIM, $prodi)
     {
-        $this->semester = Semester::where('nama_semester', $semester)->first()->id_semester ?? null;
+        $this->semester = $semester ?? null;
         $this->NIM = $NIM ?? null;
+        $this->prodi = $prodi ?? null;
     }
     public function query()
     {
-        if ($this->NIM && $this->semester) {
-            // Both NIM and semester are specified
+        if ($this->prodi && $this->semester && !$this->NIM) {
+            return KRS::query()
+                ->where('id_prodi', $this->prodi)
+                ->where('id_semester', $this->semester)
+                ->join('semester', 'krs.id_semester', '=', 'semester.id_semester')
+                ->orderBy('id_prodi', 'asc')
+                ->orderBy('NIM', 'asc')
+                ->orderByDesc('semester.nama_semester')
+                ->orderBy('id_kelas', 'asc');
+        } else if ($this->prodi && !$this->semester && !$this->NIM) {
+            return KRS::query()
+                ->where('id_prodi', $this->prodi)
+                ->orderBy('id_prodi', 'asc')
+                ->join('semester', 'krs.id_semester', '=', 'semester.id_semester')
+                ->orderBy('NIM', 'asc')
+                ->orderByDesc('semester.nama_semester')
+                ->orderBy('id_kelas', 'asc');
+        } else if ($this->NIM && $this->semester) {
             return KRS::query()
                 ->where('NIM', $this->NIM)
                 ->where('id_semester', $this->semester)
-                ->orderBy('NIM', 'asc') // Primary: Order by NIM
-                ->orderBy('id_kelas', 'asc'); // Secondary: Order by id_kelas
+                ->orderBy('NIM', 'asc')
+                ->orderBy('id_kelas', 'asc');
         } else if ($this->NIM && !$this->semester) {
-            // NIM is specified, but semester is not
             return KRS::query()
                 ->where('NIM', $this->NIM)
-                ->join('semester', 'krs.id_semester', '=', 'semester.id_semester') // Join with semester
-                ->orderBy('NIM', 'asc') // Primary: Order by NIM
-                ->orderByDesc('semester.nama_semester') // Secondary: Order by nama_semester descending
-                ->orderBy('id_kelas', 'asc') // Tertiary: Order by id_kelas
-                ->select('krs.*'); // Select only KRS columns
-        } else if ($this->semester && !$this->NIM) {
-            // Semester is specified, but NIM is not
+                ->join('semester', 'krs.id_semester', '=', 'semester.id_semester')
+                ->orderBy('NIM', 'asc')
+                ->orderByDesc('semester.nama_semester')
+                ->orderBy('id_kelas', 'asc')
+                ->select('krs.*');
+        } else if ($this->semester && !$this->NIM && !$this->prodi) {
             return KRS::query()
                 ->where('id_semester', $this->semester)
-                ->orderBy('NIM', 'asc') // Primary: Order by NIM
-                ->orderBy('id_kelas', 'asc'); // Secondary: Order by id_kelas
+                ->orderBy('NIM', 'asc')
+                ->orderBy('id_kelas', 'asc');
         } else {
-            // Neither NIM nor semester is specified
             return KRS::query()
                 ->join('semester', 'krs.id_semester', '=', 'semester.id_semester') // Join with semester
-                ->orderBy('NIM', 'asc') // Primary: Order by NIM
-                ->orderByDesc('semester.nama_semester') // Secondary: Order by nama_semester
-                ->orderBy('id_kelas', 'asc') // Tertiary: Order by id_kelas
-                ->select('krs.*'); // Select only KRS columns
+                ->orderBy('NIM', 'asc')
+                ->orderByDesc('semester.nama_semester')
+                ->orderBy('id_kelas', 'asc')
+                ->select('krs.*');
         }
-        
-        
-        
     }
 
     public function headings(): array

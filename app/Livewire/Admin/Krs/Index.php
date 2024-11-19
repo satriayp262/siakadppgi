@@ -4,6 +4,8 @@ namespace App\Livewire\Admin\Krs;
 
 use App\Exports\KRSExport;
 use App\Models\KRS;
+use App\Models\Prodi;
+use App\Models\Semester;
 use Livewire\Component;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\KRSImport;
@@ -16,7 +18,7 @@ class Index extends Component
     use WithFileUploads;
     use WithPagination;
 
-    public $file, $importing = false;
+    public $file, $importing = false,$id_semester = "semua",$id_prodi = "semua";
 
 
 
@@ -78,8 +80,32 @@ class Index extends Component
     }
     public function export()
     {
-        $fileName = 'Data KRS ' . now()->format('Y-m-d') . '.xlsx';
-        return Excel::download(new KRSExport(null,null), $fileName);
+        if($this->id_semester === "semua"){
+            $this->id_semester = null;
+        }
+        if($this->id_prodi === "semua"){
+            $this->id_prodi = null;
+        }
+        $nama_semester = Semester::where('id_semester', $this->id_semester)->first()->nama_semester ?? null;
+        $nama_prodi = Prodi::where('id_prodi', $this->id_prodi)->first()->nama_prodi ?? null;
+        // dd($this->id_semester !== "semua" && $this->id_prodi === "semua");
+        if(!$this->id_semester  && !$this->id_prodi ){
+            $fileName = 'Data KRS ' . now()->format('Y-m-d') . '.xlsx';
+            return Excel::download(new KRSExport(null,null,null), $fileName);
+        }
+        else if($this->id_semester && !$this->id_prodi){
+
+            $fileName = 'Data KRS ' . $nama_semester . ' '. now()->format('Y-m-d') . '.xlsx';
+            return Excel::download(new KRSExport($this->id_semester,null,null), $fileName);
+        }else if(!$this->id_semester && $this->id_prodi){
+
+            $fileName = 'Data KRS ' . $nama_prodi . ' '. now()->format('Y-m-d') . '.xlsx';
+            return Excel::download(new KRSExport(null,null,$this->id_prodi), $fileName);
+        }else{
+            $fileName = 'Data KRS ' . $nama_semester . ' ' . $nama_prodi . ' '. now()->format('Y-m-d') . '.xlsx';
+            return Excel::download(new KRSExport($this->id_semester,null,$this->id_prodi), $fileName);
+        }
+        
     }
     public function render()
     {
@@ -88,9 +114,14 @@ class Index extends Component
                 ->from('krs')
                 ->groupBy('nim');
         })->paginate(10);
+        $semester = Semester::all();
+        $prodi = Prodi::all();
+
 
         return view('livewire.admin.krs.index', [
             'mahasiswa' => $mahasiswa,
+            'semester' => $semester,
+            'prodi' => $prodi
         ]);
     }
 }
