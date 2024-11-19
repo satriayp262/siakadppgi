@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Krs;
 
+use App\Exports\KRSExport;
 use App\Models\KRS;
 use Livewire\Component;
 use Maatwebsite\Excel\Facades\Excel;
@@ -74,9 +75,11 @@ class Index extends Component
             $this->reset('file');
             $this->importing = false;
         }
-
-
-
+    }
+    public function export()
+    {
+        $fileName = 'Data KRS ' . now()->format('Y-m-d') . '.xlsx';
+        return Excel::download(new KRSExport, $fileName);
     }
     public function render()
     {
