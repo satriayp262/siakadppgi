@@ -15,10 +15,10 @@
         }
     </style>
 
-    <div class="overflow-hidden bg-purple-700 shadow-lg rounded-lg p-2 mb-4">
-        <p class="inline-block whitespace-nowrap text-md font-semibold text-white marquee-text"
+    <div class="overflow-hidden bg-purple-200 shadow-lg rounded-lg p-2 mb-4">
+        <p class="inline-block whitespace-nowrap text-md font-semibold text-purple-600 marquee-text"
             style="animation: marquee 15s linear infinite;">
-            Selamat Datang di halaman Dosen <span class="text-yellow-400">SISTEM INFORMASI AKADEMIK POLITEKNIK PIKSI
+            Selamat Datang di halaman Dosen <span class="text-purple-600">SISTEM INFORMASI AKADEMIK POLITEKNIK PIKSI
                 GANESHA INDONESIA</span>.
         </p>
     </div>

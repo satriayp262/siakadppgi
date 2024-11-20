@@ -9,7 +9,7 @@ export default {
         extend: {
             colors: {
                 customPurple: "#7b4f79",
-                purple2: "#975e94",
+                purple2: "#A55BA5",
                 purple3: "#b596b3",
             },
         },
