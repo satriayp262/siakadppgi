@@ -5,7 +5,6 @@ namespace App\Livewire\Dosen\BeritaAcara;
 use Livewire\Component;
 use App\Models\Dosen;
 use App\Models\Matakuliah;
-use App\Models\BeritaAcara;
 use Livewire\Attributes\On;
 use Livewire\WithPagination;
 
@@ -18,67 +17,68 @@ class Index extends Component
     public $matkul, $dosen;
     public $nama_dosen, $nidn;
 
-    protected $listeners = [
-        'deleteBeritaAcara' => 'destroy',
-    ];
+    // protected $listeners = [
+    //     'deleteBeritaAcara' => 'destroy',
+    // ];
 
-    #[On('acaraUpdated')]
-    public function handleacaraUpdated()
-    {
-        $this->dispatch('updated', params: ['message' => 'Berita Acara updated Successfully']);
+    // #[On('acaraUpdated')]
+    // public function handleacaraUpdated()
+    // {
+    //     $this->dispatch('updated', params: ['message' => 'Berita Acara updated Successfully']);
 
-        // session()->flash('message', 'Berita Acara Berhasil di Update');
-        // session()->flash('message_type', 'warning');
-    }
+    //     // session()->flash('message', 'Berita Acara Berhasil di Update');
+    //     // session()->flash('message_type', 'warning');
+    // }
 
-    public function destroy($id_berita_acara)
-    {
-        $acara = BeritaAcara::find($id_berita_acara);
+    // public function destroy($id_berita_acara)
+    // {
+    //     $acara = BeritaAcara::find($id_berita_acara);
 
-        $acara->delete();
+    //     $acara->delete();
 
-        $this->dispatch('destroyed', params: ['message' => 'Berita Acara deleted Successfully']);
+    //     $this->dispatch('destroyed', params: ['message' => 'Berita Acara deleted Successfully']);
 
-        // session()->flash('message', 'Berita Acara Berhasil di Hapus');
-        // session()->flash('message_type', 'error');
-    }
+    //     // session()->flash('message', 'Berita Acara Berhasil di Hapus');
+    //     // session()->flash('message_type', 'error');
+    // }
 
-    #[On('acaraCreated')]
-    public function handleacaraCreated()
-    {
-        $this->dispatch('created', params: ['message' => 'Berita Acara created Successfully']);
+    // #[On('acaraCreated')]
+    // public function handleacaraCreated()
+    // {
+    //     $this->dispatch('created', params: ['message' => 'Berita Acara created Successfully']);
 
-        // session()->flash('message', 'Berita Acara Berhasil di Tambahkan');
-        // session()->flash('message_type', 'success');
-    }
+    //     // session()->flash('message', 'Berita Acara Berhasil di Tambahkan');
+    //     // session()->flash('message_type', 'success');
+    // }
 
     public function mount()
     {
         $this->matkul = Matakuliah::all() ?? collect([]);
-        // $this->dosen = Dosen::all() ?? collect([]);
-
         $dosen = Dosen::where('nidn', Auth()->user()->nim_nidn)->first();
-        if ($dosen) {   
+
+        if ($dosen) {
             $this->nama_dosen = $dosen->nama;
             $this->nidn = $dosen->nidn;
         } else {
             session()->flash('error', 'Data Dosen tidak ditemukan.');
-            // Redirect atau tindakan lain jika perlu
+            return redirect()->route('dashboard');
         }
     }
 
-    public function render()
-    {
-        $beritaAcaras = BeritaAcara::query()
-            ->where('nidn', 'like', '%' . $this->search . '%')
-            ->orWhere('id_mata_kuliah', 'like', '%' . $this->search . '%')
-            ->orWhere('jumlah_mahasiswa', 'like', '%' . $this->search . '%')
-            ->orWhere('materi', 'like', '%' . $this->search . '%')
-            ->latest()
-            ->paginate(5);
 
-        return view('livewire.dosen.berita_acara.index', [
-            'beritaAcaras' => $beritaAcaras,
-        ]);
-    }
+    public function render()
+{
+    $beritaAcaraByMatkul = Matakuliah::query()
+        ->when($this->search, function ($query) {
+            $query->where('kode_mata_kuliah', 'like', '%' . $this->search . '%')
+                  ->orWhere('nama_mata_kuliah', 'like', '%' . $this->search . '%');
+        })
+        ->latest()
+        ->paginate(5);
+
+    return view('livewire.dosen.berita_acara.index', [
+        'beritaAcaraByMatkul' => $beritaAcaraByMatkul,
+    ]);
+}
+
 }
