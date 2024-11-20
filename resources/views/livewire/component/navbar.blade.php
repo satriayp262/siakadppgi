@@ -1,4 +1,4 @@
-<nav class="sticky top-0 z-30 w-full bg-gray-900">
+<nav class="sticky top-0 z-30 w-full bg-purple2">
     <div class="flex items-center justify-between p-4">
         <div class="flex items-center space-x-2">
             <button id="sidebarToggle" aria-controls="default-sidebar" type="button"
@@ -23,10 +23,11 @@
             <div>
                 <p class="text-white text-sm font-semibold">Hi, {{ Auth::user()->name ?? 'user' }}!</p>
             </div>
-            <button type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 border-2 border-wwhite"
+            <button type="button"
+                class="flex text-sm bg-customPurple rounded-full focus:ring-5 focus:ring-gray-300 border-2 border-wwhite"
                 id="user-menu-button" aria-expanded="false">
                 <span class="sr-only">Open user menu</span>
-                <svg class="w-8 h-8 text-gray-400 rounded-full" fill="currentColor" viewBox="0 0 20 20"
+                <svg class="w-8 h-8 text-white rounded-full" fill="currentColor" viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
                         clip-rule="evenodd"></path>
@@ -81,7 +82,7 @@
                 // text: "Data yang telah dihapus tidak dapat dikembalikan!",
                 icon: 'question',
                 showCancelButton: true,
-                confirmButtonColor: '#9400D3',
+                confirmButtonColor: '#975e94',
                 cancelButtonColor: '#6c757d',
                 confirmButtonText: 'Keluar'
             }).then((result) => {
