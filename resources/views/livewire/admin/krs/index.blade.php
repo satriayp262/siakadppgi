@@ -274,11 +274,11 @@
                 </thead>
                 <tbody>
                     @foreach ($mahasiswa as $item)
-                        <tr class="border-t" wire:key="matkul-{{ $item->id_krs }}">
+                        <tr class="border-t" wire:key="matkul-{{ $item->id_mahasiswa }}">
                             <td class="px-4 py-2 text-center">{{ $item->NIM }}</td>
-                            <td class="px-4 py-2 text-center">{{ $item->mahasiswa->nama }}</td>
-                            <td class="px-4 py-2 text-center">{{ $item->mahasiswa->semesterDifference }}</td>
-                            <td class="px-4 py-2 text-center">{{ $item->mahasiswa->prodi->nama_prodi }}</td>
+                            <td class="px-4 py-2 text-center">{{ $item->nama }}</td>
+                            <td class="px-4 py-2 text-center">{{ $item->semesterDifference }}</td>
+                            <td class="px-4 py-2 text-center">{{ $item->prodi->nama_prodi }}</td>
 
                             <td class="px-4 py-2 text-center">
                                 <div class="flex flex-col">
@@ -287,11 +287,6 @@
                                             class="py-2 px-4 bg-blue-500 hover:bg-blue-700 rounded">
                                             <p>▶</p>
                                         </a>
-
-                                        {{-- <livewire:admin.mahasiswa.show :id_mahasiswa="$mahasiswa->id_mahasiswa"
-                                        wire:key="selengkapnya-{{ rand() . $mahasiswa->id_mahasiswa }}" />
-                                    <livewire:admin.mahasiswa.edit :id_mahasiswa="$mahasiswa->id_mahasiswa"
-                                        wire:key="edit-{{ rand() . $mahasiswa->id_mahasiswa }}" /> --}}
                                     </div>
                                 </div>
                             </td>

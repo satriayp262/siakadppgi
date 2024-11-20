@@ -42,12 +42,12 @@
                             d="M22.319,34H5.681C4.753,34,4,33.247,4,32.319V15.681C4,14.753,4.753,14,5.681,14h16.638C23.247,14,24,14.753,24,15.681v16.638C24,33.247,23.247,34,22.319,34z">
                         </path>
                         <path fill="#fff"
-                        d="M9.807 19L12.193 19 14.129 22.754 16.175 19 18.404 19 15.333 24 18.474 29 16.123 29 14.013 25.07 11.912 29 9.526 29 12.719 23.982z">
-                    </path>
-                </svg>
-                Export
-            </button>
-        </div>
+                            d="M9.807 19L12.193 19 14.129 22.754 16.175 19 18.404 19 15.333 24 18.474 29 16.123 29 14.013 25.07 11.912 29 9.526 29 12.719 23.982z">
+                        </path>
+                    </svg>
+                    Export
+                </button>
+            </div>
         </div>
         <div class="">
             @foreach ($semester as $x)
@@ -56,21 +56,21 @@
                         ->where('NIM', $this->NIM)
                         ->get();
                 @endphp
-                @if (count($krs) != 0)
-                    <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full ">
-                        <div class="flex justify-between items-center my-2">
-                            <h2>Semester {{ $x->nama_semester }}</h2>
-                            <a href="{{ route('admin.krs.edit', ['semester' => $x->id_semester, 'NIM' => $this->NIM]) }}"
-                                class="px-3 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"><svg
-                                    class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
-                                    viewBox="0 0 24 24">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M10.779 17.779 4.36 19.918 6.5 13.5m4.279 4.279 8.364-8.643a3.027 3.027 0 0 0-2.14-5.165 3.03 3.03 0 0 0-2.14.886L6.5 13.5m4.279 4.279L6.499 13.5m2.14 2.14 6.213-6.504M12.75 7.04 17 11.28" />
-                                </svg></a>
+                <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full ">
+                    <div class="flex justify-between items-center my-2">
+                        <h2>Semester {{ $x->nama_semester }}</h2>
+                        <a href="{{ route('admin.krs.edit', ['semester' => $x->id_semester, 'NIM' => $this->NIM]) }}"
+                            class="px-3 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"><svg
+                                class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M10.779 17.779 4.36 19.918 6.5 13.5m4.279 4.279 8.364-8.643a3.027 3.027 0 0 0-2.14-5.165 3.03 3.03 0 0 0-2.14.886L6.5 13.5m4.279 4.279L6.499 13.5m2.14 2.14 6.213-6.504M12.75 7.04 17 11.28" />
+                            </svg></a>
 
-                        </div>
+                    </div>
+                    @if (count($krs) != 0)
                         <div class="my-4" wire:key="semester-{{ $x->id_semester }}">
                             <table class="min-w-full table-auto border-collapse">
                                 <thead>
@@ -97,15 +97,11 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
-                    @php
-                        $this->ada = true;
-                    @endphp
-                @endif
+                    @else
+                    <p>Belum ada data krs pada semester ini</p>
+                    @endif
+                </div>
             @endforeach
-            @if (!$this->ada)
-                <p>Belum ada data krs pada mahasiswa ini</p>
-            @endif
         </div>
     @else
         <p>Mahasiswa tidak ditemukan</p>
