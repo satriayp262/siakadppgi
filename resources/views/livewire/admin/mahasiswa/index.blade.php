@@ -8,7 +8,7 @@
                 <div x-data="{ isOpen: false, load: false }" @modal-closed.window="isOpen = false">
                     <!-- Button to open the modal -->
                     <button @click="isOpen=true; load=true"
-                        class="flex items-center pr-4 py-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">
+                        class="flex items-center py-2 pr-4 font-bold text-white bg-green-500 rounded hover:bg-green-700">
                         <svg class="mx-2" xmlns="http://www.w3.org/2000/svg" width="26" height="26"
                             viewBox="0 0 48 48">
                             <path fill="#169154" d="M29,6H15.744C14.781,6,14,6.781,14,7.744v7.259h15V6z"></path>
@@ -90,7 +90,7 @@
                                                     @enderror
                                                     
                                                     <div x-show="uploading" class="mt-2">
-                                                        <div class="mt-2 w-full flex flex-row items-center space-x-2">
+                                                        <div class="flex flex-row items-center w-full mt-2 space-x-2">
                                                             <div class="spinner"></div>
                                                             <div class="spinner-text">Memproses Permintaan...</div>
                                                         </div>
@@ -111,7 +111,7 @@
                     </div>
                 </div>
                 <button wire:click="export"
-                class="flex items-center pr-4 py-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">
+                class="flex items-center py-2 pr-4 font-bold text-white bg-green-500 rounded hover:bg-green-700">
                 <svg class="mx-2" xmlns="http://www.w3.org/2000/svg" width="26" height="26"
                     viewBox="0 0 48 48">
                     <path fill="#169154" d="M29,6H15.744C14.781,6,14,6.781,14,7.744v7.259h15V6z"></path>
@@ -142,8 +142,59 @@
                     </button>
                 @endif
             </div>
-            <input type="text" wire:model.live="search" placeholder="   Search"
-                class="px-2 ml-4 border border-gray-300 rounded-lg">
+            <div x-data="{ showFilter: false }" class="relative flex items-center">
+                <!-- Filter Icon with Hover Effect -->
+                <div 
+                    @mouseenter="showFilter = true" 
+                    class="relative">
+                    <img 
+                        src="{{ asset('img/sort.png') }}" 
+                        alt="Filter Search" 
+                        class="w-6 h-6 transition-transform duration-200 ease-in-out cursor-pointer hover:scale-110"
+                    >
+
+                    <!-- Filter Dropdown -->
+                    <div 
+                        x-show="showFilter" 
+                        @mouseleave="showFilter = false" 
+                        x-cloak 
+                        class="absolute left-0 z-10 w-40 p-2 mt-2 bg-white border border-gray-300 rounded-lg shadow-lg">
+                        <ul class="space-y-2">
+                            <li>
+                                <label class="inline-flex items-center">
+                                    {{-- <span class="ml-2 text-sm text-gray-700">Angkatan</span> --}}
+                                        <select name="filter_angkatan" id="filter_angkatan" wire:model.live="filter_angkatan"
+                                            class="block w-full py-2 pl-3 pr-12 mt-1 text-gray-900 bg-white border border-gray-300 rounded focus:border-indigo-500 focus:ring focus:ring-indigo-500 sm:text-sm">
+                                            <option value="" selected>Angkatan</option>
+                                            @foreach ($semesters as $item)
+                                                <option value="{{ $item->id_semester }}">{{ $item->nama_semester }}</option>
+                                            @endforeach
+                                        </select>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="inline-flex items-center">
+                                    <select id="filter_prodi" wire:model.live="filter_prodi" name="filter_prodi"
+                                        class="block w-full py-2 pl-3 pr-10 mt-1 text-gray-900 bg-white border border-gray-300 rounded focus:border-indigo-500 focus:ring focus:ring-indigo-500 sm:text-sm">
+                                        <option value="" selected>Prodi</option>
+                                        @foreach ($prodis as $prodi)
+                                            <option value="{{$prodi->kode_prodi}}"> {{$prodi->nama_prodi}}</option>
+                                        @endforeach
+                                    </select>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Search Input -->
+                <input 
+                    type="text" 
+                    wire:model.live="search" 
+                    placeholder="   Search"
+                    class="px-2 ml-4 border border-gray-300 rounded-lg focus:ring focus:ring-blue-300"
+                >
+            </div>
         </div>
         <div>
             @if (session()->has('message'))
@@ -193,11 +244,11 @@
         </div>
     </div>
 
-    <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
+    <div class="max-w-full p-4 mt-4 mb-4 bg-white rounded-lg shadow-lg">
         <table class="min-w-full mt-4 bg-white border border-gray-200">
             <thead>
                 <tr class="items-center w-full text-sm text-white align-middle bg-gray-800">
-                    <th class="py-2 px-4"><input type="checkbox" id="selectAll" wire:model="selectAll"></th>
+                    <th class="px-4 py-2"><input type="checkbox" id="selectAll" wire:model="selectAll"></th>
                     <th class="px-4 py-2 text-center">No</th>
                     <th class="px-4 py-2 text-center">Nama Mahasiswa</th>
                     <th class="px-4 py-2 text-center">NIM Mahasiswa</th>
