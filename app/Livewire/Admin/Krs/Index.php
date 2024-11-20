@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Krs;
 
 use App\Exports\KRSExport;
 use App\Models\KRS;
+use App\Models\Mahasiswa;
 use App\Models\Prodi;
 use App\Models\Semester;
 use Livewire\Component;
@@ -109,11 +110,12 @@ class Index extends Component
     }
     public function render()
     {
-        $mahasiswa = KRS::whereIn('id_krs', function ($query) {
-            $query->selectRaw('MIN(id_krs)')
-                ->from('krs')
-                ->groupBy('nim');
-        })->paginate(10);
+        // $mahasiswa = KRS::whereIn('id_krs', function ($query) {
+        //     $query->selectRaw('MIN(id_krs)')
+        //         ->from('krs')
+        //         ->groupBy('nim');
+        // })->paginate(10);
+        $mahasiswa = Mahasiswa::paginate(10);
         $semester = Semester::all();
         $prodi = Prodi::all();
 
