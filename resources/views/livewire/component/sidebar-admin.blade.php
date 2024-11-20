@@ -196,14 +196,15 @@
                         </li>
                         <li>
                             <a href="#"
-                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group">
-                                <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white"
+                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group
+                                {{ request()->routeIs('admin.krs') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
+                                {{-- <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.krs') ? 'text-white' : 'text-gray-500' }}"
                                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                                     height="24" fill="currentColor" viewBox="0 0 24 24">
                                     <path fill-rule="evenodd"
                                         d="M4 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h2V4Zm2 6v10h12V10H6Zm4 2h2v2H9V12Zm4 0h2v2h-2V12Zm-4 4h2v2H9v-2Zm4 0h2v2h-2v-2Z"
                                         clip-rule="evenodd" />
-                                </svg>
+                                </svg> --}}
                                 <span class="flex-1 ms-3 whitespace-nowrap">E-Presensi</span>
                             </a>
                         </li>
@@ -260,14 +261,16 @@
                         </li>
                         <li>
                             <a href="#"
-                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group">
-                                <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white"
+                                class="flex items-center mx-4 p-2 rounded-lg transition duration-75 group
+                                {{ request()->routeIs('admin.jadwal') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
+                                {{-- <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.jadwal') ? 'text-white' : 'text-white hover:bg-purple2' }}"
                                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                                     height="24" fill="currentColor" viewBox="0 0 24 24">
                                     <path fill-rule="evenodd"
-                                        d="M4 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h2V4Zm2 6v10h12V10H6Zm4 2h2v2H9V12Zm4 0h2v2h-2V12Zm-4 4h2v2H9v-2Zm4 0h2v2h-2v-2Z"
+                                        d="M5 5a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1h1a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1h1a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1 2 2 0 0 1 2 2v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a2 2 0 0 1 2-2ZM3 19v-7a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Zm6.01-6a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm2 0a1 1 0 1 1 2 0 1 1 0 0 1-2 0Zm6 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm-10 4a1 1 0 1 1 2 0 1 1 0 0 1-2 0Zm6 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm2 0a1 1 0 1 1 2 0 1 1 0 0 1-2 0Z"
                                         clip-rule="evenodd" />
-                                </svg>
+                                </svg> --}}
+
                                 <span class="flex-1 ms-3 whitespace-nowrap">Berita Acara</span>
                             </a>
                         </li>
