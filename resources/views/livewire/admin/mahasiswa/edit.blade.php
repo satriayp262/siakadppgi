@@ -27,18 +27,25 @@
                             <div class="fex flex-col">
                                 <div class="grid grid-cols-2 gap-4">
 
-                                    @foreach (['NIM', 'nama','NISN', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin','NPWP', 'NIK', 'agama', 'alamat', 'jalur_pendaftaran', 'kewarganegaraan', 'jenis_pendaftaran', 'tanggal_masuk_kuliah', 'mulai_semester', 'jenis_tempat_tinggal', 'telp_rumah', 'no_hp', 'email', 'terima_kps', 'no_kps', 'jenis_transportasi', 'kode_prodi', 'kode_pt_asal', 'nama_pt_asal', 'kode_prodi_asal', 'nama_prodi_asal', 'jenis_pembiayaan', 'jumlah_biaya_masuk'] as $field)
+                                    @foreach (['NIM', 'NIK', 'NISN', 'nama', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'NPWP', 'mulai_semester', 'kode_prodi', 'agama', 'alamat', 'jalur_pendaftaran', 'kewarganegaraan', 'jenis_pendaftaran', 'tanggal_masuk_kuliah', 'jenis_tempat_tinggal', 'telp_rumah', 'no_hp', 'email', 'terima_kps', 'no_kps', 'jenis_transportasi', 'kode_pt_asal', 'nama_pt_asal', 'kode_prodi_asal', 'nama_prodi_asal', 'jenis_pembiayaan', 'jumlah_biaya_masuk'] as $field)
                                         <div class="mb-4">
                                             @php
-                                                if ($field === 'NIM' || $field === 'NIK' || $field === 'NISN' || $field === 'NPWP') {
-                                                    $label = Str::of($field)->replace('_', ' ');
-                                                } else {
-                                                    $label = Str::of($field)->replace('_', ' ')->title();
-                                                }
-                                            @endphp
+                                            // Fields that skip title() transformation
+                                            $noTitleFields = ['NIM', 'NIK', 'NISN', 'NPWP'];
+                                            // Fields that require a red asterisk
+                                            $requiredFields = ['NIM', 'NIK', 'NISN', 'nama', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'mulai_semester', 'kode_prodi'];
+                                
+                                            if (in_array($field, $noTitleFields)) {
+                                                $label = $field;
+                                            } else {
+                                                $label = Str::of($field)->replace('_', ' ')->title();
+                                            }
+                                
+                                            // Add red asterisk for required fields
+                                            $label .= in_array($field, $requiredFields) ? ' <span class="text-red-500">*</span>' : '';
+                                        @endphp
                                             <label for="{{ strtolower($field) }}"
-                                                class="block text-sm text-left font-medium text-gray-700">{{ $label }}</label>
-
+                                                class="block text-sm text-left font-medium text-gray-700">{!! $label !!}</label>
                                             @if ($field === 'tanggal_lahir' || $field === 'tanggal_masuk_kuliah')
                                                 <input type="date" id="{{ strtolower($field) }}"
                                                     wire:model="{{ strtolower($field) }}"
@@ -215,7 +222,7 @@
 
                                 <h1 class="my-4 text-xl font-bold text-left">Data Orang tua Wali</h1>
                                 <div class="grid grid-cols-2 gap-4">
-                                    @foreach (['nama_ayah', 'NIK_ayah', 'tanggal_lahir_ayah', 'pendidikan_ayah', 'pekerjaan_ayah', 'penghasilan_ayah', 'nama_ibu', 'NIK_ibu', 'tanggal_lahir_ibu', 'pendidikan_ibu', 'pekerjaan_ibu', 'penghasilan_ibu', 'nama_wali', 'NIK_wali', 'tanggal_lahir_wali', 'pendidikan_wali', 'pekerjaan_wali', 'penghasilan_wali'] as $field)
+                                    @foreach (['nama_ibu', 'NIK_ibu', 'tanggal_lahir_ibu', 'pendidikan_ibu', 'pekerjaan_ibu', 'penghasilan_ibu', 'nama_ayah', 'NIK_ayah', 'tanggal_lahir_ayah', 'pendidikan_ayah', 'pekerjaan_ayah', 'penghasilan_ayah', 'nama_wali', 'NIK_wali', 'tanggal_lahir_wali', 'pendidikan_wali', 'pekerjaan_wali', 'penghasilan_wali'] as $field)
                                         @php
                                             if (
                                                 $field === 'NIK_ayah' ||
@@ -226,11 +233,14 @@
                                             } else {
                                                 $label = Str::of($field)->replace('_', ' ')->title();
                                             }
+                                            if($field === 'nama_ibu'){
+                                        $label .=  ' <span class="text-red-500">*</span>';
+                                        }
 
-                                        @endphp
-                                        <div class="mb-4">
-                                            <label for="{{ strtolower($field) }}"
-                                                class="block text-sm text-left font-medium text-gray-700">{{ $label }}</label>
+                                    @endphp
+                                    <div class="mb-4">
+                                        <label for="{{ strtolower($field) }}"
+                                            class="block text-sm text-left font-medium text-gray-700">{!! $label !!}</label>
 
                                             @if ($field === 'pendidikan_ayah' || $field === 'pendidikan_ibu' || $field === 'pendidikan_wali')
                                                 <select id="{{ strtolower($field) }}"
