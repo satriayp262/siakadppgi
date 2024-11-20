@@ -29,6 +29,8 @@ class Mahasiswa extends Model
         'id_mahasiswa',
         'id_orangtua_wali',
         'NIM',
+        'NISN',
+        'NPWP',
         'nama',
         'tempat_lahir',
         'tanggal_lahir',

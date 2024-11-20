@@ -28,10 +28,10 @@
                         <div class="flex flex-col">
                             @csrf <!-- CSRF protection for form submission -->
                             <div class="grid grid-cols-2 gap-4">
-                                @foreach (['NIM', 'NIK', 'nama', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'mulai_semester', 'kode_prodi', 'agama', 'alamat', 'jalur_pendaftaran', 'kewarganegaraan', 'jenis_pendaftaran', 'tanggal_masuk_kuliah', 'jenis_tempat_tinggal', 'telp_rumah', 'no_hp', 'email', 'terima_kps', 'no_kps', 'jenis_transportasi', 'kode_pt_asal', 'nama_pt_asal', 'kode_prodi_asal', 'nama_prodi_asal', 'jenis_pembiayaan', 'jumlah_biaya_masuk'] as $field)
+                                @foreach (['NIM', 'NIK','NISN', 'nama', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin','NPWP', 'mulai_semester', 'kode_prodi', 'agama', 'alamat', 'jalur_pendaftaran', 'kewarganegaraan', 'jenis_pendaftaran', 'tanggal_masuk_kuliah', 'jenis_tempat_tinggal', 'telp_rumah', 'no_hp', 'email', 'terima_kps', 'no_kps', 'jenis_transportasi', 'kode_pt_asal', 'nama_pt_asal', 'kode_prodi_asal', 'nama_prodi_asal', 'jenis_pembiayaan', 'jumlah_biaya_masuk'] as $field)
                                     <div class="mb-4">
                                         @php
-                                            if ($field === 'NIM' || $field === 'NIK') {
+                                            if ($field === 'NIM' || $field === 'NIK' || $field === 'NISN' || $field === 'NPWP') {
                                                 $label = Str::of($field)->replace('_', ' ');
                                             } else {
                                                 $label = Str::of($field)->replace('_', ' ')->title();

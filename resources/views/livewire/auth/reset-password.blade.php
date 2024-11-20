@@ -1,4 +1,4 @@
-<div class="flex items-center justify-center w-full min-h-screen bg-purple-400">
+<div class="flex items-center justify-center w-full min-h-screen bg-customPurple">
 
     <style>
         .box {
@@ -17,7 +17,7 @@
             position: absolute;
             top: 3%;
             left: 10%;
-            background: #d904ff;
+            background: #975e94;
             width: 1500px;
             height: 1300px;
             margin-left: -150px;
@@ -30,7 +30,7 @@
         .wave.-three {
             animation: drift 7500ms infinite linear;
             position: fixed;
-            background-color: #d904ff;
+            background-color: #975e94;
         }
 
         .wave.-two {

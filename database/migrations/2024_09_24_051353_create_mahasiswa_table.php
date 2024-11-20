@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('id_orangtua_wali')->nullable();
             // $table->foreignId('id');
             $table->string('NIM')->unique();
+            $table->string('NPWP')->nullable();
+            $table->string('NISN');
             $table->string('nama');
             $table->string('tempat_lahir');
             $table->date('tanggal_lahir');

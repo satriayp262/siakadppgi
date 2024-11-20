@@ -12,9 +12,8 @@ use Livewire\Attributes\On;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\TemplateExport; // Pastikan TemplateExport sudah dibuat
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use App\Imports\MahasiswaImport;
+
 
 class Index extends Component
 {
@@ -157,9 +156,11 @@ class Index extends Component
 
     }
 
-    public function loadModal()
-    {
 
+    public function export()
+    {
+        $fileName = 'Data Mahasiswa ' . now()->format('Y-m-d') . '.xlsx';
+        return Excel::download(new MahasiswaExport, $fileName);
     }
 
     public function updatedSearch()
@@ -169,7 +170,6 @@ class Index extends Component
 
     public function render()
     {
-
         $prodis = Prodi::query()
             ->latest()
             ->get();
@@ -178,7 +178,7 @@ class Index extends Component
             ->latest()
             ->get();
 
-        $query = Mahasiswa::with('semester'); // Eager load the semester relationship
+        $query = Mahasiswa::with('semester');
 
         if ($this->search) {
             $query->where('nama', 'like', '%' . $this->search . '%')

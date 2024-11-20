@@ -26,9 +26,10 @@ class MahasiswaImport implements ToModel, WithHeadingRow
         'tanggal_lahir',
         'jenis_kelamin',
         'nik',
+        'nisn',
+        'npwp',
         'agama',
-        'kelurahan',
-        'kecamatan',
+        'alamat',
         'jalur_pendaftaran',
         'kewarganegaraan',
         'jenis_pendaftaran',
@@ -65,13 +66,6 @@ class MahasiswaImport implements ToModel, WithHeadingRow
 
         $tanggalLahir = $this->convertExcelDate($row['tanggal_lahir']);
         $tanggalMasukKuliah = $this->convertExcelDate($row['tanggal_masuk_kuliah']);
-
-        $alamat =
-            (!empty($row['jalan']) ? $row['jalan']. ',' : '') .
-            (!empty($row['rt']) ? ' RT ' . $row['rt'] : '') .
-            (!empty($row['rw']) ? ' RW ' . $row['rw'].',' : '') .
-            (!empty($row['nama_dusun']) ? ' ' . $row['nama_dusun'].',' : '') .
-            ' ' . $row['kelurahan'] . ' ' . $row['kecamatan'];
 
         foreach ($this->requiredFields as $field) {
             if (is_null($row[$field]) || $row[$field] === '') {
@@ -143,8 +137,10 @@ class MahasiswaImport implements ToModel, WithHeadingRow
             'tanggal_lahir' => $tanggalLahir,
             'jenis_kelamin' => $row['jenis_kelamin'],
             'NIK' => $row['nik'],
+            'NISN' => $row['nisn'],
+            'NPWP' => $row['npwp'],
             'agama' => $row['agama'],
-            'alamat' => $alamat,
+            'alamat' => $row['alamat'],
             'jalur_pendaftaran' => $row['jalur_pendaftaran'],
             'kewarganegaraan' => $row['kewarganegaraan'],
             'jenis_pendaftaran' => $row['jenis_pendaftaran'],
