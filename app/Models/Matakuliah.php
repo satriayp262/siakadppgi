@@ -15,7 +15,7 @@ class Matakuliah extends Model
         'nama_mata_kuliah',
         'jenis_mata_kuliah',
         'nidn',
-        'kode_prodi',   
+        'kode_prodi',
         'sks_tatap_muka',
         'sks_praktek',
         'sks_praktek_lapangan',
@@ -33,6 +33,23 @@ class Matakuliah extends Model
     public function dosen()
     {
         return $this->belongsTo(Dosen::class, 'nidn', 'nidn');
+    }
+
+    private static $JenisMatakuliah = [
+        'W' => 'Wajib Nasional',
+        'A' => 'Wajib Program Studi',
+        'B' => 'Pilihan',
+        'C' => 'Peminatan',
+        'S' => 'TA/SKRIPSI/THESIS/DISERTASI'
+    ];
+
+
+    public function getJenisMatakuliah()
+    {
+        if ($this->attributes['jenis_mata_kuliah'] == null) {
+            return 'Data belum ada';
+        }
+        return self::$JenisMatakuliah[$this->attributes['jenis_mata_kuliah']] ?? 'Data Invalid';
     }
 
 }

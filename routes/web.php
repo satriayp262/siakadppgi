@@ -95,6 +95,14 @@ Route::middleware(['auth', CheckRole::class . ':dosen', 'verified'])->prefix('do
     Route::get('/presensi', App\Livewire\Dosen\Presensi\Index::class)->name('dosen.presensi');
     Route::get('/presensi/{token}', App\Livewire\Dosen\Presensi\DetailPresensi::class)->name('dosen.detail_presensi');
     Route::get('/input_nilai', App\Livewire\Dosen\InputNilai\Index::class)->name('dosen.input_nilai');
+    
+    Route::prefix('aktifitas')->group(function () {
+        Route::get('/', App\Livewire\Dosen\Aktifitas\Index::class)->name('dosen.aktifitas');
+        Route::get('/{kode_mata_kuliah}', App\Livewire\Dosen\Aktifitas\Kelas\Index::class)->name('dosen.aktifitas.kelas');
+        Route::get('/{kode_mata_kuliah}/{id_kelas}', App\Livewire\Dosen\Aktifitas\Kelas\Show::class)->name('dosen.aktifitas.kelas.show');
+        // Route::get('/{NIM}/{semester}', App\Livewire\Admin\Krs\Mahasiswa\Edit::class)->name('admin.krs.edit');
+    });
+    Route::get('/aktifitas', App\Livewire\Dosen\Aktifitas\Index::class)->name('dosen.aktifitas');
 });
 
 // staff
