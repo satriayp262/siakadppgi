@@ -143,16 +143,38 @@
                 @endif
             </div>
             <div x-data="{ showFilter: false }" class="relative flex items-center">
-                <!-- Filter Icon with Hover Effect -->
-                <div 
-                    @mouseenter="showFilter = true" 
-                    class="relative">
-                    <img 
-                        src="{{ asset('img/sort.png') }}" 
-                        alt="Filter Search" 
-                        class="w-6 h-6 transition-transform duration-200 ease-in-out cursor-pointer hover:scale-110"
-                    >
+                    <!-- Filter Icon with Hover Effect -->
+                    <div 
+                        x-data="{ showFilter: false }"
+                        @mouseenter="showFilter = true"
+                        @mouseleave="if (!isMovingToDropdown($event)) showFilter = false"
+                        class="relative">
+                        <div class="relative">
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                @if ($filter_angkatan || $filter_prodi)
+                                    <!-- Icon in Green -->
+                                    <path stroke="green" stroke-linecap="round" stroke-width="2" d="M18.796 4H5.204a1 1 0 0 0-.753 1.659l5.302 6.058a1 1 0 0 1 .247.659v4.874a.5.5 0 0 0 .2.4l3 2.25a.5.5 0 0 0 .8-.4v-7.124a1 1 0 0 1 .247-.659l5.302-6.059c.566-.646.106-1.658-.753-1.658Z"/>
+                                @else
+                                    <!-- Icon in Black -->
+                                    <path stroke="black" stroke-linecap="round" stroke-width="2" d="M18.796 4H5.204a1 1 0 0 0-.753 1.659l5.302 6.058a1 1 0 0 1 .247.659v4.874a.5.5 0 0 0 .2.4l3 2.25a.5.5 0 0 0 .8-.4v-7.124a1 1 0 0 1 .247-.659l5.302-6.059c.566-.646.106-1.658-.753-1.658Z"/>
+                                @endif
 
+                                <!-- Number based on condition -->
+                                @if ($filter_angkatan && $filter_prodi)
+                                    <text x="17" y="20" fill="green" font-size="12" font-weight="bold">
+                                        2
+                                    </text>
+                                @elseif ($filter_angkatan)
+                                    <text x="17" y="20" fill="green" font-size="12" font-weight="bold">
+                                        1
+                                    </text>
+                                @elseif ($filter_prodi)
+                                    <text x="17" y="20" fill="green" font-size="12" font-weight="bold">
+                                        1
+                                    </text>
+                                @endif
+                            </svg>
+                        </div>
                     <!-- Filter Dropdown -->
                     <div 
                         x-show="showFilter" 
@@ -161,10 +183,10 @@
                         class="absolute left-0 z-10 w-40 p-2 mt-2 bg-white border border-gray-300 rounded-lg shadow-lg">
                         <ul class="space-y-2">
                             <li>
-                                <label class="inline-flex items-center">
+                                <label class="flex items-center">
                                     {{-- <span class="ml-2 text-sm text-gray-700">Angkatan</span> --}}
                                         <select name="filter_angkatan" id="filter_angkatan" wire:model.live="filter_angkatan"
-                                            class="block w-full py-2 pl-3 pr-12 mt-1 text-gray-900 bg-white border border-gray-300 rounded focus:border-indigo-500 focus:ring focus:ring-indigo-500 sm:text-sm">
+                                            class="right-0 block w-full py-2 pl-3 mt-1 text-gray-900 bg-white border border-gray-300 rounded focus:border-indigo-500 focus:ring focus:ring-indigo-500 sm:text-sm">
                                             <option value="" selected>Angkatan</option>
                                             @foreach ($semesters as $item)
                                                 <option value="{{ $item->id_semester }}">{{ $item->nama_semester }}</option>
@@ -173,9 +195,9 @@
                                 </label>
                             </li>
                             <li>
-                                <label class="inline-flex items-center">
+                                <label class="flex items-center">
                                     <select id="filter_prodi" wire:model.live="filter_prodi" name="filter_prodi"
-                                        class="block w-full py-2 pl-3 pr-10 mt-1 text-gray-900 bg-white border border-gray-300 rounded focus:border-indigo-500 focus:ring focus:ring-indigo-500 sm:text-sm">
+                                        class="right-0 block w-full py-2 pl-3 mt-1 text-gray-900 bg-white border border-gray-300 rounded focus:border-indigo-500 focus:ring focus:ring-indigo-500 sm:text-sm">
                                         <option value="" selected>Prodi</option>
                                         @foreach ($prodis as $prodi)
                                             <option value="{{$prodi->kode_prodi}}"> {{$prodi->nama_prodi}}</option>
@@ -368,6 +390,11 @@
                     @this.call('destroySelected');
                 }
             });
+        }
+
+        function isMovingToDropdown(event) {
+            const target = event.relatedTarget; // Elemen tujuan kursor
+            return target && (target.closest('.relative') !== null);
         }
     </script>
 </div>
