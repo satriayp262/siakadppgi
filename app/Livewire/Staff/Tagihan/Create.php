@@ -22,7 +22,6 @@ class Create extends Component
         return [
             'nim' => 'required',
             'total_tagihan' => 'required',
-            'status_tagihan' => 'required|in:Belum Lunas,Lunas',
             'Bulan' => 'required',
             'id_semester' => 'required',
         ];
@@ -34,7 +33,6 @@ class Create extends Component
             'nim.required' => 'nim tidak boleh kosong',
             'total_tagihan.required' => 'Total tagihan tidak boleh kosong',
             'total_tagihan.numeric' => 'Total tagihan harus berupa angka',
-            'status_tagihan.required' => 'Status harus dipilih',
             'Bulan.required' => 'Bulan harus dipilih',
             'semester.required' => 'Semester harus dipilih',
         ];
@@ -86,7 +84,7 @@ class Create extends Component
         $tagihan = Tagihan::create([
             'NIM' => $validatedData['nim'],
             'total_tagihan' => $validatedData['total_tagihan'],
-            'status_tagihan' => $validatedData['status_tagihan'],
+            'status_tagihan' => 'Belum Lunas',
             'Bulan' => $validatedData['Bulan'],
             'id_semester' => $validatedData['id_semester'],
         ]);
