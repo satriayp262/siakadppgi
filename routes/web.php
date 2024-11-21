@@ -103,7 +103,7 @@ Route::middleware(['auth', CheckRole::class . ':dosen', 'verified'])->prefix('do
         // Route::get('/{NIM}/{semester}', App\Livewire\Admin\Krs\Mahasiswa\Edit::class)->name('admin.krs.edit');
     });
     Route::get('/aktifitas', App\Livewire\Dosen\Aktifitas\Index::class)->name('dosen.aktifitas');
-    Route::get('/berita_acara/detail_matkul', App\Livewire\Dosen\BeritaAcara\DetailMatkul::class)->name('dosen.berita_acara.detail_matkul');
+    Route::get('/dosen/berita_acara/{id}', App\Livewire\Dosen\BeritaAcara\DetailMatkul::class)->name('dosen.berita_acara.detail_matkul');
 });
 
 // staff

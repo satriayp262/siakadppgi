@@ -46,10 +46,10 @@
                         <td class="px-4 py-2">{{ $mataKuliah->nama_mata_kuliah }}</td>
                         <td class="px-4 py-2">{{ $mataKuliah->dosen->nama_dosen }}</td>
                         <td class="px-4 py-2">
-                            <a href="{{ route('dosen.berita_acara.detail_matkul')}}"
-                                class="px-3 py-1 text-sm text-white bg-blue-500 rounded hover:bg-blue-600">
-                                 Detail
-                             </a>
+                            <a href="{{ route('dosen.berita_acara.detail_matkul', ['id' => $mataKuliah->id_mata_kuliah]) }}"
+                               class="px-3 py-1 text-sm text-white bg-blue-500 rounded hover:bg-blue-600">
+                                Detail
+                            </a>
                         </td>
                     </tr>
                 @empty
