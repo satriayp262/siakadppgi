@@ -44,7 +44,7 @@
     <div class="max-w-full p-4 mt-4 mb-4 bg-white rounded-lg shadow-lg">
         <table class="min-w-full mt-4 bg-white border border-gray-200">
             <thead>
-                <tr class="items-center w-full text-sm text-white align-middle bg-gray-800">
+                <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
                     <th class="px-4 py-2 text-center">No.</th>
                     <th class="px-4 py-2 text-center">Nama</th>
                     <th class="px-4 py-2 text-center">Email</th>
@@ -62,10 +62,10 @@
                         <td class="w-1/4 px-4 py-2 text-center">
                             @php
                                 $roleColors = [
-                                    'admin' => 'bg-blue-400 ',
+                                    'admin' => 'bg-blue-500 ',
                                     'dosen' => 'bg-indigo-400',
                                     'mahasiswa' => 'bg-pink-400',
-                                    'staff' => 'bg-gray-400',
+                                    'staff' => 'bg-purple3',
                                 ];
                                 $roleColor = $roleColors[$user->role] ?? 'bg-gray-500';
                             @endphp

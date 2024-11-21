@@ -1,7 +1,5 @@
 <div class="mx-5">
     <div class="flex flex-col justify-between mx-4 mt-4">
-        <h1 class="text-2xl font-bold ">Ruangan Table</h1>
-
         <div class="flex justify-between mt-2">
             <livewire:admin.ruangan.create />
         </div>
@@ -9,7 +7,7 @@
         <div>
             @if (session()->has('message'))
                 @php
-                    $messageType = session('message_type', 'success'); 
+                    $messageType = session('message_type', 'success');
                     $bgColor =
                         $messageType === 'error'
                             ? 'bg-red-500'
@@ -27,7 +25,6 @@
                         &times;
                     </button>
                 </div>
-            
             @endif
         </div>
     </div>
@@ -35,7 +32,7 @@
     <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
         <table class="min-w-full mt-4 bg-white border border-gray-200">
             <thead>
-                <tr class="items-center w-full text-sm text-white align-middle bg-gray-800">
+                <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
                     <th class="px-4 py-2 text-center">No.</th>
                     <th class="px-4 py-2 text-center">Kode Ruangan</th>
                     <th class="px-4 py-2 text-center">Nama Ruangan</th>
@@ -53,7 +50,8 @@
                         <td class="px-4 py-2 text-center w-1/4">{{ $ruangan->kapasitas }}</td>
                         <td class="px-4 py-2 text-center w-1/2">
                             <div class="flex justify-center space-x-2">
-                                <livewire:admin.ruangan.edit :id_ruangan="$ruangan->id_ruangan" wire:key="edit-{{ $ruangan->id_ruangan }}" />
+                                <livewire:admin.ruangan.edit :id_ruangan="$ruangan->id_ruangan"
+                                    wire:key="edit-{{ $ruangan->id_ruangan }}" />
                                 <button class="inline-block px-4 py-1 text-white bg-red-500 rounded hover:bg-red-700"
                                     onclick="confirmDelete('{{ $ruangan->id_ruangan }}', '{{ $ruangan->nama_ruangan }}')"><svg
                                         class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"

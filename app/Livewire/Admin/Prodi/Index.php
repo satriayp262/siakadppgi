@@ -20,7 +20,7 @@ class Index extends Component
     {
         // session()->flash('message', 'Prodi Berhasil di Tambahkan');
         // session()->flash('message_type', 'success');
-        $this->dispatch('ceated', ['message' => 'Prodi Berhasil di Tambahkan']);
+        $this->dispatch('created', ['message' => 'Prodi Berhasil di Tambahkan']);
     }
 
     #[On('ProdiUpdated')]
@@ -56,7 +56,7 @@ class Index extends Component
             ->where('kode_prodi', 'like', '%' . $this->search . '%')
             ->orWhere('nama_prodi', 'like', '%' . $this->search . '%')
             ->orWhere('jenjang', 'like', '%' . $this->search . '%')
-            ->latest()
+            ->oldest()
             ->paginate(5);
 
         return view('livewire.admin.prodi.index', [
