@@ -1,12 +1,8 @@
 <div class="mx-5">
     <div class="flex flex-col justify-between mt-2">
         <!-- Modal Form -->
-        <div class="flex justify-between mt-2 bg-purple-200 shadow-lg rounded-lg p-2">
-            <div class="flex items-center px-4 py-2">
-                <h1><b>Semester Saat ini :</b></h1>
-                <p class="text-md text-gray-900 ml-1">
-                    {{ $semesters->firstWhere('is_active', true)->nama_semester ?? 'Tidak ada semester aktif' }}</p>
-            </div>
+        <div class="flex justify-between mt-2">
+            <livewire:staff.tagihan.group-create />
             <input type="text" wire:model.live="search" placeholder="   Search"
                 class="px-2 ml-4 border border-gray-300 rounded-lg">
         </div>
