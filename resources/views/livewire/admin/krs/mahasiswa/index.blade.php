@@ -1,9 +1,9 @@
-<div class="mx-5 py-1">
+<div class="py-1 mx-5">
     @php
         $mahasiswaExist = App\Models\Mahasiswa::where('NIM', $this->NIM)->exists();
     @endphp
     @if ($mahasiswaExist)
-        <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full flex justify-between space-x-2 items-center">
+        <div class="flex items-center justify-between max-w-full p-4 mt-4 mb-4 space-x-2 bg-white rounded-lg shadow-lg">
             <div class="flex justify-start space-x-2">
                 <div class="flex-col my-2">
                     <p>NIM</p>
@@ -23,7 +23,7 @@
             </div>
             <div>
                 <button wire:click="export"
-                    class="flex items-center pr-4 py-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">
+                    class="flex items-center py-2 pr-4 font-bold text-white bg-green-500 rounded hover:bg-green-700">
                     <svg class="mx-2" xmlns="http://www.w3.org/2000/svg" width="26" height="26"
                         viewBox="0 0 48 48">
                         <path fill="#169154" d="M29,6H15.744C14.781,6,14,6.781,14,7.744v7.259h15V6z"></path>
@@ -56,8 +56,8 @@
                         ->where('NIM', $this->NIM)
                         ->get();
                 @endphp
-                <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full ">
-                    <div class="flex justify-between items-center my-2">
+                <div class="max-w-full p-4 mt-4 mb-4 bg-white rounded-lg shadow-lg ">
+                    <div class="flex items-center justify-between my-2">
                         <h2>Semester {{ $x->nama_semester }}</h2>
                         <a href="{{ route('admin.krs.edit', ['semester' => $x->id_semester, 'NIM' => $this->NIM]) }}"
                             class="px-3 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"><svg
@@ -72,26 +72,42 @@
                     </div>
                     @if (count($krs) != 0)
                         <div class="my-4" wire:key="semester-{{ $x->id_semester }}">
-                            <table class="min-w-full table-auto border-collapse">
+                            <table class="min-w-full border-collapse table-auto">
                                 <thead>
-                                    <tr>
-                                        <th class="px-4 py-2 text-[15px] text-left border">Matkul</th>
-                                        <th class="px-4 py-2 text-[15px] text-left border">Dosen</th>
-                                        <th class="px-4 py-2 text-[15px] text-left border">Kelas</th>
-                                        <th class="px-4 py-2 text-[15px] text-left border">Nilai Huruf</th>
-                                        <th class="px-4 py-2 text-[15px] text-left border">Nilai Indeks</th>
-                                        <th class="px-4 py-2 text-[15px] text-left border">Nilai Angka</th>
+                                    <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
+                                        <th class="px-4 py-2 text-[15px] text-center border">Matkul</th>
+                                        <th class="px-4 py-2 text-[15px] text-center border">Dosen</th>
+                                        <th class="px-4 py-2 text-[15px] text-center border">Kelas</th>
+                                        <th class="px-4 py-2 text-[15px] text-center border">SKS Tatap Muka</th>
+                                        <th class="px-4 py-2 text-[15px] text-center border">SKS Praktek</th>
+                                        <th class="px-4 py-2 text-[15px] text-center border">SKS Praktek Lapangan</th>
+                                        <th class="px-4 py-2 text-[15px] text-center border">SKS Simulasi</th>
+                                        <th class="px-4 py-2 text-[15px] text-center border">Jenis Mata Kuliah</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($krs as $item)
                                         <tr wire:key="krs-{{ $item->id_krs }}">
-                                            <td class="px-4 py-2 border">{{ $item->matkul->nama_mata_kuliah }}</td>
-                                            <td class="px-4 py-2 border">{{ $item->matkul->dosen->nama_dosen }}</td>
-                                            <td class="px-4 py-2 border">{{ $item->kelas->nama_kelas }}</td>
-                                            <td class="px-4 py-2 border">{{ $item->nilai_huruf }}</td>
-                                            <td class="px-4 py-2 border">{{ $item->nilai_index }}</td>
-                                            <td class="px-4 py-2 border">{{ $item->nilai_angka }}</td>
+                                            <td class="px-4 py-2 text-center border">{{ $item->matkul->nama_mata_kuliah }}</td>
+                                            <td class="px-4 py-2 text-center border">{{ $item->matkul->dosen->nama_dosen }}</td>
+                                            <td class="px-4 py-2 text-center border">{{ $item->kelas->nama_kelas }}</td>
+                                            <td class="px-4 py-2 text-center border">{{ $item->matkul->sks_tatap_muka }}</td>
+                                            <td class="px-4 py-2 text-center border">{{ $item->matkul->sks_praktek }}</td>
+                                            <td class="px-4 py-2 text-center border">{{ $item->matkul->sks_praktek_lapangan }}</td>
+                                            <td class="px-4 py-2 text-center border">{{ $item->matkul->sks_simulasi }}</td>
+                                            <td class="px-4 py-2 text-center border">
+                                                @if ($item->matkul->jenis_mata_kuliah == 'A')
+                                                    Wajib Program Studi
+                                                @elseif ($item->matkul->jenis_mata_kuliah == 'B')
+                                                    Pilihan
+                                                @elseif ($item->matkul->jenis_mata_kuliah == 'C')
+                                                    Peminatan
+                                                @elseif ($item->matkul->jenis_mata_kuliah == 'S')
+                                                    TA/SKRIPSI/THESIS/DISERTASI
+                                                @elseif ($item->matkul->jenis_mata_kuliah == 'w')
+                                                    Wajib Nasional
+                                                @endif
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
