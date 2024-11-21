@@ -169,7 +169,7 @@
     <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
         <table class="min-w-full mt-4 bg-white border border-gray-200">
             <thead>
-                <tr class="items-center w-full text-sm text-white align-middle bg-gray-800">
+                <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
                     <th class="py-2 px-4"><input type="checkbox" id="selectAll" wire:model="selectAll"></th>
                     <th class="px-4 py-2 text-center">Nama Kurikulum</th>
                     <th class="px-4 py-2 text-center">Mulai Berlaku</th>

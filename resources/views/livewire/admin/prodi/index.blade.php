@@ -5,7 +5,7 @@
         <div class="flex justify-between mt-2">
             <livewire:admin.prodi.create />
             <input type="text" wire:model.live="search" placeholder="   Search"
-            class="px-2 ml-4 border border-gray-300 rounded-lg">
+                class="px-2 ml-4 border border-gray-300 rounded-lg">
         </div>
 
         <div>
@@ -46,7 +46,7 @@
     <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
         <table class="min-w-full mt-4 bg-white border border-gray-200">
             <thead>
-                <tr class="items-center w-full text-sm text-white align-middle bg-gray-800">
+                <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
                     <th class="px-4 py-2 text-center">No.</th>
                     <th class="px-4 py-2 text-center">Kode Prodi</th>
                     <th class="px-4 py-2 text-center">Nama Prodi</th>

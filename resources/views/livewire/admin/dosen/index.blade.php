@@ -212,7 +212,7 @@
     <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
         <table class="w-full table-auto border border-gray-200 mt-4">
             <thead>
-                <tr class="items-center w-full text-sm text-white align-middle bg-purple2">
+                <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
                     <th class="px-3 py-2 text-center"><input type="checkbox" id="selectAll" wire:model="selectAll">
                     </th>
                     <th class="px-3 py-2 text-center">No</th>

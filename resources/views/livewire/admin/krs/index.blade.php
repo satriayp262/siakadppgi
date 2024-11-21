@@ -164,10 +164,10 @@
                                         <div class="mb-4">
                                             <div class="flex flex-col">
                                                 <label for="kode_prodi"
-                                                    class="block text-sm font-medium text-gray-700">Pilih Semester Yang akan di Export</label>
+                                                    class="block text-sm font-medium text-gray-700">Pilih Semester Yang
+                                                    akan di Export</label>
 
-                                                <select id="id_semester" wire:model="id_semester"
-                                                    name="id_semester"
+                                                <select id="id_semester" wire:model="id_semester" name="id_semester"
                                                     class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
                                                     <option value="semua">
                                                         Semua
@@ -181,10 +181,10 @@
                                             </div>
                                             <div class="flex flex-col">
                                                 <label for="kode_prodi"
-                                                    class="block text-sm font-medium text-gray-700">Pilih Prodi Yang akan di Export</label>
+                                                    class="block text-sm font-medium text-gray-700">Pilih Prodi Yang
+                                                    akan di Export</label>
 
-                                                <select id="id_prodi" wire:model="id_prodi"
-                                                    name="id_prodi"
+                                                <select id="id_prodi" wire:model="id_prodi" name="id_prodi"
                                                     class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
                                                     <option value="semua">
                                                         Semua
@@ -210,93 +210,93 @@
                     </div>
                 </div>
             </div>
-                <input type="text" wire:model.live="search" placeholder="   Search"
-                    class="px-2 ml-4 border border-gray-300 rounded-lg">
-            </div>
-            <div>
-                @if (session()->has('message'))
-                    @php
-                        $messageType = session('message_type', 'success'); // Default to success
-                        $bgColor =
-                            $messageType === 'error'
-                                ? 'bg-red-500'
-                                : (($messageType === 'warning'
-                                        ? 'bg-yellow-500'
-                                        : $messageType === 'update')
-                                    ? 'bg-blue-500'
-                                    : 'bg-green-500');
-                    @endphp
-                    <div id="flash-message"
-                        class="flex items-center justify-between p-2 mx-2 mt-4 text-white {{ $bgColor }} rounded">
-                        <span>{!! session('message') !!}</span>
-                        <button class="p-1" onclick="document.getElementById('flash-message').remove();"
-                            class="font-bold text-white">
-                            &times;
-                        </button>
-                    </div>
-                @endif
-            </div>
-            <div>
-                @if (session()->has('message2'))
-                    @php
-                        $messageType = session('message_type', 'success');
-                        $bgColor =
-                            $messageType === 'error'
-                                ? 'bg-red-500'
-                                : (($messageType === 'warning'
-                                        ? 'bg-yellow-500'
-                                        : $messageType === 'update')
-                                    ? 'bg-blue-500'
-                                    : 'bg-green-500');
-                    @endphp
-                    <div id="flash-message"
-                        class="flex items-center justify-between p-2 mx-2 mt-4 text-white {{ $bgColor }} rounded">
-                        <span>{!! session('message2') !!}</span>
-                        <button class="p-1" onclick="document.getElementById('flash-message').remove();"
-                            class="font-bold text-white">
-                            &times;
-                        </button>
-                    </div>
-                @endif
-            </div>
+            <input type="text" wire:model.live="search" placeholder="   Search"
+                class="px-2 ml-4 border border-gray-300 rounded-lg">
         </div>
-
-        <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
-            <table class="min-w-full mt-4 bg-white border border-gray-200">
-                <thead>
-                    <tr class="items-center w-full text-sm text-white align-middle bg-gray-800">
-                        <th class="px-4 py-2 text-center">NIM Mahasiswa</th>
-                        <th class="px-4 py-2 text-center">Nama Mahasiswa</th>
-                        <th class="px-4 py-2 text-center">Semester</th>
-                        <th class="px-4 py-2 text-center">Prodi</th>
-                        <th class="px-4 py-2 text-center">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($mahasiswa as $item)
-                        <tr class="border-t" wire:key="matkul-{{ $item->id_mahasiswa }}">
-                            <td class="px-4 py-2 text-center">{{ $item->NIM }}</td>
-                            <td class="px-4 py-2 text-center">{{ $item->nama }}</td>
-                            <td class="px-4 py-2 text-center">{{ $item->semesterDifference }}</td>
-                            <td class="px-4 py-2 text-center">{{ $item->prodi->nama_prodi }}</td>
-
-                            <td class="px-4 py-2 text-center">
-                                <div class="flex flex-col">
-                                    <div class="flex justify-center space-x-2">
-                                        <a href="{{ route('admin.krs.mahasiswa', ['NIM' => $item->NIM]) }}"
-                                            class="py-2 px-4 bg-blue-500 hover:bg-blue-700 rounded">
-                                            <p>▶</p>
-                                        </a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-            <!-- Pagination Controls -->
-            <div class="mt-4 mb-4 text-center">
-                {{ $mahasiswa->links('') }}
-            </div>
+        <div>
+            @if (session()->has('message'))
+                @php
+                    $messageType = session('message_type', 'success'); // Default to success
+                    $bgColor =
+                        $messageType === 'error'
+                            ? 'bg-red-500'
+                            : (($messageType === 'warning'
+                                    ? 'bg-yellow-500'
+                                    : $messageType === 'update')
+                                ? 'bg-blue-500'
+                                : 'bg-green-500');
+                @endphp
+                <div id="flash-message"
+                    class="flex items-center justify-between p-2 mx-2 mt-4 text-white {{ $bgColor }} rounded">
+                    <span>{!! session('message') !!}</span>
+                    <button class="p-1" onclick="document.getElementById('flash-message').remove();"
+                        class="font-bold text-white">
+                        &times;
+                    </button>
+                </div>
+            @endif
+        </div>
+        <div>
+            @if (session()->has('message2'))
+                @php
+                    $messageType = session('message_type', 'success');
+                    $bgColor =
+                        $messageType === 'error'
+                            ? 'bg-red-500'
+                            : (($messageType === 'warning'
+                                    ? 'bg-yellow-500'
+                                    : $messageType === 'update')
+                                ? 'bg-blue-500'
+                                : 'bg-green-500');
+                @endphp
+                <div id="flash-message"
+                    class="flex items-center justify-between p-2 mx-2 mt-4 text-white {{ $bgColor }} rounded">
+                    <span>{!! session('message2') !!}</span>
+                    <button class="p-1" onclick="document.getElementById('flash-message').remove();"
+                        class="font-bold text-white">
+                        &times;
+                    </button>
+                </div>
+            @endif
         </div>
     </div>
+
+    <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
+        <table class="min-w-full mt-4 bg-white border border-gray-200">
+            <thead>
+                <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
+                    <th class="px-4 py-2 text-center">NIM Mahasiswa</th>
+                    <th class="px-4 py-2 text-center">Nama Mahasiswa</th>
+                    <th class="px-4 py-2 text-center">Semester</th>
+                    <th class="px-4 py-2 text-center">Prodi</th>
+                    <th class="px-4 py-2 text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($mahasiswa as $item)
+                    <tr class="border-t" wire:key="matkul-{{ $item->id_mahasiswa }}">
+                        <td class="px-4 py-2 text-center">{{ $item->NIM }}</td>
+                        <td class="px-4 py-2 text-center">{{ $item->nama }}</td>
+                        <td class="px-4 py-2 text-center">{{ $item->semesterDifference }}</td>
+                        <td class="px-4 py-2 text-center">{{ $item->prodi->nama_prodi }}</td>
+
+                        <td class="px-4 py-2 text-center">
+                            <div class="flex flex-col">
+                                <div class="flex justify-center space-x-2">
+                                    <a href="{{ route('admin.krs.mahasiswa', ['NIM' => $item->NIM]) }}"
+                                        class="py-2 px-4 bg-blue-500 hover:bg-blue-700 rounded">
+                                        <p>▶</p>
+                                    </a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+        <!-- Pagination Controls -->
+        <div class="mt-4 mb-4 text-center">
+            {{ $mahasiswa->links('') }}
+        </div>
+    </div>
+</div>

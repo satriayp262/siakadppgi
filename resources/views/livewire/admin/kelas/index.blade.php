@@ -170,7 +170,7 @@
     <div class="max-w-full p-4 mt-4 mb-4 bg-white rounded-lg shadow-lg">
         <table class="min-w-full mt-4 bg-white border border-gray-200">
             <thead>
-                <tr class="items-center w-full text-sm text-white align-middle bg-gray-800">
+                <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
                     <th class="px-4 py-2"><input type="checkbox" id="selectAll" wire:model="selectAll"></th>
                     <th class="px-4 py-2 text-center">No.</th>
                     <th class="px-4 py-2 text-center">Semester</th>
