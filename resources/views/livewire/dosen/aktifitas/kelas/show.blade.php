@@ -192,6 +192,7 @@
     </div>
 
     <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
+        <H2 class="px-4 font-bold text-[20px]">{{$nama_kelas."  (". $kode_mata_kuliah.")"}}</H2>
         <table class="min-w-full mt-4 bg-white text-sm border border-gray-200">
             <thead>
                 <tr class="items-center w-full text-sm text-white align-middle bg-gray-800">

@@ -17,7 +17,10 @@ use Storage;
 class Show extends Component
 {
     use WithFileUploads;
-    public $id_kelas, $kode_mata_kuliah, $CheckDosen = false,$file;
+    public $id_kelas, $kode_mata_kuliah, $CheckDosen = false, $file,$nama_kelas;
+
+
+
 
     #[On('aktifitasCreated')]
     public function handleAktifitasCreated()
@@ -31,6 +34,7 @@ class Show extends Component
     }
     public function mount()
     {
+        $this->nama_kelas = kelas::where('id_kelas', $this->id_kelas)->first()->nama_kelas;
 
         $this->CheckDosen = (Auth()->user()->nim_nidn == Matakuliah::where('id_mata_kuliah', Kelas::where('id_kelas', $this->id_kelas)->first()->id_mata_kuliah)->first()->nidn);
     }
@@ -53,22 +57,22 @@ class Show extends Component
     }
 
 
-    public function import(Excel $excel) 
+    public function import(Excel $excel)
     {
         $this->validate([
             'file' => 'required|mimes:xls,xlsx|max:10240',
         ]);
-    
+
         $path = $this->file->store('temp');
-    
+
         $skippedRecords = [];
         $createdRecords = [];
-    
+
         $import = new NilaiImport($this->id_kelas);
-    
+
         try {
             $excel->import($import, Storage::path($path));
-    
+
             $skippedRecords = $import->getSkippedRecords();
             $createdRecords = $import->getCreatedRecords();
             $incompleteRecords = $import->getIncompleteRecords();
@@ -84,10 +88,10 @@ class Show extends Component
                 $this->dispatch('created', ['message' => count($createdRecords) . ' data berhasil disimpan dan ' . count($updatedRecords) . ' data berhasil diupdate']);
             }
             if ($skippedRecords > 0 && !empty($incompleteRecords)) {
-    
+
                 session()->flash('message2', $skippedRecords . ' Data sudah ada <br>' . implode($incompleteRecords));
                 session()->flash('message_type2', 'warning');
-    
+
             } elseif ($skippedRecords > 0 && empty($incompleteRecords)) {
                 session()->flash('message2', $skippedRecords . ' Data sudah ada');
                 session()->flash('message_type2', 'warning');
@@ -118,10 +122,10 @@ class Show extends Component
     public function export(Excel $excel)
     {
         $nama_kelas = Kelas::where('id_kelas', $this->id_kelas)->first()->nama_kelas;
-        $fileName = 'Data Aktifitas ' .$nama_kelas .' '. now()->format('Y-m-d') . '.xlsx';
+        $fileName = 'Data Aktifitas ' . $nama_kelas . ' ' . now()->format('Y-m-d') . '.xlsx';
         return $excel->download(new NilaiExport($this->id_kelas), $fileName);
     }
-    
+
 
     public function render()
     {

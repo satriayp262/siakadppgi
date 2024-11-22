@@ -68,8 +68,13 @@ class NilaiImport implements ToModel, WithHeadingRow
         
         
             $aktifitas = Aktifitas::firstOrCreate(
-                ['nama_aktifitas' => $formattedColumn],
-                ['deskripsi' => $formattedColumn, 'id_kelas' => $this->id_kelas]
+                [
+                    'nama_aktifitas' => $formattedColumn,
+                    'id_kelas' => $this->id_kelas, 
+                ],
+                [
+                    'deskripsi' => $formattedColumn, 
+                ]
             );
         
             if (!$aktifitas->id_aktifitas) {
@@ -94,7 +99,6 @@ class NilaiImport implements ToModel, WithHeadingRow
                 $this->createdRecords[] = "Baris ke {$this->rowNumber} berhasil disimpan.";
             }
         }
-        
         
 
         $this->rowNumber++;
