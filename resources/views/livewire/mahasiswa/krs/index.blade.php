@@ -1,4 +1,4 @@
-<div class="mx-5 py-1">
+<div class="py-1 mx-5">
     <div class="">
         @foreach ($semester as $x)
             @php
@@ -7,8 +7,8 @@
                     ->get();
             @endphp
             @if (count($krs) != 0)
-                <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full ">
-                    <div class="flex justify-between items-center my-2">
+                <div class="max-w-full p-4 mt-4 mb-4 bg-white rounded-lg shadow-lg ">
+                    <div class="flex items-center justify-between my-2">
                         <h2>Semester {{ $x->nama_semester }}</h2>
                         {{-- <a href="{{ route('admin.krs.edit', ['semester' => $x->id_semester, 'NIM' => auth()->user()->nim_nidn]) }}" class="px-3 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"><svg
                                 class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
@@ -20,39 +20,52 @@
                             </svg></a> --}}
                     </div>
                     <div class="my-4" wire:key="semester-{{ $x->id_semester }}">
-                        <table class="min-w-full table-auto border-collapse">
+                        <table class="min-w-full border-collapse table-auto">
                             <thead>
-                                <tr>
-                                    <th class="px-4 py-2 text-[15px] text-left border">Matkul</th>
-                                    <th class="px-4 py-2 text-[15px] text-left border">Dosen</th>
-                                    <th class="px-4 py-2 text-[15px] text-left border">Kelas</th>
-                                    <th class="px-4 py-2 text-[15px] text-left border">Nilai Huruf</th>
-                                    <th class="px-4 py-2 text-[15px] text-left border">Nilai Indeks</th>
-                                    <th class="px-4 py-2 text-[15px] text-left border">Nilai Angka</th>
+                                <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
+                                    <th class="px-4 py-2 text-[15px] text-center border">Matkul</th>
+                                    <th class="px-4 py-2 text-[15px] text-center border">Dosen</th>
+                                    <th class="px-4 py-2 text-[15px] text-center border">Kelas</th>
+                                    <th class="px-4 py-2 text-[15px] text-center border">SKS Tatap Muka</th>
+                                    <th class="px-4 py-2 text-[15px] text-center border">SKS Praktek</th>
+                                    <th class="px-4 py-2 text-[15px] text-center border">SKS Praktek Lapangan</th>
+                                    <th class="px-4 py-2 text-[15px] text-center border">SKS Simulasi</th>
+                                    <th class="px-4 py-2 text-[15px] text-center border">Jenis Mata Kuliah</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody> 
                                 @foreach ($krs as $item)
                                     <tr wire:key="krs-{{ $item->id_krs }}">
-                                        <td class="px-4 py-2 border">{{ $item->matkul->nama_mata_kuliah }}</td>
-                                        <td class="px-4 py-2 border">{{ $item->matkul->dosen->nama_dosen }}</td>
-                                        <td class="px-4 py-2 border">{{ $item->kelas->nama_kelas }}</td>
-                                        <td class="px-4 py-2 border">{{ $item->nilai_huruf }}</td>
-                                        <td class="px-4 py-2 border">{{ $item->nilai_index }}</td>
-                                        <td class="px-4 py-2 border">{{ $item->nilai_angka }}</td>
+                                        <td class="px-4 py-2 text-center border">{{ $item->matkul->nama_mata_kuliah }}</td>
+                                        <td class="px-4 py-2 text-center border">{{ $item->matkul->dosen->nama_dosen }}</td>
+                                        <td class="px-4 py-2 text-center border">{{ $item->kelas->nama_kelas }}</td>
+                                        <td class="px-4 py-2 text-center border">{{ $item->matkul->sks_tatap_muka }}</td>
+                                        <td class="px-4 py-2 text-center border">{{ $item->matkul->sks_praktek }}</td>
+                                        <td class="px-4 py-2 text-center border">{{ $item->matkul->sks_praktek_lapangan }}</td>
+                                        <td class="px-4 py-2 text-center border">{{ $item->matkul->sks_simulasi }}</td>
+                                        <td class="px-4 py-2 text-center border">
+                                            @if ($item->matkul->jenis_mata_kuliah == 'A')
+                                                Wajib Program Studi
+                                            @elseif ($item->matkul->jenis_mata_kuliah == 'B')
+                                                Pilihan
+                                            @elseif ($item->matkul->jenis_mata_kuliah == 'C')
+                                                Peminatan
+                                            @elseif ($item->matkul->jenis_mata_kuliah == 'S')
+                                                TA/SKRIPSI/THESIS/DISERTASI
+                                            @elseif ($item->matkul->jenis_mata_kuliah == 'w')
+                                                Wajib Nasional
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
                 </div>
-                @php
-                    $this->ada = true;
-                @endphp
             @endif
         @endforeach
-        @if (!$this->ada)
+        {{-- @if (!$this->krs)
             <p>Belum ada data krs pada mahasiswa ini</p>
-        @endif
+        @endif --}}
     </div>
 </div>

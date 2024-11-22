@@ -49,6 +49,16 @@ class GroupCreate extends Component
             ->get();
 
         foreach ($mahasiswa as $mhs) {
+            $existingTagihan = Tagihan::where('NIM', $mhs->NIM)
+                ->where('Bulan', $validatedData['Bulan'])
+                ->where('id_semester', $validatedData['id_semester'])
+                ->first();
+
+            if ($existingTagihan) {
+                $this->addError('Bulan', 'Tagihan untuk bulan ini sudah ada untuk mahasiswa dengan NIM ' . $mhs->NIM);
+                continue;
+            }
+
             $tagihan = Tagihan::create([
                 'NIM' => $mhs->NIM,
                 'total_tagihan' => $validatedData['total_tagihan'],
@@ -57,11 +67,13 @@ class GroupCreate extends Component
                 'id_semester' => $validatedData['id_semester'],
             ]);
         }
-        ;
 
-        $this->dispatch('TagihanCreated');
-        $this->reset();
-        return $tagihan;
+        if (!isset($existingTagihan)) {
+            $this->dispatch('TagihanCreated');
+            $this->reset();
+        }
+
+        return $tagihan ?? null;
     }
 
     public function render()

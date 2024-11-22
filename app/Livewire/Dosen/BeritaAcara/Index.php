@@ -3,7 +3,6 @@
 namespace App\Livewire\Dosen\BeritaAcara;
 
 use Livewire\Component;
-use App\Models\Dosen;
 use App\Models\Matakuliah;
 use Livewire\Attributes\On;
 use Livewire\WithPagination;
@@ -51,34 +50,18 @@ class Index extends Component
     //     // session()->flash('message_type', 'success');
     // }
 
-    public function mount()
-    {
-        $this->matkul = Matakuliah::all() ?? collect([]);
-        $dosen = Dosen::where('nidn', Auth()->user()->nim_nidn)->first();
-
-        if ($dosen) {
-            $this->nama_dosen = $dosen->nama;
-            $this->nidn = $dosen->nidn;
-        } else {
-            session()->flash('error', 'Data Dosen tidak ditemukan.');
-            return redirect()->route('dashboard');
-        }
-    }
-
-
     public function render()
-{
-    $beritaAcaraByMatkul = Matakuliah::query()
-        ->when($this->search, function ($query) {
-            $query->where('kode_mata_kuliah', 'like', '%' . $this->search . '%')
-                  ->orWhere('nama_mata_kuliah', 'like', '%' . $this->search . '%');
-        })
-        ->latest()
-        ->paginate(5);
+    {
+        $beritaAcaraByMatkul = Matakuliah::where('nidn', auth()->user()->nim_nidn)
+            ->when($this->search, function ($query) {
+                $query->where('kode_mata_kuliah', 'like', '%' . $this->search . '%')
+                    ->orWhere('nama_mata_kuliah', 'like', '%' . $this->search . '%');
+            })
+            ->latest()
+            ->paginate(5);
 
-    return view('livewire.dosen.berita_acara.index', [
-        'beritaAcaraByMatkul' => $beritaAcaraByMatkul,
-    ]);
-}
-
+        return view('livewire.dosen.berita_acara.index', [
+            'beritaAcaraByMatkul' => $beritaAcaraByMatkul,
+        ]);
+    }
 }

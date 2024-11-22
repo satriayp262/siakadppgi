@@ -13,19 +13,19 @@ class DetailMatkul extends Component
 
     public $matkul;
 
-    public function mount(Matakuliah $matkul)
+    public function mount($id_mata_kuliah)
     {
-        $this->matkul = $matkul;
+        // Ambil data mata kuliah berdasarkan id_mata_kuliah
+        $this->matkul = Matakuliah::findOrFail($id_mata_kuliah);
     }
 
     public function render()
     {
-        // Query kelas berdasarkan id_mata_kuliah dengan pagination
-        $kelas = Kelas::where('id_mata_kuliah', $this->matkul->id)
-            ->paginate(5); // Anda bisa mengatur jumlah item per halaman
+        // Query kelas berdasarkan id_mata_kuliah yang dipilih
+        $kelas = Kelas::where('id_mata_kuliah', $this->matkul->id_mata_kuliah)
+            ->paginate(5);
 
         return view('livewire.dosen.berita_acara.detail-matkul', [
-            'matkul' => $this->matkul,
             'kelas' => $kelas,
         ]);
     }
