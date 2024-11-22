@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Dosen\Aktifitas\Kelas;
 
+use App\Exports\NilaiExport;
 use App\Models\Aktifitas;
 use App\Models\Kelas;
 use App\Models\Matakuliah;
@@ -112,6 +113,13 @@ class Show extends Component
             $this->reset('file');
             $this->importing = false;
         }
+    }
+
+    public function export(Excel $excel)
+    {
+        $nama_kelas = Kelas::where('id_kelas', $this->id_kelas)->first()->nama_kelas;
+        $fileName = 'Data Aktifitas ' .$nama_kelas .' '. now()->format('Y-m-d') . '.xlsx';
+        return $excel->download(new NilaiExport($this->id_kelas), $fileName);
     }
     
 
