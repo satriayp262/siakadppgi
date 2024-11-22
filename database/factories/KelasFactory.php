@@ -53,7 +53,7 @@ class KelasFactory extends Factory
         $idSemester = Semester::where('nama_semester', '20222')->first()->id_semester;
 
         return [
-            'semester' => $idSemester,
+            'id_semester' => $idSemester,
             'nama_kelas' => $namaKelas,
             'kode_prodi' => 'AK-001',
             'lingkup_kelas' => $this->faker->randomElement([1, 2, 3]),

@@ -11,7 +11,7 @@ class Kelas extends Model
     protected $table = 'kelas';
     protected $primaryKey = 'id_kelas';
     protected $fillable = [
-        'semester',
+        'id_semester',
         'nama_kelas',
         'kode_prodi',
         'lingkup_kelas',
@@ -26,7 +26,7 @@ class Kelas extends Model
 
     public function semester()
     {
-        return $this->belongsTo(Semester::class, 'semester', 'id_semester');
+        return $this->belongsTo(Semester::class, 'id_semester', 'id_semester');
     }
 
     public function matkul()

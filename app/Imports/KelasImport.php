@@ -69,7 +69,7 @@ class KelasImport implements ToModel, WithHeadingRow
 
             return new Kelas([
                 'id' => $row['id'] ?? null,
-                'semester' => $idSemester,
+                'id_semester' => $idSemester,
                 'id_mata_kuliah' => $idMatkul,
                 'nama_kelas' => $row['nama_kelas'],
                 'bahasan' => $row['bahasan'],

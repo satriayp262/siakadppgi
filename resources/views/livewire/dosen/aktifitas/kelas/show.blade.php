@@ -207,8 +207,9 @@
                         <tr wire:key="item-{{ $item->id_aktifitas }}">
                             <td class="px-4 py-2 text-center">{{ $item->kelas->nama_kelas }}</td>
                             <td class="px-4 py-2 text-center">{{ $item->nama_aktifitas }}</td>
-                            <td class="px-4 py-2 text-center">{{ $item->catatan ?? 'Belum ada Catatan' }}</td>
-                            
+                            <td class="px-4 py-2 text-center">
+                                {{ trim($item->catatan ?? '') !== '' ? $item->catatan : 'Belum ada Catatan' }}</td>
+
                             <td class="px-4 py-2 text-center">
                                 <div class="flex flex-row">
                                     <div class="flex justify-center w-full space-x-2">

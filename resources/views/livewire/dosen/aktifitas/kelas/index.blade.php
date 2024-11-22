@@ -24,7 +24,7 @@
                     <tr wire:key="item-{{ $item->id_kelas }}">
                         <td class="px-4 py-2 text-center">{{ $item->nama_kelas }}</td>
                         <td class="px-4 py-2 text-center">{{ $item->prodi->nama_prodi }}</td>
-                        <td class="px-4 py-2 text-center">{{ $item->semester }}</td>
+                        <td class="px-4 py-2 text-center">{{ $item->semester->nama_semester }}</td>
                         <td class="px-4 py-2 text-center">{{ $item->bahasan }}</td>
                         <td class="px-4 py-2 text-center">
                             <div class="flex flex-row">

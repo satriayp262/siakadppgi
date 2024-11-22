@@ -15,12 +15,11 @@ return new class extends Migration {
             $table->string('nama_kelas');
             $table->string('kode_prodi');
             $table->integer('id_mata_kuliah');
-            $table->integer('semester');
+            $table->integer('id_semester');
             $table->string('bahasan')->nullable();
             $table->string('mode_kuliah', 1)->nullable();
             $table->string('lingkup_kelas', 1)->nullable();
             $table->timestamps();
-            $table->foreign('semester')->references('id_semester')->on('semester')->onDelete('cascade');
             $table->foreign('kode_prodi')->references('kode_prodi')->on('prodi')->onDelete('cascade');
             $table->foreign('id_mata_kuliah')->references('id_mata_kuliah')->on('matkul')->onDelete('cascade');
         });
