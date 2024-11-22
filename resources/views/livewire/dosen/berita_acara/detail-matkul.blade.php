@@ -20,7 +20,11 @@
                         <td class="px-4 py-2">{{ $item->lingkup_kelas }}</td>
                         <td class="px-4 py-2">{{ $item->mode_kuliah }}</td>
                         <td class="px-4 py-2">{{ $item->prodi->nama_prodi ?? '-' }}</td>
-                        <td class="px-4 py-2"></td>
+                        <td class="px-4 py-2 text-center">
+                            <div class="flex justify-center">
+                                <livewire:dosen.berita_acara.create />
+                            </div>
+                        </td>
                     </tr>
                 @empty
                     <tr>

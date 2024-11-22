@@ -2,7 +2,6 @@
     <div class="flex flex-col justify-between mx-4 mt-4 ">
         <!-- Modal Form -->
         <div class="flex justify-between mt-2">
-            <livewire:dosen.berita_acara.create />
             <input type="text" wire:model.debounce.300ms="search" placeholder="   Search"
             class="px-2 ml-4 border border-gray-300 rounded-lg">
         </div>
@@ -39,17 +38,17 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse ($matkul as $index => $mataKuliah)
+                @forelse ($beritaAcaraByMatkul as $index => $mataKuliah)
                     <tr class="text-center border-b border-gray-200">
                         <td class="px-4 py-2">{{ $index + 1 }}</td>
                         <td class="px-4 py-2">{{ $mataKuliah->kode_mata_kuliah }}</td>
                         <td class="px-4 py-2">{{ $mataKuliah->nama_mata_kuliah }}</td>
                         <td class="px-4 py-2">{{ $mataKuliah->dosen->nama_dosen }}</td>
                         <td class="px-4 py-2">
-                            <a href="{{ route('dosen.berita_acara.detail_matkul', ['id' => $mataKuliah->id_mata_kuliah]) }}"
-                               class="px-3 py-1 text-sm text-white bg-blue-500 rounded hover:bg-blue-600">
-                                Detail
-                            </a>
+                            <a href="{{ route('dosen.berita_acara.detail_matkul', ['id_mata_kuliah' => $mataKuliah->id_mata_kuliah]) }}"
+                                class="px-3 py-1 text-sm text-white bg-blue-500 rounded hover:bg-blue-600">
+                                 Detail
+                             </a>
                         </td>
                     </tr>
                 @empty
