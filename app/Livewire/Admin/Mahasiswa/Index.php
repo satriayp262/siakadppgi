@@ -30,10 +30,9 @@ class Index extends Component
     public $file;
     public $importing = false;
 
-    // Update pagination when 'search' is updated
+ 
     protected $updatesQueryString = ['search'];
 
-    // Reset pagination page on search update
     public function updatingSearch()
     {
         $this->resetPage();
@@ -42,17 +41,17 @@ class Index extends Component
     public function updatedSelectAll($value)
     {
         if ($value) {
-            // Jika selectAll true, pilih semua id_dosen
+
             $this->selectedMahasiswa = Mahasiswa::pluck('id_mahasiswa')->toArray();
         } else {
-            // Jika selectAll false, hapus semua pilihan
+ 
             $this->selectedMahasiswa = [];
         }
     }
 
     public function updatedselectedMahasiswa()
     {
-        // Jika ada Mahasiswa yang dipilih, tampilkan tombol, jika tidak, sembunyikan
+
         $this->showDeleteButton = count($this->selectedMahasiswa) > 0;
     }
 
