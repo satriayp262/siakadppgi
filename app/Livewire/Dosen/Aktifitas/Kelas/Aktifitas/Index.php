@@ -73,19 +73,22 @@ class Index extends Component
 
 
 
+    protected $rules = [
+        'Nilai.*.nilai' => 'nullable|numeric|min:0|max:100',
+    ];
+    protected $messages = [
+        'Nilai.*.nilai.min' => 'Nilai minimal 0.',
+        'Nilai.*.nilai.max' => 'Nilai maksimal 100.',
+    ];
+    
     public function save()
     {
+        $this->validate(); 
+    
         foreach ($this->Nilai as $index => $nilaiData) {
-            $nilai = trim($nilaiData['nilai']);
-
-            if (empty($nilai) || !is_numeric($nilai)) {
-                session()->flash('message', 'Nilai must be a valid integer for NIM ' . $nilaiData['NIM']);
-                session()->flash('message_type', 'error');
-                return;
+            if($nilaiData['nilai'] === " " || $nilaiData['nilai'] === "" ){
+                $nilaiData['nilai'] = null;
             }
-
-            $nilai = (int) $nilai;
-
             Nilai::updateOrCreate(
                 [
                     'id_aktifitas' => $this->id_aktifitas,
@@ -93,12 +96,12 @@ class Index extends Component
                     'NIM' => $nilaiData['NIM'],
                 ],
                 [
-                    'nilai' => $nilai,
+                    'nilai' => $nilaiData['nilai'],
                 ]
             );
         }
-        $this->dispatch('updated', ['Update Nilai Berhasil']);
-
+    
+        $this->dispatch('updated', ['message' => 'Nilai Updated Successfully']);
     }
 
 

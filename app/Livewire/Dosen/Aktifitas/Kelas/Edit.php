@@ -43,7 +43,7 @@ class Edit extends Component
             $aktifitas->update([
                 'id_kelas' => $this->id_kelas,
                 'nama_aktifitas' => $this->nama_aktifitas,
-                'catatan' => $this->catatan ?? $this->nama_aktifitas,
+                'catatan' => $this->catatan ,
             ]);
         } else {
             throw new \Exception('Aktifitas record not found.');

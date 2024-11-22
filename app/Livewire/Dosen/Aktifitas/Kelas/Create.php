@@ -40,11 +40,10 @@ class Create extends Component
         Aktifitas::create([
             'id_kelas' => $this->id_kelas,
             'nama_aktifitas' => $this->nama_aktifitas,
-            'catatan' => $this->catatan ?? $this->nama_aktifitas,
+            'catatan' => $this->catatan ,
         ]);
 
         $this->resetExcept('id_kelas');
-        $this->nama_aktifitas = "Tugas";
         $this->dispatch('aktifitasCreated');
     }
 

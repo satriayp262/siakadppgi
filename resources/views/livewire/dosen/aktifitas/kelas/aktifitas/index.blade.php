@@ -23,9 +23,12 @@
                     <tr wire:key="item-{{ $item['NIM'] }}">
                         <td class="px-4 py-2 text-center">{{ $item['NIM'] }}</td>
                         <td class="px-4 py-2 text-center">{{ $item['nama'] }}</td>
-                        <td class="px-4 py-2 text-center">
+                        <td class="px-4 py-2 text-center flex flex-col items-center">
                             <input type="number" wire:model.defer="Nilai.{{ $index }}.nilai"
                                 class="w-24 px-2 py-1 border" required>
+                                @error('Nilai.' . $index . '.nilai')
+                                    <small class="text-red-500">{{ $message }}</small>
+                                @enderror
                         </td>
                     </tr>
                 @endforeach
