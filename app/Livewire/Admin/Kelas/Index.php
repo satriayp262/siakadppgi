@@ -61,8 +61,8 @@ class Index extends Component
         $this->selectedKelas = [];
         $this->selectAll = false; // Reset juga selectAll
 
-        // Emit event ke frontend untuk reset checkbox
-        $this->dispatch('kelasDeleted');
+        $this->dispatch('destroyed', ['message' => 'Kelas Berhasil Dihapus']);
+        $this->showDeleteButton = false;
     }
 
 

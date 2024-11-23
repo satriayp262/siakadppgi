@@ -33,10 +33,10 @@ class Index extends Component
     {
         $matkul = Matakuliah::find($id_mata_kuliah);
 
-            // Hapus data matkul
-            $matkul->delete();
+        // Hapus data matkul
+        $matkul->delete();
 
-            // Tampilkan pesan sukses
+        // Tampilkan pesan sukses
         $this->dispatch('destroyed', ['message' => 'Matakuliah Deleted Successfully']);
     }
 
@@ -55,7 +55,7 @@ class Index extends Component
         $editedRows = $data['editedRows'];
 
         if (!empty($existingRows)) {
-            session()->flash('message2',  count( $existingRows) . ' Data sudah ada: <br>' . implode('', $existingRows));
+            session()->flash('message2', count($existingRows) . ' Data sudah ada: <br>' . implode('', $existingRows));
             session()->flash('message_type2', 'warning');
         }
 
@@ -76,7 +76,7 @@ class Index extends Component
         if (!empty($addedRows)) {
             session()->flash('message', count($addedRows) . ' Data berhasil ditambahkan: <br>' . implode('', $addedRows));
             session()->flash('message_type', 'success');
-        }else{
+        } else {
             session()->flash('message', 'Tidak ada mata kuliah yang ditambahkan');
             session()->flash('message_type', 'error');
         }
@@ -110,8 +110,8 @@ class Index extends Component
         $this->selectedMatkul = [];
         $this->selectAll = false; // Reset juga selectAll
 
-        // Emit event ke frontend untuk reset checkbox
-        $this->dispatch('matkulDeleted');
+        $this->dispatch('destroyed', ['message' => 'Matakuliah Deleted Successfully']);
+        $this->showDeleteButton = false;
     }
 
     public function updatedSearch()

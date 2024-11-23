@@ -271,7 +271,7 @@
 
         <!-- Pagination Controls -->
         <div class="mt-4 mb-4 text-center">
-            {{ $dosens->links('') }}
+            {{ $dosens->links() }}
         </div>
     </div>
 

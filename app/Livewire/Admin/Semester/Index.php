@@ -44,9 +44,13 @@ class Index extends Component
         // Reset array selectedDosen setelah penghapusan
         $this->selectedSemester = [];
         $this->selectAll = false; // Reset juga selectAll
+        $this->semesterDeleted();
+    }
 
-        // Emit event ke frontend untuk reset checkbox
-        $this->dispatch('semesterDeleted');
+    public function semesterDeleted()
+    {
+        $this->dispatch('destroyed', ['message' => 'Semester Berhasil di Hapus']);
+        $this->showDeleteButton = false;
     }
 
     public function destroy($id_semester)

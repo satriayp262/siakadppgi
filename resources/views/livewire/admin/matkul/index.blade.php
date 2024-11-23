@@ -6,7 +6,6 @@
             <div class="flex space-x-2">
                 <livewire:admin.matkul.create />
                 <livewire:admin.matkul.import />
-
                 @if ($showDeleteButton)
                     <button id="deleteButton" class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700"
                         onclick="confirmDeleteSelected()">
@@ -158,5 +157,26 @@
                     .value));
             });
         });
+
+        function confirmDeleteSelected() {
+            const selectedMatkul = @this.selectedMatkul; // Dapatkan data dari Livewire
+
+            console.log(selectedMatkul); // Tambahkan log untuk memeriksa nilai
+
+            Swal.fire({
+                title: `Apakah anda yakin ingin menghapus ${selectedMatkul.length} data Matkul?`,
+                text: "Data yang telah dihapus tidak dapat dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Hapus'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Panggil method Livewire untuk menghapus data terpilih
+                    @this.call('destroySelected');
+                }
+            });
+        }
     </script>
 </div>
