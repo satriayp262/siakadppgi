@@ -70,10 +70,15 @@ class Index extends Component
         // Reset array selectedKurikulum setelah penghapusan
         $this->selectedKurikulum = [];
         $this->selectAll = false; // Reset juga selectAll
-
-        // Emit event ke frontend untuk reset checkbox
-        $this->dispatch('kurikulumDeleted');
+        $this->kurikulumDeleted();
     }
+
+    public function kurikulumDeleted()
+    {
+        $this->dispatch('destroyed', ['message' => 'Kurikulum Berhasil Dihapus']);
+        $this->showDeleteButton = false;
+    }
+
     public function import()
     {
         $this->validate([
