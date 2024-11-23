@@ -2,7 +2,15 @@
     <div class="flex flex-col justify-between mx-4 mt-4">
         <!-- Modal Form -->
         <div class="flex justify-between mt-2">
-            <livewire:admin.user.create />
+            <div class="flex justify-between space-x-2">
+                <livewire:admin.user.create />
+                @if ($showDeleteButton)
+                    <button id="deleteButton" class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700"
+                        onclick="confirmDeleteSelected()">
+                        Hapus Data Terpilih
+                    </button>
+                @endif
+            </div>
             <input type="text" wire:model.live="search" placeholder="   Search"
                 class="px-2 ml-4 border border-gray-300 rounded-lg">
         </div>
@@ -45,6 +53,7 @@
         <table class="min-w-full mt-4 bg-white border border-gray-200">
             <thead>
                 <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
+                    <th class="py-2 px-4"><input type="checkbox" id="selectAll" wire:model="selectAll"></th>
                     <th class="px-4 py-2 text-center">No.</th>
                     <th class="px-4 py-2 text-center">Nama</th>
                     <th class="px-4 py-2 text-center">Email</th>
@@ -55,6 +64,10 @@
             <tbody>
                 @foreach ($users as $user)
                     <tr class="border-t" wire:key="user-{{ $user->id }}">
+                        <td class="px-4 py-2 text-center">
+                            <input type="checkbox" class="selectRow" wire:model.live="selectedUser"
+                                value="{{ $user->id }}">
+                        </td>
                         <td class="px-4 py-2 text-center">
                             {{ ($users->currentPage() - 1) * $users->perPage() + $loop->iteration }}</td>
                         <td class="w-1/4 px-4 py-2 text-center">{{ $user->name }}</td>
@@ -94,7 +107,7 @@
         </table>
         <!-- Pagination Controls -->
         <div class="py-8 mt-4 mb-4 text-center">
-            {{ $users->links('') }}
+            {{ $users->links() }}
         </div>
     </div>
 
@@ -111,6 +124,46 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     @this.call('destroy', id);
+                }
+            });
+        }
+
+        // Ambil elemen checkbox di header
+        const selectAllCheckbox = document.getElementById('selectAll');
+
+        // Ambil semua checkbox di baris
+        const rowCheckboxes = document.querySelectorAll('.selectRow');
+
+        // Event listener untuk checkbox di header
+        selectAllCheckbox.addEventListener('change', function() {
+            const isChecked = this.checked;
+
+            // Iterasi semua checkbox di row dan ubah status checked sesuai header
+            rowCheckboxes.forEach(function(checkbox) {
+                checkbox.checked = isChecked; // Update status checkbox di baris
+            });
+
+            // Jika Anda menggunakan Livewire, Anda bisa memanggil update pada model
+            @this.set('selectedUser', isChecked ? [...rowCheckboxes].map(cb => cb.value) : []);
+        });
+
+        function confirmDeleteSelected() {
+            const selectedUser = @this.selectedUser; // Dapatkan data dari Livewire
+
+            console.log(selectedUser); // Tambahkan log untuk memeriksa nilai
+
+            Swal.fire({
+                title: `Apakah anda yakin ingin menghapus ${selectedUser.length} data User?`,
+                text: "Data yang telah dihapus tidak dapat dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Hapus'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Panggil method Livewire untuk menghapus data terpilih
+                    @this.call('destroySelected');
                 }
             });
         }

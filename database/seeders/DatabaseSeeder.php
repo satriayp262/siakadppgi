@@ -24,24 +24,17 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         User::factory()->create([
-            'name' => 'Test User',
+            'name' => 'Admin',
             'email' => '123@gmail.com',
             'password' => '11111111',
             'role' => 'admin',
         ]);
 
         User::factory()->create([
-            'name' => 'Test User',
+            'name' => 'Staff Politeknik Piksi Kebumen',
             'email' => 'staff@gmail.com',
             'password' => '11111111',
             'role' => 'staff',
-        ]);
-
-        User::factory()->create([
-            'name' => 'dosen',
-            'email' => 'dosen@gmail.com',
-            'password' => '11111111',
-            'role' => 'dosen',
         ]);
 
         Prodi::factory()->create([
@@ -98,6 +91,7 @@ class DatabaseSeeder extends Seeder
             'nama_semester' => '20222',
             'is_active' => 1,
         ]);
+
         $pendidikanList = [
             ['kode_pendidikan_terakhir' => 0, 'nama_pendidikan_terakhir' => 'Tidak sekolah'],
             ['kode_pendidikan_terakhir' => 1, 'nama_pendidikan_terakhir' => 'PAUD'],
@@ -131,7 +125,7 @@ class DatabaseSeeder extends Seeder
         }
 
         Dosen::factory(30)->create();
-        
+
         $matakuliahData = [
             [
                 'kode_mata_kuliah' => 'STATIS',
@@ -169,7 +163,7 @@ class DatabaseSeeder extends Seeder
         Kelas::factory(6)->create();
 
         Ruangan::factory(20)->create();
-        
+
 
     }
 }

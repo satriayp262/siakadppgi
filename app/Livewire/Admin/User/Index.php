@@ -11,6 +11,10 @@ use App\Models\User;
 class Index extends Component
 {
 
+    public $selectedUser = [];
+    public $selectAll = false;
+    public $showDeleteButton = false;
+
 
     #[On('UserCreated')]
     public function handleUserCreated()
@@ -28,6 +32,39 @@ class Index extends Component
         $this->dispatch('updated', ['message' => 'User Berhasil di Update']);
     }
 
+    public function updatedSelectAll($value)
+    {
+        if ($value) {
+            // Jika selectAll true, pilih semua id_user
+            $this->selectedUser = User::pluck('id')->toArray();
+        } else {
+            // Jika selectAll false, hapus semua pilihan
+            $this->selectedUser = [];
+        }
+    }
+
+    public function updatedSelectedUser()
+    {
+        $this->showDeleteButton = count($this->selectedUser) > 0;
+    }
+
+    public function destroySelected()
+    {
+        // Hapus data user yang terpilih
+        User::whereIn('id', $this->selectedUser)->delete();
+
+        // Reset array selectedUser setelah penghapusan
+        $this->selectedUser = [];
+        $this->selectAll = false; // Reset juga selectAll
+        $this->userDeleted();
+    }
+
+    public function userDeleted()
+    {
+        $this->dispatch('destroyed', ['message' => ' User Berhasil di Hapus']);
+        $this->showDeleteButton = false;
+    }
+
     public function destroy($id)
     {
         $user = User::find($id);
@@ -41,7 +78,7 @@ class Index extends Component
     {
         $this->resetPage();
     }
-    
+
     public function render()
     {
         $users = User::query()
