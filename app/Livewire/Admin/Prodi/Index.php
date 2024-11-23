@@ -12,6 +12,9 @@ use App\Models\Prodi;
 class Index extends Component
 {
     public $search = '';
+    public $selectedProdi = [];
+    public $selectAll = false;
+    public $showDeleteButton = false;
 
     use WithPagination;
 
@@ -29,6 +32,33 @@ class Index extends Component
         // session()->flash('message', 'Prodi Berhasil di Update');
         // session()->flash('message_type', 'update');
         $this->dispatch('updated', ['message' => 'Prodi Berhasil di Update']);
+    }
+    public function updatedSelectAll($value)
+    {
+        if ($value) {
+            // Jika selectAll true, pilih semua id_dosen
+            $this->selectedProdi = Prodi::pluck('id_prodi')->toArray();
+        } else {
+            // Jika selectAll false, hapus semua pilihan
+            $this->selectedProdi = [];
+        }
+    }
+
+    public function updatedSelectedProdi()
+    {
+        // Jika ada dosen yang dipilih, tampilkan tombol, jika tidak, sembunyikan
+        $this->showDeleteButton = count($this->selectedProdi) > 0;
+    }
+    public function destroySelected()
+    {
+        Prodi::whereIn('id_prodi', $this->selectedProdi)->delete();
+
+        // Reset array selectedDosen setelah penghapusan
+        $this->selectedProdi = [];
+        $this->selectAll = false; // Reset juga selectAll
+
+        $this->dispatch('destroyed', ['message' => 'Prodi Berhasil Dihapus']);
+        $this->showDeleteButton = false;
     }
 
     public function destroy($id_prodi)

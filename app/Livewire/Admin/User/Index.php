@@ -12,6 +12,8 @@ class Index extends Component
 {
 
     public $selectedUser = [];
+
+    use WithPagination;
     public $selectAll = false;
     public $showDeleteButton = false;
 
@@ -84,6 +86,8 @@ class Index extends Component
         $users = User::query()
             ->latest()
             ->paginate(10);
-        return view('livewire.admin.user.index', ['users' => $users]);
+        return view('livewire.admin.user.index', [
+            'users' => $users
+        ]);
     }
 }

@@ -30,7 +30,7 @@ class Index extends Component
     public $file;
     public $importing = false;
 
- 
+
     protected $updatesQueryString = ['search'];
 
     public function updatingSearch()
@@ -44,7 +44,7 @@ class Index extends Component
 
             $this->selectedMahasiswa = Mahasiswa::pluck('id_mahasiswa')->toArray();
         } else {
- 
+
             $this->selectedMahasiswa = [];
         }
     }
@@ -63,10 +63,8 @@ class Index extends Component
         // Reset array selectedMahasiswa setelah penghapusan
         $this->selectedMahasiswa = [];
         $this->selectAll = false; // Reset juga selectAll
-
-        // Emit event ke frontend untuk reset checkbox
-        session()->flash('message', 'Mahasiswa Berhasil di Hapus');
-        session()->flash('message_type', 'error');
+        $this->dispatch('destroyed', ['message' => 'Mahasiswa Berhasil dibahpus']);
+        $this->showDeleteButton = false;
     }
 
     #[On('mahasiswaUpdated')]
