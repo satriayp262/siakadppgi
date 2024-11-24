@@ -1,7 +1,15 @@
 <div class="mx-5">
     <div class="flex flex-col justify-between mx-4 mt-4">
         <div class="flex justify-between mt-2">
-            <livewire:admin.ruangan.create />
+            <div class="flex justify-around space-x-2">
+                <livewire:admin.ruangan.create />
+                @if ($showDeleteButton)
+                    <button id="deleteButton" class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700"
+                        onclick="confirmDeleteSelected()">
+                        Hapus Data Terpilih
+                    </button>
+                @endif
+            </div>
         </div>
 
         <div>
@@ -33,6 +41,7 @@
         <table class="min-w-full mt-4 bg-white border border-gray-200">
             <thead>
                 <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
+                    <th class="px-4 py-2"><input type="checkbox" id="selectAll" wire:model="selectAll"></th>
                     <th class="px-4 py-2 text-center">No.</th>
                     <th class="px-4 py-2 text-center">Kode Ruangan</th>
                     <th class="px-4 py-2 text-center">Nama Ruangan</th>
@@ -43,6 +52,10 @@
             <tbody>
                 @foreach ($ruangans as $ruangan)
                     <tr class="border-t" wire:key="ruangan-{{ $ruangan->id_ruangan }}">
+                        <td class="px-4 py-2 text-center">
+                            <input type="checkbox" class="selectRow" wire:model="selectedMahasiswa"
+                                value="{{ $ruangan->id_ruangan }}">
+                        </td>
                         <td class="px-4 py-2 text-center">
                             {{ ($ruangans->currentPage() - 1) * $ruangans->perPage() + $loop->iteration }}</td>
                         <td class="px-4 py-2 text-center w-1/4">{{ $ruangan->kode_ruangan }}</td>
@@ -87,6 +100,56 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     @this.call('destroy', id);
+                }
+            });
+        }
+
+        const selectAllCheckbox = document.getElementById('selectAll');
+        const rowCheckboxes = document.querySelectorAll('.selectRow');
+
+        selectAllCheckbox.addEventListener('change', function() {
+            const isChecked = this.checked;
+
+            rowCheckboxes.forEach(function(checkbox) {
+                checkbox.checked = isChecked;
+            });
+
+            @this.set('selectedRuangan', isChecked ? [...rowCheckboxes].map(cb => cb.value) : []);
+        });
+
+        rowCheckboxes.forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                @this.set('selectedRuangan', [...rowCheckboxes].filter(cb => cb.checked).map(cb => cb
+                    .value));
+            });
+        });
+
+
+        function confirmDeleteSelected() {
+            const selectedRuangan = @this.selectedRuangan;
+
+            // console.log(selectedRuangan);
+
+            if (selectedRuangan.length === 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Tidak ada data yang dipilih!',
+                    text: 'Silakan pilih data yang ingin dihapus terlebih dahulu.',
+                });
+                return;
+            }
+
+            Swal.fire({
+                title: `Apakah anda yakin ingin menghapus ${selectedRuangan.length} data Ruangan?`,
+                text: "Data yang telah dihapus tidak dapat dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Hapus'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    @this.call('destroySelected');
                 }
             });
         }
