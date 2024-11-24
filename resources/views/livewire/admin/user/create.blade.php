@@ -26,7 +26,6 @@
             <div class="p-4">
                 <div class="p-4 max-h-[500px] overflow-y-auto">
                     <form wire:submit.prevent="save">
-
                         <div>
                             <div class="mb-4">
                                 <label for="role" class="block text-sm font-medium text-gray-700">Role</label>
