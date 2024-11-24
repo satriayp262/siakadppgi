@@ -16,6 +16,7 @@ class Tagihan extends Model
         'id_semester',
         'Bulan',
         'total_bayar',
+        'id_staff',
     ];
 
     public function mahasiswa()
@@ -28,6 +29,10 @@ class Tagihan extends Model
         return $this->belongsTo(Semester::class, 'id_semester', 'id_semester');
     }
 
+    public function staff()
+    {
+        return $this->belongsTo(Staff::class, 'id_staff', 'id_Staff');
+    }
 
 
 

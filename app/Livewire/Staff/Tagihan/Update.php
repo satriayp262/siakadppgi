@@ -8,6 +8,7 @@ use App\Models\Semester;
 use App\Models\Tagihan;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Str;
+use App\Models\Staff;
 
 class Update extends Component
 {
@@ -21,6 +22,7 @@ class Update extends Component
     public $tagihan;
     public $id_tagihan;
     public $status_tagihan = '';
+    public $id_staff = '';
 
 
 
@@ -28,6 +30,7 @@ class Update extends Component
     {
         return [
             'total_bayar' => 'required',
+            'id_staff' => 'required',
         ];
     }
 
@@ -35,6 +38,7 @@ class Update extends Component
     {
         return [
             'total_bayar.required' => 'Total bayar tidak boleh kosong',
+            'id_staff.required' => 'Staff tidak boleh kosong',
         ];
     }
 
@@ -60,6 +64,7 @@ class Update extends Component
             $this->tagihan->update([
                 'total_bayar' => $total_tagihan_cleaned,
                 'status_tagihan' => $this->status_tagihan,
+                'id_staff' => $this->id_staff,
             ]);
 
             $this->dispatch('TagihanUpdated');
@@ -70,6 +75,9 @@ class Update extends Component
 
     public function render()
     {
-        return view('livewire.staff.tagihan.update');
+        $staffs = Staff::all();
+        return view('livewire.staff.tagihan.update', [
+            'staffs' => $staffs
+        ]);
     }
 }

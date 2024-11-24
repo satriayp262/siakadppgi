@@ -1,13 +1,14 @@
 <div x-data="{ isOpen: false }" @modal-closed.window="isOpen = false">
     <!-- Button to open the modal -->
     <button @click="isOpen=true"
-        class="flex items-center px-3 py-1 font-sm text-white bg-green-500 rounded hover:bg-green-700">
+        class="flex items-center px-4 py-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">
         <svg class="w-6 h-6 mr-2 text-gray-800 dark:text-white font-black" aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
                 d="M5 12h14m-7 7V5" />
         </svg>
-        Create
+
+        Tambah
     </button>
 
     <!-- Modal Background -->
@@ -23,89 +24,86 @@
                 </div>
             </div>
             <div class="p-4">
-                <div class="p-4 text-left"> <!-- Added text-left here -->
-                    <div class="p-4 max-h-[500px] overflow-y-auto">
-                        <input type="text" hidden wire:model="nim">
-                        <form wire:submit="save">
-                            <div class="mb-4">
-                                <label for="id_semester"
-                                    class="block text-sm font-medium text-gray-700">Semester</label>
-                                <select id="id_semester" wire:model="id_semester" name="id_semester"
-                                    class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
-                                    <option value="" disabled selected>Pilih Semester</option>
-                                    @foreach ($semesters as $semester)
-                                        <option value="{{ $semester->id_semester }}">
-                                            {{ $semester->nama_semester }}
-                                        </option>
-                                    @endforeach
-                                    {{-- <option value="{{ $mahasiswas->mulai_semester }}"></option> --}}
-                                </select>
-                                @error('id_semester')
-                                    <span class="text-sm text-red-500">{{ $message }}</span>
-                                @enderror
-                            </div>
+                <div class="p-4 max-h-[500px] overflow-y-auto">
+                    <input type="text" hidden wire:model="nim">
+                    <form wire:submit="save">
+                        <div class="mb-4">
+                            <label for="id_semester" class="block text-sm font-medium text-gray-700">Semester</label>
+                            <select id="id_semester" wire:model="id_semester" name="id_semester"
+                                class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
+                                <option value="" disabled selected>Pilih Semester</option>
+                                @foreach ($semesters as $semester)
+                                    <option value="{{ $semester->id_semester }}">
+                                        {{ $semester->nama_semester }}
+                                    </option>
+                                @endforeach
+                                {{-- <option value="{{ $mahasiswas->mulai_semester }}"></option> --}}
+                            </select>
+                            @error('id_semester')
+                                <span class="text-sm text-red-500">{{ $message }}</span>
+                            @enderror
+                        </div>
 
-                            <div class="mb-4">
-                                <label for="kode_prodi" class="block text-sm font-medium text-gray-700">
-                                    Prodi</label>
-                                <select id="kode_prodi" wire:model="kode_prodi" name="kode_prodi"
-                                    class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
-                                    <option value="" disabled selected>Pilih Kode Prodi</option>
-                                    @foreach ($prodis as $prodi)
-                                        <option value="{{ $prodi->kode_prodi }}">{{ $prodi->nama_prodi }}</option>
-                                    @endforeach
-                                </select>
-                                @error('kode_prodi')
-                                    <span class="text-sm text-red-500">{{ $message }}</span>
-                                @enderror
-                            </div>
+                        <div class="mb-4">
+                            <label for="kode_prodi" class="block text-sm font-medium text-gray-700">
+                                Prodi</label>
+                            <select id="kode_prodi" wire:model="kode_prodi" name="kode_prodi"
+                                class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
+                                <option value="" disabled selected>Pilih Kode Prodi</option>
+                                @foreach ($prodis as $prodi)
+                                    <option value="{{ $prodi->kode_prodi }}">{{ $prodi->nama_prodi }}</option>
+                                @endforeach
+                            </select>
+                            @error('kode_prodi')
+                                <span class="text-sm text-red-500">{{ $message }}</span>
+                            @enderror
+                        </div>
 
-                            <div class="mb-4">
-                                <label for="total_tagihan" class="block text-sm font-medium text-gray-700">Total
-                                    Tagihan</label>
-                                <input type="text" id="total_tagihan" wire:model="total_tagihan" name="total_tagihan"
-                                    class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm"
-                                    oninput="formatCurrency(this)">
-                                @error('total_tagihan')
-                                    <span
-                                        class="text-sm
+                        <div class="mb-4">
+                            <label for="total_tagihan" class="block text-sm font-medium text-gray-700">Total
+                                Tagihan</label>
+                            <input type="text" id="total_tagihan" wire:model="total_tagihan" name="total_tagihan"
+                                class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm"
+                                oninput="formatCurrency(this)">
+                            @error('total_tagihan')
+                                <span
+                                    class="text-sm
                                     text-red-500">{{ $message }}</span>
-                                @enderror
-                            </div>
+                            @enderror
+                        </div>
 
-                            <div class="mb-4">
-                                <label for="Bulan" class="block text-sm font-medium text-gray-700">Bulan</label>
-                                <select id="Bulan" wire:model="Bulan" name="Bulan"
-                                    class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
-                                    <option value="" disabled selected>Pilih Bulan</option>
-                                    <option value="Januari">Januari</option>
-                                    <option value="Februari">Februari</option>
-                                    <option value="Maret">Maret</option>
-                                    <option value="April">April</option>
-                                    <option value="Mei">Mei</option>
-                                    <option value="Juni">Juni</option>
-                                    <option value="Juli">Juli</option>
-                                    <option value="Agustus">Agustus</option>
-                                    <option value="September">September</option>
-                                    <option value="Oktober">Oktober</option>
-                                    <option value="November">November</option>
-                                    <option value="Desember">Desember</option>
-                                </select>
-                                @error('Bulan')
-                                    <span class="text-sm text-red-500">{{ $message }}</span>
-                                @enderror
-                            </div>
+                        <div class="mb-4">
+                            <label for="Bulan" class="block text-sm font-medium text-gray-700">Bulan</label>
+                            <select id="Bulan" wire:model="Bulan" name="Bulan"
+                                class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
+                                <option value="" disabled selected>Pilih Bulan</option>
+                                <option value="Januari">Januari</option>
+                                <option value="Februari">Februari</option>
+                                <option value="Maret">Maret</option>
+                                <option value="April">April</option>
+                                <option value="Mei">Mei</option>
+                                <option value="Juni">Juni</option>
+                                <option value="Juli">Juli</option>
+                                <option value="Agustus">Agustus</option>
+                                <option value="September">September</option>
+                                <option value="Oktober">Oktober</option>
+                                <option value="November">November</option>
+                                <option value="Desember">Desember</option>
+                            </select>
+                            @error('Bulan')
+                                <span class="text-sm text-red-500">{{ $message }}</span>
+                            @enderror
+                        </div>
 
-                            <!-- Submit Button inside the form -->
-                            <div class="flex justify-end p-4 bg-gray-200 rounded-b-lg">
-                                <button type="button" @click="isOpen = false"
-                                    class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">Close</button>
-                                <button type="submit"
-                                    class="px-4 py-2 ml-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">Submit</button>
-                            </div>
-                        </form>
+                        <!-- Submit Button inside the form -->
+                        <div class="flex justify-end p-4 bg-gray-200 rounded-b-lg">
+                            <button type="button" @click="isOpen = false"
+                                class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">Close</button>
+                            <button type="submit"
+                                class="px-4 py-2 ml-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">Submit</button>
+                        </div>
+                    </form>
 
-                    </div>
                 </div>
             </div>
         </div>

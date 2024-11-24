@@ -180,6 +180,15 @@ class PDFController extends Controller
 
         $tanggal = $tagihan->updated_at->locale('id')->isoFormat('D MMMM YYYY');
 
+        $t = $tagihan->staff->ttd;
+
+
+        $imagePath = storage_path("app/public/{$t}"); // Adjust path based on your storage
+        $imageData = base64_encode(file_get_contents($imagePath));
+        $imageBase64 = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base64,' . $imageData;
+
+
+
         $pdfData = [
             'title' => 'BuktiPembayaran-' . $tagihan->mahasiswa->nama . '-' . $tagihan->semester->nama_semester,
             'tanggal' => $tanggal,
@@ -189,11 +198,16 @@ class PDFController extends Controller
             'NIM' => $tagihan->NIM,
             'total_tagihan' => $y,
             'x' => $total_tagihan_terbilang,
+            'staff' => $tagihan->staff->nama_staff,
+            'ttd' => $imageBase64,
             'semester' => $tagihan->semester->nama_semester,
             'total_bayar' => $tagihan->total_bayar,
             'status' => $tagihan->status_tagihan,
+            'Bulan' => $tagihan->Bulan,
+            'nip' => $tagihan->staff->nip
         ];
 
+        // dd($pdfData);
         // Load the view and pass data to it, then generate the PDF
         $pdf = Pdf::loadView('livewire.mahasiswa.keuangan.download', $pdfData)->setPaper('a4', 'landscape');
 

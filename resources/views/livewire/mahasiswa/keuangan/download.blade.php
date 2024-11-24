@@ -57,7 +57,7 @@
         <tr>
             <td style="padding: 5px;">Guna Pembayaran</td>
             <td style="padding: 5px;">:</td>
-            <td style="padding: 5px;">Uang Kuliah Tunggal Semester {{ $semester }}</td>
+            <td style="padding: 5px;">SPP Semester {{ $semester }} Bulan {{ $Bulan }}</td>
         </tr>
         <tr>
             <td style="padding: 5px;">Total Tagihan</td>
@@ -97,15 +97,14 @@
             <p style=" text-align:center; margin-bottom:0%"><strong>Kebumen, {{ $tanggal }}</strong></p>
             <p style=" text-align:center;position: relative; left: -60px; margin-top:0%"><strong>Penerima,</strong></p>
             <div style="position: relative; text-align: center;margin-bottom:30px">
-                <img src="img/ttd.jpg" alt=""
+                <img src="{{ $ttd }}" alt="Tanda Tangan"
                     style="width: auto; height:100px; position: absolute; top: 0; left: 50%; transform: translateX(-50%);">
                 <img src="img/Politeknik_Piksi_Ganesha_Bandung.png" alt=""
                     style="opacity:50%; width:auto; height:90px; position: relative; left: -60px; transform: rotate(-10deg);">
             </div>
-            <div style="margin-top:200px;text-align:center;margin-top:0%"><strong>TRI MARTONO, SH,
-                    MM</strong><br />
+            <div style="margin-top:200px;text-align:center;margin-top:0%"><strong>{{ $staff }}</strong><br />
                 Pembina Tk. I<br />
-                NIP. 196703221995031001
+                NIP. {{ $nip }}
             </div>
         </div>
     </div>
