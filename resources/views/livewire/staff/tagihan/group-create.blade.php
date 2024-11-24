@@ -1,7 +1,7 @@
 <div x-data="{ isOpen: false }" @modal-closed.window="isOpen = false">
     <!-- Button to open the modal -->
     <button @click="isOpen=true"
-        class="flex items-center px-3 py-1 font-sm text-white bg-blue-500 rounded hover:bg-blue-700">
+        class="flex items-center px-3 py-1 font-sm text-white bg-green-500 rounded hover:bg-green-700">
         <svg class="w-6 h-6 mr-2 text-gray-800 dark:text-white font-black" aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"

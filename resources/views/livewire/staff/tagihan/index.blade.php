@@ -28,33 +28,35 @@
             @endif
         </div>
     </div>
-    <table class="min-w-full mt-4 bg-white border border-gray-200">
-        <thead>
-            <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
-                <th class="px-4 py-2 text-center">No.</th>
-                <th class="px-4 py-2 text-center">Nama Mahasiswa</th>
-                <th class="px-4 py-2 text-center">NIM</th>
-                <th class="px-4 py-2 text-center">Semester</th>
-                <th class="px-4 py-2 text-center">Prodi</th>
-                <th class="px-4 py-2 text-center">Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($mahasiswas as $mahasiswa)
-                <tr class="border-t" wire:key="mahasiswa-{{ $mahasiswa->id_mahasiswa }}">
-                    <td class="px-4 py-2 text-center">{{ $loop->iteration }}</td>
-                    <td class="px-4 py-2 text-center">{{ $mahasiswa->nama }}</td>
-                    <td class="px-4 py-2 text-center">{{ $mahasiswa->NIM }}</td>
-                    <td class="px-4 py-2 text-center">{{ $mahasiswa->semesterDifference }}</td>
-                    <td class="px-4 py-2 text-center">{{ $mahasiswa->prodi->nama_prodi }}</td>
-                    <td class="px-4 py-2 text-center">
-                        <livewire:staff.tagihan.create :nim="$mahasiswa->NIM" :nama="$mahasiswa->nama"
-                            wire:key="edit-{{ $mahasiswa->NIM }}" />
-                    </td>
+    <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
+        <table class="min-w-full mt-4 bg-white border border-gray-200">
+            <thead>
+                <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
+                    <th class="px-4 py-2 text-center">No.</th>
+                    <th class="px-4 py-2 text-center">Nama Mahasiswa</th>
+                    <th class="px-4 py-2 text-center">NIM</th>
+                    <th class="px-4 py-2 text-center">Angkatan</th>
+                    <th class="px-4 py-2 text-center">Prodi</th>
+                    <th class="px-4 py-2 text-center">Aksi</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach ($mahasiswas as $mahasiswa)
+                    <tr class="border-t" wire:key="mahasiswa-{{ $mahasiswa->id_mahasiswa }}">
+                        <td class="px-4 py-2 text-center">{{ $loop->iteration }}</td>
+                        <td class="px-4 py-2 text-center">{{ $mahasiswa->nama }}</td>
+                        <td class="px-4 py-2 text-center">{{ $mahasiswa->NIM }}</td>
+                        <td class="px-4 py-2 text-center">{{ $mahasiswa->semester->nama_semester }}</td>
+                        <td class="px-4 py-2 text-center">{{ $mahasiswa->prodi->nama_prodi }}</td>
+                        <td class="px-4 py-2 text-center justify-items-center">
+                            <livewire:staff.tagihan.create :nim="$mahasiswa->NIM" :nama="$mahasiswa->nama"
+                                wire:key="edit-{{ $mahasiswa->NIM }}" />
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
     <!-- Pagination Controls -->
     <div class="py-8 mt-4 text-center">
         {{ $mahasiswas->links('') }}

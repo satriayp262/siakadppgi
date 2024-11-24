@@ -45,57 +45,60 @@
             </div>
             <!-- Modal Form -->
         </div>
-        <table class="min-w-full mt-4 bg-white border border-gray-200">
-            <thead>
-                <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
-                    <th class="px-4 py-2 text-center">No.</th>
-                    <th class="px-4 py-2 text-center">Semester</th>
-                    <th class="px-4 py-2 text-center">Bulan</th>
-                    <th class="px-4 py-2 text-center">Tagihan</th>
-                    <th class="px-4 py-2 text-center">Status</th>
-                    <th class="px-4 py-2 text-center">Jumlah Pembayaran</th>
-                    <th class="px-4 py-2 text-center">Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($tagihans as $tagihan)
-                    <tr class="border-t" wire:key="tagihan-{{ $tagihan->nim }}">
-                        <td class="px-4 py-2 text-center">{{ $loop->iteration }}</td>
-                        <td class="px-4 py-2 text-center">{{ $tagihan->semester->nama_semester }}</td>
-                        <td class="px-4 py-2 text-center">{{ $tagihan->Bulan }}</td>
-                        <td class="px-4 py-2 text-center italic font-semibold">
-                            @php
-                                $formattedTotalTagihan = 'Rp. ' . number_format($tagihan->total_tagihan, 0, ',', '.');
-                            @endphp
-                            {{ $formattedTotalTagihan }}
-                        </td>
-                        <td class="px-4 py-2 text-center">
-                            @php
-                                $status = [
-                                    'Belum Lunas' => 'bg-red-100 text-red-800',
-                                    'Lunas' => 'bg-blue-400 text-blue-800',
-                                ];
-                                $status = $status[$tagihan->status_tagihan] ?? 'bg-gray-500';
-                            @endphp
-                            <span class="me-2 px-2.5 py-0.5 text-xs rounded-full {{ $status }}"
-                                style="width: 80px;">
-                                {{ ucfirst($tagihan->status_tagihan) }}
-                            </span>
-                        </td>
-                        <td class="px-4 py-2 text-center italic font-semibold">
-                            @php
-                                $formattedTotalBayar = 'Rp. ' . number_format($tagihan->total_bayar, 0, ',', '.');
-                            @endphp
-                            {{ $formattedTotalBayar }}
-                        </td>
-                        <td>
-                            <livewire:staff.tagihan.update :id_tagihan="$tagihan->id_tagihan"
-                                wire:key="edit-{{ $tagihan->id_tagihan }}" />
-                        </td>
+        <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
+            <table class="min-w-full mt-4 bg-white border border-gray-200">
+                <thead>
+                    <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
+                        <th class="px-4 py-2 text-center">No.</th>
+                        <th class="px-4 py-2 text-center">Semester</th>
+                        <th class="px-4 py-2 text-center">Bulan</th>
+                        <th class="px-4 py-2 text-center">Tagihan</th>
+                        <th class="px-4 py-2 text-center">Status</th>
+                        <th class="px-4 py-2 text-center">Jumlah Pembayaran</th>
+                        <th class="px-4 py-2 text-center">Aksi</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach ($tagihans as $tagihan)
+                        <tr class="border-t" wire:key="tagihan-{{ $tagihan->nim }}">
+                            <td class="px-4 py-2 text-center">{{ $loop->iteration }}</td>
+                            <td class="px-4 py-2 text-center">{{ $tagihan->semester->nama_semester }}</td>
+                            <td class="px-4 py-2 text-center">{{ $tagihan->Bulan }}</td>
+                            <td class="px-4 py-2 text-center italic font-semibold">
+                                @php
+                                    $formattedTotalTagihan =
+                                        'Rp. ' . number_format($tagihan->total_tagihan, 0, ',', '.');
+                                @endphp
+                                {{ $formattedTotalTagihan }}
+                            </td>
+                            <td class="px-4 py-2 text-center">
+                                @php
+                                    $status = [
+                                        'Belum Lunas' => 'bg-red-100 text-red-800',
+                                        'Lunas' => 'bg-blue-400 text-blue-800',
+                                    ];
+                                    $status = $status[$tagihan->status_tagihan] ?? 'bg-gray-500';
+                                @endphp
+                                <span class="me-2 px-2.5 py-0.5 text-xs rounded-full {{ $status }}"
+                                    style="width: 80px;">
+                                    {{ ucfirst($tagihan->status_tagihan) }}
+                                </span>
+                            </td>
+                            <td class="px-4 py-2 text-center italic font-semibold">
+                                @php
+                                    $formattedTotalBayar = 'Rp. ' . number_format($tagihan->total_bayar, 0, ',', '.');
+                                @endphp
+                                {{ $formattedTotalBayar }}
+                            </td>
+                            <td>
+                                <livewire:staff.tagihan.update :id_tagihan="$tagihan->id_tagihan"
+                                    wire:key="edit-{{ $tagihan->id_tagihan }}" />
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
         <!-- Pagination Controls -->
         <div class="py-8 mt-4 text-center">
             {{-- {{ $mahasiswas->links() }} --}}

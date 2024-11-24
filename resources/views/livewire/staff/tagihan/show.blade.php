@@ -2,12 +2,7 @@
     <div class="mx-5">
         <div class="flex flex-col justify-between mt-2">
             <!-- Modal Form -->
-            <div class="flex justify-between p-2 mt-2 bg-purple-200 rounded-lg shadow-lg">
-                <div class="flex items-center px-4 py-2">
-                    <h1><b>Semester Saat ini :</b></h1>
-                    <p class="ml-1 text-gray-900 text-md">
-                        {{ $semesters->firstWhere('is_active', true)->nama_semester ?? 'Tidak ada semester aktif' }}</p>
-                </div>
+            <div class="flex p-2 mt-2 justify-end">
                 <div x-data="{ showFilter: false }" class="relative flex items-center">
                     <!-- Filter Icon with Hover Effect -->
                     <div x-data="{ showFilter: false }" @mouseenter="showFilter = true"
@@ -78,35 +73,37 @@
                 </div>
             </div>
         </div>
-        <table class="min-w-full mt-4 bg-white border border-gray-200">
-            <thead>
-                <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
-                    <th class="px-4 py-2 text-center">No.</th>
-                    <th class="px-4 py-2 text-center">Nama Mahasiswa</th>
-                    <th class="px-4 py-2 text-center">NIM</th>
-                    <th class="px-4 py-2 text-center">Semester</th>
-                    <th class="px-4 py-2 text-center">Prodi</th>
-                    <th class="px-4 py-2 text-center">Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($mahasiswas as $mahasiswa)
-                    <tr class="border-t" wire:key="mahasiswa-{{ $mahasiswa->NIM }}">
-                        <td class="px-4 py-2 text-center">{{ $loop->iteration }}</td>
-                        <td class="px-4 py-2 text-center">{{ $mahasiswa->nama }}</td>
-                        <td class="px-4 py-2 text-center">{{ $mahasiswa->NIM }}</td>
-                        <td class="px-4 py-2 text-center">{{ $mahasiswa->semesterDifference }}</td>
-                        <td class="px-4 py-2 text-center">{{ $mahasiswa->prodi->nama_prodi }}</td>
-                        <!-- Button that opens the detail component -->
-                        <td class="px-4 py-2 text-center">
-                            <button onclick="window.location='{{ route('staff.detail', $mahasiswa->NIM) }}'"
-                                class="px-2 py-1 text-white bg-yellow-500 rounded hover:bg-yellow-600">Detail
-                            </button>
-                        </td>
+        <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
+            <table class="min-w-full mt-4 bg-white border border-gray-200">
+                <thead>
+                    <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
+                        <th class="px-4 py-2 text-center">No.</th>
+                        <th class="px-4 py-2 text-center">Nama Mahasiswa</th>
+                        <th class="px-4 py-2 text-center">NIM</th>
+                        <th class="px-4 py-2 text-center">Semester</th>
+                        <th class="px-4 py-2 text-center">Prodi</th>
+                        <th class="px-4 py-2 text-center">Aksi</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach ($mahasiswas as $mahasiswa)
+                        <tr class="border-t" wire:key="mahasiswa-{{ $mahasiswa->NIM }}">
+                            <td class="px-4 py-2 text-center">{{ $loop->iteration }}</td>
+                            <td class="px-4 py-2 text-center">{{ $mahasiswa->nama }}</td>
+                            <td class="px-4 py-2 text-center">{{ $mahasiswa->NIM }}</td>
+                            <td class="px-4 py-2 text-center">{{ $mahasiswa->semesterDifference }}</td>
+                            <td class="px-4 py-2 text-center">{{ $mahasiswa->prodi->nama_prodi }}</td>
+                            <!-- Button that opens the detail component -->
+                            <td class="px-4 py-2 text-center">
+                                <button onclick="window.location='{{ route('staff.detail', $mahasiswa->NIM) }}'"
+                                    class="px-2 py-1 text-white bg-yellow-500 rounded hover:bg-yellow-600">Detail
+                                </button>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
         <!-- Pagination Controls -->
         <div class="py-8 mt-4 text-center">
             {{ $mahasiswas->links() }}
