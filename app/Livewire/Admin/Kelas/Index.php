@@ -140,7 +140,7 @@ class Index extends Component
         $kelases = Kelas::query()
             ->Where('nama_kelas', 'like', '%' . $this->search . '%')
             ->latest()
-            ->paginate(5);
+            ->paginate(10);
 
         return view('livewire.admin.kelas.index', [
             'kelases' => $kelases,
