@@ -18,9 +18,11 @@ return new class extends Migration
             $table->integer('id_mata_kuliah');
             $table->string('materi');
             $table->integer('jumlah_mahasiswa');
+            $table->integer('id_kelas');
             $table->timestamps();
             $table->foreign('nidn')->references('nidn')->on('dosen')->onDelete('cascade');
             $table->foreign('id_mata_kuliah')->references('id_mata_kuliah')->on('matkul')->onDelete('cascade');
+            $table->foreign('id_kelas')->references('id_kelas')->on('kelas')->onDelete('cascade');
         });
     }
 

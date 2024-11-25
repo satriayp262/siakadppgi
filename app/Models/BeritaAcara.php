@@ -15,7 +15,7 @@ class BeritaAcara extends Model
     public $incrementing = false; // Karena UUID tidak auto-increment
     protected $keyType = 'string'; // Tipe data UUID
 
-    protected $fillable = ['tanggal', 'nidn', 'id_mata_kuliah', 'materi', 'jumlah_mahasiswa'];
+    protected $fillable = ['tanggal', 'nidn', 'id_mata_kuliah', 'materi', 'jumlah_mahasiswa', 'id_kelas'];
 
     // Menggunakan boot untuk menghasilkan UUID secara otomatis
     protected static function boot()
@@ -43,5 +43,12 @@ class BeritaAcara extends Model
     public function mataKuliah()
     {
         return $this->belongsTo(Matakuliah::class, 'id_mata_kuliah', 'id_mata_kuliah');
+    }
+    /**
+     * Relasi dengan model Kelas
+     */
+    public function kelas()
+    {
+        return $this->belongsTo(Kelas::class, 'id_kelas', 'id_kelas');
     }
 }
