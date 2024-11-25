@@ -11,21 +11,20 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('jadwal', function (Blueprint $table) {
-            $table->uuid('id_jadwal')->autoIncrement()->primary();
-            $table->string('nidn');
-            $table->integer('id_mata_kuliah');
-            $table->integer('minggu'); // Menyimpan minggu ke berapa jadwal ini berlaku
+            $table->id('id_jadwal')->autoIncrement()->primary();
+            $table->integer('id_kelas');
+            $table->date('tanggal'); 
             $table->string('hari'); // Hari dalam seminggu
-            $table->integer('jam_ke'); // Menyimpan urutan jam ke berapa
+            $table->integer('sesi'); // Menyimpan urutan jam ke berapa
             $table->time('jam_mulai'); // Jam mulai
             $table->time('jam_selesai'); // Jam selesai
+            $table->string('id_ruangan');
             $table->timestamps();
-            $table->foreign('nidn')->references('nidn')->on('dosen')->onDelete('cascade');
-            $table->foreign('id_mata_kuliah')->references('id_mata_kuliah')->on('matkul')->onDelete('cascade');
+            $table->foreign('id_kelas')->references('id_kelas')->on('kelas')->onDelete('cascade');
         });
     }
 
-    /**
+    /** 
      * Reverse the migrations.
      */
     public function down(): void
