@@ -21,9 +21,9 @@ class DetailMatkul extends Component
 
     public function render()
     {
-        // Query kelas berdasarkan id_mata_kuliah yang dipilih
-        $kelas = Kelas::where('id_mata_kuliah', $this->matkul->id_mata_kuliah)
-            ->paginate(5);
+        $kelas = Kelas::with('matkul')
+            ->where('id_mata_kuliah', $this->matkul->id_mata_kuliah) // Gunakan $this->matkul->id_mata_kuliah
+            ->paginate(10);
 
         return view('livewire.dosen.berita_acara.detail-matkul', [
             'kelas' => $kelas,
