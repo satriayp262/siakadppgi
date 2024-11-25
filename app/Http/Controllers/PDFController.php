@@ -182,6 +182,8 @@ class PDFController extends Controller
 
         $t = $tagihan->staff->ttd;
 
+        $tahun = $tagihan->created_at->format('Y');
+
 
         $imagePath = storage_path("app/public/{$t}"); // Adjust path based on your storage
         $imageData = base64_encode(file_get_contents($imagePath));
@@ -204,7 +206,8 @@ class PDFController extends Controller
             'total_bayar' => $tagihan->total_bayar,
             'status' => $tagihan->status_tagihan,
             'Bulan' => $tagihan->Bulan,
-            'nip' => $tagihan->staff->nip
+            'nip' => $tagihan->staff->nip,
+            'tahun' => $tahun
         ];
 
         // dd($pdfData);
