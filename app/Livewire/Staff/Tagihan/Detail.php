@@ -16,6 +16,7 @@ class Detail extends Component
     public $id_semester;
     public $status_tagihan;
     public $tagihan;
+    public $search = '';
 
     public function mount($NIM)
     {
@@ -37,7 +38,8 @@ class Detail extends Component
     {
         $semesters = Semester::all();
         $mahasiswas = Mahasiswa::all();
-        $tagihans = Tagihan::where('NIM', $this->NIM)->get();
+        $tagihans = Tagihan::where('NIM', $this->NIM)
+            ->get();
         return view('livewire.staff.tagihan.detail', [
             'semesters' => $semesters,
             'tagihans' => $tagihans,

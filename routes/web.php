@@ -79,7 +79,7 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
 });
 
 // mahasiswa
-Route::middleware(['auth', CheckRole::class . ':mahasiswa',])->prefix('mahasiswa')->group(function () {
+Route::middleware(['auth', CheckRole::class . ':mahasiswa', 'verified'])->prefix('mahasiswa')->group(function () {
     Route::get('/profil', App\Livewire\Mahasiswa\Profil\Index::class)->name('mahasiswa.profile');
     Route::get('/keuangan', App\Livewire\Mahasiswa\Keuangan\Index::class)->name('mahasiswa.keuangan');
     Route::get('/presensi', App\Livewire\Mahasiswa\Presensi\Index::class)->name('mahasiswa.presensi');
@@ -113,6 +113,7 @@ Route::middleware(['auth', CheckRole::class . ':staff'])->prefix('staff')->group
     Route::get('/pembayaran', App\Livewire\Staff\Tagihan\Show::class)->name('staff.pembayaran');
     Route::get('/detail/{NIM}', App\Livewire\Staff\Tagihan\Detail::class)->name('staff.detail');
     Route::get('/profil', App\Livewire\Staff\Profil\Index::class)->name('staff.profil');
+    Route::get('/dashboard', App\Livewire\Staff\Dashboard\Index::class)->name('staff.dashboard');
 });
 
 

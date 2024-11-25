@@ -1,27 +1,32 @@
 <div>
     <div class="mx-5">
         <div class="flex flex-col justify-between mx-4 mt-4">
-            <nav aria-label="Breadcrumb">
-                <ol class="flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
-                    <li>
-                        <a href="{{ route('staff.pembayaran') }}"
-                            class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
-                            Bukti Pembayaran
-                        </a>
-                    </li>
-                    <li aria-current="page">
-                        <div class="flex items-center">
-                            <svg class="w-3 h-3 mx-1 text-gray-400 rtl:rotate-180" aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2" d="m1 9 4-4-4-4" />
-                            </svg>
-                            <span class="text-sm font-medium text-gray-500 ms-1 md:ms-2">{{ $tagihan->mahasiswa->nama }}
-                                ({{ $tagihan->mahasiswa->NIM }})</span>
-                        </div>
-                    </li>
-                </ol>
-            </nav>
+            <div class="flex justify-between items-center">
+                <nav aria-label="Breadcrumb">
+                    <ol class="flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+                        <li>
+                            <a href="{{ route('staff.pembayaran') }}"
+                                class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
+                                Bukti Pembayaran
+                            </a>
+                        </li>
+                        <li aria-current="page">
+                            <div class="flex items-center">
+                                <svg class="w-3 h-3 mx-1 text-gray-400 rtl:rotate-180" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="m1 9 4-4-4-4" />
+                                </svg>
+                                <span
+                                    class="text-sm font-medium text-gray-500 ms-1 md:ms-2">{{ $tagihan->mahasiswa->nama }}
+                                    ({{ $tagihan->mahasiswa->NIM }})</span>
+                            </div>
+                        </li>
+                    </ol>
+                </nav>
+                <input type="text" wire:model.live="search" placeholder="   Search"
+                    class="px-2 ml-4 border border-gray-300 rounded-lg">
+            </div>
             <div>
                 @if (session()->has('message'))
                     @php
@@ -52,6 +57,7 @@
                         <th class="px-4 py-2 text-center">No.</th>
                         <th class="px-4 py-2 text-center">Semester</th>
                         <th class="px-4 py-2 text-center">Bulan</th>
+                        <th class="px-4 py-2 text-center">Tahun</th>
                         <th class="px-4 py-2 text-center">Tagihan</th>
                         <th class="px-4 py-2 text-center">Status</th>
                         <th class="px-4 py-2 text-center">Jumlah Pembayaran</th>
@@ -64,6 +70,7 @@
                             <td class="px-4 py-2 text-center">{{ $loop->iteration }}</td>
                             <td class="px-4 py-2 text-center">{{ $tagihan->semester->nama_semester }}</td>
                             <td class="px-4 py-2 text-center">{{ $tagihan->Bulan }}</td>
+                            <td class="px-4 py-2 text-center">{{ $tagihan->created_at->format('Y') }}</td>
                             <td class="px-4 py-2 text-center italic font-semibold">
                                 @php
                                     $formattedTotalTagihan =
@@ -90,7 +97,7 @@
                                 @endphp
                                 {{ $formattedTotalBayar }}
                             </td>
-                            <td>
+                            <td class="px-4 py-2 text-center justify-items-center">
                                 <livewire:staff.tagihan.update :id_tagihan="$tagihan->id_tagihan"
                                     wire:key="edit-{{ $tagihan->id_tagihan }}" />
                             </td>
