@@ -12,7 +12,7 @@ class Jadwal extends Model
     protected $table = 'jadwal';
     protected $primaryKey = 'id_jadwal';
     protected $fillable = [
-        'nidn', 'kode_mata_kuliah', 'kode_kelas', 'hari', 'jam_ke', 'jam_mulai', 'jam_selesai'
+        'id_kelas', 'tanggal', 'id_ruangan', 'hari', 'sesi', 'jam_mulai', 'jam_selesai'
     ];
 
     public function dosen()
@@ -27,6 +27,11 @@ class Jadwal extends Model
 
     public function kelas()
     {
-        return $this->belongsTo(Kelas::class, 'kode_kelas');
+        return $this->belongsTo(Kelas::class, 'id_kelas');
+    }
+
+    public function ruangan()
+    {
+        return $this->belongsTo(Ruangan::class, 'id_ruangan');
     }
 }

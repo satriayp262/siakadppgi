@@ -55,9 +55,13 @@
             <td style="padding: 5px;">{{ $NIM }} / {{ $nama }}</td>
         </tr>
         <tr>
+            <td style="padding: 5px;">Semester</td>
+            <td style="padding: 5px;">:</td>
+            <td style="padding: 5px;">{{ $semester }}</td>
+        <tr>
             <td style="padding: 5px;">Guna Pembayaran</td>
             <td style="padding: 5px;">:</td>
-            <td style="padding: 5px;">SPP Semester {{ $semester }} Bulan {{ $Bulan }}</td>
+            <td style="padding: 5px;">SPP Bulan {{ $Bulan }} Tahun {{ $tahun }}</td>
         </tr>
         <tr>
             <td style="padding: 5px;">Total Tagihan</td>
@@ -74,11 +78,11 @@
             <td style="padding: 5px;">:</td>
             <td style="padding: 5px;">{{ $kurang }}</td>
         </tr>
-        <tr>
+        {{-- <tr>
             <td style="padding: 5px;">Status Pembayaran</td>
             <td style="padding: 5px;">:</td>
             <td style="padding: 5px;">{{ $status }}</td>
-        </tr>
+        </tr> --}}
     </table>
     <h3 style="font-family: helvetica; margin-top: 30px; color:darkviolet; margin-top:2%">
         Catatan

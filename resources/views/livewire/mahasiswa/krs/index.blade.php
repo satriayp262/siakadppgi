@@ -52,7 +52,7 @@
                                                 Peminatan
                                             @elseif ($item->matkul->jenis_mata_kuliah == 'S')
                                                 TA/SKRIPSI/THESIS/DISERTASI
-                                            @elseif ($item->matkul->jenis_mata_kuliah == 'w')
+                                            @elseif ($item->matkul->jenis_mata_kuliah == 'W')
                                                 Wajib Nasional
                                             @endif
                                         </td>
