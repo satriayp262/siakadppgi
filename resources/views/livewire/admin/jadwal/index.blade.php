@@ -27,9 +27,15 @@
         <button wire:click="generate" class="flex items-center px-4 py-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">
             Generate Jadwal
         </button>
-        <button wire:click='destroy' class='flex items-center px-4 py-2 ml-2 font-bold text-white bg-red-500 rounded hover:bg-red-700'>
+        <button onclick="confirmDelete()" class='flex items-center px-4 py-2 ml-2 font-bold text-white bg-red-500 rounded hover:bg-red-700'>
             Hapus Jadwal
         </button>
+        <select name="prodi" id="prodi" wire:model.live="prodi" class="absolute items-center px-4 py-2 pr-2 ml-2 font-bold text-white bg-blue-500 rounded right-4 hover:bg-blue-700">
+            <option value="" selected>Pilih Prodi</option>
+            @foreach ($prodis as $x)
+                <option value="{{ $x->kode_prodi }}">{{ $x->nama_prodi }}</option>
+            @endforeach
+        </select>
     </div>
     <div class="max-w-full p-4 mt-4 mb-4 bg-white rounded-lg shadow-lg">
         <table class="w-full mt-4 bg-white border border-gray-200">
@@ -42,30 +48,59 @@
                     <th class="px-3 py-2 text-center">Ruangan</th>
                 </tr>
             </thead>
-            <tbody>
-                @foreach ($jadwals as $jadwal)
-                    <tr class="border-t" wire:key="jadwal-{{ $jadwal->id_jadwal }}">
-                        <td class="px-3 py-1 text-center">{{ $jadwal->kelas->nama_kelas }}</td>
-                        <td class="px-3 py-1 text-center">{{ $jadwal->kelas->matkul->dosen->nama_dosen }}</td>
-                        <td class="px-3 py-1 text-center">
-                            @if ($jadwal->hari == 'Monday')
-                                Senin
-                            @elseif ($jadwal->hari == 'Tuesday')
-                                Selasa
-                            @elseif ($jadwal->hari == 'Wednesday')
-                                Rabu
-                            @elseif ($jadwal->hari == 'Thursday')
-                                Kamis
-                            @elseif ($jadwal->hari == 'Friday')
-                                Jumat
-                            @endif
-                        </td>
-                        <td class="px-3 py-1 text-center">{{ $jadwal->sesi }}</td>
-                        <td class="px-3 py-1 text-center">{{ $jadwal->ruangan->kode_ruangan }}</td>
+            @if ($prodi)
+                <tbody>
+                    @foreach ($jadwals as $jadwal)
+                        <tr class="border-t" wire:key="jadwal-{{ $jadwal->id_jadwal }}">
+                            <td class="px-3 py-1 text-center">{{ $jadwal->kelas->nama_kelas }}</td>
+                            <td class="px-3 py-1 text-center">{{ $jadwal->kelas->matkul->dosen->nama_dosen }}</td>
+                            <td class="px-3 py-1 text-center">
+                                @if ($jadwal->hari == 'Monday')
+                                    Senin
+                                @elseif ($jadwal->hari == 'Tuesday')
+                                    Selasa
+                                @elseif ($jadwal->hari == 'Wednesday')
+                                    Rabu
+                                @elseif ($jadwal->hari == 'Thursday')
+                                    Kamis
+                                @elseif ($jadwal->hari == 'Friday')
+                                    Jumat
+                                @endif
+                            </td>
+                            <td class="px-3 py-1 text-center">{{ $jadwal->sesi }}</td>
+                            <td class="px-3 py-1 text-center">{{ $jadwal->ruangan->kode_ruangan }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            @else
+                <tbody>
+                    <tr>
+                        @if ($jadwals)
+                        <td colspan="5" class="px-2 py-4 text-center">Pilih Prodi</td>
+                        @else
+                        <td colspan="5" class="px-2 py-4 text-center">Belum ada Jadwal</td>
+                        @endif
                     </tr>
-                @endforeach
-
-            </tbody>
+                </tbody>
+            @endif
         </table>
     </div>
+    <script>
+        function confirmDelete(id, nama_mata_kuliah) {
+            Swal.fire({
+                title: `Apakah anda yakin ingin menghapus Jadwal?`,
+                text: "Data yang telah dihapus tidak dapat dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Hapus'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Panggil method Livewire jika konfirmasi diterima
+                    @this.call('destroy', id);
+                }
+            });
+        }
+    </script>
 </div>

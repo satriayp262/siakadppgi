@@ -11,78 +11,78 @@
         }
     </style>
 
-    <div class="overflow-hidden bg-purple-300 shadow-lg rounded-lg p-2">
-        <p class="inline-block whitespace-nowrap text-md font-semibold text-purple-600 marquee-text"
+    <div class="p-2 overflow-hidden bg-purple-300 rounded-lg shadow-lg">
+        <p class="inline-block font-semibold text-purple-600 whitespace-nowrap text-md marquee-text"
             style="animation: marquee 15s linear infinite;">
             Selamat Datang di halaman admin <span class="text-purple-600">SISTEM INFORMASI AKADEMIK POLITEKNIK PIKSI
                 GANESHA INDONESIA</span>.
         </p>
     </div>
 
-    <div class="grid grid-cols-1 gap-4 mt-5 sm:grid-cols-2 lg:grid-cols-4 bg-white shadow-lg rounded-lg p-4">
-        <div class="border-l-4 border-lime-600 relative p-4 bg-lime-400 rounded-lg shadow-md">
+    {{-- <div class="grid grid-cols-1 gap-4 p-4 mt-5 bg-white rounded-lg shadow-lg sm:grid-cols-2 lg:grid-cols-4">
+        <div class="relative p-4 border-l-4 rounded-lg shadow-md border-lime-600 bg-lime-400">
             <h2 class="text-lg font-semibold text-white">Dosen</h2>
             <p class="mt-1 text-xl font-bold text-white">{{ $dosen }}</p>
             <a href="{{ route('admin.dosen') }}"
-                class="hover:text-gray-500 absolute text-sm text-white bottom-4 right-4">Detail >></a>
+                class="absolute text-sm text-white hover:text-gray-500 bottom-4 right-4">Detail >></a>
         </div>
-        <div class="border-l-4 border-yellow-600 relative p-4 bg-yellow-400 rounded-lg shadow-md">
+        <div class="relative p-4 bg-yellow-400 border-l-4 border-yellow-600 rounded-lg shadow-md">
             <h2 class="text-lg font-semibold text-white">Mahasiswa</h2>
             <p class="mt-1 text-xl font-bold text-white">{{ $mahasiswa }}</p>
             <a href="{{ route('admin.mahasiswa') }}"
-                class="hover:text-gray-500 absolute text-sm text-white bottom-4 right-4">Detail
+                class="absolute text-sm text-white hover:text-gray-500 bottom-4 right-4">Detail
                 >></a>
         </div>
-        <div class="border-l-4 border-red-600 relative p-4 bg-red-400 rounded-lg shadow-md">
+        <div class="relative p-4 bg-red-400 border-l-4 border-red-600 rounded-lg shadow-md">
             <h2 class="text-lg font-semibold text-white">Program Studi</h2>
             <p class="mt-1 text-xl font-bold text-white">{{ $prodi }}</p>
             <a href="{{ route('admin.prodi') }}"
-                class=" hover:text-gray-500 absolute text-sm text-white bottom-4 right-4">Detail >></a>
+                class="absolute text-sm text-white hover:text-gray-500 bottom-4 right-4">Detail >></a>
         </div>
-        <div class="border-l-4 border-pink-600 relative p-4 bg-pink-400 rounded-lg shadow-md">
+        <div class="relative p-4 bg-pink-400 border-l-4 border-pink-600 rounded-lg shadow-md">
             <h2 class="text-lg font-semibold text-white">Mata Kuliah</h2>
             <p class="mt-1 text-xl font-bold text-white">{{ $matakuliah }}</p>
             <a href="{{ route('admin.mata_kuliah') }}"
-                class="absolute hover:text-gray-500 text-sm text-white bottom-4 right-4">Detail
+                class="absolute text-sm text-white hover:text-gray-500 bottom-4 right-4">Detail
                 >></a>
         </div>
-        <div class="border-l-4 border-purple-600 relative p-4 bg-purple-400 rounded-lg shadow-md">
+        <div class="relative p-4 bg-purple-400 border-l-4 border-purple-600 rounded-lg shadow-md">
             <h2 class="text-lg font-semibold text-white">User</h2>
             <p class="mt-1 text-xl font-bold text-white">{{ $user }}</p>
             <a href="{{ route('admin.user') }}"
-                class="absolute hover:text-gray-500 text-sm text-white bottom-4 right-4">Detail >></a>
+                class="absolute text-sm text-white hover:text-gray-500 bottom-4 right-4">Detail >></a>
         </div>
-        <div class="border-l-4 border-sky-600 relative p-4 bg-sky-400 rounded-lg shadow-md">
+        <div class="relative p-4 border-l-4 rounded-lg shadow-md border-sky-600 bg-sky-400">
             <h2 class="text-lg font-semibold text-white">Kelas</h2>
             <p class="mt-1 text-xl font-bold text-white">{{ $kelas }}</p>
             <a href="{{ route('admin.kelas') }}"
-                class="absolute hover:text-gray-500 text-sm text-white bottom-4 right-4">Detail >></a>
+                class="absolute text-sm text-white hover:text-gray-500 bottom-4 right-4">Detail >></a>
         </div>
-        <div class="border-l-4 border-green-600 relative p-4 bg-green-400 rounded-lg shadow-md">
+        <div class="relative p-4 bg-green-400 border-l-4 border-green-600 rounded-lg shadow-md">
             <h2 class="text-lg font-semibold text-white">Semester</h2>
             <p class="mt-1 text-xl font-bold text-white">{{ $semester }}</p>
             <a href="{{ route('admin.semester') }}"
-                class="absolute hover:text-gray-500 text-sm text-white bottom-4 right-4">Detail
+                class="absolute text-sm text-white hover:text-gray-500 bottom-4 right-4">Detail
                 >></a>
         </div>
-        <div class="border-l-4 border-neutral-600 relative p-4 bg-neutral-400 rounded-lg shadow-md">
+        <div class="relative p-4 border-l-4 rounded-lg shadow-md border-neutral-600 bg-neutral-400">
             <h2 class="text-lg font-semibold text-white">Kurikulum</h2>
             <p class="mt-1 text-xl font-bold text-white">{{ $kurikulum }}</p>
             <a href="{{ route('admin.kurikulum') }}"
-                class="absolute hover:text-gray-500 text-sm text-white bottom-4 right-4">Detail
+                class="absolute text-sm text-white hover:text-gray-500 bottom-4 right-4">Detail
                 >></a>
         </div>
-    </div>
+    </div> --}}
 
-    <div class="flex space-x-4 mt-5">
-        <div class="bg-white shadow-lg rounded-lg p-4 w-1/2">
+    <div class="flex mt-5 space-x-4">
+        {{-- <div class="w-1/2 p-4 bg-white rounded-lg shadow-lg">
             <livewire:component.chart-component />
-        </div>
+        </div> --}}
 
-        <div class="bg-white shadow-lg rounded-lg p-4 w-1/2">
+        <div class="w-1/2 p-4 bg-white rounded-lg shadow-lg">
             <p class="text-3xl font-semibold text-center">COMING SOON!</p>
             <div
-                class="flex items-center justify-center mt-4 mb-4 rounded-lg p-4 border-4 bg-neutral-400 border-gray-600">
+                class="flex items-center justify-center p-4 mt-4 mb-4 border-4 border-gray-600 rounded-lg bg-neutral-400">
                 <svg width="200px" height="200px" viewBox="0 0 120.00 120.00" id="Layer_1" version="1.1"
                     xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     fill="#000000" stroke="#000000" stroke-width="0.0012000000000000001">
