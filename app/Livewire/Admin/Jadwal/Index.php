@@ -22,10 +22,8 @@ class Index extends Component
 
     public function generate()
     {
-        $krs = krs::all();
-        $kelasByProdi = Kelas::with('matkul')
-            ->get()
-            ->groupBy('kode_prodi'); // Kelompokkan kelas berdasarkan kode_prodi
+        $krs = KRS::all();
+        $kelasByProdi = Kelas::with('matkul')->get()->groupBy('kode_prodi'); // Kelompokkan kelas berdasarkan kode_prodi
 
         $ruanganList = Ruangan::all();
         $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
@@ -36,15 +34,12 @@ class Index extends Component
         ];
 
         foreach ($kelasByProdi as $prodi => $kelasList) {
-            // Initialize variables for the current prodi
-            $kelasList = $kelasList->shuffle();
             $classIndex = 0;
             $totalKelas = $kelasList->count();
             $classSessions = [];
             $dayIndex = 0;
             $slotIndex = 0;
 
-            // Initialize SKS for each class
             foreach ($kelasList as $kelas) {
                 $classSessions[$kelas->id_kelas] = $kelas->matkul->sks_tatap_muka;
             }
@@ -53,7 +48,7 @@ class Index extends Component
                 $day = $days[$dayIndex]; // Current day
                 $timeSlot = $timeSlots[$slotIndex]; // Current time slot
                 $kelas = $kelasList[$classIndex];
-                $ruangan = $ruanganList[$slotIndex % $ruanganList->count()];
+                $ruangan = null;
                 $remainingSKS = $classSessions[$kelas->id_kelas];
 
                 if ($remainingSKS <= 0) {
@@ -61,10 +56,51 @@ class Index extends Component
                     continue;
                 }
 
-                // Check if the class already has 2 sessions on the same day
+                // Ambil jumlah mahasiswa terdaftar di KRS untuk kelas ini
+                $jumlahMahasiswa = KRS::where('id_kelas', $kelas->id_kelas)->count();
+
+                // Cari ruangan yang kapasitasnya mencukupi di hari yang berbeda
+                $roomFound = false;
+                $originalDayIndex = $dayIndex;
+
+                // Loop through the days and try to find a suitable room
+                while (!$roomFound) {
+                    // Search for a room on the current day
+                    foreach ($ruanganList as $room) {
+                        if ($room->kapasitas >= $jumlahMahasiswa) {
+                            $ruangan = $room;
+                            $roomFound = true;
+                            break; // Stop searching once a suitable room is found
+                        }
+                    }
+
+                    // If no room is found, move to the next day
+                    if (!$roomFound) {
+                        $dayIndex++;
+                        if ($dayIndex >= count($days)) {
+                            $dayIndex = 0; // Reset to Monday if we reach the end of the week
+                        }
+
+                        // If we checked all days, break out of the loop
+                        if ($dayIndex == $originalDayIndex) {
+                            break;
+                        }
+                    }
+                }
+
+                // If no room is found after checking all days, skip to the next class
+                if (!$ruangan) {
+                    session()->flash('message', 'Kelas ' . $kelas->nama_kelas . ' tidak dapat dijadwalkan karena tidak ada ruangan yang sesuai.');
+                    $classIndex++;
+                    continue;
+                }
+
+
+                // Cek apakah kelas sudah memiliki 2 sesi pada hari yang sama
                 $dailySesiCount = Jadwal::where('id_kelas', $kelas->id_kelas)
-                    ->where('hari', $day)
+                    ->where('hari', $days[$dayIndex])
                     ->count();
+
                 if ($dailySesiCount >= 2) {
                     $slotIndex++;
                     if ($slotIndex >= count($timeSlots)) {
@@ -77,9 +113,9 @@ class Index extends Component
                     continue;
                 }
 
-                // Check for conflicts within the same prodi
-                $conflict = Jadwal::where('hari', $day)
-                    ->where('kode_prodi', $prodi) // Restrict conflict check to the same prodi
+                // Cek untuk konflik jadwal di prodi yang sama
+                $conflict = Jadwal::where('hari', $days[$dayIndex])
+                    ->where('kode_prodi', $prodi)
                     ->where(function ($query) use ($timeSlot, $ruangan) {
                         $query->where('id_ruangan', $ruangan->id_ruangan)
                             ->where(function ($query) use ($timeSlot) {
@@ -93,12 +129,12 @@ class Index extends Component
                     })->exists();
 
                 if (!$conflict) {
-                    // Add the schedule
+                    // Tambahkan jadwal
                     Jadwal::create([
                         'id_kelas' => $kelas->id_kelas,
                         'kode_prodi' => $prodi,
-                        'hari' => $day,
-                        'tanggal' => Carbon::now()->next($day)->toDateString(),
+                        'hari' => $days[$dayIndex],
+                        'tanggal' => Carbon::now()->next($days[$dayIndex])->toDateString(),
                         'jam_mulai' => $timeSlot['jam_mulai'],
                         'jam_selesai' => $timeSlot['jam_selesai'],
                         'sesi' => $timeSlot['sesi'],
@@ -112,7 +148,7 @@ class Index extends Component
                     }
                 }
 
-                // Move to the next time slot
+                // Pindah ke sesi berikutnya
                 $slotIndex++;
                 if ($slotIndex >= count($timeSlots)) {
                     $slotIndex = 0;
@@ -123,12 +159,8 @@ class Index extends Component
                 }
             }
         }
-
         $this->dispatch('created', ['message' => 'Jadwal Created Successfully']);
     }
-
-
-
 
     public function destroy()
     {
