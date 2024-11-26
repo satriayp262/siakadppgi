@@ -62,13 +62,13 @@ class Update extends Component
 
         if ($this->tagihan) {
             $this->tagihan->update([
-                'total_bayar' => $total_tagihan_cleaned,
-                'status_tagihan' => $this->status_tagihan,
+                'total_bayar' => $this->tagihan->total_bayar ? $this->tagihan->total_bayar + $total_tagihan_cleaned : $total_tagihan_cleaned,
+                'status_tagihan' => $total_tagihan_cleaned == $this->total_tagihan ? 'Lunas' : 'Belum Lunas',
                 'id_staff' => $this->id_staff,
             ]);
 
             $this->dispatch('TagihanUpdated');
-            $this->reset();
+            $this->reset(['id_staff', 'total_bayar']);
         }
 
     }

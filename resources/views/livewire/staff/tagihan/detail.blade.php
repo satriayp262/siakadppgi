@@ -82,7 +82,7 @@
                                 @php
                                     $status = [
                                         'Belum Lunas' => 'bg-red-100 text-red-800',
-                                        'Lunas' => 'bg-blue-400 text-blue-800',
+                                        'Lunas' => 'bg-blue-400 text-white px-2 py-0.5 rounded-full',
                                     ];
                                     $status = $status[$tagihan->status_tagihan] ?? 'bg-gray-500';
                                 @endphp

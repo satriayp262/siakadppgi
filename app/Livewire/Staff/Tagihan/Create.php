@@ -12,10 +12,9 @@ class Create extends Component
     public $nim;
     public $nama;
     public $total_tagihan;
-    public $id_semester = '';
     public $status_tagihan = '';
-    public $Bulan;
-    public $semesters = [];
+    public $Bulan = '';
+    public $id_semester;
 
     public function rules()
     {
@@ -23,7 +22,6 @@ class Create extends Component
             'nim' => 'required',
             'total_tagihan' => 'required',
             'Bulan' => 'required',
-            'id_semester' => 'required',
         ];
     }
 
@@ -34,7 +32,6 @@ class Create extends Component
             'total_tagihan.required' => 'Total tagihan tidak boleh kosong',
             'total_tagihan.numeric' => 'Total tagihan harus berupa angka',
             'Bulan.required' => 'Bulan harus dipilih',
-            'semester.required' => 'Semester harus dipilih',
         ];
     }
 
@@ -42,35 +39,8 @@ class Create extends Component
     {
         $this->nim = $nim;
         $this->nama = $nama;
-
-        // Retrieve the Mahasiswa by NIM
         $mahasiswa = Mahasiswa::where('NIM', $nim)->first();
-
-        if ($mahasiswa) {
-            // Get the nama_semester of the mahasiswa's mulai_semester
-            $mahasiswaSemester = Semester::where('id_semester', $mahasiswa->mulai_semester)->first();
-
-            if ($mahasiswaSemester) {
-                // Get semesters where nama_semester is greater than or equal to mahasiswa's nama_semester
-                $semesters = Semester::where('nama_semester', '>=', $mahasiswaSemester->nama_semester)->get();
-
-                // Limit the results to stop at the first active semester
-                $this->semesters = collect();
-                foreach ($semesters as $semester) {
-                    $this->semesters->push($semester); // Add the semester to the collection
-
-                    if ($semester->is_active) {
-                        break; // Stop once we hit the active semester
-                    }
-                }
-            } else {
-                // Handle case where the mahasiswa's mulai_semester is not found
-                $this->semesters = collect(); // Empty collection
-            }
-        } else {
-            // Handle case where mahasiswa is not found
-            $this->semesters = collect(); // Empty collection
-        }
+        $this->id_semester = $mahasiswa ? $mahasiswa->mulai_semester : null;
     }
 
 
@@ -86,7 +56,7 @@ class Create extends Component
             'total_tagihan' => $validatedData['total_tagihan'],
             'status_tagihan' => 'Belum Lunas',
             'Bulan' => $validatedData['Bulan'],
-            'id_semester' => $validatedData['id_semester'],
+            'id_semester' => $this->id_semester,
         ]);
         $this->dispatch('TagihanCreated');
         $this->reset();
