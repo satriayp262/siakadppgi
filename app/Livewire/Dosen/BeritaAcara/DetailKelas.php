@@ -66,7 +66,7 @@ class DetailKelas extends Component
                     ->orWhere('nama_mata_kuliah', 'like', '%' . $this->search . '%');
             })
             ->latest()
-            ->paginate(5);
+            ->paginate(10);
 
         return view('livewire.dosen.berita_acara.detail-kelas', [
             'kelas' => $this->kelas,
