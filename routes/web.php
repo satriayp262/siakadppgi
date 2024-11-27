@@ -8,7 +8,8 @@ use App\Http\Middleware\CheckRole;
 
 
 // auth
-Route::get('/', App\Livewire\Auth\Login::class)->name('login');
+Route::get('/', App\Livewire\LandingPage::class)->name('landing');
+Route::get('/login', App\Livewire\Auth\Login::class)->name('login');
 Route::get('/register', App\Livewire\Auth\Register::class)->name('register');
 Route::get('/forgot-password', App\Livewire\Auth\ForgotPassword::class)->name('forgot-password');
 Route::get('password/reset/{token}', App\Livewire\Auth\ResetPassword::class)->name('password.reset');
