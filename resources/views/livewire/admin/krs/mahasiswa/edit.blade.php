@@ -36,9 +36,6 @@
                     <th class="px-4 py-2 text-[15px] text-left border">Matkul</th>
                     <th class="px-4 py-2 text-[15px] text-left border">Dosen</th>
                     <th class="px-4 py-2 text-[15px] text-left border">Kelas</th>
-                    <th class="px-4 py-2 text-[15px] text-left border">Nilai Huruf</th>
-                    <th class="px-4 py-2 text-[15px] text-left border">Nilai Indeks</th>
-                    <th class="px-4 py-2 text-[15px] text-left border">Nilai Angka</th>
                     <th class="px-4 py-2 text-[15px] text-left border">Aksi</th>
                 </tr>
             </thead>
@@ -57,19 +54,6 @@
                                     </option>
                                 @endforeach
                             </select>
-                        </td>
-
-                        <td class="px-4 py-2 border">
-                            <input type="text" wire:model="krsRecords.{{ $index }}.nilai_huruf"
-                                class="w-24 px-2 py-1 border">
-                        </td>
-                        <td class="px-4 py-2 border">
-                            <input type="text" wire:model="krsRecords.{{ $index }}.nilai_index"
-                                class="w-24 px-2 py-1 border">
-                        </td>
-                        <td class="px-4 py-2 border">
-                            <input type="number" wire:model="krsRecords.{{ $index }}.nilai_angka"
-                                class="w-24 px-2 py-1 border">
                         </td>
                         <td class="px-4 py-2 border">
                             <button type="button"

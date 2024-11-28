@@ -30,13 +30,14 @@ class KRSExport implements FromQuery, WithHeadings, WithMapping, WithStyles, Wit
     {
         if ($this->prodi && $this->semester && !$this->NIM) {
             return KRS::query()
-                ->where('id_prodi', $this->prodi)
-                ->where('id_semester', $this->semester)
+                ->where('krs.id_prodi', $this->prodi)
+                ->where('krs.id_semester', $this->semester)
                 ->join('semester', 'krs.id_semester', '=', 'semester.id_semester')
-                ->orderBy('id_prodi', 'asc')
-                ->orderBy('NIM', 'asc')
+                ->orderBy('krs.id_prodi', 'asc')
+                ->orderBy('krs.NIM', 'asc')
                 ->orderByDesc('semester.nama_semester')
-                ->orderBy('id_kelas', 'asc');
+                ->orderBy('krs.id_kelas', 'asc');
+
         } else if ($this->prodi && !$this->semester && !$this->NIM) {
             return KRS::query()
                 ->where('id_prodi', $this->prodi)
@@ -45,13 +46,13 @@ class KRSExport implements FromQuery, WithHeadings, WithMapping, WithStyles, Wit
                 ->orderBy('NIM', 'asc')
                 ->orderByDesc('semester.nama_semester')
                 ->orderBy('id_kelas', 'asc');
-        } else if ($this->NIM && $this->semester) {
+        } else if ($this->NIM && $this->semester && !$this->prodi) {
             return KRS::query()
                 ->where('NIM', $this->NIM)
                 ->where('id_semester', $this->semester)
                 ->orderBy('NIM', 'asc')
                 ->orderBy('id_kelas', 'asc');
-        } else if ($this->NIM && !$this->semester) {
+        } else if ($this->NIM && !$this->semester && !$this->prodi) {
             return KRS::query()
                 ->where('NIM', $this->NIM)
                 ->join('semester', 'krs.id_semester', '=', 'semester.id_semester')
@@ -85,9 +86,6 @@ class KRSExport implements FromQuery, WithHeadings, WithMapping, WithStyles, Wit
             'Nama Kelas',
             'Kode Prodi',
             'Nama Prodi',
-            'Nilai Huruf',
-            'Nilai Indeks',
-            'Nilai Angka',
         ];
     }
 
@@ -149,24 +147,6 @@ Contoh :
 
 Warna Kuning : Diisi Jika ada prodi dengan kode sama
 ',
-                    'Nilai Huruf
-Isi dengan Nilai Huruf misalnya : A, B , C dst
-
-Warna Hijau : Boleh Kosong
-',
-                    'Nilai Indeks
-Isi dengan Angka misalnya :
-4, 3 , 2 , 1 , 0
-
-Warna hijau : Boleh Kosong
-',
-                    'Nilai Angka
-Isi dengan Angka misalnya :
-90, 80.50 , 70.98 
-Gunakan . (titik) jika bilangan desimal
-
-Warna Hijau : Boleh Kosong
-',
                 ];
 
                 // Generate comments dynamically for columns A to BB
@@ -181,11 +161,6 @@ Warna Hijau : Boleh Kosong
 
     public function styles(Worksheet $sheet)
     {
-        $greenColumns = [
-            'I',
-            'J',
-            'K'
-        ];
         $yellowColumns = [
             'B',
             'E',
@@ -201,24 +176,12 @@ Warna Hijau : Boleh Kosong
             'F',
             'G',
             'H',
-            'I',
-            'J',
-            'K'
         ];
 
         foreach ($columns as $column) {
             $cell = $column . '1';
 
-            if (in_array($column, $greenColumns)) {
-                $sheet->getStyle($cell)->applyFromArray([
-                    'font' => ['bold' => true, 'color' => ['argb' => '000000']], // Black bold font
-                    'fill' => [
-                        'fillType' => 'solid',
-                        'startColor' => ['argb' => '90EE90'], // Green fill
-                    ],
-                    'alignment' => ['horizontal' => 'center', 'vertical' => 'center'],
-                ]);
-            } else if (in_array($column, $yellowColumns)) {
+            if (in_array($column, $yellowColumns)) {
                 $sheet->getStyle($cell)->applyFromArray([
                     'font' => ['bold' => true, 'color' => ['argb' => '000000']], // Black bold font
                     'fill' => [

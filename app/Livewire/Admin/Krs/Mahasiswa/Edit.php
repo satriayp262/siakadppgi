@@ -63,9 +63,7 @@ class Edit extends Component
             KRS::where('id_krs', $record['id_krs'])->update([
                 'id_kelas' => $this->selectedKelas[$index],
                 'id_mata_kuliah' => $record['id_mata_kuliah'], 
-                'nilai_huruf' => $record['nilai_huruf'],
-                'nilai_index' => $record['nilai_index'],
-                'nilai_angka' => $record['nilai_angka'],
+                
             ]);
         }
 
@@ -88,7 +86,7 @@ class Edit extends Component
     {
         $semester = semester::where('id_semester', $this->semester)->first()->nama_semester;
         $fileName = 'Data KRS '.' '.$this->mahasiswa->nama.' semester '.$semester .' '. now()->format('Y-m-d') . '.xlsx';
-        return Excel::download(new KRSExport($semester,$this->NIM,null), $fileName);
+        return Excel::download(new KRSExport($this->semester,$this->NIM,null), $fileName);
     }
     public function render()
     {
