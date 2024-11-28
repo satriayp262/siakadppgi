@@ -1,4 +1,4 @@
-<div class="sticky left-0 h-screen top-16 -z-5">
+<div class="sticky left-0 h-full top-16 -z-5">
     <div id="default-sidebar " class="w-64 h-full transition-transform -translate-x-full bg-customPurple sm:translate-x-0"
         aria-label="Sidebar">
         <div class="h-full px-3 py-4 ">
@@ -205,7 +205,8 @@
                                         d="M4 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h2V4Zm2 6v10h12V10H6Zm4 2h2v2H9V12Zm4 0h2v2h-2V12Zm-4 4h2v2H9v-2Zm4 0h2v2h-2v-2Z"
                                         clip-rule="evenodd" />
                                 </svg> --}}
-                                <span class="flex-1 ms-3 whitespace-nowrap">E-Presensi</span>
+                                <span class="flex-1
+                                ms-3 whitespace-nowrap">E-Presensi</span>
                             </a>
                         </li>
                     </ul>
@@ -271,7 +272,8 @@
                                         clip-rule="evenodd" />
                                 </svg> --}}
 
-                                <span class="flex-1 ms-3 whitespace-nowrap">Berita Acara</span>
+                                <span class="flex-1
+                                ms-3 whitespace-nowrap">Berita Acara</span>
                             </a>
                         </li>
                     </ul>
