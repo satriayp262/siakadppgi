@@ -15,11 +15,16 @@ return new class extends Migration
             $table->id();
             $table->string('nama');
             $table->string('nim');
+            $table->integer('id_mata_kuliah');
+            $table->integer('id_kelas');
             $table->string('token');
+            $table->string('keterangan')->nullable();
             $table->timestamp('waktu_submit');
             $table->timestamps();
 
             $table->foreign('token')->references('token')->on('token')->onDelete('cascade');
+            $table->foreign('id_mata_kuliah')->references('id_mata_kuliah')->on('matkul')->onDelete('cascade');
+            $table->foreign('id_kelas')->references('id_kelas')->on('kelas')->onDelete('cascade');
         });
 
     }

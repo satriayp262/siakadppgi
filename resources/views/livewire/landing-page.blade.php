@@ -62,20 +62,21 @@
         </nav>
     </header>
     <!-- Start block -->
-    <section class="bg-white">
+    <section class="bg-white min-h-screen">
         <div class="grid max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:pt-28">
             <div class="mr-auto place-self-center lg:col-span-7">
-                <h1 class="max-w-2xl mb-4 text-4xl font-extrabold leading-none tracking-tight md:text-5xl xl:text-6xl">
-                    Sistem Informasi Akademik<br>Politeknik Piksi Ganesha Kebumen</h1>
+                <h1 class="max-w-2xl mb-6 text-4xl font-extrabold leading-none tracking-tight md:text-5xl xl:text-6xl">
+                    Sistem Informasi Akademik<br>Politeknik Piksi Ganesha Kebumen
+                </h1>
 
                 <a href="/login"
-                    class="text-white bg-yellow-500 hover:bg-yellow-600 font-medium rounded-lg text-l px-4  py-2   items-center">
+                    class="text-white bg-yellow-500 hover:bg-yellow-600 font-medium rounded-lg text-xl px-6 py-3  items-center">
                     Login
-                    <svg class="w-6 h-6 ml-2 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                        width="24" height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M19 12H5m14 0-4 4m4-4-4-4" />
-                    </svg>
+                    {{-- <svg class="w-8 h-6 ml-2 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 16l4-4m0 0l-4-4m4 4H3" />
+                    </svg> --}}
                 </a>
             </div>
             <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">

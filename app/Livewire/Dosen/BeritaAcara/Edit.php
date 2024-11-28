@@ -9,7 +9,8 @@ use Livewire\Component;
 
 class Edit extends Component
 {
-    public $id_berita_acara, $tanggal, $nidn, $nama_dosen, $materi, $id_mata_kuliah, $jumlah_mahasiswa, $matkul, $dosen;
+    public $id_berita_acara, $tanggal, $nidn, $nama_dosen, $materi, $id_mata_kuliah, $nama_mata_kuliah, $jumlah_mahasiswa;
+    public $matkul, $dosen;
 
     public function rules()
     {
@@ -20,22 +21,6 @@ class Edit extends Component
             'id_mata_kuliah' => 'required|integer|max:255',
             'jumlah_mahasiswa' => 'required|integer|min:1',
         ];
-    }
-
-    public function clear($id_berita_acara)
-    {
-        $this->reset();
-
-        $acara = BeritaAcara::find($id_berita_acara);
-        if ($acara) {
-            $this->id_berita_acara = $acara->id_berita_acara;
-            $this->tanggal = $acara->tanggal;
-            $this->nidn = $acara->nidn;
-            $this->id_mata_kuliah = $acara->id_mata_kuliah;
-            $this->materi = $acara->materi;
-            $this->jumlah_mahasiswa = $acara->jumlah_mahasiswa;
-            $this->loadDosenName($acara->nidn);
-        }
     }
 
     public function mount($id_berita_acara)
@@ -52,6 +37,24 @@ class Edit extends Component
             $this->materi = $acara->materi;
             $this->jumlah_mahasiswa = $acara->jumlah_mahasiswa;
             $this->loadDosenName($acara->nidn);
+            $this->loadMataKuliahName($acara->id_mata_kuliah);
+        }
+    }
+
+    public function clear($id_berita_acara)
+    {
+        $this->reset();
+
+        $acara = BeritaAcara::find($id_berita_acara);
+        if ($acara) {
+            $this->id_berita_acara = $acara->id_berita_acara;
+            $this->tanggal = $acara->tanggal;
+            $this->nidn = $acara->nidn;
+            $this->id_mata_kuliah = $acara->id_mata_kuliah;
+            $this->materi = $acara->materi;
+            $this->jumlah_mahasiswa = $acara->jumlah_mahasiswa;
+            $this->loadDosenName($acara->nidn);
+            $this->loadMataKuliahName($acara->id_mata_kuliah);
         }
     }
 
@@ -59,6 +62,12 @@ class Edit extends Component
     {
         $dosen = Dosen::where('nidn', $nidn)->first();
         $this->nama_dosen = $dosen ? $dosen->nama_dosen : '';
+    }
+
+    protected function loadMataKuliahName($id_mata_kuliah)
+    {
+        $matkul = Matakuliah::find($id_mata_kuliah);
+        $this->nama_mata_kuliah = $matkul ? $matkul->nama_mata_kuliah : 'Mata Kuliah Tidak Ditemukan';
     }
 
     public function update()
