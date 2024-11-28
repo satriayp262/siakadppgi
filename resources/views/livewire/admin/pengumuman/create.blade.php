@@ -2,8 +2,8 @@
     <!-- Button to open the modal -->
     <button @click="isOpen=true"
         class="flex items-center px-4 py-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">
-        <svg class="w-6 h-6 font-black text-gray-800 dark:text-white" aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24">
+        <svg class="w-6 h-6 font-black text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+            width="14" height="14" fill="none" viewBox="0 0 24 24">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
                 d="M5 12h14m-7 7V5" />
         </svg>
@@ -16,13 +16,15 @@
             <!-- Modal Header -->
             <div class="flex items-center justify-between p-4 bg-gray-200 rounded-t-lg">
                 <h3 class="text-xl font-semibold">Tambah Pengumuman</h3>
-                <button @click="isOpen=false" class="px-3 text-gray-900 rounded-sm shadow hover:bg-red-500">&times;</button>
+                <button @click="isOpen=false"
+                    class="px-3 text-gray-900 rounded-sm shadow hover:bg-red-500">&times;</button>
             </div>
             <div class="p-4">
                 <div class="p-4 max-h-[500px] overflow-y-auto">
                     <form wire:submit.prevent="save">
                         <div class="mb-4">
-                            <label for="title" class="block text-sm font-medium text-gray-700">Judul Pengumuman</label>
+                            <label for="title" class="block text-sm font-medium text-gray-700">Judul
+                                Pengumuman</label>
                             <input type="text" id="title" wire:model="title"
                                 class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
                             @error('title')
@@ -33,7 +35,7 @@
                         <div class="mb-4">
                             <label for="desc" class="block text-sm font-medium text-gray-700">Deskripsi</label>
                             <textarea id="desc" wire:model="desc"
-                                class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm"></textarea>
+                                class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm h-32"></textarea>
                             @error('desc')
                                 <span class="text-sm text-red-500">{{ $message }}</span>
                             @enderror
@@ -59,7 +61,8 @@
                                 class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
                             @if ($file)
                                 <div class="mt-2">
-                                    <span class="text-gray-600">File Selected: {{ $file->getClientOriginalName() }}</span>
+                                    <span class="text-gray-600">File Selected:
+                                        {{ $file->getClientOriginalName() }}</span>
                                 </div>
                             @endif
                             @error('file')

@@ -24,8 +24,9 @@
                 @foreach ($pengumuman as $item)
                     <tr class="border-t" wire:key="item-{{ $item->id_pengumuman }}">
                         <td class="px-3 py-1 text-center">{{ $item->title }}</td>
-                        <td class="px-3 py-1 text-center">{{ $item->desc }}</td>
-                        <td class="px-3 py-1 text-center items-center flex"><img class="h-18 w-36" src="{{ asset('storage/image/pengumuman/' . $item->image) }}" alt=""></td>
+                        <td class="px-3 py-1 text-center">{{ \Illuminate\Support\Str::words($item->desc, 5) }}</td>
+                        <td class="px-3 py-1 text-center items-center flex"><img class="h-18 w-36"
+                                src="{{ asset('storage/image/pengumuman/' . $item->image) }}" alt=""></td>
                         <td class="px-3 py-1 text-center">
                             {{ substr(basename($item->file), 0, 100) }}
                         </td>

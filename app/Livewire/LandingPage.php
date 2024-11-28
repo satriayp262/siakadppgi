@@ -3,12 +3,17 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use App\Models\Pengumuman;  // Import Model Pengumuman
 
 
 class LandingPage extends Component
 {
+
     public function render()
     {
-        return view('livewire.landing-page')->layout('components.layouts.guest');
+        $pengumuman = Pengumuman::all(); // Mengambil data dari model Pengumuman
+        return view('livewire.landing-page', [
+            'pengumuman' => $pengumuman
+        ])->layout('components.layouts.guest');
     }
 }
