@@ -11,9 +11,10 @@ class Index extends Component
 {
     use WithPagination;
 
-    #[On('aaaaa')]
-    public function handleaaaaa(){
-        dd('asdasd');
+    #[On('pengumumanAdded')]
+    public function handlepengumumanAdded()
+    {
+        $this->dispatch('created', ['message' => 'Pengumuman Berhasil di Tambahkan']);
     }
     public function destroy($id)
     {
@@ -26,7 +27,7 @@ class Index extends Component
     public function render()
     {
         $pengumuman = Pengumuman::query()->orderBy('created_at', 'desc')->paginate(10);
-        return view('livewire.admin.pengumuman.index',[
+        return view('livewire.admin.pengumuman.index', [
             'pengumuman' => $pengumuman
         ]);
     }

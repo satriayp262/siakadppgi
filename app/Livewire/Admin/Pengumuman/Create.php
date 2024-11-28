@@ -12,14 +12,19 @@ class Create extends Component
 
     public $title, $desc, $image, $file;
 
-    public function save()
+    public function rules()
     {
-        $this->validate([
+        return [
             'title' => 'required',
             'desc' => 'required',
             'image' => 'required|image',
             'file' => 'nullable|mimes:pdf|max:10240',
-        ], [
+        ];
+    }
+
+    public function messages()
+    {
+        return [
             'title.required' => 'Judul Pengumuman Tidak Boleh Kosong',
             'desc.required' => 'Deskripsi Pengumuman Tidak Boleh Kosong',
             'image.required' => 'Gambar Pengumuman Tidak Boleh Kosong',
@@ -27,9 +32,14 @@ class Create extends Component
             'image.max' => 'Ukuran Gambar Tidak Boleh Lebih Dari 2MB',
             'file.mimes' => 'File Harus Berformat PDF',
             'file.max' => 'Ukuran File PDF Tidak Boleh Lebih Dari 10MB',
-        ]);
+        ];
+    }
+    public function save()
+    {
+        $validatedData = $this->validate();
 
-        $imageName = $this->title . '_' . time() . '.' . $this->image->extension(); 
+
+        $imageName = $this->title . '_' . time() . '.' . $this->image->extension();
         $fileName = $this->file ? $this->title . '.' . $this->file->extension() : null;
 
         $this->image->storeAs('public/image/pengumuman', $imageName);
@@ -37,18 +47,18 @@ class Create extends Component
             $this->file->storeAs('public/pengumuman', $fileName);
         }
 
-        Pengumuman::create([
-            'title' => $this->title,
-            'desc' => $this->desc,
+        $pengumuman = Pengumuman::create([
+            'title' => $validatedData['title'],
+            'desc' => $validatedData['desc'],
             'image' => $imageName,
             'file' => $fileName,
         ]);
 
         $this->reset();
 
-        $this->dispatch('created', ['message' => 'Pengumuman Created Successfully']);
-        $this->dispatch('pengumumancreated');
+        $this->dispatch('pengumumanAdded');
 
+        return $pengumuman;
     }
 
 

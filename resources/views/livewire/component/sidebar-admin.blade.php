@@ -19,9 +19,9 @@
                 </li>
                 <li>
                     <button type="button"
-                        class="flex items-center w-full p-2 text-base transition duration-75 rounded-lg group hover:bg-purple2 text-purple3 hover:text-white {{ request()->routeIs('admin.user') ? 'text-white bg-purple2' : 'text-purple3' }}"
+                        class="flex items-center w-full p-2 text-base transition duration-75 rounded-lg group hover:bg-purple2 text-purple3 hover:text-white {{ request()->routeIs('admin.user', 'admin.pengumuman') ? 'text-white bg-purple2' : 'text-purple3' }}"
                         aria-controls="dropdown-sistem" data-collapse-toggle="dropdown-sistem">
-                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.user') ? 'text-white' : '' }}"
+                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.user', 'admin.pengumuman') ? 'text-white' : '' }}"
                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                             fill="currentColor" viewBox="0 0 24 24">
                             <path fill-rule="evenodd"
@@ -36,11 +36,17 @@
                         </svg>
                     </button>
                     <ul id="dropdown-sistem"
-                        class="{{ request()->routeIs('admin.user') ? '' : 'hidden' }} py-2 space-y-2">
+                        class="{{ request()->routeIs(['admin.user', 'admin.pengumuman']) ? '' : 'hidden' }} py-2 space-y-2">
                         <li>
                             <a href="{{ route('admin.user') }}"
                                 class="flex items-center mx-4 p-2 text-gray-100 rounded-lg group {{ request()->routeIs('admin.user') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 <span class="flex-1 ms-3 whitespace-nowrap">User</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.pengumuman') }}"
+                                class="flex items-center mx-4 p-2 text-gray-100 rounded-lg group {{ request()->routeIs('admin.pengumuman') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
+                                <span class="flex-1 ms-3 whitespace-nowrap">Pengumuman</span>
                             </a>
                         </li>
                     </ul>
