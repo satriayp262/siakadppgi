@@ -26,4 +26,8 @@ class Presensi extends Model
     {
         return $this->hasOneThrough(Matakuliah::class, Token::class, 'token', 'id_mata_kuliah', 'token', 'id_mata_kuliah');
     }
+    public function kelas()
+    {
+        return $this->belongsTo(Kelas::class, 'id_kelas', 'id_kelas');
+    }
 }

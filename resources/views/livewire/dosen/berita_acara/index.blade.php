@@ -103,39 +103,4 @@
             {{ $beritaAcaraByMatkul->links() }}
         </div>
     </div>
-
-    <script>
-        function confirmDelete(id_berita_acara) {
-            Swal.fire({
-                title: 'Apakah anda yakin ingin menghapus Berita Acara ini?',
-                text: "Data yang telah dihapus tidak dapat dikembalikan!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#6c757d',
-                confirmButtonText: 'Hapus'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    @this.call('destroy', id_berita_acara);
-                }
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const events = ['updated', 'created', 'destroyed'];
-            events.forEach(eventType => {
-                window.addEventListener(eventType, event => {
-                    Swal.fire({
-                        title: 'Success!',
-                        text: event.detail.params.message,
-                        icon: 'success',
-                        confirmButtonText: 'OK'
-                    }).then(() => {
-                        window.dispatchEvent(new CustomEvent('modal-closed'));
-                    });
-                });
-            });
-        });
-    </script>
-
 </div>
