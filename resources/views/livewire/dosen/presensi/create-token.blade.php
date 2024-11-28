@@ -16,14 +16,17 @@
                 <div class="p-4 max-h-[500px] overflow-y-auto">
                     <form wire:submit.prevent="save">
                         <div class="mb-4">
-                            <label for="id_mata_kuliah">Mata Kuliah</label>
-                            <select wire:model="id_mata_kuliah" class="border p-2 rounded w-full" required>
-                                <option value="">Pilih Mata Kuliah</option>
-                                @foreach ($matkuls as $matkul)
-                                    <option value="{{ $matkul->id_mata_kuliah }}">{{ $matkul->nama_mata_kuliah }}
-                                    </option>
-                                @endforeach
-                            </select>
+                            <label for="id_mata_kuliah" class="block text-sm font-medium text-gray-700 text-left">Mata
+                                Kuliah</label>
+                            <input type="text" id="id_mata_kuliah" name="id_mata_kuliah" value="{{ $nama_mata_kuliah }}" disabled
+                                class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 sm:text-sm">
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="id_kelas"
+                                class="block text-sm font-medium text-gray-700 text-left">Kelas</label>
+                            <input type="text" id="id_kelas" name="id_kelas" value="{{ $nama_kelas }}" disabled
+                                class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 sm:text-sm">
                         </div>
 
                         <div class="mb-4">
