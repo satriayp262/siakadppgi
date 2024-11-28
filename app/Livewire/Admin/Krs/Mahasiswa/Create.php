@@ -45,7 +45,7 @@ class Create extends Component
 
     public function render()
     {
-        $kelas = Kelas::where('kode_prodi', $this->prodi->kode_prodi)->get();
+        $kelas = Kelas::where('kode_prodi', $this->prodi->kode_prodi)->where('id_semester', $this->semester)->get();
         return view('livewire.admin.krs.mahasiswa.create', [
             'kelas' => $kelas
         ]);

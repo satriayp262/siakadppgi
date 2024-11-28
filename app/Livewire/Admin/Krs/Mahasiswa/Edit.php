@@ -39,8 +39,7 @@ class Edit extends Component
             ->get()
             ->toArray();
 
-        $this->kelas = Kelas::where('kode_prodi', $this->kode_prodi)->with('matkul.dosen')->get()->toArray();
-
+        $this->kelas = Kelas::where('kode_prodi', $this->kode_prodi)->where('id_semester', $this->semester)->with('matkul')->with('matkul.dosen')->get()->toArray();
         foreach ($this->krsRecords as $index => $record) {
             $this->selectedKelas[$index] = $record['id_kelas'];
         }
