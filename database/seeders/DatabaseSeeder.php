@@ -128,39 +128,159 @@ class DatabaseSeeder extends Seeder
 
         $matakuliahData = [
             [
-                'kode_mata_kuliah' => 'STATIS',
+                'kode_mata_kuliah' => 'STATIS_AK',
                 'nama_mata_kuliah' => 'Statistika',
+                'kode_prodi' => 'AK-001'
             ],
             [
-                'kode_mata_kuliah' => 'PROWEB',
+                'kode_mata_kuliah' => 'PROWEB_AK',
                 'nama_mata_kuliah' => 'Pemrograman Web',
+                'kode_prodi' => 'AK-001'
             ],
             [
-                'kode_mata_kuliah' => 'BASDAT',
+                'kode_mata_kuliah' => 'BASDAT_AK',
                 'nama_mata_kuliah' => 'Basis Data',
+                'kode_prodi' => 'AK-001'
             ],
             [
-                'kode_mata_kuliah' => 'MOBILE',
+                'kode_mata_kuliah' => 'MOBILE_AK',
                 'nama_mata_kuliah' => 'Mobile Programming',
+                'kode_prodi' => 'AK-001'
             ],
             [
-                'kode_mata_kuliah' => 'SISTOP',
+                'kode_mata_kuliah' => 'SISTOP_AK',
                 'nama_mata_kuliah' => 'Sistem Operasi',
+                'kode_prodi' => 'AK-001'
             ],
             [
-                'kode_mata_kuliah' => 'ERPEEL',
+                'kode_mata_kuliah' => 'ERPEEL_AK',
                 'nama_mata_kuliah' => 'RPL',
+                'kode_prodi' => 'AK-001'
+            ],
+            [
+                'kode_mata_kuliah' => 'STATIS_MO',
+                'nama_mata_kuliah' => 'Statistika',
+                'kode_prodi' => 'MO-002'
+            ],
+            [
+                'kode_mata_kuliah' => 'PROWEB_MO',
+                'nama_mata_kuliah' => 'Pemrograman Web',
+                'kode_prodi' => 'MO-002'
+            ],
+            [
+                'kode_mata_kuliah' => 'BASDAT_MO',
+                'nama_mata_kuliah' => 'Basis Data',
+                'kode_prodi' => 'MO-002'
+            ],
+            [
+                'kode_mata_kuliah' => 'MOBILE_MO',
+                'nama_mata_kuliah' => 'Mobile Programming',
+                'kode_prodi' => 'MO-002'
+            ],
+            [
+                'kode_mata_kuliah' => 'SISTOP_MO',
+                'nama_mata_kuliah' => 'Sistem Operasi',
+                'kode_prodi' => 'MO-002'
+            ],
+            [
+                'kode_mata_kuliah' => 'ERPEEL_MO',
+                'nama_mata_kuliah' => 'RPL',
+                'kode_prodi' => 'MO-002'
+            ],
+            [
+                'kode_mata_kuliah' => 'STATIS_TE',
+                'nama_mata_kuliah' => 'Statistika',
+                'kode_prodi' => 'TE-003'
+            ],
+            [
+                'kode_mata_kuliah' => 'PROWEB_TE',
+                'nama_mata_kuliah' => 'Pemrograman Web',
+                'kode_prodi' => 'TE-003'
+            ],
+            [
+                'kode_mata_kuliah' => 'BASDAT_TE',
+                'nama_mata_kuliah' => 'Basis Data',
+                'kode_prodi' => 'TE-003'
+            ],
+            [
+                'kode_mata_kuliah' => 'MOBILE_TE',
+                'nama_mata_kuliah' => 'Mobile Programming',
+                'kode_prodi' => 'TE-003'
+            ],
+            [
+                'kode_mata_kuliah' => 'SISTOP_TE',
+                'nama_mata_kuliah' => 'Sistem Operasi',
+                'kode_prodi' => 'TE-003'
+            ],
+            [
+                'kode_mata_kuliah' => 'ERPEEL_TE',
+                'nama_mata_kuliah' => 'RPL',
+                'kode_prodi' => 'TE-003'
+            ],
+            [
+                'kode_mata_kuliah' => 'STATIS_MSDM',
+                'nama_mata_kuliah' => 'Statistika',
+                'kode_prodi' => 'MSDM-004'
+            ],
+            [
+                'kode_mata_kuliah' => 'PROWEB_MSDM',
+                'nama_mata_kuliah' => 'Pemrograman Web',
+                'kode_prodi' => 'MSDM-004'
+            ],
+            [
+                'kode_mata_kuliah' => 'BASDAT_MSDM',
+                'nama_mata_kuliah' => 'Basis Data',
+                'kode_prodi' => 'MSDM-004'
+            ],
+            [
+                'kode_mata_kuliah' => 'MOBILE_MSDM',
+                'nama_mata_kuliah' => 'Mobile Programming',
+                'kode_prodi' => 'MSDM-004'
+            ],
+            [
+                'kode_mata_kuliah' => 'SISTOP_MSDM',
+                'nama_mata_kuliah' => 'Sistem Operasi',
+                'kode_prodi' => 'MSDM-004'
+            ],
+            [
+                'kode_mata_kuliah' => 'ERPEEL_MSDM',
+                'nama_mata_kuliah' => 'RPL',
+                'kode_prodi' => 'MSDM-004'
             ],
         ];
 
-        // Create each Matakuliah using the predefined data
+        $nidnlist = Dosen::pluck('nidn')->toArray();
+
+
         foreach ($matakuliahData as $data) {
-            Matakuliah::factory()->create([
+            $mataKuliah = Matakuliah::create([
                 'kode_mata_kuliah' => $data['kode_mata_kuliah'],
                 'nama_mata_kuliah' => $data['nama_mata_kuliah'],
+                'kode_prodi' => $data['kode_prodi'],
+                'jenis_mata_kuliah' => fake()->randomElement(['A', 'W', 'B', 'C', 'S']),  
+                'nidn' => fake()->randomElement($nidnlist), 
+                'sks_tatap_muka' => fake()->numberBetween(1, 4),  
+                'sks_praktek' => fake()->numberBetween(0, 2),     
+                'sks_praktek_lapangan' => fake()->numberBetween(0, 2),  
+                'sks_simulasi' => fake()->numberBetween(0, 2),  
+                'metode_pembelajaran' => fake()->randomElement(['Luring', 'Daring']), 
+                'tgl_mulai_efektif' => fake()->date(),   
+                'tgl_akhir_efektif' => fake()->date(),  
             ]);
+
+            // Create 2 Kelas for each Mata Kuliah
+            for ($semester = 6; $semester >= 5; $semester--) {
+                Kelas::create([
+                    'id_semester' => $semester,
+                    'nama_kelas' => strtolower($data['kode_mata_kuliah']),
+                    'kode_prodi' => $data['kode_prodi'],
+                    'id_mata_kuliah' => $mataKuliah->id_mata_kuliah,
+                    'lingkup_kelas' => fake()->randomElement([1, 2, 3]),
+                    'bahasan' => fake()->sentence(),
+                    'mode_kuliah' => fake()->randomElement(['O', 'F', 'M']),
+                ]);
+            }
         }
-        Kelas::factory(6)->create();
 
         Ruangan::factory(20)->create();
 

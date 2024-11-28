@@ -24,15 +24,13 @@ class MatakuliahFactory extends Factory
         $kodeProdiList = Prodi::pluck('kode_prodi')->toArray();
         $nidnlist = Dosen::pluck('nidn')->toArray();
 
-        // Tentukan jenis mata kuliah secara acak
-        $jenisMataKuliah = $this->faker->randomElement(['A', 'W', 'B', 'C', 'S']);
 
         return [
             'kode_mata_kuliah' => strtoupper(Str::random(6)),  // Kode unik untuk mata kuliah
             'nama_mata_kuliah' => $this->faker->word(),        // Nama mata kuliah acak
-            'jenis_mata_kuliah' => $jenisMataKuliah,  // Jenis acak
             // Jika jenis mata kuliah adalah 'Umum', kode_prodi akan null, jika tidak ambil dari $kodeProdiList
             'kode_prodi' => $this->faker->randomElement($kodeProdiList),
+            'jenis_mata_kuliah' => $this->faker->randomElement(['A', 'W', 'B', 'C', 'S']),  // Jenis acak
             'nidn' => $this->faker->randomElement($nidnlist), // NIDN dengan 10 digit angka
             'sks_tatap_muka' => $this->faker->numberBetween(1, 4),  // SKS tatap muka
             'sks_praktek' => $this->faker->numberBetween(0, 2),     // SKS praktek
