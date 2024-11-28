@@ -115,18 +115,16 @@ class Index extends Component
 
                 // Cek untuk konflik jadwal di prodi yang sama
                 $conflict = Jadwal::where('hari', $days[$dayIndex])
-                    ->where('kode_prodi', $prodi)
-                    ->where(function ($query) use ($timeSlot, $ruangan) {
-                        $query->where('id_ruangan', $ruangan->id_ruangan)
-                            ->where(function ($query) use ($timeSlot) {
-                                $query->whereBetween('jam_mulai', [$timeSlot['jam_mulai'], $timeSlot['jam_selesai']])
-                                    ->orWhereBetween('jam_selesai', [$timeSlot['jam_mulai'], $timeSlot['jam_selesai']])
-                                    ->orWhere(function ($query) use ($timeSlot) {
-                                        $query->where('jam_mulai', '<=', $timeSlot['jam_mulai'])
-                                            ->where('jam_selesai', '>=', $timeSlot['jam_selesai']);
-                                    });
+                    ->where('id_ruangan', $ruangan->id_ruangan) // Periksa ruangan
+                    ->where(function ($query) use ($timeSlot) {
+                        $query->whereBetween('jam_mulai', [$timeSlot['jam_mulai'], $timeSlot['jam_selesai']])
+                            ->orWhereBetween('jam_selesai', [$timeSlot['jam_mulai'], $timeSlot['jam_selesai']])
+                            ->orWhere(function ($query) use ($timeSlot) {
+                                $query->where('jam_mulai', '<=', $timeSlot['jam_mulai'])
+                                    ->where('jam_selesai', '>=', $timeSlot['jam_selesai']);
                             });
                     })->exists();
+
 
                 if (!$conflict) {
                     // Tambahkan jadwal
