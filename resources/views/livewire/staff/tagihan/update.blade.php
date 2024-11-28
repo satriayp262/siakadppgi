@@ -58,20 +58,6 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="status_tagihan" class="block text-sm font-medium text-gray-700">Status
-                                Tagihan</label>
-                            <select id="status_tagihan" wire:model="status_tagihan" name="status_tagihan"
-                                class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
-                                <option value="" disabled selected>Select</option>
-                                <option value="Lunas">Lunas</option>
-                                <option value="Belum Lunas">Belum Lunas</option>
-                            </select>
-                            @error('status_tagihan')
-                                <span class="text-sm text-red-500">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <div class="mb-4">
                             <label for="id_staff" class="block text-sm font-medium text-gray-700">Staff</label>
                             <select id="id_staff" wire:model="id_staff" name="id_staff"
                                 class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">

@@ -53,7 +53,7 @@ class Create extends Component
         // Simpan data ke database
         $kelas = Kelas::create([
             'nama_kelas' => $validatedData['nama_kelas'],
-            'semester' => $validatedData['semester'],
+            'id_semester' => $validatedData['semester'],
             'kode_prodi' => $validatedData['kode_prodi'],
             'lingkup_kelas' => $validatedData['lingkup_kelas'],
             'id_mata_kuliah' => $validatedData['id_mata_kuliah'],

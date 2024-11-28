@@ -13,6 +13,7 @@ return new class extends Migration {
         Schema::create('jadwal', function (Blueprint $table) {
             $table->id('id_jadwal')->autoIncrement()->primary();
             $table->integer('id_kelas');
+            $table->string('kode_prodi');
             $table->date('tanggal'); 
             $table->string('hari'); // Hari dalam seminggu
             $table->integer('sesi'); // Menyimpan urutan jam ke berapa

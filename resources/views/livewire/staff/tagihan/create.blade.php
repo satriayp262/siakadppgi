@@ -62,24 +62,6 @@
                             </div>
 
                             <div class="mb-4">
-                                <label for="id_semester"
-                                    class="block text-sm font-medium text-gray-700">Semester</label>
-                                <select id="id_semester" wire:model="id_semester" name="id_semester"
-                                    class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
-                                    <option value="" disabled selected>Pilih Semester</option>
-                                    @foreach ($semesters as $semester)
-                                        <option value="{{ $semester->id_semester }}">
-                                            {{ $semester->nama_semester }}
-                                        </option>
-                                    @endforeach
-                                    {{-- <option value="{{ $mahasiswas->mulai_semester }}"></option> --}}
-                                </select>
-                                @error('id_semester')
-                                    <span class="text-sm text-red-500">{{ $message }}</span>
-                                @enderror
-                            </div>
-
-                            <div class="mb-4">
                                 <label for="Bulan" class="block text-sm font-medium text-gray-700">Bulan</label>
                                 <select id="Bulan" wire:model="Bulan" name="Bulan"
                                     class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">

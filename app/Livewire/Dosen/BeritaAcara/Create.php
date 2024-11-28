@@ -27,21 +27,20 @@ class Create extends Component
 
     public function mount()
     {
-        // Fetch Matakuliah using the logged-in user's NIDN
-        $matkul = Matakuliah::where('nidn', '=', Auth::user()->nim_nidn)->first();
-        $this->matkul = $matkul;
-
-        // Assign the mata kuliah name to the component property
-        if ($matkul) {
-            $this->id_mata_kuliah = $matkul->id_mata_kuliah;
-            $this->nama_mata_kuliah = $matkul->nama_mata_kuliah; // Assign the value here
+        if ($this->id_mata_kuliah) {
+            // Fetch Matakuliah
+            $matkul = Matakuliah::find($this->id_mata_kuliah);
+            if ($matkul) {
+                $this->nama_mata_kuliah = $matkul->nama_mata_kuliah;
+            }
         }
 
-        // Fetch Kelas based on the mata kuliah
-        $kelas = Kelas::where('id_mata_kuliah', '=', $matkul->id_mata_kuliah)->first();
-        if ($kelas) {
-            $this->id_kelas = $kelas->id_kelas;
-            $this->nama_kelas = $kelas->nama_kelas;
+        if ($this->id_kelas) {
+            // Fetch Kelas
+            $kelas = Kelas::find($this->id_kelas);
+            if ($kelas) {
+                $this->nama_kelas = $kelas->nama_kelas;
+            }
         }
 
         // Fetch Dosen data based on the logged-in user
@@ -53,6 +52,7 @@ class Create extends Component
             $this->nama_dosen = $dosen->nama_dosen;
         }
     }
+
 
 
     public function save()
@@ -68,7 +68,7 @@ class Create extends Component
             'id_kelas' => $validatedData['id_kelas'],
         ]);
 
-        $this->resetExcept('nidn','id_mata_kuliah','id_kelas');
+        $this->resetExcept('nidn', 'id_mata_kuliah', 'id_kelas');
         $this->dispatch('acaraCreated');
     }
 

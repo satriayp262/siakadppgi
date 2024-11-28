@@ -67,11 +67,9 @@ class GroupCreate extends Component
                 'id_semester' => $validatedData['id_semester'],
             ]);
         }
+        $this->reset();
+        $this->dispatch('TagihanCreated');
 
-        if (!isset($existingTagihan)) {
-            $this->dispatch('TagihanCreated');
-            $this->reset();
-        }
 
         return $tagihan ?? null;
     }

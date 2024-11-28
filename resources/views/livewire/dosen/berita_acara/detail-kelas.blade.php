@@ -34,8 +34,8 @@
                     </li>
                 </ol>
             </nav>
-            <div class="flex justify-between mt-2">
-                <livewire:dosen.berita_acara.create />
+            <div class="flex justify-between">
+                <livewire:dosen.berita_acara.create :id_mata_kuliah="$id_mata_kuliah" :id_kelas="$id_kelas" />
                 <input type="text" wire:model.live="search" placeholder="   Search"
                     class="px-2 ml-4 border border-gray-300 rounded-lg">
             </div>
@@ -63,7 +63,7 @@
     <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
         <table class="min-w-full mt-4 bg-white text-sm border border-gray-200">
             <thead>
-                <tr class="items-center w-full text-sm text-white align-middle bg-gray-800">
+                <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
                     {{-- <th class="px-4 py-2 text-center">No</th> --}}
                     <th class="px-4 py-2 text-center">Tanggal</th>
                     <th class="px-4 py-2 text-center">Nama Dosen</th>
@@ -85,23 +85,23 @@
                         <td class="px-4 py-2 text-center">{{ $acara->materi }}</td>
                         <td class="px-4 py-2 text-center">{{ $acara->jumlah_mahasiswa }}</td>
                         <td class="px-4 py-2 text-center">
-                            <div class="flex flex-row">
+                            <div class="flex flex-col">
                                 <div class="flex justify-center space-x-2">
                                     <livewire:dosen.berita_acara.edit :id_berita_acara="$acara->id_berita_acara"
                                         wire:key="edit-{{ $acara->id_berita_acara }}" />
+                                    <button
+                                        class="inline-block px-4 py-2 ml-2 text-white bg-red-500 rounded hover:bg-red-700"
+                                        wire:key="delete-{{ $acara->id_berita_acara }}"
+                                        onclick="confirmDelete('{{ $acara->id_berita_acara }}')">
+                                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
+                                        </svg>
+                                    </button>
                                 </div>
-                                <button
-                                    class="inline-block px-4 py-2 ml-2 text-white bg-red-500 rounded hover:bg-red-700"
-                                    wire:key="delete-{{ $acara->id_berita_acara }}"
-                                    onclick="confirmDelete('{{ $acara->id_berita_acara }}')">
-                                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
-                                        viewBox="0 0 24 24">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
-                                    </svg>
-                                </button>
                             </div>
                         </td>
                     </tr>
