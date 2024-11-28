@@ -49,6 +49,7 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
     });
 
     Route::get('/mahasiswa', App\Livewire\Admin\Mahasiswa\Index::class)->name('admin.mahasiswa');
+    Route::get('/pengumuman', App\Livewire\Admin\Pengumuman\Index::class)->name('admin.pengumuman');
 
     Route::prefix('prodi')->group(function () {
         Route::get('/', App\Livewire\Admin\Prodi\Index::class)->name('admin.prodi');
