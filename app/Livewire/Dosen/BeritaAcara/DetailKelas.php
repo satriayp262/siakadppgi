@@ -4,6 +4,7 @@ namespace App\Livewire\Dosen\BeritaAcara;
 
 use App\Models\Kelas;
 use App\Models\BeritaAcara;
+use App\Models\Matakuliah;
 use Livewire\Attributes\On;
 use Livewire\WithPagination;
 use Livewire\Component;
@@ -11,11 +12,11 @@ use Livewire\Component;
 class DetailKelas extends Component
 {
     use WithPagination;
-    public $id_kelas;
+
+    public $id_kelas, $CheckDosen = false;
     public $id_mata_kuliah;
     public $kelas;
     public $matkul;
-    public $beritaAcara;
     public $search = '';
 
     protected $listeners = [
@@ -23,7 +24,7 @@ class DetailKelas extends Component
     ];
 
     #[On('acaraUpdated')]
-    public function handleacaraUpdated()
+    public function handleAcaraUpdated()
     {
         $this->dispatch('updated', params: ['message' => 'Berita Acara updated Successfully']);
     }
@@ -36,7 +37,7 @@ class DetailKelas extends Component
     }
 
     #[On('acaraCreated')]
-    public function handleacaraCreated()
+    public function handleAcaraCreated()
     {
         $this->dispatch('created', params: ['message' => 'Berita Acara created Successfully']);
     }
@@ -46,21 +47,20 @@ class DetailKelas extends Component
         $this->id_kelas = $id_kelas;
         $this->id_mata_kuliah = $id_mata_kuliah;
 
+        $this->CheckDosen = (Auth()->user()->nim_nidn == Matakuliah::where('id_mata_kuliah', Kelas::where('id_kelas', $this->id_kelas)->first()->id_mata_kuliah)->first()->nidn);
+
         // Ambil detail kelas
         $this->kelas = Kelas::with('matkul')->findOrFail($id_kelas);
 
-        // Ambil berita acara terkait kelas
-        $this->beritaAcara = BeritaAcara::where('id_kelas', $id_kelas)->get();
-
         // Ambil data mata kuliah berdasarkan ID
-        $this->matkul = \App\Models\Matakuliah::findOrFail($id_mata_kuliah);
+        $this->matkul = Matakuliah::findOrFail($id_mata_kuliah);
     }
 
     public function render()
     {
         $beritaAcara = BeritaAcara::where('nidn', auth()->user()->nim_nidn)
-            ->orWhere('id_mata_kuliah', $this->matkul->id_mata_kuliah)
-            ->orWhere('id_kelas', Kelas::where('id_mata_kuliah', $this->matkul->id_mata_kuliah)->first()->id_kelas)
+            ->Where('id_mata_kuliah', $this->matkul->id_mata_kuliah)
+            ->Where('id_kelas', Kelas::where('id_mata_kuliah', $this->matkul->id_mata_kuliah)->first()->id_kelas)
             ->when($this->search, function ($query) {
                 $query->where('tanggal', 'like', '%' . $this->search . '%')
                     ->orWhere('nama_mata_kuliah', 'like', '%' . $this->search . '%');
