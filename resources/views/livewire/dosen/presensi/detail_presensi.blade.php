@@ -1,5 +1,5 @@
 <div class="mx-5">
-    <div class="flex flex-row justify-between mx-4 mt-4 items-center">
+    <div class="flex flex-row justify-end mx-4 mt-4 items-center">
         {{-- <nav aria-label="Breadcrumb">
             <ol class="flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
                 <li>

@@ -45,21 +45,24 @@ class AbsensiByToken extends Component
 
     public function render()
     {
-        $user = Auth::user();
         $tokens = Token::query()
-            ->where('id', $user->id)
-            ->Where('id_mata_kuliah', $this->matkul->id_mata_kuliah)
-            ->Where('id_kelas', Kelas::where('id_mata_kuliah', $this->matkul->id_mata_kuliah)->first()->id_kelas)
+            ->where('id_mata_kuliah', $this->id_mata_kuliah)
+            ->where('id_kelas', $this->id_kelas)
             ->whereHas('matkul', function ($query) {
-                $query->where('nama_mata_kuliah', 'like', '%' . $this->search . '%')
-                      ->orWhere('id_mata_kuliah', 'like', '%' . $this->search . '%');
+                $query->where('nidn', Auth()->user()->nim_nidn) // Filter berdasarkan NIDN
+                    ->where(function ($query) {
+                        $query->where('nama_mata_kuliah', 'like', '%' . $this->search . '%') // Filter nama_mata_kuliah
+                            ->orWhere('id_mata_kuliah', 'like', '%' . $this->search . '%'); // Filter id_mata_kuliah
+                    });
             })
-            ->orWhere('valid_until', 'like', '%' . $this->search . '%')
-            ->orWhere('created_at', 'like', '%' . $this->search . '%')
+            ->where(function ($query) {
+                $query->orWhere('valid_until', 'like', '%' . $this->search . '%')
+                    ->orWhere('created_at', 'like', '%' . $this->search . '%');
+            })
             ->latest()
             ->paginate(10);
 
-        return view('livewire.dosen.presensi.absensi-by-token',[
+        return view('livewire.dosen.presensi.absensi-by-token', [
             'kelas' => $this->kelas,
             'matkul' => $this->matkul,
             'tokens' => $tokens,
