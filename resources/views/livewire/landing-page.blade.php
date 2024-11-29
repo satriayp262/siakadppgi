@@ -9,9 +9,11 @@
                         style="font-family: 'Nunito', sans-serif;">SIAKAD
                         PPGI</span>
                 </a>
-                <div class="flex items-center lg:order-2">
+                <div class="flex space-x-2 items-center lg:order-2">
+                    <a href="#pengumuman"
+                        class="text-purple3 hover:text-gray-200 font-medium rounded-lg text-l px-4 lg:px-5 py-2 lg:py-2.5 sm:mr-2 lg:mr-0 ">Pengumuman</a>
                     <a href="/login"
-                        class="text-white  bg-yellow-500 hover:bg-yellow-600 font-medium rounded-lg text-l px-4 lg:px-5 py-2 lg:py-2.5 sm:mr-2 lg:mr-0 ">Login</a>
+                        class="text-white bg-yellow-500 hover:bg-yellow-600 font-medium rounded-lg text-l px-4 lg:px-5 py-2 lg:py-2.5 sm:mr-2 lg:mr-0 ">Login</a>
                     {{-- <button data-collapse-toggle="mobile-menu-2" type="button"
                         class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                         aria-controls="mobile-menu-2" aria-expanded="false">
@@ -61,30 +63,25 @@
             </div>
         </nav>
     </header>
-    <!-- Start block -->
-    <section class="bg-white min-h-screen">
-        <div class="grid max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:pt-28">
+    <section class="bg-cover min-h-screen" style="background-image: url('{{ asset('img/rb.png') }}');">
+        <div class="inset-0 bg-white bg-opacity-70"></div>
+        <div
+            class="grid max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:pt-28 text-white">
             <div class="mr-auto place-self-center lg:col-span-7">
                 <h1 class="max-w-2xl mb-6 text-4xl font-extrabold leading-none tracking-tight md:text-5xl xl:text-6xl">
                     Sistem Informasi Akademik<br>Politeknik Piksi Ganesha Kebumen
                 </h1>
-
                 <a href="/login"
-                    class="text-white bg-yellow-500 hover:bg-yellow-600 font-medium rounded-lg text-xl px-6 py-3  items-center">
+                    class="text-white bg-yellow-500 hover:bg-yellow-600 font-medium rounded-lg text-xl px-6 py-3 items-center">
                     Login
-                    {{-- <svg class="w-8 h-6 ml-2 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M17 16l4-4m0 0l-4-4m4 4H3" />
-                    </svg> --}}
                 </a>
             </div>
-            <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
-                <img src="{{ asset('img/Untitled design.png') }}" alt="hero image">
+            <div class="mt-16 lg:mt-0 lg:col-span-5 lg:flex lg:justify-end">
+                <img src="{{ asset('img/Untitled design.png') }}" alt="hero image" class="rounded-lg ">
             </div>
         </div>
     </section>
-    <!-- End block -->
+
 
     <!-- Announcements Section -->
     <section id="pengumuman" class="py-16 bg-gray-100">
@@ -97,7 +94,8 @@
                             alt="{{ $announcement->title }}" class="w-full h-48 object-cover mb-4 rounded">
                         <h4 class="text-xl font-semibold mb-2">{{ $announcement->title }}</h4>
                         <p>{{ \Illuminate\Support\Str::limit($announcement->desc, 124) }}</p>
-                        <button class="bg-purple2 mt-3 rounded-md px-2 py-2 text-white">Selengkapnya...</button>
+                        <livewire:admin.pengumuman.detail :id_pengumuman="$announcement->id_pengumuman"
+                            wire:key="edit-{{ $announcement->id_pengumuman }}" />
                     </div>
                 @endforeach
             </div>
@@ -164,7 +162,12 @@
         </div>
 
     </footer>
-
-
-    <script src="https://unpkg.com/flowbite@1.4.1/dist/flowbite.js"></script>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        @if ($pengumuman->isNotEmpty())
+            Livewire.emit('showPengumumanDetail',
+                {{ $pengumuman->sortByDesc('created_at')->first()->id_pengumuman }});
+        @endif
+    });
+</script>

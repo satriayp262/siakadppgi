@@ -24,6 +24,17 @@ class Index extends Component
         $this->dispatch('destroyed', ['message' => 'Pengumuman Deleted Successfully']);
     }
 
+    protected $listeners = ['showPengumumanDetail'];
+
+    public function showPengumumanDetail($id_pengumuman)
+    {
+        $this->pengumuman = Pengumuman::find($id_pengumuman); // Replace with your model
+        $this->title = $this->pengumuman->title ?? 'No Title';
+        $this->desc = $this->pengumuman->desc ?? 'No Description';
+
+        $this->dispatch('open-modal'); // Trigger frontend modal
+    }
+
     public function render()
     {
         $pengumuman = Pengumuman::query()->orderBy('created_at', 'desc')->paginate(10);

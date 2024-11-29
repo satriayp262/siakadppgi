@@ -44,7 +44,7 @@ class Create extends Component
 
         $this->image->storeAs('public/image/pengumuman', $imageName);
         if ($this->file) {
-            $this->file->storeAs('public/pengumuman', $fileName);
+            $this->file->storeAs('public/file/pengumuman', $fileName);
         }
 
         $pengumuman = Pengumuman::create([
