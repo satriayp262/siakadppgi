@@ -24,6 +24,11 @@ class Kelas extends Model
         return $this->belongsTo(Prodi::class, 'kode_prodi', 'kode_prodi');
     }
 
+    public function krs()
+    {
+        return $this->hasMany(KRS::class, 'id_kelas');  // Sesuaikan dengan nama kolom relasi
+    }
+
     public function semester()
     {
         return $this->belongsTo(Semester::class, 'id_semester', 'id_semester');

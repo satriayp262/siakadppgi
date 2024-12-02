@@ -8,6 +8,7 @@ use App\Models\Ruangan;
 use App\Models\Jadwal;
 use App\Models\Prodi;
 use App\Models\KRS;
+use App\Models\Semester;
 use Carbon\Carbon;
 
 class Index extends Component
@@ -19,10 +20,36 @@ class Index extends Component
     public $sesi;
     public $id_ruangan;
     public $prodi;
+    public $Semester;
+
+
+    public function pilihSemester($semesterId)
+    {
+        // Menetapkan semester yang dipilih
+        $this->Semester = $semesterId;
+
+        // Cek apakah ada kelas dengan semester yang dipilih
+        $kelasCount = Kelas::where('id_semester', $this->Semester)->count();
+
+        if ($kelasCount === 0) {
+            // Jika tidak ada kelas yang sesuai dengan semester, tampilkan pesan error
+            $this->dispatch('warning', ['message' => 'Tidak ada kelas yang terdaftar untuk semester ini']);
+            return; // Hentikan eksekusi lebih lanjut
+        }else{
+            // Setelah memilih semester, panggil generate
+            $this->generate();
+        }
+
+    }
+
 
     public function generate()
     {
-        $kelasByProdi = Kelas::with('matkul')->get()->groupBy('kode_prodi'); // Kelompokkan kelas berdasarkan kode_prodi
+        $kelasByProdi = Kelas::with('matkul')
+            ->where('id_semester', $this->Semester) // Filter berdasarkan semester yang dipilih
+            ->get()
+            ->groupBy('kode_prodi'); // Kelompokkan kelas berdasarkan kode_prodi
+
         $ruanganList = Ruangan::all();
         $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
         $timeSlots = [
@@ -101,26 +128,28 @@ class Index extends Component
 
                 // Jika tidak ada ruangan yang cocok, pindah ke kelas berikutnya
                 if (!$roomFound) {
-                    session()->flash('message', "Kelas {$kelas->nama_kelas} tidak dapat dijadwalkan karena tidak ada ruangan yang sesuai.");
+                    $this->dispatch('warning', ['message' => 'Ruangan tidak tersedia untuk kelas ' . $kelas->kelas]);
+
                     $classIndex++;
                     continue;
                 }
 
                 // Cek apakah kelas sudah memiliki 2 sesi pada hari yang sama
                 $dailySesiCount = Jadwal::where('id_kelas', $kelas->id_kelas)
-                    ->where('hari', $days[$dayIndex])
+                    ->where('hari', $day)
                     ->count();
 
                 if ($dailySesiCount >= 2) {
+                    // Pindahkan ke sesi berikutnya
                     $slotIndex++;
                     if ($slotIndex >= count($timeSlots)) {
                         $slotIndex = 0;
                         $dayIndex++;
                         if ($dayIndex >= count($days)) {
-                            $dayIndex = 0;
+                            $dayIndex = 0; // Reset ke hari pertama
                         }
                     }
-                    continue;
+                    continue; // Cek kelas lain atau sesi berikutnya
                 }
 
                 // Tambahkan jadwal jika tidak ada konflik
@@ -184,7 +213,9 @@ class Index extends Component
     {
         $jadwals = Jadwal::orderByRaw("
             FIELD(hari, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')
-        ")->get();
+        ")
+        ->orderBy('sesi' , 'asc')
+        ->get();
 
         $prodis = Prodi::all();
 
@@ -192,9 +223,12 @@ class Index extends Component
             $jadwals = $jadwals->where('kode_prodi', $this->prodi);
         }
 
+        $semesters = Semester::orderBy('created_at', 'desc')->take(12)->get();
+
         return view('livewire.admin.jadwal.index', [
             'jadwals' => $jadwals,
             'prodis' => $prodis,
+            'semesters' => $semesters
         ]);
     }
 }
