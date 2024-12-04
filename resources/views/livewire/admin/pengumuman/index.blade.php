@@ -17,7 +17,7 @@
                     <th class="px-3 py-2 text-center">Deskripsi</th>
                     <th class="px-3 py-2 text-center">Image</th>
                     <th class="px-3 py-2 text-center">File</th>
-                    <th class="px-3 py-2 text-center">Action</th>
+                    <th class="px-3 py-2 text-center">Aksi</th>
                 </tr>
             </thead>
             <tbody>
