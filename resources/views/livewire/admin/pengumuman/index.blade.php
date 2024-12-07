@@ -13,6 +13,7 @@
         <table class="w-full mt-4 bg-white border border-gray-200">
             <thead>
                 <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
+                    <th class="px-3 py-2 text-center">No</th>
                     <th class="px-3 py-2 text-center">Judul Pengumuman</th>
                     <th class="px-3 py-2 text-center">Deskripsi</th>
                     <th class="px-3 py-2 text-center">Image</th>
@@ -23,17 +24,22 @@
             <tbody>
                 @foreach ($pengumuman as $item)
                     <tr class="border-t" wire:key="item-{{ $item->id_pengumuman }}">
+                        <td class="px-3 py-1 text-center">{{ $loop->iteration }}</td>
                         <td class="px-3 py-1 text-center">{{ $item->title }}</td>
                         <td class="px-3 py-1 text-center">{{ \Illuminate\Support\Str::words($item->desc, 5) }}</td>
-                        <td class="px-3 py-1 text-center items-center flex"><img class="h-18 w-36"
+                        <td class="px-3 py-1 text-center items-center justify-around flex"><img class="h-18 w-36"
                                 src="{{ asset('storage/image/pengumuman/' . $item->image) }}" alt=""></td>
                         <td class="px-3 py-1 text-center">
-                            {{ substr(basename($item->file), 0, 100) }}
+                            <a href="{{ asset('storage/file/pengumuman/' . $item->file) }}" target="_blank"
+                                class="text-purple2 hover:underline">
+                                {{ $item->title }}.pdf
+                            </a>
+
                         </td>
-                        <td class="px-3 py-1 text-center">
+                        <td class="px-3 py-1 text-center items-center">
                             <div class="flex flex-row">
-                                <div class="flex justify-center space-x-2">
-                                    <livewire:admin.pengumuman.show :id_pengumuman="$item->id_pengumuman"
+                                <div class="flex justify-around space-x-2">
+                                    <livewire:admin.pengumuman.detail :id_pengumuman="$item->id_pengumuman"
                                         wire:key="selengkapnya-{{ rand() . $item->id_pengumuman }}" />
                                     <livewire:admin.pengumuman.edit :id_pengumuman="$item->id_pengumuman"
                                         wire:key="edit-{{ $item->id_pengumuman }}" />
@@ -50,7 +56,6 @@
                                     </button>
                                 </div>
                             </div>
-
                         </td>
                     </tr>
                 @endforeach

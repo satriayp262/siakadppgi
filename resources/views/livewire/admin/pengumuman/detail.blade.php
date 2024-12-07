@@ -1,9 +1,21 @@
 <div x-data="{ isOpen: false }" @modal-closed.window="isOpen = false">
     <!-- Button to open the modal -->
-    <button @click="isOpen=true"
-        class="flex items-center mt-3 px-4 py-2 text-sm text-white bg-purple2 hover:bg-customPurple rounded-md">
-        Selengkapnya..
-    </button>
+    @if (auth()->check())
+        <button @click="isOpen=true"
+            class="flex items-center px-3 py-2 text-sm text-white bg-yellow-500 hover:bg-yellow-700 rounded-md">
+            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-width="2"
+                    d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z" />
+                <path stroke="currentColor" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+        </button>
+    @else
+        <button @click="isOpen=true"
+            class="flex items-center mt-3 px-4 py-2 text-sm text-white bg-purple2 hover:bg-customPurple rounded-md">
+            Selengkapnya..
+        </button>
+    @endif
 
     <!-- Modal Background -->
     <div x-show="isOpen" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-75">
