@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->string('nama_staff');
             $table->string('nip');
             $table->string('ttd');
+            $table->string(column: 'email')->unique();
             $table->timestamps();
         });
     }

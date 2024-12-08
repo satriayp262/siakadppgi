@@ -14,6 +14,7 @@ class Create extends Component
     public $confirmPassword;
     public $role = ' ';
 
+
     public function rules()
     {
         return [
@@ -24,7 +25,7 @@ class Create extends Component
             'role' => 'required|in:admin,dosen,mahasiswa,staff',
         ];
     }
-    
+
     public function message()
     {
         return [
@@ -40,7 +41,7 @@ class Create extends Component
             'role.in' => 'Role tidak valid',
         ];
     }
-    
+
     public function save()
     {
         $validatedData = $this->validate();
@@ -54,10 +55,18 @@ class Create extends Component
         ]);
 
         $this->reset();
-
         $this->dispatch('UserCreated');
-
         return $user;
+    }
+
+    public function clear()
+    {
+        $this->name = '';
+        $this->email = '';
+        $this->nim = '';
+        $this->confirmPassword = '';
+        $this->role = ' ';
+        $this->ttd = '';
     }
 
     public function render()

@@ -61,7 +61,7 @@
                             </div>
 
                             <!-- Conditionally show NIM/NIDN field based on role -->
-                            @if ($role === 'mahasiswa' || $role === 'dosen')
+                            @if ($role === 'mahasiswa' || $role === 'dosen' || $role === 'staff')
                                 <div class="mb-4">
                                     @if ($role === 'mahasiswa')
                                         <label for="nim"
@@ -69,6 +69,9 @@
                                     @elseif ($role === 'dosen')
                                         <label for="nim"
                                             class="block text-sm font-medium text-gray-700">NIDN</label>
+                                    @elseif ($role === 'staff')
+                                        <label for="nim"
+                                            class="block text-sm font-medium text-gray-700">NIP</label>
                                     @endif
                                     <input type="text" id="nim" wire:model="nim" name="nim"
                                         class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">

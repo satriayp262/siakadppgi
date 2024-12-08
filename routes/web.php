@@ -24,7 +24,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/logout', function () {
         Auth::logout();
-        return redirect('/');
+        return redirect('/login');
     })->name('logout');
 });
 
@@ -77,6 +77,10 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
 
     Route::prefix('jadwal')->group(function () {
         Route::get('/', App\Livewire\Admin\Jadwal\Index::class)->name('admin.jadwal');
+    });
+
+    Route::prefix('staff')->group(function () {
+        Route::get('/', App\Livewire\Admin\Staff\Index::class)->name('admin.staff');
     });
 });
 

@@ -57,19 +57,6 @@
                             @enderror
                         </div>
 
-                        <div class="mb-4">
-                            <label for="id_staff" class="block text-sm font-medium text-gray-700">Staff</label>
-                            <select id="id_staff" wire:model="id_staff" name="id_staff"
-                                class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
-                                <option value="" disabled selected>Select Staff</option>
-                                @foreach ($staffs as $staff)
-                                    <option value="{{ $staff->id_staff }}">{{ $staff->nama_staff }}</option>
-                                @endforeach
-                            </select>
-                            @error('id_staff')
-                                <span class="text-sm text-red-500">{{ $message }}</span>
-                            @enderror
-                        </div>
 
                         <!-- Submit Button inside the form -->
                         <div class="flex justify-end p-4 bg-gray-200 rounded-b-lg">

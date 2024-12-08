@@ -15,5 +15,6 @@ class Staff extends Model
         'nama_staff',
         'nip',
         'ttd',
+        'email',
     ];
 }

@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(10)->create();
+        // User::factory(10)->create();
 
         User::factory()->create([
             'name' => 'Admin',
@@ -30,12 +30,6 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin',
         ]);
 
-        User::factory()->create([
-            'name' => 'Staff Politeknik Piksi Kebumen',
-            'email' => 'staff@gmail.com',
-            'password' => '11111111',
-            'role' => 'staff',
-        ]);
 
         Prodi::factory()->create([
             'kode_prodi' => 'AK-001',
@@ -257,15 +251,15 @@ class DatabaseSeeder extends Seeder
                 'kode_mata_kuliah' => $data['kode_mata_kuliah'],
                 'nama_mata_kuliah' => $data['nama_mata_kuliah'],
                 'kode_prodi' => $data['kode_prodi'],
-                'jenis_mata_kuliah' => fake()->randomElement(['A', 'W', 'B', 'C', 'S']),  
-                'nidn' => fake()->randomElement($nidnlist), 
-                'sks_tatap_muka' => fake()->numberBetween(1, 4),  
-                'sks_praktek' => fake()->numberBetween(0, 2),     
-                'sks_praktek_lapangan' => fake()->numberBetween(0, 2),  
-                'sks_simulasi' => fake()->numberBetween(0, 2),  
-                'metode_pembelajaran' => fake()->randomElement(['Luring', 'Daring']), 
-                'tgl_mulai_efektif' => fake()->date(),   
-                'tgl_akhir_efektif' => fake()->date(),  
+                'jenis_mata_kuliah' => fake()->randomElement(['A', 'W', 'B', 'C', 'S']),
+                'nidn' => fake()->randomElement($nidnlist),
+                'sks_tatap_muka' => fake()->numberBetween(1, 4),
+                'sks_praktek' => fake()->numberBetween(0, 2),
+                'sks_praktek_lapangan' => fake()->numberBetween(0, 2),
+                'sks_simulasi' => fake()->numberBetween(0, 2),
+                'metode_pembelajaran' => fake()->randomElement(['Luring', 'Daring']),
+                'tgl_mulai_efektif' => fake()->date(),
+                'tgl_akhir_efektif' => fake()->date(),
             ]);
 
             // Create 2 Kelas for each Mata Kuliah

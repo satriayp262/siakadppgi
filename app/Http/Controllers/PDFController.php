@@ -164,7 +164,6 @@ class PDFController extends Controller
     {
         $tagihan = Tagihan::with(['mahasiswa', 'semester'])->where('id_tagihan', $id_tagihan)->first();
 
-
         if (!$tagihan) {
             return redirect()->back()->with('error', 'Tagihan not found.');
         }
@@ -185,7 +184,7 @@ class PDFController extends Controller
         $tahun = $tagihan->created_at->format('Y');
 
 
-        $imagePath = storage_path("app/public/{$t}"); // Adjust path based on your storage
+        $imagePath = storage_path("app/public/image/ttd/{$t}"); // Adjust path based on your storage
         $imageData = base64_encode(file_get_contents($imagePath));
         $imageBase64 = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base64,' . $imageData;
 
