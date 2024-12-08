@@ -25,8 +25,8 @@ class Index extends Component
     public $selectedMahasiswa = [];
     public $selectAll = false;
     public $showDeleteButton = false;
-    public $filter_angkatan = '';
-    public $filter_prodi = '';
+    public $selectedSemester = '';
+    public $selectedprodi = '';
     public $file;
     public $importing = false;
 
@@ -187,20 +187,22 @@ class Index extends Component
                 ->orWhere('email', 'like', '%' . $this->search . '%');
         }
 
-        if ($this->filter_angkatan) {
-            $query->where('mulai_semester', $this->filter_angkatan);
+        if ($this->selectedprodi) {
+            $query->whereHas('prodi', function ($query) {
+                $query->where('nama_prodi', $this->selectedprodi);
+            });
         }
 
-        if ($this->filter_prodi) {
-            $query->where('kode_prodi', $this->filter_prodi);
+        if ($this->selectedSemester) {
+            $query->whereHas('Semester', function ($query) {
+                $query->where('nama_semester', $this->selectedSemester);
+            });
         }
-
-        $mahasiswas = $query->latest()->paginate(20);
 
         return view('livewire.admin.mahasiswa.index', [
-            'mahasiswas' => $mahasiswas,
+            'mahasiswas' => $query->latest()->paginate(20),
             'semesters' => $semesters,
-            'prodis' => $prodis,
+            'Prodis' => $prodis,
         ]);
     }
 }

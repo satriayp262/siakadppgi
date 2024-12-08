@@ -162,12 +162,25 @@
         </div>
 
     </footer>
+    <!-- Modal for Latest Announcement -->
+    @if ($latestAnnouncement = $pengumuman->sortByDesc('created_at')->first())
+        <div x-data="{ open: true }" x-show="open" class="fixed inset-0 flex items-center justify-center z-50">
+            <div class="bg-transparant p-6 rounded-lg max-w-lg w-full">
+                <div class="relative">
+                    <div class="absolute top-0 right-0 mt-4 mr-4">
+                        <button @click="open = false"
+                            class="text-gray-500 hover:text-red-300 bg-gray-800 rounded-full px-1 py-1 opacity-50 hover:bg-red-800">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <img src="{{ asset('storage/image/pengumuman/' . $latestAnnouncement->image) }}"
+                        alt="{{ $latestAnnouncement->title }}" class="w-full h-full object-cover mb-4 rounded">
+                </div>
+            </div>
+        </div>
+    @endif
 </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        @if ($pengumuman->isNotEmpty())
-            Livewire.emit('showPengumumanDetail',
-                {{ $pengumuman->sortByDesc('created_at')->first()->id_pengumuman }});
-        @endif
-    });
-</script>
