@@ -16,6 +16,8 @@ class Index extends Component
     use WithPagination;
     public $selectAll = false;
     public $showDeleteButton = false;
+    public $selectedRole = ''; // Default is no filter (all roles)
+    public $search = '';
 
 
     #[On('UserCreated')]
@@ -83,11 +85,22 @@ class Index extends Component
 
     public function render()
     {
-        $users = User::query()
-            ->latest()
-            ->paginate(10);
+        $usersQuery = User::query();
+
+        // Apply the role filter if selectedRole is not empty
+        if ($this->selectedRole) {
+            $usersQuery->where('role', $this->selectedRole);
+        }
+
+        // Search functionality (if implemented)
+        if ($this->search) {
+            $usersQuery->where(function ($query) {
+                $query->where('name', 'like', '%' . $this->search . '%')
+                    ->orWhere('email', 'like', '%' . $this->search . '%');
+            });
+        }
         return view('livewire.admin.user.index', [
-            'users' => $users
+            'users' => $usersQuery->paginate(10),
         ]);
     }
 }

@@ -19,7 +19,7 @@
         </p>
     </div>
 
-    {{-- <div class="grid grid-cols-1 gap-4 p-4 mt-5 bg-white rounded-lg shadow-lg sm:grid-cols-2 lg:grid-cols-4">
+    <div class="grid grid-cols-1 gap-4 p-4 mt-5 bg-white rounded-lg shadow-lg sm:grid-cols-2 lg:grid-cols-4">
         <div class="relative p-4 border-l-4 rounded-lg shadow-md border-lime-600 bg-lime-400">
             <h2 class="text-lg font-semibold text-white">Dosen</h2>
             <p class="mt-1 text-xl font-bold text-white">{{ $dosen }}</p>
@@ -72,7 +72,7 @@
                 class="absolute text-sm text-white hover:text-gray-500 bottom-4 right-4">Detail
                 >></a>
         </div>
-    </div> --}}
+    </div>
 
     <div class="flex mt-5 space-x-4">
         {{-- <div class="w-1/2 p-4 bg-white rounded-lg shadow-lg">

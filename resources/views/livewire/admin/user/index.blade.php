@@ -11,8 +11,21 @@
                     </button>
                 @endif
             </div>
-            <input type="text" wire:model.live="search" placeholder="   Search"
-                class="px-2 ml-4 border border-gray-300 rounded-lg">
+            <div class="justify-around space-x-2 flex">
+                <div class="flex items-center space-x-2">
+                    <label for="roleFilter" class="mr-2">Role:</label>
+                    <select id="roleFilter" wire:model.live="selectedRole"
+                        class="px-2 py-3 border border-gray-300 rounded-lg">
+                        <option value="">All</option>
+                        <option value="admin">Admin</option>
+                        <option value="dosen">Dosen</option>
+                        <option value="mahasiswa">Mahasiswa</option>
+                        <option value="staff">Staff</option>
+                    </select>
+                </div>
+                <input type="text" wire:model.live="search" placeholder="   Search"
+                    class="px-2 ml-4 border border-gray-300 rounded-lg">
+            </div>
         </div>
         <div>
             @if (session()->has('message'))
