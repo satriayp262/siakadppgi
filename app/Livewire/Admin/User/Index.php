@@ -100,7 +100,7 @@ class Index extends Component
             });
         }
         return view('livewire.admin.user.index', [
-            'users' => $usersQuery->paginate(10),
+            'users' => $usersQuery->latest()->paginate(10),
         ]);
     }
 }
