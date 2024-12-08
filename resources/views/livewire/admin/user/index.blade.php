@@ -12,10 +12,12 @@
                 @endif
             </div>
             <div class="justify-around space-x-2 flex">
-                <button id="dropdownDefaultButton" data-dropdown-toggle="dropdownRoleFilter"
-                    class="text-gray-700 bg-white border border-gray-300 rounded-lg px-2" type="button">
-                    <svg class="w-6 h-6 text-gray-500 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                        width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                <button id="dropdownDelayButton" data-dropdown-toggle="dropdownDelay" data-dropdown-delay="500"
+                    data-dropdown-trigger="hover"
+                    class="text-white bg-purple2 hover:bg-customPurple font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+                    type="button"><svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                        viewBox="0 0 24 24">
                         <path
                             d="M5.05 3C3.291 3 2.352 5.024 3.51 6.317l5.422 6.059v4.874c0 .472.227.917.613 1.2l3.069 2.25c1.01.742 2.454.036 2.454-1.2v-7.124l5.422-6.059C21.647 5.024 20.708 3 18.95 3H5.05Z" />
                     </svg>
@@ -23,36 +25,35 @@
                 </button>
 
                 <!-- Dropdown menu -->
-                <div id="dropdownRoleFilter"
-                    class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+                <div id="dropdownDelay" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 ">
+                    <ul class="py-2 text-sm text-gray-500" aria-labelledby="dropdownDefaultButton">
                         <li>
                             <a href="#" wire:click.prevent="$set('selectedRole', '')"
-                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                class="block px-4 py-2 hover:bg-gray-100 ">
                                 All
                             </a>
                         </li>
                         <li>
                             <a href="#" wire:click.prevent="$set('selectedRole', 'admin')"
-                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                class="block px-4 py-2 hover:bg-gray-100 ">
                                 Admin
                             </a>
                         </li>
                         <li>
                             <a href="#" wire:click.prevent="$set('selectedRole', 'dosen')"
-                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                class="block px-4 py-2 hover:bg-gray-100 ">
                                 Dosen
                             </a>
                         </li>
                         <li>
                             <a href="#" wire:click.prevent="$set('selectedRole', 'mahasiswa')"
-                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                class="block px-4 py-2 hover:bg-gray-100 ">
                                 Mahasiswa
                             </a>
                         </li>
                         <li>
                             <a href="#" wire:click.prevent="$set('selectedRole', 'staff')"
-                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                class="block px-4 py-2 hover:bg-gray-100 ">
                                 Staff
                             </a>
                         </li>
