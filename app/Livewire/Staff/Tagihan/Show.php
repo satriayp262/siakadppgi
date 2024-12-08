@@ -12,15 +12,18 @@ use App\Models\Mahasiswa;
 class Show extends Component
 {
     public $search = '';
-    public $filter_prodi = '';
-    public $filter_tahun = '';
 
+    public $selectedprodi = '';
+    public $selectedSemester = '';
+
+    use WithPagination;
 
     public function render()
     {
         $Prodis = Prodi::all();
-        $mahasiswas = Mahasiswa::query()
-            ->whereHas('tagihan');
+
+        $mahasiswas = Mahasiswa::query()->whereHas('tagihan');
+
         $semesters = Semester::all();
 
         if ($this->search) {
@@ -29,19 +32,26 @@ class Show extends Component
 
         }
 
-        if ($this->filter_prodi) {
-            $mahasiswas->where('kode_prodi', $this->filter_prodi);
+
+
+        if ($this->selectedprodi) {
+            $prodi = Prodi::where('nama_prodi', $this->selectedprodi)->first();
+            $mahasiswas->whereHas('tagihan', function ($query) use ($prodi) {
+                $query->where('kode_prodi', $prodi->kode_prodi);
+            });
         }
 
-        if ($this->filter_tahun) {
-            $mahasiswas->where('mulai_semester', $this->filter_tahun);
+        if ($this->selectedSemester) {
+            $semester = Semester::where('nama_semester', $this->selectedSemester)->first();
+            $mahasiswas->whereHas('tagihan', function ($query) use ($semester) {
+                $query->where('mulai_semester', $semester->id_semester);
+            });
         }
 
-        $mahasiswas = $mahasiswas->latest()->paginate(20);  
-        
+
         return view('livewire.staff.tagihan.show', [
             'semesters' => $semesters,
-            'mahasiswas' => $mahasiswas,
+            'mahasiswas' => $mahasiswas->latest()->paginate(20),
             'Prodis' => $Prodis,
         ]);
     }
