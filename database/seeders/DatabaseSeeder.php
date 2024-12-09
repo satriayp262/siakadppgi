@@ -11,6 +11,7 @@ use App\Models\Semester;
 use App\Models\Mahasiswa;
 use App\Models\Prodi;
 use App\Models\Kelas;
+use App\Models\Pengumuman;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -278,6 +279,10 @@ class DatabaseSeeder extends Seeder
 
         Ruangan::factory(20)->create();
 
-
+        Pengumuman::factory()->create([
+            'title' => '"Engineering Creativity Design Competition (ECDC) 2021"',
+            'desc' => 'Ayo ikut serta dalam Engineering Creativity Design Competition (ECDC) 2021, kompetisi nasional yang mengundang mahasiswa Indonesia untuk menciptakan karya inovatif di bidang teknik dan desain! Pilih salah satu dari lima kategori menarik, seperti desain kendaraan listrik masa depan atau aplikasi pembelajaran inovatif 5.0. Daftarkan dirimu atau timmu sekarang, unggah karyamu sebelum 10 Desember 2021, dan raih kesempatan memenangkan hadiah menarik serta e-sertifikat! Jangan lewatkan kesempatan untuk menunjukkan kreativitasmu di tingkat nasional!',
+            'image' => 'pengumuman1.jpeg',
+        ]);
     }
 }
