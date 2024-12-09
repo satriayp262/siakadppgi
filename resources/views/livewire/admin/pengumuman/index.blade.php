@@ -30,11 +30,14 @@
                         <td class="px-3 py-1 text-center items-center justify-around flex"><img class="h-18 w-36"
                                 src="{{ asset('storage/image/pengumuman/' . $item->image) }}" alt=""></td>
                         <td class="px-3 py-1 text-center">
-                            <a href="{{ asset('storage/file/pengumuman/' . $item->file) }}" target="_blank"
-                                class="text-purple2 hover:underline">
-                                {{ $item->title }}.pdf
-                            </a>
-
+                            @if ($item->file)
+                                <a href="{{ asset('storage/file/pengumuman/' . $item->file) }}" target="_blank"
+                                    class="text-purple2 hover:underline">
+                                    {{ $item->title }}.pdf
+                                </a>
+                            @else
+                                -
+                            @endif
                         </td>
                         <td class="px-3 py-1 text-center items-center">
                             <div class="flex flex-row">

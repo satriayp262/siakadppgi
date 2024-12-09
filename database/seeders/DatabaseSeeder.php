@@ -12,6 +12,7 @@ use App\Models\Mahasiswa;
 use App\Models\Prodi;
 use App\Models\Kelas;
 use App\Models\Pengumuman;
+use App\Models\Staff;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -30,6 +31,56 @@ class DatabaseSeeder extends Seeder
             'password' => '11111111',
             'role' => 'admin',
         ]);
+
+        Staff::factory()->create([
+            'nip' => '123456789',
+            'nama_staff' => 'Fajar Dwi J',
+            'email' => 'staff1@gmail.com',
+            'ttd' => 'ttd.jpg',
+        ]);
+
+        Staff::factory()->create([
+            'nip' => '98765421',
+            'nama_staff' => 'Budi Sasono',
+            'email' => 'staff2@gmail.com',
+            'ttd' => 'ttd2.png',
+        ]);
+
+        Staff::factory()->create([
+            'nip' => '234567567',
+            'nama_staff' => 'Siti Fatimah',
+            'email' => 'staff3@gmail.com',
+            'ttd' => 'ttd3.png',
+        ]);
+
+
+        User::factory()->create([
+            'name' => 'Fajar Dwi J',
+            'email' => 'staff1@gmail.com',
+            'password' => 'staff1@gmail.com',
+            'role' => 'staff',
+            'nim_nidn' => '123456789',
+        ]);
+
+        User::factory()->create([
+            'name' => 'Budi Sasono',
+            'email' => 'staff2@gmail.com',
+            'password' => 'staff2@gmail.com',
+            'role' => 'staff',
+            'nim_nidn' => '98765421',
+        ]);
+
+        User::factory()->create([
+            'name' => 'Siti Fatimah',
+            'email' => 'staff3@gmail.com',
+            'password' => 'staff3@gmail.com',
+            'role' => 'staff',
+            'nim_nidn' => '234567567',
+        ]);
+
+
+
+
 
 
         Prodi::factory()->create([
@@ -284,5 +335,7 @@ class DatabaseSeeder extends Seeder
             'desc' => 'Ayo ikut serta dalam Engineering Creativity Design Competition (ECDC) 2021, kompetisi nasional yang mengundang mahasiswa Indonesia untuk menciptakan karya inovatif di bidang teknik dan desain! Pilih salah satu dari lima kategori menarik, seperti desain kendaraan listrik masa depan atau aplikasi pembelajaran inovatif 5.0. Daftarkan dirimu atau timmu sekarang, unggah karyamu sebelum 10 Desember 2021, dan raih kesempatan memenangkan hadiah menarik serta e-sertifikat! Jangan lewatkan kesempatan untuk menunjukkan kreativitasmu di tingkat nasional!',
             'image' => 'pengumuman1.jpeg',
         ]);
+
+
     }
 }

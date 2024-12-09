@@ -42,10 +42,13 @@
 
                     <div class="mb-4">
                         <h4 class="text-md mb-2">
-                            <a href="{{ asset('storage/file/pengumuman/' . $pengumuman->file) }}" target="_blank"
-                                class="text-blue-500 hover:underline">
-                                {{ $pengumuman->title }}.pdf
-                            </a>
+                            @if ($pengumuman->file)
+                                <a href="{{ asset('storage/file/pengumuman/' . $pengumuman->file) }}" target="_blank"
+                                    class="text-purple2 hover:underline">
+                                    {{ $pengumuman->title }}.pdf
+                                </a>
+                            @else
+                            @endif
                         </h4>
                     </div>
                 </div>
