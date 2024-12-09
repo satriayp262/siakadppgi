@@ -79,10 +79,6 @@ class DatabaseSeeder extends Seeder
         ]);
 
 
-
-
-
-
         Prodi::factory()->create([
             'kode_prodi' => 'AK-001',
             'nama_prodi' => 'Akutansi',
