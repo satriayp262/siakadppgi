@@ -62,13 +62,15 @@
                         <div class="mb-4">
                             <label for="total_tagihan" class="block text-sm font-medium text-gray-700">Total
                                 Tagihan</label>
-                            <input type="text" id="total_tagihan" wire:model="total_tagihan" name="total_tagihan"
-                                class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm"
-                                oninput="formatCurrency(this)">
-                            @error('total_tagihan')
+                            <div class="flex">
                                 <span
-                                    class="text-sm
-                                    text-red-500">{{ $message }}</span>
+                                    class="inline-flex items-center px-2 py-1 mt-1 text-sm text-gray-900 bg-gray-200 border-gray-700 rounded-l-md">Rp.</span>
+                                <input type="text" id="total_tagihan" wire:model="total_tagihan" name="total_tagihan"
+                                    class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-r-md shadow-2xl focus:border-indigo-500 sm:text-sm"
+                                    oninput="formatCurrency(this)">
+                            </div>
+                            @error('total_tagihan')
+                                <span class="text-sm text-red-500">{{ $message }}</span>
                             @enderror
                         </div>
 
