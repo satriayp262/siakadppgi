@@ -44,7 +44,7 @@ class CreateToken extends Component
     {
         $this->validate();
 
-        $token = Str::random(6); // Generate random token
+        $token = Str::random(6);
 
         Token::create([
             'token' => $token,
@@ -60,8 +60,8 @@ class CreateToken extends Component
 
     public function render()
     {
-        // $matkuls = Matakuliah::where('nidn', auth()->user()->nim_nidn)->get();
-        $matkuls = Matakuliah::all();
+        // // $matkuls = Matakuliah::where('nidn', auth()->user()->nim_nidn)->get();
+        // $matkuls = Matakuliah::all();
         return view('livewire.dosen.presensi.create-token');
     }
 }

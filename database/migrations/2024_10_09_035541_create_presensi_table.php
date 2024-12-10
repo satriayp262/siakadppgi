@@ -18,7 +18,8 @@ return new class extends Migration
             $table->integer('id_mata_kuliah');
             $table->integer('id_kelas');
             $table->string('token');
-            $table->string('keterangan')->nullable();
+            $table->string('keterangan');
+            $table->string('alasan')->nullable();
             $table->timestamp('waktu_submit');
             $table->timestamps();
 

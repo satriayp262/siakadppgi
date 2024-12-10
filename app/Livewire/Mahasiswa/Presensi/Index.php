@@ -8,48 +8,66 @@ use App\Models\Presensi;
 use App\Models\Mahasiswa;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
 
 class Index extends Component
 {
     public $nama;
     public $nim;
     public $token;
+    public $keterangan;
 
     public function mount()
     {
-        // Ambil user yang login
         $mahasiswa = Mahasiswa::where('NIM', Auth::user()->nim_nidn)->first();
         if ($mahasiswa) {
             $this->nama = $mahasiswa->nama;
             $this->nim = $mahasiswa->NIM;
         } else {
             session()->flash('error', 'Data mahasiswa tidak ditemukan.');
-            // Redirect atau tindakan lain jika perlu
         }
     }
 
+    #[On('presensiCreated')]
+    public function handletokenCreated()
+    {
+        $this->dispatch('created',  ['message' => 'Presensi berhasil dibuat']);
+    }
+
+
     public function submit()
     {
-        // $this->validate();
+        // Validasi input
+        $this->validate([
+            'token' => 'required|string',
+            'keterangan' => 'required|in:Hadir,Ijin,Sakit',
+        ]);
 
         // Cari token berdasarkan input
         $tokenData = Token::where('token', $this->token)->first();
 
-        // Jika token tidak ditemukan, return atau beri pesan error
+        // Jika token tidak ditemukan, beri pesan error
         if (!$tokenData) {
-            $this->dispatch('warning', ['message' => 'Token tidak ditemukan']);
-            $this->reset();
+            $this->dispatch('error', ['message' => 'Token tidak ditemukan.']);
+            $this->reset(['token', 'keterangan']);
             return;
         }
 
-        // Cek apakah mahasiswa sudah pernah presensi dengan token yang sama
+        // Pastikan data `id_mata_kuliah` ada
+        if (!$tokenData->id_mata_kuliah || !$tokenData->id_kelas) {
+            $this->dispatch('error', ['message' => 'Data mata kuliah atau kelas tidak ditemukan untuk token ini.']);
+            $this->reset(['token', 'keterangan']);
+            return;
+        }
+
+        // Cek apakah mahasiswa sudah melakukan presensi dengan token yang sama
         $existingPresensi = Presensi::where('nim', $this->nim)
             ->where('token', $tokenData->token)
             ->exists();
 
         if ($existingPresensi) {
-            session()->flash('error', 'Anda sudah melakukan presensi dengan token ini.');
-            $this->reset();
+            $this->dispatch('error', ['message' => 'Anda sudah melakukan presensi dengan token ini.']);
+            $this->reset(['token', 'keterangan']);
             return;
         }
 
@@ -59,11 +77,15 @@ class Index extends Component
             'nim' => $this->nim,
             'token' => $tokenData->token,
             'waktu_submit' => Carbon::now(),
+            'keterangan' => $this->keterangan,
+            'id_kelas' => $tokenData->id_kelas, // Ambil dari token
+            'id_mata_kuliah' => $tokenData->id_mata_kuliah, // Ambil dari token
         ]);
 
-        $this->dispatch('updated', ['message' => 'Presensi Berhasil di Submit']);
+        // Kirim pesan sukses
+        $this->dispatch('presensiCreated', ['message' => 'Presensi berhasil disubmit.']);
+        $this->reset(['token', 'keterangan']);
     }
-
 
     public function render()
     {

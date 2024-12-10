@@ -44,6 +44,7 @@
                 <th class="px-4 py-2 text-center">NIM</th>
                 <th class="px-4 py-2 text-center">Waktu</th>
                 <th class="px-4 py-2 text-center">Keterangan</th>
+                <th class="px-4 py-2 text-center">Alasan</th>
             </tr>
         </thead>
         <tbody>
@@ -61,6 +62,7 @@
                         {{ $item['waktu_submit']? \Carbon\Carbon::parse($item['waktu_submit'])->timezone('Asia/Jakarta')->format('d/m/Y H:i'): '-' }}
                     </td>
                     <td class="px-2 py-2 text-center">{{ $item['keterangan'] }}</td>
+                    <td class="px-2 py-2 text-center">{{ $item['alasan'] }}</td>
                 </tr>
             @endforeach
         </tbody>

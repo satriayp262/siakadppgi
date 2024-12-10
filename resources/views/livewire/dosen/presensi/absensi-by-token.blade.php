@@ -116,7 +116,7 @@
                     showConfirmButton: false,
                     timer: 2000
                 });
-            }, function(err) {
+            }, function(error) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Gagal menyalin token',

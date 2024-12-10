@@ -10,7 +10,7 @@ class Presensi extends Model
     use HasFactory;
 
     protected $table = 'presensi';
-    protected $fillable = ['nama', 'nim', 'token', 'waktu_submit'];
+    protected $fillable = ['nama', 'nim', 'token', 'waktu_submit', 'keterangan','alasan', 'id_kelas', 'id_mata_kuliah'];
 
     public function token()
     {
@@ -28,6 +28,6 @@ class Presensi extends Model
     }
     public function kelas()
     {
-        return $this->belongsTo(Kelas::class, 'id_kelas', 'id_kelas');
+        return $this->hasOneThrough(Matakuliah::class, Token::class, 'token', 'id_kelas', 'token', 'id_kelas');
     }
 }
