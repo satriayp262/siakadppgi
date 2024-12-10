@@ -10,6 +10,7 @@ use App\Models\Prodi;
 use App\Models\KRS;
 use App\Models\Semester;
 use Carbon\Carbon;
+use Livewire\Attributes\On;
 
 class Index extends Component
 {
@@ -21,6 +22,7 @@ class Index extends Component
     public $id_ruangan;
     public $prodi;
     public $Semester;
+    public $semesterfilter;
 
 
     public function pilihSemester($semesterId)
@@ -48,7 +50,8 @@ class Index extends Component
         $kelasByProdi = Kelas::with('matkul')
             ->where('id_semester', $this->Semester) // Filter berdasarkan semester yang dipilih
             ->get()
-            ->groupBy('kode_prodi'); // Kelompokkan kelas berdasarkan kode_prodi
+            ->groupBy('kode_prodi'); // Kelompokkan berdasarkan kode_prodi
+
 
         $ruanganList = Ruangan::all();
         $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
@@ -61,24 +64,24 @@ class Index extends Component
         foreach ($kelasByProdi as $prodi => $kelasList) {
             $classIndex = 0;
             $totalKelas = $kelasList->count();
-            $classSessions = [];
+            // $classSessions = [];
             $slotIndex = 0;
             $dayIndex = 0;
             $dayRuangan = 0;
 
-            foreach ($kelasList as $kelas) {
-                $classSessions[$kelas->id_kelas] = $kelas->matkul->sks_tatap_muka;
-            }
+            // foreach ($kelasList as $kelas) {
+            //     $classSessions[$kelas->id_kelas] = $kelas->matkul->sks_tatap_muka;
+            // }
 
             while ($classIndex < $totalKelas) {
                 $day = $days[$dayIndex]; // Hari untuk jadwal
                 $kelas = $kelasList[$classIndex];
-                $remainingSKS = $classSessions[$kelas->id_kelas];
+                // $remainingSKS = $classSessions[$kelas->id_kelas];
 
-                if ($remainingSKS <= 0) {
-                    $classIndex++;
-                    continue; // Pindah ke kelas berikutnya jika SKS habis
-                }
+                // if ($remainingSKS <= 0) {
+                //     $classIndex++;
+                //     continue; // Pindah ke kelas berikutnya jika SKS habis
+                // }
 
                 // Cari time slot yang sesuai
                 $timeSlot = $timeSlots[$slotIndex];
@@ -167,11 +170,13 @@ class Index extends Component
                             });
                     })->exists();
 
+                // dd($this->semester);
                 if (!$conflict) {
                     // Tambahkan jadwal
                     Jadwal::create([
                         'id_kelas' => $kelas->id_kelas,
                         'kode_prodi' => $prodi,
+                        'id_semester' => $this->Semester,
                         'hari' => $day,
                         'tanggal' => Carbon::now()->next($day)->toDateString(),
                         'jam_mulai' => $timeSlot['jam_mulai'],
@@ -181,12 +186,12 @@ class Index extends Component
                     ]);
 
                     // Kurangi jumlah SKS
-                    $classSessions[$kelas->id_kelas] -= 1;
+                    // $classSessions[$kelas->id_kelas] -= 1;
 
                     // Jika SKS habis, pindah ke kelas berikutnya
-                    if ($classSessions[$kelas->id_kelas] <= 0) {
+                    // if ($classSessions[$kelas->id_kelas] <= 0) {
                         $classIndex++;
-                    }
+                    // }
                 }
 
                 // Pindah ke sesi berikutnya
@@ -203,10 +208,27 @@ class Index extends Component
         $this->dispatch('created', ['message' => 'Jadwal Created Successfully']);
     }
 
-    public function destroy()
+    public function destroy2()
     {
         Jadwal::truncate();
         $this->dispatch('destroyed', ['message' => 'Jadwal Deleted Successfully']);
+    }
+
+    public function destroy($id_jadwal)
+    {
+        $jadwal = Jadwal::find($id_jadwal);
+
+        // Hapus data jadwal
+        $jadwal->delete();
+
+        // Tampilkan pesan sukses
+        $this->dispatch('destroyed', ['message' => 'jadwal Deleted Successfully']);
+    }
+
+    #[On('jadwalUpdated')]
+    public function x()
+    {
+        $this->dispatch('created', ['message' => 'Jadwal Switched Successfully']);
     }
 
     public function render()
@@ -214,8 +236,12 @@ class Index extends Component
         $jadwals = Jadwal::orderByRaw("
             FIELD(hari, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')
         ")
-        ->orderBy('sesi' , 'asc')
-        ->get();
+            ->orderBy('sesi', 'asc')
+            ->get();
+
+        if ($this->semesterfilter) {
+            $jadwals = $jadwals->where('id_semester', $this->semesterfilter);
+        }
 
         $prodis = Prodi::all();
 
@@ -224,11 +250,13 @@ class Index extends Component
         }
 
         $semesters = Semester::orderBy('created_at', 'desc')->take(12)->get();
+        $semesterfilters = Semester::orderBy('created_at', 'desc')->get();
 
         return view('livewire.admin.jadwal.index', [
             'jadwals' => $jadwals,
             'prodis' => $prodis,
-            'semesters' => $semesters
+            'semesters' => $semesters,
+            'semesterfilters' => $semesterfilters
         ]);
     }
 }

@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id('id_jadwal')->autoIncrement()->primary();
             $table->integer('id_kelas');
             $table->string('kode_prodi');
+            $table->integer('id_semester');
             $table->date('tanggal'); 
             $table->string('hari'); // Hari dalam seminggu
             $table->integer('sesi'); // Menyimpan urutan jam ke berapa
@@ -22,6 +23,7 @@ return new class extends Migration {
             $table->string('id_ruangan');
             $table->timestamps();
             $table->foreign('id_kelas')->references('id_kelas')->on('kelas')->onDelete('cascade');
+            $table->foreign('kode_prodi')->references('kode_prodi')->on('prodi')->onDelete('cascade');
         });
     }
 
