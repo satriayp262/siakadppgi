@@ -28,12 +28,21 @@
             Generate Jadwal
         </button> --}}
         
-        <select name="prodi" id="prodi" wire:model.live="prodi" class="absolute items-center px-4 py-2 pr-2 ml-2 font-bold text-white bg-blue-500 rounded right-4 hover:bg-blue-700">
-            <option value="" selected>Pilih Prodi</option>
-            @foreach ($prodis as $x)
-                <option value="{{ $x->kode_prodi }}">{{ $x->nama_prodi }}</option>
+        <div class="absolute right-4">
+        <select name="semesterfilter" id="semesterfilter" wire:model.live="semesterfilter" class="items-center px-4 py-2 pr-2 ml-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
+            <option value="" selected>Pilih semester</option>
+            @foreach ($semesterfilters as $v)
+                <option value="{{ $v->id_semester }}">{{ $v->nama_semester }}</option>
             @endforeach
         </select>
+        
+        <select name="prodi" id="prodi" wire:model.live="prodi" class="items-center px-4 py-2 pr-2 ml-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
+            <option value="" selected>Pilih Prodi</option>
+            @foreach ($prodis as $x)
+            <option value="{{ $x->kode_prodi }}">{{ $x->nama_prodi }}</option>
+            @endforeach
+        </select>
+        </div>
         
         <div x-data="{ isOpen: false }" @modal-closed.window="isOpen = false">
         <!-- Button to open the modal -->
@@ -69,8 +78,8 @@
                 </div>
             </div>
         </div>
-        <button onclick="confirmDelete()" class='flex items-center px-4 py-2 ml-2 font-bold text-white bg-red-500 rounded hover:bg-red-700'>
-            Hapus Jadwal
+        <button onclick="confirmDeleteAll()" class='flex items-center px-4 py-2 ml-2 font-bold text-white bg-red-500 rounded hover:bg-red-700'>
+            Hapus Semua Jadwal
         </button>
     </div>
 
@@ -83,6 +92,7 @@
                     <th class="px-3 py-2 text-center">Kelas</th>
                     <th class="px-3 py-2 text-center">Dosen</th>
                     <th class="px-3 py-2 text-center">Ruangan</th>
+                    <th class="px-3 py-2 text-center">Aksi</th>
                 </tr>
             </thead>
             @if ($prodi)
@@ -91,65 +101,33 @@
                         $previousDay = null;
                     @endphp
 
-                    @foreach ($jadwals as $jadwal)
-                        <tr class="border-t" wire:key="jadwal-{{ $jadwal->id_jadwal }}">
-                            <!-- Tampilkan Hari hanya jika berbeda dari hari sebelumnya -->
-                            <td class="px-3 py-1 text-center">
-                                @if ($jadwal->hari != $previousDay)
-                                    @if ($jadwal->hari == 'Monday')
-                                        Senin
-                                    @elseif ($jadwal->hari == 'Tuesday')
-                                        Selasa
-                                    @elseif ($jadwal->hari == 'Wednesday')
-                                        Rabu
-                                    @elseif ($jadwal->hari == 'Thursday')
-                                        Kamis
-                                    @elseif ($jadwal->hari == 'Friday')
-                                        Jumat
-                                    @endif
-                                    @php
-                                        $previousDay = $jadwal->hari;
-                                    @endphp
-                                @endif
-                            </td>
-                            <td class="px-3 py-1 text-center">{{ $jadwal->sesi }}</td>
-                            <td class="px-3 py-1 text-center">{{ $jadwal->kelas->nama_kelas }}</td>
-                            <td class="px-3 py-1 text-center">{{ $jadwal->kelas->matkul->dosen->nama_dosen }}</td>
-                            <td class="px-3 py-1 text-center">{{ $jadwal->ruangan->kode_ruangan }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            @else
-                <tbody>
-                    @php
-                        $previousDay = null;
-                    @endphp
-                    
-                    @foreach ($prodis as $prodi)
-                        <!-- Nama Prodi -->
+                    <!-- Kelompokkan Jadwal Berdasarkan Semester -->
+                    @foreach ($jadwals->groupBy('id_semester') as $idSemester => $jadwalsBySemester)
+                        @php
+                            $semester = $jadwalsBySemester->first()->semester->nama_semester ?? 'Semester Tidak Diketahui';
+                        @endphp
+
+                        <!-- Header Semester -->
                         <tr>
-                            <td colspan="5" class="px-3 py-2 font-bold text-left bg-gray-100">
-                                {{ $prodi->nama_prodi }}
+                            <td colspan="6" class="px-3 py-2 font-bold text-left bg-gray-100">
+                                Semester: {{ $semester }}
                             </td>
                         </tr>
-                        
-                        <!-- Jadwal untuk Prodi -->
-                        @foreach ($jadwals->where('kelas.kode_prodi', $prodi->kode_prodi) as $jadwal)
+
+                        <!-- Tampilkan Jadwal -->
+                        @foreach ($jadwalsBySemester as $jadwal)
                             <tr class="border-t" wire:key="jadwal-{{ $jadwal->id_jadwal }}">
                                 <!-- Tampilkan Hari hanya jika berbeda dari hari sebelumnya -->
                                 <td class="px-3 py-1 text-center">
                                     @if ($jadwal->hari != $previousDay)
-                                        @if ($jadwal->hari == 'Monday')
-                                            Senin
-                                        @elseif ($jadwal->hari == 'Tuesday')
-                                            Selasa
-                                        @elseif ($jadwal->hari == 'Wednesday')
-                                            Rabu
-                                        @elseif ($jadwal->hari == 'Thursday')
-                                            Kamis
-                                        @elseif ($jadwal->hari == 'Friday')
-                                            Jumat
-                                        @endif
+                                        @switch($jadwal->hari)
+                                            @case('Monday') Senin @break
+                                            @case('Tuesday') Selasa @break
+                                            @case('Wednesday') Rabu @break
+                                            @case('Thursday') Kamis @break
+                                            @case('Friday') Jumat @break
+                                            @default {{ $jadwal->hari }}
+                                        @endswitch
                                         @php
                                             $previousDay = $jadwal->hari;
                                         @endphp
@@ -159,11 +137,208 @@
                                 <td class="px-3 py-1 text-center">{{ $jadwal->kelas->nama_kelas }}</td>
                                 <td class="px-3 py-1 text-center">{{ $jadwal->kelas->matkul->dosen->nama_dosen }}</td>
                                 <td class="px-3 py-1 text-center">{{ $jadwal->ruangan->kode_ruangan }}</td>
+                                <td class="px-3 py-1 text-center">
+                                    <div class="flex flex-row justify-center">
+                                        <livewire:admin.jadwal.edit :id_jadwal="$jadwal->id_jadwal"
+                                            wire:key="edit-{{ $jadwal->id_jadwal }}" />
+                                        <button
+                                            class="inline-block px-3 py-2 ml-2 text-white bg-red-500 rounded hover:bg-red-700"
+                                            onclick="confirmDelete({{ $jadwal->id_jadwal }}, '{{ $jadwal->kelas->nama_kelas }}')">
+                                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                fill="none" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                    stroke-width="2"
+                                                    d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </td>
                             </tr>
+                        @endforeach
+                    @endforeach
+                </tbody>
+            @elseif ($semesterfilter)
+                <tbody>
+                    @php
+                        $previousDay = null;
+                        $previousProdi = null;
+                        $previousSemester = null;
+                    @endphp
+
+                    @foreach ($prodis as $prodi)
+                        <!-- Nama Prodi -->
+                        {{-- @if ($previousProdi != $prodi->nama_prodi)
+                            <tr>
+                                <td colspan="5" class="px-3 py-2 font-bold text-left bg-gray-200">
+                                    {{ $prodi->nama_prodi }}
+                                </td>
+                            </tr>
+                            @php
+                                $previousProdi = $prodi->nama_prodi;
+                            @endphp
+                        @endif --}}
+
+                        <!-- Jadwal untuk Prodi Berdasarkan Semester -->
+                        @foreach ($jadwals->where('kode_prodi', $prodi->kode_prodi)->groupBy('id_semester') as $idSemester => $jadwalsBySemester)
+                            @php
+                                $semester = $jadwalsBySemester->first()->semester->nama_semester ?? 'Semester Tidak Diketahui';
+                            @endphp
+
+                            <!-- Nama Semester -->
+                            @if ($previousSemester != $semester)
+                                <tr>
+                                    <td colspan="6" class="px-3 py-2 font-bold text-left bg-gray-100">
+                                        {{ $prodi->nama_prodi }} {{ $semester }}
+                                    </td>
+                                </tr>
+                            @endif
+
+                            <!-- Jadwal -->
+                            @foreach ($jadwalsBySemester as $jadwal)
+                                <tr class="border-t" wire:key="jadwal-{{ $jadwal->id_jadwal }}">
+                                    <!-- Tampilkan Hari hanya jika berbeda dari hari sebelumnya -->
+                                    <td class="px-3 py-1 text-center">
+                                        @if ($jadwal->hari != $previousDay)
+                                            @switch($jadwal->hari)
+                                                @case('Monday') Senin @break
+                                                @case('Tuesday') Selasa @break
+                                                @case('Wednesday') Rabu @break
+                                                @case('Thursday') Kamis @break
+                                                @case('Friday') Jumat @break
+                                            @endswitch
+                                            @php
+                                                $previousDay = $jadwal->hari;
+                                            @endphp
+                                        @endif
+                                    </td>
+                                    <td class="px-3 py-1 text-center">{{ $jadwal->sesi }}</td>
+                                    <td class="px-3 py-1 text-center">{{ $jadwal->kelas->nama_kelas }}</td>
+                                    <td class="px-3 py-1 text-center">{{ $jadwal->kelas->matkul->dosen->nama_dosen }}</td>
+                                    <td class="px-3 py-1 text-center">{{ $jadwal->ruangan->kode_ruangan }}</td>
+                                    <td class="px-3 py-1 text-center">
+                                        <div class="flex flex-row justify-center">
+                                            <livewire:admin.jadwal.edit :id_jadwal="$jadwal->id_jadwal"
+                                                wire:key="edit-{{ $jadwal->id_jadwal }}" />
+                                            <button
+                                                class="inline-block px-3 py-2 ml-2 text-white bg-red-500 rounded hover:bg-red-700"
+                                                onclick="confirmDelete({{ $jadwal->id_jadwal }}, '{{ $jadwal->kelas->nama_kelas }}')">
+                                                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    fill="none" viewBox="0 0 24 24">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
                         @endforeach
 
                         <!-- Jika Tidak Ada Jadwal -->
-                        @if ($jadwals->where('kelas.kode_prodi', $prodi->kode_prodi)->isEmpty())
+                        @if ($jadwals->where('kode_prodi', $prodi->kode_prodi)->isEmpty())
+                            <tr>
+                                <td colspan="6" class="px-3 py-2 italic text-center text-gray-500">
+                                    Tidak ada jadwal untuk prodi ini.
+                                </td>
+                            </tr>
+                        @endif
+                    @endforeach
+                </tbody>
+            @else
+                <tbody>
+                    @php
+                        $previousDay = null;
+                        $previousProdi = null;
+                        $previousSemester = null;
+                    @endphp
+
+                    @foreach ($prodis as $prodi)
+                        <!-- Nama Prodi -->
+                        @if ($jadwals->where('kode_prodi', $prodi->kode_prodi)->isEmpty())
+                            @if ($previousProdi != $prodi->nama_prodi)
+                                <tr>
+                                    <td colspan="6" class="px-3 py-2 font-bold text-left bg-gray-200">
+                                        {{ $prodi->nama_prodi }}
+                                    </td>
+                                </tr>
+                                @php
+                                    $previousProdi = $prodi->nama_prodi;
+                                @endphp
+                            @endif
+                        @endif
+
+                        <!-- Jadwal untuk Prodi Berdasarkan Semester -->
+                        @foreach ($jadwals->where('kode_prodi', $prodi->kode_prodi)->groupBy('id_semester') as $idSemester => $jadwalsBySemester)
+                            @php
+                                $semester = $jadwalsBySemester->first()->semester->nama_semester ?? 'Semester Tidak Diketahui';
+                            @endphp
+
+                            <!-- Nama Semester -->
+                            @if ($previousSemester != $semester)
+                                <tr>
+                                    <td colspan="6" class="px-3 py-2 font-bold text-left bg-gray-100">
+                                        {{ $prodi->nama_prodi }} {{ $semester }}
+                                    </td>
+                                </tr>
+                                @php
+                                    $previousSemester = $semester;
+                                @endphp
+                            @elseif ($previousSemester == $semester)
+                                <tr>
+                                    <td colspan="6" class="px-3 py-2 font-bold text-left bg-gray-100">
+                                        {{ $prodi->nama_prodi }} {{ $semester }}
+                                    </td>
+                                </tr>
+                            @endif
+
+                            <!-- Jadwal -->
+                            @foreach ($jadwalsBySemester as $jadwal)
+                                <tr class="border-t" wire:key="jadwal-{{ $jadwal->id_jadwal }}">
+                                    <!-- Tampilkan Hari hanya jika berbeda dari hari sebelumnya -->
+                                    <td class="px-3 py-1 text-center">
+                                        @if ($jadwal->hari != $previousDay)
+                                            @switch($jadwal->hari)
+                                                @case('Monday') Senin @break
+                                                @case('Tuesday') Selasa @break
+                                                @case('Wednesday') Rabu @break
+                                                @case('Thursday') Kamis @break
+                                                @case('Friday') Jumat @break
+                                            @endswitch
+                                            @php
+                                                $previousDay = $jadwal->hari;
+                                            @endphp
+                                        @endif
+                                    </td>
+                                    <td class="px-3 py-1 text-center">{{ $jadwal->sesi }}</td>
+                                    <td class="px-3 py-1 text-center">{{ $jadwal->kelas->nama_kelas }}</td>
+                                    <td class="px-3 py-1 text-center">{{ $jadwal->kelas->matkul->dosen->nama_dosen }}</td>
+                                    <td class="px-3 py-1 text-center">{{ $jadwal->ruangan->kode_ruangan }}</td>
+                                    <td class="px-3 py-1 text-center">
+                                        <div class="flex flex-row justify-center">
+                                            <livewire:admin.jadwal.edit :id_jadwal="$jadwal->id_jadwal"
+                                                wire:key="edit-{{ $jadwal->id_jadwal }}" />
+                                            <button
+                                                class="inline-block px-3 py-2 ml-2 text-white bg-red-500 rounded hover:bg-red-700"
+                                                onclick="confirmDelete({{ $jadwal->id_jadwal }}, '{{ $jadwal->kelas->nama_kelas }}')">
+                                                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    fill="none" viewBox="0 0 24 24">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endforeach
+
+                        <!-- Jika Tidak Ada Jadwal -->
+                        @if ($jadwals->where('kode_prodi', $prodi->kode_prodi)->isEmpty())
                             <tr>
                                 <td colspan="5" class="px-3 py-2 italic text-center text-gray-500">
                                     Tidak ada jadwal untuk prodi ini.
@@ -176,9 +351,26 @@
         </table>
     </div>
     <script>
-        function confirmDelete(id, nama_mata_kuliah) {
+        function confirmDeleteAll(id) {
             Swal.fire({
                 title: `Apakah anda yakin ingin menghapus Jadwal?`,
+                text: "Data yang telah dihapus tidak dapat dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Hapus'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Panggil method Livewire jika konfirmasi diterima
+                    @this.call('destroy2', id);
+                }
+            });
+        }
+        
+        function confirmDelete(id, nama_kelas) {
+            Swal.fire({
+                title: `Apakah anda yakin ingin menghapus jadwal ${nama_kelas}?`,
                 text: "Data yang telah dihapus tidak dapat dikembalikan!",
                 icon: 'warning',
                 showCancelButton: true,
