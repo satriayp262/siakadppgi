@@ -226,7 +226,7 @@
 
                 <li>
                     <button type="button"
-                        class="flex items-center w-full p-2 text-base transition duration-75 rounded-lg group hover:bg-purple2 text-purple3 hover:text-white {{ request()->routeIs('admin.dosen', 'admin.jadwal') ? 'text-white bg-purple2' : 'text-purple3' }}"
+                        class="flex items-center w-full p-2 text-base transition duration-75 rounded-lg group hover:bg-purple2 text-purple3 hover:text-white {{ request()->routeIs('admin.dosen', 'admin.jadwal', 'admin.presensiDosen') ? 'text-white bg-purple2' : 'text-purple3' }}"
                         aria-controls="dropdown-dosen" data-collapse-toggle="dropdown-dosen">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.dosen') ? 'text-white' : '' }}"
                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
@@ -243,7 +243,7 @@
                         </svg>
                     </button>
                     <ul id="dropdown-dosen"
-                        class="py-2 space-y-2 {{ request()->routeIs('admin.dosen') || request()->routeIs('admin.jadwal') ? 'block' : 'hidden' }}">
+                        class="py-2 space-y-2 {{ request()->routeIs('admin.dosen') || request()->routeIs('admin.jadwal') || request()->routeIs('admin.presensiDosen') ? 'block' : 'hidden' }}">
                         <li>
                             <a href="{{ route('admin.dosen') }}"
                                 class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.dosen') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
@@ -273,9 +273,9 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#"
+                            <a href="{{ route('admin.presensiDosen') }}"
                                 class="flex items-center mx-4 p-2 rounded-lg transition duration-75 group
-                                {{-- {{ request()->routeIs('admin.jadwal') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}"> --}}>
+                                {{ request()->routeIs('admin.presensiDosen') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 {{-- <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.jadwal') ? 'text-white' : 'text-white hover:bg-purple2' }}"
                                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                                     height="24" fill="currentColor" viewBox="0 0 24 24">
@@ -284,8 +284,7 @@
                                         clip-rule="evenodd" />
                                 </svg> --}}
 
-                                <span class="flex-1
-                                ms-3 whitespace-nowrap">Berita Acara</span>
+                                <span class="flex-1 ms-3 whitespace-nowrap">Presensi Mengajar</span>
                             </a>
                         </li>
                     </ul>

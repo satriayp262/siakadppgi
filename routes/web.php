@@ -82,6 +82,9 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
     Route::prefix('staff')->group(function () {
         Route::get('/', App\Livewire\Admin\Staff\Index::class)->name('admin.staff');
     });
+    Route::prefix('presensiDosen')->group(function () {
+        Route::get('/', App\Livewire\Admin\PresensiDosen\Index::class)->name('admin.presensiDosen');
+    });
 });
 
 // mahasiswa
