@@ -12,17 +12,17 @@ class Jadwal extends Model
     protected $table = 'jadwal';
     protected $primaryKey = 'id_jadwal';
     protected $fillable = [
-        'id_kelas', 'kode_prodi', 'id_semester', 'tanggal', 'id_ruangan', 'hari', 'sesi', 'jam_mulai', 'jam_selesai'
+        'id_kelas', 'nidn', 'kode_prodi', 'id_semester', 'tanggal', 'id_ruangan', 'hari', 'sesi', 'jam_mulai', 'jam_selesai'
     ];
 
     public function dosen()
     {
-        return $this->belongsTo(Dosen::class, 'nidn');
+        return $this->belongsTo(Dosen::class, 'nidn', 'nidn');
     }
 
     public function prodi()
     {
-        return $this->belongsTo(Prodi::class, 'kode_prodi');
+        return $this->belongsTo(Prodi::class, 'kode_prodi', 'kode_prodi');
     }
 
     public function matakuliah()

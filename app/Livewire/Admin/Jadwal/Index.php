@@ -50,6 +50,7 @@ class Index extends Component
         $kelasByProdi = Kelas::with('matkul')
             ->where('id_semester', $this->Semester) // Filter berdasarkan semester yang dipilih
             ->get()
+            ->shuffle()
             ->groupBy('kode_prodi'); // Kelompokkan berdasarkan kode_prodi
 
 
@@ -157,24 +158,28 @@ class Index extends Component
 
                 // Tambahkan jadwal jika tidak ada konflik
                 $conflict = Jadwal::where('hari', $day)
-                    ->where('kode_prodi', $prodi)
-                    ->where(function ($query) use ($timeSlot, $ruangan) {
-                        $query->where('id_ruangan', $ruangan->id_ruangan)
-                            ->where(function ($query) use ($timeSlot) {
-                                $query->whereBetween('jam_mulai', [$timeSlot['jam_mulai'], $timeSlot['jam_selesai']])
-                                    ->orWhereBetween('jam_selesai', [$timeSlot['jam_mulai'], $timeSlot['jam_selesai']])
-                                    ->orWhere(function ($query) use ($timeSlot) {
-                                        $query->where('jam_mulai', '<=', $timeSlot['jam_mulai'])
-                                            ->where('jam_selesai', '>=', $timeSlot['jam_selesai']);
-                                    });
-                            });
-                    })->exists();
+                    // ->where('kode_prodi', $prodi)
+                    ->where('sesi', $timeSlot['sesi'])
+                    ->where('nidn', $kelas->matkul->nidn)
+                    // ->where(function ($query) use ($timeSlot, $ruangan) {
+                    //     $query->where('id_ruangan', $ruangan->id_ruangan)
+                    //         ->where(function ($query) use ($timeSlot) {
+                    //             $query->whereBetween('jam_mulai', [$timeSlot['jam_mulai'], $timeSlot['jam_selesai']])
+                    //                 ->orWhereBetween('jam_selesai', [$timeSlot['jam_mulai'], $timeSlot['jam_selesai']])
+                    //                 ->orWhere(function ($query) use ($timeSlot) {
+                    //                     $query->where('jam_mulai', '<=', $timeSlot['jam_mulai'])
+                    //                         ->where('jam_selesai', '>=', $timeSlot['jam_selesai']);
+                    //                 });
+                    //         });
+                    // })
+                    ->exists();
 
                 // dd($this->semester);
                 if (!$conflict) {
                     // Tambahkan jadwal
                     Jadwal::create([
                         'id_kelas' => $kelas->id_kelas,
+                        'nidn' => $kelas->matkul->nidn,
                         'kode_prodi' => $prodi,
                         'id_semester' => $this->Semester,
                         'hari' => $day,
@@ -229,6 +234,12 @@ class Index extends Component
     public function x()
     {
         $this->dispatch('created', ['message' => 'Jadwal Switched Successfully']);
+    }
+
+    #[On('jadwalUpdated2')]
+    public function z()
+    {
+        $this->dispatch('created', ['message' => 'Jadwal Edited Successfully']);
     }
 
     public function render()

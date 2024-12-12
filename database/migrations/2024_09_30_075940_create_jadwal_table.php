@@ -13,6 +13,7 @@ return new class extends Migration {
         Schema::create('jadwal', function (Blueprint $table) {
             $table->id('id_jadwal')->autoIncrement()->primary();
             $table->integer('id_kelas');
+            $table->string('nidn');
             $table->string('kode_prodi');
             $table->integer('id_semester');
             $table->date('tanggal'); 

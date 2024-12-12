@@ -135,7 +135,7 @@
                                 </td>
                                 <td class="px-3 py-1 text-center">{{ $jadwal->sesi }}</td>
                                 <td class="px-3 py-1 text-center">{{ $jadwal->kelas->nama_kelas }}</td>
-                                <td class="px-3 py-1 text-center">{{ $jadwal->kelas->matkul->dosen->nama_dosen }}</td>
+                                <td class="px-3 py-1 text-center">{{ $jadwal->dosen->nama_dosen }}</td>
                                 <td class="px-3 py-1 text-center">{{ $jadwal->ruangan->kode_ruangan }}</td>
                                 <td class="px-3 py-1 text-center">
                                     <div class="flex flex-row justify-center">
@@ -214,7 +214,7 @@
                                     </td>
                                     <td class="px-3 py-1 text-center">{{ $jadwal->sesi }}</td>
                                     <td class="px-3 py-1 text-center">{{ $jadwal->kelas->nama_kelas }}</td>
-                                    <td class="px-3 py-1 text-center">{{ $jadwal->kelas->matkul->dosen->nama_dosen }}</td>
+                                    <td class="px-3 py-1 text-center">{{ $jadwal->dosen->nama_dosen }}</td>
                                     <td class="px-3 py-1 text-center">{{ $jadwal->ruangan->kode_ruangan }}</td>
                                     <td class="px-3 py-1 text-center">
                                         <div class="flex flex-row justify-center">
@@ -314,7 +314,7 @@
                                     </td>
                                     <td class="px-3 py-1 text-center">{{ $jadwal->sesi }}</td>
                                     <td class="px-3 py-1 text-center">{{ $jadwal->kelas->nama_kelas }}</td>
-                                    <td class="px-3 py-1 text-center">{{ $jadwal->kelas->matkul->dosen->nama_dosen }}</td>
+                                    <td class="px-3 py-1 text-center">{{ $jadwal->dosen->nama_dosen }}</td>
                                     <td class="px-3 py-1 text-center">{{ $jadwal->ruangan->kode_ruangan }}</td>
                                     <td class="px-3 py-1 text-center">
                                         <div class="flex flex-row justify-center">
