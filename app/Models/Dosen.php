@@ -31,10 +31,10 @@ class Dosen extends Model
         return $this->hasManyThrough(
             Token::class,
             User::class,
-            'id',       // Foreign key di tabel users
-            'id',       // Foreign key di tabel token
-            'nidn',     // Local key di tabel dosen
-            'nim_nidn'  // Local key di tabel users
+            'nim_nidn',
+            'id',
+            'nidn',
+            'id'
         );
     }
 

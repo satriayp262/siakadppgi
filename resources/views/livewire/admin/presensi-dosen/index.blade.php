@@ -6,66 +6,163 @@
             </button>
         </div>
 
-        <div class="flex bg-purple2 rounded-md items-center p-2 space-x-4 shadow-md">
-            <!-- Month Filter -->
-            <div class="mr-4">
-                <span class="font-semibold text-white">Bulan:</span>
-                <select wire:model="month" class="border rounded px-2 py-1">
-                    @foreach (range(1, 12) as $m)
-                        <option value="{{ $m }}">
-                            {{ \Carbon\Carbon::createFromFormat('m', $m)->locale('id')->monthName }}
-                        </option>
-                    @endforeach
-                </select>
+        <div class="flex justify-between items-center space-x-4">
+            <div class="flex justify-end">
+                <button id="dropdownDelayButton" data-dropdown-toggle="dropdownDelay" data-dropdown-delay="500"
+                    data-dropdown-trigger="hover" class="text-white bg-purple2 hover:bg-customPurple font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+                    type="button">
+                    <svg class="w-5 h-5 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M5.05 3C3.291 3 2.352 5.024 3.51 6.317l5.422 6.059v4.874c0 .472.227.917.613 1.2l3.069 2.25c1.01.742 2.454.036 2.454-1.2v-7.124l5.422-6.059C21.647 5.024 20.708 3 18.95 3H5.05Z" />
+                    </svg>
+                </button>
+
+                <div id="dropdownDelay" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
+                    <!-- Dropdown untuk Bulan -->
+                    <ul class="py-2 text-sm text-gray-500" aria-labelledby="dropdownDefaultButton">
+                        <li>
+                            <button id="monthDropdownButton" data-dropdown-toggle="monthDropdown"
+                                data-dropdown-delay="500" data-dropdown-trigger="hover"
+                                data-dropdown-placement="right-start" type="button"
+                                class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100">
+                                @if ($month)
+                                    {{ \Carbon\Carbon::createFromFormat('m', $month)->locale('id')->monthName }}
+                                @else
+                                    Bulan
+                                @endif
+                                <svg class="w-2.5 h-2.5 ms-3 rtl:rotate-180" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="m1 9 4-4-4-4" />
+                                </svg>
+                            </button>
+                            <div id="monthDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
+                                <ul class="py-2 text-sm text-gray-700" aria-labelledby="monthDropdownButton">
+                                    <li>
+                                        <a href="#" wire:click.prevent="$set('month', '')" class="block px-4 py-2 hover:bg-gray-100">All</a>
+                                    </li>
+                                    @foreach (range(1, 12) as $m)
+                                        <li>
+                                            <a href="#" wire:click.prevent="$set('month', '{{ $m }}')" class="block px-4 py-2 hover:bg-gray-100 ">
+                                                {{ \Carbon\Carbon::createFromFormat('m', $m)->locale('id')->monthName }}
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <!-- Dropdown untuk Tahun -->
+                    <ul class="py-2 text-sm text-gray-500" aria-labelledby="dropdownDefaultButton">
+                        <li>
+                            <button id="yearDropdownButton" data-dropdown-toggle="yearDropdown"
+                                data-dropdown-delay="500" data-dropdown-trigger="hover"
+                                data-dropdown-placement="right-start" type="button"
+                                class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100">
+                                @if ($year)
+                                    {{ $year }}
+                                @else
+                                    Tahun
+                                @endif
+                                <svg class="w-2.5 h-2.5 ms-3 rtl:rotate-180" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="m1 9 4-4-4-4" />
+                                </svg>
+                            </button>
+                            <div id="yearDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
+                                <ul class="py-2 text-sm text-gray-700" aria-labelledby="yearDropdownButton">
+                                    <li>
+                                        <a href="#" wire:click.prevent="$set('year', '')" class="block px-4 py-2 hover:bg-gray-100">All</a>
+                                    </li>
+                                    @foreach (range(now()->year - 5, now()->year) as $y)
+                                        <li>
+                                            <a href="#" wire:click.prevent="$set('year', '{{ $y }}')" class="block px-4 py-2 hover:bg-gray-100 ">
+                                                {{ $y }}
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <!-- Dropdown untuk Program Studi -->
+                    <ul class="py-2 text-sm text-gray-500" aria-labelledby="dropdownDefaultButton">
+                        <li>
+                            <button id="prodiDropdownButton" data-dropdown-toggle="prodiDropdown"
+                                data-dropdown-delay="500" data-dropdown-trigger="hover"
+                                data-dropdown-placement="right-start" type="button"
+                                class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100">
+                                @if ($selectedProdi)
+                                    {{ $prodis->firstWhere('kode_prodi', $selectedProdi)->nama_prodi }}
+                                @else
+                                    Program Studi
+                                @endif
+                                <svg class="w-2.5 h-2.5 ms-3 rtl:rotate-180" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="m1 9 4-4-4-4" />
+                                </svg>
+                            </button>
+                            <div id="prodiDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
+                                <ul class="py-2 text-sm text-gray-700" aria-labelledby="prodiDropdownButton">
+                                    <li>
+                                        <a href="#" wire:click.prevent="$set('selectedProdi', '')" class="block px-4 py-2 hover:bg-gray-100">All</a>
+                                    </li>
+                                    @foreach ($prodis as $prodi)
+                                        <li>
+                                            <a href="#" wire:click.prevent="$set('selectedProdi', '{{ $prodi->kode_prodi }}')" class="block px-4 py-2 hover:bg-gray-100">
+                                                {{ $prodi->nama_prodi }}
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
-            <!-- Year Filter -->
-            <div>
-                <span class="font-semibold text-white">Tahun:</span>
-                <select wire:model="year" class="border rounded px-2 py-1">
-                    @foreach (range(now()->year - 5, now()->year) as $y)
-                        <option value="{{ $y }}">{{ $y }}</option>
-                    @endforeach
-                </select>
+            <!-- Search Input -->
+            <div class="ml-4 flex items-center">
+                <input type="text" wire:model.debounce.500ms="search" placeholder="Search"
+                    class="px-2 py-2 border border-gray-300 rounded-lg shadow-md">
             </div>
-        </div>
-
-        <!-- Search Input -->
-        <div class="ml-4 flex items-center">
-            <input type="text" wire:model.debounce.500ms="search" placeholder="Search"
-                class="px-2 py-2 border border-gray-300 rounded-lg shadow-md">
         </div>
     </div>
 
-    <table class="min-w-full mt-4 bg-white text-sm">
-        <thead>
-            <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
-                <th class="px-4 py-2 text-center">No</th>
-                <th class="px-4 py-2 text-center">Nama Dosen</th>
-                <th class="px-4 py-2 text-center">NIDN</th>
-                <th class="px-4 py-2 text-center">Prodi</th>
-                <th class="px-4 py-2 text-center">Jumlah Token</th>
-                <th class="px-4 py-2 text-center">Jumlah Jam</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($dosenWithTokens as $index => $dosen)
-                <tr>
-                    <td class="px-3 py-2 text-center">
-                        {{ ($dosenWithTokens->currentPage() - 1) * $dosenWithTokens->perPage() + $loop->iteration }}
-                    </td>
-                    <td class="px-4 py-2 text-center">{{ $dosen->nama_dosen }}</td>
-                    <td class="px-4 py-2 text-center">{{ $dosen->nidn }}</td>
-                    <td class="px-4 py-2 text-center">{{ $dosen->prodi->nama_prodi }}</td>
-                    <td class="px-4 py-2 text-center">{{ $dosen->tokens_count }}</td>
-                    <td class="px-4 py-2 text-center">{{ $dosen->total_jam }}</td>
+    <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
+        <table class="min-w-full mt-4 bg-white text-sm border border-gray-200">
+            <thead>
+                <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
+                    <th class="px-4 py-2 text-center">No</th>
+                    <th class="px-4 py-2 text-center">Nama Dosen</th>
+                    <th class="px-4 py-2 text-center">NIDN</th>
+                    <th class="px-4 py-2 text-center">Prodi</th>
+                    <th class="px-4 py-2 text-center">Jumlah Token</th>
+                    <th class="px-4 py-2 text-center">Jumlah Jam</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach ($dosenWithTokens as $index => $dosen)
+                    <tr class="border-t">
+                        <td class="px-3 py-2 text-center">
+                            {{ ($dosenWithTokens->currentPage() - 1) * $dosenWithTokens->perPage() + $loop->iteration }}
+                        </td>
+                        <td class="px-4 py-2 text-center">{{ $dosen->nama_dosen }}</td>
+                        <td class="px-4 py-2 text-center">{{ $dosen->nidn }}</td>
+                        <td class="px-4 py-2 text-center">{{ $dosen->prodi->nama_prodi }}</td>
+                        <td class="px-4 py-2 text-center">{{ $dosen->tokens_count }}</td>
+                        <td class="px-4 py-2 text-center">{{ $dosen->total_jam }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
 
-    <!-- Pagination Controls -->
-    <div class="mt-4 mb-4 text-center">
-        {{ $dosenWithTokens->links() }}
+        <!-- Pagination Controls -->
+        <div class="mt-4 mb-4 text-center">
+            {{ $dosenWithTokens->links() }}
+        </div>
     </div>
 </div>
