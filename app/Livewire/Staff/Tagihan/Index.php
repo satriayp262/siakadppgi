@@ -21,6 +21,7 @@ class Index extends Component
     public function handletagihanCreated()
     {
         $this->dispatch('created', ['message' => 'Tagihan Berhasil Ditambahkan']);
+
     }
 
 

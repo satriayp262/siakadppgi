@@ -58,4 +58,8 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsTo(Dosen::class, 'nidn', 'nim_nidn');
     }
+    public function staff()
+    {
+        return $this->belongsTo(Staff::class, 'NIP', 'nim_nidn');
+    }
 }

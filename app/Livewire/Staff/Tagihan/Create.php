@@ -40,28 +40,56 @@ class Create extends Component
         $this->nim = $nim;
         $this->nama = $nama;
         $mahasiswa = Mahasiswa::where('NIM', $nim)->first();
+
+        // Set the id_semester from the Mahasiswa object
         $this->id_semester = $mahasiswa ? $mahasiswa->mulai_semester : null;
     }
-
-
 
     public function save()
     {
         $validatedData = $this->validate();
 
+        // Clean the 'total_tagihan' field (remove non-numeric characters)
         $validatedData['total_tagihan'] = preg_replace('/\D/', '', $validatedData['total_tagihan']);
 
-        $tagihan = Tagihan::create([
-            'NIM' => $validatedData['nim'],
-            'total_tagihan' => $validatedData['total_tagihan'],
-            'status_tagihan' => 'Belum Lunas',
-            'Bulan' => $validatedData['Bulan'],
-            'id_semester' => $this->id_semester,
-        ]);
-        $this->dispatch('TagihanCreated');
-        $this->reset();
-        return $tagihan;
+        // Assuming you want to create the Tagihan for the single Mahasiswa identified by $this->nim
+        $mahasiswa = Mahasiswa::where('NIM', $this->nim)->first();
+
+        if (!$mahasiswa) {
+            $this->addError('NIM', 'Mahasiswa dengan NIM ' . $this->nim . ' tidak ditemukan.');
+            return;
+        }
+
+        // Check if a Tagihan already exists for the current Mahasiswa
+        $existingTagihan = Tagihan::where('NIM', $mahasiswa->NIM)
+            ->where('Bulan', $validatedData['Bulan'])
+            ->where('id_semester', $this->id_semester)
+            ->first();
+
+        // If Tagihan exists, add an error
+        if ($existingTagihan) {
+            $this->addError('Bulan', 'Tagihan untuk bulan ini sudah ada untuk mahasiswa ' . $mahasiswa->nama . ' pada semester ' . $mahasiswa->semester->nama_semester);
+            return;
+        } else {
+            // Create a new Tagihan if no existing one
+            $tagihan = Tagihan::create([
+                'NIM' => $mahasiswa->NIM,
+                'total_tagihan' => $validatedData['total_tagihan'],
+                'status_tagihan' => 'Belum Lunas',
+                'Bulan' => $validatedData['Bulan'],
+                'id_semester' => $this->id_semester,
+            ]);
+
+            // Dispatch event for Tagihan creation
+            $this->dispatch('TagihanCreated');
+        }
+
+        // Reset the form values
+        $this->reset(['id_semester', 'kode_prodi', 'Bulan']);
+        ;
+        return $tagihan ?? null;
     }
+
 
     public function render()
     {
