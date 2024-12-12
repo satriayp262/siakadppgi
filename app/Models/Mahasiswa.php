@@ -179,7 +179,7 @@ class Mahasiswa extends Model
         3 => 'Beasiswa Penuh',
     ];
 
-    
+
     public function getJenisKelamin()
     {
         if ($this->attributes['jenis_kelamin'] == null) {
@@ -234,6 +234,11 @@ class Mahasiswa extends Model
             return 'Data belum ada';
         }
         return self::$jenisPembiayaanOptions[$this->attributes['jenis_pembiayaan']] ?? 'Data Invalid';
+    }
+
+    public function presensi()
+    {
+        return $this->hasMany(Presensi::class, 'nim', 'nim');
     }
 }
 

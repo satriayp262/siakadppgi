@@ -6,13 +6,14 @@ use Livewire\Component;
 use App\Models\Dosen;
 use Livewire\WithPagination;
 use App\Models\Prodi;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PresensiDosenExport;
 
 class Index extends Component
 {
     use WithPagination;
     public $month, $year, $search = '';
     public $selectedProdi;
-
 
     public function mount()
     {
@@ -29,6 +30,18 @@ class Index extends Component
     public function updatedYear()
     {
         $this->resetPage();
+    }
+
+    public function exportExcel()
+    {
+        // Format bulan untuk nama file
+        $bulan = now()->month($this->month)->format('F'); // Format bulan dalam huruf
+
+        // Menggunakan class PresensiDosenExport untuk mengekspor data
+        return Excel::download(
+            new PresensiDosenExport($this->month, $this->year, $this->search, $this->selectedProdi),
+            'presensi_dosen_' . $bulan . '.xlsx'
+        );
     }
 
     public function render()
@@ -52,10 +65,10 @@ class Index extends Component
             })
             ->paginate(10);
 
-            $dosenWithTokens->getCollection()->transform(function ($dosen) {
-                $dosen->total_jam = $dosen->tokens_count * 1.5;
-                return $dosen;
-            });
+        $dosenWithTokens->getCollection()->transform(function ($dosen) {
+            $dosen->total_jam = $dosen->tokens_count * 1.5;
+            return $dosen;
+        });
 
         return view('livewire.admin.presensi-dosen.index', [
             'dosenWithTokens' => $dosenWithTokens,

@@ -27,7 +27,7 @@
                 </button>
 
         <div class="flex justify-between items-center space-x-4">
-            <div class="flex justify-end">
+            {{-- <div class="flex justify-end">
                 <button id="dropdownDelayButton" data-dropdown-toggle="dropdownDelay" data-dropdown-delay="500"
                     data-dropdown-trigger="hover" class="text-white bg-purple2 hover:bg-customPurple font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
                     type="button">
@@ -142,7 +142,7 @@
                         </li>
                     </ul>
                 </div>
-            </div>
+            </div> --}}
 
             <!-- Search Input -->
             <div class="ml-4 flex items-center">
@@ -157,24 +157,26 @@
             <thead>
                 <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
                     <th class="px-4 py-2 text-center">No</th>
-                    <th class="px-4 py-2 text-center">Nama Dosen</th>
-                    <th class="px-4 py-2 text-center">NIDN</th>
+                    <th class="px-4 py-2 text-center">Nama Mahasiswa</th>
+                    <th class="px-4 py-2 text-center">NIM</th>
                     <th class="px-4 py-2 text-center">Prodi</th>
-                    <th class="px-4 py-2 text-center">Jumlah Token</th>
-                    <th class="px-4 py-2 text-center">Jumlah Jam</th>
+                    <th class="px-4 py-2 text-center">Keterangan</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($dosenWithTokens as $index => $dosen)
+                @foreach ($dataMahasiswa as $index => $mahasiswa)
                     <tr class="border-t">
                         <td class="px-3 py-2 text-center">
-                            {{ ($dosenWithTokens->currentPage() - 1) * $dosenWithTokens->perPage() + $loop->iteration }}
+                            {{ ($dataMahasiswa->currentPage() - 1) * $dataMahasiswa->perPage() + $loop->iteration }}
                         </td>
-                        <td class="px-4 py-2 text-center">{{ $dosen->nama_dosen }}</td>
-                        <td class="px-4 py-2 text-center">{{ $dosen->nidn }}</td>
-                        <td class="px-4 py-2 text-center">{{ $dosen->prodi->nama_prodi }}</td>
-                        <td class="px-4 py-2 text-center">{{ $dosen->tokens_count }}</td>
-                        <td class="px-4 py-2 text-center">{{ $dosen->total_jam }}</td>
+                        <td class="px-4 py-2 text-center">{{ $mahasiswa->nama }}</td>
+                        <td class="px-4 py-2 text-center">{{ $mahasiswa->NIM }}</td>
+                        <td class="px-4 py-2 text-center">{{ $mahasiswa->prodi->nama_prodi }}</td>
+                        <td class="px-4 py-2 text-center">
+                            Hadir: {{ $mahasiswa->hadir_count }},
+                            Ijin: {{ $mahasiswa->ijin_count }},
+                            Sakit: {{ $mahasiswa->sakit_count }}
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
@@ -182,7 +184,7 @@
 
         <!-- Pagination Controls -->
         <div class="mt-4 mb-4 text-center">
-            {{ $dosenWithTokens->links() }}
+            {{ $dataMahasiswa->links() }}
         </div>
     </div>
 </div>
