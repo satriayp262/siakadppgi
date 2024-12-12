@@ -16,20 +16,7 @@ return new class extends Migration {
             $table->integer('total_tagihan');
             $table->integer('total_bayar')->nullable();
             $table->string('status_tagihan');
-            $table->enum('Bulan', [
-                'Januari',
-                'Februari',
-                'Maret',
-                'April',
-                'Mei',
-                'Juni',
-                'Juli',
-                'Agustus',
-                'September',
-                'Oktober',
-                'November',
-                'Desember'
-            ]);
+            $table->string('Bulan', 7);
             $table->integer('id_semester');
             $table->foreign('NIM')->references('NIM')->on('mahasiswa')->omDelete('cascade');
             $table->foreign('id_semester')->references('id_semester')->on('semester')->onDelete('cascade');
