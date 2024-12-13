@@ -3,7 +3,7 @@
         aria-label="Sidebar">
         <div class="h-full px-3 py-4 ">
             <ul class="relative sticky space-y-2 font-medium top-20">
-                <li>
+                {{-- <li>
                     <a href="{{ route('mahasiswa.profile') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                         {{ request()->routeIs('mahasiswa.profile') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
@@ -16,7 +16,7 @@
                         </svg>
                         <span class="flex-1 ms-3 whitespace-nowrap">Profil</span>
                     </a>
-                </li>
+                </li> --}}
 
                 <li>
                     <a href="{{ route('mahasiswa.keuangan') }}"
