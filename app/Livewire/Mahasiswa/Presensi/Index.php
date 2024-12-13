@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Token;
 use App\Models\Presensi;
 use App\Models\Mahasiswa;
+use App\Models\Krs;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
@@ -16,6 +17,7 @@ class Index extends Component
     public $nim;
     public $token;
     public $keterangan;
+    public $alasanIjin; // Properti untuk menyimpan alasan ijin
 
     public function mount()
     {
@@ -32,8 +34,8 @@ class Index extends Component
     public function handletokenCreated()
     {
         $this->dispatch('created',  ['message' => 'Presensi berhasil dibuat']);
+        $this->reset(['token', 'keterangan', 'alasanIjin']);
     }
-
 
     public function submit()
     {
@@ -49,14 +51,25 @@ class Index extends Component
         // Jika token tidak ditemukan, beri pesan error
         if (!$tokenData) {
             $this->dispatch('error', ['message' => 'Token tidak ditemukan.']);
-            $this->reset(['token', 'keterangan']);
+            $this->reset(['token', 'keterangan', 'alasanIjin']);
             return;
         }
 
         // Pastikan data `id_mata_kuliah` ada
         if (!$tokenData->id_mata_kuliah || !$tokenData->id_kelas) {
             $this->dispatch('error', ['message' => 'Data mata kuliah atau kelas tidak ditemukan untuk token ini.']);
-            $this->reset(['token', 'keterangan']);
+            $this->reset(['token', 'keterangan', 'alasanIjin']);
+            return;
+        }
+
+        // Cek apakah mahasiswa terdaftar dalam kelas yang sama dengan token
+        $isRegisteredInClass = Krs::where('nim', $this->nim)
+            ->where('id_kelas', $tokenData->id_kelas)
+            ->exists();
+
+        if (!$isRegisteredInClass) {
+            $this->dispatch('error', ['message' => 'Anda tidak terdaftar dalam kelas ini.']);
+            $this->reset(['token', 'keterangan', 'alasanIjin']);
             return;
         }
 
@@ -67,7 +80,7 @@ class Index extends Component
 
         if ($existingPresensi) {
             $this->dispatch('error', ['message' => 'Anda sudah melakukan presensi dengan token ini.']);
-            $this->reset(['token', 'keterangan']);
+            $this->reset(['token', 'keterangan', 'alasanIjin']);
             return;
         }
 
@@ -84,7 +97,7 @@ class Index extends Component
 
         // Kirim pesan sukses
         $this->dispatch('presensiCreated', ['message' => 'Presensi berhasil disubmit.']);
-        $this->reset(['token', 'keterangan']);
+        $this->reset(['token', 'keterangan', 'alasanIjin']);
     }
 
     public function render()

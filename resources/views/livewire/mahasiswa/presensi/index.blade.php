@@ -75,35 +75,16 @@
     </form>
 </div>
 <script>
-    // function copyToken(token) {
-    //     navigator.clipboard.writeText(token).then(function() {
-    //         Swal.fire({
-    //             icon: 'success',
-    //             title: 'Anda Sudah Berhasil Presensi!',
-    //             showConfirmButton: false,
-    //             timer: 2000
-    //         });
-    //     }, function(error) {
-    //         Swal.fire({
-    //             icon: 'error',
-    //             title: 'Gagal melakukan presensi!',
-    //             showConfirmButton: true
-    //         });
-    //         console.error('Error copying text: ', err);
-    //     });
-    // }
-
     document.addEventListener('DOMContentLoaded', function() {
         Livewire.on('error', function(eventData) {
             Swal.fire({
                 icon: 'error',
-                title: eventData.message, // Menggunakan message sebagai title
+                title: eventData.message,
                 text: 'Terjadi kesalahan saat proses presensi.',
                 confirmButtonText: 'OK'
             });
         });
     });
-
 
     document.addEventListener('DOMContentLoaded', function() {
         window.addEventListener('created', event => {
