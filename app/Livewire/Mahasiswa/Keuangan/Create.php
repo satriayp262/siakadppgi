@@ -25,54 +25,19 @@ class Create extends Component
 
 
 
-    public function rules()
-    {
-        return [
-            'bukti_bayar_tagihan' => 'required|image', // Assuming the file is an image and max size is 1MB
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-            'bukti_bayar_tagihan.required' => 'Bukti bayar tagihan tidak boleh kosong',
-            'bukti_bayar_tagihan.image' => 'Bukti bayar tagihan harus berupa gambar',
-        ];
-    }
-
-    public function mount()
-    {
-        $this->tagihan = Tagihan::find($this->id_tagihan);
-
-        if ($this->tagihan) {
-            $this->NIM = $this->tagihan->mahasiswa->NIM;
-            $this->total_tagihan = $this->tagihan->total_tagihan;
-            $this->id_semester = $this->tagihan->semester->nama_semester;
-            $this->status_tagihan = $this->tagihan->status_tagihan;
-        }
-    }
-
-    public function save()
-    {
-        // Validate the input fields
-        $this->validate();
-
-        $filename = Str::random(10) . '.' . $this->bukti_bayar_tagihan->getClientOriginalExtension();
-        $this->bukti_bayar_tagihan->storeAs('public/images/bukti_pembayaran', $filename);
-
-
-        if ($this->tagihan) {
-            $this->tagihan->update([
-                'bukti_bayar_tagihan' => $filename,
-            ]);
-
-            $this->dispatch('TagihanUpdated');
-        }
-
-    }
-
     public function render()
     {
-        return view('livewire.mahasiswa.keuangan.create');
+        $user = auth()->user(); // Get the currently logged-in user
+
+        $tagihans = Tagihan::whereHas('mahasiswa', function ($query) use ($user) {
+            $query->where('NIM', $user->nim_nidn); // Match the user with mahasiswa
+        })->where('status_tagihan', 'Belum Lunas')->get();
+        return view(
+            'livewire.mahasiswa.keuangan.create',
+            [
+                'tagihans' => $tagihans,
+                'semesters' => Semester::all(),
+            ]
+        );
     }
 }
