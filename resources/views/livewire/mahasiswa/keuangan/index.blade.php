@@ -57,7 +57,8 @@
                             <td class="px-4 py-2 text-center">{{ $loop->iteration }}</td>
                             <td class="px-4 py-2 text-center">{{ $tagihan->semester->nama_semester }}</td>
                             @php
-                                $months = [
+                                $bulan = substr($tagihan->Bulan, 5, 2);
+                                $namaBulan = [
                                     '01' => 'Januari',
                                     '02' => 'Februari',
                                     '03' => 'Maret',
@@ -70,11 +71,10 @@
                                     '10' => 'Oktober',
                                     '11' => 'November',
                                     '12' => 'Desember',
-                                ];
-                                $bulan = $months[$tagihan->created_at->format('m')];
-                                $tahun = $tagihan->created_at->format('Y');
+                                ][$bulan];
+                                $tahun = substr($tagihan->Bulan, 0, 4);
                             @endphp
-                            <td class="px-4 py-2 text-center">{{ $bulan }}, {{ $tahun }}</td>
+                            <td class="px-4 py-2 text-center">{{ $namaBulan }}, {{ $tahun }}</td>
                             <td class="px-4 py-2 text-center italic font-semibold">
                                 @php
                                     $formattedTotalTagihan =

@@ -181,7 +181,21 @@ class PDFController extends Controller
 
         $t = $tagihan->staff->ttd;
 
-        $tahun = $tagihan->created_at->format('Y');
+        $bulan = substr($tagihan->Bulan, 5, 2);
+        $namaBulan = [
+            '01' => 'Januari',
+            '02' => 'Februari',
+            '03' => 'Maret',
+            '04' => 'April',
+            '05' => 'Mei',
+            '06' => 'Juni',
+            '07' => 'Juli',
+            '08' => 'Agustus',
+            '09' => 'September',
+            '10' => 'Oktober',
+            '11' => 'November',
+            '12' => 'Desember',
+        ][$bulan];
 
 
         $imagePath = storage_path("app/public/image/ttd/{$t}"); // Adjust path based on your storage
@@ -204,9 +218,10 @@ class PDFController extends Controller
             'semester' => $tagihan->semester->nama_semester,
             'total_bayar' => $tagihan->total_bayar,
             'status' => $tagihan->status_tagihan,
-            'Bulan' => $tagihan->Bulan,
+            'Bulan' => $namaBulan,
             'nip' => $tagihan->staff->nip,
-            'tahun' => $tahun
+            'tahun' => substr($tagihan->Bulan, 0, 4)
+
         ];
 
         // dd($pdfData);

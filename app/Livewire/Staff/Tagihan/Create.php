@@ -21,7 +21,7 @@ class Create extends Component
         return [
             'nim' => 'required',
             'total_tagihan' => 'required',
-            'Bulan' => 'required',
+            'Bulan' => 'required|date_format:Y-m', // Validasi menggunakan format YYYY-MM
         ];
     }
 
@@ -32,6 +32,7 @@ class Create extends Component
             'total_tagihan.required' => 'Total tagihan tidak boleh kosong',
             'total_tagihan.numeric' => 'Total tagihan harus berupa angka',
             'Bulan.required' => 'Bulan harus dipilih',
+            'Bulan.date_format' => 'Bulan harus berformat YYYY-MM',
         ];
     }
 

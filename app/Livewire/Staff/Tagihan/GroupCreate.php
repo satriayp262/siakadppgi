@@ -2,18 +2,20 @@
 
 namespace App\Livewire\Staff\Tagihan;
 
+use App\Mail\TagihanMail;
 use Livewire\Component;
 use App\Models\Semester;
 use App\Models\Prodi;
 use App\Models\Mahasiswa;
 use App\Models\Tagihan;
+use Illuminate\Support\Facades\Mail;
 
 class GroupCreate extends Component
 {
     public $total_tagihan;
     public $id_semester = '';
     public $status_tagihan = '';
-    public $Bulan = '';
+    public $Bulan;
     public $kode_prodi = '';
 
 
@@ -21,7 +23,7 @@ class GroupCreate extends Component
     {
         return [
             'total_tagihan' => 'required',
-            'Bulan' => 'required',
+            'Bulan' => 'required|date_format:Y-m', // Validasi menggunakan format YYYY-MM
             'id_semester' => 'required',
             'kode_prodi' => 'required',
         ];
@@ -32,7 +34,8 @@ class GroupCreate extends Component
         return [
             'total_tagihan.required' => 'Total tagihan tidak boleh kosong',
             'total_tagihan.numeric' => 'Total tagihan harus berupa angka',
-            'Bulan.required' => 'Bulan harus dipilih',
+            'Bulan.required' => 'Bulan harus diisi',
+            'Bulan.date_format' => 'Bulan harus berformat YYYY-MM',
             'semester.required' => 'Semester harus dipilih',
             'kode_prodi.required' => 'Prodi harus dipilih',
         ];
@@ -72,7 +75,7 @@ class GroupCreate extends Component
 
             // Check if there is already a Tagihan for the Mahasiswa
             if ($existingTagihan) {
-                $this->addError('Bulan', 'Tagihan untuk bulan ini sudah ada untuk mahasiswa dengan Prodi ' . $mhs->prodi->nama_prodi . ' semester ' . $mhs->semester->nama_semester);
+                $this->addError('Bulan', 'Tagihan untuk bulan ini sudah ada untuk mahasiswa dengan prodi ' . $mhs->prodi->nama_prodi . ' semester ' . $mhs->semester->nama_semester);
                 return;
             } else {
                 // Create a new Tagihan for the Mahasiswa
@@ -83,11 +86,15 @@ class GroupCreate extends Component
                     'Bulan' => $validatedData['Bulan'],
                     'id_semester' => $validatedData['id_semester'],
                 ]);
+                $this->reset(); // Reset only form-related properties
                 $this->dispatch('TagihanCreated');
+                Mail::to($mhs->email)->send(new TagihanMail($tagihan));
             }
         }
+        $this->reset(); // Reset hanya properti terkait form
         return $tagihan ?? null;
     }
+
 
     public function render()
     {

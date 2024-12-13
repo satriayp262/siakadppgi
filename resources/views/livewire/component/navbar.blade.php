@@ -43,7 +43,18 @@
                 </div>
                 <ul class="py-2" aria-labelledby="user-menu-button">
                     <li>
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                        <a href="
+                        @php
+$user = Auth::user();
+                            if ($user->role == 'staff') {
+                                echo route('staff.profil');
+                            } elseif ($user->role == 'mahasiswa') {
+                                echo route('mahasiswa.profile');
+                            } elseif ($user->role == 'dosen') {
+                                echo route('dosen.dashboard');
+                            } @endphp
+                        "
+                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
                     </li>
                     <li>
                         <button class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
