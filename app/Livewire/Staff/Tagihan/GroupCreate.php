@@ -2,11 +2,13 @@
 
 namespace App\Livewire\Staff\Tagihan;
 
+use App\Mail\TagihanMail;
 use Livewire\Component;
 use App\Models\Semester;
 use App\Models\Prodi;
 use App\Models\Mahasiswa;
 use App\Models\Tagihan;
+use Illuminate\Support\Facades\Mail;
 
 class GroupCreate extends Component
 {
@@ -86,11 +88,13 @@ class GroupCreate extends Component
                 ]);
                 $this->reset(); // Reset only form-related properties
                 $this->dispatch('TagihanCreated');
+                Mail::to($mhs->email)->send(new TagihanMail($tagihan));
             }
         }
         $this->reset(); // Reset hanya properti terkait form
         return $tagihan ?? null;
     }
+
 
     public function render()
     {

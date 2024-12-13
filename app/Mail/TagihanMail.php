@@ -13,12 +13,14 @@ class TagihanMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $tagihan;
+
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($tagihan)
     {
-        //
+        $this->tagihan = $tagihan;
     }
 
     /**
@@ -27,7 +29,7 @@ class TagihanMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Tagihan Mail',
+            subject: 'Tagihan BPP',
         );
     }
 
@@ -37,7 +39,7 @@ class TagihanMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.mail.tagihanmail',
+            view: 'mail.tagihanmail',
         );
     }
 
