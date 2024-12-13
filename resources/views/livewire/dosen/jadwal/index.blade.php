@@ -4,6 +4,7 @@
                 <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
                     <th class="px-3 py-2 text-center">Hari</th>
                     <th class="px-3 py-2 text-center">Sesi</th>
+                    <th class="px-3 py-2 text-center">Prodi</th>
                     <th class="px-3 py-2 text-center">Kelas</th>
                     <th class="px-3 py-2 text-center">Ruangan</th>
                 </tr>
@@ -35,6 +36,7 @@
                                 @endif
                             </td>
                             <td class="px-3 py-1 text-center">{{ $jadwal->sesi }}</td>
+                            <td class="px-3 py-1 text-center">{{ $jadwal->prodi->nama_prodi }}</td>
                             <td class="px-3 py-1 text-center">{{ $jadwal->kelas->nama_kelas }}</td>
                             <td class="px-3 py-1 text-center">{{ $jadwal->ruangan->kode_ruangan }}</td>
                         </tr>
