@@ -6,6 +6,8 @@ use App\Models\Semester;
 use App\Models\Tagihan;
 use Livewire\Component;
 use App\Models\Mahasiswa;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TagihanMail;
 
 class Create extends Component
 {
@@ -15,6 +17,7 @@ class Create extends Component
     public $status_tagihan = '';
     public $Bulan = '';
     public $id_semester;
+    public $kode_prodi;
 
     public function rules()
     {
@@ -81,7 +84,7 @@ class Create extends Component
                 'id_semester' => $this->id_semester,
             ]);
 
-            // Dispatch event for Tagihan creation
+            Mail::to($mahasiswa->email)->send(new TagihanMail($tagihan));
             $this->dispatch('TagihanCreated');
         }
 
