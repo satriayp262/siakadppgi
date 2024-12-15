@@ -12,14 +12,13 @@ return new class extends Migration {
     {
         Schema::create('emonev', function (Blueprint $table) {
             $table->integer('id_emonev', true)->primary();
-            $table->string('nama_evaluasi', 100);
-            $table->enum('penilaian', ['6', '7', '8', '9', '10']);
-            $table->string('saran');
             $table->integer('id_kelas');
-            $table->integer('id_user');
+            $table->integer('id_semester');
+            $table->integer('id_jawaban');
+            $table->foreign('id_jawaban')->references('id_jawaban')->on('jawaban');
+            $table->foreign('id_semester')->references('id_semester')->on('semester');
+            $table->foreign('id_kelas')->references('id_kelas')->on('kelas');
             $table->timestamps();
-
-            $table->foreign('id_kelas')->references('id_kelas')->on('kelas')->onUpdate('CASCADE')->onDelete('CASCADE');
         });
     }
 

@@ -19,9 +19,9 @@
                 </li>
                 <li>
                     <button type="button"
-                        class="flex items-center w-full p-2 text-base transition duration-75 rounded-lg group hover:bg-purple2 text-purple3 hover:text-white {{ request()->routeIs('admin.user', 'admin.pengumuman', 'admin.staff') ? 'text-white bg-purple2' : 'text-purple3' }}"
+                        class="flex items-center w-full p-2 text-base transition duration-75 rounded-lg group hover:bg-purple2 text-purple3 hover:text-white {{ request()->routeIs('admin.user', 'admin.pengumuman', 'admin.staff', 'admin.pertanyaan') ? 'text-white bg-purple2' : 'text-purple3' }}"
                         aria-controls="dropdown-sistem" data-collapse-toggle="dropdown-sistem">
-                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.user', 'admin.pengumuman') ? 'text-white' : '' }}"
+                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.user', 'admin.pengumuman', 'admin.pertanyaan', 'admin.staff') ? 'text-white' : '' }}"
                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                             fill="currentColor" viewBox="0 0 24 24">
                             <path fill-rule="evenodd"
@@ -55,6 +55,13 @@
                                 <span class="flex-1 ms-3 whitespace-nowrap">Staff</span>
                             </a>
                         </li>
+                        <li>
+                            <a href="{{ route('admin.pertanyaan') }}"
+                                class="flex items-center mx-4 p-2 text-gray-100 rounded-lg group {{ request()->routeIs('admin.pertanyaan') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
+                                <span class="flex-1 ms-3 whitespace-nowrap">Pertanyaan</span>
+                            </a>
+                        </li>
+
                     </ul>
                 </li>
                 <li>
