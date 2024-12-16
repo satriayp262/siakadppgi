@@ -13,6 +13,7 @@ return new class extends Migration {
         Schema::create('jawaban', function (Blueprint $table) {
             $table->integer('id_jawaban', true)->primary();
             $table->string('isi_jawaban', 255);
+            $table->integer('id_user');
             $table->integer('id_pertanyaan');
             $table->foreign('id_pertanyaan')->references('id_pertanyaan')->on('pertanyaan');
             $table->timestamps();
