@@ -36,7 +36,7 @@
                         </svg>
                     </button>
                     <ul id="dropdown-sistem"
-                        class="{{ request()->routeIs(['admin.user', 'admin.pengumuman', 'admin.staff']) ? '' : 'hidden' }} py-2 space-y-2">
+                        class="{{ request()->routeIs(['admin.user', 'admin.pengumuman', 'admin.staff', 'admin.pertanyaan']) ? '' : 'hidden' }} py-2 space-y-2">
                         <li>
                             <a href="{{ route('admin.user') }}"
                                 class="flex items-center mx-4 p-2 text-gray-100 rounded-lg group {{ request()->routeIs('admin.user') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
