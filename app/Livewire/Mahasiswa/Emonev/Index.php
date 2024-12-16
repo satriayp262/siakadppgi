@@ -5,6 +5,7 @@ namespace App\Livewire\Mahasiswa\Emonev;
 use App\Models\Dosen;
 use App\Models\KRS;
 use App\Models\Matakuliah;
+use App\Models\Semester;
 use Livewire\Component;
 use App\Models\Kelas;
 use App\Models\Mahasiswa;
@@ -17,6 +18,8 @@ class Index extends Component
 
     public $id_mata_kuliah;
 
+    public $id_semester;
+
 
     public function render()
     {
@@ -24,27 +27,15 @@ class Index extends Component
 
         $mahasiswa = Mahasiswa::where('NIM', $user->nim_nidn)->first();
 
-        $krs = KRS::where('NIM', $mahasiswa->NIM)->get();
+        // $krs = KRS::where('NIM', $mahasiswa->NIM)->get();
 
-        $kelasIds = $krs->pluck('id_kelas');
+        $semester = Semester::where('is_active', true)->first();
 
-        $kelas = Kelas::whereIn('id_kelas', $kelasIds)->get();
-
-        $matkulIds = [];
-
-        foreach ($kelas as $kls) {
-            $matkulIds[] = $kls->id_mata_kuliah;
-        }
-
-        $matkul = Matakuliah::whereIn('id_mata_kuliah', $matkulIds)->get();
-
-        $dosenIds = $matkul->pluck('nidn');
-
-        $dosen = Dosen::whereIn('nidn', $dosenIds)->get();
-
-
+        $krsFiltered = KRS::where('NIM', $mahasiswa->NIM)
+            ->where('id_semester', $semester->id_semester)
+            ->get();
         return view('livewire.mahasiswa.emonev.index', [
-            'dosen' => $dosen
+            'krs' => $krsFiltered
         ]);
     }
 }
