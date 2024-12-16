@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Dosen;
 use App\Models\Matakuliah;
 use App\Models\Pendidikan_Terakhir;
+use App\Models\Pertanyaan;
 use App\Models\Ruangan;
 use App\Models\User;
 use App\Models\Semester;
@@ -332,6 +333,36 @@ class DatabaseSeeder extends Seeder
             'image' => 'pengumuman1.jpeg',
         ]);
 
+        Pertanyaan::factory()->create([
+            'nama_pertanyaan' => 'Ketepatan waktu mengajar dosen'
+        ]);
+
+        Pertanyaan::factory()->create([
+            'nama_pertanyaan' => 'Penampilan berpakaian dosen (Rate Outfit) '
+        ]);
+
+        Pertanyaan::factory()->create([
+            'nama_pertanyaan' => 'Pemberian motivasi kepada mahasiswa'
+        ]);
+
+        Pertanyaan::factory()->create([
+            'nama_pertanyaan' => 'Penguasaan dosen terhadap materi kuliah '
+        ]);
+
+        Pertanyaan::factory()->create([
+            'nama_pertanyaan' => 'Kesempatan diskusi/latihan perkuliahan'
+        ]);
+
+        Pertanyaan::factory()->create([
+            'nama_pertanyaan' => 'kejelasan pemberian mata kuliah'
+        ]);
+
+        Pertanyaan::factory()->create([
+            'nama_pertanyaan' => 'kejelasan menjawab pertanyaan mahasiswa'
+        ]);
+        Pertanyaan::factory()->create([
+            'nama_pertanyaan' => 'sistematika penyajian mata kuliah'
+        ]);
 
     }
 }

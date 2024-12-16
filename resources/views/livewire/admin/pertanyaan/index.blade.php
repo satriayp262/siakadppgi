@@ -46,11 +46,9 @@
             <thead>
                 <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
                     <th class="px-4 py-2"><input type="checkbox" id="selectAll" wire:model="selectAll"></th>
-                    <th class="px-4 py-2 text-center">No.</th>
-                    <th class="px-4 py-2 text-center">Kode Pertanyaan</th>
-                    <th class="px-4 py-2 text-center">Nama Pertanyaan</th>
-                    <th class="px-4 py-2 text-center">Jenjang</th>
-                    <th class="px-4 py-2 text-center">Aksi</th>
+                    <th class="px-4 py-2 text-center w-1/12">No.</th>
+                    <th class="px-4 py-2 text-center w-7/12">Nama Pertanyaan</th>
+                    <th class="px-4 py-2 text-center w-2/12">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -62,13 +60,11 @@
                         </td>
                         <td class="px-4 py-2 text-center">
                             {{ ($pertanyaans->currentPage() - 1) * $pertanyaans->perPage() + $loop->iteration }}</td>
-                        <td class="px-4 py-2 text-center w-1/4">{{ $pertanyaan->kode_pertanyaan }}</td>
-                        <td class="px-4 py-2 text-center w-1/4">{{ $pertanyaan->nama_pertanyaan }}</td>
-                        <td class="px-4 py-2 text-center w-1/4">{{ $pertanyaan->jenjang }}</td>
+                        <td class="px-4 py-2 w-1/4 text-left">{{ $pertanyaan->nama_pertanyaan }}</td>
                         <td class="px-4 py-2 text-center w-1/2">
                             <div class="flex justify-center space-x-2">
-                                <livewire:admin.pertanyaan.edit :id_pertanyaan="$pertanyaan->id_pertanyaan"
-                                    wire:key="edit-{{ $pertanyaan->id_pertanyaan }}" />
+                                {{-- <livewire:admin.pertanyaan.edit :id_pertanyaan="$pertanyaan->id_pertanyaan"
+                                    wire:key="edit-{{ $pertanyaan->id_pertanyaan }}" /> --}}
                                 <button class="inline-block px-4 py-1 text-white bg-red-500 rounded hover:bg-red-700"
                                     onclick="confirmDelete('{{ $pertanyaan->id_pertanyaan }}', '{{ $pertanyaan->nama_pertanyaan }}')"><svg
                                         class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
