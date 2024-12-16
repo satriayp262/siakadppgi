@@ -5,7 +5,7 @@
                 <div class="card-header flex justify-between items-center">
                     <h3 class="card-title text-purple2 font-black text-lg text-justify">
                         {{ $item->matkul->dosen->nama_dosen }}</h3>
-                    <a href="{{ route('mahasiswa.detail', ['id_kelas' => $item->id_kelas]) }}"
+                    <a href="{{ route('emonev.detail', ['id_kelas' => $item->id_kelas]) }}"
                         class="bg-purple2 text-white px-4 py-2 rounded-lg">
                         View Details
                     </a>
