@@ -17,7 +17,11 @@ class Kelas extends Model
         'lingkup_kelas',
         'id_mata_kuliah',
         'bahasan',
-        'mode_kuliah'
+        'mode_kuliah',
+        'tugas',
+        'uts',
+        'uas',
+        'lainnya',
     ];
     public function prodi()
     {

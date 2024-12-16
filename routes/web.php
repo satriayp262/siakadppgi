@@ -119,6 +119,10 @@ Route::middleware(['auth', CheckRole::class . ':dosen', 'verified'])->prefix('do
         Route::get('/{kode_mata_kuliah}/{id_kelas}/{nama_aktifitas}', App\Livewire\Dosen\Aktifitas\Kelas\Aktifitas\Index::class)->name('dosen.aktifitas.kelas.aktifitas');
         // Route::get('/{NIM}/{semester}', App\Livewire\Admin\Krs\Mahasiswa\Edit::class)->name('admin.krs.edit');
     });
+    Route::prefix('bobot')->group(function () {
+        Route::get('/', App\Livewire\Dosen\Bobot\Index::class)->name('dosen.bobot');
+        Route::get('/{kode_mata_kuliah}', App\Livewire\Dosen\Bobot\Kelas\Index::class)->name('dosen.bobot.kelas');
+    });
     Route::get('/dosen/berita_acara/detail_matkul{id_mata_kuliah}', \App\Livewire\Dosen\BeritaAcara\DetailMatkul::class)->name('dosen.berita_acara.detail_matkul');
     Route::get('/dosen/berita_acara/detail_matkul{id_mata_kuliah}/detail_kelas{id_kelas}', \App\Livewire\Dosen\BeritaAcara\DetailKelas::class)->name('dosen.berita_acara.detail_kelas');
 
