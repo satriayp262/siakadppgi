@@ -108,9 +108,9 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#"
+                    <a href="{{ route('mahasiswa.emonev') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
-                        {{ request()->routeIs('admin.dashboard') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
+                        {{ request()->routeIs('mahasiswa.emonev') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.dashboard') ? ' text-white ' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                             viewBox="0 0 20 20">
