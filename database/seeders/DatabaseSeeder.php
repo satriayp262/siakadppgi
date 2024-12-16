@@ -306,7 +306,7 @@ class DatabaseSeeder extends Seeder
                 'sks_praktek' => fake()->numberBetween(0, 2),
                 'sks_praktek_lapangan' => fake()->numberBetween(0, 2),
                 'sks_simulasi' => fake()->numberBetween(0, 2),
-                'metode_pembelajaran' => fake()->randomElement(['Luring', 'Daring']),
+                'metode_pembelajaran' => fake()->randomElement(['Online', 'Offline']),
                 'tgl_mulai_efektif' => fake()->date(),
                 'tgl_akhir_efektif' => fake()->date(),
             ]);

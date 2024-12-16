@@ -83,6 +83,10 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
         Route::get('/', App\Livewire\Admin\Jadwal\Index::class)->name('admin.jadwal');
     });
 
+    Route::prefix('jadwalUjian')->group(function () {
+        Route::get('/', App\Livewire\Admin\JadwalUjian\Index::class)->name('admin.jadwalUjian');
+    });
+
     Route::prefix('staff')->group(function () {
         Route::get('/', App\Livewire\Admin\Staff\Index::class)->name('admin.staff');
     });

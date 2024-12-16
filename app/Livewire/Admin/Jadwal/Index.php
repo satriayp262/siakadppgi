@@ -93,6 +93,11 @@ class Index extends Component
                 // Cari ruangan yang sesuai
                 $ruangan = null;
                 $roomFound = false;
+                // dd($kelas->mode_kuliah);
+                if ($kelas->mode_kuliah == 'O'){
+                    $ruangan = 'Online';
+                    $roomFound = true;
+                }
 
                 while (!$roomFound) {
                     $currentDay = $days[$dayRuangan]; // Hari untuk ruangan
@@ -177,6 +182,13 @@ class Index extends Component
                 // dd($this->semester);
                 if (!$conflict) {
                     // Tambahkan jadwal
+                    if ($ruangan == 'Online'){
+                        $idRuangan = 'Online';
+                    }else{
+                        $idRuangan = $ruangan->id_ruangan;
+                    }
+
+                    // Tambahkan jadwal
                     Jadwal::create([
                         'id_kelas' => $kelas->id_kelas,
                         'nidn' => $kelas->matkul->nidn,
@@ -187,7 +199,7 @@ class Index extends Component
                         'jam_mulai' => $timeSlot['jam_mulai'],
                         'jam_selesai' => $timeSlot['jam_selesai'],
                         'sesi' => $timeSlot['sesi'],
-                        'id_ruangan' => $ruangan->id_ruangan,
+                        'id_ruangan' => $idRuangan,
                     ]);
 
                     // Kurangi jumlah SKS
