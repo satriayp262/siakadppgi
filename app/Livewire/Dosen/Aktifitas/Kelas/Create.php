@@ -12,9 +12,21 @@ class Create extends Component
 
     public function save()
     {
-        $this->validate(['nama_aktifitas' => 'required'], [
-            'nama_aktifitas.required' => 'Nama Aktifitas Tidak Boleh Kosong'
+        $this->validate([
+            'nama_aktifitas' => [
+                'required',
+                function ($attribute, $value, $fail) {
+                    if (Aktifitas::where('id_kelas', $this->id_kelas)
+                        ->where('nama_aktifitas', $value)
+                        ->exists()) {
+                        $fail('Aktifitas ini sudah ada');
+                    }
+                },
+            ],
+        ], [
+            'nama_aktifitas.required' => 'Nama Aktifitas Tidak Boleh Kosong',
         ]);
+        
 
         $exists = Aktifitas::where('id_kelas', $this->id_kelas)
             ->where('nama_aktifitas', $this->nama_aktifitas)

@@ -17,8 +17,7 @@ use Storage;
 class Show extends Component
 {
     use WithFileUploads;
-    public $id_kelas, $kode_mata_kuliah, $CheckDosen = false, $file,$nama_kelas;
-
+    public $id_kelas, $kode_mata_kuliah, $CheckDosen = false, $file, $nama_kelas;
 
 
 
@@ -34,6 +33,10 @@ class Show extends Component
     }
     public function mount()
     {
+        $aktifitas = new Aktifitas();
+        $aktifitas->createLainnya();
+
+
         $this->nama_kelas = kelas::where('id_kelas', $this->id_kelas)->first()->nama_kelas;
 
         $this->CheckDosen = (Auth()->user()->nim_nidn == Matakuliah::where('id_mata_kuliah', Kelas::where('id_kelas', $this->id_kelas)->first()->id_mata_kuliah)->first()->nidn);
