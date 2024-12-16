@@ -2,6 +2,7 @@
 
 namespace App\Imports;
 
+use App\Models\KRS;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -49,6 +50,13 @@ class NilaiImport implements ToModel, WithHeadingRow
             $this->rowNumber++;
             return null;
         }
+        if(!KRS::where('NIM', $row['nim'])->where('id_kelas', $this->id_kelas)->exists()){
+            $this->incompleteRecords[] =
+                "Mahasiswa dengan NIM {$row['nim']} pada baris ke {$this->rowNumber} tidak terdaftar pada kelas ini <br>";
+            $this->rowNumber++;
+            return null;
+        }
+
 
         foreach ($row as $column => $value) {
             if (isset($row['Nama']) && $row['Nama']) {
