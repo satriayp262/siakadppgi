@@ -1,5 +1,9 @@
 <?php
 
+use App\Models\Dosen;
+use App\Models\Kelas;
+use App\Models\Nilai;
+use App\Models\Prodi;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Livewire\Auth\VerifyEmail;
@@ -125,13 +129,16 @@ Route::middleware(['auth', CheckRole::class . ':dosen', 'verified'])->prefix('do
         Route::get('/', App\Livewire\Dosen\Bobot\Index::class)->name('dosen.bobot');
         Route::get('/{kode_mata_kuliah}', App\Livewire\Dosen\Bobot\Kelas\Index::class)->name('dosen.bobot.kelas');
     });
-    Route::get('/dosen/berita_acara/detail_matkul{id_mata_kuliah}', \App\Livewire\Dosen\BeritaAcara\DetailMatkul::class)->name('dosen.berita_acara.detail_matkul');
-    Route::get('/dosen/berita_acara/detail_matkul{id_mata_kuliah}/detail_kelas{id_kelas}', \App\Livewire\Dosen\BeritaAcara\DetailKelas::class)->name('dosen.berita_acara.detail_kelas');
+    Route::get('/berita_acara/detail_matkul{id_mata_kuliah}', \App\Livewire\Dosen\BeritaAcara\DetailMatkul::class)->name('dosen.berita_acara.detail_matkul');
+    Route::get('/berita_acara/detail_matkul{id_mata_kuliah}/detail_kelas{id_kelas}', \App\Livewire\Dosen\BeritaAcara\DetailKelas::class)->name('dosen.berita_acara.detail_kelas');
 
-    Route::get('/dosen/presensi', App\Livewire\Dosen\Presensi\Index::class)->name('dosen.presensi');
-    Route::get('/dosen/presensi/detail_presensi{id_mata_kuliah}', App\Livewire\Dosen\Presensi\AbsensiByKelas::class)->name('dosen.presensiByKelas');
-    Route::get('/dosen/presensi/detail_presensi{id_mata_kuliah}/detail_kelas{id_kelas}', App\Livewire\Dosen\Presensi\AbsensiByToken::class)->name('dosen.presensiByToken');
-    Route::get('/dosen/detail_presensi/{token}', App\Livewire\Dosen\Presensi\DetailPresensi::class)->name('dosen.detail_presensi');
+    Route::get('/presensi', App\Livewire\Dosen\Presensi\Index::class)->name('dosen.presensi');
+    Route::get('/presensi/detail_presensi{id_mata_kuliah}', App\Livewire\Dosen\Presensi\AbsensiByKelas::class)->name('dosen.presensiByKelas');
+    Route::get('/presensi/detail_presensi{id_mata_kuliah}/detail_kelas{id_kelas}', App\Livewire\Dosen\Presensi\AbsensiByToken::class)->name('dosen.presensiByToken');
+    Route::get('/detail_presensi/{token}', App\Livewire\Dosen\Presensi\DetailPresensi::class)->name('dosen.detail_presensi');
+
+    Route::get('/khs', App\Livewire\Khs\Index::class)->name('dosen.khs');
+    Route::get('/khs/{NIM}', App\Livewire\Khs\Show::class)->name('dosen.khs.show');
 });
 
 // staff
@@ -142,5 +149,101 @@ Route::middleware(['auth', CheckRole::class . ':staff'])->prefix('staff')->group
     Route::get('/profil', App\Livewire\Staff\Profil\Index::class)->name('staff.profil');
     Route::get('/dashboard', App\Livewire\Staff\Dashboard\Index::class)->name('staff.dashboard');
 });
+
+
+
+Route::get(
+    '/test',
+    function () {
+        $kelas = Kelas::find(17);
+        $NIM = 9999999998;
+
+        if (!$kelas) {
+            throw new \Exception('Kelas not found for the given KHS.');
+        }
+
+        // Retrieve bobot percentages from `kelas`
+        $bobotTugas = $kelas->tugas ?? 0;
+        $bobotUTS = $kelas->uts ?? 0;
+        $bobotUAS = $kelas->uas ?? 0;
+        $bobotLainnya = $kelas->lainnya ?? 0;
+
+        // Calculate total weight
+        $totalWeight = $bobotTugas + $bobotUTS + $bobotUAS + $bobotLainnya;
+
+        // Normalize weights if the total weight is not 100
+        if ($totalWeight != 100) {
+            $bobotTugas = ($bobotTugas / $totalWeight) * 100;
+            $bobotUTS = ($bobotUTS / $totalWeight) * 100;
+            $bobotUAS = ($bobotUAS / $totalWeight) * 100;
+            $bobotLainnya = ($bobotLainnya / $totalWeight) * 100;
+        }
+
+        // Initialize total bobot
+        $totalBobot = 0;
+
+        // Calculate bobot for UTS
+        $nilaiUTS = Nilai::where('NIM', $NIM)
+            ->where('id_kelas', $kelas->id_kelas)
+            ->whereHas('aktifitas', function ($query) {
+            $query->where('nama_aktifitas', 'UTS');
+        })
+            ->first();
+
+        if ($nilaiUTS) {
+            $totalBobot += ($nilaiUTS->nilai / 100) * 4.00 * ($bobotUTS / 100);
+        }
+
+        // Calculate bobot for UAS
+        $nilaiUAS = Nilai::where('NIM', $NIM)
+            ->where('id_kelas', $kelas->id_kelas)
+            ->whereHas('aktifitas', function ($query) {
+            $query->where('nama_aktifitas', 'UAS');
+        })
+            ->first();
+
+        if ($nilaiUAS) {
+            $totalBobot += ($nilaiUAS->nilai / 100) * 4.00 * ($bobotUAS / 100);
+        }
+
+        // Calculate bobot for Lainnya
+        $nilaiLainnya = Nilai::where('NIM', $NIM)
+            ->where('id_kelas', $kelas->id_kelas)
+            ->whereHas('aktifitas', function ($query) {
+            $query->where('nama_aktifitas', 'Lainnya');
+        })
+            ->first();
+
+        if ($nilaiLainnya) {
+            $totalBobot += ($nilaiLainnya->nilai / 100) * 4.00 * ($bobotLainnya / 100);
+        }
+
+        // Calculate bobot for Tugas (all other activities)
+        $nilaiTugas = Nilai::where('NIM', $NIM)
+            ->where('id_kelas', $kelas->id_kelas)
+            ->whereHas('aktifitas', function ($query) {
+            $query->whereNotIn('nama_aktifitas', ['UTS', 'UAS', 'Lainnya']);
+        })
+            ->get();
+
+        if ($nilaiTugas->isNotEmpty()) {
+            // Calculate the average nilai for Tugas
+            $averageTugas = $nilaiTugas->avg('nilai');
+
+            // Convert to a 4.00 scale
+            $averageTugasScaled = ($averageTugas / 100) * 4.00;
+
+            // Add the weighted Tugas score to the total bobot
+            $totalBobot += $averageTugasScaled * ($bobotTugas / 100);
+        }
+
+        // Ensure the totalBobot does not exceed 4.00
+        $this->bobot = round($totalBobot,2);
+dd($this->bobot);
+        // $this->save();
+
+    }
+)->name('saddsa');
+
 
 
