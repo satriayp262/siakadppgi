@@ -86,6 +86,10 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
         Route::get('/', App\Livewire\Admin\Jadwal\Index::class)->name('admin.jadwal');
     });
 
+    Route::prefix('jadwalUjian')->group(function () {
+        Route::get('/', App\Livewire\Admin\JadwalUjian\Index::class)->name('admin.jadwalUjian');
+    });
+
     Route::prefix('staff')->group(function () {
         Route::get('/', App\Livewire\Admin\Staff\Index::class)->name('admin.staff');
     });
@@ -111,7 +115,7 @@ Route::middleware(['auth', CheckRole::class . ':mahasiswa', 'verified'])->prefix
     Route::get('/krs', App\Livewire\Mahasiswa\Krs\Index::class)->name('mahasiswa.krs');
     Route::get('/emonev', App\Livewire\Mahasiswa\Emonev\Index::class)->name('mahasiswa.emonev');
     Route::get('/jadwal', App\Livewire\Mahasiswa\Jadwal\Index::class)->name('mahasiswa.jadwal');
-    Route::get('/show/{id_kelas}', App\Livewire\Mahasiswa\Emonev\Show::class)->name('mahasiswa.detail');
+    Route::get('/show/{id_kelas}', App\Livewire\Mahasiswa\Emonev\Show::class)->name('emonev.detail');
 });
 
 // dosen

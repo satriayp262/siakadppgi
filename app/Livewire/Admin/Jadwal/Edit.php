@@ -80,15 +80,10 @@ class Edit extends Component
         $ammo = Jadwal::find($this->id_jadwal);
 
         // Simpan nilai asli id_kelas ke variabel sementara
-        $tempIdKelas = $target->id_kelas;
-        $tempNidn = $target->nidn;
+        $tempHari = $target->hari;
+        $tempSesi = $target->sesi;
 
-        $jumlahTarget = KRS::where('id_kelas', $target->id_kelas)->count();
-        $kapasitasTarget = Ruangan::where('id_ruangan', $target->id_ruangan)->first()->kapasitas;
-        $jumlahAmmo = KRS::where('id_kelas', $ammo->id_kelas)->count();
-        $kapasitasAmmo = Ruangan::where('id_ruangan', $ammo->id_ruangan)->first()->kapasitas;
-
-        if ($kapasitasTarget >= $jumlahAmmo && $kapasitasAmmo >= $jumlahTarget) {
+        if ($ammo->id_ruangan == 'Online' || $target->id_ruangan == 'Online') {
             $conflict = jadwal::where('hari', $target->hari)
                 ->where('sesi', $target->sesi)
                 ->where('nidn', $ammo->kelas->matkul->nidn)
@@ -98,57 +93,126 @@ class Edit extends Component
                 ->where('sesi', $ammo->sesi)
                 ->where('nidn', $target->kelas->matkul->nidn)
                 ->exists();
-        }
 
-        if (!$conflict && !$conflict2) {
-            // Tukar id_kelas antara target dan ammo
-            $target->update([
-                'id_kelas' => $ammo->id_kelas,
-                'nidn' => $ammo->nidn
-            ]);
+            if (!$conflict && !$conflict2) {
+                // Tukar id_kelas antara target dan ammo
+                $target->update([
+                    'hari' => $ammo->hari,
+                    'sesi' => $ammo->sesi,
+                ]);
 
-            $ammo->update([
-                'id_kelas' => $tempIdKelas,
-                'nidn' => $tempNidn
-            ]);
-            
-            $this->clear($this->id_jadwal);
-            $this->dispatch('jadwalUpdated');
+                $ammo->update([
+                    'hari' => $tempHari,
+                    'sesi' => $tempSesi,
+                ]);
+
+                $this->clear($this->id_jadwal);
+                $this->dispatch('jadwalUpdated');
+            } else {
+                if ($conflict) {
+
+                    if ($target->hari == 'Monday') {
+                        $target->hari = 'Senin';
+                    } elseif ($target->hari == 'Tuesday') {
+                        $target->hari = 'Selasa';
+                    } elseif ($target->hari == 'Wednesday') {
+                        $target->hari = 'Rabu';
+                    } elseif ($target->hari == 'Thursday') {
+                        $target->hari = 'Kamis';
+                    } elseif ($target->hari == 'Friday') {
+                        $target->hari = 'Jumat';
+                    }
+
+                    $dosen = $ammo->dosen->nama_dosen;
+                    $this->dispatch('warning', ['message' => 'Sudah ada jadwal untuk dosen ' . $dosen . ' di hari ' . $target->hari . ' sesi ' . $target->sesi]);
+
+                } elseif ($conflict2) {
+
+                    if ($ammo->hari == 'Monday') {
+                        $ammo->hari = 'Senin';
+                    } elseif ($ammo->hari == 'Tuesday') {
+                        $ammo->hari = 'Selasa';
+                    } elseif ($ammo->hari == 'Wednesday') {
+                        $ammo->hari = 'Rabu';
+                    } elseif ($ammo->hari == 'Thursday') {
+                        $ammo->hari = 'Kamis';
+                    } elseif ($ammo->hari == 'Friday') {
+                        $ammo->hari = 'Jumat';
+                    }
+
+                    $dosen = $target->kelas->matkul->dosen->nama_dosen;
+                    $this->dispatch('warning', ['message' => 'Sudah ada jadwal untuk dosen ' . $dosen . ' di hari ' . $ammo->hari . ' sesi ' . $ammo->sesi]);
+
+                }
+            }
         }else{
-            if ($conflict) {
+            $jumlahTarget = KRS::where('id_kelas', $target->id_kelas)->count();
+            $kapasitasTarget = Ruangan::where('id_ruangan', $target->id_ruangan)->first()->kapasitas;
+            $jumlahAmmo = KRS::where('id_kelas', $ammo->id_kelas)->count();
+            $kapasitasAmmo = Ruangan::where('id_ruangan', $ammo->id_ruangan)->first()->kapasitas;
 
-                if ($target->hari == 'Monday') {
-                    $target->hari = 'Senin';
-                } elseif ($target->hari == 'Tuesday') {
-                    $target->hari = 'Selasa';
-                } elseif ($target->hari == 'Wednesday') {
-                    $target->hari = 'Rabu';
-                } elseif ($target->hari == 'Thursday') {
-                    $target->hari = 'Kamis';
-                } elseif ($target->hari == 'Friday') {
-                    $target->hari = 'Jumat';
+            if ($kapasitasTarget >= $jumlahAmmo && $kapasitasAmmo >= $jumlahTarget) {
+                $conflict = jadwal::where('hari', $target->hari)
+                    ->where('sesi', $target->sesi)
+                    ->where('nidn', $ammo->kelas->matkul->nidn)
+                    ->exists();
+
+                $conflict2 = jadwal::where('hari', $ammo->hari)
+                    ->where('sesi', $ammo->sesi)
+                    ->where('nidn', $target->kelas->matkul->nidn)
+                    ->exists();
+            }
+
+            if (!$conflict && !$conflict2) {
+                // Tukar id_kelas antara target dan ammo
+                $target->update([
+                    'hari' => $ammo->hari,
+                    'sesi' => $ammo->sesi
+                ]);
+
+                $ammo->update([
+                    'hari' => $tempHari,
+                    'sesi' => $tempSesi
+                ]);
+
+                $this->clear($this->id_jadwal);
+                $this->dispatch('jadwalUpdated');
+            } else {
+                if ($conflict) {
+
+                    if ($target->hari == 'Monday') {
+                        $target->hari = 'Senin';
+                    } elseif ($target->hari == 'Tuesday') {
+                        $target->hari = 'Selasa';
+                    } elseif ($target->hari == 'Wednesday') {
+                        $target->hari = 'Rabu';
+                    } elseif ($target->hari == 'Thursday') {
+                        $target->hari = 'Kamis';
+                    } elseif ($target->hari == 'Friday') {
+                        $target->hari = 'Jumat';
+                    }
+
+                    $dosen = $ammo->dosen->nama_dosen;
+                    $this->dispatch('warning', ['message' => 'Sudah ada jadwal untuk dosen ' . $dosen . ' di hari ' . $target->hari . ' sesi ' . $target->sesi]);
+
+                } elseif ($conflict2) {
+
+                    if ($ammo->hari == 'Monday') {
+                        $ammo->hari = 'Senin';
+                    } elseif ($ammo->hari == 'Tuesday') {
+                        $ammo->hari = 'Selasa';
+                    } elseif ($ammo->hari == 'Wednesday') {
+                        $ammo->hari = 'Rabu';
+                    } elseif ($ammo->hari == 'Thursday') {
+                        $ammo->hari = 'Kamis';
+                    } elseif ($ammo->hari == 'Friday') {
+                        $ammo->hari = 'Jumat';
+                    }
+
+                    $dosen = $target->kelas->matkul->dosen->nama_dosen;
+                    $this->dispatch('warning', ['message' => 'Sudah ada jadwal untuk dosen ' . $dosen . ' di hari ' . $ammo->hari . ' sesi ' . $ammo->sesi]);
+
                 }
-
-                $dosen = $ammo->dosen->nama_dosen;
-                $this->dispatch('warning', ['message' => 'Sudah ada jadwal untuk dosen ' . $dosen . ' di hari ' . $target->hari . ' sesi ' . $target->sesi]);
-
-            }elseif ($conflict2) {
-
-                if ($ammo->hari == 'Monday') {
-                    $ammo->hari = 'Senin';
-                } elseif ($ammo->hari == 'Tuesday') {
-                    $ammo->hari = 'Selasa';
-                } elseif ($ammo->hari == 'Wednesday') {
-                    $ammo->hari = 'Rabu';
-                } elseif ($ammo->hari == 'Thursday') {
-                    $ammo->hari = 'Kamis';
-                } elseif ($ammo->hari == 'Friday') {
-                    $ammo->hari = 'Jumat';
-                }
-
-                $dosen = $target->kelas->matkul->dosen->nama_dosen;
-                $this->dispatch('warning', ['message' => 'Sudah ada jadwal untuk dosen ' . $dosen . ' di hari ' . $ammo->hari . ' sesi ' . $ammo->sesi]);
-
             }
         }
     }
