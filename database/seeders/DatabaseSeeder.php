@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Aktifitas;
 use App\Models\Dosen;
 use App\Models\Matakuliah;
+use App\Models\Nilai;
 use App\Models\Pendidikan_Terakhir;
 use App\Models\Pertanyaan;
 use App\Models\Ruangan;

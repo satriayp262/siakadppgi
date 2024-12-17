@@ -1,7 +1,10 @@
 <?php
 
+use App\Models\Aktifitas;
 use App\Models\Dosen;
 use App\Models\Kelas;
+use App\Models\KRS;
+use App\Models\Mahasiswa;
 use App\Models\Nilai;
 use App\Models\Prodi;
 use Illuminate\Support\Facades\Route;
@@ -155,93 +158,39 @@ Route::middleware(['auth', CheckRole::class . ':staff'])->prefix('staff')->group
 Route::get(
     '/test',
     function () {
-        $kelas = Kelas::find(17);
-        $NIM = 9999999998;
+        $namaAktifitasList = ['Tugas 1', 'Tugas 2', 'Tugas 3', 'Tugas 4', 'Tugas 5', 'UTS', 'UAS'];
 
-        if (!$kelas) {
-            throw new \Exception('Kelas not found for the given KHS.');
+        $kelasList = Kelas::all();
+
+
+        foreach ($kelasList as $kelas) {
+            foreach ($namaAktifitasList as $namaAktifitas) {
+                $aktifitas = Aktifitas::updateOrCreate(
+                    [
+                        'nama_aktifitas' => $namaAktifitas,
+                        'id_kelas' => $kelas->id_kelas,
+                    ],
+                    [
+                        'catatan' => null,
+                    ]
+                );
+                $mahasiswaList = Mahasiswa::whereIn('NIM', KRS::where('id_kelas', $kelas->id_kelas)->pluck('NIM'))->get();
+
+                foreach ($mahasiswaList as $mahasiswa) {
+                    Nilai::updateOrCreate(
+                        [
+                            'id_aktifitas' => $aktifitas->id_aktifitas,
+                            'NIM' => $mahasiswa->NIM,
+                            'id_kelas' => $kelas->id_kelas,
+                        ],
+                        [
+                            'nilai' => rand(80, 100), 
+                        ]
+                    );
+                }
+            }
         }
-
-        // Retrieve bobot percentages from `kelas`
-        $bobotTugas = $kelas->tugas ?? 0;
-        $bobotUTS = $kelas->uts ?? 0;
-        $bobotUAS = $kelas->uas ?? 0;
-        $bobotLainnya = $kelas->lainnya ?? 0;
-
-        // Calculate total weight
-        $totalWeight = $bobotTugas + $bobotUTS + $bobotUAS + $bobotLainnya;
-
-        // Normalize weights if the total weight is not 100
-        if ($totalWeight != 100) {
-            $bobotTugas = ($bobotTugas / $totalWeight) * 100;
-            $bobotUTS = ($bobotUTS / $totalWeight) * 100;
-            $bobotUAS = ($bobotUAS / $totalWeight) * 100;
-            $bobotLainnya = ($bobotLainnya / $totalWeight) * 100;
-        }
-
-        // Initialize total bobot
-        $totalBobot = 0;
-
-        // Calculate bobot for UTS
-        $nilaiUTS = Nilai::where('NIM', $NIM)
-            ->where('id_kelas', $kelas->id_kelas)
-            ->whereHas('aktifitas', function ($query) {
-            $query->where('nama_aktifitas', 'UTS');
-        })
-            ->first();
-
-        if ($nilaiUTS) {
-            $totalBobot += ($nilaiUTS->nilai / 100) * 4.00 * ($bobotUTS / 100);
-        }
-
-        // Calculate bobot for UAS
-        $nilaiUAS = Nilai::where('NIM', $NIM)
-            ->where('id_kelas', $kelas->id_kelas)
-            ->whereHas('aktifitas', function ($query) {
-            $query->where('nama_aktifitas', 'UAS');
-        })
-            ->first();
-
-        if ($nilaiUAS) {
-            $totalBobot += ($nilaiUAS->nilai / 100) * 4.00 * ($bobotUAS / 100);
-        }
-
-        // Calculate bobot for Lainnya
-        $nilaiLainnya = Nilai::where('NIM', $NIM)
-            ->where('id_kelas', $kelas->id_kelas)
-            ->whereHas('aktifitas', function ($query) {
-            $query->where('nama_aktifitas', 'Lainnya');
-        })
-            ->first();
-
-        if ($nilaiLainnya) {
-            $totalBobot += ($nilaiLainnya->nilai / 100) * 4.00 * ($bobotLainnya / 100);
-        }
-
-        // Calculate bobot for Tugas (all other activities)
-        $nilaiTugas = Nilai::where('NIM', $NIM)
-            ->where('id_kelas', $kelas->id_kelas)
-            ->whereHas('aktifitas', function ($query) {
-            $query->whereNotIn('nama_aktifitas', ['UTS', 'UAS', 'Lainnya']);
-        })
-            ->get();
-
-        if ($nilaiTugas->isNotEmpty()) {
-            // Calculate the average nilai for Tugas
-            $averageTugas = $nilaiTugas->avg('nilai');
-
-            // Convert to a 4.00 scale
-            $averageTugasScaled = ($averageTugas / 100) * 4.00;
-
-            // Add the weighted Tugas score to the total bobot
-            $totalBobot += $averageTugasScaled * ($bobotTugas / 100);
-        }
-
-        // Ensure the totalBobot does not exceed 4.00
-        $this->bobot = round($totalBobot,2);
-dd($this->bobot);
-        // $this->save();
-
+        dd('done');
     }
 )->name('saddsa');
 

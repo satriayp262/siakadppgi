@@ -64,6 +64,9 @@ public function update() {
 
     $kelas = Kelas::find($this->id_kelas);
 
+    if($validatedData['lainnya'] == ' ' || $validatedData['lainnya'] == 0) {
+        $validatedData['lainnya'] = null;
+    }
     if ($kelas) {
         $kelas->update([
             'tugas' => $validatedData['tugas'],

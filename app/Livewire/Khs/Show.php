@@ -4,6 +4,7 @@ namespace App\Livewire\Khs;
 
 use App\Models\KHS;
 use App\Models\KRS;
+use App\Models\Mahasiswa;
 use App\Models\Semester;
 use Livewire\Component;
 
@@ -16,13 +17,13 @@ class Show extends Component
         $krsData = KRS::where('NIM', $NIM)
             ->where('id_semester', $id_semester)
             ->get();
-    
+
         // Loop through each KRS record
         foreach ($krsData as $krs) {
             // Call the KHS model to calculate the bobot
             $bobot = KHS::calculateBobot($krs->id_kelas, $NIM);
-            
-    
+
+
             // Create a new KHS entry for this specific class and bobot
             KHS::updateOrCreate([
                 'NIM' => $NIM,
@@ -33,17 +34,25 @@ class Show extends Component
             ], [
                 'bobot' => $bobot
             ]);
-            
+
         }
     }
-    
+
 
 
 
 
     public function render()
     {
-        $semester = Semester::all();
+        $semester = Semester::where(
+            'nama_semester',
+            '>=',
+            Semester::where(
+                'id_semester',
+                Mahasiswa::where('NIM', $this->NIM)
+                    ->first()->mulai_semester
+            )->first()->nama_semester
+        )->get();
         return view('livewire.khs.show', [
             'semester' => $semester
         ]);
