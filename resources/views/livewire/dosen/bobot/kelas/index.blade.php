@@ -21,7 +21,7 @@
             </thead>
             <tbody>
                 @foreach ($kelas as $item)
-                    <tr wire:key="item-{{ $item->id_kelas }}">
+                    <tr wire:key="item-{{rand(). $item->id_kelas }}">
                         <td class="px-4 py-2 text-center">{{ $item->nama_kelas }}</td>
                         <td class="px-4 py-2 text-center">{{ $item->prodi->nama_prodi }}</td>
                         <td class="px-4 py-2 text-center">{{ $item->semester->nama_semester }}</td>
@@ -39,5 +39,3 @@
         </table>
     </div>
 </div>
-
-

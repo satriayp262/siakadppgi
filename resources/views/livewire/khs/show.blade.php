@@ -60,14 +60,11 @@
                     <div class="flex items-center justify-between my-2">
                         <h2>Semester {{ $x->nama_semester }}</h2>
                         {{-- <a href="{{ route('admin.krs.edit', ['semester' => $x->id_semester, 'NIM' => $this->NIM]) }}" --}}
-                        <a wire:click="calculate({{$this->NIM}},{{$x->id_semester}})"
-                            class="px-3 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"><svg
-                                class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
-                                viewBox="0 0 24 24">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M10.779 17.779 4.36 19.918 6.5 13.5m4.279 4.279 8.364-8.643a3.027 3.027 0 0 0-2.14-5.165 3.03 3.03 0 0 0-2.14.886L6.5 13.5m4.279 4.279L6.499 13.5m2.14 2.14 6.213-6.504M12.75 7.04 17 11.28" />
+                        <a wire:click="calculate({{ $this->NIM }},{{ $x->id_semester }})"
+                            class="px-3 py-2 font-bold text-white bg-amber-500 rounded hover:bg-amber-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <path
+                                    d="M13.5 2c-5.621 0-10.211 4.443-10.475 10h-3.025l5 6.625 5-6.625h-2.975c.257-3.351 3.06-6 6.475-6 3.584 0 6.5 2.916 6.5 6.5s-2.916 6.5-6.5 6.5c-1.863 0-3.542-.793-4.728-2.053l-2.427 3.216c1.877 1.754 4.389 2.837 7.155 2.837 5.79 0 10.5-4.71 10.5-10.5s-4.71-10.5-10.5-10.5z" />
                             </svg></a>
 
                     </div>
@@ -89,22 +86,29 @@
                                 <tbody>
                                     @foreach ($khs as $item)
                                         <tr wire:key="khs-{{ $item->id_khs }}">
-                                            <td class="px-4 py-2 text-center border">{{ $item->matkul->nama_mata_kuliah }}</td>
-                                            <td class="px-4 py-2 text-center border">{{ $item->matkul->dosen->nama_dosen }}</td>
-                                            <td class="px-4 py-2 text-center border">{{ $item->kelas->nama_kelas }}</td>
-                                            <td class="px-4 py-2 text-center border">{{ $item->matkul->sks_tatap_muka }}</td>
-                                            <td class="px-4 py-2 text-center border">{{ $item->matkul->sks_praktek }}</td>
-                                            <td class="px-4 py-2 text-center border">{{ $item->matkul->sks_praktek_lapangan }}</td>
-                                            <td class="px-4 py-2 text-center border">{{ $item->matkul->sks_simulasi }}</td>
+                                            <td class="px-4 py-2 text-center border">
+                                                {{ $item->matkul->nama_mata_kuliah }}</td>
+                                            <td class="px-4 py-2 text-center border">
+                                                {{ $item->matkul->dosen->nama_dosen }}</td>
+                                            <td class="px-4 py-2 text-center border">{{ $item->kelas->nama_kelas }}
+                                            </td>
+                                            <td class="px-4 py-2 text-center border">
+                                                {{ $item->matkul->sks_tatap_muka }}</td>
+                                            <td class="px-4 py-2 text-center border">{{ $item->matkul->sks_praktek }}
+                                            </td>
+                                            <td class="px-4 py-2 text-center border">
+                                                {{ $item->matkul->sks_praktek_lapangan }}</td>
+                                            <td class="px-4 py-2 text-center border">{{ $item->matkul->sks_simulasi }}
+                                            </td>
                                             <td class="px-4 py-2 text-center border">{{ $item->bobot }}</td>
-                                            
+
                                         </tr>
                                     @endforeach
                                 </tbody>
                             </table>
                         </div>
                     @else
-                    <p>Belum ada data KHS pada semester ini</p>
+                        <p>Belum ada data KHS pada semester ini</p>
                     @endif
                 </div>
             @endforeach
@@ -114,3 +118,17 @@
     @endif
 
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        window.addEventListener('updatedKHS', event => {
+            Swal.fire({
+                title: 'Success!',
+                text: event.detail[0],
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                window.dispatchEvent(new CustomEvent('modal-closed'));
+            });
+        });
+    });
+</script>

@@ -24,7 +24,7 @@
             <div class="p-4 text-left"> <!-- Added text-left here -->
                 <div class="p-4 max-h-[500px] overflow-y-auto">
                     <form wire:submit="update">
-                        <input type="text" hidden wire:model="id">
+                        <input type="text" hidden wire:model="id_kelas">
                         <div class="mb-4">
                             <label for="tugas" class="block text-sm font-medium text-gray-700">Tugas</label>
                             <input type="number" id="tugas" wire:model="tugas" name="tugas"

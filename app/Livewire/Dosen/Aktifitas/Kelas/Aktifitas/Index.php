@@ -86,7 +86,7 @@ class Index extends Component
         $this->validate(); 
     
         foreach ($this->Nilai as $index => $nilaiData) {
-            if($nilaiData['nilai'] === " " || $nilaiData['nilai'] === 0 ){
+            if($nilaiData['nilai'] === " " || $nilaiData['nilai'] === "" ){
                 $nilaiData['nilai'] = null;
             }
             Nilai::updateOrCreate(

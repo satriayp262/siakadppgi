@@ -36,6 +36,8 @@ class Show extends Component
             ]);
 
         }
+
+        $this->dispatch('updatedKHS', ['KHS Berhasil Diupdate']);
     }
 
 

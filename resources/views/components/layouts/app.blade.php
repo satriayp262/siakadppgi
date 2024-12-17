@@ -15,32 +15,33 @@
             font-family: 'Inter', sans-serif;
             margin: 0;
         }
+
         .spinner {
-                border: 5px solid rgba(0, 0, 0, 0.2);
-                /* Light border for background */
-                border-radius: 50%;
-                border-top: 5px solid #3498db;
-                /* Blue border for spinner */
-                width: 36px;
-                /* Increased size for visibility */
-                height: 36px;
-                animation: spin 1s linear infinite;
+            border: 5px solid rgba(0, 0, 0, 0.2);
+            /* Light border for background */
+            border-radius: 50%;
+            border-top: 5px solid #3498db;
+            /* Blue border for spinner */
+            width: 36px;
+            /* Increased size for visibility */
+            height: 36px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
             }
 
-            @keyframes spin {
-                0% {
-                    transform: rotate(0deg);
-                }
-
-                100% {
-                    transform: rotate(360deg);
-                }
+            100% {
+                transform: rotate(360deg);
             }
+        }
     </style>
 </head>
 
 <body class="flex flex-col w-full z-14">
-    <livewire:component.navbar/>
+    <livewire:component.navbar />
     <div class="flex flex-col min-h-screen md:flex-row z-12">
         <aside class="flex-shrink-0 z-11">
             @if (auth()->check())
@@ -129,6 +130,19 @@
                 }).then(() => {
                     // Dispatch the modal-closed event to close the modal
                     window.dispatchEvent(new CustomEvent('modal-closed'));
+                });
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            window.addEventListener('BobotUpdate', event => {
+                Swal.fire({
+                    title: 'Success!',
+                    text: event.detail[0].message,
+                    icon: 'success',
+                }).then(() => {
+                    window.dispatchEvent(new CustomEvent('modal-closed'));
+                    window.location.href = event.detail[0].link;
                 });
             });
         });
