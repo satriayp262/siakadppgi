@@ -45,7 +45,7 @@
                     <li>
                         <a href="
                         @php
-$user = Auth::user();
+                            $user = Auth::user();
                             if ($user->role == 'staff') {
                                 echo route('staff.profil');
                             } elseif ($user->role == 'mahasiswa') {
@@ -66,7 +66,7 @@ $user = Auth::user();
                         </form>
                     </li>
 
-                    <script>
+                    {{-- <script>
                         document.addEventListener('DOMContentLoaded', function() {
                             const logoutLink = document.getElementById('logout-link');
                             const logoutModal = document.getElementById('logout-modal');
@@ -75,13 +75,13 @@ $user = Auth::user();
                             const confirmLogout = document.getElementById('confirm-logout');
                             const logoutForm = document.getElementById('logout-form');
 
-                            document.addEventListener('click', function(event) {
-                                if (!logoutModal.contains(event.target) && !logoutLink.contains(event.target)) {
-                                    logoutModal.classList.add('hidden');
-                                }
-                            });
+                            // document.addEventListener('click', function(event) {
+                            //     if (!logoutModal.contains(event.target) && !logoutLink.contains(event.target)) {
+                            //         logoutModal.classList.add('hidden');
+                            //     }
+                            // });
                         });
-                    </script>
+                    </script> --}}
                 </ul>
             </div>
         </div>

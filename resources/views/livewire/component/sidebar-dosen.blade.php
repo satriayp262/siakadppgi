@@ -32,17 +32,17 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('dosen.input_nilai') }}"
+                    <a href="{{ route('dosen.bobot') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
-                    {{ request()->routeIs('dosen.input_nilai') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
-                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('dosen.input_nilai') ? 'text-white' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
+                    {{ request()->routeIs('dosen.bobot') || request()->routeIs('dosen.bobot.kelas') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
+                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('dosen.bobot') ? 'text-white' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                             fill="currentColor" viewBox="0 0 24 24">
                             <path fill-rule="evenodd"
                                 d="M8 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1h2a2 2 0 0 1 2 2v15a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h2Zm6 1h-4v2H9a1 1 0 0 0 0 2h6a1 1 0 1 0 0-2h-1V4Zm-6 8a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2H9a1 1 0 0 1-1-1Zm1 3a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2H9Z"
                                 clip-rule="evenodd" />
                         </svg>
-                        <span class="flex-1 ms-3 whitespace-nowrap">Input Nilai Mata Kuliah</span>
+                        <span class="flex-1 ms-3 whitespace-nowrap">Bobot Nilai</span>
                     </a>
                 </li>
                 <li>
@@ -57,6 +57,20 @@
                                 clip-rule="evenodd" />
                         </svg>
                         <span class="flex-1 ms-3 whitespace-nowrap">Aktifitas</span>
+                    </a>
+                </li>
+                <li>
+                    <a wire:navigate.hover href="{{ route('dosen.khs') }}"
+                        class="flex items-center p-2 rounded-lg transition duration-75 group
+                    {{ request()->routeIs('dosen.khs') || request()->routeIs('dosen.khs.show') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
+                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('dosen.khs') ? 'text-white' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
+                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd"
+                                d="M2 6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6Zm4.996 2a1 1 0 0 0 0 2h.01a1 1 0 1 0 0-2h-.01ZM11 8a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-6Zm-4.004 3a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2h-.01ZM11 11a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-6Zm-4.004 3a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2h-.01ZM11 14a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-6Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        <span class="flex-1 ms-3 whitespace-nowrap">KHS</span>
                     </a>
                 </li>
                 <li>
@@ -95,6 +109,5 @@
             </ul>
         </div>
     </div>
-    {{-- Add Flowbite Script --}}
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
