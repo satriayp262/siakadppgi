@@ -4,7 +4,7 @@
         <div class="h-full px-3 py-4 ">
             <ul class="space-y-2 font-medium relative sticky top-20">
                 <li>
-                    <a href="{{ route('admin.dashboard') }}"
+                    <a wire:navigate.hover href="{{ route('admin.dashboard') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                         {{ request()->routeIs('admin.dashboard') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.dashboard') ? 'text-white' : 'text-gray-500' }}"
@@ -18,7 +18,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.user') }}"
+                    <a wire:navigate.hover href="{{ route('admin.user') }}"
                         class="flex items-center p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.user') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.user') ? 'text-white' : 'text-gray-500' }}"
                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -32,7 +32,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.dosen') }}"
+                    <a wire:navigate.hover href="{{ route('admin.dosen') }}"
                         class="flex items-center p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.dosen') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.dosen') ? 'text-white' : 'text-gray-500' }}"
                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
@@ -45,7 +45,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.mahasiswa') }}"
+                    <a wire:navigate.hover href="{{ route('admin.mahasiswa') }}"
                         class="flex items-center p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.mahasiswa') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.mahasiswa') ? 'text-white' : 'text-gray-500' }}"
                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -58,7 +58,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.prodi') }}"
+                    <a wire:navigate.hover href="{{ route('admin.prodi') }}"
                         class="flex items-center p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.prodi') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.prodi') ? 'text-white' : 'text-gray-500' }}"
                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -71,7 +71,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.mata_kuliah') }}"
+                    <a wire:navigate.hover href="{{ route('admin.mata_kuliah') }}"
                         class="flex items-center p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.mata_kuliah') ? ' text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-gray-100' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.mata_kuliah') ? 'text-white' : 'text-gray-500' }}"
                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -105,11 +105,11 @@
                     </button>
                     <ul id="dropdown-Jadwal" class="hidden py-2 space-y-2">
                         <li>
-                            <a {{-- <a href="#" --}}
+                            <a wire:navigate.hover {{-- <a wire:navigate.hover href="#" --}}
                                 class="flex items-center w-full p-2 text-gray-500 transition duration-75 rounded-lg pl-11 group">Kuliah</a>
                         </li>
                         <li>
-                            <a {{-- <a href="#" --}}
+                            <a wire:navigate.hover {{-- <a wire:navigate.hover href="#" --}}
                                 class="flex items-center w-full p-2 text-gray-500 transition duration-75 rounded-lg pl-11 group">KSK</a>
                         </li>
                     </ul>
@@ -135,32 +135,32 @@
                     </button>
                     <ul id="dropdown-Nilai" class="hidden py-2 space-y-2">
                         <li>
-                            <a {{-- <a href="#" --}}
+                            <a wire:navigate.hover {{-- <a wire:navigate.hover href="#" --}}
                                 class="flex items-center w-full p-2 text-gray-500 transition duration-75 rounded-lg pl-11 group hover:bg-gray-500">Semester
                                 1</a>
                         </li>
                         <li>
-                            <a {{-- <a href="#" --}}
+                            <a wire:navigate.hover {{-- <a wire:navigate.hover href="#" --}}
                                 class="flex items-center w-full p-2 text-gray-500 transition duration-75 rounded-lg pl-11 group hover:bg-gray-500">Semester
                                 2</a>
                         </li>
                         <li>
-                            <a {{-- <a href="#" --}}
+                            <a wire:navigate.hover {{-- <a wire:navigate.hover href="#" --}}
                                 class="flex items-center w-full p-2 text-gray-500 transition duration-75 rounded-lg pl-11 group hover:bg-gray-500">Semester
                                 3</a>
                         </li>
                         <li>
-                            <a {{-- <a href="#" --}}
+                            <a wire:navigate.hover {{-- <a wire:navigate.hover href="#" --}}
                                 class="flex items-center w-full p-2 text-gray-500 transition duration-75 rounded-lg pl-11 group hover:bg-gray-500">Semester
                                 4</a>
                         </li>
                         <li>
-                            <a {{-- <a href="#" --}}
+                            <a wire:navigate.hover {{-- <a wire:navigate.hover href="#" --}}
                                 class="flex items-center w-full p-2 text-gray-500 transition duration-75 rounded-lg pl-11 group hover:bg-gray-500">Semester
                                 5</a>
                         </li>
                         <li>
-                            <a {{-- <a href="#" --}}
+                            <a wire:navigate.hover {{-- <a wire:navigate.hover href="#" --}}
                                 class="flex items-center w-full p-2 text-gray-500 transition duration-75 rounded-lg pl-11 group hover:bg-gray-500">Semester
                                 6</a>
                         </li>

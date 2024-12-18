@@ -4,7 +4,7 @@
         <div class="h-full px-3 py-4 ">
             <ul class="relative sticky space-y-2 font-medium top-20">
                 {{-- <li>
-                    <a href="{{ route('mahasiswa.profile') }}"
+                    <a wire:navigate.hover href="{{ route('mahasiswa.profile') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                         {{ request()->routeIs('mahasiswa.profile') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('mahasiswa.profile') ? ' text-white' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
@@ -19,7 +19,7 @@
                 </li> --}}
 
                 <li>
-                    <a href="{{ route('mahasiswa.keuangan') }}"
+                    <a wire:navigate.hover href="{{ route('mahasiswa.keuangan') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                         {{ request()->routeIs('mahasiswa.keuangan') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('mahasiswa.keuangan') ? ' text-white' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
@@ -38,7 +38,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('mahasiswa.krs') }}"
+                    <a wire:navigate.hover href="{{ route('mahasiswa.krs') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                         {{ request()->routeIs('mahasiswa.krs') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('mahasiswa.krs') ? ' text-white ' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
@@ -52,7 +52,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('mahasiswa.jadwal') }}"
+                    <a wire:navigate.hover href="{{ route('mahasiswa.jadwal') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                         {{ request()->routeIs('mahasiswa.jadwal') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('mahasiswa.jadwal') ? ' text-white ' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
@@ -66,7 +66,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#"
+                    <a wire:navigate.hover href="#"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                         {{ request()->routeIs('admin.dashboard') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.dashboard') ? ' text-white ' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
@@ -80,7 +80,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#"
+                    <a wire:navigate.hover href="#"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                         {{ request()->routeIs('admin.dashboard') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.dashboard') ? ' text-white ' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
@@ -94,7 +94,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('mahasiswa.presensi') }}"
+                    <a wire:navigate.hover href="{{ route('mahasiswa.presensi') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                         {{ request()->routeIs('mahasiswa.presensi') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('mahasiswa.presensi') ? ' text-white ' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
@@ -108,7 +108,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('mahasiswa.emonev', 'emonev.detail') }}"
+                    <a wire:navigate.hover href="{{ route('mahasiswa.emonev', 'emonev.detail') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                         {{ request()->routeIs('mahasiswa.emonev', 'emonev.detail') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('mahasiswa.emonev', 'emonev.detail') ? ' text-white ' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"

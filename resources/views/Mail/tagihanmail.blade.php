@@ -72,7 +72,7 @@
                     </tr>
                     <tr>
                         <td style="font-weight: bold;">Email</td>
-                        <td>: <a href="mailto:{{ $tagihan->mahasiswa->email }}">{{ $tagihan->mahasiswa->email }}</a>
+                        <td>: <a wire:navigate.hover href="mailto:{{ $tagihan->mahasiswa->email }}">{{ $tagihan->mahasiswa->email }}</a>
                         </td>
                     </tr>
                     <tr>

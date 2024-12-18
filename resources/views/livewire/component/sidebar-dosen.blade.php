@@ -4,7 +4,7 @@
         <div class="h-full px-3 py-4 ">
             <ul class="relative sticky space-y-2 font-medium top-20">
                 <li>
-                    <a href="{{ route('dosen.dashboard') }}"
+                    <a wire:navigate.hover href="{{ route('dosen.dashboard') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                         {{ request()->routeIs('dosen.dashboard') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('dosen.dashboard') ? 'text-white' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
@@ -18,7 +18,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('dosen.jadwal') }}"
+                    <a wire:navigate.hover href="{{ route('dosen.jadwal') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                         {{ request()->routeIs('dosen.jadwal') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('dosen.jadwal') ? 'text-white' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
@@ -32,21 +32,21 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('dosen.input_nilai') }}"
+                    <a wire:navigate.hover href="{{ route('dosen.bobot') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
-                    {{ request()->routeIs('dosen.input_nilai') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
-                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('dosen.input_nilai') ? 'text-white' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
+                    {{ request()->routeIs('dosen.bobot') || request()->routeIs('dosen.bobot.kelas') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
+                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('dosen.bobot') ? 'text-white' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                             fill="currentColor" viewBox="0 0 24 24">
                             <path fill-rule="evenodd"
                                 d="M8 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1h2a2 2 0 0 1 2 2v15a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h2Zm6 1h-4v2H9a1 1 0 0 0 0 2h6a1 1 0 1 0 0-2h-1V4Zm-6 8a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2H9a1 1 0 0 1-1-1Zm1 3a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2H9Z"
                                 clip-rule="evenodd" />
                         </svg>
-                        <span class="flex-1 ms-3 whitespace-nowrap">Input Nilai Mata Kuliah</span>
+                        <span class="flex-1 ms-3 whitespace-nowrap">Bobot Nilai</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('dosen.aktifitas') }}"
+                    <a wire:navigate.hover href="{{ route('dosen.aktifitas') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                     {{ request()->routeIs('dosen.aktifitas') || request()->routeIs('dosen.aktifitas.kelas') || request()->routeIs('dosen.aktifitas.kelas.show') || request()->routeIs('dosen.aktifitas.kelas.aktifitas') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('dosen.input_nilai') ? 'text-white' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
@@ -60,7 +60,21 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('dosen.berita_acara') }}"
+                    <a wire:navigate.hover href="{{ route('dosen.khs') }}" 
+                        class="flex items-center p-2 rounded-lg transition duration-75 group
+                    {{ request()->routeIs('dosen.khs') || request()->routeIs('dosen.khs.show')  ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
+                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('dosen.khs') ? 'text-white' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
+                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd"
+                                d="M2 6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6Zm4.996 2a1 1 0 0 0 0 2h.01a1 1 0 1 0 0-2h-.01ZM11 8a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-6Zm-4.004 3a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2h-.01ZM11 11a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-6Zm-4.004 3a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2h-.01ZM11 14a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-6Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        <span class="flex-1 ms-3 whitespace-nowrap">KHS</span>
+                    </a>
+                </li>
+                <li>
+                    <a wire:navigate.hover href="{{ route('dosen.berita_acara') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                     {{ request()->routeIs('dosen.berita_acara') || request()->routeIs('dosen.berita_acara.detail_matkul') || request()->routeIs('dosen.berita_acara.detail_kelas') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('dosen.berita_acara') || request()->routeIs('dosen.berita_acara.detail_matkul') || request()->routeIs('dosen.berita_acara.detail_kelas') ? 'text-white' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
@@ -78,7 +92,7 @@
                         $token = \App\Models\Token::first();
                     @endphp
 
-                    <a href="{{ route('dosen.presensi') }}"
+                    <a wire:navigate.hover href="{{ route('dosen.presensi') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                     {{ request()->routeIs('dosen.presensi') || request()->routeIs('dosen.presensiByKelas') || request()->routeIs('dosen.presensiByToken') || request()->routeIs('dosen.detail_presensi') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('dosen.presensi') ? 'text-white' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"

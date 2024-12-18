@@ -4,7 +4,7 @@
         <div class="h-full px-3 py-4 ">
             <ul class="space-y-2 font-medium relative sticky top-20">
                 <li>
-                    <a href="{{ route('staff.dashboard') }}"
+                    <a wire:navigate.hover href="{{ route('staff.dashboard') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                         {{ request()->routeIs('staff.dashboard') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('staff.dashboard') ? 'text-white' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
@@ -20,7 +20,7 @@
                 </li>
 
                 <li>
-                    <a href="{{ route('staff.tagihan') }}"
+                    <a wire:navigate.hover href="{{ route('staff.tagihan') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                         {{ request()->routeIs('staff.tagihan') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('staff.tagihan') ? 'text-white' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
@@ -38,7 +38,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('staff.pembayaran', 'staff.detail') }}"
+                    <a wire:navigate.hover href="{{ route('staff.pembayaran', 'staff.detail') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                         {{ request()->routeIs('staff.pembayaran', 'staff.detail') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white ?>' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('staff.pembayaran', 'staff.detail') ? 'text-white' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"

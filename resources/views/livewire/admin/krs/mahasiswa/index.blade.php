@@ -59,7 +59,7 @@
                 <div class="max-w-full p-4 mt-4 mb-4 bg-white rounded-lg shadow-lg ">
                     <div class="flex items-center justify-between my-2">
                         <h2>Semester {{ $x->nama_semester }}</h2>
-                        <a href="{{ route('admin.krs.edit', ['semester' => $x->id_semester, 'NIM' => $this->NIM]) }}"
+                        <a wire:navigate.hover href="{{ route('admin.krs.edit', ['semester' => $x->id_semester, 'NIM' => $this->NIM]) }}"
                             class="px-3 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"><svg
                                 class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"

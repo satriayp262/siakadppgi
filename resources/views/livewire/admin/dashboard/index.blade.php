@@ -23,52 +23,52 @@
         <div class="relative p-4 border-l-4 rounded-lg shadow-md border-lime-600 bg-lime-400">
             <h2 class="text-lg font-semibold text-white">Dosen</h2>
             <p class="mt-1 text-xl font-bold text-white">{{ $dosen }}</p>
-            <a href="{{ route('admin.dosen') }}"
+            <a wire:navigate.hover href="{{ route('admin.dosen') }}"
                 class="absolute text-sm text-white hover:text-gray-500 bottom-4 right-4">Detail >></a>
         </div>
         <div class="relative p-4 bg-yellow-400 border-l-4 border-yellow-600 rounded-lg shadow-md">
             <h2 class="text-lg font-semibold text-white">Mahasiswa</h2>
             <p class="mt-1 text-xl font-bold text-white">{{ $mahasiswa }}</p>
-            <a href="{{ route('admin.mahasiswa') }}"
+            <a wire:navigate.hover href="{{ route('admin.mahasiswa') }}"
                 class="absolute text-sm text-white hover:text-gray-500 bottom-4 right-4">Detail
                 >></a>
         </div>
         <div class="relative p-4 bg-red-400 border-l-4 border-red-600 rounded-lg shadow-md">
             <h2 class="text-lg font-semibold text-white">Program Studi</h2>
             <p class="mt-1 text-xl font-bold text-white">{{ $prodi }}</p>
-            <a href="{{ route('admin.prodi') }}"
+            <a wire:navigate.hover href="{{ route('admin.prodi') }}"
                 class="absolute text-sm text-white hover:text-gray-500 bottom-4 right-4">Detail >></a>
         </div>
         <div class="relative p-4 bg-pink-400 border-l-4 border-pink-600 rounded-lg shadow-md">
             <h2 class="text-lg font-semibold text-white">Mata Kuliah</h2>
             <p class="mt-1 text-xl font-bold text-white">{{ $matakuliah }}</p>
-            <a href="{{ route('admin.mata_kuliah') }}"
+            <a wire:navigate.hover href="{{ route('admin.mata_kuliah') }}"
                 class="absolute text-sm text-white hover:text-gray-500 bottom-4 right-4">Detail
                 >></a>
         </div>
         <div class="relative p-4 bg-purple-400 border-l-4 border-purple-600 rounded-lg shadow-md">
             <h2 class="text-lg font-semibold text-white">User</h2>
             <p class="mt-1 text-xl font-bold text-white">{{ $user }}</p>
-            <a href="{{ route('admin.user') }}"
+            <a wire:navigate.hover href="{{ route('admin.user') }}"
                 class="absolute text-sm text-white hover:text-gray-500 bottom-4 right-4">Detail >></a>
         </div>
         <div class="relative p-4 border-l-4 rounded-lg shadow-md border-sky-600 bg-sky-400">
             <h2 class="text-lg font-semibold text-white">Kelas</h2>
             <p class="mt-1 text-xl font-bold text-white">{{ $kelas }}</p>
-            <a href="{{ route('admin.kelas') }}"
+            <a wire:navigate.hover href="{{ route('admin.kelas') }}"
                 class="absolute text-sm text-white hover:text-gray-500 bottom-4 right-4">Detail >></a>
         </div>
         <div class="relative p-4 bg-green-400 border-l-4 border-green-600 rounded-lg shadow-md">
             <h2 class="text-lg font-semibold text-white">Semester</h2>
             <p class="mt-1 text-xl font-bold text-white">{{ $semester }}</p>
-            <a href="{{ route('admin.semester') }}"
+            <a wire:navigate.hover href="{{ route('admin.semester') }}"
                 class="absolute text-sm text-white hover:text-gray-500 bottom-4 right-4">Detail
                 >></a>
         </div>
         <div class="relative p-4 border-l-4 rounded-lg shadow-md border-neutral-600 bg-neutral-400">
             <h2 class="text-lg font-semibold text-white">Kurikulum</h2>
             <p class="mt-1 text-xl font-bold text-white">{{ $kurikulum }}</p>
-            <a href="{{ route('admin.kurikulum') }}"
+            <a wire:navigate.hover href="{{ route('admin.kurikulum') }}"
                 class="absolute text-sm text-white hover:text-gray-500 bottom-4 right-4">Detail
                 >></a>
         </div>
