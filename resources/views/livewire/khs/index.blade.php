@@ -29,12 +29,12 @@
                             <div class="flex flex-row">
                                 <div class="flex justify-center space-x-2">
                                     @if (auth()->user()->role == 'dosen')
-                                        <a wire:navigate.hover href="{{ route('dosen.khs.show', ['NIM' => $item->NIM]) }}"
+                                        <a href="{{ route('dosen.khs.show', ['NIM' => $item->NIM]) }}"
                                             class="py-2 px-4 bg-blue-500 hover:bg-blue-700 rounded">
                                             <p>▶</p>
                                         </a>
                                     @elseif(auth()->user()->role == 'admin')
-                                        <a wire:navigate.hover href="{{ route('dosen.khs.show', ['NIM' => $item->NIM]) }}"
+                                        <a href="{{ route('dosen.khs.show', ['NIM' => $item->NIM]) }}"
                                             class="py-2 px-4 bg-blue-500 hover:bg-blue-700 rounded">
                                             <p>▶</p>
                                         </a>

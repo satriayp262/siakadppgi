@@ -4,7 +4,7 @@
         <div class="h-full px-3 py-4 ">
             <ul class="sticky space-y-2 font-medium top-20">
                 <li>
-                    <a wire:navigate.hover href="{{ route('admin.dashboard') }}"
+                    <a href="{{ route('admin.dashboard') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                         {{ request()->routeIs('admin.dashboard') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.dashboard') ? 'text-white' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
@@ -38,25 +38,25 @@
                     <ul id="dropdown-sistem"
                         class="{{ request()->routeIs(['admin.user', 'admin.pengumuman', 'admin.staff', 'admin.pertanyaan']) ? '' : 'hidden' }} py-2 space-y-2">
                         <li>
-                            <a wire:navigate.hover href="{{ route('admin.user') }}"
+                            <a href="{{ route('admin.user') }}"
                                 class="flex items-center mx-4 p-2 text-gray-100 rounded-lg group {{ request()->routeIs('admin.user') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 <span class="flex-1 ms-3 whitespace-nowrap">User</span>
                             </a>
                         </li>
                         <li>
-                            <a wire:navigate.hover href="{{ route('admin.pengumuman') }}"
+                            <a href="{{ route('admin.pengumuman') }}"
                                 class="flex items-center mx-4 p-2 text-gray-100 rounded-lg group {{ request()->routeIs('admin.pengumuman') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 <span class="flex-1 ms-3 whitespace-nowrap">Pengumuman</span>
                             </a>
                         </li>
                         <li>
-                            <a wire:navigate.hover href="{{ route('admin.staff') }}"
+                            <a href="{{ route('admin.staff') }}"
                                 class="flex items-center mx-4 p-2 text-gray-100 rounded-lg group {{ request()->routeIs('admin.staff') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 <span class="flex-1 ms-3 whitespace-nowrap">Staff</span>
                             </a>
                         </li>
                         <li>
-                            <a wire:navigate.hover href="{{ route('admin.pertanyaan') }}"
+                            <a href="{{ route('admin.pertanyaan') }}"
                                 class="flex items-center mx-4 p-2 text-gray-100 rounded-lg group {{ request()->routeIs('admin.pertanyaan') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 <span class="flex-1 ms-3 whitespace-nowrap">Pertanyaan</span>
                             </a>
@@ -85,7 +85,7 @@
                     <ul id="dropdown-akademik"
                         class="py-2 space-y-2 {{ request()->routeIs(['admin.kurikulum', 'admin.semester', 'admin.mata_kuliah', 'admin.prodi', 'admin.kelas', 'admin.ruangan']) ? '' : 'hidden' }}">
                         <li>
-                            <a wire:navigate.hover href="{{ route('admin.kurikulum') }}"
+                            <a href="{{ route('admin.kurikulum') }}"
                                 class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.kurikulum') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 {{-- <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.kurikulum') ? 'text-white' : 'text-gray-500' }}"
                                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -98,7 +98,7 @@
                             </a>
                         </li>
                         <li>
-                            <a wire:navigate.hover href="{{ route('admin.semester') }}"
+                            <a href="{{ route('admin.semester') }}"
                                 class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.semester') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 {{-- <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.semester') ? 'text-white' : 'text-gray-500' }}"
                                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -111,7 +111,7 @@
                             </a>
                         </li>
                         <li>
-                            <a wire:navigate.hover href="{{ route('admin.mata_kuliah') }}"
+                            <a href="{{ route('admin.mata_kuliah') }}"
                                 class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.mata_kuliah') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 {{-- <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.mata_kuliah') ? 'text-white' : 'text-gray-500' }}"
                                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -124,7 +124,7 @@
                             </a>
                         </li>
                         <li>
-                            <a wire:navigate.hover href="{{ route('admin.prodi') }}"
+                            <a href="{{ route('admin.prodi') }}"
                                 class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.prodi') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 {{-- <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.prodi') ? 'text-white' : 'text-gray-500' }}"
                                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -137,7 +137,7 @@
                             </a>
                         </li>
                         <li>
-                            <a wire:navigate.hover href="{{ route('admin.kelas') }}"
+                            <a href="{{ route('admin.kelas') }}"
                                 class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.kelas') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 {{-- <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.kelas') ? 'text-white' : 'text-gray-500' }}"
                                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -151,7 +151,7 @@
                             </a>
                         </li>
                         <li>
-                            <a wire:navigate.hover href="{{ route('admin.ruangan') }}"
+                            <a href="{{ route('admin.ruangan') }}"
                                 class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.ruangan') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 {{-- <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.ruangan') ? 'text-white' : 'text-gray-500' }}"
                                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
@@ -189,7 +189,7 @@
                     <ul id="dropdown-jadwal"
                         class="py-2 space-y-2 {{ request()->routeIs('admin.jadwal') || request()->routeIs('admin.jadwalUjian') ? 'block' : 'hidden' }}">
                         <li>
-                            <a wire:navigate.hover href="{{ route('admin.jadwal') }}"
+                            <a href="{{ route('admin.jadwal') }}"
                                 class="flex items-center mx-4 p-2 rounded-lg transition duration-75 group
                                 {{ request()->routeIs('admin.jadwal') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 {{-- <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.jadwal') ? 'text-white' : 'text-white hover:bg-purple2' }}"
@@ -204,7 +204,7 @@
                             </a>
                         </li>
                         <li>
-                            <a wire:navigate.hover href="{{ route('admin.jadwalUjian') }}"
+                            <a href="{{ route('admin.jadwalUjian') }}"
                                 class="flex items-center mx-4 p-2 rounded-lg transition duration-75 group
                                 {{ request()->routeIs('admin.jadwalUjian') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 {{-- <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.jadwal') ? 'text-white' : 'text-white hover:bg-purple2' }}"
@@ -242,7 +242,7 @@
                     <ul id="dropdown-mahasiswa"
                         class="py-2 space-y-2 {{ request()->routeIs(['admin.mahasiswa', 'admin.krs', 'admin.presensiMahasiswa']) ? '' : 'hidden' }}">
                         <li>
-                            <a wire:navigate.hover href="{{ route('admin.mahasiswa') }}"
+                            <a href="{{ route('admin.mahasiswa') }}"
                                 class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.mahasiswa') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 {{-- <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.mahasiswa') ? 'text-white' : 'text-gray-500' }}"
                                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
@@ -255,7 +255,7 @@
                             </a>
                         </li>
                         <li>
-                            <a wire:navigate.hover href="{{ route('admin.krs') }}"
+                            <a href="{{ route('admin.krs') }}"
                                 class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.krs') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 {{-- <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.krs') ? 'text-white' : 'text-gray-500' }}"
                                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
@@ -268,7 +268,7 @@
                             </a>
                         </li>
                         <li>
-                            <a wire:navigate.hover href="{{ route('admin.presensiMahasiswa') }}"
+                            <a href="{{ route('admin.presensiMahasiswa') }}"
                                 class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.presensiMahasiswa') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 {{-- <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.krs') ? 'text-white' : 'text-gray-500' }}"
                                 aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
@@ -304,7 +304,7 @@
                     <ul id="dropdown-dosen"
                         class="py-2 space-y-2 {{ request()->routeIs('admin.dosen') || request()->routeIs('admin.presensiDosen') ? 'block' : 'hidden' }}">
                         <li>
-                            <a wire:navigate.hover href="{{ route('admin.dosen') }}"
+                            <a href="{{ route('admin.dosen') }}"
                                 class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.dosen') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 {{-- <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.dosen') ? 'text-white' : 'text-gray-500' }}"
                                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
@@ -318,7 +318,7 @@
                         </li>
                        
                         <li>
-                            <a wire:navigate.hover href="{{ route('admin.presensiDosen') }}"
+                            <a href="{{ route('admin.presensiDosen') }}"
                                 class="flex items-center mx-4 p-2 rounded-lg transition duration-75 group
                                 {{ request()->routeIs('admin.presensiDosen') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 {{-- <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.jadwal') ? 'text-white' : 'text-white hover:bg-purple2' }}"

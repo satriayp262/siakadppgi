@@ -283,7 +283,7 @@
                         <td class="px-4 py-2 text-center">
                             <div class="flex flex-col">
                                 <div class="flex justify-center space-x-2">
-                                    <a wire:navigate.hover href="{{ route('admin.krs.mahasiswa', ['NIM' => $item->NIM]) }}"
+                                    <a href="{{ route('admin.krs.mahasiswa', ['NIM' => $item->NIM]) }}"
                                         class="py-2 px-4 bg-blue-500 hover:bg-blue-700 rounded">
                                         <p>▶</p>
                                     </a>

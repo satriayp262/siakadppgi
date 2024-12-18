@@ -229,7 +229,7 @@
                                                         d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
                                                 </svg>
                                             </button>
-                                            <a wire:navigate.hover href="{{ route('dosen.aktifitas.kelas.aktifitas', ['kode_mata_kuliah' => $item->kelas->matkul->kode_mata_kuliah, 'id_kelas' => $item->id_kelas, 'nama_aktifitas' => $item->nama_aktifitas]) }}"
+                                            <a href="{{ route('dosen.aktifitas.kelas.aktifitas', ['kode_mata_kuliah' => $item->kelas->matkul->kode_mata_kuliah, 'id_kelas' => $item->id_kelas, 'nama_aktifitas' => $item->nama_aktifitas]) }}"
                                                 class="py-2 px-5 bg-blue-500 hover:bg-blue-700 rounded">
                                                 <p>▶</p>
                                             </a>

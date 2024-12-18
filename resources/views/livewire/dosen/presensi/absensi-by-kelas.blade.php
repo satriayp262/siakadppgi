@@ -3,7 +3,7 @@
         <nav aria-label="Breadcrumb">
             <ol class="flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
                 <li>
-                    <a wire:navigate.hover href="{{ route('dosen.presensi') }}"
+                    <a href="{{ route('dosen.presensi') }}"
                         class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
                         E-Presensi
                     </a>
@@ -49,7 +49,7 @@
                             <td class="px-4 py-2 text-center">
                                 <div class="flex flex-col">
                                     <div class="flex justify-center space-x-2">
-                                        <a wire:navigate.hover href="{{ route('dosen.presensiByToken', ['id_mata_kuliah' => $item->matkul->id_mata_kuliah, 'id_kelas' => $item->id_kelas]) }}"
+                                        <a href="{{ route('dosen.presensiByToken', ['id_mata_kuliah' => $item->matkul->id_mata_kuliah, 'id_kelas' => $item->id_kelas]) }}"
                                             class="py-2 px-4 bg-blue-500 hover:bg-blue-700 rounded">
                                             <p class="text-white">▶</p>
                                         </a>

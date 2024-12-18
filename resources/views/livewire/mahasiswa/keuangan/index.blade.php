@@ -99,7 +99,7 @@
                             </td>
                             <td class="px-4 py-2 text-center">
                                 @if ($tagihan->status_tagihan === 'Lunas')
-                                    <a wire:navigate.hover href="{{ route('mahasiswa.download', $tagihan->id_tagihan) }}" target="_blank"
+                                    <a href="{{ route('mahasiswa.download', $tagihan->id_tagihan) }}" target="_blank"
                                         class="inline-block px-4 py-1 text-white bg-purple-500 hover:bg-purple-600 rounded">
                                         <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
                                             xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -123,7 +123,7 @@
                                             </svg>
                                         </button>
                                     @else
-                                        <a wire:navigate.hover href="{{ route('mahasiswa.download', $tagihan->id_tagihan) }}"
+                                        <a href="{{ route('mahasiswa.download', $tagihan->id_tagihan) }}"
                                             target="_blank"
                                             class="inline-block px-4 py-1 text-white bg-purple-500 hover:bg-purple-600 rounded">
                                             <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"

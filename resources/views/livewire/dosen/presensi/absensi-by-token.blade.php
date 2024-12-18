@@ -3,7 +3,7 @@
         <nav aria-label="Breadcrumb">
             <ol class="flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
                 <li>
-                    <a wire:navigate.hover href="{{ route('dosen.presensi') }}"
+                    <a href="{{ route('dosen.presensi') }}"
                         class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
                         E-Presensi
                     </a>
@@ -15,7 +15,7 @@
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                     stroke-width="2" d="m1 9 4-4-4-4" />
                             </svg>
-                            <a wire:navigate.hover href="{{ route('dosen.presensiByKelas', ['id_mata_kuliah' => $matkul->id_mata_kuliah]) }}"
+                            <a href="{{ route('dosen.presensiByKelas', ['id_mata_kuliah' => $matkul->id_mata_kuliah]) }}"
                                 class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
                                 {{ $matkul->nama_mata_kuliah }}
                             </a>
