@@ -4,27 +4,78 @@ namespace App\Livewire\Khs;
 
 use App\Models\Dosen;
 use App\Models\KHS;
+use App\Models\KRS;
 use App\Models\Mahasiswa;
 use App\Models\Prodi;
+use App\Models\Semester;
 use Livewire\Component;
 
 class Index extends Component
 {
+    public $search, $semester, $prodi;
+
+
+    public function mount()
+    {
+        $this->search = null;
+        $this->prodi = Prodi::min('id_prodi');
+        $this->semester = semester::where('nama_semester', Semester::max('nama_semester'))->first()->id_semester;
+    }
+    public function calculate()
+    {
+        $krs = KRS::where('id_semester', $this->semester)
+            ->distinct()
+            ->pluck('NIM');
+        foreach ($krs as $x) {
+
+
+            $krsData = KRS::where('NIM', $x)
+                ->where('id_semester', $this->semester)
+                ->get();
+
+            foreach ($krsData as $krs) {
+                // Call the KHS model to calculate the bobot
+                $bobot = KHS::calculateBobot($krs->id_kelas, $x);
+
+
+                // Create a new KHS entry for this specific class and bobot
+                KHS::updateOrCreate([
+                    'NIM' => $x,
+                    'id_semester' => $this->semester,
+                    'id_mata_kuliah' => $krs->id_mata_kuliah,
+                    'id_kelas' => $krs->id_kelas,
+                    'id_prodi' => $krs->id_prodi,
+                ], [
+                    'bobot' => $bobot
+                ]);
+
+            }
+        }
+        $this->dispatch('updatedKHS', ['KHS untuk semester ' . semester::where('id_semester', $this->semester)->first()->nama_semester . ' berhasil diupdate']);
+
+    }
+
     public function render()
     {
-        if (auth()->user()->role == 'sad') {
-            $this->kode_prodi = Dosen::where('nidn', auth()->user()->nim_nidn)->first()->kode_prodi;
-            $Mahasiswa = Mahasiswa::where('kode_prodi',  $this->kode_prodi )->paginate(20);
-        }
-        // if (auth()->user()->role == 'admin') {
-            $Mahasiswa = Mahasiswa::join('semester', 'mahasiswa.mulai_semester', '=', 'semester.id_semester')
-                ->orderBy('semester.nama_semester', 'desc')
-                ->select('mahasiswa.*')
-                ->paginate(20);
+        $Mahasiswa = Mahasiswa::join('semester', 'mahasiswa.mulai_semester', '=', 'semester.id_semester')
+        ->join('prodi', 'mahasiswa.kode_prodi', '=', 'prodi.kode_prodi') // Join the 'prodi' table
+        ->orderBy('semester.nama_semester', 'desc')
+        ->select('mahasiswa.*')
+        ->when($this->search, function ($query) {
+            $query->where('mahasiswa.nama', 'like', '%' . $this->search . '%'); // Search filter
+        })
+        ->when($this->prodi, function ($query) {
+            $query->where('prodi.id_prodi', $this->prodi); // Prodi filter
+        })
+        ->paginate(20);
 
-        // }
+        $semesterList = Semester::all();
+        $prodiList = Prodi::all();
+
         return view('livewire.khs.index', [
-            'mahasiswa' => $Mahasiswa
+            'mahasiswa' => $Mahasiswa,
+            'semesterList' => $semesterList,
+            'prodiList' => $prodiList,
         ]);
     }
 }
