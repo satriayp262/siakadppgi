@@ -4,14 +4,6 @@
         <div class="flex justify-between space-x-2 mt-2">
             <input type="text" wire:model.live="search" placeholder="   Search"
                 class="px-2 ml-4 border border-gray-300 rounded-lg">
-
-            <select wire:model.live="prodi"
-                class="block w-full px-2 py-2 bg-purple-500 text-white border-purple-600 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
-                <option value="" disabled selected>Select</option>
-                @foreach ($prodiList as $item)
-                    <option value="{{ $item->id_prodi }}">{{ $item->nama_prodi }}</option>
-                @endforeach
-            </select>
         </div>
         <div class="flex space-x-2">
 
@@ -24,8 +16,30 @@
                 <p class="text-xl font-bold">KHS Mahasiswa</p>
             </div>
             <div class="flex space-x-2">
-                <select wire:model="semester"
-                    class="block w-full px-2 py-2 bg-amber-500 text-white border-amber-600 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
+                <div class="flex items-center space-x-4">
+                    <label for="toggle" class="flex items-center cursor-pointer space-x-2 border-4 border-purple2 p-2 rounded-lg">
+                        <span class="text-md font-medium text-gray-700">Publish</span>
+                        <div class="relative">
+                            <input id="toggle" type="checkbox" wire:click="toggleClicked" wire:model.lazy="toggleValue"
+                            class="sr-only peer"/>
+                            <div class="block w-16 h-8 bg-gray-200 rounded-full peer-checked:bg-purple2 transition">
+                            </div>
+                            <div
+                            class="dot absolute top-1 left-1 w-6 h-6 bg-white rounded-full shadow-md transform transition peer-checked:translate-x-8">
+                        </div>
+                    </div>
+                </label>
+            </div>
+            <select wire:model="prodi" wire:change="setProdi($event.target.value)"
+                class="block w-full px-2 py-2 bg-purple2 text-white border-purple2 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
+                <option value="" disabled selected>Select</option>
+                @foreach ($prodiList as $item)
+                    <option  value="{{ $item->id_prodi }}">{{ $item->nama_prodi }}</option>
+                @endforeach
+            </select>
+            
+                <select wire:model="semester" wire:change="setSemester($event.target.value)"
+                    class="block w-full px-2 py-2 bg-purple2 text-white border-purple2 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
                     <option value="" disabled selected>Select</option>
                     @foreach ($semesterList as $item)
                         <option value="{{ $item->id_semester }}">{{ $item->nama_semester }}</option>
@@ -98,4 +112,5 @@
             });
         });
     });
+
 </script>

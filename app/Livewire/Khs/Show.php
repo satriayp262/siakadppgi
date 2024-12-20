@@ -11,6 +11,15 @@ use Livewire\Component;
 class Show extends Component
 {
     public $NIM;
+
+    public function mount()
+    {
+        if (auth()->user()->role == 'mahasiswa') {
+            if (!($this->NIM === auth()->user()->nim_nidn)) {
+                return redirect(route('mahasiswa.khs.show', ['NIM' => auth()->user()->nim_nidn]));
+            }
+        }
+    }
     public function calculate($NIM, $id_semester)
     {
         // Retrieve the KRS data for the given NIM and semester
@@ -40,12 +49,9 @@ class Show extends Component
         $this->dispatch('updatedKHS', ['KHS Berhasil Diupdate']);
     }
 
-
-
-
-
     public function render()
     {
+
         $semester = Semester::where(
             'nama_semester',
             '>=',
