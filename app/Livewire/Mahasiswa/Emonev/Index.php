@@ -27,8 +27,6 @@ class Index extends Component
 
         $mahasiswa = Mahasiswa::where('NIM', $user->nim_nidn)->first();
 
-        // $krs = KRS::where('NIM', $mahasiswa->NIM)->get();
-
         $semester = Semester::where('is_active', true)->first();
 
         $krsFiltered = KRS::where('NIM', $mahasiswa->NIM)
