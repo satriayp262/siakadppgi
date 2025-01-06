@@ -117,6 +117,7 @@ Route::middleware(['auth', CheckRole::class . ':mahasiswa', 'verified'])->prefix
     Route::get('/jadwal', App\Livewire\Mahasiswa\Jadwal\Index::class)->name('mahasiswa.jadwal');
     Route::get('/show/{id_kelas}', App\Livewire\Mahasiswa\Emonev\Show::class)->name('emonev.detail');
     Route::get('/khs/{NIM}', App\Livewire\Khs\Show::class)->name('mahasiswa.khs.show');
+    Route::get('/transaksi/{snap_token}', App\Livewire\Mahasiswa\Keuangan\Bayar::class)->name('mahasiswa.transaksi');
 
 });
 
@@ -190,7 +191,7 @@ Route::get(
                             'id_kelas' => $kelas->id_kelas,
                         ],
                         [
-                            'nilai' => rand(80, 100), 
+                            'nilai' => rand(80, 100),
                         ]
                     );
                 }

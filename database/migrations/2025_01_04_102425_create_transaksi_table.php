@@ -12,11 +12,14 @@ return new class extends Migration {
     {
         Schema::create('transaksi', function (Blueprint $table) {
             $table->integer('id_transaksi', true);
-            $table->integer('NIM');
-            $table->string('snap_token');
+            $table->string('NIM');
+            $table->integer('nominal'); //Nominal bayar bukan total tagihan
+            $table->string('snap_token')->nullable();
             $table->string('id_tagihan');
-            $table->string('status');
-            $table->string('payment_type');
+            $table->string('order_id');
+            $table->string('status')->default('pending');
+            $table->string('va_number')->nullable();
+            $table->string('payment_type')->nullable();
             $table->timestamps();
         });
     }

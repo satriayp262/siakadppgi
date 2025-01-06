@@ -32,6 +32,7 @@ class Index extends Component
             ],
         ];
 
+
         try {
             $this->snapToken = Snap::getSnapToken($params);
         } catch (\Exception $e) {
