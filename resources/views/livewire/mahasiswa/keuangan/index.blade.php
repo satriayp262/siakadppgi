@@ -24,7 +24,7 @@
             </div>
         </div>
 
-        <div class="bg-purple-200 shadow-lg p-2 px-4 mt-2 rounded-lg max-w-full">
+        {{-- <div class="bg-purple-200 shadow-lg p-2 px-4 mt-2 rounded-lg max-w-full">
             <div class="flex justify-between">
                 <h1><b>Semester Saat ini : </b>
                     {{ $semesters->firstWhere('is_active', true)->nama_semester ?? 'Tidak ada semester aktif' }}
@@ -37,18 +37,19 @@
                     </ol>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
+            <h1> Tagihan </h1>
             <table class="min-w-full mt-4 bg-white border border-gray-200">
                 <thead>
-                    <tr class="items-center w-full text-sm text-white align-middle bg-gray-800">
+                    <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
                         <th class="px-4 py-2 text-center">No.</th>
                         <th class="px-4 py-2 text-center">Semester</th>
                         <th class="px-4 py-2 text-center">Bulan</th>
                         <th class="px-4 py-2 text-center">Tagihan</th>
                         <th class="px-4 py-2 text-center">Status</th>
-                        <th class="px-4 py-2 text-center">Bukti Pembayaran</th>
+                        <th class="px-4 py-2 text-center">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -86,9 +87,9 @@
                                 @php
                                     $status = [
                                         'Belum Lunas' =>
-                                            'bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded',
+                                            'bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-2 rounded',
                                         'Lunas' =>
-                                            'bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded',
+                                            'bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-2 rounded',
                                     ];
                                     $status = $status[$tagihan->status_tagihan] ?? 'bg-gray-500';
                                 @endphp
@@ -101,7 +102,7 @@
                                 @if ($tagihan->status_tagihan === 'Lunas')
                                     <a href="{{ route('mahasiswa.download', $tagihan->id_tagihan) }}" target="_blank"
                                         class="inline-block px-4 py-1 text-white bg-purple-500 hover:bg-purple-600 rounded">
-                                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                                        <svg class="w-6 h-6 text-white" aria-hidden="true"
                                             xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             fill="none" viewBox="0 0 24 24">
                                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -111,7 +112,17 @@
                                     </a>
                                 @else
                                     <a wire:click.prevent="bayar({{ $tagihan->id_tagihan }})"
-                                        class="inline-block px-4 py-1 text-white bg-purple-500 hover:bg-purple-600 rounded">
+                                        class="inline-flex px-4 py-2 text-white bg-blue-500 hover:bg-blue-700 rounded-md">
+                                        <svg class="w-6 h-6 text-white" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            fill="currentColor" viewBox="0 0 24 24">
+                                            <path fill-rule="evenodd"
+                                                d="M12 14a3 3 0 0 1 3-3h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4a3 3 0 0 1-3-3Zm3-1a1 1 0 1 0 0 2h4v-2h-4Z"
+                                                clip-rule="evenodd" />
+                                            <path fill-rule="evenodd"
+                                                d="M12.293 3.293a1 1 0 0 1 1.414 0L16.414 6h-2.828l-1.293-1.293a1 1 0 0 1 0-1.414ZM12.414 6 9.707 3.293a1 1 0 0 0-1.414 0L5.586 6h6.828ZM4.586 7l-.056.055A2 2 0 0 0 3 9v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2h-4a5 5 0 0 1 0-10h4a2 2 0 0 0-1.53-1.945L17.414 7H4.586Z"
+                                                clip-rule="evenodd" />
+                                        </svg>
                                         Bayar
                                     </a>
                                 @endif

@@ -10,6 +10,7 @@ use App\Models\Transaksi;
 use Livewire\Attributes\On;
 use Auth;
 use Midtrans\Snap;
+use Illuminate\Support\Facades\Crypt;
 
 class Index extends Component
 {
@@ -69,8 +70,16 @@ class Index extends Component
         $transaksi->snap_token = $snapToken;
         $transaksi->save();
 
+        // Encrypt id_tagihan into snap token
+        $encryptedSnapToken = Crypt::encrypt([
+            'transaksi' => $transaksi,
+        ]);
+
         // Redirect ke halaman transaksi
-        return redirect()->route('mahasiswa.transaksi', $snapToken);
+        return redirect()->route('mahasiswa.transaksi', [
+            'snap_token' => $encryptedSnapToken,
+        ]);
+
     }
 
 
