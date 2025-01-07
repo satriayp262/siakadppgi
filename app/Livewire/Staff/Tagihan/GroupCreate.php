@@ -3,12 +3,15 @@
 namespace App\Livewire\Staff\Tagihan;
 
 use App\Mail\TagihanMail;
+use App\Models\Staff;
 use Livewire\Component;
 use App\Models\Semester;
 use App\Models\Prodi;
 use App\Models\Mahasiswa;
 use App\Models\Tagihan;
+
 use Illuminate\Support\Facades\Mail;
+
 
 class GroupCreate extends Component
 {
@@ -45,6 +48,10 @@ class GroupCreate extends Component
     public function save()
     {
         $validatedData = $this->validate();
+
+        $user = auth()->user();
+
+        $staff = Staff::where('nip', $user->nim_nidn)->first();
 
         // Remove non-digit characters from total_tagihan
         $validatedData['total_tagihan'] = preg_replace('/\D/', '', $validatedData['total_tagihan']);
@@ -85,6 +92,7 @@ class GroupCreate extends Component
                     'status_tagihan' => 'Belum Lunas',
                     'Bulan' => $validatedData['Bulan'],
                     'id_semester' => $validatedData['id_semester'],
+                    'id_staff' => $staff->id_staff,
                 ]);
                 $this->reset(); // Reset only form-related properties
                 $this->dispatch('TagihanCreated');

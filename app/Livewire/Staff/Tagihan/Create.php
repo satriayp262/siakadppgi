@@ -8,6 +8,7 @@ use Livewire\Component;
 use App\Models\Mahasiswa;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\TagihanMail;
+use App\Models\Staff;
 
 class Create extends Component
 {
@@ -53,6 +54,11 @@ class Create extends Component
     {
         $validatedData = $this->validate();
 
+        $user = auth()->user();
+
+        $staff = Staff::where('nip', $user->nim_nidn)->first();
+
+
         // Clean the 'total_tagihan' field (remove non-numeric characters)
         $validatedData['total_tagihan'] = preg_replace('/\D/', '', $validatedData['total_tagihan']);
 
@@ -82,6 +88,7 @@ class Create extends Component
                 'status_tagihan' => 'Belum Lunas',
                 'Bulan' => $validatedData['Bulan'],
                 'id_semester' => $this->id_semester,
+                'id_staff' => $staff->id_staff,
             ]);
 
             Mail::to($mahasiswa->email)->send(new TagihanMail($tagihan));

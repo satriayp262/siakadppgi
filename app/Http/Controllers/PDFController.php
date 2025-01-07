@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Staff;
 use Illuminate\Http\Request;
 use App\Models\Tagihan;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -168,6 +169,12 @@ class PDFController extends Controller
             return redirect()->back()->with('error', 'Tagihan not found.');
         }
 
+        $user = auth()->user();
+
+
+        $staff = Staff::where('nip', $user->nim_nidn)->first();
+        ;
+
 
         $y = 'Rp. ' . number_format($tagihan->total_tagihan, 2, ',', '.');
 
@@ -179,7 +186,7 @@ class PDFController extends Controller
 
         $tanggal = $tagihan->updated_at->locale('id')->isoFormat('D MMMM YYYY');
 
-        $t = $tagihan->staff->ttd;
+        $t = $staff->ttd;
 
         $bulan = substr($tagihan->Bulan, 5, 2);
         $namaBulan = [
