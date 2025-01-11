@@ -169,11 +169,9 @@ class PDFController extends Controller
             return redirect()->back()->with('error', 'Tagihan not found.');
         }
 
-        $user = auth()->user();
+        $staff = Staff::find($tagihan->id_staff);
 
 
-        $staff = Staff::where('nip', $user->nim_nidn)->first();
-        ;
 
 
         $y = 'Rp. ' . number_format($tagihan->total_tagihan, 2, ',', '.');

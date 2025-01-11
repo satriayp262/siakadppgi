@@ -6,6 +6,7 @@ use App\Models\Tagihan;
 use App\Models\Transaksi;
 use Livewire\Component;
 
+
 class Berhasil extends Component
 {
     public $id_transaksi;
@@ -25,14 +26,9 @@ class Berhasil extends Component
         }
         $tagihan = Tagihan::find($transaksi->id_tagihan);
         if ($tagihan) {
-            if ($transaksi->nominal == $tagihan->total_tagihan) {
-                $tagihan->status_tagihan = 'Lunas';
-                $tagihan->save();
-            } else {
-                $tagihan->total_bayar = $transaksi->nominal;
-                $tagihan->save();
-            }
-
+            $tagihan->status_tagihan = 'Lunas';
+            $tagihan->total_bayar = $transaksi->nominal;
+            $tagihan->save();
         }
     }
 
