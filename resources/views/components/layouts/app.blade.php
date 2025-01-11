@@ -101,6 +101,9 @@
                 }).then(() => {
                     // Dispatch the modal-closed event to close the modal
                     window.dispatchEvent(new CustomEvent('modal-closed'));
+                    if (event.detail[0].link) {
+                        window.location.href = event.detail[0].link;
+                    }
                 });
             });
         });
@@ -148,4 +151,5 @@
     </script>
     @livewireScripts
 </body>
+
 </html>
