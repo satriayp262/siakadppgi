@@ -70,14 +70,11 @@ class Index extends Component
         $transaksi->snap_token = $snapToken;
         $transaksi->save();
 
-        // Encrypt id_tagihan into snap token
-        $encryptedSnapToken = Crypt::encrypt([
-            'transaksi' => $transaksi,
-        ]);
+
 
         // Redirect ke halaman transaksi
         return redirect()->route('mahasiswa.transaksi', [
-            'snap_token' => $encryptedSnapToken,
+            'snap_token' => $order_id,
         ]);
 
     }

@@ -39,8 +39,28 @@
             </div>
         </div> --}}
 
+        <style>
+            @keyframes marquee {
+                0% {
+                    transform: translateX(120%);
+                }
+
+                100% {
+                    transform: translateX(-100%);
+                }
+            }
+        </style>
+
+        <div class="p-2 overflow-hidden bg-purple-300 rounded-lg shadow-lg">
+            <p class="inline-block font-semibold text-purple-600 whitespace-nowrap text-md marquee-text"
+                style="animation: marquee 20s linear infinite;">
+                Pastikan pembayaran BPP dilakukan sebelum jatuh tempo.
+                <span class="text-purple-600">Segera lunasi BPP untuk menghindari denda keterlambatan</span>.
+            </p>
+        </div>
+
         <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
-            <h1> Tagihan </h1>
+            <h1 class="text-3xl font-bold text-gray-800">Tagihan Anda</h1>
             <table class="min-w-full mt-4 bg-white border border-gray-200">
                 <thead>
                     <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
@@ -111,7 +131,7 @@
                                         </svg>
                                     </a>
                                 @else
-                                    <a wire:click.prevent="bayar({{ $tagihan->id_tagihan }})"
+                                    <button wire:click.prevent="bayar({{ $tagihan->id_tagihan }})"
                                         class="inline-flex px-4 py-2 text-white bg-blue-500 hover:bg-blue-700 rounded-md">
                                         <svg class="w-6 h-6 text-white" aria-hidden="true"
                                             xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -124,7 +144,7 @@
                                                 clip-rule="evenodd" />
                                         </svg>
                                         Bayar
-                                    </a>
+                                    </button>
                                 @endif
                             </td>
                         </tr>

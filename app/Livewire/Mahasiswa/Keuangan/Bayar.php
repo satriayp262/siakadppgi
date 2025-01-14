@@ -13,16 +13,25 @@ class Bayar extends Component
     public $token;
     public $id_tagihan;
 
+    public $transaksi;
+
     public function mount($snap_token)
     {
-        $data = Crypt::decrypt($snap_token);
-        $this->transaksi = $data['transaksi'];
+        $this->token = $snap_token;
+        $this->transaksi = Transaksi::where('order_id', $snap_token)->first();
     }
+
+    public function hapus($id_transaksi)
+    {
+        $transaksi = Transaksi::where('id_transaksi', $id_transaksi)->first();
+        $transaksi->delete();
+        return redirect()->route('mahasiswa.keuangan');
+    }
+
 
     public function render()
     {
-        $x = $this->transaksi['id_tagihan'];
-        $transaksi = Transaksi::where('id_tagihan', $x)->first();
+        $transaksi = Transaksi::where('order_id', $this->token)->first();
         $tagihan = Tagihan::find($transaksi->id_tagihan);
 
 
