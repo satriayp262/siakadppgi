@@ -7,7 +7,7 @@
                         <li>
                             <a href="{{ route('staff.pembayaran') }}"
                                 class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
-                                Bukti Pembayaran
+                                Pembayaran
                             </a>
                         </li>
                         <li aria-current="page">
@@ -66,7 +66,7 @@
                 </thead>
                 <tbody>
                     @foreach ($tagihans as $tagihan)
-                        <tr class="border-t" wire:key="tagihan-{{ $tagihan->nim }}">
+                        <tr class="border-t" wire:key="tagihan-{{ $tagihan->id_tagihan }}">
                             <td class="px-4 py-2 text-center">{{ $loop->iteration }}</td>
                             <td class="px-4 py-2 text-center">{{ $tagihan->semester->nama_semester }}</td>
                             <td class="px-4 py-2 text-center">
@@ -119,9 +119,16 @@
                                 {{ $formattedTotalBayar }}
                             </td>
                             <td class="px-4 py-2 text-center justify-items-center">
-                                <livewire:staff.tagihan.update :id_tagihan="$tagihan->id_tagihan"
-                                    wire:key="edit-{{ $tagihan->id_tagihan }}" />
+                                @if ($tagihan->status_tagihan === 'Belum Lunas')
+                                    <livewire:staff.tagihan.update :id_tagihan="$tagihan->id_tagihan"
+                                        wire:key="edit-{{ $tagihan->id_tagihan }}" />
+                                @elseif ($tagihan->status_tagihan === 'Lunas')
+                                    <livewire:staff.tagihan.transaksi :id_tagihan="$tagihan->id_tagihan"
+                                        wire:key="edit-{{ $tagihan->id_tagihan }}" />
+                                @endif
                             </td>
+
+
                         </tr>
                     @endforeach
                 </tbody>

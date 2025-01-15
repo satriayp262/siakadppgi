@@ -25,23 +25,35 @@ $tahun = substr($tagihan->Bulan, 0, 4);
                 pembayaran.</p>
         </div>
 
-        <div class="grid grid-cols-3 gap-4 mt-6 text-gray-700">
-            <div class="font-medium">Tagihan</div>
-            <div class="text-center">:</div>
-            <div class="font-semibold text-gray-800">BPP Bulan {{ $namaBulan }} {{ $tahun }}</div>
-
-            <div class="font-medium">Atas Nama</div>
-            <div class="text-center">:</div>
-            <div class="text-gray-800">{{ $tagihan->mahasiswa->nama }}</div>
-
-            <div class="font-medium">Semester</div>
-            <div class="text-center">:</div>
-            <div class="text-gray-800">{{ $tagihan->semester->nama_semester }}</div>
-
-            <div class="font-medium">Total Pembayaran</div>
-            <div class="text-center">:</div>
-            <div class="font-bold">Rp. {{ number_format($tagihan->total_tagihan, 0, ',', '.') }}</div>
-        </div>
+        <table class="table-auto w-full mt-6 text-gray-700">
+            <tbody>
+                <!-- Tagihan -->
+                <tr>
+                    <td class="font-medium text-left w-1/3">Tagihan</td>
+                    <td class="text-center w-1/12">:</td>
+                    <td class="font-semibold text-gray-800 ">BPP Bulan {{ $namaBulan }} {{ $tahun }}
+                    </td>
+                </tr>
+                <!-- Atas Nama -->
+                <tr>
+                    <td class="font-medium text-left">Atas Nama</td>
+                    <td class="text-center">:</td>
+                    <td class="text-gray-800 ">{{ $tagihan->mahasiswa->nama }}</td>
+                </tr>
+                <!-- Semester -->
+                <tr>
+                    <td class="font-medium text-left">Semester</td>
+                    <td class="text-center">:</td>
+                    <td class="text-gray-800 ">{{ $tagihan->semester->nama_semester }}</td>
+                </tr>
+                <!-- Total Pembayaran -->
+                <tr>
+                    <td class="font-medium text-left">Total Pembayaran</td>
+                    <td class="text-center">:</td>
+                    <td class="font-bold ">Rp. {{ number_format($transaksi->nominal - 5000, 0, ',', '.') }}</td>
+                </tr>
+            </tbody>
+        </table>
 
         <br>
 

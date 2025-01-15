@@ -119,6 +119,7 @@ Route::middleware(['auth', CheckRole::class . ':mahasiswa', 'verified'])->prefix
     Route::get('/khs/{NIM}', App\Livewire\Khs\Show::class)->name('mahasiswa.khs.show');
     Route::get('/keuangan/bayar/{snap_token}', App\Livewire\Mahasiswa\Keuangan\Bayar::class)->name('mahasiswa.transaksi');
     Route::get('/keuangan/berhasil/{id_transaksi}', App\Livewire\Mahasiswa\Keuangan\Berhasil::class)->name('mahasiswa.transaksi.berhasil');
+    Route::get('/keuangan/cicil/{id_tagihan}', App\Livewire\Mahasiswa\Keuangan\Cicil::class)->name('mahasiswa.cicil');
 });
 
 // dosen
@@ -158,6 +159,7 @@ Route::middleware(['auth', CheckRole::class . ':staff'])->prefix('staff')->group
     Route::get('/detail/{NIM}', App\Livewire\Staff\Tagihan\Detail::class)->name('staff.detail');
     Route::get('/profil', App\Livewire\Staff\Profil\Index::class)->name('staff.profil');
     Route::get('/dashboard', App\Livewire\Staff\Dashboard\Index::class)->name('staff.dashboard');
+    Route::get('/transaksi', App\Livewire\Staff\Tagihan\Transaksi::class)->name('staff.transaksi');
 });
 
 

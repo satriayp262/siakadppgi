@@ -26,14 +26,22 @@ class Berhasil extends Component
         }
         $tagihan = Tagihan::find($transaksi->id_tagihan);
         if ($tagihan) {
-            $tagihan->status_tagihan = 'Lunas';
-            $tagihan->total_bayar = $transaksi->nominal;
+            if ($tagihan->total_bayar == 0) {
+                $tagihan->total_bayar = $transaksi->nominal - 5000;
+            } else {
+                $bayar = $transaksi->nominal - 5000;
+                $tagihan->total_bayar = $tagihan->total_bayar + $bayar;
+            }
+            if ($tagihan->total_bayar == $tagihan->total_tagihan) {
+                $tagihan->status_tagihan = 'Lunas';
+            }
             $tagihan->save();
         }
     }
 
     public function render()
     {
-        return view('livewire.mahasiswa.keuangan.berhasil');
+        return view('livewire.mahasiswa.keuangan.berhasil')->layout('components.layouts.guest');
+        ;
     }
 }
