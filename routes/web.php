@@ -119,7 +119,6 @@ Route::middleware(['auth', CheckRole::class . ':mahasiswa', 'verified'])->prefix
     Route::get('/khs/{NIM}', App\Livewire\Khs\Show::class)->name('mahasiswa.khs.show');
     Route::get('/keuangan/bayar/{snap_token}', App\Livewire\Mahasiswa\Keuangan\Bayar::class)->name('mahasiswa.transaksi');
     Route::get('/keuangan/berhasil/{id_transaksi}', App\Livewire\Mahasiswa\Keuangan\Berhasil::class)->name('mahasiswa.transaksi.berhasil');
-    Route::get('/keuangan/cicil/{id_tagihan}', App\Livewire\Mahasiswa\Keuangan\Cicil::class)->name('mahasiswa.cicil');
 });
 
 // dosen

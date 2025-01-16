@@ -12,7 +12,6 @@ use App\Models\Mahasiswa;
 class Show extends Component
 {
     public $search = '';
-
     public $selectedprodi = '';
     public $selectedSemester = '';
 

@@ -60,7 +60,7 @@
         </div>
 
         <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
-            <h1 class="text-3xl font-bold text-gray-800">Tagihan Anda</h1>
+            <h1 class="text-3xl font-bold text-gray-800">Pembayaran Anda</h1>
             <table class="min-w-full mt-4 bg-white border border-gray-200">
                 <thead>
                     <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
@@ -133,10 +133,9 @@
                                         Unduh
                                     </a>
                                 @else
-                                    <div class="relative inline-block text-left">
+                                    <div x-data="{ isOpen: false, isCicilOpen: false }" class="relative inline-block text-left">
                                         <!-- Dropdown Toggle Button -->
-                                        <button id="dropdownDelayButton" data-dropdown-toggle="dropdownDelay"
-                                            data-dropdown-delay="500" data-dropdown-trigger="hover"
+                                        <button @click="isOpen = !isOpen"
                                             class="inline-flex px-4 py-2 text-white bg-blue-500 hover:bg-blue-700 rounded-md"
                                             type="button">
                                             <svg class="w-6 h-6 text-white" aria-hidden="true"
@@ -153,44 +152,40 @@
                                         </button>
 
                                         <!-- Dropdown Menu -->
-                                        <div id="dropdownDelay"
-                                            class="hidden absolute right-0 z-10 mt-2 bg-white divide-y divide-gray-100 rounded-lg shadow-lg w-44"
-                                            aria-labelledby="dropdownDelayButton">
+                                        <div x-show="isOpen" @click.away="isOpen = false"
+                                            class="absolute right-0 z-10 mt-2 bg-white divide-y divide-gray-100 rounded-lg shadow-lg w-44">
                                             <ul class="py-2 text-sm text-gray-700">
-                                                <!-- Bayar Action -->
                                                 <li>
                                                     <button
-                                                        class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-purple-500 focus:bg-gray-100 focus:text-purple-500"
-                                                        role="menuitem"
+                                                        class="block w-full px-4 py-2 text-left hover:bg-gray-100 hover:text-blue-500"
+                                                        @click="isOpen = false"
                                                         wire:click.prevent="bayar({{ $tagihan->id_tagihan }})">
                                                         Bayar Lunas
                                                     </button>
                                                 </li>
-
-                                                <!-- Cicil Action -->
-                                                <li class="relative">
+                                                <li class="relative" @click="isCicilOpen = !isCicilOpen"
+                                                    @click.away="isCicilOpen = false">
                                                     <button
-                                                        class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-purple-500 focus:bg-gray-100 focus:text-purple-500"
-                                                        role="menuitem" data-dropdown-toggle="dropdownCicil"
-                                                        data-dropdown-trigger="hover">
+                                                        class="block w-full px-4 py-2 text-left hover:bg-gray-100 hover:text-blue-500"
+                                                        :class="isCicilOpen ? 'bg-gray-100 text-blue-500' : ''">
                                                         Cicil
                                                     </button>
-                                                    <div id="dropdownCicil"
-                                                        class="hidden absolute left-0 z-10 mt-2 bg-white divide-y divide-gray-100 rounded-lg shadow-lg w-44"
-                                                        aria-labelledby="dropdownCicilButton">
+
+                                                    <!-- Cicil Submenu -->
+                                                    <div x-show="isCicilOpen"
+                                                        class="absolute left-0 z-10 mt-4 bg-white rounded-lg shadow-lg w-44">
                                                         <ul class="py-2 text-sm text-gray-700">
                                                             <li>
                                                                 <button
-                                                                    class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-purple-500 focus:bg-gray-100 focus:text-purple-500"
-                                                                    role="menuitem"
-                                                                    wire:click.prevent="bayar2({{ $tagihan->id_tagihan }}, 1)">
+                                                                    class="block w-full px-4 py-2 text-left hover:bg-gray-100 hover:text-blue-500"
+                                                                    wire:click.prevent="bayar2({{ $tagihan->id_tagihan }})">
                                                                     Cicil 2x
                                                                 </button>
                                                             </li>
                                                             <li>
                                                                 <button
-                                                                    class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-purple-500 focus:bg-gray-100 focus:text-purple-500"
-                                                                    role="menuitem">
+                                                                    class="block w-full px-4 py-2 text-left hover:bg-gray-100 hover:text-blue-500"
+                                                                    wire:click.prevent="bayar3({{ $tagihan->id_tagihan }})">
                                                                     Cicil 3x
                                                                 </button>
                                                             </li>
@@ -200,6 +195,7 @@
                                             </ul>
                                         </div>
                                     </div>
+
 
 
                                     {{-- <div class="space-x-2 justify-items-center">
@@ -217,31 +213,56 @@
                                             </svg>
                                             Bayar
                                         </button>
-                                        <button
-                                            class="inline-flex px-4 py-2 text-white bg-green-500 hover:bg-green-700 rounded-md">
-                                            <svg class="w-6 h-6 text-white" aria-hidden="true"
-                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                fill="currentColor" viewBox="0 0 24 24">
-                                                <path fill-rule="evenodd"
-                                                    d="M12 14a3 3 0 0 1 3-3h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4a3 3 0 0 1-3-3Zm3-1a1 1 0 1 0 0 2h4v-2h-4Z"
-                                                    clip-rule="evenodd" />
-                                                <path fill-rule="evenodd"
-                                                    d="M12.293 3.293a1 1 0 0 1 1.414 0L16.414 6h-2.828l-1.293-1.293a1 1 0 0 1 0-1.414ZM12.414 6 9.707 3.293a1 1 0 0 0-1.414 0L5.586 6h6.828ZM4.586 7l-.056.055A2 2 0 0 0 3 9v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2h-4a5 5 0 0 1 0-10h4a2 2 0 0 0-1.53-1.945L17.414 7H4.586Z"
-                                                    clip-rule="evenodd" />
-                                            </svg>
-                                            Cicil
-                                        </button> --}}
-        </div>
-        @endif
-        </td>
-        </tr>
-        @endforeach
-        </tbody>
-        </table>
-        <!-- Pagination Controls -->
-        <div class="py-8 mt-4 text-center">
-            {{-- {{ $mahasiswas->links() }} --}}
+
+                                        <!-- Dropdown Cicil -->
+                                        <div class="relative inline-block">
+                                            <button id="dropdownDelayButton-{{ $tagihan->id_tagihan }}"
+                                                data-dropdown-toggle="dropdownDelay-{{ $tagihan->id_tagihan }}"
+                                                data-dropdown-delay="500" data-dropdown-trigger="hover"
+                                                class="inline-flex px-4 py-2 text-white bg-blue-500 hover:bg-blue-700 rounded-md">
+                                                <svg class="w-6 h-6 text-white" aria-hidden="true"
+                                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    fill="currentColor" viewBox="0 0 24 24">
+                                                    <path fill-rule="evenodd"
+                                                        d="M12 14a3 3 0 0 1 3-3h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4a3 3 0 0 1-3-3Zm3-1a1 1 0 1 0 0 2h4v-2h-4Z"
+                                                        clip-rule="evenodd" />
+                                                    <path fill-rule="evenodd"
+                                                        d="M12.293 3.293a1 1 0 0 1 1.414 0L16.414 6h-2.828l-1.293-1.293a1 1 0 0 1 0-1.414ZM12.414 6 9.707 3.293a1 1 0 0 0-1.414 0L5.586 6h6.828ZM4.586 7l-.056.055A2 2 0 0 0 3 9v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2h-4a5 5 0 0 1 0-10h4a2 2 0 0 0-1.53-1.945L17.414 7H4.586Z"
+                                                        clip-rule="evenodd" />
+                                                </svg>
+                                                Cicil
+                                            </button>
+                                            <div id="dropdownDelay-{{ $tagihan->id_tagihan }}"
+                                                class="hidden absolute right-0 z-10 mt-2 bg-white divide-y divide-gray-100 rounded-lg shadow-lg w-44"
+                                                aria-labelledby="dropdownDelayButton-{{ $tagihan->id_tagihan }}">
+                                                <ul class="py-2 text-sm text-gray-700">
+                                                    <li>
+                                                        <button
+                                                            class="block w-full px-4 py-2 text-left text-sm hover:bg-gray-100 hover:text-blue-500"
+                                                            wire:click.prevent="bayar2({{ $tagihan->id_tagihan }})">
+                                                            Cicil 2x
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button
+                                                            class="block w-full px-4 py-2 text-left text-sm hover:bg-gray-100 hover:text-blue-500"
+                                                            wire:click.prevent="bayar3({{ $tagihan->id_tagihan }})">
+                                                            Cicil 3x
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div> --}}
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            <!-- Pagination Controls -->
+            <div class="py-8 mt-4 text-center">
+                {{-- {{ $mahasiswas->links() }} --}}
+            </div>
         </div>
     </div>
-</div>
 </div>
