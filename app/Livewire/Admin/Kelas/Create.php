@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Kelas;
 
+use App\Models\Mahasiswa;
 use Livewire\Component;
 use App\Models\Kelas;
 use App\Models\Prodi;
@@ -50,6 +51,7 @@ class Create extends Component
     {
         // Validasi data
         $validatedData = $this->validate();
+
         // Simpan data ke database
         $kelas = Kelas::create([
             'nama_kelas' => $validatedData['nama_kelas'],
@@ -60,6 +62,12 @@ class Create extends Component
             'bahasan' => $validatedData['bahasan'],
             'mode_kuliah' => $validatedData['mode_kuliah'],
         ]);
+
+        $mahasiswa = Mahasiswa::where('kode_prodi', $validatedData['kode_prodi'])->get();
+
+
+
+        // Jika data berhasil disimpan
         $this->dispatch('kelasCreated');
         $this->reset();
         return $kelas;
