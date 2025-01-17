@@ -62,7 +62,8 @@
                                 class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
                                 <option value="" disabled selected>Select</option>
                                 @foreach ($mata_kuliah as $mk)
-                                    <option value="{{ $mk->id_mata_kuliah }}">{{ $mk->nama_mata_kuliah . ' ' . '(' . $mk->dosen->nama_dosen . ')' }}</option>
+                                    <option value="{{ $mk->id_mata_kuliah }}">
+                                        {{ $mk->nama_mata_kuliah . ' ' . '(' . $mk->dosen->nama_dosen . ')' }}</option>
                                 @endforeach
                             </select>
                             @error('mata_kuliah')
@@ -70,14 +71,14 @@
                             @enderror
                         </div>
 
-                        <div class="mb-4">
+                        {{-- <div class="mb-4">
                             <label for="nama_kelas" class="block text-sm font-medium text-gray-700">Nama Kelas</label>
                             <input type="text" id="nama_kelas" wire:model="nama_kelas" name="nama_kelas"
                                 class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
                             @error('nama_kelas')
                                 <span class="text-sm text-red-500">{{ $message }}</span>
                             @enderror
-                        </div>
+                        </div> --}}
 
                         <div class="mb-4">
                             <label for="bahasan" class="block text-sm font-medium text-gray-700">Bahasan</label>

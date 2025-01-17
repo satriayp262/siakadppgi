@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Kelas;
 
+use App\Models\Mahasiswa;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
@@ -54,8 +55,11 @@ class Index extends Component
     }
     public function destroySelected()
     {
-        // Hapus data dosen yang terpilih
+        Mahasiswa::whereIn('id_kelas', $this->selectedKelas)->update(['id_kelas' => null]);
+
         Kelas::whereIn('id_kelas', $this->selectedKelas)->delete();
+
+
 
         // Reset array selectedDosen setelah penghapusan
         $this->selectedKelas = [];

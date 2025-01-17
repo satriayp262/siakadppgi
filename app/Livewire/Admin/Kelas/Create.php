@@ -23,7 +23,7 @@ class Create extends Component
     public function rules()
     {
         return [
-            'nama_kelas' => 'required|string',
+            // 'nama_kelas' => 'required|string',
             'semester' => 'required',
             'bahasan' => 'required|string',
             'mode_kuliah' => 'required|string',
@@ -36,7 +36,7 @@ class Create extends Component
     public function messages()
     {
         return [
-            'nama_kelas.required' => 'Nama kelas tidak boleh kosong',
+            // 'nama_kelas.required' => 'Nama kelas tidak boleh kosong',
             'semester.required' => 'Semester tidak boleh kosong',
             'kode_prodi.required' => 'Kode prodi tidak boleh kosong',
             'lingkup_kelas.required' => 'Lingkup kelas tidak boleh kosong',
@@ -52,21 +52,30 @@ class Create extends Component
         // Validasi data
         $validatedData = $this->validate();
 
-        // Simpan data ke database
-        $kelas = Kelas::create([
-            'nama_kelas' => $validatedData['nama_kelas'],
-            'id_semester' => $validatedData['semester'],
-            'kode_prodi' => $validatedData['kode_prodi'],
-            'lingkup_kelas' => $validatedData['lingkup_kelas'],
-            'id_mata_kuliah' => $validatedData['id_mata_kuliah'],
-            'bahasan' => $validatedData['bahasan'],
-            'mode_kuliah' => $validatedData['mode_kuliah'],
-        ]);
-
         $mahasiswa = Mahasiswa::where('kode_prodi', $validatedData['kode_prodi'])->get();
+        $jumlah_mahasiswa = $mahasiswa->count();
 
+        $kelasNames = ['A', 'B', 'C', 'D'];
+        $kelasCount = ceil($jumlah_mahasiswa / 24);
 
+        for ($i = 0; $i < $kelasCount; $i++) {
+            $kelasName = $kelasNames[$i];
+            $kelas = Kelas::create([
+                'nama_kelas' => $kelasName,
+                'id_semester' => $validatedData['semester'],
+                'kode_prodi' => $validatedData['kode_prodi'],
+                'lingkup_kelas' => $validatedData['lingkup_kelas'],
+                'id_mata_kuliah' => $validatedData['id_mata_kuliah'],
+                'bahasan' => $validatedData['bahasan'],
+                'mode_kuliah' => $validatedData['mode_kuliah'],
+            ]);
 
+            $mahasiswaChunk = $mahasiswa->splice(0, 24);
+            foreach ($mahasiswaChunk as $mhs) {
+                $mhs->id_kelas = $kelas->id_kelas;
+                $mhs->save();
+            }
+        }
         // Jika data berhasil disimpan
         $this->dispatch('kelasCreated');
         $this->reset();
