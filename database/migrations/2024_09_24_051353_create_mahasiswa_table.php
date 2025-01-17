@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -45,6 +44,7 @@ return new class extends Migration
             $table->string('nama_prodi_asal')->nullable();
             $table->string('jenis_pembiayaan')->nullable();
             $table->integer('jumlah_biaya_masuk')->nullable();
+
             // $table->foreignId('id_user')->nullable()->constrained('users')->onDelete('cascade');
             $table->foreign('kode_prodi')->references('kode_prodi')->on('prodi');
             $table->timestamps();

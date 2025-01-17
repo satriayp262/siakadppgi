@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->string('order_id');
             $table->string('status')->default('pending');
             $table->string('va_number')->nullable();
+            $table->string('bank')->nullable();
             $table->string('payment_type')->nullable();
             $table->timestamps();
         });

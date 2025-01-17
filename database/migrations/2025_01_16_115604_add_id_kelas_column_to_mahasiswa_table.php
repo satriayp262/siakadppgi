@@ -10,11 +10,9 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('prodi', function (Blueprint $table) {
-            $table->integer('id_prodi')->autoIncrement()->primary();
-            $table->string('kode_prodi')->unique();
-            $table->string('nama_prodi');
-            $table->timestamps();
+        Schema::table('mahasiswa', function (Blueprint $table) {
+            $table->integer('id_kelas')->nullable();
+            $table->foreign('id_kelas')->references('id_kelas')->on('kelas');
         });
     }
 
@@ -23,6 +21,8 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('prodi');
+        Schema::table('mahasiswa', function (Blueprint $table) {
+            //
+        });
     }
 };

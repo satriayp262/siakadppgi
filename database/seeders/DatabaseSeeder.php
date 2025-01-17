@@ -314,17 +314,17 @@ class DatabaseSeeder extends Seeder
             ]);
 
             // Create 2 Kelas for each Mata Kuliah
-            for ($semester = 6; $semester >= 5; $semester--) {
-                Kelas::create([
-                    'id_semester' => $semester,
-                    'nama_kelas' => strtolower($data['kode_mata_kuliah']),
-                    'kode_prodi' => $data['kode_prodi'],
-                    'id_mata_kuliah' => $mataKuliah->id_mata_kuliah,
-                    'lingkup_kelas' => fake()->randomElement([1, 2, 3]),
-                    'bahasan' => fake()->sentence(),
-                    'mode_kuliah' => fake()->randomElement(['O', 'F', 'M']),
-                ]);
-            }
+            // for ($semester = 6; $semester >= 5; $semester--) {
+            //     Kelas::create([
+            //         'id_semester' => $semester,
+            //         'nama_kelas' => strtolower($data['kode_mata_kuliah']),
+            //         'kode_prodi' => $data['kode_prodi'],
+            //         'id_mata_kuliah' => $mataKuliah->id_mata_kuliah,
+            //         'lingkup_kelas' => fake()->randomElement([1, 2, 3]),
+            //         'bahasan' => fake()->sentence(),
+            //         'mode_kuliah' => fake()->randomElement(['O', 'F', 'M']),
+            //     ]);
+            // }
         }
 
         Ruangan::factory(20)->create();
