@@ -62,6 +62,7 @@ class TransaksiController extends Controller
         // Simpan informasi tambahan (opsional)
         $transaction->payment_type = $notification->payment_type ?? null;
         $transaction->va_number = $notification->va_numbers[0]->va_number ?? null;
+        $transaction->bank = $notification->va_numbers[0]->bank ?? null;
         $transaction->save();
 
         return response()->json(['message' => $message], 200);
