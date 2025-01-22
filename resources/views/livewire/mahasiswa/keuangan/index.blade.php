@@ -68,6 +68,7 @@
                         <th class="px-4 py-2 text-center">Semester</th>
                         <th class="px-4 py-2 text-center">Bulan</th>
                         <th class="px-4 py-2 text-center">Tagihan</th>
+                        <th class="px-4 py-2 text-center">Riwayat</th>
                         <th class="px-4 py-2 text-center">Status</th>
                         <th class="px-4 py-2 text-center">Aksi</th>
                     </tr>
@@ -103,6 +104,8 @@
                                 @endphp
                                 {{ $formattedTotalTagihan }}
                             </td>
+                            <td class="px-4 py-2 text-center">
+                                {{ $tagihan->metode_pembayaran . ' (' . $tagihan->cicilan_ke . ')' }}</td>
                             <td class="px-4 py-2 text-center">
                                 @php
                                     $status = [

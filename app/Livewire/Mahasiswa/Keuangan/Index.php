@@ -30,11 +30,15 @@ class Index extends Component
         $tagihan = Tagihan::find($id_tagihan);
 
 
+
         if (!$tagihan) {
             session()->flash('message', 'Tagihan tidak ditemukan.');
             session()->flash('message_type', 'error');
             return;
         }
+
+        $tagihan->metode_pembayaran = 'Bayar Penuh';
+        $tagihan->save();
 
         // Configure Midtrans
         \Midtrans\Config::$serverKey = config('midtrans.serverKey');
@@ -97,6 +101,9 @@ class Index extends Component
             return;
         }
 
+        $tagihan->metode_pembayaran = 'Cicil 2x';
+        $tagihan->save();
+
         // Configure Midtrans
         \Midtrans\Config::$serverKey = config('midtrans.serverKey');
         \Midtrans\Config::$isProduction = false;
@@ -157,6 +164,10 @@ class Index extends Component
             session()->flash('message_type', 'error');
             return;
         }
+
+
+        $tagihan->metode_pembayaran = 'Cicil 3x';
+        $tagihan->save();
 
         // Configure Midtrans
         \Midtrans\Config::$serverKey = config('midtrans.serverKey');

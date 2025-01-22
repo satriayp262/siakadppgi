@@ -15,6 +15,8 @@ return new class extends Migration {
             $table->string('NIM');
             $table->integer('total_tagihan');
             $table->integer('total_bayar')->nullable();
+            $table->string('metode_pembayaran')->nullable();
+            $table->enum('cicilan_ke', ['1', '2', '3'])->nullable();
             $table->string('status_tagihan');
             $table->string('Bulan', 7);
             $table->integer('id_semester');
