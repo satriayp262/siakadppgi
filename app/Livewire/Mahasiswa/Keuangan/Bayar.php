@@ -23,7 +23,15 @@ class Bayar extends Component
 
     public function hapus($id_transaksi)
     {
+
         $transaksi = Transaksi::where('id_transaksi', $id_transaksi)->first();
+        $tagihan = Tagihan::where('id_tagihan', $transaksi->id_tagihan)->first();
+
+        if ($tagihan->cicilan_ke == null) {
+            $tagihan->metode_pembayaran = null;
+            $tagihan->save();
+        }
+
         $transaksi->delete();
         return redirect()->route('mahasiswa.keuangan');
     }

@@ -17,6 +17,8 @@ class Tagihan extends Model
         'Bulan',
         'total_bayar',
         'id_staff',
+        'metode_pembayaran',
+        'cicilan_ke'
     ];
 
     public function mahasiswa()
