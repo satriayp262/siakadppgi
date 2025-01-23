@@ -10,15 +10,15 @@ use Illuminate\Support\Facades\Crypt;
 class Bayar extends Component
 {
 
-    public $token;
+    public $order;
     public $id_tagihan;
 
     public $transaksi;
 
-    public function mount($snap_token)
+    public function mount($order_id)
     {
-        $this->token = $snap_token;
-        $this->transaksi = Transaksi::where('order_id', $snap_token)->first();
+        $this->order = $order_id;
+        $this->transaksi = Transaksi::where('order_id', $order_id)->first();
     }
 
     public function hapus($id_transaksi)
@@ -31,7 +31,7 @@ class Bayar extends Component
 
     public function render()
     {
-        $transaksi = Transaksi::where('order_id', $this->token)->first();
+        $transaksi = Transaksi::where('order_id', $this->order)->first();
         $tagihan = Tagihan::find($transaksi->id_tagihan);
 
 

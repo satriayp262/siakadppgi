@@ -83,7 +83,7 @@ class Index extends Component
 
         // Redirect ke halaman transaksi
         return redirect()->route('mahasiswa.transaksi', [
-            'snap_token' => $order_id,
+            'order_id' => $order_id,
         ]);
 
     }
@@ -148,7 +148,7 @@ class Index extends Component
 
         // Redirect ke halaman transaksi
         return redirect()->route('mahasiswa.transaksi', [
-            'snap_token' => $order_id,
+            'order_id' => $order_id,
         ]);
     }
 
@@ -213,7 +213,7 @@ class Index extends Component
 
         // Redirect ke halaman transaksi
         return redirect()->route('mahasiswa.transaksi', [
-            'snap_token' => $order_id,
+            'order_id' => $order_id,
         ]);
     }
 

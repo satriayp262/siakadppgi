@@ -24,6 +24,7 @@
             </div>
         </div>
 
+
         {{-- <div class="bg-purple-200 shadow-lg p-2 px-4 mt-2 rounded-lg max-w-full">
             <div class="flex justify-between">
                 <h1><b>Semester Saat ini : </b>
@@ -58,6 +59,13 @@
                 <span class="text-purple-600">Segera lunasi BPP untuk menghindari denda keterlambatan</span>.
             </p>
         </div>
+
+        <div class="flex justify-between mt-2">
+            <livewire:mahasiswa.keuangan.konfirmasi />
+            {{-- <input type="text" wire:model.live="search" placeholder="   Search"
+                class="px-2 ml-4 border border-gray-300 rounded-lg"> --}}
+        </div>
+
 
         <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
             <h1 class="text-3xl font-bold text-gray-800">Pembayaran Anda</h1>
