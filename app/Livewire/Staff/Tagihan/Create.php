@@ -96,8 +96,7 @@ class Create extends Component
         }
 
         // Reset the form values
-        $this->reset(['id_semester', 'kode_prodi', 'Bulan']);
-        ;
+        $this->reset(['total_tagihan', 'status_tagihan', 'Bulan', 'id_semester', 'kode_prodi']);
         return $tagihan ?? null;
     }
 
