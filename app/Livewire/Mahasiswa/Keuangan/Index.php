@@ -219,8 +219,6 @@ class Index extends Component
 
     public function render()
     {
-        $semesters = Semester::all(); // Get all semesters
-
         $user = auth()->user(); // Get the currently logged-in user
 
         $tagihans = Tagihan::with('mahasiswa')->whereHas('mahasiswa', function ($query) use ($user) {
@@ -231,7 +229,6 @@ class Index extends Component
 
         return view('livewire.mahasiswa.keuangan.index', [
             'tagihans' => $tagihans,
-            'semesters' => $semesters,
         ]);
     }
 }

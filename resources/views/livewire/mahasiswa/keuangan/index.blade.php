@@ -60,14 +60,14 @@
             </p>
         </div>
 
-        <div class="flex justify-between mt-2">
+        {{-- <div class="flex justify-between mt-2">
             <livewire:mahasiswa.keuangan.konfirmasi />
-            {{-- <input type="text" wire:model.live="search" placeholder="   Search"
-                class="px-2 ml-4 border border-gray-300 rounded-lg"> --}}
-        </div>
+            <input type="text" wire:model.live="search" placeholder="   Search"
+                class="px-2 ml-4 border border-gray-300 rounded-lg">
+        </div> --}}
 
 
-        <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
+        <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-screen overflow-x-hidden">
             <h1 class="text-3xl font-bold text-gray-800">Pembayaran Anda</h1>
             <table class="min-w-full mt-4 bg-white border border-gray-200">
                 <thead>
@@ -76,14 +76,14 @@
                         <th class="px-4 py-2 text-center">Semester</th>
                         <th class="px-4 py-2 text-center">Bulan</th>
                         <th class="px-4 py-2 text-center">Tagihan</th>
-                        <th class="px-4 py-2 text-center">Riwayat</th>
                         <th class="px-4 py-2 text-center">Status</th>
+                        <th class="px-4 py-2 text-center">Sisa ? Kurang</th>
                         <th class="px-4 py-2 text-center">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($tagihans as $tagihan)
-                        <tr class="border-t" wire:key="tagihan-{{ $tagihan->nim }}">
+                        <tr class="border-t odd:bg-white  even:bg-gray-100" wire:key="tagihan-{{ $tagihan->nim }}">
                             <td class="px-4 py-2 text-center">{{ $loop->iteration }}</td>
                             <td class="px-4 py-2 text-center">{{ $tagihan->semester->nama_semester }}</td>
                             @php
@@ -112,22 +112,38 @@
                                 @endphp
                                 {{ $formattedTotalTagihan }}
                             </td>
-                            <td class="px-4 py-2 text-center">
-                                {{ $tagihan->metode_pembayaran . ' (' . $tagihan->cicilan_ke . ')' }}</td>
+
                             <td class="px-4 py-2 text-center">
                                 @php
                                     $status = [
-                                        'Belum Lunas' =>
+                                        'Belum Bayar' =>
                                             'bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-2 rounded',
+                                        'Belum Lunas' =>
+                                            'bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-2 rounded',
                                         'Lunas' =>
                                             'bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-2 rounded',
                                     ];
                                     $status = $status[$tagihan->status_tagihan] ?? 'bg-gray-500';
+                                    $maxCicilan = (int) filter_var(
+                                        $tagihan->metode_pembayaran,
+                                        FILTER_SANITIZE_NUMBER_INT,
+                                    );
                                 @endphp
-                                <span class="me-2 px-2.5 py-0.5 text-xs rounded-full {{ $status }}"
-                                    style="width: 80px;">
+                                <span class="me-2 px-2.5 py-0.5 text-xs rounded-full {{ $status }}">
                                     {{ ucfirst($tagihan->status_tagihan) }}
                                 </span>
+                            </td>
+                            <td class="px-4 py-2 text-center">
+
+                                @if ($tagihan->metode_pembayaran == 'Cicil 2x' || $tagihan->metode_pembayaran == 'Cicil 3x')
+                                    @if ($tagihan->status_tagihan === 'Lunas')
+                                        -
+                                    @else
+                                        {{ '(' . $tagihan->cicilan_ke . '/' . $maxCicilan . ')' }}
+                                    @endif
+                                @else
+                                    -
+                                @endif
                             </td>
                             <td class="px-4 py-2 text-center">
                                 @if ($tagihan->status_tagihan === 'Lunas')
