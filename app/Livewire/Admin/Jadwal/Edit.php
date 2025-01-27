@@ -76,6 +76,7 @@ class Edit extends Component
 
     public function tukar()
     {
+        dd($this->edit);
         $target = Jadwal::find($this->target);
         $ammo = Jadwal::find($this->id_jadwal);
 
@@ -217,45 +218,77 @@ class Edit extends Component
         }
     }
 
-    public function rules()
-    {
-        return [
-            'z' => 'required',
-            'x' => 'required',
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-            'z.required' => 'Hari tidak boleh kosong',
-            'x.required' => 'Sesi tidak boleh kosong',
-        ];
-    }
 
     public function update()
     {
-        $validatedData = $this->validate();
 
         $jadwal = Jadwal::find($this->id_jadwal);
 
-        $conflict3 = jadwal::where('hari', $this->z)
-            ->where('sesi', $this->x)
-            // ->where('nidn', $jadwal->nidn)
-            ->where('kode_prodi', $jadwal->kode_prodi)
-            ->where('id_jadwal', '!=', $jadwal->id_jadwal)
-            ->exists();
+        if (!$this->z) {
+            $conflict3 = jadwal::where('hari', $jadwal->hari)
+                ->where('sesi', $this->x)
+                // ->where('nidn', $jadwal->nidn)
+                ->where('kode_prodi', $jadwal->kode_prodi)
+                ->where('id_jadwal', '!=', $jadwal->id_jadwal)
+                ->exists();
+        }elseif (!$this->x) {
+            $conflict3 = jadwal::where('hari', $this->z)
+                ->where('sesi', $jadwal->sesi)
+                // ->where('nidn', $jadwal->nidn)
+                ->where('kode_prodi', $jadwal->kode_prodi)
+                ->where('id_jadwal', '!=', $jadwal->id_jadwal)
+                ->exists();
+        }else{
+            $conflict3 = jadwal::where('hari', $this->z)
+                ->where('sesi', $this->x)
+                // ->where('nidn', $jadwal->nidn)
+                ->where('kode_prodi', $jadwal->kode_prodi)
+                ->where('id_jadwal', '!=', $jadwal->id_jadwal)
+                ->exists();
+        }
 
-        $conflict4 = jadwal::where('kode_prodi', '!=', $jadwal->kode_prodi)
-            ->where('id_jadwal', '!=', $jadwal->id_jadwal)
-            ->where('nidn', $jadwal->nidn)
-            ->exists();
+        if (!$this->z) {
+            $conflict4 = jadwal::where('kode_prodi', '!=', $jadwal->kode_prodi)
+                ->where('id_jadwal', '!=', $jadwal->id_jadwal)
+                ->where('nidn', $jadwal->nidn)
+                ->where('hari', $jadwal->hari)
+                ->where('sesi', $this->x)
+                ->exists();
+        }elseif (!$this->x) {
+            $conflict4 = jadwal::where('kode_prodi', '!=', $jadwal->kode_prodi)
+                ->where('id_jadwal', '!=', $jadwal->id_jadwal)
+                ->where('nidn', $jadwal->nidn)
+                ->where('hari', $this->z)
+                ->where('sesi', $jadwal->sesi)
+                ->exists();
+        } else {
+            $conflict4 = jadwal::where('kode_prodi', '!=', $jadwal->kode_prodi)
+                ->where('id_jadwal', '!=', $jadwal->id_jadwal)
+                ->where('nidn', $jadwal->nidn)
+                ->where('hari', $this->z)
+                ->where('sesi', $this->x)
+                ->exists();
+        }
 
         if (!$conflict3 && !$conflict4) {
-            if ($jadwal) {
+            if ($this->z && $this->x) {
                 $jadwal->update([
-                    'hari' => $validatedData['z'],
-                    'sesi' => $validatedData['x']
+                    'hari' => $this->z,
+                    'sesi' => $this->x
+                ]);
+
+                $this->clear($this->id_jadwal);
+                $this->dispatch('jadwalUpdated2');
+            }elseif ($this->z) {
+                $jadwal->update([
+                    'hari' => $this->z
+                ]);
+
+                $this->clear($this->id_jadwal);
+                $this->dispatch('jadwalUpdated2');
+            }elseif ($this->x) {
+                $jadwal->update([
+                    'sesi' => $this->x
                 ]);
 
                 $this->clear($this->id_jadwal);
@@ -292,17 +325,34 @@ class Edit extends Component
                 $this->z = 'Jumat';
             }
 
+            if ($jadwal->hari == 'Monday') {
+                $jadwal->hari = 'Senin';
+            } elseif ($jadwal->hari == 'Tuesday') {
+                $jadwal->hari = 'Selasa';
+            } elseif ($jadwal->hari == 'Wednesday') {
+                $jadwal->hari = 'Rabu';
+            } elseif ($jadwal->hari == 'Thursday') {
+                $jadwal->hari = 'Kamis';
+            } elseif ($jadwal->hari == 'Friday') {
+                $jadwal->hari = 'Jumat';
+            }
+
             $dosen = $jadwal->dosen->nama_dosen;
             $a = jadwal::where('nidn', $jadwal->nidn)
                 ->where('id_jadwal', '!=', $jadwal->id_jadwal)
-                ->get();
-            $b = $a->pluck('id_kelas');
+                ->first();
+            $b = $a->id_kelas;
             $c = Kelas::where('id_kelas', $b)->first();
             $kelas = $c->nama_kelas;
 
+            if (!$this->x) {
+                $this->dispatch('warning', ['message' => 'Dosen ' . $dosen . ' sudah memiliki jadwal di hari ' . $this->z . ' dan sesi ' . $jadwal->sesi . ' pada kelas ' . $kelas]);
+            }elseif (!$this->z) {
+                $this->dispatch('warning', ['message' => 'Dosen ' . $dosen . ' sudah memiliki jadwal di hari ' . $jadwal->hari . ' dan sesi ' . $this->x . ' pada kelas ' . $kelas]);
 
-
-            $this->dispatch('warning', ['message' => 'Dosen ' . $dosen . ' sudah memiliki jadwal di hari ' . $this->z . ' dan sesi ' . $this->x . ' pada kelas ' . $kelas]);
+            } else {
+                $this->dispatch('warning', ['message' => 'Dosen ' . $dosen . ' sudah memiliki jadwal di hari ' . $this->z . ' dan sesi ' . $this->x . ' pada kelas ' . $kelas]);
+            }
         }
         
     }

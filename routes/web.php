@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Controller;
 use App\Models\Aktifitas;
 use App\Models\Dosen;
 use App\Models\Kelas;
@@ -86,10 +87,6 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
         Route::get('/', App\Livewire\Admin\Jadwal\Index::class)->name('admin.jadwal');
     });
 
-    Route::prefix('jadwalUjian')->group(function () {
-        Route::get('/', App\Livewire\Admin\JadwalUjian\Index::class)->name('admin.jadwalUjian');
-    });
-
     Route::prefix('staff')->group(function () {
         Route::get('/', App\Livewire\Admin\Staff\Index::class)->name('admin.staff');
     });
@@ -120,6 +117,8 @@ Route::middleware(['auth', CheckRole::class . ':mahasiswa', 'verified'])->prefix
     Route::get('/keuangan/bayar/{order_id}', App\Livewire\Mahasiswa\Keuangan\Bayar::class)->name('mahasiswa.transaksi');
     Route::get('/keuangan/berhasil/{order_id}', App\Livewire\Mahasiswa\Keuangan\Berhasil::class)->name('mahasiswa.transaksi.berhasil');
     Route::get('/keuangan/konfirmasi', App\Livewire\Mahasiswa\Keuangan\Konfirmasi::class)->name('mahasiswa.transaksi.konfirmasi');
+    Route::get('/kartu_ujian', App\Livewire\Mahasiswa\KartuUjian\Index::class)->name('mahasiswa.ujian');
+
 });
 
 // dosen

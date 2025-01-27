@@ -79,7 +79,7 @@ class Create extends Component
         // Jika data berhasil disimpan
         $this->dispatch('kelasCreated');
         $this->reset();
-        return $kelas;
+        // return $kelas;
     }
 
     public function render()
