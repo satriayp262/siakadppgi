@@ -36,6 +36,11 @@ class Tagihan extends Model
         return $this->belongsTo(Staff::class, 'id_staff', 'id_Staff');
     }
 
+    public function transaksi()
+    {
+        return $this->hasMany(Transaksi::class, 'id_tagihan', 'id_tagihan');
+    }
+
 
 
     use HasFactory;

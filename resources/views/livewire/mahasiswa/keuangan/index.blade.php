@@ -69,7 +69,7 @@
 
         <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-screen overflow-x-hidden">
             <h1 class="text-3xl font-bold text-gray-800">Pembayaran Anda</h1>
-            <table class="min-w-full mt-4 bg-white border border-gray-200">
+            <table class="min-w-full mt-4 bg-white border border-gray-200 max-w-screen overflow-x-hidden">
                 <thead>
                     <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
                         <th class="px-4 py-2 text-center">No.</th>
