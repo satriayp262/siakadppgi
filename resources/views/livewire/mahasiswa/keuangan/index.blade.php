@@ -75,9 +75,9 @@
                         <th class="px-4 py-2 text-center">No.</th>
                         <th class="px-4 py-2 text-center">Semester</th>
                         <th class="px-4 py-2 text-center">Bulan</th>
-                        <th class="px-4 py-2 text-center">Tagihan</th>
-                        <th class="px-4 py-2 text-center">Status</th>
-                        <th class="px-4 py-2 text-center">Sisa ? Kurang</th>
+                        <th class="px-4 py-2 text-center">Total Tagihan</th>
+                        <th class="px-4 py-2 text-center">Total Pembayaran</th>
+                        <th class="px-4 py-2 text-center">Status Pembayaran</th>
                         <th class="px-4 py-2 text-center">Aksi</th>
                     </tr>
                 </thead>
@@ -103,14 +103,17 @@
                                     '12' => 'Desember',
                                 ][$bulan];
                                 $tahun = substr($tagihan->Bulan, 0, 4);
+
+                                $formattedTotalTagihan = 'Rp. ' . number_format($tagihan->total_tagihan, 0, ',', '.');
+                                $formattedTotalBayar = 'Rp. ' . number_format($tagihan->total_bayar, 0, ',', '.');
                             @endphp
                             <td class="px-4 py-2 text-center">{{ $namaBulan }}, {{ $tahun }}</td>
                             <td class="px-4 py-2 text-center italic font-semibold">
-                                @php
-                                    $formattedTotalTagihan =
-                                        'Rp. ' . number_format($tagihan->total_tagihan, 0, ',', '.');
-                                @endphp
                                 {{ $formattedTotalTagihan }}
+                            </td>
+
+                            <td class="px-4 py-2 text-center">
+                                {{ $formattedTotalBayar }}
                             </td>
 
                             <td class="px-4 py-2 text-center">
@@ -124,27 +127,12 @@
                                             'bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-2 rounded',
                                     ];
                                     $status = $status[$tagihan->status_tagihan] ?? 'bg-gray-500';
-                                    $maxCicilan = (int) filter_var(
-                                        $tagihan->metode_pembayaran,
-                                        FILTER_SANITIZE_NUMBER_INT,
-                                    );
                                 @endphp
                                 <span class="me-2 px-2.5 py-0.5 text-xs rounded-full {{ $status }}">
                                     {{ ucfirst($tagihan->status_tagihan) }}
                                 </span>
                             </td>
-                            <td class="px-4 py-2 text-center">
 
-                                @if ($tagihan->metode_pembayaran == 'Cicil 2x' || $tagihan->metode_pembayaran == 'Cicil 3x')
-                                    @if ($tagihan->status_tagihan === 'Lunas')
-                                        -
-                                    @else
-                                        {{ '(' . $tagihan->cicilan_ke . '/' . $maxCicilan . ')' }}
-                                    @endif
-                                @else
-                                    -
-                                @endif
-                            </td>
                             <td class="px-4 py-2 text-center">
                                 @if ($tagihan->status_tagihan === 'Lunas')
                                     <a href="{{ route('mahasiswa.download', $tagihan->id_tagihan) }}" target="_blank"

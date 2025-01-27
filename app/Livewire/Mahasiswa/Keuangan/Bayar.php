@@ -12,7 +12,6 @@ class Bayar extends Component
 
     public $order;
     public $id_tagihan;
-
     public $transaksi;
 
     public function mount($order_id)

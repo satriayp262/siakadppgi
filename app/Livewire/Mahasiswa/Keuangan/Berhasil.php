@@ -9,17 +9,17 @@ use Livewire\Component;
 
 class Berhasil extends Component
 {
-    public $id_transaksi;
+    public $order_id;
 
-    public function mount($id_transaksi)
+    public function mount($order_id)
     {
-        $this->id_transaksi = $id_transaksi;
+        $this->order_id = $order_id;
         $this->updatebayar();
     }
 
     public function updatebayar()
     {
-        $transaksi = Transaksi::find($this->id_transaksi);
+        $transaksi = Transaksi::find($this->order_id);
         if (!$transaksi) {
             return; // Transaksi tidak ditemukan
         }
