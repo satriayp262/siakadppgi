@@ -331,7 +331,7 @@
                         <!-- Jika Tidak Ada Jadwal -->
                         @if ($jadwals->where('kode_prodi', $prodi->kode_prodi)->isEmpty())
                             <tr>
-                                <td colspan="6" class="px-3 py-2 italic text-center text-gray-500">
+                                <td colspan="8" class="px-3 py-2 italic text-center text-gray-500">
                                     Tidak ada jadwal untuk prodi ini.
                                 </td>
                             </tr>
@@ -350,7 +350,7 @@
                         @if ($jadwals->where('kode_prodi', $prodi->kode_prodi)->isEmpty())
                             @if ($previousProdi != $prodi->nama_prodi)
                                 <tr>
-                                    <td colspan="6" class="px-3 py-2 font-bold text-left bg-gray-200">
+                                    <td colspan="8" class="px-3 py-2 font-bold text-left bg-gray-200">
                                         {{ $prodi->nama_prodi }}
                                     </td>
                                 </tr>
@@ -445,7 +445,7 @@
                         <!-- Jika Tidak Ada Jadwal -->
                         @if ($jadwals->where('kode_prodi', $prodi->kode_prodi)->isEmpty())
                             <tr>
-                                <td colspan="5" class="px-3 py-2 italic text-center text-gray-500">
+                                <td colspan="8" class="px-3 py-2 italic text-center text-gray-500">
                                     Tidak ada jadwal untuk prodi ini.
                                 </td>
                             </tr>
