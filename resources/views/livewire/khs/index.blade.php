@@ -17,7 +17,7 @@
             </div>
             <div class="flex space-x-2">
                 <div class="flex items-center space-x-4">
-                    <label for="toggle" class="flex items-center cursor-pointer space-x-2 border-4 border-purple2 p-2 rounded-lg">
+                    <label for="toggle" class="flex items-center cursor-pointer space-x-2 border-1 border-purple2 p-2 rounded-lg">
                         <span class="text-md font-medium text-gray-700">Publish</span>
                         <div class="relative">
                             <input id="toggle" type="checkbox" wire:click="toggleClicked" wire:model.lazy="toggleValue"

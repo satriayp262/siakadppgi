@@ -10,21 +10,17 @@ use Faker\Factory as FakerFactory;
 class DosenFactory extends Factory
 {
     protected $model = Dosen::class;
+    private static $currentNidn = 1111111111;
 
     public function definition()
     {
-        // Menggunakan Faker dengan locale bahasa Indonesia
         $faker = FakerFactory::create('id_ID');
-
-        // Menentukan jenis kelamin terlebih dahulu
         $gender = $faker->randomElement(['laki-laki', 'perempuan']);
-
-        // Menghasilkan nama berdasarkan jenis kelamin
         $nama_dosen = $gender === 'laki-laki' ? $faker->firstNameMale . ' ' . $faker->lastName : $faker->firstNameFemale . ' ' . $faker->lastName;
-
+        $nidn = self::$currentNidn++;
         return [
             'nama_dosen' => $nama_dosen,
-            'nidn' => $faker->numerify('##########'), // NIDN dengan 10 digit angka
+            'nidn' => $nidn, 
             'jenis_kelamin' => $gender,
             'jabatan_fungsional' => $faker->randomElement(['Asisten Ahli', 'Lektor', 'Lektor Kepala', 'Guru Besar']),
             'kepangkatan' => $faker->randomElement(['Penata Muda', 'Penata', 'Penata Tingkat I', 'Pembina', 'Pembina Utama']),

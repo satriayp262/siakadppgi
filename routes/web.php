@@ -202,6 +202,36 @@ Route::get(
     }
 )->name('saddsa');
 
+Route::get(
+    '/tambah_ke_kelas',
+    function () {
+        $mahasiswaList = Mahasiswa::orderBy('NIM','desc')->get();
+        $exceptions = ['9999999916', '99999999917', '9999999911','9999999912','9999999999','9999999991','9999999995','9999999996']; 
+    
+        foreach ($mahasiswaList as $mahasiswa) {
+            $kelasA = Kelas::where('nama_kelas', 'a')
+                ->where('kode_prodi', $mahasiswa->kode_prodi)
+                ->first();
+            $kelasB = Kelas::where('nama_kelas', 'b')
+                ->where('kode_prodi', $mahasiswa->kode_prodi)
+                ->first();
+            
+            if (in_array((string)$mahasiswa->NIM, array_map('strval', $exceptions))) {
+                $mahasiswa->update(['id_kelas' => $kelasB->id_kelas]);
+            }else{
+                $countInKelasA = Mahasiswa::where('id_kelas', $kelasA->id_kelas)->count();
+    
+                if ($countInKelasA < 14) {
+                    $mahasiswa->update(['id_kelas' => $kelasA->id_kelas]);
+                } else {
+                    $mahasiswa->update(['id_kelas' => $kelasB->id_kelas]);
+                }
+            }            
+        }
 
+        dd($mahasiswaList->pluck('id_kelas'));
+
+    }
+)->name('adsaa');
 
 

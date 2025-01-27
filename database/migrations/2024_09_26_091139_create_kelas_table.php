@@ -14,7 +14,6 @@ return new class extends Migration {
             $table->integer('id_kelas')->primary()->autoIncrement();
             $table->string('nama_kelas');
             $table->string('kode_prodi');
-            $table->integer('id_mata_kuliah');
             $table->integer('id_semester');
             $table->string('bahasan')->nullable();
             $table->string('mode_kuliah', 1)->nullable();
@@ -25,7 +24,6 @@ return new class extends Migration {
             $table->integer('lainnya')->nullable();
             $table->timestamps();
             $table->foreign('kode_prodi')->references('kode_prodi')->on('prodi')->onDelete('cascade');
-            $table->foreign('id_mata_kuliah')->references('id_mata_kuliah')->on('matkul')->onDelete('cascade');
         });
     }
 
