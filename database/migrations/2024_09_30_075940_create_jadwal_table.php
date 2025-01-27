@@ -16,7 +16,8 @@ return new class extends Migration {
             $table->string('nidn');
             $table->string('kode_prodi');
             $table->integer('id_semester');
-            $table->date('tanggal'); 
+            $table->date('tanggal')->nullable(); 
+            $table->string('jenis_ujian')->nullable();
             $table->string('hari'); // Hari dalam seminggu
             $table->integer('sesi'); // Menyimpan urutan jam ke berapa
             $table->time('jam_mulai'); // Jam mulai

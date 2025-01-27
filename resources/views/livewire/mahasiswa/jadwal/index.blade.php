@@ -38,7 +38,11 @@
                             <td class="px-3 py-1 text-center">{{ $jadwal->sesi }}</td>
                             <td class="px-3 py-1 text-center">{{ $jadwal->kelas->nama_kelas }}</td>
                             <td class="px-3 py-1 text-center">{{ $jadwal->kelas->matkul->dosen->nama_dosen }}</td>
-                            <td class="px-3 py-1 text-center">{{ $jadwal->ruangan->kode_ruangan }}</td>
+                            @if ($jadwal->id_ruangan == 'Online')
+                                <td class="px-3 py-1 text-center">Online</td>  
+                            @else
+                                <td class="px-3 py-1 text-center">{{ $jadwal->ruangan->kode_ruangan }}</td>
+                            @endif
                         </tr>
                     @endforeach
                 </tbody>

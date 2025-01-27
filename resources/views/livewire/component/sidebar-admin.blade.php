@@ -168,12 +168,12 @@
                 </li>
                 
                 <li>
-                    <button type="button"
-                        class="flex items-center w-full p-2 text-base transition duration-75 rounded-lg group hover:bg-purple2 text-purple3 hover:text-white {{ request()->routeIs('admin.jadwal', 'admin.jadwalUjian') ? 'text-white bg-purple2' : 'text-purple3' }}"
-                        aria-controls="dropdown-jadwal" data-collapse-toggle="dropdown-jadwal">
-                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.jadwal') ? 'text-white' : '' }}" 
-                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" 
-                            viewBox="0 0 20 20" aria-hidden="true">
+                    <a href="{{ route('admin.jadwal') }}"
+                        class="flex items-center w-full p-2 text-base transition duration-75 rounded-lg group 
+                        {{ request()->routeIs('admin.jadwal') ? 'text-white bg-purple2' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
+                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white 
+                        {{ request()->routeIs('admin.jadwal') ? 'text-white' : '' }}" 
+                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                             <path fill-rule="evenodd" 
                                 d="M6 2a1 1 0 1 0-2 0v1H3a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V2a1 1 0 1 0-2 0v1H6V2ZM3 8h14v8a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8Zm3 2a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0v-1a1 1 0 0 1 1-1Zm4 0a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0v-1a1 1 0 0 1 1-1Zm4 0a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0v-1a1 1 0 0 1 1-1Z" 
                                 clip-rule="evenodd" />
@@ -187,12 +187,12 @@
                         </svg>
                     </button>
                     <ul id="dropdown-jadwal"
-                        class="py-2 space-y-2 {{ request()->routeIs('admin.jadwal') || request()->routeIs('admin.jadwalUjian') ? 'block' : 'hidden' }}">
+                        class="py-2 space-y-2 {{ request()->routeIs('admin.jadwal') ? 'block' : 'hidden' }}">
                         <li>
                             <a href="{{ route('admin.jadwal') }}"
                                 class="flex items-center mx-4 p-2 rounded-lg transition duration-75 group
                                 {{ request()->routeIs('admin.jadwal') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
-                                {{-- <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.jadwal') ? 'text-white' : 'text-white hover:bg-purple2' }}"
+                                <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.jadwal') ? 'text-white' : 'text-white hover:bg-purple2' }}"
                                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                                     height="24" fill="currentColor" viewBox="0 0 24 24">
                                     <path fill-rule="evenodd"
@@ -203,23 +203,7 @@
                                 <span class="flex-1 ms-3 whitespace-nowrap">Jadwal Mengajar</span>
                             </a>
                         </li>
-                        <li>
-                            <a href="{{ route('admin.jadwalUjian') }}"
-                                class="flex items-center mx-4 p-2 rounded-lg transition duration-75 group
-                                {{ request()->routeIs('admin.jadwalUjian') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
-                                {{-- <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.jadwal') ? 'text-white' : 'text-white hover:bg-purple2' }}"
-                                    aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
-                                    height="24" fill="currentColor" viewBox="0 0 24 24">
-                                    <path fill-rule="evenodd"
-                                        d="M5 5a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1h1a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1h1a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1 2 2 0 0 1 2 2v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a2 2 0 0 1 2-2ZM3 19v-7a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Zm6.01-6a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm2 0a1 1 0 1 1 2 0 1 1 0 0 1-2 0Zm6 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm-10 4a1 1 0 1 1 2 0 1 1 0 0 1-2 0Zm6 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm2 0a1 1 0 1 1 2 0 1 1 0 0 1-2 0Z"
-                                        clip-rule="evenodd" />
-                                </svg> --}}
-
-                                <span class="flex-1 ms-3 whitespace-nowrap">Jadwal Ujian</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                    
                 
                 <li>
                     <button type="button"

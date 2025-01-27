@@ -12,7 +12,7 @@ class Jadwal extends Model
     protected $table = 'jadwal';
     protected $primaryKey = 'id_jadwal';
     protected $fillable = [
-        'id_kelas', 'nidn', 'kode_prodi', 'id_semester', 'tanggal', 'id_ruangan', 'hari', 'sesi', 'jam_mulai', 'jam_selesai'
+        'id_kelas', 'nidn', 'kode_prodi', 'id_semester', 'tanggal', 'jenis_ujian', 'id_ruangan', 'hari', 'sesi', 'jam_mulai', 'jam_selesai'
     ];
 
     public function dosen()

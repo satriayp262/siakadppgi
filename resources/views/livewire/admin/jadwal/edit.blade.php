@@ -59,7 +59,7 @@
                 </div>
 
                 <!-- Form Handling -->
-                @if ($edit === 'switch')
+                @if ($edit == 'switch')
                     <form wire:submit='tukar' class="space-y-4">
                         <select wire:model.live="target" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <option value="" selected>Pilih Jadwal yang akan ditukar</option>
@@ -86,7 +86,7 @@
                             <button type="submit" @click="isOpen=false" class="px-4 py-2 font-bold text-white transition bg-green-600 rounded-lg hover:bg-green-800">Submit</button>
                         </div>
                     </form>
-                @elseif ($edit === 'ganti')
+                @elseif ($edit == 'ganti')
                     <form wire:submit='update' class="space-y-4">
                         <div class="grid grid-cols-2 gap-4">
                             <div>
@@ -103,9 +103,15 @@
                             <div>
                                 <select wire:model.live="x" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                                     <option value="" selected>Pilih Sesi</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
+                                    <option value="1">sesi 1, jam 08.00-09.30</option>
+                                    <option value="2">sesi 2, jam 09.30-11.00</option>
+                                    <option value="3">sesi 3, jam 11.00-12.30</option>
+                                    <option value="4">sesi 4, jam 12.30-14.00</option>
+                                    <option value="5">sesi 5, jam 14.00-15.30</option>
+                                    <option value="6">sesi 6, jam 15.30-17.00</option>
+                                    <option value="7">sesi 7, jam 17.00-18.30</option>
+                                    <option value="8">sesi 8, jam 18.30-20.00</option>
+                                    <option value="9">sesi 9, jam 20.00-21.30</option>
                                 </select>
                                 @error('x') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
                             </div>
