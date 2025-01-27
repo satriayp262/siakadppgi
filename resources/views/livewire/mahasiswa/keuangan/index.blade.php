@@ -187,7 +187,7 @@
                                                         <button
                                                             class="block w-full px-4 py-2 text-left hover:bg-gray-100 hover:text-blue-500"
                                                             @click="isOpen = false"
-                                                            wire:click.prevent="bayar({{ $tagihan->id_tagihan }})">
+                                                            wire:click.prevent="bayar({{ $tagihan->id_tagihan }}, 'Bayar Penuh')">
                                                             Bayar Lunas
                                                         </button>
                                                     </li>
@@ -208,7 +208,7 @@
                                                                 <li>
                                                                     <button
                                                                         class="block w-full px-4 py-2 text-left hover:bg-gray-100 hover:text-blue-500"
-                                                                        wire:click.prevent="bayar2({{ $tagihan->id_tagihan }})">
+                                                                        wire:click.prevent="bayar({{ $tagihan->id_tagihan }}, 'Cicil 2x')">
                                                                         Cicil 2x
                                                                     </button>
                                                                 </li>
@@ -217,7 +217,7 @@
                                                                 <li>
                                                                     <button
                                                                         class="block w-full px-4 py-2 text-left hover:bg-gray-100 hover:text-blue-500"
-                                                                        wire:click.prevent="bayar3({{ $tagihan->id_tagihan }})">
+                                                                        wire:click.prevent="bayar({{ $tagihan->id_tagihan }}, 'Cicil 3x')">
                                                                         Cicil 3x
                                                                     </button>
                                                                 </li>
