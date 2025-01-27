@@ -161,9 +161,9 @@ class PDFController extends Controller
         return trim($result);
     }
 
-    public function generatePDF($id_tagihan)
+    public function generatePDF($no_kwitansi)
     {
-        $tagihan = Tagihan::with(['mahasiswa', 'semester'])->where('id_tagihan', $id_tagihan)->first();
+        $tagihan = Tagihan::with(['mahasiswa', 'semester'])->where('no_kwitansi', $no_kwitansi)->first();
 
         if (!$tagihan) {
             return redirect()->back()->with('error', 'Tagihan not found.');

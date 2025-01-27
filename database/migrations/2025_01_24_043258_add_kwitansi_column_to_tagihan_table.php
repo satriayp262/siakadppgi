@@ -11,7 +11,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('tagihan', function (Blueprint $table) {
-            $table->string('no_kwitansi')->nullable()->after('status_tagihan');
+            $table->string('no_kwitansi')->nullable()->after('status_tagihan')->unique();
         });
     }
 

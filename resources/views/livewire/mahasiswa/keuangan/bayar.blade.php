@@ -79,7 +79,7 @@ $tahun = substr($tagihan->Bulan, 0, 4);
                 onSuccess: function(result) {
                     /* You may add your own js here, this is just example */
                     window.location.href =
-                        "{{ route('mahasiswa.transaksi.berhasil', $transaksi->order_id) }}";
+                        "{{ route('mahasiswa.transaksi.berhasil', $transaksi->id_transaksi) }}";
 
                 },
                 // Optional

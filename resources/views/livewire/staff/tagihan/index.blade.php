@@ -58,9 +58,10 @@
                 @endforeach
             </tbody>
         </table>
+        <!-- Pagination Controls -->
+        <div class="py-8 mt-4 text-center">
+            {{ $mahasiswas->links('') }}
+        </div>
     </div>
-    <!-- Pagination Controls -->
-    <div class="py-8 mt-4 text-center">
-        {{ $mahasiswas->links('') }}
-    </div>
+
 </div>

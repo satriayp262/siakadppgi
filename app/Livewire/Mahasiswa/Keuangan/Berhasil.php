@@ -9,17 +9,17 @@ use Livewire\Component;
 
 class Berhasil extends Component
 {
-    public $order_id;
+    public $id_transaksi;
 
-    public function mount($order_id)
+    public function mount($id_transaksi)
     {
-        $this->order_id = $order_id;
+        $this->id_transaksi = $id_transaksi;
         $this->updatebayar();
     }
 
     public function updatebayar()
     {
-        $transaksi = Transaksi::find($this->order_id);
+        $transaksi = Transaksi::find($this->id_transaksi);
         if (!$transaksi) {
             return; // Transaksi tidak ditemukan
         }
@@ -48,12 +48,18 @@ class Berhasil extends Component
                 $maxCicilan = (int) filter_var($tagihan->metode_pembayaran, FILTER_SANITIZE_NUMBER_INT);
                 if ($tagihan->cicilan_ke < $maxCicilan) {
                     $tagihan->cicilan_ke++;
+                    $tagihan->status_tagihan = 'Belum Lunas';
                 } else {
                     $tagihan->status_tagihan = 'Lunas';
                 }
             } elseif ($tagihan->metode_pembayaran === 'Bayar Penuh') {
                 $tagihan->status_tagihan = 'Lunas';
             }
+        }
+
+        if ($tagihan->status_tagihan == 'Lunas') {
+            $tagihan->no_kwitansi = 'BPP-' . date('Ymd') . '-' . $tagihan->id_tagihan;
+
         }
 
         $tagihan->save();

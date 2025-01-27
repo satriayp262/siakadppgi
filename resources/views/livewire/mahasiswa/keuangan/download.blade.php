@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <table style="width: 100%; border: none; margin:0%">
+    <table style="width: 100%; border: none; margin:0%;">
         <tr>
             <!-- Logo Kiri -->
             <td style="width: 10%; text-align: left;">
@@ -44,59 +44,75 @@
     </table>
     <hr style="border-top: 3px solid darkviolet; height: 2px; border-bottom: 1px solid darkviolet;">
 
-    <h3 style="font-family: helvetica; margin-top: 30px;color:darkviolet;margin-top:2%">
+    {{-- <h3 style="font-family: helvetica; margin-top: 30px;color:darkviolet;margin-top:2%">
         Bukti Pembayaran
-    </h3>
+    </h3> --}}
 
-    <table style="margin-left: 20px margin-bottom:0%">
-        <tr>
-            <td style="padding: 5px;">NIM / Nama</td>
-            <td style="padding: 5px;">:</td>
-            <td style="padding: 5px;">{{ $NIM }} / {{ $nama }}</td>
-        </tr>
-        <tr>
-            <td style="padding: 5px;">Semester</td>
-            <td style="padding: 5px;">:</td>
-            <td style="padding: 5px;">{{ $semester }}</td>
-        <tr>
-            <td style="padding: 5px;">Guna Pembayaran</td>
-            <td style="padding: 5px;">:</td>
-            <td style="padding: 5px;">SPP Bulan {{ $Bulan }} Tahun {{ $tahun }}</td>
-        </tr>
-        <tr>
-            <td style="padding: 5px;">Total Tagihan</td>
-            <td style="padding: 5px;">:</td>
-            <td style="padding: 5px;">{{ $total_tagihan }}</td>
-        </tr>
-        <tr>
-            <td style="padding: 5px;">Terbilang</td>
-            <td style="padding: 5px;">:</td>
-            <td style="padding: 5px;">{{ $x }} RUPIAH</td>
-        </tr>
-        <tr>
-            <td style="padding: 5px;">Sisa yang belum dibayar</td>
-            <td style="padding: 5px;">:</td>
-            <td style="padding: 5px;">{{ $kurang }}</td>
-        </tr>
-        {{-- <tr>
-            <td style="padding: 5px;">Status Pembayaran</td>
-            <td style="padding: 5px;">:</td>
-            <td style="padding: 5px;">{{ $status }}</td>
-        </tr> --}}
-    </table>
-    <h3 style="font-family: helvetica; margin-top: 30px; color:darkviolet; margin-top:2%">
-        Catatan
-    </h3>
-    <ul style="margin-top: 0%; margin-bottom:0%">
-        <li style="padding:1px">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Animi veniam fugiat cum cupiditate repudiandae.
-        </li>
-        <li style="padding:1px">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Animi veniam fugiat cum cupiditate repudiandae
-            alias sit, eaque est ut.
-        </li>
-    </ul>
-    <div style="margin-top: 0%">
+    <div style="justify-content: flex-start; margin-left: 20px; margin-top: 20px;">
+        <!-- Tabel Pertama -->
+        <table style="float: left;">
+            <tr>
+                <td style="padding: 5px;">NIM / Nama</td>
+                <td style="padding: 5px;">:</td>
+                <td style="padding: 5px;">{{ $NIM }} / {{ $nama }}</td>
+            </tr>
+            <tr>
+                <td style="padding: 5px;">Semester</td>
+                <td style="padding: 5px;">:</td>
+                <td style="padding: 5px;">{{ $semester }}</td>
+            </tr>
+            <tr>
+                <td style="padding: 5px;">Guna Pembayaran</td>
+                <td style="padding: 5px;">:</td>
+                <td style="padding: 5px;">SPP Bulan {{ $Bulan }} Tahun {{ $tahun }}</td>
+            </tr>
+            <tr>
+                <td style="padding: 5px;">Total Tagihan</td>
+                <td style="padding: 5px;">:</td>
+                <td style="padding: 5px;">{{ $total_tagihan }}</td>
+            </tr>
+            <tr>
+                <td style="padding: 5px;">Terbilang</td>
+                <td style="padding: 5px;">:</td>
+                <td style="padding: 5px;">{{ $x }} RUPIAH</td>
+            </tr>
+            <tr>
+                <td style="padding: 5px;">Sisa yang belum dibayar</td>
+                <td style="padding: 5px;">:</td>
+                <td style="padding: 5px;">{{ $kurang }}</td>
+            </tr>
+        </table>
+
+        <!-- Tabel Kedua -->
+        <table style="float: left; margin-right: auto; margin-left: 10%;">
+            <tr>
+                <td style="padding: 5px;">No. Kwitansi</td>
+                <td style="padding: 5px;">:</td>
+                <td style="padding: 5px;">x</td>
+            </tr>
+            <tr>
+                <td style="padding: 5px;">Jam</td>
+                <td style="padding: 5px;">:</td>
+                <td style="padding: 5px;">y</td>
+            </tr>
+            <tr>
+                <td style="padding: 5px;">Metode Pembayaran</td>
+                <td style="padding: 5px;">:</td>
+                <td style="padding: 5px;">z</td>
+            </tr>
+            <tr>
+                <td style="padding: 5px;">Status</td>
+                <td style="padding: 5px;">:</td>
+                <td style="padding: 5px;">a</td>
+            </tr>
+            <br>
+            <br>
+            <br>
+
+        </table>
+    </div>
+
+    <div style="margin-top: 15%; float: right; margin-right: 15%;">
         <div class="col-md-4">
             <p style=" text-align:center; margin-bottom:0%"><strong>Kebumen, {{ $tanggal }}</strong></p>
             <p style=" text-align:center;position: relative; left: -60px; margin-top:0%"><strong>Penerima,</strong></p>
@@ -112,6 +128,22 @@
             </div>
         </div>
     </div>
+
+    <br>
+    <br>
+
+    <h4 style="font-family: helvetica; margin-top: 20%; color:darkviolet;">
+        Catatan
+    </h4>
+    <ul style="">
+        <li style="padding:1px">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. repudiandae.
+        </li>
+        <li style="padding:1px">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. repudiandae
+            alias sit, eaque est ut.
+        </li>
+    </ul>
 </body>
 
 </html>
