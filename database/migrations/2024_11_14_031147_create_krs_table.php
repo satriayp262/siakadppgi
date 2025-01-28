@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('NIM');
             $table->integer('id_semester');
             $table->integer('id_mata_kuliah');
-            $table->integer('id_kelas');
             $table->integer('id_prodi');
             $table->timestamps();
         });

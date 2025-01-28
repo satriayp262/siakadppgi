@@ -22,7 +22,7 @@ class KRSImport implements ToModel, WithHeadingRow
         'nim',
         'semester',
         'kode_mata_kuliah',
-        'nama_kelas',
+        'nidn',
         'kode_prodi',
     ];
 
@@ -76,46 +76,16 @@ class KRSImport implements ToModel, WithHeadingRow
             return null;
         }
 
-        if (!matakuliah::where('kode_mata_kuliah', $row['kode_mata_kuliah'])->exists()) {
+        if (!matakuliah::where('kode_mata_kuliah', $row['kode_mata_kuliah'])->where('nidn', $row['nidn'])->exists()) {
             $this->incompleteRecords[] =
                 "Kode matakuliah {$row['kode_mata_kuliah']} pada baris ke {$this->rowNumber} tidak terdaftar <br>";
             $this->rowNumber++;
             return null;
         } else {
-            $idmata_kuliah = matakuliah::where('kode_mata_kuliah', $row['kode_mata_kuliah'])->first()->id_mata_kuliah;
-
+            $idmata_kuliah = matakuliah::where('kode_mata_kuliah', $row['kode_mata_kuliah'])->where('nidn', $row['nidn'])->first()->id_mata_kuliah;
         }
 
-        if (!kelas::where('nama_kelas', $row['nama_kelas'])->exists()) {
-            $this->incompleteRecords[] =
-                "Nama Kelas {$row['nama_kelas']} pada baris ke {$this->rowNumber} tidak terdaftar <br>";
-            $this->rowNumber++;
-            return null;
-        } else {
-            $idkelas = kelas::where('nama_kelas', $row['nama_kelas'])->first()->id_kelas;
-        }
-        if (!kelas::where('nama_kelas', $row['nama_kelas'])->where('id_semester', $idSemester)->exists()) {
-            $this->incompleteRecords[] =
-                "Nama Kelas {$row['nama_kelas']} pada baris ke {$this->rowNumber} tidak terdaftar pada semester {$row['semester']} <br>";
-            $this->rowNumber++;
-            return null;
-        }
-        if (kelas::where('nama_kelas', $row['nama_kelas'])->first()->matkul->kode_mata_kuliah != $row['kode_mata_kuliah']) {
-            $this->incompleteRecords[] =
-                "Kelas {$row['nama_kelas']} pada baris ke {$this->rowNumber} tidak sesuai dengan mata kuliah pada baris ke {$this->rowNumber} <br>";
-            $this->rowNumber++;
-            return null;
-
-        }
-        if (kelas::where('nama_kelas', $row['nama_kelas'])->first()->prodi->kode_prodi != $row['kode_prodi']) {
-            $this->incompleteRecords[] =
-                "Kelas {$row['nama_kelas']} pada baris ke {$this->rowNumber} tidak ditemukan pada prodi {$row['kode_prodi']} <br>";
-            $this->rowNumber++;
-            return null;
-
-        }
-
-        if (krs::where('NIM', $row['nim'])->where('id_mata_kuliah', $idmata_kuliah)->where('id_semester', $idSemester)->where('id_prodi', $idProdi)->where('id_kelas', $idkelas)->exists()) {
+        if (krs::where('NIM', $row['nim'])->where('id_mata_kuliah', $idmata_kuliah)->where('id_semester', $idSemester)->where('id_prodi', $idProdi)->exists()) {
             $this->incompleteRecords[] =
                 "Baris ke {$this->rowNumber} tidak disimpan karena terdapat data yang sama <br>";
             $this->skippedRecords++;
@@ -128,7 +98,7 @@ class KRSImport implements ToModel, WithHeadingRow
             'NIM' => $row['nim'],
             'id_semester' => $idSemester,
             'id_mata_kuliah' => $idmata_kuliah,
-            'id_kelas' => $idkelas,
+            'nidn' => $row['nidn'],
             'id_prodi' => $idProdi,
         ]);
 

@@ -77,7 +77,6 @@
                                     <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
                                         <th class="px-4 py-2 text-[15px] text-center border">Matkul</th>
                                         <th class="px-4 py-2 text-[15px] text-center border">Dosen</th>
-                                        <th class="px-4 py-2 text-[15px] text-center border">Kelas</th>
                                         <th class="px-4 py-2 text-[15px] text-center border">SKS Tatap Muka</th>
                                         <th class="px-4 py-2 text-[15px] text-center border">SKS Praktek</th>
                                         <th class="px-4 py-2 text-[15px] text-center border">SKS Praktek Lapangan</th>
@@ -90,7 +89,6 @@
                                         <tr wire:key="krs-{{ $item->id_krs }}">
                                             <td class="px-4 py-2 text-center border">{{ $item->matkul->nama_mata_kuliah }}</td>
                                             <td class="px-4 py-2 text-center border">{{ $item->matkul->dosen->nama_dosen }}</td>
-                                            <td class="px-4 py-2 text-center border">{{ $item->kelas->nama_kelas }}</td>
                                             <td class="px-4 py-2 text-center border">{{ $item->matkul->sks_tatap_muka }}</td>
                                             <td class="px-4 py-2 text-center border">{{ $item->matkul->sks_praktek }}</td>
                                             <td class="px-4 py-2 text-center border">{{ $item->matkul->sks_praktek_lapangan }}</td>

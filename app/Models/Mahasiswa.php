@@ -76,6 +76,10 @@ class Mahasiswa extends Model
     {
         return $this->belongsTo(Semester::class, 'mulai_semester', 'id_semester');
     }
+    public function kelas()
+    {
+        return $this->belongsTo(Kelas::class, 'id_kelas', 'id_kelas');
+    }
 
     public function tagihan()
     {

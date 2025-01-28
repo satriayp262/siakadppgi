@@ -15,6 +15,7 @@ class Edit extends Component
     {
         $kelas = null;
         $kelas = Kelas::where('id_kelas', $this->id_kelas)->first();
+        // dd($this->id_kelas);
         $this->tugas = $kelas->tugas;
         $this->uts = $kelas->uts;
         $this->uas = $kelas->uas;
