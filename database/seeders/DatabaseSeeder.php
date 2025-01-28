@@ -82,29 +82,17 @@ class DatabaseSeeder extends Seeder
         ]);
 
 
-        Prodi::factory()->create([
-            'kode_prodi' => 'AK-001',
-            'nama_prodi' => 'Akutansi',
-            'jenjang' => 'D3',
+        $prodiData = [
+            ['kode_prodi' => 'AK-001', 'nama_prodi' => 'Akutansi', 'jenjang' => 'D3'],
+            ['kode_prodi' => 'MO-002', 'nama_prodi' => 'Mesin Otomotif', 'jenjang' => 'D3'],
+            ['kode_prodi' => 'TE-003', 'nama_prodi' => 'Teknik Elektro', 'jenjang' => 'S1'],
+            ['kode_prodi' => 'MSDM-004', 'nama_prodi' => 'Manajemen SDM', 'jenjang' => 'S1'],
+        ];
 
-        ]);
-        Prodi::factory()->create([
-            'kode_prodi' => 'MO-002',
-            'nama_prodi' => 'Mesin Otomotif',
-            'jenjang' => 'D3',
+        foreach ($prodiData as $prodi) {
+            Prodi::factory()->create($prodi);
+        }
 
-        ]);
-        Prodi::factory()->create([
-            'kode_prodi' => 'TE-003',
-            'nama_prodi' => 'Teknik Elektro',
-            'jenjang' => 'S1',
-
-        ]);
-        Prodi::factory()->create([
-            'kode_prodi' => 'MSDM-004',
-            'nama_prodi' => 'Manajemen SDM',
-            'jenjang' => 'S1',
-        ]);
 
 
         Semester::factory()->create([
@@ -169,7 +157,7 @@ class DatabaseSeeder extends Seeder
             Pendidikan_Terakhir::create($pendidikan);
         }
 
-        Dosen::factory(30)->create();
+        Dosen::factory(36)->create();
 
         $matakuliahData = [
             [
@@ -312,19 +300,19 @@ class DatabaseSeeder extends Seeder
                 'tgl_mulai_efektif' => fake()->date(),
                 'tgl_akhir_efektif' => fake()->date(),
             ]);
-
-            // Create 2 Kelas for each Mata Kuliah
-            // for ($semester = 6; $semester >= 5; $semester--) {
-            //     Kelas::create([
-            //         'id_semester' => $semester,
-            //         'nama_kelas' => strtolower($data['kode_mata_kuliah']),
-            //         'kode_prodi' => $data['kode_prodi'],
-            //         'id_mata_kuliah' => $mataKuliah->id_mata_kuliah,
-            //         'lingkup_kelas' => fake()->randomElement([1, 2, 3]),
-            //         'bahasan' => fake()->sentence(),
-            //         'mode_kuliah' => fake()->randomElement(['O', 'F', 'M']),
-            //     ]);
-            // }
+        }
+        foreach ($prodiData as $data) {
+            $x = ['a', 'b'];
+            foreach ($x as $y) {
+                Kelas::create([
+                    'id_semester' => 6,
+                    'nama_kelas' => $y,
+                    'kode_prodi' => $data['kode_prodi'],
+                    'lingkup_kelas' => fake()->randomElement([1, 2, 3]),
+                    'bahasan' => fake()->sentence(),
+                    'mode_kuliah' => fake()->randomElement(['O', 'F', 'M']),
+                ]);
+            }
         }
 
         Ruangan::factory(20)->create();

@@ -20,24 +20,51 @@ class Berhasil extends Component
     public function updatebayar()
     {
         $transaksi = Transaksi::find($this->id_transaksi);
-        if ($transaksi) {
-            $transaksi->status = 'success';
-            $transaksi->save();
+        if (!$transaksi) {
+            return; // Transaksi tidak ditemukan
         }
+
+        // Update status transaksi
+        $transaksi->status = 'success';
+        $transaksi->save();
+
         $tagihan = Tagihan::find($transaksi->id_tagihan);
-        if ($tagihan) {
-            if ($tagihan->total_bayar == 0) {
-                $tagihan->total_bayar = $transaksi->nominal - 5000;
-            } else {
-                $bayar = $transaksi->nominal - 5000;
-                $tagihan->total_bayar = $tagihan->total_bayar + $bayar;
-            }
-            if ($tagihan->total_bayar == $tagihan->total_tagihan) {
+        if (!$tagihan) {
+            return; // Tagihan tidak ditemukan
+        }
+
+        // Hitung pembayaran setelah biaya admin
+        $bayar = $transaksi->nominal - 5000;
+
+        // Update total bayar
+        $tagihan->total_bayar += $bayar;
+
+        // Periksa apakah sudah lunas
+        if ($tagihan->total_bayar == $tagihan->total_tagihan) {
+            $tagihan->status_tagihan = 'Lunas';
+        } else {
+            // Logika cicilan
+            if (strpos($tagihan->metode_pembayaran, 'Cicil') !== false) {
+                $maxCicilan = (int) filter_var($tagihan->metode_pembayaran, FILTER_SANITIZE_NUMBER_INT);
+                if ($tagihan->cicilan_ke < $maxCicilan) {
+                    $tagihan->cicilan_ke++;
+                    $tagihan->status_tagihan = 'Belum Lunas';
+                } else {
+                    $tagihan->status_tagihan = 'Lunas';
+                }
+            } elseif ($tagihan->metode_pembayaran === 'Bayar Penuh') {
                 $tagihan->status_tagihan = 'Lunas';
             }
-            $tagihan->save();
         }
+
+        if ($tagihan->status_tagihan == 'Lunas') {
+            $tagihan->no_kwitansi = 'BPP-' . date('Ymd') . '-' . $tagihan->id_tagihan;
+
+        }
+
+        $tagihan->save();
     }
+
 
     public function render()
     {

@@ -31,41 +31,9 @@
                                     {{ $kelases->Semester->nama_semester ?? 'Data Belum Ada' }}</p>
                             </div>
                             <div class="w-full h-full p-2 mb-4 text-left border">
-                                <label for="kode_kelas" class="block text-sm font-medium text-gray-700">Kode
-                                    Mata Kuliah</label>
-                                <p class="text-sm text-gray-500">
-                                    {{ $kelases->matkul->kode_mata_kuliah ?? 'Data Belum Ada' }}</p>
-                            </div>
-                            <div class="w-full h-full p-2 mb-4 text-left border">
-                                <label for="nama_kelas" class="block text-sm font-medium text-gray-700">Nama
-                                    Mata Kuliah</label>
-                                <p class="text-sm text-gray-500">
-                                    {{ $kelases->matkul->nama_mata_kuliah ?? 'Data Belum Ada' }}</p>
-                            </div>
-                            <div class="w-full h-full p-2 mb-4 text-left border">
-                                <label for="nama_dosen" class="block text-sm font-medium text-gray-700">Nama
-                                    Dosen</label>
-                                <p class="text-sm text-gray-500">
-                                    {{ $kelases->matkul->dosen->nama_dosen ?? 'Data Belum Ada' }}</p>
-                            </div>
-                            <div class="w-full h-full p-2 mb-4 text-left border">
                                 <label for="nama_kelas" class="block text-sm font-medium text-gray-700">Nama
                                     Kelas</label>
                                 <p class="text-sm text-gray-500">{{ $kelases->nama_kelas ?? 'Data Belum Ada' }}</p>
-                            </div>
-                            <div class="w-full h-full p-2 mb-4 text-left border">
-                                <label for="tgl_mulai_efektif" class="block text-sm font-medium text-gray-700">Tanggal
-                                    Mulai Efektif</label>
-                                <p class="text-sm text-gray-500">
-                                    {{ $kelases->matkul->tgl_mulai_efektif ? \Carbon\Carbon::parse($kelases->matkul->tgl_mulai_efektif)->format('d-m-Y') : 'Data Belum Ada' }}
-                                </p>
-                            </div>
-                            <div class="w-full h-full p-2 mb-4 text-left border">
-                                <label for="tgl_akhir_efektif" class="block text-sm font-medium text-gray-700">Tanggal
-                                    Akhir Efektif</label>
-                                <p class="text-sm text-gray-500">
-                                    {{ $kelases->matkul->tgl_akhir_efektif ? \Carbon\Carbon::parse($kelases->matkul->tgl_akhir_efektif)->format('d-m-Y') : 'Data Belum Ada' }}
-                                </p>
                             </div>
                             <div class="w-full h-full p-2 mb-4 text-left border">
                                 <label for="lingkup_kelas" class="block text-sm font-medium text-gray-700">Lingkup
@@ -113,30 +81,6 @@
                                 <label for="prodi" class="block text-sm font-medium text-gray-700">Nama Prodi</label>
                                 <p class="text-sm text-gray-500">{{ $kelases->prodi->nama_prodi ?? 'Data Belum Ada' }}
                                 </p>
-                            </div>
-                            <div class="w-full h-full p-2 mb-4 text-left border">
-                                <label for="sks_tatap_muka" class="block text-sm font-medium text-gray-700">SKS Tatap
-                                    Muka</label>
-                                <p class="text-sm text-gray-500">
-                                    {{ $kelases->matkul->sks_tatap_muka ?? 'Data Belum Ada' }}</p>
-                            </div>
-                            <div class="w-full h-full p-2 mb-4 text-left border">
-                                <label for="sks_praktek" class="block text-sm font-medium text-gray-700">SKS
-                                    Praktek</label>
-                                <p class="text-sm text-gray-500">
-                                    {{ $kelases->matkul->sks_praktek ?? 'Data Belum Ada' }}</p>
-                            </div>
-                            <div class="w-full h-full p-2 mb-4 text-left border">
-                                <label for="sks_praktek_lapangan" class="block text-sm font-medium text-gray-700">SKS
-                                    Praktek Lapangan</label>
-                                <p class="text-sm text-gray-500">
-                                    {{ $kelases->matkul->sks_praktek_lapangan ?? 'Data Belum Ada' }}</p>
-                            </div>
-                            <div class="w-full h-full p-2 mb-4 text-left border">
-                                <label for="sks_simulasi" class="block text-sm font-medium text-gray-700">SKS
-                                    Simulasi</label>
-                                <p class="text-sm text-gray-500">
-                                    {{ $kelases->matkul->sks_simulasi ?? 'Data Belum Ada' }}</p>
                             </div>
                         </div>
                     </div>

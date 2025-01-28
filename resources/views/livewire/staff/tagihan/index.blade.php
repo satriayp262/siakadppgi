@@ -3,7 +3,8 @@
         <!-- Modal Form -->
         <div class="flex justify-between mt-2">
             <livewire:staff.tagihan.group-create />
-            <input type="text" wire:model.live="search" placeholder="   Search"
+
+            <input type="text" wire:model.live="search" placeholder= "Search"
                 class="px-2 ml-4 border border-gray-300 rounded-lg">
         </div>
         <div>
@@ -29,7 +30,7 @@
         </div>
     </div>
     <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
-        <table class="min-w-full mt-4 bg-white border border-gray-200">
+        <table class="min-w-full mt-4 bg-white border border-gray-200 ">
             <thead>
                 <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
                     <th class="px-4 py-2 text-center">No.</th>
@@ -42,8 +43,9 @@
             </thead>
             <tbody>
                 @foreach ($mahasiswas as $mahasiswa)
-                    <tr class="border-t" wire:key="mahasiswa-{{ $mahasiswa->id_mahasiswa }}">
-                        <td class="px-4 py-2 text-center">{{ $loop->iteration }}</td>
+                    <tr class="odd:bg-white  even:bg-gray-100 border-t"
+                        wire:key="mahasiswa-{{ $mahasiswa->id_mahasiswa }}">
+                        <td class="px-4 py-2 text-center ">{{ $loop->iteration }}</td>
                         <td class="px-4 py-2 text-center">{{ $mahasiswa->nama }}</td>
                         <td class="px-4 py-2 text-center">{{ $mahasiswa->NIM }}</td>
                         <td class="px-4 py-2 text-center">{{ $mahasiswa->semester->nama_semester }}</td>
@@ -56,9 +58,10 @@
                 @endforeach
             </tbody>
         </table>
+        <!-- Pagination Controls -->
+        <div class="py-8 mt-4 text-center">
+            {{ $mahasiswas->links('') }}
+        </div>
     </div>
-    <!-- Pagination Controls -->
-    <div class="py-8 mt-4 text-center">
-        {{ $mahasiswas->links('') }}
-    </div>
+
 </div>

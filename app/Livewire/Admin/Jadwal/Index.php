@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Jadwal;
 
+use App\Livewire\Staff\Tagihan\Update;
 use Livewire\Component;
 use App\Models\Kelas;
 use App\Models\Ruangan;
@@ -23,6 +24,8 @@ class Index extends Component
     public $prodi;
     public $Semester;
     public $semesterfilter;
+    public $ujian;
+    public $jenis;
 
 
     public function pilihSemester($semesterId)
@@ -44,6 +47,71 @@ class Index extends Component
 
     }
 
+    public function rules()
+    {
+        return [
+            'jenis' => 'required'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'jenis.required' => 'Jenis Ujian harus dipilih'
+        ];
+    }
+
+    public function tanggal()
+    {
+        $this->validate();
+        // Ambil semua jadwal yang dikelompokkan berdasarkan 'kode_prodi'
+        $jadwalUjian = Jadwal::get()->groupBy('kode_prodi');
+
+        
+        // Iterasi melalui setiap grup jadwal berdasarkan 'kode_prodi'
+        foreach ($jadwalUjian as $group) {
+
+            // Ambil tanggal awal dari input
+            $tanggal = Carbon::parse($this->ujian);
+
+            // Inisialisasi hari sebelumnya untuk setiap grup
+            $previousHari = 'Monday';
+
+            // Iterasi untuk setiap jadwal dalam grup
+            foreach ($group as $jadwal) {
+                // Tentukan hari dan sesuaikan tanggal
+                if ($jadwal->hari !== $previousHari) {
+                    // Jika hari berubah, tambah 1 hari pada tanggal
+                    $tanggal = $tanggal->addDay();
+                }
+
+                // Update tanggal untuk jadwal ini
+                $jadwal->update([
+                    'tanggal' => $tanggal->toDateString(), // Simpan tanggal dalam format yang sesuai
+                    'jenis_ujian' => $this->jenis
+                ]);
+
+                // Simpan hari sebelumnya untuk perbandingan di iterasi berikutnya
+                $previousHari = $jadwal->hari;
+            }
+        }
+        $this->dispatch('updated', ['message' => 'Tanggal Ujian updated Successfully']);
+    }
+
+    public function clear2()
+    {
+        jadwal::query()->update(['jenis_ujian' => null]);
+
+        $this->dispatch('destroyed', ['message' => 'jenis Ujian Deleted Successfully']);
+    }
+
+    public function clear()
+    {
+        jadwal::query()->update(['tanggal' => null]);
+
+        $this->dispatch('destroyed', ['message' => 'tanggal Ujian Deleted Successfully']);
+    }
+
 
     public function generate()
     {
@@ -57,9 +125,15 @@ class Index extends Component
         $ruanganList = Ruangan::all();
         $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
         $timeSlots = [
-            ['sesi' => 1, 'jam_mulai' => '08:00', 'jam_selesai' => '10:00'],
-            ['sesi' => 2, 'jam_mulai' => '10:15', 'jam_selesai' => '12:15'],
-            ['sesi' => 3, 'jam_mulai' => '13:00', 'jam_selesai' => '15:00'],
+            ['sesi' => 1, 'jam_mulai' => '08:00', 'jam_selesai' => '09.30'],
+            ['sesi' => 2, 'jam_mulai' => '09.30', 'jam_selesai' => '11.00'],
+            ['sesi' => 3, 'jam_mulai' => '11.00', 'jam_selesai' => '12.30'],
+            ['sesi' => 4, 'jam_mulai' => '12.30', 'jam_selesai' => '14.00'],
+            ['sesi' => 5, 'jam_mulai' => '14.00', 'jam_selesai' => '15.30'],
+            ['sesi' => 6, 'jam_mulai' => '15.30', 'jam_selesai' => '17.00'],
+            ['sesi' => 7, 'jam_mulai' => '17.00', 'jam_selesai' => '18.30'],
+            ['sesi' => 8, 'jam_mulai' => '18.30', 'jam_selesai' => '20.00'],
+            ['sesi' => 9, 'jam_mulai' => '20.00', 'jam_selesai' => '21.30']
         ];
 
         foreach ($kelasByProdi as $prodi => $kelasList) {
@@ -195,7 +269,7 @@ class Index extends Component
                         'kode_prodi' => $prodi,
                         'id_semester' => $this->Semester,
                         'hari' => $day,
-                        'tanggal' => Carbon::now()->next($day)->toDateString(),
+                        // 'tanggal' => Carbon::now()->next($day)->toDateString(),
                         'jam_mulai' => $timeSlot['jam_mulai'],
                         'jam_selesai' => $timeSlot['jam_selesai'],
                         'sesi' => $timeSlot['sesi'],

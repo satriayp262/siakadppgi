@@ -24,24 +24,20 @@
         </div>
     </div>
     <div class="flex mt-4">
-        {{-- <button wire:click="generate" class="flex items-center px-4 py-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">
-            Generate Jadwal
-        </button> --}}
-        
         <div class="absolute right-4">
-        <select name="semesterfilter" id="semesterfilter" wire:model.live="semesterfilter" class="items-center px-4 py-2 pr-2 ml-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
-            <option value="" selected>Pilih semester</option>
-            @foreach ($semesterfilters as $v)
-                <option value="{{ $v->id_semester }}">{{ $v->nama_semester }}</option>
-            @endforeach
-        </select>
-        
-        <select name="prodi" id="prodi" wire:model.live="prodi" class="items-center px-4 py-2 pr-2 ml-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
-            <option value="" selected>Pilih Prodi</option>
-            @foreach ($prodis as $x)
-            <option value="{{ $x->kode_prodi }}">{{ $x->nama_prodi }}</option>
-            @endforeach
-        </select>
+            <select name="semesterfilter" id="semesterfilter" wire:model.live="semesterfilter" class="items-center px-4 py-2 pr-2 ml-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
+                <option value="" selected>Pilih semester</option>
+                @foreach ($semesterfilters as $v)
+                    <option value="{{ $v->id_semester }}">{{ $v->nama_semester }}</option>
+                @endforeach
+            </select>
+            
+            <select name="prodi" id="prodi" wire:model.live="prodi" class="items-center px-4 py-2 pr-2 ml-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
+                <option value="" selected>Pilih Prodi</option>
+                @foreach ($prodis as $x)
+                <option value="{{ $x->kode_prodi }}">{{ $x->nama_prodi }}</option>
+                @endforeach
+            </select>
         </div>
         
         <div x-data="{ isOpen: false }" @modal-closed.window="isOpen = false">
@@ -78,9 +74,74 @@
                 </div>
             </div>
         </div>
+        
         <button onclick="confirmDeleteAll()" class='flex items-center px-4 py-2 ml-2 font-bold text-white bg-red-500 rounded hover:bg-red-700'>
             Hapus Semua Jadwal
         </button>
+        
+        <div x-data="{ isOpen: false }" @modal-closed.window="isOpen = false" class="right-0 flex">
+            <!-- Button to open the modal -->
+            <button @click="isOpen=true"
+                class="flex items-center px-4 py-2 ml-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">
+                Jadwal Ujian
+            </button>
+
+            <!-- Modal Background -->
+                <div x-data="{ load: false }" x-show="isOpen && load" x-init="load = true" wire:init="" x-cloak
+                    class="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-75">
+                    <!-- Modal Content -->
+                    <div class="w-1/4 bg-white rounded-lg shadow-lg">
+                        <!-- Modal Header -->
+                        <div class="flex items-center justify-between p-4 bg-gray-200 rounded-t-lg">
+                            <h3 class="text-xl font-semibold">Jadwal Ujian</h3>
+                            <div @click="isOpen=false" class="px-3 rounded-sm shadow hover:bg-red-500">
+                                <button class="text-gray-900">&times;</button>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <div class="p-4 max-h-[500px] overflow-y-auto">
+                                <form wire:submit='tanggal'>
+                                    <div class="flex flex-col justify-center">
+                                        <div class="mb-4">
+                                           <div class="flex items-center justify-between mb-2">
+                                                <label for="">Jenis Ujian</label>
+                                                <button wire:click='clear2' class="px-2 py-1 ml-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">
+                                                    Hapus Jenis
+                                                </button>
+                                            </div>
+                                            <select name="jenis" id="jenis" wire:model="jenis"
+                                                    class="block w-full px-2 py-1 mt-1 border border-gray-700 rounded shadow-2xl focus:border-indigo-500 sm:text-sm">
+                                                <option value="" selected>Pilih Jenis</option>
+                                                <option value="UTS">UTS</option>
+                                                <option value="UAS">UAS</option>
+                                            </select>
+                                            @error('jenis')
+                                                <span class="mt-1 text-sm text-red-500">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                        <div class="mb-4">
+                                            <div class="flex items-center justify-between mb-2">
+                                                <label for="">Tanggal Pertama Ujian</label>
+                                                <button wire:click='clear' class="px-2 py-1 ml-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">
+                                                    Hapus Tanggal
+                                                </button>
+                                            </div>
+                                            <input type="date" name="ujian" id="ujian" wire:model="ujian"
+                                                class="block w-full px-2 py-1 mt-1 border border-gray-700 rounded shadow-2xl focus:border-indigo-500 sm:text-sm">
+                                        </div>
+                                    </div>
+                                    <div class="flex justify-end p-4 bg-gray-200 rounded-b-lg">
+                                        <button type="button" @click="isOpen = false"
+                                            class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">Close</button>
+                                        <button type="submit"
+                                            class="px-4 py-2 ml-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">Submit</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
     </div>
 
     <div class="max-w-full p-4 mt-4 mb-4 bg-white rounded-lg shadow-lg">
@@ -89,6 +150,8 @@
                 <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
                     <th class="px-3 py-2 text-center">Hari</th>
                     <th class="px-3 py-2 text-center">Sesi</th>
+                    <th class="px-3 py-2 text-center">Tanggal Ujian</th>
+                    <th class="px-3 py-2 text-center">Jenis Ujian</th>
                     <th class="px-3 py-2 text-center">Kelas</th>
                     <th class="px-3 py-2 text-center">Dosen</th>
                     <th class="px-3 py-2 text-center">Ruangan</th>
@@ -109,7 +172,7 @@
 
                         <!-- Header Semester -->
                         <tr>
-                            <td colspan="6" class="px-3 py-2 font-bold text-left bg-gray-100">
+                            <td colspan="8" class="px-3 py-2 font-bold text-left bg-gray-100">
                                 Semester: {{ $semester }}
                             </td>
                         </tr>
@@ -134,12 +197,22 @@
                                     @endif
                                 </td>
                                 <td class="px-3 py-1 text-center">{{ $jadwal->sesi }}</td>
+                                @if ($jadwal->tanggal == null)
+                                    <td class="px-3 py-1 text-center">Belum ada tanggal Ujian</td>
+                                @else
+                                    <td class="px-3 py-1 text-center">{{ \Carbon\Carbon::parse($jadwal->tanggal)->locale('id')->isoFormat('D MMMM YYYY') }}</td>
+                                @endif
+                                @if ($jadwal->jenis_ujian == null)
+                                    <td class="px-3 py-1 text-center">Belum ada jenis Ujian</td>
+                                @else
+                                    <td class="px-3 py-1 text-center">{{ $jadwal->jenis_ujian }}</td>
+                                @endif
                                 <td class="px-3 py-1 text-center">{{ $jadwal->kelas->nama_kelas }}</td>
                                 <td class="px-3 py-1 text-center">{{ $jadwal->dosen->nama_dosen }}</td>
                                 @if ($jadwal->id_ruangan == 'Online')
                                     <td class="px-3 py-1 text-center">Online</td>  
                                 @else
-                                <td class="px-3 py-1 text-center">{{ $jadwal->ruangan->kode_ruangan }}</td>
+                                    <td class="px-3 py-1 text-center">{{ $jadwal->ruangan->kode_ruangan }}</td>
                                 @endif
                                 <td class="px-3 py-1 text-center">
                                     <div class="flex flex-row justify-center">
@@ -192,7 +265,7 @@
                             <!-- Nama Semester -->
                             @if ($previousSemester != $semester)
                                 <tr>
-                                    <td colspan="6" class="px-3 py-2 font-bold text-left bg-gray-100">
+                                    <td colspan="8" class="px-3 py-2 font-bold text-left bg-gray-100">
                                         {{ $prodi->nama_prodi }} {{ $semester }}
                                     </td>
                                 </tr>
@@ -217,110 +290,16 @@
                                         @endif
                                     </td>
                                     <td class="px-3 py-1 text-center">{{ $jadwal->sesi }}</td>
-                                    <td class="px-3 py-1 text-center">{{ $jadwal->kelas->nama_kelas }}</td>
-                                    <td class="px-3 py-1 text-center">{{ $jadwal->dosen->nama_dosen }}</td>
-                                    @if ($jadwal->id_ruangan == 'Online')
-                                        <td class="px-3 py-1 text-center">Online</td>  
+                                    @if ($jadwal->tanggal == null)
+                                        <td class="px-3 py-1 text-center">Belum ada tanggal Ujian</td>
                                     @else
-                                    <td class="px-3 py-1 text-center">{{ $jadwal->ruangan->kode_ruangan }}</td>
+                                        <td class="px-3 py-1 text-center">{{ \Carbon\Carbon::parse($jadwal->tanggal)->locale('id')->isoFormat('D MMMM YYYY') }}</td>
                                     @endif
-                                    <td class="px-3 py-1 text-center">
-                                        <div class="flex flex-row justify-center">
-                                            <livewire:admin.jadwal.edit :id_jadwal="$jadwal->id_jadwal"
-                                                wire:key="edit-{{ $jadwal->id_jadwal }}" />
-                                            <button
-                                                class="inline-block px-3 py-2 ml-2 text-white bg-red-500 rounded hover:bg-red-700"
-                                                onclick="confirmDelete({{ $jadwal->id_jadwal }}, '{{ $jadwal->kelas->nama_kelas }}')">
-                                                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
-                                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                    fill="none" viewBox="0 0 24 24">
-                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        @endforeach
-
-                        <!-- Jika Tidak Ada Jadwal -->
-                        @if ($jadwals->where('kode_prodi', $prodi->kode_prodi)->isEmpty())
-                            <tr>
-                                <td colspan="6" class="px-3 py-2 italic text-center text-gray-500">
-                                    Tidak ada jadwal untuk prodi ini.
-                                </td>
-                            </tr>
-                        @endif
-                    @endforeach
-                </tbody>
-            @else
-                <tbody>
-                    @php
-                        $previousDay = null;
-                        $previousProdi = null;
-                        $previousSemester = null;
-                    @endphp
-
-                    @foreach ($prodis as $prodi)
-                        <!-- Nama Prodi -->
-                        @if ($jadwals->where('kode_prodi', $prodi->kode_prodi)->isEmpty())
-                            @if ($previousProdi != $prodi->nama_prodi)
-                                <tr>
-                                    <td colspan="6" class="px-3 py-2 font-bold text-left bg-gray-200">
-                                        {{ $prodi->nama_prodi }}
-                                    </td>
-                                </tr>
-                                @php
-                                    $previousProdi = $prodi->nama_prodi;
-                                @endphp
-                            @endif
-                        @endif
-
-                        <!-- Jadwal untuk Prodi Berdasarkan Semester -->
-                        @foreach ($jadwals->where('kode_prodi', $prodi->kode_prodi)->groupBy('id_semester') as $idSemester => $jadwalsBySemester)
-                            @php
-                                $semester = $jadwalsBySemester->first()->semester->nama_semester ?? 'Semester Tidak Diketahui';
-                            @endphp
-
-                            <!-- Nama Semester -->
-                            @if ($previousSemester != $semester)
-                                <tr>
-                                    <td colspan="6" class="px-3 py-2 font-bold text-left bg-gray-100">
-                                        {{ $prodi->nama_prodi }} {{ $semester }}
-                                    </td>
-                                </tr>
-                                @php
-                                    $previousSemester = $semester;
-                                @endphp
-                            @elseif ($previousSemester == $semester)
-                                <tr>
-                                    <td colspan="6" class="px-3 py-2 font-bold text-left bg-gray-100">
-                                        {{ $prodi->nama_prodi }} {{ $semester }}
-                                    </td>
-                                </tr>
-                            @endif
-
-                            <!-- Jadwal -->
-                            @foreach ($jadwalsBySemester as $jadwal)
-                                <tr class="border-t" wire:key="jadwal-{{ $jadwal->id_jadwal }}">
-                                    <!-- Tampilkan Hari hanya jika berbeda dari hari sebelumnya -->
-                                    <td class="px-3 py-1 text-center">
-                                        @if ($jadwal->hari != $previousDay)
-                                            @switch($jadwal->hari)
-                                                @case('Monday') Senin @break
-                                                @case('Tuesday') Selasa @break
-                                                @case('Wednesday') Rabu @break
-                                                @case('Thursday') Kamis @break
-                                                @case('Friday') Jumat @break
-                                            @endswitch
-                                            @php
-                                                $previousDay = $jadwal->hari;
-                                            @endphp
-                                        @endif
-                                    </td>
-                                    <td class="px-3 py-1 text-center">{{ $jadwal->sesi }}</td>
+                                    @if ($jadwal->jenis_ujian == null)
+                                        <td class="px-3 py-1 text-center">Belum ada jenis Ujian</td>
+                                    @else
+                                        <td class="px-3 py-1 text-center">{{ $jadwal->jenis_ujian }}</td>
+                                    @endif
                                     <td class="px-3 py-1 text-center">{{ $jadwal->kelas->nama_kelas }}</td>
                                     <td class="px-3 py-1 text-center">{{ $jadwal->dosen->nama_dosen }}</td>
                                     @if ($jadwal->id_ruangan == 'Online')
@@ -352,7 +331,121 @@
                         <!-- Jika Tidak Ada Jadwal -->
                         @if ($jadwals->where('kode_prodi', $prodi->kode_prodi)->isEmpty())
                             <tr>
-                                <td colspan="5" class="px-3 py-2 italic text-center text-gray-500">
+                                <td colspan="8" class="px-3 py-2 italic text-center text-gray-500">
+                                    Tidak ada jadwal untuk prodi ini.
+                                </td>
+                            </tr>
+                        @endif
+                    @endforeach
+                </tbody>
+            @else
+                <tbody>
+                    @php
+                        $previousProdi = null;
+                        $previousSemester = null;
+                    @endphp
+
+                    @foreach ($prodis as $prodi)
+                        <!-- Nama Prodi -->
+                        @if ($jadwals->where('kode_prodi', $prodi->kode_prodi)->isEmpty())
+                            @if ($previousProdi != $prodi->nama_prodi)
+                                <tr>
+                                    <td colspan="8" class="px-3 py-2 font-bold text-left bg-gray-200">
+                                        {{ $prodi->nama_prodi }}
+                                    </td>
+                                </tr>
+                                @php
+                                    $previousProdi = $prodi->nama_prodi;
+                                @endphp
+                            @endif
+                        @endif
+
+                        <!-- Jadwal untuk Prodi Berdasarkan Semester -->
+                        @foreach ($jadwals->where('kode_prodi', $prodi->kode_prodi)->groupBy('id_semester') as $idSemester => $jadwalsBySemester)
+                            @php
+                                $previousDay = null;
+                                $semester = $jadwalsBySemester->first()->semester->nama_semester ?? 'Semester Tidak Diketahui';
+                            @endphp
+
+                            <!-- Nama Semester -->
+                            @if ($previousSemester != $semester)
+                                <tr>
+                                    <td colspan="8" class="px-3 py-2 font-bold text-left bg-gray-100">
+                                        {{ $prodi->nama_prodi }} {{ $semester }}
+                                    </td>
+                                </tr>
+                                @php
+                                    $previousSemester = $semester;
+                                @endphp
+                            @elseif ($previousSemester == $semester)
+                                <tr>
+                                    <td colspan="8" class="px-3 py-2 font-bold text-left bg-gray-100">
+                                        {{ $prodi->nama_prodi }} {{ $semester }}
+                                    </td>
+                                </tr>
+                            @endif
+
+                            <!-- Jadwal -->
+                            @foreach ($jadwalsBySemester as $jadwal)
+                                <tr class="border-t" wire:key="jadwal-{{ $jadwal->id_jadwal }}">
+                                    <!-- Tampilkan Hari hanya jika berbeda dari hari sebelumnya -->
+                                    <td class="px-3 py-1 text-center">
+                                        @if ($jadwal->hari != $previousDay)
+                                            @switch($jadwal->hari)
+                                                @case('Monday') Senin @break
+                                                @case('Tuesday') Selasa @break
+                                                @case('Wednesday') Rabu @break
+                                                @case('Thursday') Kamis @break
+                                                @case('Friday') Jumat @break
+                                            @endswitch
+                                            @php
+                                                $previousDay = $jadwal->hari;
+                                            @endphp
+                                        @endif
+                                    </td>
+                                    <td class="px-3 py-1 text-center">{{ $jadwal->sesi }}</td>
+                                    @if ($jadwal->tanggal == null)
+                                        <td class="px-3 py-1 text-center">Belum ada tanggal Ujian</td>
+                                    @else
+                                        <td class="px-3 py-1 text-center">{{ \Carbon\Carbon::parse($jadwal->tanggal)->locale('id')->isoFormat('D MMMM YYYY') }}</td>
+                                    @endif
+                                    @if ($jadwal->jenis_ujian == null)
+                                        <td class="px-3 py-1 text-center">Belum ada jenis Ujian</td>
+                                    @else
+                                        <td class="px-3 py-1 text-center">{{ $jadwal->jenis_ujian }}</td>
+                                    @endif
+                                    <td class="px-3 py-1 text-center">{{ $jadwal->kelas->nama_kelas }}</td>
+                                    <td class="px-3 py-1 text-center">{{ $jadwal->dosen->nama_dosen }}</td>
+                                    @if ($jadwal->id_ruangan == 'Online')
+                                        <td class="px-3 py-1 text-center">Online</td>  
+                                    @else
+                                            <td class="px-3 py-1 text-center">{{ $jadwal->ruangan->kode_ruangan }}</td>
+                                    @endif
+                                    <td class="px-3 py-1 text-center">
+                                        <div class="flex flex-row justify-center">
+                                            <livewire:admin.jadwal.edit :id_jadwal="$jadwal->id_jadwal"
+                                                wire:key="edit-{{ $jadwal->id_jadwal }}" />
+                                            <button
+                                                class="inline-block px-3 py-2 ml-2 text-white bg-red-500 rounded hover:bg-red-700"
+                                                onclick="confirmDelete({{ $jadwal->id_jadwal }}, '{{ $jadwal->kelas->nama_kelas }}')">
+                                                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    fill="none" viewBox="0 0 24 24">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endforeach
+
+                        <!-- Jika Tidak Ada Jadwal -->
+                        @if ($jadwals->where('kode_prodi', $prodi->kode_prodi)->isEmpty())
+                            <tr>
+                                <td colspan="8" class="px-3 py-2 italic text-center text-gray-500">
                                     Tidak ada jadwal untuk prodi ini.
                                 </td>
                             </tr>

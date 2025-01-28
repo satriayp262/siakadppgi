@@ -16,33 +16,26 @@ class Index extends Component
 {
     use WithPagination;
     public $search = '';
-    public $url;
 
     #[On('TagihanCreated')]
     public function handletagihanCreated()
     {
-        $this->dispatch('created', ['message' => 'Tagihan Berhasil Ditambahkan', 'link' => $this->url]);
-
+        $this->dispatch('created', ['message' => 'Tagihan Berhasil Ditambahkan']);
     }
 
 
     public function render()
     {
-        $this->url = request()->url();
-        $Prodis = Prodi::all();
-        $mahasiswas = Mahasiswa::query()
-            ->where('nama', 'like', '%' . $this->search . '%')
-            ->orWhere('NIM', 'like', '%' . $this->search . '%')
+        $mahasiswas = Mahasiswa::with(['tagihan', 'semester', 'prodi'])
+            ->where(function ($query) {
+                $query->where('nama', 'like', '%' . $this->search . '%')
+                    ->orWhere('NIM', 'like', '%' . $this->search . '%');
+            })
             ->latest()
-            ->paginate(24);
-        $semesters = Semester::all();
-        $tagihans = Tagihan::all();
+            ->paginate(20);
 
         return view('livewire.staff.tagihan.index', [
-            'semesters' => $semesters,
-            'tagihans' => $tagihans,
             'mahasiswas' => $mahasiswas,
-            'Prodis' => $Prodis,
         ]);
     }
 }

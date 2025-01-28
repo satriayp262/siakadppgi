@@ -85,7 +85,7 @@ class Create extends Component
             $tagihan = Tagihan::create([
                 'NIM' => $mahasiswa->NIM,
                 'total_tagihan' => $validatedData['total_tagihan'],
-                'status_tagihan' => 'Belum Lunas',
+                'status_tagihan' => 'Belum Bayar',
                 'Bulan' => $validatedData['Bulan'],
                 'id_semester' => $this->id_semester,
                 'id_staff' => $staff->id_staff,
@@ -96,8 +96,7 @@ class Create extends Component
         }
 
         // Reset the form values
-        $this->reset(['id_semester', 'kode_prodi', 'Bulan']);
-        ;
+        $this->reset(['total_tagihan', 'Bulan',]);
         return $tagihan ?? null;
     }
 

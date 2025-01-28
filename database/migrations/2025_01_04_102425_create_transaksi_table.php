@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->integer('nominal'); //Nominal bayar bukan total tagihan
             $table->string('snap_token')->nullable();
             $table->string('id_tagihan');
-            $table->string('order_id');
+            $table->string('order_id')->unique();
             $table->string('status')->default('pending');
             $table->string('va_number')->nullable();
             $table->string('bank')->nullable();

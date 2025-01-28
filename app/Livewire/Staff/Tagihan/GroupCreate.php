@@ -89,7 +89,7 @@ class GroupCreate extends Component
                 $tagihan = Tagihan::create([
                     'NIM' => $mhs->NIM,
                     'total_tagihan' => $validatedData['total_tagihan'],
-                    'status_tagihan' => 'Belum Lunas',
+                    'status_tagihan' => 'Belum Bayar',
                     'Bulan' => $validatedData['Bulan'],
                     'id_semester' => $validatedData['id_semester'],
                     'id_staff' => $staff->id_staff,

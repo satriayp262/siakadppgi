@@ -19,10 +19,10 @@
                 </li> --}}
 
                 <li>
-                    <a href="{{ route('mahasiswa.keuangan', 'mahasiswa.transaksi') }}"
-                        class="flex items-center p-2 rounded-lg transition duration-75 group
-                        {{ request()->routeIs('mahasiswa.keuangan', 'mahasiswa.transaksi') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
-                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('mahasiswa.keuangan', 'mahasiswa.transaksi') ? ' text-white' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
+                    <button type="button"
+                        class="flex items-center w-full p-2 text-base transition duration-75 rounded-lg group hover:bg-purple2 text-purple3 hover:text-white {{ request()->routeIs('mahasiswa.keuangan', 'mahasiswa.transaksi', 'mahasiswa.transaksi.konfirmasi') ? 'text-white bg-purple2' : 'text-purple3' }}"
+                        aria-controls="dropdown-sistem" data-collapse-toggle="dropdown-sistem">
+                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('mahasiswa.keuangan', 'mahasiswa.transaksi', 'mahasiswa.transaksi.konfirmasi') ? ' text-white' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                             fill="currentColor" viewBox="0 0 24 24">
                             <path fill-rule="evenodd"
@@ -33,9 +33,29 @@
                                 clip-rule="evenodd" />
                             <path d="M10.5 14.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z" />
                         </svg>
+                        <span class="flex-1 text-left ms-3 rtl:text-right whitespace-nowrap">Keuangan</span>
+                        <svg class="w-3 h-3 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 10 6">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m1 1 4 4 4-4" />
+                        </svg>
+                    </button>
+                    <ul id="dropdown-sistem"
+                        class="{{ request()->routeIs(['mahasiswa.keuangan', 'mahasiswa.transaksi', 'mahasiswa.transaksi.konfirmasi']) ? '' : 'hidden' }} py-2 space-y-2">
+                        <li>
+                            <a href="{{ route('mahasiswa.keuangan', 'mahasiswa.transaksi') }}"
+                                class="flex items-center mx-4 p-2 text-gray-100 rounded-lg group {{ request()->routeIs('mahasiswa.keuangan', 'mahasiswa.transaksi') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
+                                <span class="flex-1 ms-3 whitespace-nowrap">Pembayaran</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('mahasiswa.transaksi.konfirmasi') }}"
+                                class="flex items-center mx-4 p-2 text-gray-100 rounded-lg group {{ request()->routeIs('mahasiswa.transaksi.konfirmasi') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
+                                <span class="flex-1 ms-3 whitespace-nowrap">konfirmasi Pembayaran</span>
+                            </a>
+                        </li>
 
-                        <span class="flex-1 ms-3 whitespace-nowrap">Keuangan</span>
-                    </a>
+                    </ul>
                 </li>
                 <li>
                     <a href="{{ route('mahasiswa.krs') }}"
@@ -63,6 +83,20 @@
                                 clip-rule="evenodd" />
                         </svg>
                         <span class="flex-1 ms-3 whitespace-nowrap">Jadwal</span>
+                    </a>
+                </li>
+                <li>
+                    <a wire:navigate.hover href="{{ route('mahasiswa.ujian') }}"
+                        class="flex items-center p-2 rounded-lg transition duration-75 group
+                        {{ request()->routeIs('mahasiswa.ujian') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
+                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('mahasiswa.ujian') ? ' text-white ' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
+                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                            viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M11.293 3.293a1 1 0 0 1 1.414 0l6 6 2 2a1 1 0 0 1-1.414 1.414L19 12.414V19a2 2 0 0 1-2 2h-3a1 1 0 0 1-1-1v-3h-2v3a1 1 0 0 1-1 1H7a2 2 0 0 1-2-2v-6.586l-.293.293a1 1 0 0 1-1.414-1.414l2-2 6-6Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        <span class="flex-1 ms-3 whitespace-nowrap">Kartu Ujian</span>
                     </a>
                 </li>
                 <li>
@@ -114,7 +148,8 @@
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('mahasiswa.emonev', 'emonev.detail') ? ' text-white ' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                             fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2"
                                 d="M3 15v3c0 .5523.44772 1 1 1h10M3 15v-4m0 4h9m-9-4V6c0-.55228.44772-1 1-1h16c.5523 0 1 .44772 1 1v3M3 11h11m-2-.2079V19m3-4h1.9909M21 15c0 1.1046-.8954 2-2 2s-2-.8954-2-2 .8954-2 2-2 2 .8954 2 2Z" />
                         </svg>
 

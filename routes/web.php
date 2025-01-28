@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Controller;
 use App\Models\Aktifitas;
 use App\Models\Dosen;
 use App\Models\Kelas;
@@ -86,10 +87,6 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
         Route::get('/', App\Livewire\Admin\Jadwal\Index::class)->name('admin.jadwal');
     });
 
-    Route::prefix('jadwalUjian')->group(function () {
-        Route::get('/', App\Livewire\Admin\JadwalUjian\Index::class)->name('admin.jadwalUjian');
-    });
-
     Route::prefix('staff')->group(function () {
         Route::get('/', App\Livewire\Admin\Staff\Index::class)->name('admin.staff');
     });
@@ -111,14 +108,17 @@ Route::middleware(['auth', CheckRole::class . ':mahasiswa', 'verified'])->prefix
     Route::get('/profil', App\Livewire\Mahasiswa\Profil\Index::class)->name('mahasiswa.profile');
     Route::get('/keuangan', App\Livewire\Mahasiswa\Keuangan\Index::class)->name('mahasiswa.keuangan');
     Route::get('/presensi', App\Livewire\Mahasiswa\Presensi\Index::class)->name('mahasiswa.presensi');
-    Route::get('/download/{id_tagihan}', [App\Http\Controllers\PDFController::class, 'generatePDF'])->name('mahasiswa.download');
+    Route::get('/download/{no_kwitansi}', [App\Http\Controllers\PDFController::class, 'generatePDF'])->name('mahasiswa.download');
     Route::get('/krs', App\Livewire\Mahasiswa\Krs\Index::class)->name('mahasiswa.krs');
     Route::get('/emonev', App\Livewire\Mahasiswa\Emonev\Index::class)->name('mahasiswa.emonev');
     Route::get('/jadwal', App\Livewire\Mahasiswa\Jadwal\Index::class)->name('mahasiswa.jadwal');
     Route::get('/show/{id_kelas}', App\Livewire\Mahasiswa\Emonev\Show::class)->name('emonev.detail');
     Route::get('/khs/{NIM}', App\Livewire\Khs\Show::class)->name('mahasiswa.khs.show');
-    Route::get('/keuangan/bayar/{snap_token}', App\Livewire\Mahasiswa\Keuangan\Bayar::class)->name('mahasiswa.transaksi');
+    Route::get('/keuangan/bayar/{order_id}', App\Livewire\Mahasiswa\Keuangan\Bayar::class)->name('mahasiswa.transaksi');
     Route::get('/keuangan/berhasil/{id_transaksi}', App\Livewire\Mahasiswa\Keuangan\Berhasil::class)->name('mahasiswa.transaksi.berhasil');
+    Route::get('/keuangan/konfirmasi', App\Livewire\Mahasiswa\Keuangan\Konfirmasi::class)->name('mahasiswa.transaksi.konfirmasi');
+    Route::get('/kartu_ujian', App\Livewire\Mahasiswa\KartuUjian\Index::class)->name('mahasiswa.ujian');
+
 });
 
 // dosen
@@ -202,6 +202,36 @@ Route::get(
     }
 )->name('saddsa');
 
+Route::get(
+    '/tambah_ke_kelas',
+    function () {
+        $mahasiswaList = Mahasiswa::orderBy('NIM','desc')->get();
+        $exceptions = ['9999999916', '99999999917', '9999999911','9999999912','9999999999','9999999991','9999999995','9999999996']; 
+    
+        foreach ($mahasiswaList as $mahasiswa) {
+            $kelasA = Kelas::where('nama_kelas', 'a')
+                ->where('kode_prodi', $mahasiswa->kode_prodi)
+                ->first();
+            $kelasB = Kelas::where('nama_kelas', 'b')
+                ->where('kode_prodi', $mahasiswa->kode_prodi)
+                ->first();
+            
+            if (in_array((string)$mahasiswa->NIM, array_map('strval', $exceptions))) {
+                $mahasiswa->update(['id_kelas' => $kelasB->id_kelas]);
+            }else{
+                $countInKelasA = Mahasiswa::where('id_kelas', $kelasA->id_kelas)->count();
+    
+                if ($countInKelasA < 14) {
+                    $mahasiswa->update(['id_kelas' => $kelasA->id_kelas]);
+                } else {
+                    $mahasiswa->update(['id_kelas' => $kelasB->id_kelas]);
+                }
+            }            
+        }
 
+        dd($mahasiswaList->pluck('id_kelas'));
+
+    }
+)->name('adsaa');
 
 

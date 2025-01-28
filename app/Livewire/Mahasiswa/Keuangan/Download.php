@@ -13,7 +13,7 @@ class Download extends Component
 
     public function downloadPDF()
     {
-        return redirect()->route('mahasiswa.download', $this->id_tagihan);
+        return redirect()->route('mahasiswa.download', $this->no_kwitansi);
     }
 
 

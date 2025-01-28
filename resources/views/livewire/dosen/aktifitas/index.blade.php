@@ -28,9 +28,8 @@
                         <td class="px-4 py-2 text-center">
                             <div class="flex flex-row">
                                 <div class="flex justify-center space-x-2">
-                                    <a href="{{ route('dosen.aktifitas.kelas', ['kode_mata_kuliah' => $matkul->kode_mata_kuliah]) }}"
-                                        class="py-2 px-4 bg-blue-500 hover:bg-blue-700 rounded">
-                                        <p>▶</p>
+                                    <a href="{{ route('dosen.aktifitas.kelas', ['kode_mata_kuliah' => $matkul->kode_mata_kuliah]) }}">
+                                        <p class="py-2 px-4 bg-blue-500 hover:bg-blue-700 rounded">▶</p>
                                     </a>
                                 </div>
                             </div>

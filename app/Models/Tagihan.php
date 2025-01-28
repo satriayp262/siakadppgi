@@ -17,6 +17,8 @@ class Tagihan extends Model
         'Bulan',
         'total_bayar',
         'id_staff',
+        'metode_pembayaran',
+        'cicilan_ke'
     ];
 
     public function mahasiswa()
@@ -32,6 +34,11 @@ class Tagihan extends Model
     public function staff()
     {
         return $this->belongsTo(Staff::class, 'id_staff', 'id_Staff');
+    }
+
+    public function transaksi()
+    {
+        return $this->hasMany(Transaksi::class, 'id_tagihan', 'id_tagihan');
     }
 
 
