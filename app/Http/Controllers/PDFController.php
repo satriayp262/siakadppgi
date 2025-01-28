@@ -186,6 +186,8 @@ class PDFController extends Controller
 
         $t = $staff->ttd;
 
+        $kwitansi = $tagihan->no_kwitansi;
+
         $bulan = substr($tagihan->Bulan, 5, 2);
         $namaBulan = [
             '01' => 'Januari',
@@ -225,13 +227,15 @@ class PDFController extends Controller
             'status' => $tagihan->status_tagihan,
             'Bulan' => $namaBulan,
             'nip' => $tagihan->staff->nip,
+            'kwitansi' => $kwitansi,
+            'metode' => $tagihan->metode_pembayaran,
             'tahun' => substr($tagihan->Bulan, 0, 4)
 
         ];
 
         // dd($pdfData);
         // Load the view and pass data to it, then generate the PDF
-        $pdf = Pdf::loadView('livewire.mahasiswa.keuangan.download', $pdfData)->setPaper('a4', 'landscape');
+        $pdf = Pdf::loadView('livewire.mahasiswa.keuangan.download', $pdfData)->setPaper([0, 0, 905.512, 283.465]); // Set the paper size to 32 * 10 cm
 
         // Return the generated PDF file as a response for download
         return $pdf->stream('BuktiPembayaran-' . $tagihan->mahasiswa->nama . '-' . $tagihan->semester->nama_semester . '.pdf');
