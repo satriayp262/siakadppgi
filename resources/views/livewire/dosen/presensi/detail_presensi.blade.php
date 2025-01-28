@@ -1,38 +1,8 @@
 <div class="mx-5">
-    <div class="flex flex-row justify-end mx-4 mt-4 items-center">
-        {{-- <nav aria-label="Breadcrumb">
-            <ol class="flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
-                <li>
-                    <a href="{{ route('dosen.presensi') }}"
-                        class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
-                        E-Presensi
-                    </a>
-                </li>
-                <li aria-current="page">
-                    <div class="flex items-center">
-                        <svg class="w-3 h-3 mx-1 text-gray-400 rtl:rotate-180" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="m1 9 4-4-4-4" />
-                        </svg>
-                        <a href="{{ route('dosen.presensiByKelas', ['id_mata_kuliah' => $matkul->id_mata_kuliah]) }}"
-                            class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
-                            {{ $matkul->nama_mata_kuliah }}
-                        </a>
-                    </div>
-                </li>
-                <li aria-current="page">
-                    <div class="flex items-center">
-                        <svg class="w-3 h-3 mx-1 text-gray-400 rtl:rotate-180" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="m1 9 4-4-4-4" />
-                        </svg>
-                        <span class="text-sm font-medium text-gray-500 ms-1 md:ms-2">{{ $kelas->nama_kelas }}</span>
-                    </div>
-                </li>
-            </ol>
-        </nav> --}}
+    <div class="flex flex-row justify-between mx-4 mt-4 items-center">
+        <button type="button" onclick="window.history.back()" class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">
+            Kembali
+        </button>
         <input type="text" wire:model.live="search" placeholder="   Search"
             class="px-2 py-2 ml-4 border border-gray-300 rounded-lg">
     </div>

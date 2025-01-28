@@ -78,6 +78,7 @@ class DetailPresensi extends Component
                 'nim' => $mhs->NIM,
                 'waktu_submit' => $presensiData->waktu_submit ?? null,
                 'keterangan' => $presensiData->keterangan ?? 'Belum Presensi',
+                'alasan' => $presensiData->alasan ?? '-',
             ];
         });
 

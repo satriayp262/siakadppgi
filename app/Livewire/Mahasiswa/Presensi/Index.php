@@ -17,7 +17,7 @@ class Index extends Component
     public $nim;
     public $token;
     public $keterangan;
-    public $alasanIjin; // Properti untuk menyimpan alasan ijin
+    public $alasan;
 
     public function mount()
     {
@@ -34,7 +34,7 @@ class Index extends Component
     public function handletokenCreated()
     {
         $this->dispatch('created',  ['message' => 'Presensi berhasil dibuat']);
-        $this->reset(['token', 'keterangan', 'alasanIjin']);
+        $this->reset(['token', 'keterangan', 'alasan']);
     }
 
     public function submit()
@@ -43,6 +43,7 @@ class Index extends Component
         $this->validate([
             'token' => 'required|string',
             'keterangan' => 'required|in:Hadir,Ijin,Sakit',
+            'alasan' => 'required_if:keterangan,Ijin',
         ]);
 
         // Cari token berdasarkan input
@@ -51,27 +52,27 @@ class Index extends Component
         // Jika token tidak ditemukan, beri pesan error
         if (!$tokenData) {
             $this->dispatch('error', ['message' => 'Token tidak ditemukan.']);
-            $this->reset(['token', 'keterangan', 'alasanIjin']);
+            $this->reset(['token', 'keterangan', 'alasan']);
             return;
         }
 
         // Pastikan data `id_mata_kuliah` ada
         if (!$tokenData->id_mata_kuliah || !$tokenData->id_kelas) {
             $this->dispatch('error', ['message' => 'Data mata kuliah atau kelas tidak ditemukan untuk token ini.']);
-            $this->reset(['token', 'keterangan', 'alasanIjin']);
+            $this->reset(['token', 'keterangan', 'alasan']);
             return;
         }
 
-        // Cek apakah mahasiswa terdaftar dalam kelas yang sama dengan token
-        $isRegisteredInClass = Krs::where('nim', $this->nim)
-            ->where('id_kelas', $tokenData->id_kelas)
-            ->exists();
+        // // Cek apakah mahasiswa terdaftar dalam kelas yang sama dengan token
+        // $isRegisteredInClass = Krs::where('nim', $this->nim)
+        //     ->where('id_kelas', $tokenData->id_kelas)
+        //     ->exists();
 
-        if (!$isRegisteredInClass) {
-            $this->dispatch('error', ['message' => 'Anda tidak terdaftar dalam kelas ini.']);
-            $this->reset(['token', 'keterangan', 'alasanIjin']);
-            return;
-        }
+        // if (!$isRegisteredInClass) {
+        //     $this->dispatch('error', ['message' => 'Anda tidak terdaftar dalam kelas ini.']);
+        //     $this->reset(['token', 'keterangan', 'alasan']);
+        //     return;
+        // }
 
         // Cek apakah mahasiswa sudah melakukan presensi dengan token yang sama
         $existingPresensi = Presensi::where('nim', $this->nim)
@@ -80,7 +81,7 @@ class Index extends Component
 
         if ($existingPresensi) {
             $this->dispatch('error', ['message' => 'Anda sudah melakukan presensi dengan token ini.']);
-            $this->reset(['token', 'keterangan', 'alasanIjin']);
+            $this->reset(['token', 'keterangan', 'alasan']);
             return;
         }
 
@@ -91,13 +92,14 @@ class Index extends Component
             'token' => $tokenData->token,
             'waktu_submit' => Carbon::now(),
             'keterangan' => $this->keterangan,
-            'id_kelas' => $tokenData->id_kelas, // Ambil dari token
-            'id_mata_kuliah' => $tokenData->id_mata_kuliah, // Ambil dari token
+            'id_kelas' => $tokenData->id_kelas,
+            'id_mata_kuliah' => $tokenData->id_mata_kuliah,
+            'alasan' => $this->alasan ?? null,
         ]);
 
         // Kirim pesan sukses
         $this->dispatch('presensiCreated', ['message' => 'Presensi berhasil disubmit.']);
-        $this->reset(['token', 'keterangan', 'alasanIjin']);
+        $this->reset(['token', 'keterangan', 'alasan']);
     }
 
     public function render()
