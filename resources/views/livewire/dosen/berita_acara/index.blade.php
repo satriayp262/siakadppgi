@@ -60,47 +60,25 @@
         </div>
     </div>
 
-    <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
-        <table class="min-w-full mt-4 bg-white text-sm border border-gray-200">
-            <thead>
-                <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
-                    <th class="px-4 py-2 text-center">No</th>
-                    <th class="px-4 py-2 text-center">Kode Mata Kuliah</th>
-                    <th class="px-4 py-2 text-center">Mata Kuliah</th>
-                    <th class="px-4 py-2 text-center">Nama Dosen</th>
-                    <th class="px-4 py-2 text-center">Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($beritaAcaraByMatkul as $index => $mataKuliah)
-                    <tr class="text-center border-b border-gray-200">
-                        <td class="px-4 py-2">{{ $index + 1 }}</td>
-                        <td class="px-4 py-2">{{ $mataKuliah->kode_mata_kuliah }}</td>
-                        <td class="px-4 py-2">{{ $mataKuliah->nama_mata_kuliah }}</td>
-                        <td class="px-4 py-2">{{ $mataKuliah->dosen->nama_dosen }}</td>
-                        <td class="px-4 py-2">
-                            <div class="flex flex-col">
-                                <div class="flex justify-center space-x-2">
-                                    <a href="{{ route('dosen.berita_acara.detail_matkul', ['id_mata_kuliah' => $mataKuliah->id_mata_kuliah]) }}"
-                                        class="py-2 px-4 bg-blue-500 hover:bg-blue-700 rounded">
-                                        <p class="text-white">▶</p>
-                                    </a>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="5" class="px-4 py-2 text-center">Tidak ada data mata kuliah.</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
-
-
-        <!-- Pagination Controls -->
-        <div class="py-8 mt-4 text-center">
-            {{ $beritaAcaraByMatkul->links() }}
+    @forelse ($beritaAcaraByMatkul as $index => $mataKuliah)
+        <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
+            <div class="flex flex-row justify-between">
+                <div class="flex flex-col">
+                    <span class="text-2xl font-bold text-purple2">{{ $mataKuliah->nama_mata_kuliah }}</span>
+                    <span class="text-sm font-bold text-gray-400">Kode Mata Kuliah :
+                        {{ $mataKuliah->kode_mata_kuliah }}</span>
+                </div>
+                <div class="flex justify-center space-x-2 py-2">
+                    <a href="{{ route('dosen.berita_acara.detail_matkul', ['id_mata_kuliah' => $mataKuliah->id_mata_kuliah]) }}"
+                        class="py-2 px-4 bg-blue-500 hover:bg-blue-700 rounded">
+                        <p class="text-white">▶</p>
+                    </a>
+                </div>
+            </div>
         </div>
-    </div>
+    @empty
+        <tr>
+            <td colspan="5" class="px-4 py-2 text-center">Tidak ada data mata kuliah.</td>
+        </tr>
+    @endforelse
 </div>

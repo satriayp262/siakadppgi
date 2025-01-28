@@ -48,18 +48,18 @@
             <label class="block text-sm font-medium text-gray-700">Keterangan</label>
             <div class="mt-2 flex items-center space-x-4">
                 <label class="flex items-center">
-                    <input type="radio" wire:model="keterangan" value="Hadir"
-                        class="form-radio h-4 w-4 text-indigo-600">
+                    <input type="radio" id="hadir" wire:model.live="keterangan" value="Hadir"
+                        class="form-radio h-4 w-4 text-indigo-600" onclick="toggleRadio(event, this)">
                     <span class="ml-2">Hadir</span>
                 </label>
                 <label class="flex items-center">
-                    <input type="radio" wire:model="keterangan" value="Ijin"
-                        class="form-radio h-4 w-4 text-indigo-600">
+                    <input type="radio" id="ijin" wire:model.live="keterangan" value="Ijin"
+                        class="form-radio h-4 w-4 text-indigo-600" onclick="toggleRadio(event, this)">
                     <span class="ml-2">Ijin</span>
                 </label>
                 <label class="flex items-center">
-                    <input type="radio" wire:model="keterangan" value="Sakit"
-                        class="form-radio h-4 w-4 text-indigo-600">
+                    <input type="radio" id="sakit" wire:model.live="keterangan" value="Sakit"
+                        class="form-radio h-4 w-4 text-indigo-600" onclick="toggleRadio(event, this)">
                     <span class="ml-2">Sakit</span>
                 </label>
             </div>
@@ -68,13 +68,34 @@
             @enderror
         </div>
 
+        @if ($keterangan == 'Ijin')
+            <div class="mb-4">
+                <label for="alasan" class="block text-sm font-medium text-gray-700">Alasan</label>
+                <input type="text" id="alasan" wire:model="alasan"
+                    class="mt-1 block w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-indigo-500">
+                @error('alasan')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+            </div>
+        @endif
+
         <button type="submit"
             class="w-full px-4 py-2 bg-purple2 text-white rounded-md hover:bg-customPurple focus:outline-none">
             Submit Presensi
         </button>
     </form>
 </div>
+
 <script>
+    function toggleRadio(event, radio) {
+        // Cek apakah radio saat ini sudah terpilih
+        if (radio.checked) {
+            event.preventDefault(); // Cegah perilaku default
+            radio.checked = false; // Ubah menjadi tidak terpilih
+            radio.dispatchEvent(new Event('change')); // Pastikan Livewire menangkap perubahan
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
         Livewire.on('error', function(eventData) {
             Swal.fire({
