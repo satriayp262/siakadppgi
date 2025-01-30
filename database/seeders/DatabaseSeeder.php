@@ -389,7 +389,7 @@ class DatabaseSeeder extends Seeder
                 'nama_mata_kuliah' => $data['nama_mata_kuliah'],
                 'kode_prodi' => $data['kode_prodi'],
                 'jenis_mata_kuliah' => fake()->randomElement(['A', 'W', 'B', 'C', 'S']),
-                'nidn' => fake()->randomElement($nidnlist),
+                'nidn' => $data['nidn'],
                 'sks_tatap_muka' => fake()->numberBetween(1, 4),
                 'sks_praktek' => fake()->numberBetween(0, 2),
                 'sks_praktek_lapangan' => fake()->numberBetween(0, 2),
