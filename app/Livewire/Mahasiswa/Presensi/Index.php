@@ -37,44 +37,58 @@ class Index extends Component
         $this->reset(['token', 'keterangan', 'alasan']);
     }
 
+    private function tandaiAlfa($tokenData)
+    {
+        // Ambil semua mahasiswa di kelas ini dari tabel KRS
+        $mahasiswaTerdaftar = Krs::where('id_mata_kuliah', $tokenData->id_mata_kuliah)
+            ->where('id_kelas', $tokenData->id_kelas)
+            ->pluck('nim');
+
+        // Cek siapa yang sudah presensi
+        $sudahPresensi = Presensi::whereIn('nim', $mahasiswaTerdaftar)
+            ->where('token', $tokenData->token)
+            ->pluck('nim');
+
+        // Ambil mahasiswa yang belum presensi
+        $belumPresensi = $mahasiswaTerdaftar->diff($sudahPresensi);
+
+        foreach ($belumPresensi as $nim) {
+            Presensi::create([
+                'nama' => 'Mahasiswa', // Atau bisa ambil dari tabel Mahasiswa
+                'nim' => $nim,
+                'token' => $tokenData->token,
+                'waktu_submit' => Carbon::now(),
+                'keterangan' => 'Alpha',
+                'id_kelas' => $tokenData->id_kelas,
+                'id_mata_kuliah' => $tokenData->id_mata_kuliah,
+                'alasan' => null,
+            ]);
+        }
+    }
+
     public function submit()
     {
-        // Validasi input
         $this->validate([
             'token' => 'required|string',
             'keterangan' => 'required|in:Hadir,Ijin,Sakit',
             'alasan' => 'required_if:keterangan,Ijin',
         ]);
 
-        // Cari token berdasarkan input
         $tokenData = Token::where('token', $this->token)->first();
 
-        // Jika token tidak ditemukan, beri pesan error
         if (!$tokenData) {
             $this->dispatch('error', ['message' => 'Token tidak ditemukan.']);
             $this->reset(['token', 'keterangan', 'alasan']);
             return;
         }
 
-        // Pastikan data `id_mata_kuliah` ada
-        if (!$tokenData->id_mata_kuliah || !$tokenData->id_kelas) {
-            $this->dispatch('error', ['message' => 'Data mata kuliah atau kelas tidak ditemukan untuk token ini.']);
-            $this->reset(['token', 'keterangan', 'alasan']);
+        // Cek apakah token sudah expired
+        if (Carbon::now()->greaterThan($tokenData->valid_until)) {
+            $this->tandaiAlfa($tokenData);
+            $this->dispatch('error', ['message' => 'Token sudah tidak berlaku. Mahasiswa yang belum presensi ditandai sebagai Alfa.']);
             return;
         }
 
-        // // Cek apakah mahasiswa terdaftar dalam kelas yang sama dengan token
-        // $isRegisteredInClass = Krs::where('nim', $this->nim)
-        //     ->where('id_kelas', $tokenData->id_kelas)
-        //     ->exists();
-
-        // if (!$isRegisteredInClass) {
-        //     $this->dispatch('error', ['message' => 'Anda tidak terdaftar dalam kelas ini.']);
-        //     $this->reset(['token', 'keterangan', 'alasan']);
-        //     return;
-        // }
-
-        // Cek apakah mahasiswa sudah melakukan presensi dengan token yang sama
         $existingPresensi = Presensi::where('nim', $this->nim)
             ->where('token', $tokenData->token)
             ->exists();
@@ -85,7 +99,6 @@ class Index extends Component
             return;
         }
 
-        // Simpan data presensi
         Presensi::create([
             'nama' => $this->nama,
             'nim' => $this->nim,
@@ -97,7 +110,6 @@ class Index extends Component
             'alasan' => $this->alasan ?? null,
         ]);
 
-        // Kirim pesan sukses
         $this->dispatch('presensiCreated', ['message' => 'Presensi berhasil disubmit.']);
         $this->reset(['token', 'keterangan', 'alasan']);
     }

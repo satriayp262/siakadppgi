@@ -30,7 +30,10 @@
             <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
                 <div class="flex flex-row justify-between">
                     <div class="flex flex-col">
-                        <span class="text-2xl font-bold text-purple2">{{ $item->nama_kelas }}</span>
+                        <span class="text-2xl font-bold text-purple2">
+                            {{ $item->nama_kelas }} / {{ $item->kode_prodi }} /
+                            {{ substr($item->Semester->nama_semester, 3, 2) }}
+                        </span>
                         <span class="text-sm font-bold text-gray-400">Prodi :
                             {{ $item->prodi->nama_prodi ?? '-' }}</span>
                     </div>

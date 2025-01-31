@@ -29,7 +29,8 @@
                                 d="m1 9 4-4-4-4" />
                         </svg>
                         <span
-                            class="text-sm font-medium text-gray-500 ms-1 md:ms-2">{{ $kelas->nama_kelas }}</span>
+                            class="text-sm font-medium text-gray-500 ms-1 md:ms-2">{{ $kelas->nama_kelas }} / {{ $kelas->kode_prodi }} /
+                            {{ substr($kelas->Semester->nama_semester, 3, 2) }}</span>
                     </div>
                 </li>
             </ol>

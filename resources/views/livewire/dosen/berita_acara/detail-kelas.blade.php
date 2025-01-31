@@ -29,7 +29,8 @@
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                     stroke-width="2" d="m1 9 4-4-4-4" />
                             </svg>
-                            <span class="text-sm font-medium text-gray-500 ms-1 md:ms-2">{{ $kelas->nama_kelas }}</span>
+                            <span class="text-sm font-medium text-gray-500 ms-1 md:ms-2">{{ $kelas->nama_kelas }} / {{ $kelas->kode_prodi }} /
+                                {{ substr($kelas->Semester->nama_semester, 3, 2) }}</span>
                         </div>
                     </li>
                 </ol>
@@ -74,7 +75,7 @@
                 </tr>
             </thead>
             <tbody>
-                @if ($this->CheckDosen)
+                {{-- @if ($this->CheckDosen) --}}
                     @foreach ($beritaAcara as $acara)
                         <tr wire:key="berita_acara-{{ $acara->id_berita_acara }}">
                             <td class="px-4 py-2 text-center">
@@ -109,11 +110,11 @@
                             </td>
                         </tr>
                     @endforeach
-                @else
+                {{-- @else
                     <tr>
                         <td colspan="7" class="px-2 py-4 text-center">Belum ada Berita Acara</td>
                     </tr>
-                @endif
+                @endif --}}
             </tbody>
         </table>
 

@@ -185,7 +185,7 @@
                         <td class="px-4 py-2 text-center">{{ $mahasiswa->NIM }}</td>
                         <td class="px-4 py-2 text-center">{{ $mahasiswa->prodi->nama_prodi }}</td>
                         <td class="px-4 py-2 text-center">
-                            Hadir: {{ $mahasiswa->hadir_count }},
+                            Alpha: {{ $mahasiswa->hadir_count }},
                             Ijin: {{ $mahasiswa->ijin_count }},
                             Sakit: {{ $mahasiswa->sakit_count }}
                         </td>

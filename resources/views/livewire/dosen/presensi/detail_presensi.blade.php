@@ -15,6 +15,7 @@
                 <th class="px-4 py-2 text-center">Waktu</th>
                 <th class="px-4 py-2 text-center">Keterangan</th>
                 <th class="px-4 py-2 text-center">Alasan</th>
+                <th class="px-4 py-2 text-center">Aksi</th>
             </tr>
         </thead>
         <tbody>

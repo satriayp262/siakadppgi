@@ -38,7 +38,7 @@
             @endif
         </div>
     </div>
-    <div class="py-8  text-center">
+    <div class="mt-4 text-center">
         {{ $presensiByMatkul->links() }}
         @forelse ($presensiByMatkul as $index => $presensi)
             <div class="bg-white shadow-lg p-4 mb-4 rounded-lg max-w-full">

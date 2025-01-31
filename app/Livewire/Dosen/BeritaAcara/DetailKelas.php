@@ -4,10 +4,12 @@ namespace App\Livewire\Dosen\BeritaAcara;
 
 use App\Models\Kelas;
 use App\Models\BeritaAcara;
+use App\Models\KRS;
 use App\Models\Matakuliah;
 use Livewire\Attributes\On;
 use Livewire\WithPagination;
 use Livewire\Component;
+
 
 class DetailKelas extends Component
 {
@@ -15,6 +17,7 @@ class DetailKelas extends Component
 
     public $id_kelas, $CheckDosen = false;
     public $id_mata_kuliah;
+    public $mataKuliah;
     public $kelas;
     public $matkul;
     public $search = '';
@@ -47,7 +50,7 @@ class DetailKelas extends Component
         $this->id_kelas = $id_kelas;
         $this->id_mata_kuliah = $id_mata_kuliah;
 
-        $this->CheckDosen = (Auth()->user()->nim_nidn == Matakuliah::where('id_mata_kuliah', Kelas::where('id_kelas', $this->id_kelas)->first()->id_mata_kuliah)->first()->nidn);
+        // $this->CheckDosen = (Auth()->user()->nim_nidn == Matakuliah::where('id_mata_kuliah', Kelas::where('id_kelas', $this->id_kelas)->first()->id_mata_kuliah)->first()->nidn);
 
         // Ambil detail kelas
         $this->kelas = Kelas::with('matkul')->findOrFail($id_kelas);
@@ -58,9 +61,20 @@ class DetailKelas extends Component
 
     public function render()
     {
+        // Cari seluruh KRS pada prodi ini dan mata kuliah ini
+        $krsEntries = KRS::where('id_mata_kuliah', $this->matkul->id_mata_kuliah)
+            ->where('id_prodi', $this->matkul->prodi->id_prodi)
+            ->pluck('NIM');
+
+        $kelas = Kelas::whereIn('id_kelas', function ($query) use ($krsEntries) {
+            $query->select('id_kelas')
+                ->from('mahasiswa')
+                ->whereIn('NIM', $krsEntries);
+        })->get(); // Tambahkan get() agar query dieksekusi
+
         $beritaAcara = BeritaAcara::where('nidn', auth()->user()->nim_nidn)
-            ->Where('id_mata_kuliah', $this->matkul->id_mata_kuliah)
-            ->Where('id_kelas', Kelas::where('id_mata_kuliah', $this->matkul->id_mata_kuliah)->first()->id_kelas)
+            ->where('id_mata_kuliah', $this->matkul->id_mata_kuliah)
+            ->whereIn('id_kelas', $kelas->pluck('id_kelas')) // Perbaiki agar bisa menangani banyak kelas
             ->when($this->search, function ($query) {
                 $query->where('tanggal', 'like', '%' . $this->search . '%')
                     ->orWhere('nama_mata_kuliah', 'like', '%' . $this->search . '%');
@@ -69,7 +83,7 @@ class DetailKelas extends Component
             ->paginate(10);
 
         return view('livewire.dosen.berita_acara.detail-kelas', [
-            'kelas' => $this->kelas,
+            'kelas' => $kelas,
             'matkul' => $this->matkul,
             'beritaAcara' => $beritaAcara,
         ]);
