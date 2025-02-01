@@ -97,31 +97,43 @@ class DatabaseSeeder extends Seeder
 
         Semester::factory()->create([
             'nama_semester' => '20201',
+            'bulan_mulai' => '2019-09-01',
+            'bulan_selesai' => '2020-01-31',
             'is_active' => 0,
         ]);
 
         Semester::factory()->create([
             'nama_semester' => '20202',
+            'bulan_mulai' => '2020-02-01',
+            'bulan_selesai' => '2020-08-31',
             'is_active' => 0,
         ]);
 
         Semester::factory()->create([
             'nama_semester' => '20211',
+            'bulan_mulai' => '2020-09-01',
+            'bulan_selesai' => '2021-01-31',
             'is_active' => 0,
         ]);
 
         Semester::factory()->create([
             'nama_semester' => '20212',
+            'bulan_mulai' => '2021-02-01',
+            'bulan_selesai' => '2021-08-31',
             'is_active' => 0,
         ]);
 
         Semester::factory()->create([
             'nama_semester' => '20221',
+            'bulan_mulai' => '2021-09-01',
+            'bulan_selesai' => '2022-01-31',
             'is_active' => 0,
         ]);
 
         Semester::factory()->create([
             'nama_semester' => '20222',
+            'bulan_mulai' => '2022-02-01',
+            'bulan_selesai' => '2022-08-31',
             'is_active' => 1,
         ]);
 
@@ -164,219 +176,219 @@ class DatabaseSeeder extends Seeder
                 'kode_mata_kuliah' => 'STATIS_AK',
                 'nama_mata_kuliah' => 'Statistika',
                 'kode_prodi' => 'AK-001',
-                'nidn'=> '1111111111'
+                'nidn' => '1111111111'
             ],
             [
                 'kode_mata_kuliah' => 'PROWEB_AK',
                 'nama_mata_kuliah' => 'Pemrograman Web',
                 'kode_prodi' => 'AK-001',
-                'nidn'=> '1111111112'
+                'nidn' => '1111111112'
             ],
             [
                 'kode_mata_kuliah' => 'BASDAT_AK',
                 'nama_mata_kuliah' => 'Basis Data',
                 'kode_prodi' => 'AK-001',
-                'nidn'=> '1111111113'
+                'nidn' => '1111111113'
             ],
             [
                 'kode_mata_kuliah' => 'MOBILE_AK',
                 'nama_mata_kuliah' => 'Mobile Programming',
                 'kode_prodi' => 'AK-001',
-                'nidn'=> '1111111114'
+                'nidn' => '1111111114'
             ],
             [
                 'kode_mata_kuliah' => 'SISTOP_AK',
                 'nama_mata_kuliah' => 'Sistem Operasi',
                 'kode_prodi' => 'AK-001',
-                'nidn'=> '1111111115'
+                'nidn' => '1111111115'
             ],
             [
                 'kode_mata_kuliah' => 'ERPEEL_AK',
                 'nama_mata_kuliah' => 'RPL',
                 'kode_prodi' => 'AK-001',
-                'nidn'=> '1111111116'
+                'nidn' => '1111111116'
             ],
             [
                 'kode_mata_kuliah' => 'STATIS_MO',
                 'nama_mata_kuliah' => 'Statistika',
                 'kode_prodi' => 'MO-002',
-                'nidn'=> '1111111117'
+                'nidn' => '1111111117'
             ],
             [
                 'kode_mata_kuliah' => 'PROWEB_MO',
                 'nama_mata_kuliah' => 'Pemrograman Web',
                 'kode_prodi' => 'MO-002',
-                'nidn'=> '1111111118'
+                'nidn' => '1111111118'
             ],
             [
                 'kode_mata_kuliah' => 'BASDAT_MO',
                 'nama_mata_kuliah' => 'Basis Data',
                 'kode_prodi' => 'MO-002',
-                'nidn'=> '1111111119'
+                'nidn' => '1111111119'
             ],
             [
                 'kode_mata_kuliah' => 'MOBILE_MO',
                 'nama_mata_kuliah' => 'Mobile Programming',
                 'kode_prodi' => 'MO-002',
-                'nidn'=> '1111111120'
+                'nidn' => '1111111120'
             ],
             [
                 'kode_mata_kuliah' => 'SISTOP_MO',
                 'nama_mata_kuliah' => 'Sistem Operasi',
                 'kode_prodi' => 'MO-002',
-                'nidn'=> '1111111121'
+                'nidn' => '1111111121'
             ],
             [
                 'kode_mata_kuliah' => 'ERPEEL_MO',
                 'nama_mata_kuliah' => 'RPL',
                 'kode_prodi' => 'MO-002',
-                'nidn'=> '1111111122'
+                'nidn' => '1111111122'
             ],
             [
                 'kode_mata_kuliah' => 'STATIS_TE',
                 'nama_mata_kuliah' => 'Statistika',
                 'kode_prodi' => 'TE-003',
-                'nidn'=> '1111111123'
+                'nidn' => '1111111123'
             ],
             [
                 'kode_mata_kuliah' => 'PROWEB_TE',
                 'nama_mata_kuliah' => 'Pemrograman Web',
                 'kode_prodi' => 'TE-003',
-                'nidn'=> '1111111124'
+                'nidn' => '1111111124'
             ],
             [
                 'kode_mata_kuliah' => 'BASDAT_TE',
                 'nama_mata_kuliah' => 'Basis Data',
                 'kode_prodi' => 'TE-003',
-                'nidn'=> '1111111125'
+                'nidn' => '1111111125'
             ],
             [
                 'kode_mata_kuliah' => 'MOBILE_TE',
                 'nama_mata_kuliah' => 'Mobile Programming',
                 'kode_prodi' => 'TE-003',
-                'nidn'=> '1111111126'
+                'nidn' => '1111111126'
             ],
             [
                 'kode_mata_kuliah' => 'SISTOP_TE',
                 'nama_mata_kuliah' => 'Sistem Operasi',
                 'kode_prodi' => 'TE-003',
-                'nidn'=> '1111111127'
+                'nidn' => '1111111127'
             ],
             [
                 'kode_mata_kuliah' => 'ERPEEL_TE',
                 'nama_mata_kuliah' => 'RPL',
                 'kode_prodi' => 'TE-003',
-                'nidn'=> '1111111128'
+                'nidn' => '1111111128'
             ],
             [
                 'kode_mata_kuliah' => 'STATIS_MSDM',
                 'nama_mata_kuliah' => 'Statistika',
                 'kode_prodi' => 'MSDM-004',
-                'nidn'=> '1111111135'
+                'nidn' => '1111111135'
             ],
             [
                 'kode_mata_kuliah' => 'PROWEB_MSDM',
                 'nama_mata_kuliah' => 'Pemrograman Web',
                 'kode_prodi' => 'MSDM-004',
-                'nidn'=> '1111111136'
+                'nidn' => '1111111136'
             ],
             [
                 'kode_mata_kuliah' => 'BASDAT_MSDM',
                 'nama_mata_kuliah' => 'Basis Data',
                 'kode_prodi' => 'MSDM-004',
-                'nidn'=> '1111111137'
+                'nidn' => '1111111137'
             ],
             [
                 'kode_mata_kuliah' => 'MOBILE_MSDM',
                 'nama_mata_kuliah' => 'Mobile Programming',
                 'kode_prodi' => 'MSDM-004',
-                'nidn'=> '1111111138'
+                'nidn' => '1111111138'
             ],
             [
                 'kode_mata_kuliah' => 'SISTOP_MSDM',
                 'nama_mata_kuliah' => 'Sistem Operasi',
                 'kode_prodi' => 'MSDM-004',
-                'nidn'=> '1111111139'
+                'nidn' => '1111111139'
             ],
             [
                 'kode_mata_kuliah' => 'ERPEEL_MSDM',
                 'nama_mata_kuliah' => 'RPL',
                 'kode_prodi' => 'MSDM-004',
-                'nidn'=> '1111111140'
+                'nidn' => '1111111140'
             ],
             //duplicate
             [
                 'kode_mata_kuliah' => 'STATIS_MSDM',
                 'nama_mata_kuliah' => 'Statistika',
                 'kode_prodi' => 'MSDM-004',
-                'nidn'=> '1111111142'
+                'nidn' => '1111111142'
             ],
             [
                 'kode_mata_kuliah' => 'PROWEB_MSDM',
                 'nama_mata_kuliah' => 'Pemrograman Web',
                 'kode_prodi' => 'MSDM-004',
-                'nidn'=> '1111111143'
+                'nidn' => '1111111143'
             ],
             [
                 'kode_mata_kuliah' => 'BASDAT_MSDM',
                 'nama_mata_kuliah' => 'Basis Data',
                 'kode_prodi' => 'MSDM-004',
-                'nidn'=> '1111111144'
+                'nidn' => '1111111144'
             ],
             [
                 'kode_mata_kuliah' => 'MOBILE_MSDM',
                 'nama_mata_kuliah' => 'Mobile Programming',
                 'kode_prodi' => 'MSDM-004',
-                'nidn'=> '1111111145'
+                'nidn' => '1111111145'
             ],
             [
                 'kode_mata_kuliah' => 'SISTOP_MSDM',
                 'nama_mata_kuliah' => 'Sistem Operasi',
                 'kode_prodi' => 'MSDM-004',
-                'nidn'=> '1111111146'
+                'nidn' => '1111111146'
             ],
             [
                 'kode_mata_kuliah' => 'ERPEEL_MSDM',
                 'nama_mata_kuliah' => 'RPL',
                 'kode_prodi' => 'MSDM-004',
-                'nidn'=> '1111111141'
+                'nidn' => '1111111141'
             ],
             //duplicate
             [
                 'kode_mata_kuliah' => 'STATIS_TE',
                 'nama_mata_kuliah' => 'Statistika',
                 'kode_prodi' => 'TE-003',
-                'nidn'=> '1111111129'
+                'nidn' => '1111111129'
             ],
             [
                 'kode_mata_kuliah' => 'PROWEB_TE',
                 'nama_mata_kuliah' => 'Pemrograman Web',
                 'kode_prodi' => 'TE-003',
-                'nidn'=> '1111111130'
+                'nidn' => '1111111130'
             ],
             [
                 'kode_mata_kuliah' => 'BASDAT_TE',
                 'nama_mata_kuliah' => 'Basis Data',
                 'kode_prodi' => 'TE-003',
-                'nidn'=> '1111111131'
+                'nidn' => '1111111131'
             ],
             [
                 'kode_mata_kuliah' => 'MOBILE_TE',
                 'nama_mata_kuliah' => 'Mobile Programming',
                 'kode_prodi' => 'TE-003',
-                'nidn'=> '1111111132'
+                'nidn' => '1111111132'
             ],
             [
                 'kode_mata_kuliah' => 'SISTOP_TE',
                 'nama_mata_kuliah' => 'Sistem Operasi',
                 'kode_prodi' => 'TE-003',
-                'nidn'=> '1111111133'
+                'nidn' => '1111111133'
             ],
             [
                 'kode_mata_kuliah' => 'ERPEEL_TE',
                 'nama_mata_kuliah' => 'RPL',
                 'kode_prodi' => 'TE-003',
-                'nidn'=> '1111111134'
+                'nidn' => '1111111134'
             ],
         ];
 

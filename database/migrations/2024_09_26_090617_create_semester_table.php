@@ -13,6 +13,8 @@ return new class extends Migration {
         Schema::create('semester', function (Blueprint $table) {
             $table->integer('id_semester')->primary()->autoIncrement();
             $table->string('nama_semester');
+            $table->date('bulan_mulai');
+            $table->date('bulan_selesai');
             $table->boolean('is_active')->default(false);
             $table->timestamps();
         });

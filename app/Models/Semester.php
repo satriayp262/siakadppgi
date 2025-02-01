@@ -13,6 +13,9 @@ class Semester extends Model
 
     protected $primaryKey = 'id_semester';
     protected $fillable = [
-        'nama_semester'
+        'nama_semester',
+        'bulan_mulai',
+        'bulan_selesai',
+
     ];
 }
