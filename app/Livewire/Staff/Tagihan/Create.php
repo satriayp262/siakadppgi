@@ -53,33 +53,6 @@ class Create extends Component
         $this->id_semester = $mahasiswa ? $mahasiswa->mulai_semester : null;
     }
 
-    public function range()
-    {
-        $semester = Semester::all();
-        $bulanList = [
-            "Januari",
-            "Februari",
-            "Maret",
-            "April",
-            "Mei",
-            "Juni",
-            "Juli",
-            "Agustus",
-            "September",
-            "Oktober",
-            "November",
-            "Desember"
-        ];
-
-        $indexMulai = array_search($semester->bulan_mulai, $bulanList);
-        $indexSelesai = array_search($semester->bulan_selesai, $bulanList);
-
-        if ($indexMulai === false || $indexSelesai === false) {
-            $this->range_bulan = [];
-            return;
-        }
-
-    }
 
     public function save()
     {
