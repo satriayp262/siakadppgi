@@ -17,6 +17,7 @@ class Create extends Component
     public $total_tagihan;
     public $status_tagihan = '';
     public $Bulan = '';
+    public $jenis_tagihan;
     public $id_semester;
     public $kode_prodi;
 
@@ -26,6 +27,7 @@ class Create extends Component
             'nim' => 'required',
             'total_tagihan' => 'required',
             'Bulan' => 'required|date_format:Y-m', // Validasi menggunakan format YYYY-MM
+            'jenis_tagihan' => 'required',
         ];
     }
 
@@ -35,6 +37,7 @@ class Create extends Component
             'nim.required' => 'nim tidak boleh kosong',
             'total_tagihan.required' => 'Total tagihan tidak boleh kosong',
             'total_tagihan.numeric' => 'Total tagihan harus berupa angka',
+            'jenis_tagihan.required' => 'Jenis tagihan tidak boleh kosong',
             'Bulan.required' => 'Bulan harus dipilih',
             'Bulan.date_format' => 'Bulan harus berformat YYYY-MM',
         ];
@@ -50,6 +53,34 @@ class Create extends Component
         $this->id_semester = $mahasiswa ? $mahasiswa->mulai_semester : null;
     }
 
+    public function range()
+    {
+        $semester = Semester::all();
+        $bulanList = [
+            "Januari",
+            "Februari",
+            "Maret",
+            "April",
+            "Mei",
+            "Juni",
+            "Juli",
+            "Agustus",
+            "September",
+            "Oktober",
+            "November",
+            "Desember"
+        ];
+
+        $indexMulai = array_search($semester->bulan_mulai, $bulanList);
+        $indexSelesai = array_search($semester->bulan_selesai, $bulanList);
+
+        if ($indexMulai === false || $indexSelesai === false) {
+            $this->range_bulan = [];
+            return;
+        }
+
+    }
+
     public function save()
     {
         $validatedData = $this->validate();
@@ -57,13 +88,29 @@ class Create extends Component
         $user = auth()->user();
 
         $staff = Staff::where('nip', $user->nim_nidn)->first();
-
-
         // Clean the 'total_tagihan' field (remove non-numeric characters)
         $validatedData['total_tagihan'] = preg_replace('/\D/', '', $validatedData['total_tagihan']);
 
         // Assuming you want to create the Tagihan for the single Mahasiswa identified by $this->nim
         $mahasiswa = Mahasiswa::where('NIM', $this->nim)->first();
+
+        $semester1 = substr($validatedData['Bulan'], 0, 4);
+
+        if (in_array(substr($validatedData['Bulan'], 5, 2), [2, 3, 4, 5, 6, 7, 8])) {
+            $semester = $semester1 . '1';
+        } else {
+            $semester = $semester1 . '2';
+        }
+
+        // Check if the semester exists in the Semester table
+        $semesterExists = Semester::where('nama_semester', $semester)->exists();
+
+        if (!$semesterExists) {
+            $this->addError('Bulan', 'Tahun ini belum terdaftar sebagai semester');
+            return;
+        }
+
+
 
         if (!$mahasiswa) {
             $this->addError('NIM', 'Mahasiswa dengan NIM ' . $this->nim . ' tidak ditemukan.');
@@ -87,7 +134,8 @@ class Create extends Component
                 'total_tagihan' => $validatedData['total_tagihan'],
                 'status_tagihan' => 'Belum Bayar',
                 'Bulan' => $validatedData['Bulan'],
-                'id_semester' => $this->id_semester,
+                'jenis_tagihan' => $validatedData['jenis_tagihan'],
+                'id_semester' => $semester,
                 'id_staff' => $staff->id_staff,
             ]);
 
@@ -96,7 +144,7 @@ class Create extends Component
         }
 
         // Reset the form values
-        $this->reset(['total_tagihan', 'Bulan',]);
+        $this->reset(['total_tagihan', 'Bulan', 'jenis_tagihan']);
         return $tagihan ?? null;
     }
 

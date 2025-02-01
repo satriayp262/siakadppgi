@@ -17,7 +17,6 @@ return new class extends Migration {
             $table->integer('total_tagihan');
             $table->integer('total_bayar')->nullable();
             $table->string('metode_pembayaran')->nullable();
-            $table->enum('cicilan_ke', ['1', '2', '3'])->nullable();
             $table->string('status_tagihan');
             $table->string('no_kwitansi')->nullable()->unique();
             $table->string('Bulan', 7);

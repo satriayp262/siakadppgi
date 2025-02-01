@@ -20,6 +20,8 @@
                     <th class="py-2 px-4"><input type="checkbox" id="selectAll" wire:model="selectAll"></th>
                     <th class="px-4 py-2 text-center">Nama Semester</th>
                     <th class="px-4 py-2 text-center">Status</th>
+                    <th class="px-4 py-2 text-center">Bulan Mulai</th>
+                    <th class="px-4 py-2 text-center">Bulan Selesai </th>
                     <th class="px-4 py-2 text-center">Aksi</th>
 
                 </tr>
@@ -45,6 +47,8 @@
                                 {{ $semester->is_active ? 'Aktif' : 'Tidak Aktif' }}
                             </span>
                         </td>
+                        <td class="px-4 py-2 text-center w-1/4">{{ $semester->bulan_mulai }}</td>
+                        <td class="px-4 py-2 text-center w-1/4">{{ $semester->bulan_selesai }}</td>
                         <td class="px-4 py-2 text-center w-1/2">
                             <div class="flex justify-center space-x-2">
 

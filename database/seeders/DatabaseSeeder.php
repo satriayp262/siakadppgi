@@ -97,43 +97,43 @@ class DatabaseSeeder extends Seeder
 
         Semester::factory()->create([
             'nama_semester' => '20201',
-            'bulan_mulai' => '2019-09-01',
-            'bulan_selesai' => '2020-01-31',
+            'bulan_mulai' => '2019-09',
+            'bulan_selesai' => '2020-01',
             'is_active' => 0,
         ]);
 
         Semester::factory()->create([
             'nama_semester' => '20202',
-            'bulan_mulai' => '2020-02-01',
-            'bulan_selesai' => '2020-08-31',
+            'bulan_mulai' => '2020-02',
+            'bulan_selesai' => '2020-08',
             'is_active' => 0,
         ]);
 
         Semester::factory()->create([
             'nama_semester' => '20211',
-            'bulan_mulai' => '2020-09-01',
-            'bulan_selesai' => '2021-01-31',
+            'bulan_mulai' => '2020-09',
+            'bulan_selesai' => '2021-01',
             'is_active' => 0,
         ]);
 
         Semester::factory()->create([
             'nama_semester' => '20212',
-            'bulan_mulai' => '2021-02-01',
-            'bulan_selesai' => '2021-08-31',
+            'bulan_mulai' => '2021-02',
+            'bulan_selesai' => '2021-08',
             'is_active' => 0,
         ]);
 
         Semester::factory()->create([
             'nama_semester' => '20221',
-            'bulan_mulai' => '2021-09-01',
-            'bulan_selesai' => '2022-01-31',
+            'bulan_mulai' => '2021-09',
+            'bulan_selesai' => '2022-01',
             'is_active' => 0,
         ]);
 
         Semester::factory()->create([
             'nama_semester' => '20222',
-            'bulan_mulai' => '2022-02-01',
-            'bulan_selesai' => '2022-08-31',
+            'bulan_mulai' => '2022-02',
+            'bulan_selesai' => '2022-08',
             'is_active' => 1,
         ]);
 

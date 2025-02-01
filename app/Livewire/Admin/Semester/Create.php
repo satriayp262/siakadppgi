@@ -16,8 +16,6 @@ class Create extends Component
         ];
     }
 
-
-
     public function messages()
     {
         return [
@@ -35,11 +33,15 @@ class Create extends Component
         // Save the semester with '1' appended
         $semester1 = Semester::create([
             'nama_semester' => $validatedData['nama_semester'] . '1',
+            'bulan_mulai' => (int) ($validatedData['nama_semester'] - 1) . '-09',
+            'bulan_selesai' => (int) $validatedData['nama_semester'] . '-01',
         ]);
 
         // Save the semester with '2' appended
         $semester2 = Semester::create([
             'nama_semester' => $validatedData['nama_semester'] . '2',
+            'bulan_mulai' => (int) $validatedData['nama_semester'] . '-02',
+            'bulan_selesai' => (int) $validatedData['nama_semester'] . '-07',
         ]);
         $this->dispatch('semesterCreated');
         $this->reset();

@@ -53,7 +53,6 @@
             <td style="padding: 2;">
                 <hr
                     style="border-top: 3px solid darkviolet; height: 2px; border-bottom: 1px solid darkviolet; margin-top: -7%;">
-                </hr>
             </td>
         </tr>
     </table>
@@ -100,7 +99,7 @@
                     :</td>
                 <td
                     style="font-size: 12px; margin-bottom: 1%; letter-spacing: 3px; font-family: Arial, Helvetica, sans-serif;">
-                    SPP Bulan {{ $Bulan }} Tahun
+                    BPP Bulan {{ $Bulan }} Tahun
                     {{ $tahun }}
                 </td>
             </tr>
@@ -196,11 +195,11 @@
             <p style=" text-align:center;position: relative; left: -50px; margin-top:0%; font-size: 14px;">
                 <strong>Penerima,</strong>
             </p>
-            <div style="position: relative; text-align: center;margin-bottom:30px">
+            <div style="position: relative; text-align: center; margin-bottom: 10%;">
                 <img src="{{ $ttd }}" alt="Tanda Tangan"
                     style="width: auto; height:80px; position: absolute; top: 0; left: 50%; transform: translateX(-50%);">
                 <img src="img/Politeknik_Piksi_Ganesha_Bandung.png" alt=""
-                    style="opacity:50%; width:auto; height:60px; position: relative; left: -60px; transform: rotate(-10deg);">
+                    style="opacity:50%; width:auto; height:80px; position: relative; left: -60px; transform: rotate(-5deg);">
             </div>
             <div style="margin-top:0%;text-align:center; font-size: 14px; margin-bottom: -7%;">
                 <strong>{{ $staff }}</strong><br />
