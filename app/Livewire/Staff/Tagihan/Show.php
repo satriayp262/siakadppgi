@@ -31,8 +31,6 @@ class Show extends Component
 
         }
 
-
-
         if ($this->selectedprodi) {
             $prodi = Prodi::where('nama_prodi', $this->selectedprodi)->first();
             $mahasiswas->whereHas('tagihan', function ($query) use ($prodi) {

@@ -7,7 +7,6 @@
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
                 d="M5 12h14m-7 7V5" />
         </svg>
-
         Tambah
     </button>
 
@@ -25,7 +24,6 @@
             </div>
             <div class="p-4">
                 <div class="p-4 max-h-[500px] overflow-y-auto">
-                    <input type="text" hidden wire:model="nim">
                     <form wire:submit="save">
                         <div class="mb-4">
                             <label for="id_semester" class="block text-sm font-medium text-gray-700">Semester</label>
@@ -123,6 +121,4 @@
         // Set the actual model value as the unformatted integer value (without dots or commas)
         @this.set('total_tagihan', value.replace(/\./g, ''));
     }
-
-    
 </script>

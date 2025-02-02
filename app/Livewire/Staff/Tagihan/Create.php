@@ -70,9 +70,16 @@ class Create extends Component
         $semester1 = substr($validatedData['Bulan'], 0, 4);
 
         if (in_array(substr($validatedData['Bulan'], 5, 2), [2, 3, 4, 5, 6, 7, 8])) {
-            $semester = $semester1 . '1';
-        } else {
             $semester = $semester1 . '2';
+            $id = Semester::where('nama_semester', $semester)->value('id_semester');
+        } elseif (in_array(substr($validatedData['Bulan'], 5, 2), [9, 10, 11, 12])) {
+            $semester = (int) $semester1 + 1 . '1';
+            $id = Semester::where('nama_semester', $semester)->value('id_semester');
+        } elseif (substr($validatedData['Bulan'], 5, 2) == 1) {
+            $semester = $semester1 . '1';
+            $id = Semester::where('nama_semester', $semester)->value('id_semester');
+        } else {
+            $this->addError('Bulan', 'Bulan tidak valid');
         }
 
         // Check if the semester exists in the Semester table
@@ -82,7 +89,6 @@ class Create extends Component
             $this->addError('Bulan', 'Tahun ini belum terdaftar sebagai semester');
             return;
         }
-
 
 
         if (!$mahasiswa) {
@@ -108,7 +114,7 @@ class Create extends Component
                 'status_tagihan' => 'Belum Bayar',
                 'Bulan' => $validatedData['Bulan'],
                 'jenis_tagihan' => $validatedData['jenis_tagihan'],
-                'id_semester' => $semester,
+                'id_semester' => $id,
                 'id_staff' => $staff->id_staff,
             ]);
 

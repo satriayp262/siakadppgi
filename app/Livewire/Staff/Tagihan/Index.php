@@ -16,6 +16,9 @@ class Index extends Component
 {
     use WithPagination;
     public $search = '';
+    public $selectedprodi = '';
+    public $selectedSemester = '';
+
 
     #[On('TagihanCreated')]
     public function handletagihanCreated()
@@ -23,19 +26,43 @@ class Index extends Component
         $this->dispatch('created', ['message' => 'Tagihan Berhasil Ditambahkan']);
     }
 
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+
 
     public function render()
     {
-        $mahasiswas = Mahasiswa::with(['tagihan', 'semester', 'prodi'])
-            ->where(function ($query) {
-                $query->where('nama', 'like', '%' . $this->search . '%')
-                    ->orWhere('NIM', 'like', '%' . $this->search . '%');
-            })
-            ->latest()
-            ->paginate(20);
+        $query = Mahasiswa::with('prodi', 'semester');
+
+        if ($this->search) {
+            $query->where('nama', 'like', '%' . $this->search . '%')
+                ->orWhere('NIM', 'like', '%' . $this->search . '%');
+        }
+
+        $Prodis = Prodi::all();
+
+
+        $semesters = Semester::all();
+
+        if ($this->selectedprodi) {
+            $prodi = Prodi::where('nama_prodi', $this->selectedprodi)->first();
+            $query->where('kode_prodi', $prodi->kode_prodi);
+        }
+
+
+        if ($this->selectedSemester) {
+            $semester = Semester::where('nama_semester', $this->selectedSemester)->first();
+            $query->where('mulai_semester', $semester->id_semester);
+        }
+
+
 
         return view('livewire.staff.tagihan.index', [
-            'mahasiswas' => $mahasiswas,
+            'mahasiswas' => $query->latest()->paginate(20),
+            'Prodis' => $Prodis,
+            'semesters' => $semesters,
         ]);
     }
 }

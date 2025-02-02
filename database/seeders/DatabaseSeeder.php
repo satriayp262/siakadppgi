@@ -134,8 +134,51 @@ class DatabaseSeeder extends Seeder
             'nama_semester' => '20222',
             'bulan_mulai' => '2022-02',
             'bulan_selesai' => '2022-08',
+            'is_active' => 0,
+        ]);
+
+        Semester::factory()->create([
+            'nama_semester' => '20231',
+            'bulan_mulai' => '2022-09',
+            'bulan_selesai' => '2023-01',
+            'is_active' => 0,
+        ]);
+
+        Semester::factory()->create([
+            'nama_semester' => '20232',
+            'bulan_mulai' => '2023-02',
+            'bulan_selesai' => '2023-08',
+            'is_active' => 0,
+        ]);
+
+        Semester::factory()->create([
+            'nama_semester' => '20241',
+            'bulan_mulai' => '2023-09',
+            'bulan_selesai' => '2024-01',
+            'is_active' => 0,
+        ]);
+
+        Semester::factory()->create([
+            'nama_semester' => '20242',
+            'bulan_mulai' => '2024-02',
+            'bulan_selesai' => '2024-08',
+            'is_active' => 0,
+        ]);
+
+        Semester::factory()->create([
+            'nama_semester' => '20251',
+            'bulan_mulai' => '2024-09',
+            'bulan_selesai' => '2025-01',
+            'is_active' => 0,
+        ]);
+
+        Semester::factory()->create([
+            'nama_semester' => '20252',
+            'bulan_mulai' => '2025-02',
+            'bulan_selesai' => '2025-08',
             'is_active' => 1,
         ]);
+
 
         $pendidikanList = [
             ['kode_pendidikan_terakhir' => 0, 'nama_pendidikan_terakhir' => 'Tidak sekolah'],
