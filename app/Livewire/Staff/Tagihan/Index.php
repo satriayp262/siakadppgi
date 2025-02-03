@@ -18,6 +18,9 @@ class Index extends Component
     public $search = '';
     public $selectedprodi = '';
     public $selectedSemester = '';
+    public $selectedMahasiswa = [];
+
+    public $showDeleteButton = false;
 
 
     #[On('TagihanCreated')]
@@ -30,6 +33,40 @@ class Index extends Component
     {
         $this->resetPage();
     }
+
+
+
+    public function updatedSelectAll($value)
+    {
+        if ($value) {
+            $this->selectedMahasiswa = Mahasiswa::pluck('id_mahasiswa')->toArray();
+        } else {
+
+            $this->selectedMahasiswa = [];
+        }
+    }
+
+    public function updatedselectedMahasiswa()
+    {
+        $this->showDeleteButton = count($this->selectedMahasiswa) > 0;
+    }
+
+    public function createTagihan()
+    {
+        if (empty($this->selectedMahasiswa)) {
+            session()->flash('message', 'Tidak ada mahasiswa yang dipilih.');
+            return;
+        }
+
+        $Mahasiswa = Mahasiswa::whereIn('id_mahasiswa', $this->selectedMahasiswa)->get();
+
+        // Simpan data mahasiswa ke session sebelum redirect
+        session(['selectedMahasiswa' => $Mahasiswa]);
+
+        return redirect()->route('staff.tagihan.transaksi');
+    }
+
+
 
 
     public function render()

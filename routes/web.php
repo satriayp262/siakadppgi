@@ -154,11 +154,12 @@ Route::middleware(['auth', CheckRole::class . ':dosen', 'verified'])->prefix('do
 // staff
 Route::middleware(['auth', CheckRole::class . ':staff'])->prefix('staff')->group(function () {
     Route::get('/tagihan', App\Livewire\Staff\Tagihan\Index::class)->name('staff.tagihan');
+    Route::get('/tagihan/group-create', App\Livewire\Staff\Tagihan\GroupCreate::class)->name('staff.tagihan.group-create');
     Route::get('/pembayaran', App\Livewire\Staff\Tagihan\Show::class)->name('staff.pembayaran');
     Route::get('/detail/{NIM}', App\Livewire\Staff\Tagihan\Detail::class)->name('staff.detail');
     Route::get('/profil', App\Livewire\Staff\Profil\Index::class)->name('staff.profil');
     Route::get('/dashboard', App\Livewire\Staff\Dashboard\Index::class)->name('staff.dashboard');
-    Route::get('/transaksi', App\Livewire\Staff\Tagihan\Transaksi::class)->name('staff.transaksi');
+    Route::get('/tagihan/transaksi', App\Livewire\Staff\Tagihan\Transaksi::class)->name('staff.tagihan.transaksi');
 });
 
 
@@ -205,9 +206,9 @@ Route::get(
 Route::get(
     '/tambah_ke_kelas',
     function () {
-        $mahasiswaList = Mahasiswa::orderBy('NIM','desc')->get();
-        $exceptions = ['9999999916', '99999999917', '9999999911','9999999912','9999999999','9999999991','9999999995','9999999996']; 
-    
+        $mahasiswaList = Mahasiswa::orderBy('NIM', 'desc')->get();
+        $exceptions = ['9999999916', '99999999917', '9999999911', '9999999912', '9999999999', '9999999991', '9999999995', '9999999996'];
+
         foreach ($mahasiswaList as $mahasiswa) {
             $kelasA = Kelas::where('nama_kelas', 'a')
                 ->where('kode_prodi', $mahasiswa->kode_prodi)
@@ -215,18 +216,18 @@ Route::get(
             $kelasB = Kelas::where('nama_kelas', 'b')
                 ->where('kode_prodi', $mahasiswa->kode_prodi)
                 ->first();
-            
-            if (in_array((string)$mahasiswa->NIM, array_map('strval', $exceptions))) {
+
+            if (in_array((string) $mahasiswa->NIM, array_map('strval', $exceptions))) {
                 $mahasiswa->update(['id_kelas' => $kelasB->id_kelas]);
-            }else{
+            } else {
                 $countInKelasA = Mahasiswa::where('id_kelas', $kelasA->id_kelas)->count();
-    
+
                 if ($countInKelasA < 14) {
                     $mahasiswa->update(['id_kelas' => $kelasA->id_kelas]);
                 } else {
                     $mahasiswa->update(['id_kelas' => $kelasB->id_kelas]);
                 }
-            }            
+            }
         }
 
         dd($mahasiswaList->pluck('id_kelas'));

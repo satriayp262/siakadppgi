@@ -1,4 +1,4 @@
-<div x-data="{ isOpen: false }" @modal-closed.window="isOpen = false">
+<div x-data="{ isOpen: false }"@modal-closed.window="isOpen = false">
     <!-- Button to open the modal -->
     <button @click="isOpen=true"
         class="flex items-center px-4 py-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">

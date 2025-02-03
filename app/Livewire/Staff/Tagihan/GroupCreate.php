@@ -21,6 +21,7 @@ class GroupCreate extends Component
     public $Bulan;
     public $kode_prodi = '';
 
+    public $selectedMahasiswa = [];
 
     public function rules()
     {

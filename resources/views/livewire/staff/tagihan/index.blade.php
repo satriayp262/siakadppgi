@@ -7,6 +7,12 @@
         <div class="flex justify-end space-x-2 mt-2">
             <div class="flex items-start mr-auto">
                 <livewire:staff.tagihan.group-create />
+                @if ($showDeleteButton)
+                    <button id="deleteButton" class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700"
+                        onclick="createTagihan()">
+                        Hapus Data Terpilih
+                    </button>
+                @endif
             </div>
             <button id="dropdownDelayButton" data-dropdown-toggle="dropdownDelay" data-dropdown-delay="500"
                 data-dropdown-trigger="hover"
@@ -122,6 +128,7 @@
         <table class="min-w-full mt-4 bg-white border border-gray-200 ">
             <thead>
                 <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
+                    <th class="px-4 py-2"><input type="checkbox" id="selectAll" wire:model="selectAll"></th>
                     <th class="px-4 py-2 text-center">No.</th>
                     <th class="px-4 py-2 text-center">Nama Mahasiswa</th>
                     <th class="px-4 py-2 text-center">NIM</th>
@@ -134,7 +141,12 @@
                 @foreach ($mahasiswas as $mahasiswa)
                     <tr class="odd:bg-white  even:bg-gray-100 border-t"
                         wire:key="mahasiswa-{{ $mahasiswa->id_mahasiswa }}">
-                        <td class="px-4 py-2 text-center ">{{ $loop->iteration }}</td>
+                        <td class="px-4 py-2 text-center">
+                            <input type="checkbox" class="selectRow" wire:model="selectedMahasiswa"
+                                value="{{ $mahasiswa->id_mahasiswa }}">
+                        </td>
+                        <td class="px-4 py-2 text-center ">
+                            {{ ($mahasiswas->currentPage() - 1) * $mahasiswas->perPage() + $loop->iteration }}</td>
                         <td class="px-4 py-2 text-center">{{ $mahasiswa->nama }}</td>
                         <td class="px-4 py-2 text-center">{{ $mahasiswa->NIM }}</td>
                         <td class="px-4 py-2 text-center">{{ $mahasiswa->semester->nama_semester }}</td>
@@ -149,8 +161,48 @@
         </table>
         <!-- Pagination Controls -->
         <div class="py-8 mt-4 text-center">
+
             {{ $mahasiswas->links('') }}
         </div>
     </div>
 
 </div>
+<script>
+    // Ambil elemen checkbox di header
+    const selectAllCheckbox = document.getElementById('selectAll');
+    const rowCheckboxes = document.querySelectorAll('.selectRow');
+
+    selectAllCheckbox.addEventListener('change', function() {
+        const isChecked = this.checked;
+
+        rowCheckboxes.forEach(function(checkbox) {
+            checkbox.checked = isChecked;
+        });
+
+        @this.set('selectedMahasiswa', isChecked ? [...rowCheckboxes].map(cb => cb.value) : []);
+    });
+
+    rowCheckboxes.forEach(function(checkbox) {
+        checkbox.addEventListener('change', function() {
+            @this.set('selectedMahasiswa', [...rowCheckboxes].filter(cb => cb.checked).map(cb => cb
+                .value));
+        });
+    });
+
+
+    function createTagihan() {
+        const selectedMahasiswa = @this.get('selectedMahasiswa');
+
+        if (selectedMahasiswa.length === 0) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Tidak ada data yang dipilih!',
+                text: 'Silakan pilih data yang ingin dihapus terlebih dahulu.',
+            });
+            return;
+
+        }
+
+        @this.call('createTagihan', selectedMahasiswa);
+    }
+</script>
