@@ -19,8 +19,7 @@ class Index extends Component
     public $selectedprodi = '';
     public $selectedSemester = '';
     public $selectedMahasiswa = [];
-
-    public $showDeleteButton = false;
+    public $showUpdateButton = false;
 
 
     #[On('TagihanCreated')]
@@ -34,7 +33,10 @@ class Index extends Component
         $this->resetPage();
     }
 
-
+    public function updatedselectedMahasiswa()
+    {
+        $this->showUpdateButton = count($this->selectedMahasiswa) > 0;
+    }
 
     public function updatedSelectAll($value)
     {
@@ -46,10 +48,6 @@ class Index extends Component
         }
     }
 
-    public function updatedselectedMahasiswa()
-    {
-        $this->showDeleteButton = count($this->selectedMahasiswa) > 0;
-    }
 
     public function createTagihan()
     {

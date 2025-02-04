@@ -1,17 +1,22 @@
 <div class="mx-5">
     <div class="flex flex-col justify-between mt-2">
-
-
-
         <!-- Modal Form -->
         <div class="flex justify-end space-x-2 mt-2">
             <div class="flex items-start mr-auto">
-                <livewire:staff.tagihan.group-create />
-                @if ($showDeleteButton)
-                    <button id="deleteButton" class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700"
+                @if ($showUpdateButton)
+                    <button id="deleteButton"
+                        class="flex items-center px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
                         onclick="createTagihan()">
-                        Hapus Data Terpilih
+                        <svg class="w-6 h-6 mr-2 text-gray-800 dark:text-white font-black" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none"
+                            viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                                d="M5 12h14m-7 7V5" />
+                        </svg>
+                        Tambah
                     </button>
+                @else
+                    <livewire:staff.tagihan.group-create />
                 @endif
             </div>
             <button id="dropdownDelayButton" data-dropdown-toggle="dropdownDelay" data-dropdown-delay="500"
@@ -29,8 +34,7 @@
                 <ul class="py-2 text-sm text-gray-500" aria-labelledby="dropdownDefaultButton">
                     <li>
                         <button id="doubleDropdownButton" data-dropdown-toggle="doubleDropdown"
-                            data-dropdown-delay="500" data-dropdown-trigger="hover"
-                            data-dropdown-placement="right-start" type="button"
+                            data-dropdown-delay="500" data-dropdown-placement="right-start" type="button"
                             class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100">
                             @if ($selectedSemester)
                                 {{ $selectedSemester }}
@@ -65,8 +69,7 @@
                 <ul class="py-2 text-sm text-gray-500" aria-labelledby="dropdownDefaultButton">
                     <li>
                         <button id="doubleDropdownButton2" data-dropdown-toggle="doubleDropdown2"
-                            data-dropdown-delay="500" data-dropdown-trigger="hover"
-                            data-dropdown-placement="right-start" type="button"
+                            data-dropdown-delay="500" data-dropdown-placement="right-start" type="button"
                             class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100">
                             @if ($selectedprodi)
                                 {{ $selectedprodi }}
@@ -142,7 +145,7 @@
                     <tr class="odd:bg-white  even:bg-gray-100 border-t"
                         wire:key="mahasiswa-{{ $mahasiswa->id_mahasiswa }}">
                         <td class="px-4 py-2 text-center">
-                            <input type="checkbox" class="selectRow" wire:model="selectedMahasiswa"
+                            <input type="checkbox" class="selectRow" wire:model.live="selectedMahasiswa"
                                 value="{{ $mahasiswa->id_mahasiswa }}">
                         </td>
                         <td class="px-4 py-2 text-center ">
@@ -200,9 +203,7 @@
                 text: 'Silakan pilih data yang ingin dihapus terlebih dahulu.',
             });
             return;
-
         }
-
         @this.call('createTagihan', selectedMahasiswa);
     }
 </script>

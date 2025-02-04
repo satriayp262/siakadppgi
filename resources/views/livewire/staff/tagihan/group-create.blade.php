@@ -35,7 +35,7 @@
                                         {{ $semester->nama_semester }}
                                     </option>
                                 @endforeach
-                                {{-- <option value="{{ $mahasiswas->mulai_semester }}"></option> --}}
+                                <option value="all">Semua</option>
                             </select>
                             @error('id_semester')
                                 <span class="text-sm text-red-500">{{ $message }}</span>
@@ -51,8 +51,19 @@
                                 @foreach ($prodis as $prodi)
                                     <option value="{{ $prodi->kode_prodi }}">{{ $prodi->nama_prodi }}</option>
                                 @endforeach
+                                <option value="all">Semua</option>
                             </select>
                             @error('kode_prodi')
+                                <span class="text-sm text-red-500">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="jenis_tagihan" class="block text-sm font-medium text-gray-700">Jenis
+                                Tagihan</label>
+                            <input type="text" id="jenis_tagihan" wire:model="jenis_tagihan" name="jenis_tagihan"
+                                class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm"></input>
+                            @error('Keterangan')
                                 <span class="text-sm text-red-500">{{ $message }}</span>
                             @enderror
                         </div>

@@ -98,13 +98,13 @@ class Create extends Component
 
         // Check if a Tagihan already exists for the current Mahasiswa
         $existingTagihan = Tagihan::where('NIM', $mahasiswa->NIM)
+            ->where('jenis_tagihan', $validatedData['jenis_tagihan'])
             ->where('Bulan', $validatedData['Bulan'])
-            ->where('id_semester', $this->id_semester)
             ->first();
 
-        // If Tagihan exists, add an error
+        // Check if there is already a Tagihan for the Mahasiswa
         if ($existingTagihan) {
-            $this->addError('Bulan', 'Tagihan untuk bulan ini sudah ada untuk mahasiswa ' . $mahasiswa->nama . ' pada semester ' . $mahasiswa->semester->nama_semester);
+            $this->addError('jenis_tagihan', 'Tagihan' . $mahasiswa->tagihan->jenis_tagihan . 'untuk bulan ini sudah ada untuk mahasiswa dengan prodi ' . $mahasiswa->prodi->nama_prodi . ' semester ' . $mahasiswa->semester->nama_semester);
             return;
         } else {
             // Create a new Tagihan if no existing one
