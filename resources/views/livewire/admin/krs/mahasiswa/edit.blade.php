@@ -42,7 +42,16 @@
             <tbody>
                 @foreach ($krsRecords as $index => $item)
                     <tr wire:key="krs-{{ $item['id_krs'] }}">
-                        <td class="px-4 py-2 border">{{ $item['matkul']['nama_mata_kuliah'] }}</td>
+                        <td class="px-4 py-2 border">
+                            <select wire:model="selectedMatkul.{{ $index }}" class="w-full px-2 py-1 border">
+                                <option disabled value="">Pilih Mata Kuliah</option>
+                                @foreach ($matkul as $x)
+                                    <option value="{{ $x['id_mata_kuliah'] }}">
+                                        {{ $x['nama_mata_kuliah'] }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </td>
                         <td class="px-4 py-2 border">{{ $item['matkul']['dosen']['nama_dosen'] }}</td>
                         <td class="px-4 py-2 border">
                             <select wire:model="selectedKelas.{{ $index }}" class="w-full px-2 py-1 border">
@@ -50,7 +59,6 @@
                                 @foreach ($kelas as $k)
                                     <option value="{{ $k['id_kelas'] }}">
                                         {{ $k['nama_kelas'] }}
-                                        ({{ $k['matkul']['dosen']['nama_dosen'] ?? 'Tidak Ada Dosen' }})
                                     </option>
                                 @endforeach
                             </select>
@@ -58,7 +66,7 @@
                         <td class="px-4 py-2 border">
                             <button type="button"
                                 class="inline-block px-4 py-1 text-white bg-red-500 rounded hover:bg-red-700"
-                                onclick="confirmDelete('{{ $item['id_krs'] }}', '{{ $item['kelas']['nama_kelas'] }}')"><svg
+                                onclick="confirmDelete('{{ $item['id_krs'] }}', '{{ $item['matkul']['nama_mata_kuliah'] }}')"><svg
                                     class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
                                     viewBox="0 0 24 24">
@@ -116,9 +124,9 @@
         });
     });
 
-    function confirmDelete(id, nama_kelas) {
+    function confirmDelete(id, nama_matkul) {
         Swal.fire({
-            title: `Apakah anda yakin ingin menghapus KRS kelas ${nama_kelas}?`,
+            title: `Apakah anda yakin ingin menghapus KRS matkul ${nama_matkul}?`,
             text: "Data yang telah dihapus tidak dapat dikembalikan!",
             icon: 'warning',
             showCancelButton: true,

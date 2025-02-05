@@ -24,7 +24,7 @@ class Index extends Component
     {
         $mulai_semester = Mahasiswa::where('NIM', $this->NIM)->first()->mulai_semester;
         $semester = Semester::where('id_semester', '>=', $mulai_semester)
-            ->orderBy('nama_semester', 'desc')
+            ->orderBy('nama_semester', 'asc')
             ->get();
         return view('livewire.admin.krs.mahasiswa.index',[
             'semester' => $semester,

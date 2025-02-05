@@ -1,8 +1,8 @@
 <div class="py-1 mx-5">
     @php
-        $mahasiswaExist = App\Models\Mahasiswa::where('NIM', $this->NIM)->exists();
+        $mahasiswa = App\Models\Mahasiswa::where('NIM', $this->NIM)->first();
     @endphp
-    @if ($mahasiswaExist)
+    @if ($mahasiswa)
         <div class="flex items-center justify-between max-w-full p-4 mt-4 mb-4 space-x-2 bg-white rounded-lg shadow-lg">
             <div class="flex justify-start space-x-2">
                 <div class="flex-col my-2">
@@ -16,9 +16,9 @@
                     <p>:</p>
                 </div>
                 <div class="flex-col my-2">
-                    <p>{{ $this->NIM }}</p>
-                    <p>{{ App\Models\Mahasiswa::where('NIM', $this->NIM)->first()->nama }}</p>
-                    <p>{{ App\Models\Mahasiswa::where('NIM', $this->NIM)->first()->prodi->nama_prodi }}</p>
+                    <p>{{ $mahasiswa->NIM }}</p>
+                    <p>{{ $mahasiswa->nama }}</p>
+                    <p>{{ $mahasiswa->prodi->nama_prodi }}</p>
                 </div>
             </div>
             <div>
@@ -53,13 +53,13 @@
             @foreach ($semester as $x)
                 @php
                     $krs = App\Models\KRS::where('id_semester', $x->id_semester)
-                        ->where('NIM', $this->NIM)
+                        ->where('NIM', $mahasiswa->NIM)
                         ->get();
                 @endphp
                 <div class="max-w-full p-4 mt-4 mb-4 bg-white rounded-lg shadow-lg ">
                     <div class="flex items-center justify-between my-2">
                         <h2>Semester {{ $x->nama_semester }}</h2>
-                        <a href="{{ route('admin.krs.edit', ['semester' => $x->id_semester, 'NIM' => $this->NIM]) }}"
+                        <a href="{{ route('admin.krs.edit', ['semester' => $x->id_semester, 'NIM' => $mahasiswa->NIM]) }}"
                             class="px-3 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"><svg
                                 class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"

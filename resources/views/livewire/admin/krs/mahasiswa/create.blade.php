@@ -25,17 +25,16 @@
                 <div class="p-4 max-h-[500px] overflow-y-auto">
                     <form wire:submit="save">
                         <div class="mb-4">
-                            <label for="nama_prodi" class="block text-sm font-medium text-gray-700">Nama Prodi</label>
-                            <select wire:model.live="id_kelas" class="w-full px-2 py-1 border">
-                                <option disabled value=" ">-- Pilih Kelas --</option>
-                                @foreach ($kelas as $k)
-                                    <option value="{{ $k->id_kelas }}">
-                                        {{ $k->nama_kelas }}
-                                        ({{ $k->matkul->dosen->nama_dosen ?? 'Tidak Ada Dosen' }})
+                            <label class="block text-sm font-medium text-gray-700">Nama Mata Kuliah</label>
+                            <select wire:model.live="id_mata_kuliah" class="w-full px-2 py-1 border">
+                                <option disabled value=" ">-- Pilih Mata Kuliah --</option>
+                                @foreach ($matkul as $k)
+                                    <option value="{{ $k->id_mata_kuliah }}">
+                                        {{ $k->nama_mata_kuliah }}
                                     </option>
                                 @endforeach
                             </select>
-                            @error('id_kelas')
+                            @error('id_mata_kuliah')
                                 <span class="text-sm text-red-500">{{ $message }}</span>
                             @enderror
                         </div>

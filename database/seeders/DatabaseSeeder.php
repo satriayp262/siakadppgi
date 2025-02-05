@@ -455,10 +455,11 @@ class DatabaseSeeder extends Seeder
             ]);
         }
         foreach ($prodiData as $data) {
-            $x = ['a', 'b'];
+            $xx = str_split($data['kode_prodi'],2)[0];
+            $x = ['A/'.$xx.'/21', 'B/'.$xx.'/21'];
             foreach ($x as $y) {
                 Kelas::create([
-                    'id_semester' => 6,
+                    'id_semester' => 3,
                     'nama_kelas' => $y,
                     'kode_prodi' => $data['kode_prodi'],
                     'lingkup_kelas' => fake()->randomElement([1, 2, 3]),
