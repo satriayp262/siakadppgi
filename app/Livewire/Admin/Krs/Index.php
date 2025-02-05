@@ -19,9 +19,12 @@ class Index extends Component
     use WithFileUploads;
     use WithPagination;
 
-    public $file, $importing = false,$id_semester = "semua",$id_prodi = "semua";
+    public $file,$search, $importing = false, $id_semester = "semua", $id_prodi = "semua";
 
-
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
 
     public function import()
     {
@@ -81,41 +84,37 @@ class Index extends Component
     }
     public function export()
     {
-        if($this->id_semester === "semua"){
+        if ($this->id_semester === "semua") {
             $this->id_semester = null;
         }
-        if($this->id_prodi === "semua"){
+        if ($this->id_prodi === "semua") {
             $this->id_prodi = null;
         }
         $nama_semester = Semester::where('id_semester', $this->id_semester)->first()->nama_semester ?? null;
         $nama_prodi = Prodi::where('id_prodi', $this->id_prodi)->first()->nama_prodi ?? null;
         // dd($this->id_semester !== "semua" && $this->id_prodi === "semua");
-        if(!$this->id_semester  && !$this->id_prodi ){
+        if (!$this->id_semester && !$this->id_prodi) {
             $fileName = 'Data KRS ' . now()->format('Y-m-d') . '.xlsx';
-            return Excel::download(new KRSExport(null,null,null), $fileName);
-        }
-        else if($this->id_semester && !$this->id_prodi){
+            return Excel::download(new KRSExport(null, null, null), $fileName);
+        } else if ($this->id_semester && !$this->id_prodi) {
 
-            $fileName = 'Data KRS ' . $nama_semester . ' '. now()->format('Y-m-d') . '.xlsx';
-            return Excel::download(new KRSExport($this->id_semester,null,null), $fileName);
-        }else if(!$this->id_semester && $this->id_prodi){
+            $fileName = 'Data KRS ' . $nama_semester . ' ' . now()->format('Y-m-d') . '.xlsx';
+            return Excel::download(new KRSExport($this->id_semester, null, null), $fileName);
+        } else if (!$this->id_semester && $this->id_prodi) {
 
-            $fileName = 'Data KRS ' . $nama_prodi . ' '. now()->format('Y-m-d') . '.xlsx';
-            return Excel::download(new KRSExport(null,null,$this->id_prodi), $fileName);
-        }else{
-            $fileName = 'Data KRS ' . $nama_semester . ' ' . $nama_prodi . ' '. now()->format('Y-m-d') . '.xlsx';
-            return Excel::download(new KRSExport($this->id_semester,null,$this->id_prodi), $fileName);
+            $fileName = 'Data KRS ' . $nama_prodi . ' ' . now()->format('Y-m-d') . '.xlsx';
+            return Excel::download(new KRSExport(null, null, $this->id_prodi), $fileName);
+        } else {
+            $fileName = 'Data KRS ' . $nama_semester . ' ' . $nama_prodi . ' ' . now()->format('Y-m-d') . '.xlsx';
+            return Excel::download(new KRSExport($this->id_semester, null, $this->id_prodi), $fileName);
         }
-        
+
     }
     public function render()
     {
-        // $mahasiswa = KRS::whereIn('id_krs', function ($query) {
-        //     $query->selectRaw('MIN(id_krs)')
-        //         ->from('krs')
-        //         ->groupBy('nim');
-        // })->paginate(10);
-        $mahasiswa = Mahasiswa::paginate(10);
+        $mahasiswa = Mahasiswa::where('nama', 'like', '%' . $this->search . '%')
+            ->orWhere('nim', 'like', '%' . $this->search . '%') // Search by NIM as well
+            ->paginate(10);
         $semester = Semester::all();
         $prodi = Prodi::all();
 
