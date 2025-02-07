@@ -37,6 +37,7 @@ class Index extends Component
     public function updatedselectedMahasiswa()
     {
         $this->showUpdateButton = count($this->selectedMahasiswa) > 0;
+
     }
 
     public function updatedSelectAll($value)
@@ -44,7 +45,6 @@ class Index extends Component
         if ($value) {
             $this->selectedMahasiswa = Mahasiswa::pluck('id_mahasiswa')->toArray();
         } else {
-
             $this->selectedMahasiswa = [];
         }
     }
