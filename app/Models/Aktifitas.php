@@ -13,6 +13,7 @@ class Aktifitas extends Model
 
     protected $fillable = [
         'nama_aktifitas',
+        'id_mata_kuliah',
         'id_kelas',
         'catatan',
     ];
@@ -21,7 +22,11 @@ class Aktifitas extends Model
     {
         return $this->belongsTo(Kelas::class, 'id_kelas', 'id_kelas');
     }
-    public function createLainnya()
+    public function matkul()
+    {
+        return $this->belongsTo(Matakuliah::class, 'id_mata_kuliah', 'id_mata_kuliah');
+    }
+    public function createLainnya($id_mata_kuliah)
 {
     // Get all classes
     $kelas = Kelas::all();
@@ -29,6 +34,7 @@ class Aktifitas extends Model
     foreach ($kelas as $kelasItem) {
         // Check if 'Lainnya' exists for the current id_kelas
         $exists = self::where('id_kelas', $kelasItem->id_kelas)
+            ->where('id_mata_kuliah', $id_mata_kuliah)
             ->where('nama_aktifitas', 'Lainnya')
             ->exists();
 
@@ -36,6 +42,7 @@ class Aktifitas extends Model
         if (!$exists) {
             self::create([
                 'id_kelas' => $kelasItem->id_kelas,
+                'id_mata_kuliah' => $id_mata_kuliah,
                 'nama_aktifitas' => 'Lainnya',
                 'catatan' => 'Digunakan hanya jika bobot Lainnya lebih dari 0',
             ]);

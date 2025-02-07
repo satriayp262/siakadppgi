@@ -3,14 +3,18 @@
 namespace App\Livewire\Dosen\Aktifitas\Kelas;
 
 use App\Models\Aktifitas;
+use App\Models\Matakuliah;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
 class Edit extends Component
 {
     public $id_aktifitas;
-    public $nama_aktifitas =" ", $id_kelas, $catatan;
-    public function mount(){
+    public $id_mata_kuliah;
+    public $kode_mata_kuliah;
+    public $nama_aktifitas = " ", $id_kelas, $catatan;
+    public function mount()
+    {
         $aktifitas = Aktifitas::find($this->id_aktifitas);
         $this->nama_aktifitas = $aktifitas->nama_aktifitas;
         $this->catatan = $aktifitas->catatan;
@@ -21,9 +25,12 @@ class Edit extends Component
             'nama_aktifitas' => [
                 'required',
                 function ($attribute, $value, $fail) {
-                    if (Aktifitas::where('id_kelas', $this->id_kelas)
-                        ->where('nama_aktifitas', $value)
-                        ->exists()) {
+                    if (
+                        Aktifitas::where('id_kelas', $this->id_kelas)
+                            ->where('nama_aktifitas', $value)
+                            ->where('id_mata_kuliah', $this->id_mata_kuliah)
+                            ->exists()
+                    ) {
                         $fail('Aktifitas ini sudah ada');
                     }
                 },
@@ -38,6 +45,7 @@ class Edit extends Component
         }
         if (in_array($this->nama_aktifitas, ['UTS', 'UAS'])) {
             $exists = Aktifitas::where('id_kelas', $this->id_kelas)
+                ->where('id_mata_kuliah', $this->id_mata_kuliah)
                 ->where('nama_aktifitas', $this->nama_aktifitas)
                 ->where('id_aktifitas', '!=', $this->id_aktifitas)
                 ->exists();
@@ -51,8 +59,9 @@ class Edit extends Component
         if ($aktifitas) {
             $aktifitas->update([
                 'id_kelas' => $this->id_kelas,
+                'id_mata_kuliah' => $this->id_mata_kuliah,                
                 'nama_aktifitas' => $this->nama_aktifitas,
-                'catatan' => $this->catatan ,
+                'catatan' => $this->catatan,
             ]);
         } else {
             throw new \Exception('Aktifitas record not found.');

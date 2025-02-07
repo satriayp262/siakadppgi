@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('id_aktifitas')->primary();
             $table->string('nama_aktifitas');
             $table->string('id_kelas');
+            $table->string('id_mata_kuliah');
             $table->string('catatan')->nullable();
             $table->timestamps();
         });

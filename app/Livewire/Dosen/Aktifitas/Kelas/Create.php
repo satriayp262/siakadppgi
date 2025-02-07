@@ -8,16 +8,18 @@ use Illuminate\Validation\ValidationException;
 
 class Create extends Component
 {
-    public $nama_aktifitas = " ", $id_kelas, $catatan;
+    public $nama_aktifitas = " ", $id_kelas,$id_mata_kuliah, $catatan;
 
     public function save()
     {
+        
         $this->validate([
             'nama_aktifitas' => [
                 'required',
                 function ($attribute, $value, $fail) {
                     if (Aktifitas::where('id_kelas', $this->id_kelas)
                         ->where('nama_aktifitas', $value)
+                        ->where('id_mata_kuliah', $this->id_mata_kuliah)
                         ->exists()) {
                         $fail('Aktifitas ini sudah ada');
                     }
@@ -29,11 +31,13 @@ class Create extends Component
         
 
         $exists = Aktifitas::where('id_kelas', $this->id_kelas)
+            ->where('id_mata_kuliah', $this->id_mata_kuliah)
             ->where('nama_aktifitas', $this->nama_aktifitas)
             ->exists();
 
         if (in_array($this->nama_aktifitas, ['UTS', 'UAS'])) {
             $exists = Aktifitas::where('id_kelas', $this->id_kelas)
+                ->where('id_mata_kuliah', $this->id_mata_kuliah)
                 ->where('nama_aktifitas', $this->nama_aktifitas)
                 ->exists();
 
@@ -51,6 +55,7 @@ class Create extends Component
 
         Aktifitas::create([
             'id_kelas' => $this->id_kelas,
+            'id_mata_kuliah' => $this->id_mata_kuliah,
             'nama_aktifitas' => $this->nama_aktifitas,
             'catatan' => $this->catatan ,
         ]);
