@@ -364,6 +364,7 @@
                         @foreach ($jadwals->where('kode_prodi', $prodi->kode_prodi)->groupBy('id_semester') as $idSemester => $jadwalsBySemester)
                             @php
                                 $previousDay = null;
+                                $previous = null;
                                 $semester = $jadwalsBySemester->first()->semester->nama_semester ?? 'Semester Tidak Diketahui';
                             @endphp
 
@@ -389,6 +390,14 @@
                             @foreach ($jadwalsBySemester as $jadwal)
                                 <tr class="border-t" wire:key="jadwal-{{ $jadwal->id_jadwal }}">
                                     <!-- Tampilkan Hari hanya jika berbeda dari hari sebelumnya -->
+                                    <td class="px-3 py-1 text-center">
+                                        @if ($jadwal->kelas->nama_kelas != $previous)
+                                            {{ $jadwal->kelas->nama_kelas }}
+                                            @php
+                                                $previous = $jadwal->kelas->nama_kelas;
+                                            @endphp
+                                        @endif
+                                    </td>
                                     <td class="px-3 py-1 text-center">
                                         @if ($jadwal->hari != $previousDay)
                                             @switch($jadwal->hari)

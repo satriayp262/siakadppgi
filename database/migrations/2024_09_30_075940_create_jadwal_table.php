@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id('id_jadwal')->autoIncrement()->primary();
             $table->integer('id_kelas');
             $table->string('nidn');
+            $table->integer('id_mata_kuliah');
             $table->string('kode_prodi');
             $table->integer('id_semester');
             $table->date('tanggal')->nullable(); 
