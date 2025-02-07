@@ -3,9 +3,11 @@
 namespace App\Livewire\Khs;
 
 use App\Models\Dosen;
+use App\Models\Kelas;
 use App\Models\KHS;
 use App\Models\KRS;
 use App\Models\Mahasiswa;
+use App\Models\Matakuliah;
 use App\Models\Prodi;
 use App\Models\Semester;
 use Livewire\Component;
@@ -98,24 +100,29 @@ class Index extends Component
 
     public function render()
     {
-        $Mahasiswa = Mahasiswa::join('semester', 'mahasiswa.mulai_semester', '=', 'semester.id_semester')
-            ->join('prodi', 'mahasiswa.kode_prodi', '=', 'prodi.kode_prodi') // Join the 'prodi' table
-            ->orderBy('semester.nama_semester', 'desc')
-            ->select('mahasiswa.*')
-            ->when($this->search, function ($query) {
-                $query->where('mahasiswa.nama', 'like', '%' . $this->search . '%'); // Search filter
-            })
-            ->when($this->prodi, function ($query) {
-                $query->where('prodi.id_prodi', $this->prodi); // Prodi filter
-            })
-            ->paginate(20);
+        // $Mahasiswa = Mahasiswa::join('semester', 'mahasiswa.mulai_semester', '=', 'semester.id_semester')
+        //     ->join('prodi', 'mahasiswa.kode_prodi', '=', 'prodi.kode_prodi') // Join the 'prodi' table
+        //     ->orderBy('semester.nama_semester', 'desc')
+        //     ->select('mahasiswa.*')
+        //     ->when($this->search, function ($query) {
+        //         $query->where('mahasiswa.nama', 'like', '%' . $this->search . '%'); // Search filter
+        //     })
+        //     ->when($this->prodi, function ($query) {
+        //         $query->where('prodi.id_prodi', $this->prodi); // Prodi filter
+        //     })
+        //     ->paginate(20);
 
         $semesterList = Semester::orderBy('nama_semester', 'desc')->take(4)->get();
 
         $prodiList = Prodi::all();
+        
+        //////////////////////////
+        $kelas = Kelas::paginate(10);
+
 
         return view('livewire.khs.index', [
-            'mahasiswa' => $Mahasiswa,
+            // 'mahasiswa' => $Mahasiswa,
+            'kelas'=> $kelas,
             'semesterList' => $semesterList,
             'prodiList' => $prodiList,
         ]);
