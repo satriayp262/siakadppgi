@@ -51,20 +51,16 @@ class Index extends Component
 
     public function createTagihan()
     {
-        if (empty($this->selectedMahasiswa)) {
-            session()->flash('message', 'Tidak ada mahasiswa yang dipilih.');
-            return;
-        }
 
         $Mahasiswa = Mahasiswa::whereIn('id_mahasiswa', $this->selectedMahasiswa)->get();
+
+        dd($Mahasiswa);
 
         // Simpan data mahasiswa ke session sebelum redirect
         session(['selectedMahasiswa' => $Mahasiswa]);
 
         return redirect()->route('staff.tagihan.transaksi');
     }
-
-
 
 
     public function render()

@@ -195,15 +195,6 @@
 
     function createTagihan() {
         const selectedMahasiswa = @this.get('selectedMahasiswa');
-
-        if (selectedMahasiswa.length === 0) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Tidak ada data yang dipilih!',
-                text: 'Silakan pilih data yang ingin dihapus terlebih dahulu.',
-            });
-            return;
-        }
         @this.call('createTagihan', selectedMahasiswa);
     }
 </script>
