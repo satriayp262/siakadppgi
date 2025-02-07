@@ -3,6 +3,7 @@
 namespace App\Imports;
 
 use App\Models\KRS;
+use App\Models\Matakuliah;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -16,13 +17,18 @@ class NilaiImport implements ToModel, WithHeadingRow
     protected $createdRecords = [];
     protected $updatedRecords = [];
     protected $incompleteRecords = [];
-    private $rowNumber = 3;
+    private $rowNumber = 2;
     protected $requiredFields = ['nim'];
-    public $id_kelas;
+    public $id_kelas,$nidn,$kode_mata_kuliah,$id_mata_kuliah;
 
-    public function __construct($id_kelas)
+    public function __construct($id_kelas,$kode_mata_kuliah)
     {
         $this->id_kelas = $id_kelas ?? null;
+        $this->kode_mata_kuliah = $kode_mata_kuliah ?? null;
+        $this->nidn = Auth()->user()->nim_nidn;
+        $this->id_mata_kuliah = Matakuliah::where('nidn', $this->nidn)->where('kode_mata_kuliah', $this->kode_mata_kuliah)->first()->id_mata_kuliah;
+
+
     }
     public function model(array $row)
     {
@@ -50,7 +56,7 @@ class NilaiImport implements ToModel, WithHeadingRow
             $this->rowNumber++;
             return null;
         }
-        if(!KRS::where('NIM', $row['nim'])->where('id_kelas', $this->id_kelas)->exists()){
+        if(!KRS::where('NIM', $row['nim'])->where('id_mata_kuliah', $this->id_mata_kuliah)->exists()){
             $this->incompleteRecords[] =
                 "Mahasiswa dengan NIM {$row['nim']} pada baris ke {$this->rowNumber} tidak terdaftar pada kelas ini <br>";
             $this->rowNumber++;
@@ -79,6 +85,7 @@ class NilaiImport implements ToModel, WithHeadingRow
                 [
                     'nama_aktifitas' => $formattedColumn,
                     'id_kelas' => $this->id_kelas, 
+                    'id_mata_kuliah' => $this->id_mata_kuliah, 
                 ],
                 [
                     'deskripsi' => $formattedColumn, 
