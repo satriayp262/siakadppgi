@@ -18,6 +18,9 @@
                 @else
                     <livewire:staff.tagihan.group-create />
                 @endif
+                @if ($buttontransaksi)
+                    <livewire:staff.tagihan.transaksi :selectedMahasiswa="$selectedMahasiswa" />
+                @endif
             </div>
             <button id="dropdownDelayButton" data-dropdown-toggle="dropdownDelay" data-dropdown-delay="500"
                 data-dropdown-trigger="hover"
