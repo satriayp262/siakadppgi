@@ -18,6 +18,9 @@
                 @else
                     <livewire:staff.tagihan.group-create />
                 @endif
+                @if ($buttontransaksi)
+                    <livewire:staff.tagihan.transaksi :selectedMahasiswa="$selectedMahasiswa" />
+                @endif
             </div>
             <button id="dropdownDelayButton" data-dropdown-toggle="dropdownDelay" data-dropdown-delay="500"
                 data-dropdown-trigger="hover"
@@ -195,15 +198,6 @@
 
     function createTagihan() {
         const selectedMahasiswa = @this.get('selectedMahasiswa');
-
-        if (selectedMahasiswa.length === 0) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Tidak ada data yang dipilih!',
-                text: 'Silakan pilih data yang ingin dihapus terlebih dahulu.',
-            });
-            return;
-        }
         @this.call('createTagihan', selectedMahasiswa);
     }
 </script>

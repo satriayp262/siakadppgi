@@ -21,6 +21,7 @@ class Index extends Component
     public $selectedMahasiswa = [];
     public $showUpdateButton = false;
 
+    public $buttontransaksi = false;
 
     #[On('TagihanCreated')]
     public function handletagihanCreated()
@@ -51,20 +52,15 @@ class Index extends Component
 
     public function createTagihan()
     {
-        if (empty($this->selectedMahasiswa)) {
-            session()->flash('message', 'Tidak ada mahasiswa yang dipilih.');
-            return;
-        }
 
         $Mahasiswa = Mahasiswa::whereIn('id_mahasiswa', $this->selectedMahasiswa)->get();
 
         // Simpan data mahasiswa ke session sebelum redirect
         session(['selectedMahasiswa' => $Mahasiswa]);
+        $this->buttontransaksi = true;
 
-        return redirect()->route('staff.tagihan.transaksi');
+        return $Mahasiswa;
     }
-
-
 
 
     public function render()

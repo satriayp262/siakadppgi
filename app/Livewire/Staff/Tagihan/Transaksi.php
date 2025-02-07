@@ -3,11 +3,13 @@
 namespace App\Livewire\Staff\Tagihan;
 
 use Livewire\Component;
+use App\Models\Prodi;
+use App\Models\Semester;
 
 class Transaksi extends Component
 {
 
-    public $mahasiswas;
+    public $selectedMahasiswa;
 
     public function mount()
     {
@@ -17,8 +19,14 @@ class Transaksi extends Component
 
     public function render()
     {
+        $prodis = Prodi::all();
+
+        $semesters = Semester::all();
+
         return view('livewire.staff.tagihan.transaksi', [
-            'mahasiswas' => $this->mahasiswas
+            'mahasiswas' => $this->mahasiswas,
+            'prodis' => $prodis,
+            'semesters' => $semesters,
         ]);
     }
 }
