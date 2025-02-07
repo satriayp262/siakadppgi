@@ -2,22 +2,23 @@
 
 namespace App\Livewire\Khs;
 
-use App\Models\Kelas;
 use App\Models\KHS;
 use App\Models\KRS;
 use App\Models\Mahasiswa;
 use App\Models\Semester;
 use Livewire\Component;
 
-class Show extends Component
+class Detail extends Component
 {
-    public $nama_kelas,$mahasiswa;
+    public $NIM;
 
     public function mount()
     {
-        
-        $id_kelas = Kelas::where('nama_kelas',  str_replace('-', '/', $this->nama_kelas))->first()->id_kelas;
-        $this->mahasiswa = Mahasiswa::wherein('NIM', KRS::where('id_kelas', $id_kelas)->pluck('NIM'))->get();
+        if (auth()->user()->role == 'mahasiswa') {
+            if (!($this->NIM === auth()->user()->nim_nidn)) {
+                return redirect(route('mahasiswa.khs.show', ['NIM' => auth()->user()->nim_nidn]));
+            }
+        }
     }
     public function calculate($NIM, $id_semester)
     {
@@ -47,10 +48,19 @@ class Show extends Component
 
         $this->dispatch('updatedKHS', ['KHS Berhasil Diupdate']);
     }
-
     public function render()
     {
-        return view('livewire.khs.show', [
+        $semester = Semester::where(
+            'nama_semester',
+            '>=',
+            Semester::where(
+                'id_semester',
+                Mahasiswa::where('NIM', $this->NIM)
+                    ->first()->mulai_semester
+            )->first()->nama_semester
+        )->get();
+        return view('livewire.khs.detail', [
+            'semester' => $semester
         ]);
     }
 }

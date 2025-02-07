@@ -193,8 +193,7 @@
                             {{ ($kelases->currentPage() - 1) * $kelases->perPage() + $loop->iteration }}</td>
                         <td class="px-4 py-2 text-center">{{ $kelas->Semester->nama_semester }}</td>
                         <td class="px-4 py-2 text-center">
-                            {{ $kelas->nama_kelas }} / {{ $kelas->kode_prodi }} /
-                            {{ substr($kelas->Semester->nama_semester, 3, 2) }}
+                            {{ $kelas->nama_kelas }}
                         </td>
                         <td class="px-4 py-2 text-center">{{ $kelas->bahasan }}</td>
                         <td class="px-4 py-2 text-center">

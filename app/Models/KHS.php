@@ -43,9 +43,10 @@ class KHS extends Model
     {
         return $this->belongsTo(Mahasiswa::class, 'NIM', 'NIM');
     }
-    public static function calculateBobot($id_kelas, $NIM)
+    public static function calculateBobot($id_mata_kuliah, $NIM)
     {
-        $kelas = Kelas::find($id_kelas);
+        $matkul = Matakuliah::find($id_mata_kuliah);
+        
         if (!$kelas) {
             throw new \Exception('Kelas not found for the given KHS.');
         }

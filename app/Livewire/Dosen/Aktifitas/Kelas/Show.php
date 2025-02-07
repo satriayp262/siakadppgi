@@ -17,10 +17,8 @@ use Storage;
 class Show extends Component
 {
     use WithFileUploads;
-    public $id_kelas, $kode_mata_kuliah, $CheckDosen = false, $file, $nama_kelas;
-
-
-
+    public $id_kelas, $kode_mata_kuliah, $id_mata_kuliah, $CheckDosen = false, $file, $nama_kelas;
+    
     #[On('aktifitasCreated')]
     public function handleAktifitasCreated()
     {
@@ -33,13 +31,13 @@ class Show extends Component
     }
     public function mount()
     {
+        $this->id_mata_kuliah = Matakuliah::where('kode_mata_kuliah', $this->kode_mata_kuliah)->where('nidn', Auth()->user()->nim_nidn)->first()->id_mata_kuliah;
         $aktifitas = new Aktifitas();
-        $aktifitas->createLainnya();
-
-
+        $aktifitas->createLainnya($this->id_mata_kuliah);
+        
         $this->nama_kelas = kelas::where('id_kelas', $this->id_kelas)->first()->nama_kelas;
-
-        $this->CheckDosen = (Auth()->user()->nim_nidn == Matakuliah::where('id_mata_kuliah', Kelas::where('id_kelas', $this->id_kelas)->first()->id_mata_kuliah)->first()->nidn);
+        
+        $this->CheckDosen = (Matakuliah::where('id_mata_kuliah', $this->id_mata_kuliah)->where('nidn', Auth()->user()->nim_nidn)->exists());
     }
 
     public function destroy($id_aktifitas)
@@ -71,7 +69,7 @@ class Show extends Component
         $skippedRecords = [];
         $createdRecords = [];
 
-        $import = new NilaiImport($this->id_kelas);
+        $import = new NilaiImport($this->id_kelas,$this->kode_mata_kuliah); 
 
         try {
             $excel->import($import, Storage::path($path));
@@ -132,7 +130,22 @@ class Show extends Component
 
     public function render()
     {
-        $aktifitas = Aktifitas::where('id_kelas', $this->id_kelas)->get();
+        $aktifitas = Aktifitas::where('id_kelas', $this->id_kelas)
+    ->where('id_mata_kuliah', $this->id_mata_kuliah)
+    ->orderByRaw("
+        CASE 
+            WHEN nama_aktifitas IN ('UTS', 'UAS', 'Lainnya') THEN 
+                CASE 
+                    WHEN nama_aktifitas = 'UTS' THEN 2
+                    WHEN nama_aktifitas = 'UAS' THEN 3
+                    WHEN nama_aktifitas = 'Lainnya' THEN 4
+                    ELSE 1
+                END
+            ELSE 1
+        END
+    ")
+    ->get();
+
         return view('livewire.dosen.aktifitas.kelas.show', [
             'aktifitas' => $aktifitas
         ]);

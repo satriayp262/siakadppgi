@@ -6,7 +6,7 @@
             class="px-2 ml-4 border border-gray-300 rounded-lg">
         </div> --}}
         <div class="flex space-x-2">
-            <livewire:dosen.aktifitas.kelas.create :$id_kelas />
+            <livewire:dosen.aktifitas.kelas.create :$id_kelas :$id_mata_kuliah />
             <div x-data="{ isOpen: false, load: false }" @modal-closed.window="isOpen = false">
                 <!-- Button to open the modal -->
                 <button @click="isOpen=true; load=true"
@@ -203,7 +203,7 @@
                 </tr>
             </thead>
             <tbody>
-                @if ($this->CheckDosen)
+                @if (true)
                     @foreach ($aktifitas as $item)
                         <tr wire:key="item-{{ $item->id_aktifitas }}">
                             <td class="px-4 py-2 text-center">{{ $item->kelas->nama_kelas }}</td>
@@ -214,7 +214,7 @@
                             <td class="px-4 py-2 text-center">
                                 <div class="flex flex-row">
                                     <div class="flex justify-center w-full space-x-2">
-                                        <livewire:dosen.aktifitas.kelas.edit :id_aktifitas="$item->id_aktifitas" :$id_kelas
+                                        <livewire:dosen.aktifitas.kelas.edit :id_aktifitas="$item->id_aktifitas" :$id_kelas :$id_mata_kuliah
                                             wire:key="edit-{{ $item->id_aktifitas }}">
 
                                             <button
@@ -229,7 +229,7 @@
                                                         d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
                                                 </svg>
                                             </button>
-                                            <a href="{{ route('dosen.aktifitas.kelas.aktifitas', ['kode_mata_kuliah' => $item->kelas->matkul->kode_mata_kuliah, 'id_kelas' => $item->id_kelas, 'nama_aktifitas' => $item->nama_aktifitas]) }}"
+                                            <a href="{{ route('dosen.aktifitas.kelas.aktifitas', ['kode_mata_kuliah' => $this->kode_mata_kuliah, 'id_kelas' => $item->id_kelas, 'nama_aktifitas' => $item->nama_aktifitas]) }}"
                                                 class="py-2 px-5 bg-blue-500 hover:bg-blue-700 rounded">
                                                 <p>▶</p>
                                             </a>

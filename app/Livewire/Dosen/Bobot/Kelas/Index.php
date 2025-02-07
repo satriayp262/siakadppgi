@@ -9,6 +9,7 @@ use Livewire\Component;
 use App\Models\Matakuliah;
 use App\Models\Kelas;
 use Livewire\Attributes\On;
+use Livewire\WithPagination;
 
 class Index extends Component
 {
@@ -26,24 +27,14 @@ class Index extends Component
     {
         $this->url = request()->url();
 
-        // matkul berdasar kode dan dosen
         $mataKuliah = MataKuliah::where('nidn', Auth()->user()->nim_nidn)->where('kode_mata_kuliah', $this->kode_mata_kuliah)->first();
 
-        //cari seluruh krs pada prodi ini dan matkul ini
-        $krsEntries = KRS::where('id_mata_kuliah', $mataKuliah->id_mata_kuliah)->where('id_prodi',$mataKuliah->prodi->id_prodi)->pluck('NIM');
+        $kelasEntries = KRS::where('id_mata_kuliah', $mataKuliah->id_mata_kuliah)->distinct()->pluck('id_kelas');
 
-        //ambil seluruh kelas berdasar array nim
-        $kelas = Kelas::whereIn('id_kelas', function ($query) use ($krsEntries) {
-            $query->select('id_kelas')
-                ->from('mahasiswa')
-                ->whereIn('NIM', $krsEntries);
-        })
-        ->with(['prodi', 'semester'])
+        $kelas = Kelas::whereIn('id_kelas', $kelasEntries )
         ->distinct()
-        ->get();
+        ->paginate(10);
         
-
-        // dd($kelas);
         return view('livewire.dosen.bobot.kelas.index', [
             'kelas' => $kelas
         ]);
