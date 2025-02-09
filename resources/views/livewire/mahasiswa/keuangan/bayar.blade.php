@@ -1,22 +1,3 @@
-<?php
-$bulan = substr($tagihan->Bulan, 5, 2);
-$namaBulan = [
-    '01' => 'Januari',
-    '02' => 'Februari',
-    '03' => 'Maret',
-    '04' => 'April',
-    '05' => 'Mei',
-    '06' => 'Juni',
-    '07' => 'Juli',
-    '08' => 'Agustus',
-    '09' => 'September',
-    '10' => 'Oktober',
-    '11' => 'November',
-    '12' => 'Desember',
-][$bulan];
-$tahun = substr($tagihan->Bulan, 0, 4);
-?>
-
 <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg size-fit justify-center mx-auto">
     <div class="flex flex-col items-center">
         <div class="border-b pb-4">
@@ -31,8 +12,8 @@ $tahun = substr($tagihan->Bulan, 0, 4);
                 <tr>
                     <td class="font-medium text-left w-1/3">Tagihan</td>
                     <td class="text-center w-1/12">:</td>
-                    <td class="font-semibold text-gray-800 ">BPP Bulan {{ $namaBulan }} {{ $tahun }}
-                    </td>
+                    <td class="font-semibold text-gray-800 ">{{ $tagihan->jenis_tagihan }}</td>
+
                 </tr>
                 <!-- Atas Nama -->
                 <tr>

@@ -42,24 +42,15 @@ class Berhasil extends Component
         // Periksa apakah sudah lunas
         if ($tagihan->total_bayar == $tagihan->total_tagihan) {
             $tagihan->status_tagihan = 'Lunas';
-        } else {
-            // Logika cicilan
-            if (strpos($tagihan->metode_pembayaran, 'Cicil') !== false) {
-                $maxCicilan = (int) filter_var($tagihan->metode_pembayaran, FILTER_SANITIZE_NUMBER_INT);
-                if ($tagihan->cicilan_ke < $maxCicilan) {
-                    $tagihan->cicilan_ke++;
-                    $tagihan->status_tagihan = 'Belum Lunas';
-                } else {
-                    $tagihan->status_tagihan = 'Lunas';
-                }
-            } elseif ($tagihan->metode_pembayaran === 'Bayar Penuh') {
-                $tagihan->status_tagihan = 'Lunas';
-            }
         }
-
         if ($tagihan->status_tagihan == 'Lunas') {
-            $tagihan->no_kwitansi = 'BPP-' . date('Ymd') . '-' . $tagihan->id_tagihan;
+            // Generate nomor kwitansi
+            $tagihan->no_kwitansi = rand();
 
+            // Pastikan kwitansi unik
+            while (Tagihan::where('no_kwitansi', $tagihan->no_kwitansi)->exists()) {
+                $tagihan->no_kwitansi = rand();
+            }
         }
 
         $tagihan->save();

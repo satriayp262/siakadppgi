@@ -14,14 +14,9 @@ use Illuminate\Support\Facades\Crypt;
 
 class Index extends Component
 {
-
     public $id_tagihan;
     public $snapToken;
-
     public $tagihan;
-
-
-
 
     public function bayar($id_tagihan, $metode_pembayaran)
     {
@@ -36,29 +31,8 @@ class Index extends Component
         }
 
         // Tentukan metode pembayaran dan hitung nominal
-        $nominal = 0;
-        switch ($metode_pembayaran) {
-            case 'Bayar Penuh':
-                $nominal = $tagihan->total_tagihan;
-                $tagihan->metode_pembayaran = 'Bayar Penuh';
-                break;
-
-            case 'Cicil 2x':
-                $nominal = ceil($tagihan->total_tagihan / 2 / 1000) * 1000;
-                $tagihan->metode_pembayaran = 'Cicil 2x';
-                break;
-
-            case 'Cicil 3x':
-                $nominal = ceil($tagihan->total_tagihan / 3 / 1000) * 1000;
-                $tagihan->metode_pembayaran = 'Cicil 3x';
-                break;
-
-            default:
-                session()->flash('message', 'Metode pembayaran tidak valid.');
-                session()->flash('message_type', 'error');
-                return;
-        }
-
+        $nominal = $tagihan->total_tagihan;
+        $tagihan->metode_pembayaran = 'Bayar Penuh';
         $tagihan->save();
 
         // Konfigurasi Midtrans
