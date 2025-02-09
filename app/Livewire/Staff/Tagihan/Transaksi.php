@@ -92,7 +92,7 @@ class Transaksi extends Component
 
             // Check if there is already a Tagihan for the Mahasiswa
             if ($existingTagihan) {
-                $this->addError('Bulan', 'Tagihan untuk bulan ini sudah ada untuk mahasiswa dengan prodi ' . $mhs->prodi->nama_prodi . ' semester ' . $mhs->semester->nama_semester);
+                $this->addError('jenis_tagihan', 'Tagihan untuk bulan ini sudah ada untuk mahasiswa dengan prodi ' . $mhs->prodi->nama_prodi . ' semester ' . $mhs->semester->nama_semester);
                 return;
             } else {
                 // Create a new Tagihan for the Mahasiswa
@@ -105,13 +105,12 @@ class Transaksi extends Component
                     'id_semester' => $id,
                     'id_staff' => $staff->id_staff,
                 ]);
-                $this->dispatch('TagihanCreated');
-                Mail::to($mhs->email)->send(new TagihanMail($tagihan));
+                $this->dispatch('TagihanAdded');
+                // Mail::to($mhs->email)->send(new TagihanMail($tagihan));
             }
         }
         $this->reset(['total_tagihan', 'jenis_tagihan', 'Bulan']);
-        return $tagihan ?? null;
-
+        return $tagihan;
     }
 
     public function render()

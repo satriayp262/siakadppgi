@@ -57,7 +57,7 @@
                         <th class="px-4 py-2 text-center">No.</th>
                         <th class="px-4 py-2 text-center">Semester</th>
                         <th class="px-4 py-2 text-center">Bulan</th>
-                        <th class="px-4 py-2 text-center">Tahun</th>
+                        <th class="px-4 py-2 text-center">Jenis Tagihan</th>
                         <th class="px-4 py-2 text-center">Tagihan</th>
                         <th class="px-4 py-2 text-center">Status</th>
                         <th class="px-4 py-2 text-center">Jumlah Pembayaran</th>
@@ -90,7 +90,7 @@
                                 {{ $namaBulan }}
                             </td>
                             <td class="px-4 py-2 text-center">
-                                {{ substr($tagihan->Bulan, 0, 4) }}
+                                {{ $tagihan->jenis_tagihan }}
                             </td>
                             <td class="px-4 py-2 text-center italic font-semibold">
                                 @php
@@ -102,7 +102,7 @@
                             <td class="px-4 py-2 text-center">
                                 @php
                                     $status = [
-                                        'Belum Lunas' => 'bg-red-100 text-red-800',
+                                        'Belum Bayar' => 'bg-red-100 text-red-800',
                                         'Lunas' => 'bg-blue-400 text-white px-2 py-0.5 rounded-full',
                                     ];
                                     $status = $status[$tagihan->status_tagihan] ?? 'bg-gray-500';
@@ -119,7 +119,7 @@
                                 {{ $formattedTotalBayar }}
                             </td>
                             <td class="px-4 py-2 text-center justify-items-center">
-                                @if ($tagihan->status_tagihan === 'Belum Lunas')
+                                @if ($tagihan->status_tagihan === 'Belum Bayar')
                                     <livewire:staff.tagihan.update :id_tagihan="$tagihan->id_tagihan"
                                         wire:key="edit-{{ $tagihan->id_tagihan }}" />
                                 @elseif ($tagihan->status_tagihan === 'Lunas')

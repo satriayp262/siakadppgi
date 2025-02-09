@@ -20,13 +20,19 @@ class Index extends Component
     public $selectedSemester = '';
     public $selectedMahasiswa = [];
     public $showUpdateButton = false;
-
     public $buttontransaksi = false;
 
     #[On('TagihanCreated')]
     public function handletagihanCreated()
     {
         $this->dispatch('created', ['message' => 'Tagihan Berhasil Ditambahkan']);
+    }
+
+    #[On('TagihanAdded')]
+    public function handletagihanAdded()
+    {
+        $this->dispatch('created', ['message' => 'Tagihan Berhasil Ditambahkan']);
+        return redirect()->route('staff.tagihan');
     }
 
     public function updatedSearch()
@@ -37,7 +43,6 @@ class Index extends Component
     public function updatedselectedMahasiswa()
     {
         $this->showUpdateButton = count($this->selectedMahasiswa) > 0;
-
     }
 
     public function updatedSelectAll($value)
@@ -57,6 +62,7 @@ class Index extends Component
 
         // Simpan data mahasiswa ke session sebelum redirect
         session(['selectedMahasiswa' => $Mahasiswa]);
+
         $this->buttontransaksi = true;
 
         return $Mahasiswa;
