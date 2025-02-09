@@ -148,11 +148,10 @@
         <table class="w-full mt-4 bg-white border border-gray-200">
             <thead>
                 <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
+                    <th class="px-3 py-2 text-center">Kelas</th>
                     <th class="px-3 py-2 text-center">Hari</th>
                     <th class="px-3 py-2 text-center">Sesi</th>
-                    <th class="px-3 py-2 text-center">Tanggal Ujian</th>
-                    <th class="px-3 py-2 text-center">Jenis Ujian</th>
-                    <th class="px-3 py-2 text-center">Kelas</th>
+                    <th class="px-3 py-2 text-center">Mata Kuliah</th>
                     <th class="px-3 py-2 text-center">Dosen</th>
                     <th class="px-3 py-2 text-center">Ruangan</th>
                     <th class="px-3 py-2 text-center">Aksi</th>
@@ -413,7 +412,7 @@
                                         @endif
                                     </td>
                                     <td class="px-3 py-1 text-center">{{ $jadwal->sesi }}</td>
-                                    @if ($jadwal->tanggal == null)
+                                    {{-- @if ($jadwal->tanggal == null)
                                         <td class="px-3 py-1 text-center">Belum ada tanggal Ujian</td>
                                     @else
                                         <td class="px-3 py-1 text-center">{{ \Carbon\Carbon::parse($jadwal->tanggal)->locale('id')->isoFormat('D MMMM YYYY') }}</td>
@@ -422,8 +421,8 @@
                                         <td class="px-3 py-1 text-center">Belum ada jenis Ujian</td>
                                     @else
                                         <td class="px-3 py-1 text-center">{{ $jadwal->jenis_ujian }}</td>
-                                    @endif
-                                    <td class="px-3 py-1 text-center">{{ $jadwal->kelas->nama_kelas }}</td>
+                                    @endif --}}
+                                    <td class="px-3 py-1 text-center">{{ $jadwal->matakuliah->nama_mata_kuliah }}</td>
                                     <td class="px-3 py-1 text-center">{{ $jadwal->dosen->nama_dosen }}</td>
                                     @if ($jadwal->id_ruangan == 'Online')
                                         <td class="px-3 py-1 text-center">Online</td>  

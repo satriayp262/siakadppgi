@@ -138,95 +138,67 @@ class Index extends Component
 
         foreach ($kelasByProdi as $prodi => $kelasList) {
             foreach ($kelasList as $kelas) {
+                $kelasSchedule = []; // Menyimpan jumlah mata kuliah per hari
+
                 foreach (Matakuliah::where('kode_prodi', $kelas->kode_prodi)->get() as $matkul) {
-                    $slotIndex = 0;
-                    $dayIndex = 0;
-                    $dayRuangan = 0;
+                    foreach ($days as $day) {
+                        // Batasi maksimal 3 mata kuliah per hari per kelas
+                        $existingMatkulCount = Jadwal::where('id_kelas', $kelas->id_kelas)
+                            ->where('hari', $day)
+                            ->count();
 
-                    while (true) {
-                        $day = $days[$dayIndex];
-                        $timeSlot = $timeSlots[$slotIndex];
-                        $jumlahMahasiswa = KRS::where('id_kelas', $kelas->id_kelas)->count();
-
-                        $ruangan = null;
-                        $roomFound = false;
-
-                        if ($kelas->mode_kuliah == 'O') {
-                            $ruangan = 'Online';
-                            $roomFound = true;
+                        if ($existingMatkulCount >= 3) {
+                            continue;
                         }
 
-                        while (!$roomFound) {
-                            $currentDay = $days[$dayRuangan];
-                            foreach ($ruanganList as $room) {
-                                $isRoomAvailable = !Jadwal::where('hari', $currentDay)
-                                    ->where('id_ruangan', $room->id_ruangan)
-                                    ->where(function ($query) use ($timeSlot) {
-                                        $query->whereBetween('jam_mulai', [$timeSlot['jam_mulai'], $timeSlot['jam_selesai']])
-                                            ->orWhereBetween('jam_selesai', [$timeSlot['jam_mulai'], $timeSlot['jam_selesai']])
-                                            ->orWhere(function ($query) use ($timeSlot) {
-                                                $query->where('jam_mulai', '<=', $timeSlot['jam_mulai'])
-                                                    ->where('jam_selesai', '>=', $timeSlot['jam_selesai']);
-                                            });
-                                    })->exists();
+                        foreach ($timeSlots as $timeSlot) {
+                            // Cek apakah sesi ini sudah digunakan dalam kelas
+                            $conflict = Jadwal::where('id_kelas', $kelas->id_kelas)
+                                ->where('sesi', $timeSlot['sesi'])
+                                ->exists();
 
-                                if ($room->kapasitas >= $jumlahMahasiswa && $isRoomAvailable) {
-                                    $ruangan = $room;
-                                    $roomFound = true;
-                                    break;
+                            if (!$conflict) {
+                                // Cek apakah ruangan tersedia
+                                $jumlahMahasiswa = KRS::where('id_kelas', $kelas->id_kelas)->count();
+                                $ruangan = null;
+
+                                if ($kelas->mode_kuliah == 'O') {
+                                    $ruangan = 'Online';
+                                } else {
+                                    foreach ($ruanganList as $room) {
+                                        $isRoomAvailable = !Jadwal::where('hari', $day)
+                                            ->where('id_ruangan', $room->id_ruangan)
+                                            ->where(function ($query) use ($timeSlot) {
+                                                $query->whereBetween('jam_mulai', [$timeSlot['jam_mulai'], $timeSlot['jam_selesai']])
+                                                    ->orWhereBetween('jam_selesai', [$timeSlot['jam_mulai'], $timeSlot['jam_selesai']])
+                                                    ->orWhere(function ($query) use ($timeSlot) {
+                                                        $query->where('jam_mulai', '<=', $timeSlot['jam_mulai'])
+                                                            ->where('jam_selesai', '>=', $timeSlot['jam_selesai']);
+                                                    });
+                                            })->exists();
+
+                                        if ($room->kapasitas >= $jumlahMahasiswa && $isRoomAvailable) {
+                                            $ruangan = $room;
+                                            break;
+                                        }
+                                    }
                                 }
-                            }
 
-                            if (!$roomFound) {
-                                $dayRuangan++;
-                                if ($dayRuangan >= count($days)) {
-                                    $dayRuangan = 0;
+                                if ($ruangan) {
+                                    Jadwal::create([
+                                        'id_kelas' => $kelas->id_kelas,
+                                        'id_mata_kuliah' => $matkul->id_mata_kuliah,
+                                        'nidn' => $matkul->nidn,
+                                        'kode_prodi' => $prodi,
+                                        'id_semester' => $this->Semester,
+                                        'hari' => $day,
+                                        'jam_mulai' => $timeSlot['jam_mulai'],
+                                        'jam_selesai' => $timeSlot['jam_selesai'],
+                                        'sesi' => $timeSlot['sesi'],
+                                        'id_ruangan' => ($ruangan == 'Online') ? 'Online' : $ruangan->id_ruangan,
+                                    ]);
+                                    break 2; // Berhenti setelah satu mata kuliah dijadwalkan
                                 }
-
-                                if ($dayRuangan == $dayIndex) {
-                                    break;
-                                }
-                            }
-                        }
-
-                        if (!$roomFound) {
-                            $this->dispatch('warning', ['message' => 'Ruangan tidak tersedia untuk kelas ' . $kelas->kelas]);
-                            break;
-                        }
-
-                        $conflict = Jadwal::where('hari', $day)
-                            ->where('sesi', $timeSlot['sesi'])
-                            ->where(function ($query) use ($matkul) {
-                                $query->where('id_mata_kuliah', $matkul->id_mata_kuliah)
-                                    ->orWhere('nidn', $matkul->nidn);
-                            })
-                            ->exists();
-
-                        if (!$conflict) {
-                            $idRuangan = ($ruangan == 'Online') ? 'Online' : $ruangan->id_ruangan;
-
-                            Jadwal::create([
-                                'id_kelas' => $kelas->id_kelas,
-                                'id_mata_kuliah' => $matkul->id_mata_kuliah,
-                                'nidn' => $matkul->nidn,
-                                'kode_prodi' => $prodi,
-                                'id_semester' => $this->Semester,
-                                'hari' => $day,
-                                'jam_mulai' => $timeSlot['jam_mulai'],
-                                'jam_selesai' => $timeSlot['jam_selesai'],
-                                'sesi' => $timeSlot['sesi'],
-                                'id_ruangan' => $idRuangan,
-                            ]);
-
-                            break;
-                        }
-
-                        $slotIndex++;
-                        if ($slotIndex >= count($timeSlots)) {
-                            $slotIndex = 0;
-                            $dayIndex++;
-                            if ($dayIndex >= count($days)) {
-                                $dayIndex = 0;
                             }
                         }
                     }
@@ -236,6 +208,8 @@ class Index extends Component
 
         $this->dispatch('created', ['message' => 'Jadwal Created Successfully']);
     }
+
+
 
 
     public function destroy2()
@@ -269,10 +243,8 @@ class Index extends Component
 
     public function render()
     {
-        $jadwals = Jadwal::orderByRaw("
-            FIELD(hari, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')
-        ")
-            ->orderBy('sesi', 'asc')
+        $jadwals = Jadwal::orderBy('id_kelas', direction: 'asc')
+            ->orderBy(column: 'sesi', direction: 'asc')
             ->get();
 
         if ($this->semesterfilter) {
