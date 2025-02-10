@@ -50,7 +50,7 @@ class Create extends Component
         $mahasiswa = Mahasiswa::where('NIM', $nim)->first();
 
         // Set the id_semester from the Mahasiswa object
-        $this->id_semester = $mahasiswa ? $mahasiswa->mulai_semester : null;
+        $this->id_semester = $mahasiswa?->mulai_semester;
     }
 
 
@@ -70,13 +70,13 @@ class Create extends Component
         $semester1 = substr($validatedData['Bulan'], 0, 4);
 
         if (in_array(substr($validatedData['Bulan'], 5, 2), [2, 3, 4, 5, 6, 7, 8])) {
-            $semester = $semester1 . '2';
+            $semester = "{$semester1}2";
             $id = Semester::where('nama_semester', $semester)->value('id_semester');
         } elseif (in_array(substr($validatedData['Bulan'], 5, 2), [9, 10, 11, 12])) {
             $semester = (int) $semester1 + 1 . '1';
             $id = Semester::where('nama_semester', $semester)->value('id_semester');
         } elseif (substr($validatedData['Bulan'], 5, 2) == 1) {
-            $semester = $semester1 . '1';
+            $semester = "{$semester1}1";
             $id = Semester::where('nama_semester', $semester)->value('id_semester');
         } else {
             $this->addError('Bulan', 'Bulan tidak valid');
@@ -92,7 +92,7 @@ class Create extends Component
 
 
         if (!$mahasiswa) {
-            $this->addError('NIM', 'Mahasiswa dengan NIM ' . $this->nim . ' tidak ditemukan.');
+            $this->addError('NIM', "Mahasiswa dengan NIM {$this->nim} tidak ditemukan.");
             return;
         }
 
@@ -104,7 +104,7 @@ class Create extends Component
 
         // Check if there is already a Tagihan for the Mahasiswa
         if ($existingTagihan) {
-            $this->addError('jenis_tagihan', 'Tagihan' . $mahasiswa->tagihan->jenis_tagihan . 'untuk bulan ini sudah ada untuk mahasiswa dengan prodi ' . $mahasiswa->prodi->nama_prodi . ' semester ' . $mahasiswa->semester->nama_semester);
+            $this->addError('Bulan', "Tagihan untuk bulan ini sudah ada untuk mahasiswa dengan prodi {$mahasiswa->prodi->nama_prodi} semester {$mahasiswa->semester->nama_semester}");
             return;
         } else {
             // Create a new Tagihan if no existing one

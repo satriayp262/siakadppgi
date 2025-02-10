@@ -7,7 +7,7 @@
             <!-- Modal Header -->
             <div class="flex items-center justify-between p-4 bg-gray-200 rounded-t-lg">
                 <h3 class="text-xl font-semibold">Buat Tagihan Group</h3>
-                <div @click="isOpen=false" class="px-3 rounded-sm shadow hover:bg-red-500">
+                <div @click="isOpen=false; window.location.reload();" class="px-3 rounded-sm shadow hover:bg-red-500">
                     <button class="text-gray-900">&times;</button>
                 </div>
             </div>
@@ -59,7 +59,7 @@
 
                         <!-- Submit Button inside the form -->
                         <div class="flex justify-end p-4 bg-gray-200 rounded-b-lg">
-                            <button type="button" @click="isOpen = false"
+                            <button type="button" @click="isOpen = false; window.location.reload();"
                                 class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">Close</button>
                             <button type="submit"
                                 class="px-4 py-2 ml-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">Submit</button>

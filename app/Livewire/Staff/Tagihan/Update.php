@@ -64,8 +64,16 @@ class Update extends Component
         $staff = Staff::where('nip', $user->nim_nidn)->first();
         $this->id_staff = $staff->id_staff;
 
+        $this->tagihan->no_kwitansi = rand();
+
+        // Pastikan kwitansi unik
+        while (Tagihan::where('no_kwitansi', $this->tagihan->no_kwitansi)->exists()) {
+            $this->tagihan->no_kwitansi = rand();
+        }
+
         $this->tagihan->update([
             'total_bayar' => $this->tagihan->total_bayar ? $this->tagihan->total_bayar + $total_tagihan_cleaned : $total_tagihan_cleaned,
+            'metode_pembayaran' => 'Tunai',
             'status_tagihan' => $total_tagihan_cleaned == $this->total_tagihan ? 'Lunas' : 'Belum Lunas',
             'id_staff' => $this->id_staff,
         ]);

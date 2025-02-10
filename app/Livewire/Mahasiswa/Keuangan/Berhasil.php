@@ -45,6 +45,7 @@ class Berhasil extends Component
         }
         if ($tagihan->status_tagihan == 'Lunas') {
             // Generate nomor kwitansi
+            $tagihan->metode_pembayaran = 'Midtrans Payment';
             $tagihan->no_kwitansi = rand();
 
             // Pastikan kwitansi unik

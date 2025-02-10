@@ -119,13 +119,12 @@
                                 {{ $formattedTotalBayar }}
                             </td>
                             <td class="px-4 py-2 text-center justify-items-center">
-                                @if ($tagihan->status_tagihan === 'Belum Bayar')
+                                @if ($tagihan->status_tagihan == 'Belum Bayar')
                                     <livewire:staff.tagihan.update :id_tagihan="$tagihan->id_tagihan"
                                         wire:key="edit-{{ $tagihan->id_tagihan }}" />
-                                @elseif ($tagihan->status_tagihan === 'Lunas')
-                                    <livewire:staff.tagihan.transaksi :id_tagihan="$tagihan->id_tagihan"
-                                        wire:key="edit-{{ $tagihan->id_tagihan }}" />
+                                @else
                                 @endif
+
                             </td>
 
 
