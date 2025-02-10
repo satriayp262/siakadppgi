@@ -88,7 +88,7 @@ class NilaiImport implements ToModel, WithHeadingRow
                     'id_mata_kuliah' => $this->id_mata_kuliah, 
                 ],
                 [
-                    'deskripsi' => $formattedColumn, 
+                    'catatan' => $formattedColumn, 
                 ]
             );
         
