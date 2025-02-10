@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -43,71 +44,86 @@ class KHS extends Model
     {
         return $this->belongsTo(Mahasiswa::class, 'NIM', 'NIM');
     }
-    public static function calculateBobot($id_mata_kuliah, $NIM)
+    public static function calculateBobot($id_semester, $NIM, $id_mata_kuliah, $id_kelas)
     {
-        $matkul = Matakuliah::find($id_mata_kuliah);
-        
-        if (!$kelas) {
-            throw new \Exception('Kelas not found for the given KHS.');
+
+        $krsEntries = KRS::where('NIM', $NIM)
+            ->where('id_semester', $id_semester)
+            ->get();
+
+        if ($krsEntries->isEmpty()) {
+            throw new \Exception('KRS entries not found for the given NIM and semester.');
+        }
+        $cek = 1;
+
+        $matkul = matakuliah::where('id_mata_kuliah', $id_mata_kuliah)->first();
+
+        if (!$matkul) {
+            throw new \Exception('Matakuliah not found for the given KHS.');
         }
 
-        $bobotTugas = $kelas->tugas ?? 0;
-        $bobotUTS = $kelas->uts ?? 0;
-        $bobotUAS = $kelas->uas ?? 0;
-        $bobotLainnya = $kelas->lainnya ?? 0;
+        $bobot = Bobot::firstOrCreate([
+            'id_kelas' => $id_kelas,
+            'id_mata_kuliah' => $id_mata_kuliah
+        ]);
+        $bobotTugas = $bobot->tugas ?? 0;
+        $bobotUTS = $bobot->uts ?? 0;
+        $bobotUAS = $bobot->uas ?? 0;
+        $bobotLainnya = $bobot->lainnya ?? 0;
 
         $totalWeight = $bobotTugas + $bobotUTS + $bobotUAS + $bobotLainnya;
 
-        if ($totalWeight != 100) {
+        if ($totalWeight != 100 && $totalWeight != 0) {
             $bobotTugas = ($bobotTugas / $totalWeight) * 100;
             $bobotUTS = ($bobotUTS / $totalWeight) * 100;
             $bobotUAS = ($bobotUAS / $totalWeight) * 100;
             $bobotLainnya = ($bobotLainnya / $totalWeight) * 100;
         }
 
-        $totalBobot = 0;
+        $aktifitas = Aktifitas::where('id_kelas', $id_kelas)
+            ->where('id_mata_kuliah', $matkul->id_mata_kuliah)->get();
 
-        $nilaiUTS = Nilai::where('NIM', $NIM)
-            ->where('id_kelas', $kelas->id_kelas)
-            ->whereHas('aktifitas', fn($query) => $query->where('nama_aktifitas', 'UTS'))
-            ->first();
-
-        if ($nilaiUTS) {
-            $totalBobot += ($nilaiUTS->nilai / 100) * 4.00 * ($bobotUTS / 100);
+        if ($aktifitas->isEmpty()) {
+            return 0;
         }
 
-        $nilaiUAS = Nilai::where('NIM', $NIM)
-            ->where('id_kelas', $kelas->id_kelas)
-            ->whereHas('aktifitas', fn($query) => $query->where('nama_aktifitas', 'UAS'))
-            ->first();
+        $TotalNilai = $NilaiUAS = $NilaiUTS = $NilaiLainnya = $JumlahnilaiTugas = $JumlahTugas = 0;
 
-        if ($nilaiUAS) {
-            $totalBobot += ($nilaiUAS->nilai / 100) * 4.00 * ($bobotUAS / 100);
+        foreach ($aktifitas as $y) {
+            $nilai = Nilai::where('NIM', $NIM)
+                ->where('id_aktifitas', $y->id_aktifitas)
+                ->value('nilai') ?? 0;
+
+            switch ($y->nama_aktifitas) {
+                case 'UAS':
+                    $NilaiUAS = $nilai;
+                    break;
+                case 'UTS':
+                    $NilaiUTS = $nilai;
+                    break;
+                case 'Lainnya':
+                    $NilaiLainnya = $nilai;
+                    break;
+                default:
+                    $JumlahTugas++;
+                    $JumlahnilaiTugas += $nilai;
+                    break;
+            }
         }
 
-        $nilaiLainnya = Nilai::where('NIM', $NIM)
-            ->where('id_kelas', $kelas->id_kelas)
-            ->whereHas('aktifitas', fn($query) => $query->where('nama_aktifitas', 'Lainnya'))
-            ->first();
 
-        if ($nilaiLainnya) {
-            $totalBobot += ($nilaiLainnya->nilai / 100) * 4.00 * ($bobotLainnya / 100);
-        }
 
-        $nilaiTugas = Nilai::where('NIM', $NIM)
-            ->where('id_kelas', $kelas->id_kelas)
-            ->whereHas('aktifitas', fn($query) => $query->whereNotIn('nama_aktifitas', ['UTS', 'UAS', 'Lainnya']))
-            ->get();
+        $TotalNilai += (($JumlahnilaiTugas / $JumlahTugas)) * ($bobotTugas / 100);
 
-        if ($nilaiTugas->isNotEmpty()) {
-            $averageTugas = $nilaiTugas->avg('nilai');
-            $averageTugasScaled = ($averageTugas / 100) * 4.00;
-            $totalBobot += $averageTugasScaled * ($bobotTugas / 100);
-        }
+        $TotalNilai += $NilaiUAS * ($bobotUAS / 100);
 
-        return round($totalBobot, 2);
+        $TotalNilai += $NilaiUTS * ($bobotUTS / 100);
+
+        $TotalNilai += $NilaiLainnya * ($bobotLainnya / 100);
+
+        // dd($TotalNilai ,$JumlahnilaiTugas / $JumlahTugas,$NilaiUAS,$NilaiUTS,$NilaiLainnya );
+
+        return round($TotalNilai);
     }
-
-
-
 }
+

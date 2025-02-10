@@ -28,11 +28,11 @@ class Detail extends Component
             ->get();
 
         // Loop through each KRS record
+        $cek = 1;
         foreach ($krsData as $krs) {
             // Call the KHS model to calculate the bobot
-            $bobot = KHS::calculateBobot($krs->id_kelas, $NIM);
-
-
+            $bobot = KHS::calculateBobot($id_semester, $NIM, $krs->id_mata_kuliah,$krs->id_kelas);
+            
             // Create a new KHS entry for this specific class and bobot
             KHS::updateOrCreate([
                 'NIM' => $NIM,
@@ -43,7 +43,6 @@ class Detail extends Component
             ], [
                 'bobot' => $bobot
             ]);
-
         }
 
         $this->dispatch('updatedKHS', ['KHS Berhasil Diupdate']);

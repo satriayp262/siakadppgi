@@ -2,24 +2,31 @@
 
 namespace App\Livewire\Dosen\Bobot\Kelas;
 
+use App\Models\Bobot;
 use App\Models\Kelas;
+use App\Models\Matakuliah;
 use Livewire\Component;
 use Livewire\Attributes\On;
 
 class Edit extends Component
 {
-    public $id_kelas;
+    public $id_kelas,$kode_mata_kuliah;
     public $tugas, $uts, $uas, $lainnya;
 
     public function mount()
     {
-        $kelas = null;
-        $kelas = Kelas::where('id_kelas', $this->id_kelas)->first();
-        // dd($this->id_kelas);
-        $this->tugas = $kelas->tugas;
-        $this->uts = $kelas->uts;
-        $this->uas = $kelas->uas;
-        $this->lainnya = $kelas->lainnya;
+        $matkul = Matakuliah::where('kode_mata_kuliah', $this->kode_mata_kuliah)
+        ->where('NIDN', Auth()->user()->nim_nidn)->first();
+        $bobot = null;
+        $bobot = Bobot::firstOrCreate([
+            'id_kelas' => $this->id_kelas,
+            'id_mata_kuliah' => $matkul->id_mata_kuliah
+        ]);
+
+        $this->tugas = $bobot->tugas;
+        $this->uts = $bobot->uts;
+        $this->uas = $bobot->uas;
+        $this->lainnya = $bobot->lainnya;
     }
 
     public function rules()

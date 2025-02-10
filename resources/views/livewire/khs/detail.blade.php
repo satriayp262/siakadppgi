@@ -1,8 +1,8 @@
 <div class="py-1 mx-5">
     @php
-        $mahasiswaExist = App\Models\Mahasiswa::where('NIM', $this->NIM)->exists();
+        $mahasiswa = App\Models\Mahasiswa::where('NIM', $this->NIM)->first();
     @endphp
-    @if ($mahasiswaExist)
+    @if ($mahasiswa)
         <div class="flex items-center justify-between max-w-full p-4 mt-4 mb-4 space-x-2 bg-white rounded-lg shadow-lg">
             <div class="flex justify-start space-x-2">
                 <div class="flex-col my-2">
@@ -16,16 +16,12 @@
                     <p>:</p>
                 </div>
                 <div class="flex-col my-2">
-                    <p>{{ $this->NIM }}</p>
-                    @php
-                        $mahasiswa = App\Models\Mahasiswa::where('NIM', $this->NIM)->first();
-                    @endphp
+                    <p>{{ $mahasiswa->NIM }}</p>
                     <p>{{ $mahasiswa->nama }}</p>
                     <p>{{ $mahasiswa->prodi->nama_prodi }}</p>
                 </div>
             </div>
             <div>
-
             </div>
         </div>
         <div class="">
@@ -33,12 +29,12 @@
                 @php
                     if (auth()->user()->role == 'mahasiswa') {
                         $khs = App\Models\KHS::where('id_semester', $x->id_semester)
-                            ->where('NIM', $this->NIM)
+                            ->where('NIM', $mahasiswa->NIM)
                             ->where('publish', 'yes')
                             ->get();
                     } else {
                         $khs = App\Models\KHS::where('id_semester', $x->id_semester)
-                            ->where('NIM', $this->NIM)
+                            ->where('NIM', $mahasiswa->NIM)
                             ->get();
                     }
                 @endphp
@@ -47,7 +43,7 @@
                         <h2>Semester {{ $x->nama_semester }}</h2>
                         {{-- <a href="{{ route('admin.krs.edit', ['semester' => $x->id_semester, 'NIM' => $this->NIM]) }}" --}}
                         @if (!(auth()->user()->role == 'mahasiswa'))
-                            <a wire:click="calculate({{ $this->NIM }},{{ $x->id_semester }})"
+                            <a wire:click="calculate({{ $mahasiswa->NIM }},{{ $x->id_semester }})"
                                 class="px-3 py-3 font-bold text-white bg-amber-500 rounded hover:bg-amber-600">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                     viewBox="0 0 24 24">

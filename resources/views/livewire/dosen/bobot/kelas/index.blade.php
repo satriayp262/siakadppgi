@@ -29,7 +29,7 @@
                         <td class="px-4 py-2 text-center">
                             <div class="flex flex-row">
                                 <div class="flex justify-center space-x-2">
-                                    <livewire:dosen.bobot.kelas.edit :id_kelas="$item->id_kelas" wire:key="edit-{{ rand(). $item->id_kelas }}" />
+                                    <livewire:dosen.bobot.kelas.edit :id_kelas="$item->id_kelas" :kode_mata_kuliah="$this->kode_mata_kuliah" wire:key="edit-{{ rand(). $item->id_kelas }}" />
                                 </div>
                             </div>
                         </td>

@@ -15,7 +15,6 @@ class Kelas extends Model
         'nama_kelas',
         'kode_prodi',
         'lingkup_kelas',
-        'id_mata_kuliah',
         'bahasan',
         'mode_kuliah',
         'tugas',
