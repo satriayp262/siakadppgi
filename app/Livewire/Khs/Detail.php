@@ -16,7 +16,7 @@ class Detail extends Component
     {
         if (auth()->user()->role == 'mahasiswa') {
             if (!($this->NIM === auth()->user()->nim_nidn)) {
-                return redirect(route('mahasiswa.khs.show', ['NIM' => auth()->user()->nim_nidn]));
+                return redirect(route('mahasiswa.khs.detail', ['NIM' => auth()->user()->nim_nidn]));
             }
         }
     }

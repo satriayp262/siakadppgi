@@ -125,5 +125,43 @@ class KHS extends Model
 
         return round($TotalNilai);
     }
+
+    public $bobotNilai = [
+        ['min' => 80, 'max' => 100, 'huruf' => 'A'],
+        ['min' => 70, 'max' => 79, 'huruf' => 'B'],
+        ['min' => 50, 'max' => 69, 'huruf' => 'C'],
+        ['min' => 0, 'max' => 49, 'huruf' => 'D'],
+    ];
+    public $bobotHuruf = [
+        ['angka' => 4, 'huruf' => 'A'],
+        ['angka' => 3, 'huruf' => 'B'],
+        ['angka' => 2, 'huruf' => 'C'],
+        ['angka' => 1, 'huruf' => 'D'],
+    ];
+
+    public function getGrade($nilai)
+    {
+        $huruf = null;
+        foreach ($this->bobotNilai as $bobot) {
+            if ($nilai >= $bobot['min'] && $nilai <= $bobot['max']) {
+                $huruf = $bobot['huruf'];
+                break;
+            }
+        }
+    
+        $angka = null;
+        foreach ($this->bobotHuruf as $x) {
+            if ($x['huruf'] === $huruf) {
+                $angka = $x['angka'];
+                break;
+            }
+        }
+    
+        return [
+            'huruf' => $huruf ?? 'Error',
+            'angka' => $angka ?? 0
+        ];
+    }
+    
 }
 
