@@ -76,7 +76,7 @@ class Edit extends Component
 
     public function tukar()
     {
-        dd($this->edit);
+        // dd($this->edit);
         $target = Jadwal::find($this->target);
         $ammo = Jadwal::find($this->id_jadwal);
 
@@ -147,22 +147,22 @@ class Edit extends Component
                 }
             }
         }else{
-            $jumlahTarget = KRS::where('id_kelas', $target->id_kelas)->count();
-            $kapasitasTarget = Ruangan::where('id_ruangan', $target->id_ruangan)->first()->kapasitas;
-            $jumlahAmmo = KRS::where('id_kelas', $ammo->id_kelas)->count();
-            $kapasitasAmmo = Ruangan::where('id_ruangan', $ammo->id_ruangan)->first()->kapasitas;
+            // $jumlahTarget = KRS::where('id_kelas', $target->id_kelas)->count();
+            // $kapasitasTarget = Ruangan::where('id_ruangan', $target->id_ruangan)->first()->kapasitas;
+            // $jumlahAmmo = KRS::where('id_kelas', $ammo->id_kelas)->count();
+            // $kapasitasAmmo = Ruangan::where('id_ruangan', $ammo->id_ruangan)->first()->kapasitas;
 
-            if ($kapasitasTarget >= $jumlahAmmo && $kapasitasAmmo >= $jumlahTarget) {
+            // if ($kapasitasTarget >= $jumlahAmmo && $kapasitasAmmo >= $jumlahTarget) {
                 $conflict = jadwal::where('hari', $target->hari)
                     ->where('sesi', $target->sesi)
-                    ->where('nidn', $ammo->kelas->matkul->nidn)
+                    ->where('nidn', $ammo->nidn)
                     ->exists();
 
                 $conflict2 = jadwal::where('hari', $ammo->hari)
                     ->where('sesi', $ammo->sesi)
-                    ->where('nidn', $target->kelas->matkul->nidn)
+                    ->where('nidn', $target->nidn)
                     ->exists();
-            }
+            // }
 
             if (!$conflict && !$conflict2) {
                 // Tukar id_kelas antara target dan ammo
@@ -360,8 +360,10 @@ class Edit extends Component
     public function render()
     {
         $jadwals = jadwal::where('id_jadwal', '!=', $this->id_jadwal)
+            ->where('id_kelas', $this->id_kelas)
             ->where('kode_prodi', $this->kode_prodi)
             ->where('id_semester', $this->id_semester)
+            ->orderByRaw("FIELD(hari, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday')")
             ->get();
 
         $ammo = jadwal::where('id_jadwal', $this->id_jadwal)

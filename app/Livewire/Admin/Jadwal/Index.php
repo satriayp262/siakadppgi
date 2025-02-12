@@ -139,6 +139,25 @@ class Index extends Component
         foreach ($kelasByProdi as $prodi => $kelasList) {
             foreach ($kelasList as $kelas) {
                 $kelasSchedule = []; // Menyimpan jumlah mata kuliah per hari
+                
+                // Cek apakah ruangan tersedia
+                $jumlahMahasiswa = KRS::where('id_kelas', $kelas->id_kelas)->count();
+                $ruangan = null;
+
+                if ($kelas->mode_kuliah == 'O') {
+                    $ruangan = 'Online';
+                } else {
+                    foreach ($ruanganList as $room) {
+                        $isRoomAvailable = !Jadwal::where('id_ruangan', $room->id_ruangan)
+                        ->exists();
+
+
+                        if ($room->kapasitas >= $jumlahMahasiswa && $isRoomAvailable) {
+                            $ruangan = $room;
+                            break;
+                        }
+                    }
+                }
 
                 foreach (Matakuliah::where('kode_prodi', $kelas->kode_prodi)->get() as $matkul) {
                     foreach ($days as $day) {
@@ -152,37 +171,17 @@ class Index extends Component
                         }
 
                         foreach ($timeSlots as $timeSlot) {
-                            // Cek apakah sesi ini sudah digunakan dalam kelas
-                            $conflict = Jadwal::where('id_kelas', $kelas->id_kelas)
+                            // Cek apakah sesi ini sudah digunakan dalam kelas atau oleh dosen
+                            $conflict = Jadwal::where(function ($query) use ($kelas, $matkul, $timeSlot, $day) {
+                                $query->where('id_kelas', $kelas->id_kelas)
+                                    ->orWhere('nidn', $matkul->nidn);
+                            })
                                 ->where('sesi', $timeSlot['sesi'])
+                                ->where('hari', $day)
                                 ->exists();
 
                             if (!$conflict) {
-                                // Cek apakah ruangan tersedia
-                                $jumlahMahasiswa = KRS::where('id_kelas', $kelas->id_kelas)->count();
-                                $ruangan = null;
-
-                                if ($kelas->mode_kuliah == 'O') {
-                                    $ruangan = 'Online';
-                                } else {
-                                    foreach ($ruanganList as $room) {
-                                        $isRoomAvailable = !Jadwal::where('hari', $day)
-                                            ->where('id_ruangan', $room->id_ruangan)
-                                            ->where(function ($query) use ($timeSlot) {
-                                                $query->whereBetween('jam_mulai', [$timeSlot['jam_mulai'], $timeSlot['jam_selesai']])
-                                                    ->orWhereBetween('jam_selesai', [$timeSlot['jam_mulai'], $timeSlot['jam_selesai']])
-                                                    ->orWhere(function ($query) use ($timeSlot) {
-                                                        $query->where('jam_mulai', '<=', $timeSlot['jam_mulai'])
-                                                            ->where('jam_selesai', '>=', $timeSlot['jam_selesai']);
-                                                    });
-                                            })->exists();
-
-                                        if ($room->kapasitas >= $jumlahMahasiswa && $isRoomAvailable) {
-                                            $ruangan = $room;
-                                            break;
-                                        }
-                                    }
-                                }
+                                
 
                                 if ($ruangan) {
                                     Jadwal::create([
@@ -244,6 +243,7 @@ class Index extends Component
     public function render()
     {
         $jadwals = Jadwal::orderBy('id_kelas', direction: 'asc')
+            ->orderByRaw("FIELD(hari, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday')")
             ->orderBy(column: 'sesi', direction: 'asc')
             ->get();
 

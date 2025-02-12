@@ -161,6 +161,7 @@
                 <tbody>
                     @php
                         $previousDay = null;
+                        $previous = null;
                     @endphp
 
                     <!-- Kelompokkan Jadwal Berdasarkan Semester -->
@@ -179,58 +180,65 @@
                         <!-- Tampilkan Jadwal -->
                         @foreach ($jadwalsBySemester as $jadwal)
                             <tr class="border-t" wire:key="jadwal-{{ $jadwal->id_jadwal }}">
-                                <!-- Tampilkan Hari hanya jika berbeda dari hari sebelumnya -->
-                                <td class="px-3 py-1 text-center">
-                                    @if ($jadwal->hari != $previousDay)
-                                        @switch($jadwal->hari)
-                                            @case('Monday') Senin @break
-                                            @case('Tuesday') Selasa @break
-                                            @case('Wednesday') Rabu @break
-                                            @case('Thursday') Kamis @break
-                                            @case('Friday') Jumat @break
-                                            @default {{ $jadwal->hari }}
-                                        @endswitch
-                                        @php
-                                            $previousDay = $jadwal->hari;
-                                        @endphp
+                                    <!-- Tampilkan Hari hanya jika berbeda dari hari sebelumnya -->
+                                    <td class="px-3 py-1 text-center">
+                                        @if ($jadwal->kelas->nama_kelas != $previous)
+                                            {{ $jadwal->kelas->nama_kelas }}
+                                            @php
+                                                $previous = $jadwal->kelas->nama_kelas;
+                                            @endphp
+                                        @endif
+                                    </td>
+                                    <td class="px-3 py-1 text-center">
+                                        @if ($jadwal->hari != $previousDay)
+                                            @switch($jadwal->hari)
+                                                @case('Monday') Senin @break
+                                                @case('Tuesday') Selasa @break
+                                                @case('Wednesday') Rabu @break
+                                                @case('Thursday') Kamis @break
+                                                @case('Friday') Jumat @break
+                                            @endswitch
+                                            @php
+                                                $previousDay = $jadwal->hari;
+                                            @endphp
+                                        @endif
+                                    </td>
+                                    <td class="px-3 py-1 text-center">{{ $jadwal->sesi }}</td>
+                                    {{-- @if ($jadwal->tanggal == null)
+                                        <td class="px-3 py-1 text-center">Belum ada tanggal Ujian</td>
+                                    @else
+                                        <td class="px-3 py-1 text-center">{{ \Carbon\Carbon::parse($jadwal->tanggal)->locale('id')->isoFormat('D MMMM YYYY') }}</td>
                                     @endif
-                                </td>
-                                <td class="px-3 py-1 text-center">{{ $jadwal->sesi }}</td>
-                                @if ($jadwal->tanggal == null)
-                                    <td class="px-3 py-1 text-center">Belum ada tanggal Ujian</td>
-                                @else
-                                    <td class="px-3 py-1 text-center">{{ \Carbon\Carbon::parse($jadwal->tanggal)->locale('id')->isoFormat('D MMMM YYYY') }}</td>
-                                @endif
-                                @if ($jadwal->jenis_ujian == null)
-                                    <td class="px-3 py-1 text-center">Belum ada jenis Ujian</td>
-                                @else
-                                    <td class="px-3 py-1 text-center">{{ $jadwal->jenis_ujian }}</td>
-                                @endif
-                                <td class="px-3 py-1 text-center">{{ $jadwal->kelas->nama_kelas }}</td>
-                                <td class="px-3 py-1 text-center">{{ $jadwal->dosen->nama_dosen }}</td>
-                                @if ($jadwal->id_ruangan == 'Online')
-                                    <td class="px-3 py-1 text-center">Online</td>  
-                                @else
-                                    <td class="px-3 py-1 text-center">{{ $jadwal->ruangan->kode_ruangan }}</td>
-                                @endif
-                                <td class="px-3 py-1 text-center">
-                                    <div class="flex flex-row justify-center">
-                                        <livewire:admin.jadwal.edit :id_jadwal="$jadwal->id_jadwal"
-                                            wire:key="edit-{{ $jadwal->id_jadwal }}" />
-                                        <button
-                                            class="inline-block px-3 py-2 ml-2 text-white bg-red-500 rounded hover:bg-red-700"
-                                            onclick="confirmDelete({{ $jadwal->id_jadwal }}, '{{ $jadwal->kelas->nama_kelas }}')">
-                                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
-                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                fill="none" viewBox="0 0 24 24">
-                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                                    stroke-width="2"
-                                                    d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
+                                    @if ($jadwal->jenis_ujian == null)
+                                        <td class="px-3 py-1 text-center">Belum ada jenis Ujian</td>
+                                    @else
+                                        <td class="px-3 py-1 text-center">{{ $jadwal->jenis_ujian }}</td>
+                                    @endif --}}
+                                    <td class="px-3 py-1 text-center">{{ $jadwal->matakuliah->nama_mata_kuliah }}</td>
+                                    <td class="px-3 py-1 text-center">{{ $jadwal->dosen->nama_dosen }}</td>
+                                    @if ($jadwal->id_ruangan == 'Online')
+                                        <td class="px-3 py-1 text-center">Online</td>  
+                                    @else
+                                            <td class="px-3 py-1 text-center">{{ $jadwal->ruangan->kode_ruangan }}</td>
+                                    @endif
+                                    <td class="px-3 py-1 text-center">
+                                        <div class="flex flex-row justify-center">
+                                            <livewire:admin.jadwal.edit :id_jadwal="$jadwal->id_jadwal"
+                                                wire:key="edit-{{ $jadwal->id_jadwal }}" />
+                                            <button
+                                                class="inline-block px-3 py-2 ml-2 text-white bg-red-500 rounded hover:bg-red-700"
+                                                onclick="confirmDelete({{ $jadwal->id_jadwal }}, '{{ $jadwal->kelas->nama_kelas }}')">
+                                                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    fill="none" viewBox="0 0 24 24">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
                         @endforeach
                     @endforeach
                 </tbody>
@@ -258,6 +266,7 @@
                         <!-- Jadwal untuk Prodi Berdasarkan Semester -->
                         @foreach ($jadwals->where('kode_prodi', $prodi->kode_prodi)->groupBy('id_semester') as $idSemester => $jadwalsBySemester)
                             @php
+                                $previous = null;
                                 $semester = $jadwalsBySemester->first()->semester->nama_semester ?? 'Semester Tidak Diketahui';
                             @endphp
 
@@ -275,6 +284,14 @@
                                 <tr class="border-t" wire:key="jadwal-{{ $jadwal->id_jadwal }}">
                                     <!-- Tampilkan Hari hanya jika berbeda dari hari sebelumnya -->
                                     <td class="px-3 py-1 text-center">
+                                        @if ($jadwal->kelas->nama_kelas != $previous)
+                                            {{ $jadwal->kelas->nama_kelas }}
+                                            @php
+                                                $previous = $jadwal->kelas->nama_kelas;
+                                            @endphp
+                                        @endif
+                                    </td>
+                                    <td class="px-3 py-1 text-center">
                                         @if ($jadwal->hari != $previousDay)
                                             @switch($jadwal->hari)
                                                 @case('Monday') Senin @break
@@ -289,7 +306,7 @@
                                         @endif
                                     </td>
                                     <td class="px-3 py-1 text-center">{{ $jadwal->sesi }}</td>
-                                    @if ($jadwal->tanggal == null)
+                                    {{-- @if ($jadwal->tanggal == null)
                                         <td class="px-3 py-1 text-center">Belum ada tanggal Ujian</td>
                                     @else
                                         <td class="px-3 py-1 text-center">{{ \Carbon\Carbon::parse($jadwal->tanggal)->locale('id')->isoFormat('D MMMM YYYY') }}</td>
@@ -298,13 +315,13 @@
                                         <td class="px-3 py-1 text-center">Belum ada jenis Ujian</td>
                                     @else
                                         <td class="px-3 py-1 text-center">{{ $jadwal->jenis_ujian }}</td>
-                                    @endif
-                                    <td class="px-3 py-1 text-center">{{ $jadwal->kelas->nama_kelas }}</td>
+                                    @endif --}}
+                                    <td class="px-3 py-1 text-center">{{ $jadwal->matakuliah->nama_mata_kuliah }}</td>
                                     <td class="px-3 py-1 text-center">{{ $jadwal->dosen->nama_dosen }}</td>
                                     @if ($jadwal->id_ruangan == 'Online')
                                         <td class="px-3 py-1 text-center">Online</td>  
                                     @else
-                                        <td class="px-3 py-1 text-center">{{ $jadwal->ruangan->kode_ruangan }}</td>
+                                            <td class="px-3 py-1 text-center">{{ $jadwal->ruangan->kode_ruangan }}</td>
                                     @endif
                                     <td class="px-3 py-1 text-center">
                                         <div class="flex flex-row justify-center">
