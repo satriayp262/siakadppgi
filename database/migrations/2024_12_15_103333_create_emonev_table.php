@@ -11,15 +11,14 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('emonev', function (Blueprint $table) {
-            $table->integer('id_emonev', true)->primary();
-            $table->integer('id_kelas');
+            $table->uuid('id_emonev')->primary();
+            $table->enum('Nilai', ['6', '7', '8', '9', '10']);
             $table->integer('id_semester');
-            $table->integer('id_jawaban');
             $table->integer('id_pertanyaan');
-            $table->foreign('id_jawaban')->references('id_jawaban')->on('jawaban');
+            $table->string(column: 'NIM');
+            $table->foreign('NIM')->references('NIM')->on('mahasiswa');
             $table->foreign('id_semester')->references('id_semester')->on('semester');
             $table->foreign('id_pertanyaan')->references('id_pertanyaan')->on('pertanyaan');
-            $table->foreign('id_kelas')->references('id_kelas')->on('kelas');
             $table->timestamps();
         });
     }

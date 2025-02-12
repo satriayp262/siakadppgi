@@ -3,23 +3,45 @@
 namespace App\Livewire\Mahasiswa\Emonev;
 
 use Livewire\Component;
-use App\Models\Kelas;
+use App\Models\Matakuliah;
 use App\Models\Pertanyaan;
 
 class Show extends Component
 {
     public $id_kelas;
-    public function mount($id_kelas)
+
+
+
+    public function mount($id_mata_kuliah)
     {
-        $this->id_kelas = $id_kelas;
+        $this->id = $id_mata_kuliah;
+    }
+
+
+
+    public function save()
+    {
+        $this->validate([
+            'jawaban' => 'required|in:6,7,8,9,10',
+        ]);
+
+        $emonev = Emonev::create([
+            'jawaban' => $this->jawaban,
+            'id_mata_kuliah' => $this->id,
+            'id_user' => auth()->id(),
+        ]);
+
+
+
     }
     public function render()
     {
-        $kelas = Kelas::where('id_kelas', $this->id_kelas)->first();
+        $matkul = Matakuliah::query()->find($this->id);
         $pertanyaan = Pertanyaan::query()->get();
         return view('livewire.mahasiswa.emonev.show', [
-            'kelas' => $kelas,
-            'pertanyaans' => $pertanyaan
+            'matkul' => $matkul,
+            'pertanyaans' => $pertanyaan,
+
         ]);
     }
 }

@@ -142,10 +142,10 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('mahasiswa.emonev', 'emonev.detail') }}"
+                    <a href="{{ route('mahasiswa.emonev.semester') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
-                        {{ request()->routeIs('mahasiswa.emonev', 'emonev.detail') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
-                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('mahasiswa.emonev', 'emonev.detail') ? ' text-white ' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
+                        {{ request()->routeIs('mahasiswa.emonev.semester', 'emonev.detail', 'mahasiswa.emonev') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
+                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('mahasiswa.emonev.semester', 'emonev.detail', 'mahasiswa.emonev') ? ' text-white ' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                             fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"

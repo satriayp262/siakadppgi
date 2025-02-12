@@ -20,6 +20,11 @@ class Index extends Component
 
     public $id_semester;
 
+    public function mount($nama_semester)
+    {
+        $this->nama_semester = Semester::where('nama_semester', $nama_semester)->first();
+    }
+
 
     public function render()
     {
@@ -27,13 +32,18 @@ class Index extends Component
 
         $mahasiswa = Mahasiswa::where('NIM', $user->nim_nidn)->first();
 
-        $semester = Semester::where('is_active', true)->first();
 
-        $krsFiltered = KRS::where('NIM', $mahasiswa->NIM)
-            ->where('id_semester', $semester->id_semester)
+        $semester = $this->nama_semester->id_semester;
+
+
+        $krs = KRS::where('NIM', $mahasiswa->NIM)
+            ->where('id_semester', $semester)
             ->get();
+
+
         return view('livewire.mahasiswa.emonev.index', [
-            'krs' => $krsFiltered
+            'krs' => $krs,
+            'semester' => $this->nama_semester,
         ]);
     }
 }

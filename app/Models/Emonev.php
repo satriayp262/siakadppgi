@@ -11,15 +11,30 @@ class Emonev extends Model
 
     protected $table = 'emonev';
     protected $primaryKey = 'id_emonev';
-    protected $fillable = ['nama_evaluasi', 'penilaian', 'saran', 'id_kelas', 'id_user'];
+    protected $fillable = ['nilai', 'NIM', 'id_semester', 'id_pertanyaan', 'id_dosen', 'id_mata_kuliah'];
 
-    public function kelas()
+    public function semester()
     {
-        return $this->belongsTo(Kelas::class, 'id_kelas', 'id_kelas');
+        return $this->belongsTo(Semester::class, 'id_semester', 'id_semester');
     }
 
-    public function user()
+    public function mahasiswa()
     {
-        return $this->belongsTo(User::class, 'id_user', 'id');
+        return $this->belongsTo(Mahasiswa::class, 'NIM', 'NIM');
+    }
+
+    public function dosen()
+    {
+        return $this->belongsTo(Dosen::class, 'id_dosen', 'id_dosen');
+    }
+
+    public function pertanyaan()
+    {
+        return $this->belongsTo(Pertanyaan::class, 'id_pertanyaan', 'id_pertanyaan');
+    }
+
+    public function matakuliah()
+    {
+        return $this->belongsTo(Matakuliah::class, 'id_mata_kuliah', 'id_mata_kuliah');
     }
 }
