@@ -33,32 +33,14 @@ class DetailMatkul extends Component
             ]);
         }
 
-        // Ambil mata kuliah berdasarkan kode dan NIDN dosen yang login
-        $mataKuliah = MataKuliah::where('nidn', Auth::user()->nim_nidn)
-            ->where('id_mata_kuliah', $this->id_mata_kuliah)
-            ->first();
-
-        // Cek apakah data ditemukan
-        if (!$mataKuliah) {
-            return view('livewire.dosen.presensi.absensi-by-kelas', [
-                'kelas' => collect(), // Kembalikan koleksi kosong jika tidak ada mata kuliah
-            ]);
-        }
-
         // Cari seluruh KRS pada prodi ini dan mata kuliah ini
-        $krsEntries = KRS::where('id_mata_kuliah', $mataKuliah->id_mata_kuliah)
-            ->where('id_prodi', $mataKuliah->prodi->id_prodi)
-            ->pluck('NIM');
+        $mataKuliah = MataKuliah::where('nidn', Auth()->user()->nim_nidn)->where('id_mata_kuliah', $this->id_mata_kuliah)->first();
 
-        // Ambil seluruh kelas berdasarkan array NIM
-        $kelas = Kelas::whereIn('id_kelas', function ($query) use ($krsEntries) {
-                $query->select('id_kelas')
-                    ->from('mahasiswa')
-                    ->whereIn('NIM', $krsEntries);
-            })
-            ->with(['prodi', 'semester'])
-            ->distinct()
-            ->get();
+        $kelasEntries = KRS::where('id_mata_kuliah', $mataKuliah->id_mata_kuliah)->distinct()->pluck('id_kelas');
+
+        $kelas = Kelas::whereIn('id_kelas', $kelasEntries )
+        ->distinct()
+        ->paginate(10);
 
         return view('livewire.dosen.berita_acara.detail-matkul', [
             'kelas' => $kelas,

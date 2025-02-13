@@ -37,34 +37,7 @@ class Index extends Component
         $this->reset(['token', 'keterangan', 'alasan']);
     }
 
-    private function tandaiAlfa($tokenData)
-    {
-        // Ambil semua mahasiswa di kelas ini dari tabel KRS
-        $mahasiswaTerdaftar = Krs::where('id_mata_kuliah', $tokenData->id_mata_kuliah)
-            ->where('id_kelas', $tokenData->id_kelas)
-            ->pluck('nim');
-
-        // Cek siapa yang sudah presensi
-        $sudahPresensi = Presensi::whereIn('nim', $mahasiswaTerdaftar)
-            ->where('token', $tokenData->token)
-            ->pluck('nim');
-
-        // Ambil mahasiswa yang belum presensi
-        $belumPresensi = $mahasiswaTerdaftar->diff($sudahPresensi);
-
-        foreach ($belumPresensi as $nim) {
-            Presensi::create([
-                'nama' => 'Mahasiswa', // Atau bisa ambil dari tabel Mahasiswa
-                'nim' => $nim,
-                'token' => $tokenData->token,
-                'waktu_submit' => Carbon::now(),
-                'keterangan' => 'Alpha',
-                'id_kelas' => $tokenData->id_kelas,
-                'id_mata_kuliah' => $tokenData->id_mata_kuliah,
-                'alasan' => null,
-            ]);
-        }
-    }
+    
 
     public function submit()
     {
