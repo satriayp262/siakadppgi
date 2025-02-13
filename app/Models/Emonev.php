@@ -11,7 +11,7 @@ class Emonev extends Model
 
     protected $table = 'emonev';
     protected $primaryKey = 'id_emonev';
-    protected $fillable = ['nilai', 'NIM', 'id_semester', 'id_pertanyaan', 'id_dosen', 'id_mata_kuliah'];
+    protected $fillable = ['NIM', 'id_semester', 'nidn', 'id_mata_kuliah', 'saran', 'sesi'];
 
     public function semester()
     {
@@ -25,16 +25,16 @@ class Emonev extends Model
 
     public function dosen()
     {
-        return $this->belongsTo(Dosen::class, 'id_dosen', 'id_dosen');
+        return $this->belongsTo(Dosen::class, 'nidn', 'nidn');
     }
 
-    public function pertanyaan()
-    {
-        return $this->belongsTo(Pertanyaan::class, 'id_pertanyaan', 'id_pertanyaan');
-    }
-
-    public function matakuliah()
+    public function matkul()
     {
         return $this->belongsTo(Matakuliah::class, 'id_mata_kuliah', 'id_mata_kuliah');
+    }
+
+    public function jawaban()
+    {
+        return $this->hasMany(Jawaban::class, 'id_emonev', 'id_emonev');
     }
 }

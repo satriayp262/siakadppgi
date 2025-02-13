@@ -14,4 +14,11 @@ class Pertanyaan extends Model
         'id_pertanyaan',
         'nama_pertanyaan'
     ];
+
+    public function jawaban()
+    {
+        return $this->hasMany(Jawaban::class, 'id_pertanyaan', 'id_pertanyaan');
+    }
+
+
 }
