@@ -45,10 +45,12 @@
                             <span>{{ $item->matkul->nama_mata_kuliah }}</span>
                         </div>
                         <br>
-                        <a href="{{ route('emonev.detail', ['id_mata_kuliah' => $item->matkul->id_mata_kuliah]) }}"
-                            class="bg-purple2 text-white px-4 py-2 rounded-lg">
+                        <button
+                            onclick="window.location.href='{{ route('emonev.detail', ['id_mata_kuliah' => $item->matkul->id_mata_kuliah, 'nama_semester' => $semester->nama_semester]) }}'"
+                            class="bg-purple2 hover:bg-customPurple text-white px-4 py-2 rounded-lg transition-transform transform hover:scale-105">
                             Isi Emonev
-                        </a>
+                        </button>
+
                     </div>
                 </div>
             @endforeach

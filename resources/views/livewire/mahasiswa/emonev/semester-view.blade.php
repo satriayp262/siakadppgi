@@ -9,7 +9,7 @@
                             {{ $item->nama_semester }}
                         </h3>
                         <a href="{{ route('mahasiswa.emonev', ['nama_semester' => $item->nama_semester]) }}"
-                            class="bg-purple2 text-white px-4 py-2 rounded-lg">
+                            class="bg-purple2 hover:bg-customPurple text-white px-4 py-2 rounded-lg transition-transform transform hover:scale-105">
                             View Details
                         </a>
                     </div>
