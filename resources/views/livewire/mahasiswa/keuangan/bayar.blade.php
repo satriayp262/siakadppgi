@@ -45,7 +45,7 @@
                 Kembali
             </button>
             <button type="button"
-                class="bg-blue-500 hover:bg-blue-700 text-white rounded-md px-2 py-2 mt-2 inline-flex"
+                class="bg-blue-500 hover:bg-blue-700 text-white rounded-md px-2 py-2 mt-2 inline-flex transition-transform transform hover:scale-105"
                 id="pay-button">Bayar
                 Sekarang</button>
         </div>

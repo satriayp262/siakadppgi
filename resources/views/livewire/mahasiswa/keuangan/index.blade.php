@@ -155,7 +155,7 @@
                                     </a>
                                 @else
                                     <button @click="isOpen = !isOpen"
-                                        class="inline-flex px-4 py-2 text-white bg-blue-500 hover:bg-blue-700 rounded-md"
+                                        class="inline-flex px-4 py-2 text-white bg-blue-500 hover:bg-blue-700 rounded-md transition-transform transform hover:scale-105"
                                         type="button"
                                         wire:click.prevent="bayar({{ $tagihan->id_tagihan }}, 'Bayar Penuh')">
                                         <svg class="w-6 h-6 text-white" aria-hidden="true"
