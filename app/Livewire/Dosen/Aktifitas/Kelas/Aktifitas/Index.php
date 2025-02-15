@@ -4,6 +4,7 @@ namespace App\Livewire\Dosen\Aktifitas\Kelas\Aktifitas;
 
 
 use App\Models\Aktifitas;
+use App\Models\Kelas;
 use App\Models\KRS;
 use App\Models\Mahasiswa;
 use App\Models\Matakuliah;
@@ -13,18 +14,24 @@ use Storage;
 
 class Index extends Component
 {
-    public $id_kelas;
-    public $nama_aktifitas;
-    public $id_aktifitas;
-    public $id_mata_kuliah;
-    public $kode_mata_kuliah;
-    public $Nilai = [];
-    public $search = '';
+    public $id_kelas,
+    $nama_kelas,
+    $nama_aktifitas,
+    $id_aktifitas,
+    $id_mata_kuliah,
+    $kode_mata_kuliah,
+    $Nilai = [],
+    $search = '';
 
     public function mount()
     {
-        $this->id_mata_kuliah = Matakuliah::where('kode_mata_kuliah', $this->kode_mata_kuliah)->where('nidn', Auth()->user()->nim_nidn)->first()->id_mata_kuliah;
-
+        $this->id_mata_kuliah = Matakuliah::where(
+            'kode_mata_kuliah',
+            $this->kode_mata_kuliah
+        )->where('nidn', Auth()->user()->nim_nidn)->first()->id_mata_kuliah;
+        
+        $this->id_kelas = Kelas::where('nama_kelas', str_replace('-', '/', $this->nama_kelas))->first()->id_kelas;
+        
         $aktifitas = Aktifitas::where('id_kelas', $this->id_kelas)
             ->where('id_mata_kuliah', $this->id_mata_kuliah)
             ->where('nama_aktifitas', $this->nama_aktifitas)
@@ -114,7 +121,7 @@ class Index extends Component
 
     public function render()
     {
-        $mahasiswa = Mahasiswa::where('NIM', (string)KRS::where('id_mata_kuliah', $this->id_mata_kuliah)->pluck('NIM'))->get();
+        $mahasiswa = Mahasiswa::where('NIM', (string) KRS::where('id_mata_kuliah', $this->id_mata_kuliah)->pluck('NIM'))->get();
         return view('livewire.dosen.aktifitas.kelas.aktifitas.index', [
             'mahasiswa' => $mahasiswa,
         ]);

@@ -34,8 +34,8 @@ class Show extends Component
         $this->id_mata_kuliah = Matakuliah::where('kode_mata_kuliah', $this->kode_mata_kuliah)->where('nidn', Auth()->user()->nim_nidn)->first()->id_mata_kuliah;
         $aktifitas = new Aktifitas();
         $aktifitas->createLainnya($this->id_mata_kuliah);
-        
-        $this->nama_kelas = kelas::where('id_kelas', $this->id_kelas)->first()->nama_kelas;
+
+        $this->id_kelas = kelas::where('nama_kelas', str_replace('-', '/', $this->nama_kelas))->first()->id_kelas;
         
         $this->CheckDosen = (Matakuliah::where('id_mata_kuliah', $this->id_mata_kuliah)->where('nidn', Auth()->user()->nim_nidn)->exists());
     }

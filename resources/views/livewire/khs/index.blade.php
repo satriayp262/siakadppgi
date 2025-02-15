@@ -1,46 +1,46 @@
 <div class="mx-5">
     <div class="flex flex-col justify-between mx-4 mt-4 ">
-        <!-- Modal Form -->
-        {{-- <div class="flex justify-between mt-2">
-            <input type="text" wire:model.debounce.300ms="search" placeholder="   Search"
-            class="px-2 ml-4 border border-gray-300 rounded-lg">
-        </div> --}}
-
-    </div>
-
-    <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
-        <table class="min-w-full mt-4 bg-white text-sm border border-gray-200">
-            <thead>
-                <tr class="items-center w-full text-sm text-white align-middle bg-gray-800">
-                    <th class="px-4 py-2 text-center">Nama Kelas</th>
-                    <th class="px-4 py-2 text-center">Prodi</th>
-                    <th class="px-4 py-2 text-center">Semester</th>
-                    <th class="px-4 py-2 text-center">Methode Pembelajaran</th>
-                    <th class="px-4 py-2 text-center">Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($kelas as $item)
-                    <tr wire:key="item-{{rand(). $item->id_kelas }}">
-                        <td class="px-4 py-2 text-center">{{ $item->nama_kelas }}</td>
-                        <td class="px-4 py-2 text-center">{{ $item->prodi->nama_prodi }}</td>
-                        <td class="px-4 py-2 text-center">{{ $item->semester->nama_semester }}</td>
-                        <td class="px-4 py-2 text-center">{{ $item->bahasan }}</td>
-                        <td class="px-4 py-2 text-center">
-                            <div class="flex flex-row">
-                                <div class="flex justify-center space-x-2">
-                                    <a href="{{ route('dosen.khs.show', ['nama_kelas' => str_replace('/', '-', $item->nama_kelas)]) }}">
-                                        <p class="py-2 px-4 bg-blue-500 hover:bg-blue-700 rounded">▶</p>
-                                    </a>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-        <div class="py-8 mt-4 text-center">
-            {{ $kelas->links('') }}
+        <div class="flex justify-between items-center">
+            <nav aria-label="Breadcrumb">
+                <ol class="flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+                    <li aria-current="page">
+                        <div class="flex items-center">
+                            <a href="{{ route('dosen.khs') }}"
+                                class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
+                                <span class="text-sm font-medium text-gray-500 ms-1 md:ms-2">KHS</span>
+                                <svg class="w-3 h-3 mx-1 text-gray-400 rtl:rotate-180" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="m1 9 4-4-4-4" />
+                                </svg>
+                            </a>
+                        </div>
+                    </li>
+                </ol>
+            </nav>
+            <input type="text" wire:model.live="search" placeholder="   Search"
+                class="px-2 ml-4 py-2 border border-gray-300 rounded-lg">
         </div>
     </div>
+
+    @foreach ($kelas as $item)
+        <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
+            <div class="flex flex-row justify-between">
+                <div class="flex flex-col">
+                    <span class="text-2xl font-bold text-purple2">{{ $item->nama_kelas }}</span>
+                    <span class="text-sm font-bold text-gray-400">Nama Prodi :
+                        {{ $item->prodi->nama_prodi }}</span>
+                </div>
+                <div class="flex justify-center space-x-2">
+                    <a href="{{ route('dosen.khs.show', ['nama_kelas' => str_replace('/', '-', $item->nama_kelas)]) }}">
+                        <p class="py-2 px-4 bg-blue-500 hover:bg-blue-700 rounded">▶</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    @endforeach
+    <div class="py-8 mt-4 text-center">
+        {{ $kelas->links('') }}
+    </div>
+
 </div>

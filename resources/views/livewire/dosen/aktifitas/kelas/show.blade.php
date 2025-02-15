@@ -1,10 +1,40 @@
 <div class="mx-5">
     <div class="flex flex-col justify-between mx-4 mt-4 ">
-        <!-- Modal Form -->
-        {{-- <div class="flex justify-between mt-2">
-            <input type="text" wire:model.debounce.300ms="search" placeholder="   Search"
-            class="px-2 ml-4 border border-gray-300 rounded-lg">
-        </div> --}}
+        <div class="flex justify-between items-center">
+            <nav aria-label="Breadcrumb">
+                <ol class="flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+                    <li aria-current="page">
+                        <div class="flex items-center">
+                            <a href="{{ route('dosen.aktifitas') }}"
+                                class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
+                                <span class="text-sm font-medium text-gray-500 ms-1 md:ms-2">Aktifitas</span>
+                                <svg class="w-3 h-3 mx-1 text-gray-400 rtl:rotate-180" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="m1 9 4-4-4-4" />
+                                </svg>
+                            </a>
+                            <a href="{{ route('dosen.aktifitas.kelas', ['kode_mata_kuliah' => $this->kode_mata_kuliah]) }}"
+                                class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
+                                {{ $this->kode_mata_kuliah }}
+                                <svg class="w-3 h-3 mx-1 text-gray-400 rtl:rotate-180" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="m1 9 4-4-4-4" />
+                                </svg>
+                            </a>
+                            <a href="{{ route('dosen.aktifitas.kelas.show', ['nama_kelas' => str_replace('/', '-', $this->nama_kelas), 'kode_mata_kuliah' => $this->kode_mata_kuliah]) }}"
+                                class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
+                                {{ str_replace('-', '/', $this->nama_kelas) }}
+                            </a>
+                        </div>
+                    </li>
+                </ol>
+            </nav>
+            {{-- <livewire:dosen.presensi.create-token /> --}}
+            <input type="text" wire:model.live="search" placeholder="   Search"
+                class="px-2 ml-4 py-2 border border-gray-300 rounded-lg">
+        </div>
         <div class="flex space-x-2">
             <livewire:dosen.aktifitas.kelas.create :$id_kelas :$id_mata_kuliah />
             <div x-data="{ isOpen: false, load: false }" @modal-closed.window="isOpen = false">
@@ -188,11 +218,12 @@
                 </div>
             @endif
         </div>
-
     </div>
 
     <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
-        <H2 class="px-4 font-bold text-[20px]">{{$nama_kelas."  (". $kode_mata_kuliah.")"}}</H2>
+        <H2 class="px-4 font-bold text-[20px]">
+            {{ str_replace('-', '/', $nama_kelas) . '  (' . $kode_mata_kuliah . ')' }}
+        </H2>
         <table class="min-w-full mt-4 bg-white text-sm border border-gray-200">
             <thead>
                 <tr class="items-center w-full text-sm text-white align-middle bg-gray-800">
@@ -214,8 +245,8 @@
                             <td class="px-4 py-2 text-center">
                                 <div class="flex flex-row">
                                     <div class="flex justify-center w-full space-x-2">
-                                        <livewire:dosen.aktifitas.kelas.edit :id_aktifitas="$item->id_aktifitas" :$id_kelas :$id_mata_kuliah
-                                            wire:key="edit-{{ $item->id_aktifitas }}">
+                                        <livewire:dosen.aktifitas.kelas.edit :id_aktifitas="$item->id_aktifitas" :$id_kelas
+                                            :$id_mata_kuliah wire:key="edit-{{ $item->id_aktifitas }}">
 
                                             <button
                                                 class="inline-block px-4 py-2 ml-2 text-white bg-red-500 rounded hover:bg-red-700"
@@ -229,7 +260,7 @@
                                                         d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
                                                 </svg>
                                             </button>
-                                            <a href="{{ route('dosen.aktifitas.kelas.aktifitas', ['kode_mata_kuliah' => $this->kode_mata_kuliah, 'id_kelas' => $item->id_kelas, 'nama_aktifitas' => $item->nama_aktifitas]) }}"
+                                            <a href="{{ route('dosen.aktifitas.kelas.aktifitas', ['kode_mata_kuliah' => $this->kode_mata_kuliah, 'nama_kelas' => str_replace('/', '-', $this->nama_kelas), 'nama_aktifitas' => $item->nama_aktifitas]) }}"
                                                 class="py-2 px-5 bg-blue-500 hover:bg-blue-700 rounded">
                                                 <p>▶</p>
                                             </a>

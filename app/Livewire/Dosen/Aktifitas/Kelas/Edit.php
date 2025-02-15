@@ -3,6 +3,7 @@
 namespace App\Livewire\Dosen\Aktifitas\Kelas;
 
 use App\Models\Aktifitas;
+use App\Models\Kelas;
 use App\Models\Matakuliah;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
@@ -12,12 +13,13 @@ class Edit extends Component
     public $id_aktifitas;
     public $id_mata_kuliah;
     public $kode_mata_kuliah;
-    public $nama_aktifitas = " ", $id_kelas, $catatan;
+    public $nama_aktifitas = " ", $id_kelas,$nama_kelas,$catatan;
     public function mount()
     {
         $aktifitas = Aktifitas::find($this->id_aktifitas);
         $this->nama_aktifitas = $aktifitas->nama_aktifitas;
         $this->catatan = $aktifitas->catatan;
+
     }
     public function update()
     {
