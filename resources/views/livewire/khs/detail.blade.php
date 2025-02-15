@@ -14,7 +14,7 @@
                                     stroke-width="2" d="m1 9 4-4-4-4" />
                             </svg>
                         </a>
-                        <a href="{{ route('dosen.khs.detail', ['NIM' => $this->NIM]) }}"
+                        <a href="{{ route('dosen.khs.detail', ['NIM' => $NIM]) }}"
                             class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
                             <span class="text-sm font-medium text-gray-500 ">Detail</span>
                             <svg class="w-3 h-3 mx-1 text-gray-400 rtl:rotate-180" aria-hidden="true"
@@ -31,7 +31,7 @@
             class="px-2 ml-4 py-2 border border-gray-300 rounded-lg">
     </div>
     @php
-        $mahasiswa = App\Models\Mahasiswa::where('NIM', $this->NIM)->first();
+        $mahasiswa = App\Models\Mahasiswa::where('NIM', $NIM)->first();
     @endphp
     @if ($mahasiswa)
         <div class="flex items-center justify-between max-w-full p-4 mt-4 mb-4 space-x-2 bg-white rounded-lg shadow-lg">
@@ -82,16 +82,7 @@
                     <div class="flex items-center justify-between my-2">
                         <h2 class="font-bold text-[18px] ml-1 text-gray-700">Semester {{ $x->nama_semester }}</h2>
                         {{-- <a href="{{ route('admin.krs.edit', ['semester' => $x->id_semester, 'NIM' => $this->NIM]) }}" --}}
-                        @if (!(auth()->user()->role == 'mahasiswa'))
-                            <a wire:click="calculate({{ $mahasiswa->NIM }},{{ $x->id_semester }})"
-                                class="px-3 py-3 font-bold text-white bg-amber-500 rounded hover:bg-amber-600">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                    viewBox="0 0 24 24">
-                                    <path
-                                        d="M13.5 2c-5.621 0-10.211 4.443-10.475 10h-3.025l5 6.625 5-6.625h-2.975c.257-3.351 3.06-6 6.475-6 3.584 0 6.5 2.916 6.5 6.5s-2.916 6.5-6.5 6.5c-1.863 0-3.542-.793-4.728-2.053l-2.427 3.216c1.877 1.754 4.389 2.837 7.155 2.837 5.79 0 10.5-4.71 10.5-10.5s-4.71-10.5-10.5-10.5z"
-                                        fill="white" />
-                                </svg></a>
-                        @else
+                        @if ((auth()->user()->role == 'mahasiswa'))
                             <a wire:click=""
                                 class="px-3 py-3 font-bold text-white bg-purple2 rounded hover:bg-purple2">
                                 <img width="24" height="24"

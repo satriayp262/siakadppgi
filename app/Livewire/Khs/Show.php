@@ -29,7 +29,7 @@ class Show extends Component
         // Loop through each KRS record
         foreach ($krsData as $krs) {
             // Call the KHS model to calculate the bobot
-            $bobot = KHS::calculateBobot($krs->id_kelas, $NIM);
+            $bobot = KHS::calculateBobot($krs->id_kelas, $NIM,null,null);
 
 
             // Create a new KHS entry for this specific class and bobot

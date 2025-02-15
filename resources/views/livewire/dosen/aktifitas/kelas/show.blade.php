@@ -14,18 +14,18 @@
                                         stroke-width="2" d="m1 9 4-4-4-4" />
                                 </svg>
                             </a>
-                            <a href="{{ route('dosen.aktifitas.kelas', ['kode_mata_kuliah' => $this->kode_mata_kuliah]) }}"
+                            <a href="{{ route('dosen.aktifitas.kelas', ['kode_mata_kuliah' => $kode_mata_kuliah]) }}"
                                 class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
-                                {{ $this->kode_mata_kuliah }}
+                                {{ $kode_mata_kuliah }}
                                 <svg class="w-3 h-3 mx-1 text-gray-400 rtl:rotate-180" aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                         stroke-width="2" d="m1 9 4-4-4-4" />
                                 </svg>
                             </a>
-                            <a href="{{ route('dosen.aktifitas.kelas.show', ['nama_kelas' => str_replace('/', '-', $this->nama_kelas), 'kode_mata_kuliah' => $this->kode_mata_kuliah]) }}"
+                            <a href="{{ route('dosen.aktifitas.kelas.show', ['nama_kelas' => str_replace('/', '-', $nama_kelas), 'kode_mata_kuliah' => $kode_mata_kuliah]) }}"
                                 class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
-                                {{ str_replace('-', '/', $this->nama_kelas) }}
+                                {{ str_replace('-', '/', $nama_kelas) }}
                             </a>
                         </div>
                     </li>
@@ -260,7 +260,7 @@
                                                         d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
                                                 </svg>
                                             </button>
-                                            <a href="{{ route('dosen.aktifitas.kelas.aktifitas', ['kode_mata_kuliah' => $this->kode_mata_kuliah, 'nama_kelas' => str_replace('/', '-', $this->nama_kelas), 'nama_aktifitas' => $item->nama_aktifitas]) }}"
+                                            <a href="{{ route('dosen.aktifitas.kelas.aktifitas', ['kode_mata_kuliah' => $kode_mata_kuliah, 'nama_kelas' => str_replace('/', '-', $nama_kelas), 'nama_aktifitas' => $item->nama_aktifitas]) }}"
                                                 class="py-2 px-5 bg-blue-500 hover:bg-blue-700 rounded">
                                                 <p>▶</p>
                                             </a>

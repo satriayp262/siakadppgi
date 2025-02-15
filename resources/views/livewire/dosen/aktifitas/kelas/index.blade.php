@@ -14,9 +14,9 @@
                                         stroke-width="2" d="m1 9 4-4-4-4" />
                                 </svg>
                             </a>
-                            <a href="{{ route('dosen.aktifitas.kelas', ['kode_mata_kuliah' => $this->kode_mata_kuliah]) }}"
+                            <a href="{{ route('dosen.aktifitas.kelas', ['kode_mata_kuliah' => $kode_mata_kuliah]) }}"
                                 class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
-                                {{ $this->kode_mata_kuliah }}
+                                {{ $kode_mata_kuliah }}
                             </a>
                         </div>
                     </li>
@@ -38,7 +38,7 @@
                 </div>
                 <div class="flex justify-center space-x-2 py-2">
                     <a
-                        href="{{ route('dosen.aktifitas.kelas.show', ['nama_kelas' => str_replace('/', '-', $item->nama_kelas), 'kode_mata_kuliah' => $this->kode_mata_kuliah]) }}">
+                        href="{{ route('dosen.aktifitas.kelas.show', ['nama_kelas' => str_replace('/', '-', $item->nama_kelas), 'kode_mata_kuliah' => $kode_mata_kuliah]) }}">
                         <p class="py-2 px-4 bg-blue-500 hover:bg-blue-700 rounded">▶</p>
                     </a>
                 </div>

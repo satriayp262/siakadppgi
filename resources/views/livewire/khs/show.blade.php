@@ -14,7 +14,7 @@
                                         stroke-width="2" d="m1 9 4-4-4-4" />
                                 </svg>
                             </a>
-                            <a href="{{ route('dosen.khs.show', ['nama_kelas' => str_replace('/', '-', $this->nama_kelas)]) }}"
+                            <a href="{{ route('dosen.khs.show', ['nama_kelas' => str_replace('/', '-', $nama_kelas)]) }}"
                                 class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
                                 <span
                                     class="text-sm font-medium text-gray-500 ">{{ str_replace('-', '/', $nama_kelas) }}</span>

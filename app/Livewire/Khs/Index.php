@@ -78,7 +78,7 @@ class Index extends Component
 
             foreach ($krsData as $krs) {
                 // Call the KHS model to calculate the bobot
-                $bobot = KHS::calculateBobot($krs->id_kelas, $x);
+                $bobot = KHS::calculateBobot($krs->id_kelas, $x,null,null);
 
 
                 // Create a new KHS entry for this specific class and bobot

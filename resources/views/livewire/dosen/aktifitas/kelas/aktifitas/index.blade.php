@@ -14,27 +14,27 @@
                                         stroke-width="2" d="m1 9 4-4-4-4" />
                                 </svg>
                             </a>
-                            <a href="{{ route('dosen.aktifitas.kelas', ['kode_mata_kuliah' => $this->kode_mata_kuliah]) }}"
+                            <a href="{{ route('dosen.aktifitas.kelas', ['kode_mata_kuliah' => $kode_mata_kuliah]) }}"
                                 class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
-                                {{ $this->kode_mata_kuliah }}
+                                {{ $kode_mata_kuliah }}
                                 <svg class="w-3 h-3 mx-1 text-gray-400 rtl:rotate-180" aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                         stroke-width="2" d="m1 9 4-4-4-4" />
                                 </svg>
                             </a>
-                            <a href="{{ route('dosen.aktifitas.kelas.show', ['nama_kelas' => str_replace('/', '-', $this->nama_kelas), 'kode_mata_kuliah' => $this->kode_mata_kuliah]) }}"
+                            <a href="{{ route('dosen.aktifitas.kelas.show', ['nama_kelas' => str_replace('/', '-', $nama_kelas), 'kode_mata_kuliah' => $kode_mata_kuliah]) }}"
                                 class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
-                                {{ $this->nama_kelas }}
+                                {{ $nama_kelas }}
                                 <svg class="w-3 h-3 mx-1 text-gray-400 rtl:rotate-180" aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                         stroke-width="2" d="m1 9 4-4-4-4" />
                                 </svg>
                             </a>
-                            <a href="{{ route('dosen.aktifitas.kelas.aktifitas', ['kode_mata_kuliah' => $this->kode_mata_kuliah, 'nama_kelas' => str_replace('/', '-', $this->nama_kelas), 'nama_aktifitas' => $this->nama_aktifitas]) }}"
+                            <a href="{{ route('dosen.aktifitas.kelas.aktifitas', ['kode_mata_kuliah' => $kode_mata_kuliah, 'nama_kelas' => str_replace('/', '-', $nama_kelas), 'nama_aktifitas' => $nama_aktifitas]) }}"
                                 class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
-                                {{ $this->nama_aktifitas }}
+                                {{ $nama_aktifitas }}
                             </a>
                         </div>
                     </li>

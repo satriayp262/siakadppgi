@@ -5,6 +5,7 @@ namespace App\Livewire\Dosen\Aktifitas\Kelas\Aktifitas;
 
 use App\Models\Aktifitas;
 use App\Models\Kelas;
+use App\Models\KHS;
 use App\Models\KRS;
 use App\Models\Mahasiswa;
 use App\Models\Matakuliah;
@@ -29,9 +30,9 @@ class Index extends Component
             'kode_mata_kuliah',
             $this->kode_mata_kuliah
         )->where('nidn', Auth()->user()->nim_nidn)->first()->id_mata_kuliah;
-        
+
         $this->id_kelas = Kelas::where('nama_kelas', str_replace('-', '/', $this->nama_kelas))->first()->id_kelas;
-        
+
         $aktifitas = Aktifitas::where('id_kelas', $this->id_kelas)
             ->where('id_mata_kuliah', $this->id_mata_kuliah)
             ->where('nama_aktifitas', $this->nama_aktifitas)
@@ -69,16 +70,23 @@ class Index extends Component
 
         $this->Nilai = [];
         foreach ($mahasiswa as $item) {
-            $nilaiRecord = Nilai::where('id_aktifitas', $this->id_aktifitas)
-                ->where('NIM', $item->NIM)
-                ->first();
+            $nilaiRecord = Nilai::firstOrCreate(
+                [
+                    'id_aktifitas' => $this->id_aktifitas,
+                    'id_kelas' => $this->id_kelas,
+                    'NIM' => $item->NIM
+                ],
+                [
+                    'nilai' => 0 
+                ]
+            );
 
             $this->Nilai[] = [
                 'NIM' => $item->NIM,
                 'nama' => $item->nama,
                 'prodi' => $item->prodi->nama_prodi ?? '',
                 'email' => $item->email,
-                'nilai' => $nilaiRecord ? $nilaiRecord->nilai : '',
+                'nilai' => $nilaiRecord->nilai,
             ];
         }
     }
@@ -100,8 +108,9 @@ class Index extends Component
 
         foreach ($this->Nilai as $index => $nilaiData) {
             if ($nilaiData['nilai'] === " " || $nilaiData['nilai'] === "") {
-                $nilaiData['nilai'] = null;
+                $nilaiData['nilai'] = 0;
             }
+
             Nilai::updateOrCreate(
                 [
                     'id_aktifitas' => $this->id_aktifitas,
@@ -114,9 +123,42 @@ class Index extends Component
             );
         }
 
+        $this->calculate();
+
+        $this->loadFilteredNilaiData();
+
         $this->dispatch('updated', ['message' => 'Nilai Updated Successfully']);
     }
 
+    public function calculate()
+    {
+
+        // Retrieve the KRS data for the given NIM and semester
+        $krsData = KRS::where('id_kelas', $this->id_kelas)
+            ->where('id_mata_kuliah', $this->id_mata_kuliah)
+            ->get();
+
+        // Loop through each KRS record
+        $cek = 1;
+
+        foreach ($krsData as $krs) {
+
+            // Call the KHS model to calculate the bobot
+            $bobot = KHS::calculateBobot($krs->id_semester, $krs->NIM, $krs->id_mata_kuliah, $krs->id_kelas);
+
+            // Create a new KHS entry for this specific class and bobot
+            KHS::updateOrCreate([
+                'NIM' => $krs->NIM,
+                'id_semester' => $krs->id_semester,
+                'id_mata_kuliah' => $krs->id_mata_kuliah,
+                'id_kelas' => $krs->id_kelas,
+                'id_prodi' => $krs->id_prodi,
+            ], [
+                'bobot' => $bobot
+            ]);
+        }
+
+    }
 
 
     public function render()

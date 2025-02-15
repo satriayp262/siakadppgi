@@ -4,31 +4,35 @@ namespace App\Livewire\Dosen\Bobot\Kelas;
 
 use App\Models\Bobot;
 use App\Models\Kelas;
+use App\Models\KHS;
+use App\Models\KRS;
 use App\Models\Matakuliah;
 use Livewire\Component;
 use Livewire\Attributes\On;
 
 class Edit extends Component
 {
-    public $id_kelas,$kode_mata_kuliah;
+    public $id_kelas,$kode_mata_kuliah,$id_mata_kuliah;
     public $tugas, $uts, $uas, $lainnya;
 
     public function mount()
     {
         $matkul = Matakuliah::where('kode_mata_kuliah', $this->kode_mata_kuliah)
         ->where('NIDN', Auth()->user()->nim_nidn)->first();
+        $this->id_mata_kuliah = $matkul->id_mata_kuliah;
+
         $bobot = null;
         $bobot = Bobot::firstOrCreate([
             'id_kelas' => $this->id_kelas,
-            'id_mata_kuliah' => $matkul->id_mata_kuliah
+            'id_mata_kuliah' => $this->id_mata_kuliah
         ]);
-
+        
         $this->tugas = $bobot->tugas;
         $this->uts = $bobot->uts;
         $this->uas = $bobot->uas;
         $this->lainnya = $bobot->lainnya;
     }
-
+    
     public function rules()
     {
         return [
@@ -77,8 +81,8 @@ class Edit extends Component
         // Custom validation for the sum
         $this->customValidation();
 
-        $kelas = Kelas::find($this->id_kelas);
-
+        $kelas = Bobot::where('id_kelas', $this->id_kelas)->where('id_mata_kuliah', $this->id_mata_kuliah)->first();
+        
         if ($validatedData['lainnya'] == ' ' || $validatedData['lainnya'] == 0) {
             $validatedData['lainnya'] = null;
         }
@@ -89,8 +93,40 @@ class Edit extends Component
                 'uas' => $validatedData['uas'],
                 'lainnya' => $validatedData['lainnya'],
             ]);
+
+            $this->calculate();
             $this->dispatch('kelasUpdated');
         }
+    }
+
+    public function calculate()
+    {
+        
+        // Retrieve the KRS data for the given NIM and semester
+        $krsData = KRS::where('id_kelas', $this->id_kelas)
+            ->where('id_mata_kuliah', $this->id_mata_kuliah)
+            ->get();
+
+        // Loop through each KRS record
+        $cek = 1;
+
+        foreach ($krsData as $krs) {
+
+            // Call the KHS model to calculate the bobot
+            $bobot = KHS::calculateBobot($krs->id_semester, $krs->NIM, $krs->id_mata_kuliah,$krs->id_kelas);
+            
+            // Create a new KHS entry for this specific class and bobot
+            KHS::updateOrCreate([
+                'NIM' => $krs->NIM,
+                'id_semester' => $krs->id_semester,
+                'id_mata_kuliah' => $krs->id_mata_kuliah,
+                'id_kelas' => $krs->id_kelas,
+                'id_prodi' => $krs->id_prodi,
+            ], [
+                'bobot' => $bobot
+            ]);
+        }
+
     }
 
 
