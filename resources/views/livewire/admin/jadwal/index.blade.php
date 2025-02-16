@@ -78,70 +78,6 @@
         <button onclick="confirmDeleteAll()" class='flex items-center px-4 py-2 ml-2 font-bold text-white bg-red-500 rounded hover:bg-red-700'>
             Hapus Semua Jadwal
         </button>
-        
-        <div x-data="{ isOpen: false }" @modal-closed.window="isOpen = false" class="right-0 flex">
-            <!-- Button to open the modal -->
-            <button @click="isOpen=true"
-                class="flex items-center px-4 py-2 ml-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">
-                Jadwal Ujian
-            </button>
-
-            <!-- Modal Background -->
-                <div x-data="{ load: false }" x-show="isOpen && load" x-init="load = true" wire:init="" x-cloak
-                    class="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-75">
-                    <!-- Modal Content -->
-                    <div class="w-1/4 bg-white rounded-lg shadow-lg">
-                        <!-- Modal Header -->
-                        <div class="flex items-center justify-between p-4 bg-gray-200 rounded-t-lg">
-                            <h3 class="text-xl font-semibold">Jadwal Ujian</h3>
-                            <div @click="isOpen=false" class="px-3 rounded-sm shadow hover:bg-red-500">
-                                <button class="text-gray-900">&times;</button>
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <div class="p-4 max-h-[500px] overflow-y-auto">
-                                <form wire:submit='tanggal'>
-                                    <div class="flex flex-col justify-center">
-                                        <div class="mb-4">
-                                           <div class="flex items-center justify-between mb-2">
-                                                <label for="">Jenis Ujian</label>
-                                                <button wire:click='clear2' class="px-2 py-1 ml-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">
-                                                    Hapus Jenis
-                                                </button>
-                                            </div>
-                                            <select name="jenis" id="jenis" wire:model="jenis"
-                                                    class="block w-full px-2 py-1 mt-1 border border-gray-700 rounded shadow-2xl focus:border-indigo-500 sm:text-sm">
-                                                <option value="" selected>Pilih Jenis</option>
-                                                <option value="UTS">UTS</option>
-                                                <option value="UAS">UAS</option>
-                                            </select>
-                                            @error('jenis')
-                                                <span class="mt-1 text-sm text-red-500">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                        <div class="mb-4">
-                                            <div class="flex items-center justify-between mb-2">
-                                                <label for="">Tanggal Pertama Ujian</label>
-                                                <button wire:click='clear' class="px-2 py-1 ml-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">
-                                                    Hapus Tanggal
-                                                </button>
-                                            </div>
-                                            <input type="date" name="ujian" id="ujian" wire:model="ujian"
-                                                class="block w-full px-2 py-1 mt-1 border border-gray-700 rounded shadow-2xl focus:border-indigo-500 sm:text-sm">
-                                        </div>
-                                    </div>
-                                    <div class="flex justify-end p-4 bg-gray-200 rounded-b-lg">
-                                        <button type="button" @click="isOpen = false"
-                                            class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">Close</button>
-                                        <button type="submit"
-                                            class="px-4 py-2 ml-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">Submit</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        </div>
     </div>
 
     <div class="max-w-full p-4 mt-4 mb-4 bg-white rounded-lg shadow-lg">
@@ -179,6 +115,11 @@
 
                         <!-- Tampilkan Jadwal -->
                         @foreach ($jadwalsBySemester as $jadwal)
+                            @if ($previous != null && $previous != $jadwal->kelas->nama_kelas)
+                                <tr class="border-t border-gray-500">
+                                    <td colspan="8" class="py-4 bg-gray-100"></td>
+                                </tr>
+                            @endif
                             <tr class="border-t" wire:key="jadwal-{{ $jadwal->id_jadwal }}">
                                     <!-- Tampilkan Hari hanya jika berbeda dari hari sebelumnya -->
                                     <td class="px-3 py-1 text-center">
@@ -281,6 +222,11 @@
 
                             <!-- Jadwal -->
                             @foreach ($jadwalsBySemester as $jadwal)
+                                @if ($previous != null && $previous != $jadwal->kelas->nama_kelas)
+                                    <tr class="border-gray-500 ">
+                                        <td colspan="8" class="py-4 bg-gray-100"></td>
+                                    </tr>
+                                @endif
                                 <tr class="border-t" wire:key="jadwal-{{ $jadwal->id_jadwal }}">
                                     <!-- Tampilkan Hari hanya jika berbeda dari hari sebelumnya -->
                                     <td class="px-3 py-1 text-center">
@@ -404,6 +350,11 @@
 
                             <!-- Jadwal -->
                             @foreach ($jadwalsBySemester as $jadwal)
+                                @if ($previous != null && $previous != $jadwal->kelas->nama_kelas)
+                                    <tr class="border-gray-500 ">
+                                        <td colspan="8" class="py-4 bg-gray-100"></td>
+                                    </tr>
+                                @endif
                                 <tr class="border-t" wire:key="jadwal-{{ $jadwal->id_jadwal }}">
                                     <!-- Tampilkan Hari hanya jika berbeda dari hari sebelumnya -->
                                     <td class="px-3 py-1 text-center">

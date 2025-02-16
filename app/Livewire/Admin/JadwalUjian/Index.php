@@ -12,7 +12,36 @@ class Index extends Component
 {
     public $semesterfilter;
     public $prodi;
-    
+    public $ujian;
+    public $jenis;
+
+    public function rules()
+    {
+        return [
+            'jenis' => 'required'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'jenis.required' => 'Jenis Ujian harus dipilih'
+        ];
+    }
+
+    public function clear2()
+    {
+        jadwal::query()->update(['jenis_ujian' => null]);
+
+        $this->dispatch('destroyed', ['message' => 'jenis Ujian Deleted Successfully']);
+    }
+
+    public function clear()
+    {
+        jadwal::query()->update(['tanggal' => null]);
+
+        $this->dispatch('destroyed', ['message' => 'tanggal Ujian Deleted Successfully']);
+    }
 
     public function tanggal()
     {
