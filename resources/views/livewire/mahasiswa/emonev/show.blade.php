@@ -1,6 +1,6 @@
 <!-- Wrapper -->
 <div class="mx-5">
-    <div class="flex flex-col justify-between mx-4 mt-4 mb-4">
+    <div class="flex flex-col justify-between mx-4 mt-4 mb-6">
         <!-- Header -->
         <div class="flex flex-col md:flex-row justify-between items-center space-y-2 md:space-y-0">
             <nav aria-label="Breadcrumb">
@@ -18,7 +18,7 @@
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                     stroke-width="2" d="m1 9 4-4-4-4" />
                             </svg>
-                            <a href="{{ route('mahasiswa.emonev', ['nama_semester' => $semester, 'id_mata_kuliah' => $matkul->id_mata_kuliah]) }}"
+                            <a href="{{ route('mahasiswa.emonev', ['nama_semester' => $semester]) }}"
                                 class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center ms-1 md:ms-2">
                                 {{ $semester }}
                             </a>
@@ -31,70 +31,52 @@
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                     stroke-width="2" d="m1 9 4-4-4-4" />
                             </svg>
-                            <span
-                                class="text-sm font-medium text-gray-500 ms-1 md:ms-2">{{ $matkul->nama_mata_kuliah }}</span>
+                            <span class="text-sm font-medium text-gray-500 ms-1 md:ms-2">
+                                {{ $matkul->nama_mata_kuliah }}
+                            </span>
                         </div>
                     </li>
                 </ol>
             </nav>
 
-            <div class="text-center md:text-left space-y-1">
-                <h1 class="text-lg font-semibold">Dosen: <span
-                        class="text-customPurple">{{ $matkul->dosen->nama_dosen }}</span></h1>
-
+            <div class="text-center md:text-left">
+                <h1 class="text-lg font-semibold">
+                    Dosen: <span class="text-customPurple">{{ $matkul->dosen->nama_dosen }}</span>
+                </h1>
             </div>
         </div>
+
         <!-- FORM START -->
         <form wire:submit.prevent="save">
             <div class="bg-white shadow-lg p-6 mt-6 rounded-lg">
                 <div class="overflow-x-auto">
-                    <div class="p-6 bg-white shadow-md rounded-lg border border-gray-200">
-                        <p class="text-gray-700 text-md font-medium mb-2">
-                            1. Anda tidak perlu memasukkan nama, dan jawaban Anda akan dijamin kerahasiaannya.
-                        </p>
-                        <p class="text-gray-700 text-md font-medium mb-2">
-                            2. Silakan isi dengan seobjektif mungkin sesuai pendapat Anda dengan memilih nilai yang
-                            paling sesuai.
-                        </p>
-                        <p class="text-gray-700 text-md font-semibold mb-2">
-                            3. Keterangan nilai:
-                        </p>
-                        <div class="flex flex-wrap items-center gap-4 ml-5">
-                            <div class="flex items-center">
-                                <span
-                                    class="w-8 h-8 flex items-center justify-center bg-red-500 text-white font-semibold rounded-full mr-2">6</span>
-                                <span class="text-gray-700">Kurang</span>
-                            </div>
-                            <div class="flex items-center">
-                                <span
-                                    class="w-8 h-8 flex items-center justify-center bg-orange-500 text-white font-semibold rounded-full mr-2">7</span>
-                                <span class="text-gray-700">Cukup</span>
-                            </div>
-                            <div class="flex items-center">
-                                <span
-                                    class="w-8 h-8 flex items-center justify-center bg-yellow-500 text-white font-semibold rounded-full mr-2">8</span>
-                                <span class="text-gray-700">Baik</span>
-                            </div>
-                            <div class="flex items-center">
-                                <span
-                                    class="w-8 h-8 flex items-center justify-center bg-green-500 text-white font-semibold rounded-full mr-2">9</span>
-                                <span class="text-gray-700">Sangat Baik</span>
-                            </div>
-                            <div class="flex items-center">
-                                <span
-                                    class="w-8 h-8 flex items-center justify-center bg-blue-500 text-white font-semibold rounded-full mr-2">10</span>
-                                <span class="text-gray-700">Istimewa</span>
-                            </div>
+                    <div class="p-4 bg-white shadow-md rounded-lg border border-gray-200">
+                        <h2 class="text-purple2 text-2xl font-extrabold mb-2">Evaluasi Dosen dan Perkuliahan</h2>
+                        <p class="text-gray-700 text-md font-medium">1. Anda tidak perlu memasukkan nama, dan
+                            jawaban Anda akan dijamin kerahasiaannya.</p>
+                        <p class="text-gray-700 text-md font-medium">2. Silakan isi dengan seobjektif mungkin
+                            sesuai pendapat Anda dengan memilih nilai yang
+                            paling sesuai..</p>
+                        <p class="text-gray-700 text-md font-semibold">3. Keterangan nilai: </p>
+                        <div class="flex flex-wrap items-center gap-4 ml-5 mt-3">
+                            @foreach ([6 => 'red', 7 => 'purple', 8 => 'yellow', 9 => 'green', 10 => 'blue'] as $value => $color)
+                                <div class="flex items-center">
+                                    <span
+                                        class="w-8 h-8 flex items-center justify-center bg-{{ $color }}-500 text-white font-semibold rounded-full mr-2">{{ $value }}</span>
+                                    <span class="text-gray-700">
+                                        {{ ['Kurang', 'Cukup', 'Baik', 'Sangat Baik', 'Istimewa'][$value - 6] }}
+                                    </span>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
-
 
                     <table class="w-full border border-gray-300">
                         <thead>
                             <tr class="bg-customPurple text-white text-center">
                                 <th class="px-4 py-3">No.</th>
                                 <th class="px-4 py-3">Pertanyaan</th>
-                                <th class="px-4 py-3">Jawaban</th>
+                                <th class="px-4 py-3">Nilai</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -107,15 +89,15 @@
                                             @for ($i = 6; $i <= 10; $i++)
                                                 <label class="inline-flex items-center cursor-pointer">
                                                     <input type="radio"
-                                                        wire:model="jawaban.{{ $pertanyaan->id_pertanyaan }}"
+                                                        wire:model.defer="jawaban.{{ $pertanyaan->id_pertanyaan }}"
                                                         name="jawaban_{{ $pertanyaan->id_pertanyaan }}"
-                                                        value="{{ $i }}" class="form-radio score-input"
-                                                        data-pertanyaan-id="{{ $pertanyaan->id_pertanyaan }}">
+                                                        value="{{ $i }}" class="form-radio score-input">
                                                     <span class="ml-1 text-sm font-medium">{{ $i }}</span>
+
                                                 </label>
                                             @endfor
                                         </div>
-                                        @error('jawaban.' . $pertanyaan->id_pertanyaan)
+                                        @error('jawaban')
                                             <span class="text-red-500 text-sm">{{ $message }}</span>
                                         @enderror
                                     </td>
@@ -140,40 +122,24 @@
                     <div class="text-lg font-semibold">
                         Skor: <span class="text-customPurple" id="skor">0</span>
                     </div>
-
                     <button type="submit"
-                        class="bg-purple2 hover:bg-customPurple text-white font-semibold py-2 px-6 rounded-lg shadow-lg transition-transform transform hover:scale-105">
+                        class="bg-purple2 hover:bg-customPurple text-white font-semibold py-2 px-6 rounded-lg shadow-lg transition-transform hover:scale-105">
                         Submit Jawaban
                     </button>
                 </div>
             </div>
         </form>
         <!-- FORM END -->
-
     </div>
 </div>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const skorElement = document.getElementById('skor');
+        document.addEventListener('change', function() {
+            let totalSkor = [...document.querySelectorAll('.score-input:checked')]
+                .reduce((sum, radio) => sum + parseInt(radio.value), 0);
 
-        document.addEventListener('change', function(event) {
-            if (event.target.classList.contains('score-input')) {
-                calculateSkor();
-            }
+            document.getElementById('skor').textContent = totalSkor;
         });
-
-        function calculateSkor() {
-            let totalSkor = 0;
-            document.querySelectorAll('.score-input:checked').forEach(radio => {
-                totalSkor += parseInt(radio.value);
-            });
-
-            skorElement.textContent = totalSkor;
-            skorElement.classList.add('animate-pulse');
-
-            setTimeout(() => {
-                skorElement.classList.remove('animate-pulse');
-            }, 500);
-        }
     });
 </script>

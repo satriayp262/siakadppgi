@@ -19,6 +19,8 @@ class Show extends Component
     public $semester;
     public $saran;
 
+    public $pertanyaan;
+
 
 
     public function mount($id_mata_kuliah, $nama_semester)
@@ -31,17 +33,20 @@ class Show extends Component
 
     public function save()
     {
+        // Validasi input
         $this->validate([
             'jawaban' => 'required|array',
-            'jawaban.*' => 'required|in:6,7,8,9,10',
-            'saran' => 'nullable|string',
+            'jawaban.*' => 'required',
+            'saran' => 'required|string',
         ], [
             'jawaban.required' => 'Jawaban wajib diisi.',
             'jawaban.array' => 'Jawaban harus berupa array.',
-            'jawaban.*.required' => 'Setiap jawaban wajib diisi.',
-            'jawaban.*.in' => 'Jawaban harus bernilai antara 6 hingga 10.',
+            'jawaban.*.required' => 'Jawaban wajib diisi.',
+            'saran.required' => 'Saran wajib diisi.',
             'saran.string' => 'Saran harus berupa teks.',
         ]);
+
+        dd($this->jawaban);
 
         // Ambil data yang dibutuhkan
         $matkul = Matakuliah::with('dosen')->findOrFail($this->id);
@@ -58,7 +63,8 @@ class Show extends Component
             'sesi' => 1
         ]);
 
-        // Simpan jawaban untuk setiap pertanyaan
+        // Simpan jawaban array untuk setiap pertanyaan
+        // ambil key sebagai $id_pertanyaan dan value sebagai $nilai.
         foreach ($this->jawaban as $id_pertanyaan => $nilai) {
             Jawaban::create([
                 'id_emonev' => $emonev->id_emonev,
