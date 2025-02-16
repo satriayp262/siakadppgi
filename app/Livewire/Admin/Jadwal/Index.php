@@ -66,11 +66,12 @@ class Index extends Component
     {
         $this->validate();
         // Ambil semua jadwal yang dikelompokkan berdasarkan 'kode_prodi'
-        $jadwalUjian = Jadwal::get()->groupBy('kode_prodi');
-
-        
+        $jadwalUjians = Jadwal::orderBy('id_kelas')
+            ->orderByRaw("FIELD(hari, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday')")
+            ->get()
+            ->groupBy('id_kelas'); // Kelompokkan berdasarkan id_kelas
         // Iterasi melalui setiap grup jadwal berdasarkan 'kode_prodi'
-        foreach ($jadwalUjian as $group) {
+        foreach ($jadwalUjians as $group) {
 
             // Ambil tanggal awal dari input
             $tanggal = Carbon::parse($this->ujian);

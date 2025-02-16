@@ -9,7 +9,7 @@
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="m1 9 4-4-4-4" />
                         </svg>
-                        <span class="text-sm font-medium text-gray-500 ms-1 md:ms-2">Jadwal Mengajar</span>
+                        <span class="text-sm font-medium text-gray-500 ms-1 md:ms-2">Jadwal ujian</span>
                     </div>
                 </li>
             </ol>
@@ -25,17 +25,17 @@
     </div>
     <div class="flex mt-4">
         <div class="absolute right-4">
-            <select name="prodi" id="prodi" wire:model.live="prodi" class="items-center px-4 py-2 pr-2 ml-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
-                <option value="" selected>Pilih Prodi</option>
-                @foreach ($prodis as $x)
-                <option value="{{ $x->kode_prodi }}">{{ $x->nama_prodi }}</option>
-                @endforeach
-            </select>
-            
             <select name="semesterfilter" id="semesterfilter" wire:model.live="semesterfilter" class="items-center px-4 py-2 pr-2 ml-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
                 <option value="" selected>Pilih semester</option>
                 @foreach ($semesterfilters as $v)
                     <option value="{{ $v->id_semester }}">{{ $v->nama_semester }}</option>
+                @endforeach
+            </select>
+            
+            <select name="prodi" id="prodi" wire:model.live="prodi" class="items-center px-4 py-2 pr-2 ml-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
+                <option value="" selected>Pilih Prodi</option>
+                @foreach ($prodis as $x)
+                <option value="{{ $x->kode_prodi }}">{{ $x->nama_prodi }}</option>
                 @endforeach
             </select>
         </div>
@@ -429,7 +429,7 @@
                                         @endif
                                     </td>
                                     <td class="px-3 py-1 text-center">{{ $jadwal->sesi }}</td>
-                                    {{-- @if ($jadwal->tanggal == null)
+                                    @if ($jadwal->tanggal == null)
                                         <td class="px-3 py-1 text-center">Belum ada tanggal Ujian</td>
                                     @else
                                         <td class="px-3 py-1 text-center">{{ \Carbon\Carbon::parse($jadwal->tanggal)->locale('id')->isoFormat('D MMMM YYYY') }}</td>
@@ -438,7 +438,7 @@
                                         <td class="px-3 py-1 text-center">Belum ada jenis Ujian</td>
                                     @else
                                         <td class="px-3 py-1 text-center">{{ $jadwal->jenis_ujian }}</td>
-                                    @endif --}}
+                                    @endif
                                     <td class="px-3 py-1 text-center">{{ $jadwal->matakuliah->nama_mata_kuliah }}</td>
                                     <td class="px-3 py-1 text-center">{{ $jadwal->dosen->nama_dosen }}</td>
                                     @if ($jadwal->id_ruangan == 'Online')
