@@ -10,14 +10,16 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('emonev', function (Blueprint $table) {
-            $table->integer('id_emonev')->primary()->autoIncrement();
+        Schema::create('mahasiswa_emonev', function (Blueprint $table) {
+            $table->integer('id_mahasiswa_emonev')->primary()->autoIncrement();
+            $table->string('NIM');
             $table->integer('id_semester');
             $table->integer('id_mata_kuliah');
             $table->string('nidn');
-            $table->string('saran', 50);
+            $table->integer('sesi');
             $table->foreign('id_mata_kuliah')->references('id_mata_kuliah')->on('matkul');
             $table->foreign('nidn')->references('nidn')->on('dosen');
+            $table->foreign('NIM')->references('NIM')->on('mahasiswa');
             $table->foreign('id_semester')->references('id_semester')->on('semester');
             $table->timestamps();
         });
@@ -28,6 +30,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('emonev');
+        Schema::dropIfExists('mahasiswa_emonev');
     }
 };

@@ -10,6 +10,7 @@ use Livewire\Component;
 use App\Models\Matakuliah;
 use App\Models\Pertanyaan;
 use App\Models\Jawaban;
+use App\Models\MahasiswaEmonev;
 
 class Show extends Component
 {
@@ -18,8 +19,10 @@ class Show extends Component
     public $id;
     public $semester;
     public $saran;
-
+    public $emon;
+    public $sesi;
     public $pertanyaan;
+    public $mahasiswa;
 
 
 
@@ -46,25 +49,43 @@ class Show extends Component
             'saran.string' => 'Saran harus berupa teks.',
         ]);
 
-        dd($this->jawaban);
-
         // Ambil data yang dibutuhkan
         $matkul = Matakuliah::with('dosen')->findOrFail($this->id);
         $semester = Semester::where('nama_semester', $this->semester)->firstOrFail();
         $mahasiswa = Mahasiswa::where('NIM', auth()->user()->nim_nidn)->firstOrFail();
+
+        // Cek apakah sudah ada data MahasiswaEmonev
+        $emon = MahasiswaEmonev::where('NIM', $mahasiswa->NIM)
+            ->where('id_mata_kuliah', $this->id)
+            ->where('id_semester', $semester->id_semester)
+            ->first();
+
+        // Tentukan sesi (1 jika belum ada data, +1 jika sudah ada)
+        $sesi = $emon ? $emon->sesi + 1 : 1;
+
+
+        // Simpan data MahasiswaEmonev (gunakan update jika sudah ada)
+        if ($emon) {
+            $emon->update(['sesi' => $sesi]);
+        } else {
+            $emon = MahasiswaEmonev::create([
+                'NIM' => $mahasiswa->NIM,
+                'id_semester' => $semester->id_semester,
+                'id_mata_kuliah' => $this->id,
+                'nidn' => $matkul->dosen->nidn,
+                'sesi' => $sesi,
+            ]);
+        }
 
         // Simpan data e-Monev
         $emonev = Emonev::create([
             'id_mata_kuliah' => $this->id,
             'id_semester' => $semester->id_semester,
             'nidn' => $matkul->dosen->nidn,
-            'NIM' => $mahasiswa->NIM,
             'saran' => $this->saran,
-            'sesi' => 1
         ]);
 
-        // Simpan jawaban array untuk setiap pertanyaan
-        // ambil key sebagai $id_pertanyaan dan value sebagai $nilai.
+        // Simpan jawaban
         foreach ($this->jawaban as $id_pertanyaan => $nilai) {
             Jawaban::create([
                 'id_emonev' => $emonev->id_emonev,
@@ -82,15 +103,24 @@ class Show extends Component
 
 
 
+
     public function render()
     {
+        $maha = Mahasiswa::where('NIM', auth()->user()->nim_nidn)->first();
         $matkul = Matakuliah::query()->where('id_mata_kuliah', $this->id)->first();
         $pertanyaan = Pertanyaan::query()->get();
         $semester = $this->semester;
+        $semester2 = Semester::where('nama_semester', $semester)->firstOrFail();
+        $emon = MahasiswaEmonev::where('NIM', $maha->NIM)
+            ->where('id_mata_kuliah', $this->id)
+            ->where('id_semester', $semester2->id_semester)
+            ->first();
+
         return view('livewire.mahasiswa.emonev.show', [
             'matkul' => $matkul,
             'pertanyaans' => $pertanyaan,
             'semester' => $semester,
+            'e' => $emon,
 
         ]);
     }
