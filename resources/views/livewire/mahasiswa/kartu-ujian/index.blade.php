@@ -87,8 +87,8 @@
                                             @endif
                                         </td>
                                         <td class="px-1 py-1 text-center border border-gray-400">{{ $jadwal->sesi }}</td>
-                                        <td class="px-1 py-1 text-center border border-gray-400">{{ $jadwal->kelas->matkul->nama_mata_kuliah }}</td>
-                                        <td class="px-1 py-1 text-center border border-gray-400">{{ $jadwal->kelas->matkul->dosen->nama_dosen }}</td>
+                                        <td class="px-1 py-1 text-center border border-gray-400">{{ $jadwal->matakuliah->nama_mata_kuliah }}</td>
+                                        <td class="px-1 py-1 text-center border border-gray-400">{{ $jadwal->dosen->nama_dosen }}</td>
                                         <td class="px-1 py-1 text-center border border-gray-400">{{ $jadwal->kelas->nama_kelas }}</td>
                                         @if ($jadwal->id_ruangan == 'Online')
                                             <td class="px-1 py-1 text-center border border-gray-400">Online</td>  
@@ -101,6 +101,7 @@
                     </table>
                 </div>
             </div>
+            <button type="button" class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700" wire:click='generatePdf()'>pas</button>
         </div>
     @endif
 </div>
