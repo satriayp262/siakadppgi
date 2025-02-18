@@ -9,6 +9,8 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Prodi;
 use Livewire\Component;
 use Livewire\WithPagination;
+use iluminate\Support\Facades\Mail;
+use App\Mail\PeringatanMail;
 
 class Index extends Component
 {
@@ -17,6 +19,7 @@ class Index extends Component
     public $year;
     public $selectedProdi;
     public $prodi;
+    public $user;
 
     public function mount()
     {
@@ -42,6 +45,17 @@ class Index extends Component
         return Excel::download(new MahasiswaPresensiExport($month, $year, $selectedProdi), $fileName);
     }
 
+    public function kirimEmail()
+    {
+        $data = [
+            'nama' => $user,
+            'data lain' => 'lain'
+        ];
+
+
+        Mail::to($this->email)->send(new PeringatanMail($data));
+    }
+
     public function render()
     {
         $dataMahasiswa = Mahasiswa::with([
@@ -51,6 +65,9 @@ class Index extends Component
         ])->withCount([
             'presensi as hadir_count' => function ($query) {
                 $query->where('keterangan', 'Hadir');
+            },
+            'presensi as alpha_count' => function ($query) {
+                $query->where('keterangan', 'Alpha');
             },
             'presensi as ijin_count' => function ($query) {
                 $query->where('keterangan', 'Ijin');

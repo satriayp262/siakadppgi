@@ -86,14 +86,13 @@ class Index extends Component
                 foreach ($belumPresensi as $mhs) {
                     Presensi::create([
                         'nim' => $mhs->NIM,
+                        'nama' => $mhs->nama,
                         'id_mata_kuliah' => $token->id_mata_kuliah,
                         'id_kelas' => $token->id_kelas,
                         'token' => $token->token,
-                        'keterangan' => 'Alfa',
+                        'keterangan' => 'Alpha',
                         'waktu_submit' => Carbon::now(), // Waktu saat data disimpan
                     ]);
-
-                    echo "Mahasiswa dengan NIM {$mhs->NIM} otomatis diberi keterangan Alfa.<br>";
                 }
             }
         }

@@ -173,6 +173,7 @@
                     <th class="px-4 py-2 text-center">NIM</th>
                     <th class="px-4 py-2 text-center">Prodi</th>
                     <th class="px-4 py-2 text-center">Keterangan</th>
+                    <th class="px-4 py-2 text-center">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -185,9 +186,14 @@
                         <td class="px-4 py-2 text-center">{{ $mahasiswa->NIM }}</td>
                         <td class="px-4 py-2 text-center">{{ $mahasiswa->prodi->nama_prodi }}</td>
                         <td class="px-4 py-2 text-center">
-                            Alpha: {{ $mahasiswa->hadir_count }},
+                            Alpha: {{ $mahasiswa->alpha_count }},
                             Ijin: {{ $mahasiswa->ijin_count }},
                             Sakit: {{ $mahasiswa->sakit_count }}
+                        </td>
+                        <td class="px-4 py-2 text-center">
+                            <button class="py-2 px-4 bg-blue-500 hover:bg-blue-700 rounded" wire:click="kirimEmail({{ $mahasiswa->NIM }})">
+                                Kirim SP
+                            </button>
                         </td>
                     </tr>
                 @endforeach
