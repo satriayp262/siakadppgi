@@ -14,6 +14,7 @@ class Token extends Model
         'token',
         'id_mata_kuliah',
         'id_kelas',
+        'id_semester',
         'valid_until',
         'id',
     ];
@@ -32,6 +33,11 @@ class Token extends Model
     public function kelas()
     {
         return $this->belongsTo(Kelas::class, 'id_kelas', 'id_kelas');
+    }
+
+    public function semster()
+    {
+        return $this->belongsTo(Semester::class, 'id_semester', 'id_semester');
     }
 
     // Cek apakah token masih valid

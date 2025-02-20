@@ -9,7 +9,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Prodi;
 use Livewire\Component;
 use Livewire\WithPagination;
-use iluminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Mail;
 use App\Mail\PeringatanMail;
 
 class Index extends Component
@@ -20,6 +20,7 @@ class Index extends Component
     public $selectedProdi;
     public $prodi;
     public $user;
+    public $search = '';
 
     public function mount()
     {
@@ -45,15 +46,36 @@ class Index extends Component
         return Excel::download(new MahasiswaPresensiExport($month, $year, $selectedProdi), $fileName);
     }
 
-    public function kirimEmail()
+    public function kirimEmail($nim)
     {
-        $data = [
-            'nama' => $user,
-            'data lain' => 'lain'
-        ];
+        // Ambil data mahasiswa berdasarkan NIM
+        $mahasiswa = Mahasiswa::where('NIM', $nim)
+            ->withCount(['presensi as alpha_count' => function ($query) {
+                $query->where('keterangan', 'Alpha');
+            }])
+            ->first();
 
+        // Pastikan mahasiswa ditemukan dan memiliki 2 kali Alpha
+        if ($mahasiswa && $mahasiswa->alpha_count = 2) {
+            $data = [
+                'nama' => $mahasiswa->nama, // Pastikan field nama sesuai dengan tabel Mahasiswa
+                'nim' => $mahasiswa->NIM,
+                'alpha_count' => $mahasiswa->alpha_count,
+            ];
 
-        Mail::to($this->email)->send(new PeringatanMail($data));
+            // Kirim email ke mahasiswa
+            Mail::to($mahasiswa->email)->send(new PeringatanMail($data));
+
+            // Flash message atau emit event jika menggunakan Livewire
+            session()->flash('success', 'Surat peringatan berhasil dikirim.');
+        } else {
+            session()->flash('error', 'Mahasiswa tidak ditemukan atau belum memenuhi batas Alpha.');
+        }
+    }
+
+    public function updatedSearch()
+    {
+        $this->resetPage();
     }
 
     public function render()
@@ -76,15 +98,18 @@ class Index extends Component
                 $query->where('keterangan', 'Sakit');
             },
         ])
+            ->when($this->search, function ($query) {
+                $query->where('nama_mahasiswa', 'like', '%' . $this->search . '%');
+            })
             ->when($this->month, function ($query) {
                 $query->whereHas('presensi', function ($presensiQuery) {
                     $presensiQuery->whereMonth('created_at', $this->month);
-                }, '>=', 0); // Tetap termasuk mahasiswa tanpa presensi
+                }, '>=', 0);
             })
             ->when($this->year, function ($query) {
                 $query->whereHas('presensi', function ($presensiQuery) {
                     $presensiQuery->whereYear('created_at', $this->year);
-                }, '>=', 0); // Tetap termasuk mahasiswa tanpa presensi
+                }, '>=', 0);
             })
             ->when($this->selectedProdi, function ($query) {
                 $query->where('kode_prodi', $this->selectedProdi);

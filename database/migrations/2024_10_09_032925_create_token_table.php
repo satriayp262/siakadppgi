@@ -16,11 +16,13 @@ return new class extends Migration
             $table->string('token')->unique();
             $table->integer('id_mata_kuliah');
             $table->integer('id_kelas');
+            $table->integer('id_semester');
             $table->timestamp('valid_until');
             $table->foreignId('id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
             $table->foreign('id_mata_kuliah')->references('id_mata_kuliah')->on('matkul')->onDelete('cascade');
             $table->foreign('id_kelas')->references('id_kelas')->on('kelas')->onDelete('cascade');
+            $table->foreign('id_semester')->references('id_semester')->on('semester')->onDelete('cascade');
         });
     }
 

@@ -87,16 +87,7 @@
 </div>
 
 <script>
-    function toggleRadio(event, radio) {
-        // Cek apakah radio saat ini sudah terpilih
-        if (radio.checked) {
-            event.preventDefault(); // Cegah perilaku default
-            radio.checked = false; // Ubah menjadi tidak terpilih
-            radio.dispatchEvent(new Event('change')); // Pastikan Livewire menangkap perubahan
-        }
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function() {
         Livewire.on('error', function(eventData) {
             Swal.fire({
                 icon: 'error',
@@ -104,7 +95,7 @@
                 text: 'Terjadi kesalahan saat proses presensi.',
                 confirmButtonText: 'OK'
             });
-        });
+        });`
     });
 
     document.addEventListener('DOMContentLoaded', function() {

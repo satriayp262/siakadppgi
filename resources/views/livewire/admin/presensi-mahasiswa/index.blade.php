@@ -191,9 +191,16 @@
                             Sakit: {{ $mahasiswa->sakit_count }}
                         </td>
                         <td class="px-4 py-2 text-center">
-                            <button class="py-2 px-4 bg-blue-500 hover:bg-blue-700 rounded" wire:click="kirimEmail({{ $mahasiswa->NIM }})">
-                                Kirim SP
-                            </button>
+                            @if ($mahasiswa->alpha_count == 2)
+                                <button class="py-2 px-4 bg-blue-500 text-white hover:bg-blue-700 rounded"
+                                    wire:click="kirimEmail({{ $mahasiswa->NIM }})">
+                                    Kirim SP
+                                </button>
+                            @else
+                                <button class="py-2 px-4 bg-gray-400 text-white rounded" disabled>
+                                    Kirim SP
+                                </button>
+                            @endif
                         </td>
                     </tr>
                 @endforeach

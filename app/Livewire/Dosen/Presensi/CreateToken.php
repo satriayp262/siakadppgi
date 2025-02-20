@@ -7,12 +7,12 @@ use Illuminate\Support\Str;
 use Livewire\Component;
 use App\Models\Token;
 use App\Models\Kelas;
-use App\Models\Dosen;
+use App\Models\Semester;
 use Illuminate\Support\Facades\Auth;
 
 class CreateToken extends Component
 {
-    public $id_mata_kuliah, $matkul, $nama_mata_kuliah, $id_kelas, $nama_kelas;
+    public $id_mata_kuliah, $matkul, $nama_mata_kuliah, $id_kelas, $nama_kelas, $id_semester;
     public $valid_until;
 
     protected $rules = [
@@ -44,12 +44,22 @@ class CreateToken extends Component
     {
         $this->validate();
 
+        // Ambil ID semester yang aktif
+        $semesterAktif = Semester::where('is_active', 1)->first();
+
+        // Pastikan semester aktif ditemukan
+        if (!$semesterAktif) {
+            session()->flash('error', 'Tidak ada semester aktif.');
+            return;
+        }
+
         $token = Str::random(6);
 
         Token::create([
             'token' => $token,
             'id_mata_kuliah' => $this->id_mata_kuliah,
             'id_kelas' => $this->id_kelas,
+            'id_semester' => $semesterAktif->id_semester, // Gunakan ID semester aktif
             'valid_until' => $this->valid_until,
             'id' => Auth::user()->id,
         ]);
@@ -60,8 +70,6 @@ class CreateToken extends Component
 
     public function render()
     {
-        // // $matkuls = Matakuliah::where('nidn', auth()->user()->nim_nidn)->get();
-        // $matkuls = Matakuliah::all();
         return view('livewire.dosen.presensi.create-token');
     }
 }
