@@ -11,6 +11,7 @@ use App\Models\Matakuliah;
 use App\Models\Pertanyaan;
 use App\Models\Jawaban;
 use App\Models\MahasiswaEmonev;
+use Vinkla\Hashids\Facades\Hashids;
 
 class Show extends Component
 {
@@ -26,9 +27,13 @@ class Show extends Component
 
 
 
-    public function mount($id_mata_kuliah, $nama_semester)
+    public function mount($id_mata_kuliah, $nama_semester, )
     {
-        $this->id = $id_mata_kuliah;
+
+        $decoded = Hashids::decode($id_mata_kuliah);
+        $this->id = $decoded[0] ?? null;
+        if (!$this->id)
+            abort(404);
         $this->semester = $nama_semester;
     }
 
@@ -63,7 +68,6 @@ class Show extends Component
         // Tentukan sesi (1 jika belum ada data, +1 jika sudah ada)
         $sesi = $emon ? $emon->sesi + 1 : 1;
 
-
         // Simpan data MahasiswaEmonev (gunakan update jika sudah ada)
         if ($emon) {
             $emon->update(['sesi' => $sesi]);
@@ -93,7 +97,6 @@ class Show extends Component
                 'nilai' => $nilai,
             ]);
         }
-
         // Reset input setelah sukses
         $this->reset(['jawaban', 'saran']);
 
@@ -111,17 +114,12 @@ class Show extends Component
         $pertanyaan = Pertanyaan::query()->get();
         $semester = $this->semester;
         $semester2 = Semester::where('nama_semester', $semester)->firstOrFail();
-        $emon = MahasiswaEmonev::where('NIM', $maha->NIM)
-            ->where('id_mata_kuliah', $this->id)
-            ->where('id_semester', $semester2->id_semester)
-            ->first();
+
 
         return view('livewire.mahasiswa.emonev.show', [
             'matkul' => $matkul,
             'pertanyaans' => $pertanyaan,
             'semester' => $semester,
-            'e' => $emon,
-
         ]);
     }
 }
