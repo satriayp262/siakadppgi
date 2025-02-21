@@ -5,49 +5,56 @@ namespace App\Exports;
 use App\Models\Mahasiswa;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
-use Carbon\Carbon;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithStyles;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Maatwebsite\Excel\Events\AfterSheet;
 
-class MahasiswaPresensiExport implements FromCollection, WithHeadings
+class MahasiswaPresensiExport implements FromCollection, WithHeadings, ShouldAutoSize, WithStyles, WithEvents
 {
-    protected $month;
-    protected $year;
+    protected $semester;
     protected $selectedProdi;
 
-    // Constructor untuk menerima parameter filter
-    public function __construct($month, $year, $selectedProdi)
+    public function __construct($semester, $selectedProdi)
     {
-        $this->month = $month;
-        $this->year = $year;
+        $this->semester = $semester;
         $this->selectedProdi = $selectedProdi;
     }
 
-    // Mengambil data mahasiswa yang sudah difilter
     public function collection()
     {
-        // Ambil data mahasiswa dengan filter bulan, tahun, dan program studi
         $dataMahasiswa = Mahasiswa::withCount([
             'presensi as hadir_count' => function ($query) {
                 $query->where('keterangan', 'Hadir')
-                      ->whereMonth('created_at', $this->month)
-                      ->whereYear('created_at', $this->year);
+                    ->whereHas('token', function ($q) {
+                        $q->where('id_semester', $this->semester);
+                    });
             },
             'presensi as ijin_count' => function ($query) {
                 $query->where('keterangan', 'Ijin')
-                      ->whereMonth('created_at', $this->month)
-                      ->whereYear('created_at', $this->year);
+                    ->whereHas('token', function ($q) {
+                        $q->where('id_semester', $this->semester);
+                    });
             },
             'presensi as sakit_count' => function ($query) {
                 $query->where('keterangan', 'Sakit')
-                      ->whereMonth('created_at', $this->month)
-                      ->whereYear('created_at', $this->year);
+                    ->whereHas('token', function ($q) {
+                        $q->where('id_semester', $this->semester);
+                    });
+            },
+            'presensi as alpha_count' => function ($query) {
+                $query->where('keterangan', 'Alpha')
+                    ->whereHas('token', function ($q) {
+                        $q->where('id_semester', $this->semester);
+                    });
             },
         ])
-        ->when($this->selectedProdi, function ($query) {
-            $query->where('kode_prodi', $this->selectedProdi);
-        })
-        ->get();
+            ->when($this->selectedProdi, function ($query) {
+                $query->where('kode_prodi', $this->selectedProdi);
+            })
+            ->get();
 
-        // Format data mahasiswa untuk di-export
         $formattedData = $dataMahasiswa->map(function ($mahasiswa) {
             return [
                 'nama' => $mahasiswa->nama,
@@ -56,6 +63,7 @@ class MahasiswaPresensiExport implements FromCollection, WithHeadings
                 'hadir' => $mahasiswa->hadir_count,
                 'ijin' => $mahasiswa->ijin_count,
                 'sakit' => $mahasiswa->sakit_count,
+                'alpha' => $mahasiswa->alpha_count,
             ];
         });
 
@@ -65,12 +73,60 @@ class MahasiswaPresensiExport implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
-            'Nama Mahasiswa',
-            'NIM',
-            'Program Studi',
-            'Hadir',
-            'Ijin',
-            'Sakit',
+            'Nama Mahasiswa', // Kolom A
+            'NIM',            // Kolom B
+            'Program Studi',  // Kolom C
+            'Hadir',          // Kolom D
+            'Ijin',           // Kolom E
+            'Sakit',          // Kolom F
+            'Alpha',          // Kolom G
+        ];
+    }
+
+    // Style untuk rata tengah pada heading
+    public function styles(Worksheet $sheet)
+    {
+        return [
+            1 => ['alignment' => ['horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER]],
+        ];
+    }
+
+    // Event hanya untuk memberi warna di baris heading
+    public function registerEvents(): array
+    {
+        return [
+            AfterSheet::class => function (AfterSheet $event) {
+                $sheet = $event->sheet->getDelegate();
+
+                // Warna hanya untuk heading (baris pertama)
+                $colors = [
+                    'A1' => 'FF00FF00', // Hijau untuk Nama Mahasiswa
+                    'B1' => 'FF00FF00', // Hijau untuk NIM
+                    'C1' => 'FFFFFF00', // Kuning untuk Program Studi
+                    'D1' => 'FF00FF00', // Hijau untuk Hadir
+                    'E1' => 'FFFFFF00', // Kuning untuk Ijin
+                    'F1' => 'FF0000FF', // Biru untuk Sakit
+                    'G1' => 'FFFF0000', // Merah untuk Alpha
+                ];
+
+                foreach ($colors as $cell => $color) {
+                    $sheet->getStyle($cell)->applyFromArray([
+                        'fill' => [
+                            'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                            'startColor' => [
+                                'argb' => $color,
+                            ],
+                        ],
+                        'font' => [
+                            'bold' => true,
+                            'color' => ['argb' => 'FFFFFFFF'], // Teks putih
+                        ],
+                        'alignment' => [
+                            'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                        ],
+                    ]);
+                }
+            },
         ];
     }
 }
