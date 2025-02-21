@@ -40,10 +40,19 @@ class Index extends Component
             ->where('id_semester', $semester)
             ->get();
 
+        foreach ($krs as $k) {
+            $kelas = Kelas::where('id_kelas', $k->id_kelas)->first();
+        }
+
+
+
+
+
 
         return view('livewire.mahasiswa.emonev.index', [
             'krs' => $krs,
             'semester' => $this->nama_semester,
+            'k' => $kelas,
         ]);
     }
 }

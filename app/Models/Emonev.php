@@ -11,7 +11,7 @@ class Emonev extends Model
 
     protected $table = 'emonev';
     protected $primaryKey = 'id_emonev';
-    protected $fillable = ['id_semester', 'nidn', 'id_mata_kuliah', 'saran'];
+    protected $fillable = ['id_semester', 'nidn', 'id_mata_kuliah', 'saran', 'id_kelas'];
 
     public function semester()
     {
@@ -27,6 +27,11 @@ class Emonev extends Model
     public function matkul()
     {
         return $this->belongsTo(Matakuliah::class, 'id_mata_kuliah', 'id_mata_kuliah');
+    }
+
+    public function kelas()
+    {
+        return $this->belongsTo(Kelas::class, 'id_kelas', 'id_kelas');
     }
 
     public function jawaban()

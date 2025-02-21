@@ -10,7 +10,9 @@ use Livewire\Component;
 use App\Models\Matakuliah;
 use App\Models\Pertanyaan;
 use App\Models\Jawaban;
+use App\Models\Kelas;
 use App\Models\MahasiswaEmonev;
+
 use Vinkla\Hashids\Facades\Hashids;
 
 class Show extends Component
@@ -24,17 +26,25 @@ class Show extends Component
     public $sesi;
     public $pertanyaan;
     public $mahasiswa;
+    public $id_kelas;
 
 
 
-    public function mount($id_mata_kuliah, $nama_semester, )
+
+    public function mount($id_mata_kuliah, $nama_semester)
     {
 
         $decoded = Hashids::decode($id_mata_kuliah);
         $this->id = $decoded[0] ?? null;
-        if (!$this->id)
+        $this->id_kelas = $decoded[1] ?? null;
+
+        if (!$this->id || !$this->id_kelas)
             abort(404);
+
+
         $this->semester = $nama_semester;
+
+
     }
 
 
@@ -86,6 +96,7 @@ class Show extends Component
             'id_mata_kuliah' => $this->id,
             'id_semester' => $semester->id_semester,
             'nidn' => $matkul->dosen->nidn,
+            'id_kelas' => $this->id_kelas,
             'saran' => $this->saran,
         ]);
 
@@ -109,17 +120,20 @@ class Show extends Component
 
     public function render()
     {
-        $maha = Mahasiswa::where('NIM', auth()->user()->nim_nidn)->first();
+
         $matkul = Matakuliah::query()->where('id_mata_kuliah', $this->id)->first();
         $pertanyaan = Pertanyaan::query()->get();
         $semester = $this->semester;
-        $semester2 = Semester::where('nama_semester', $semester)->firstOrFail();
+        $kelas = Kelas::query()->where('id_kelas', $this->id_kelas)->first();
+
 
 
         return view('livewire.mahasiswa.emonev.show', [
             'matkul' => $matkul,
             'pertanyaans' => $pertanyaan,
             'semester' => $semester,
+            'kelas' => $kelas,
+
         ]);
     }
 }

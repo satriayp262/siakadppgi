@@ -39,12 +39,17 @@
                 </ol>
             </nav>
 
-            <div class="text-center md:text-left">
+            <!-- Dosen dan Kelas sejajar -->
+            <div class="flex flex-col md:flex-row items-center gap-x-6">
                 <h1 class="text-lg font-semibold">
                     Dosen: <span class="text-customPurple">{{ $matkul->dosen->nama_dosen }}</span>
                 </h1>
+                <h1 class="text-lg font-semibold">
+                    Kelas: <span class="text-customPurple">{{ $kelas->nama_kelas }}</span>
+                </h1>
             </div>
         </div>
+
 
         <!-- FORM START -->
         <form wire:submit.prevent="save">

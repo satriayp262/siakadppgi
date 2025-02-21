@@ -63,7 +63,8 @@
                         <p class="text-gray-600 text-center text-sm mb-4">
                             {{ $item->matkul->nama_mata_kuliah }}
                             @php
-                                $kode = Hashids::encode($item->matkul->id_mata_kuliah);
+
+                                $kode = Hashids::encode($item->matkul->id_mata_kuliah, $k->id_kelas);
                             @endphp
                         </p>
 
