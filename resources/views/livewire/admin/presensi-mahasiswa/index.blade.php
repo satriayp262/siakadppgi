@@ -42,14 +42,14 @@
                     <!-- Dropdown untuk Bulan -->
                     <ul class="py-2 text-sm text-gray-500" aria-labelledby="dropdownDefaultButton">
                         <li>
-                            <button id="monthDropdownButton" data-dropdown-toggle="monthDropdown"
+                            <button id="semesterDropdownButton" data-dropdown-toggle="semesterDropdown"
                                 data-dropdown-delay="500" data-dropdown-trigger="hover"
                                 data-dropdown-placement="right-start" type="button"
                                 class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100">
-                                @if ($month)
-                                    {{ \Carbon\Carbon::createFromFormat('m', $month)->locale('id')->monthName }}
+                                @if ($semester)
+                                    Semester {{ $semester }}
                                 @else
-                                    Bulan
+                                    Pilih Semester
                                 @endif
                                 <svg class="w-2.5 h-2.5 ms-3 rtl:rotate-180" aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
@@ -57,56 +57,18 @@
                                         stroke-width="2" d="m1 9 4-4-4-4" />
                                 </svg>
                             </button>
-                            <div id="monthDropdown"
+                            <div id="semesterDropdown"
                                 class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
-                                <ul class="py-2 text-sm text-gray-700" aria-labelledby="monthDropdownButton">
+                                <ul class="py-2 text-sm text-gray-700" aria-labelledby="semesterDropdownButton">
                                     <li>
-                                        <a href="#" wire:click.prevent="$set('month', '')"
-                                            class="block px-4 py-2 hover:bg-gray-100">All</a>
+                                        <a href="#" wire:click.prevent="$set('semester', '')"
+                                            class="block px-4 py-2 hover:bg-gray-100">Semua Semester</a>
                                     </li>
-                                    @foreach (range(1, 12) as $m)
+                                    @foreach ($semesters as $s)
                                         <li>
-                                            <a href="#" wire:click.prevent="$set('month', '{{ $m }}')"
-                                                class="block px-4 py-2 hover:bg-gray-100 ">
-                                                {{ \Carbon\Carbon::createFromFormat('m', $m)->locale('id')->monthName }}
-                                            </a>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-
-                    <!-- Dropdown untuk Tahun -->
-                    <ul class="py-2 text-sm text-gray-500" aria-labelledby="dropdownDefaultButton">
-                        <li>
-                            <button id="yearDropdownButton" data-dropdown-toggle="yearDropdown"
-                                data-dropdown-delay="500" data-dropdown-trigger="hover"
-                                data-dropdown-placement="right-start" type="button"
-                                class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100">
-                                @if ($year)
-                                    {{ $year }}
-                                @else
-                                    Tahun
-                                @endif
-                                <svg class="w-2.5 h-2.5 ms-3 rtl:rotate-180" aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2" d="m1 9 4-4-4-4" />
-                                </svg>
-                            </button>
-                            <div id="yearDropdown"
-                                class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
-                                <ul class="py-2 text-sm text-gray-700" aria-labelledby="yearDropdownButton">
-                                    <li>
-                                        <a href="#" wire:click.prevent="$set('year', '')"
-                                            class="block px-4 py-2 hover:bg-gray-100">All</a>
-                                    </li>
-                                    @foreach (range(now()->year - 5, now()->year) as $y)
-                                        <li>
-                                            <a href="#" wire:click.prevent="$set('year', '{{ $y }}')"
-                                                class="block px-4 py-2 hover:bg-gray-100 ">
-                                                {{ $y }}
+                                            <a href="#" wire:click.prevent="$set('semester', {{ $s->id_semester }})"
+                                                class="block px-4 py-2 hover:bg-gray-100">
+                                                Semester {{ $s->nama_semester }}
                                             </a>
                                         </li>
                                     @endforeach
@@ -177,33 +139,41 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($dataMahasiswa as $index => $mahasiswa)
-                    <tr class="border-t">
-                        <td class="px-3 py-2 text-center">
-                            {{ ($dataMahasiswa->currentPage() - 1) * $dataMahasiswa->perPage() + $loop->iteration }}
-                        </td>
-                        <td class="px-4 py-2 text-center">{{ $mahasiswa->nama }}</td>
-                        <td class="px-4 py-2 text-center">{{ $mahasiswa->NIM }}</td>
-                        <td class="px-4 py-2 text-center">{{ $mahasiswa->prodi->nama_prodi }}</td>
-                        <td class="px-4 py-2 text-center">
-                            Alpha: {{ $mahasiswa->alpha_count }},
-                            Ijin: {{ $mahasiswa->ijin_count }},
-                            Sakit: {{ $mahasiswa->sakit_count }}
-                        </td>
-                        <td class="px-4 py-2 text-center">
-                            @if ($mahasiswa->alpha_count == 2)
-                                <button class="py-2 px-4 bg-blue-500 text-white hover:bg-blue-700 rounded"
-                                    wire:click="kirimEmail({{ $mahasiswa->NIM }})">
-                                    Kirim SP
-                                </button>
-                            @else
-                                <button class="py-2 px-4 bg-gray-400 text-white rounded" disabled>
-                                    Kirim SP
-                                </button>
-                            @endif
+                @if ($dataMahasiswa->isEmpty())
+                    <tr>
+                        <td colspan="6" class="px-4 py-2 text-center text-gray-500">
+                            Data mahasiswa tidak tersedia.
                         </td>
                     </tr>
-                @endforeach
+                @else
+                    @foreach ($dataMahasiswa as $index => $mahasiswa)
+                        <tr class="border-t">
+                            <td class="px-3 py-2 text-center">
+                                {{ ($dataMahasiswa->currentPage() - 1) * $dataMahasiswa->perPage() + $loop->iteration }}
+                            </td>
+                            <td class="px-4 py-2 text-center">{{ $mahasiswa->nama }}</td>
+                            <td class="px-4 py-2 text-center">{{ $mahasiswa->NIM }}</td>
+                            <td class="px-4 py-2 text-center">{{ $mahasiswa->prodi->nama_prodi }}</td>
+                            <td class="px-4 py-2 text-center">
+                                Alpha: {{ $mahasiswa->alpha_count }},
+                                Ijin: {{ $mahasiswa->ijin_count }},
+                                Sakit: {{ $mahasiswa->sakit_count }}
+                            </td>
+                            <td class="px-4 py-2 text-center">
+                                @if ($mahasiswa->alpha_count == 2)
+                                    <button class="py-2 px-4 bg-blue-500 text-white hover:bg-blue-700 rounded"
+                                        wire:click="kirimEmail({{ $mahasiswa->NIM }})">
+                                        Kirim SP
+                                    </button>
+                                @else
+                                    <button class="py-2 px-4 bg-gray-400 text-white rounded" disabled>
+                                        Kirim SP
+                                    </button>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                @endif
             </tbody>
         </table>
 

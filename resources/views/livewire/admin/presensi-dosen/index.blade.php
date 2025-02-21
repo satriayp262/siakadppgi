@@ -162,6 +162,7 @@
                     <th class="px-4 py-2 text-center">Prodi</th>
                     <th class="px-4 py-2 text-center">Jumlah Token</th>
                     <th class="px-4 py-2 text-center">Jumlah Jam</th>
+                    <th class="px-4 py-2 text-center">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -175,6 +176,14 @@
                         <td class="px-4 py-2 text-center">{{ $dosen->prodi->nama_prodi }}</td>
                         <td class="px-4 py-2 text-center">{{ $dosen->tokens_count }}</td>
                         <td class="px-4 py-2 text-center">{{ $dosen->total_jam }}</td>
+                        <td class="px-4 py-2 text-center">
+                            <div class="flex justify-center space-x-2 py-2">
+                                <a href="#"
+                                    class="py-2 px-4 bg-blue-500 hover:bg-blue-700 rounded">
+                                    <p class="text-white">▶</p>
+                                </a>
+                            </div>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

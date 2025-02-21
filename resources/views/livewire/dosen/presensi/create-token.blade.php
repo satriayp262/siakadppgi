@@ -31,14 +31,15 @@
 
                         <div class="mb-4">
                             <label for="valid_until">Berlaku Hingga</label>
-                            <input type="datetime-local" wire:model="valid_until" class="border p-2 rounded w-full"
-                                required />
+                            <input type="datetime-local" wire:model="valid_until"
+                                class="border p-2 rounded w-full" required />
+                            @error('valid_until') <span class="text-red-500">{{ $message }}</span> @enderror
                         </div>
 
                         <div class="flex justify-end p-4 bg-gray-200 rounded-b-lg">
                             <button type="button" @click="isOpen = false"
                                 class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">Close</button>
-                            <button type="submit" @click="isOpen = false"
+                            <button type="submit"
                                 class="px-4 py-2 ml-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">Submit</button>
                         </div>
                     </form>

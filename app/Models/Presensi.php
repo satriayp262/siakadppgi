@@ -10,7 +10,7 @@ class Presensi extends Model
     use HasFactory;
 
     protected $table = 'presensi';
-    protected $fillable = ['nama', 'nim', 'token', 'waktu_submit', 'keterangan','alasan', 'id_kelas', 'id_mata_kuliah'];
+    protected $fillable = ['nama', 'nim', 'token', 'waktu_submit', 'keterangan', 'alasan', 'id_kelas', 'id_mata_kuliah'];
 
     public function token()
     {

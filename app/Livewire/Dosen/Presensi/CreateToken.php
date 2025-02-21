@@ -24,7 +24,6 @@ class CreateToken extends Component
     public function mount()
     {
         if ($this->id_mata_kuliah) {
-            // Fetch Matakuliah
             $matkul = Matakuliah::find($this->id_mata_kuliah);
             if ($matkul) {
                 $this->nama_mata_kuliah = $matkul->nama_mata_kuliah;
@@ -32,7 +31,6 @@ class CreateToken extends Component
         }
 
         if ($this->id_kelas) {
-            // Fetch Kelas
             $kelas = Kelas::find($this->id_kelas);
             if ($kelas) {
                 $this->nama_kelas = $kelas->nama_kelas;
@@ -44,10 +42,11 @@ class CreateToken extends Component
     {
         $this->validate();
 
-        // Ambil ID semester yang aktif
+        // Debugging untuk memastikan validasi berhasil
+        // dd('Validasi berhasil');
+
         $semesterAktif = Semester::where('is_active', 1)->first();
 
-        // Pastikan semester aktif ditemukan
         if (!$semesterAktif) {
             session()->flash('error', 'Tidak ada semester aktif.');
             return;
@@ -59,7 +58,7 @@ class CreateToken extends Component
             'token' => $token,
             'id_mata_kuliah' => $this->id_mata_kuliah,
             'id_kelas' => $this->id_kelas,
-            'id_semester' => $semesterAktif->id_semester, // Gunakan ID semester aktif
+            'id_semester' => $semesterAktif->id_semester,
             'valid_until' => $this->valid_until,
             'id' => Auth::user()->id,
         ]);

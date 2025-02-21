@@ -245,7 +245,13 @@ class Mahasiswa extends Model
     {
         return $this->hasMany(Presensi::class, 'nim', 'nim');
     }
+
+    public function token()
+    {
+        return $this->hasManyThrough(Token::class, Presensi::class, 'nim', 'token', 'nim', 'token');
+    }
+    public function user()
+    {
+        return $this->hasOne(User::class, 'nim_nidn', 'NIM');
+    }
 }
-
-
-
