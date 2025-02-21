@@ -20,6 +20,19 @@ class PeringatanMail extends Mailable
     public function __construct($data)
     {
         $this->data = $data;
+
+    }public function build()
+    {
+        return $this->view('emails.peringatan')
+            ->with([
+                'nama' => $this->data['nama'], // Kirim data ke view
+                'nim' => $this->data['nim'],
+                'alpha_count' => $this->data['alpha_count'],
+            ])
+            ->attach(public_path('img/kop_surat.jpg'), [
+                'as' => 'kop_surat.jpg',
+                'mime' => 'image/jpg'
+            ]);
     }
 
     /**
