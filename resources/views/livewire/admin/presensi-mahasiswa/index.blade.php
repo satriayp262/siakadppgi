@@ -66,7 +66,8 @@
                                     </li>
                                     @foreach ($semesters as $s)
                                         <li>
-                                            <a href="#" wire:click.prevent="$set('semester', {{ $s->id_semester }})"
+                                            <a href="#"
+                                                wire:click.prevent="$set('semester', {{ $s->id_semester }})"
                                                 class="block px-4 py-2 hover:bg-gray-100">
                                                 Semester {{ $s->nama_semester }}
                                             </a>
@@ -160,7 +161,10 @@
                                 Sakit: {{ $mahasiswa->sakit_count }}
                             </td>
                             <td class="px-4 py-2 text-center">
-                                @if ($mahasiswa->alpha_count == 2)
+                                @php
+                                    $sudahKirim = \App\Models\RiwayatSP::where('nim', $mahasiswa->NIM)->exists();
+                                @endphp
+                                @if ($mahasiswa->alpha_count == 2 && !$sudahKirim)
                                     <button class="py-2 px-4 bg-blue-500 text-white hover:bg-blue-700 rounded"
                                         wire:click="kirimEmail({{ $mahasiswa->NIM }})">
                                         Kirim SP
@@ -171,6 +175,7 @@
                                     </button>
                                 @endif
                             </td>
+
                         </tr>
                     @endforeach
                 @endif
@@ -183,3 +188,28 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Cek apakah tombol sudah dikirim berdasarkan localStorage
+        document.querySelectorAll('button[id^="sp-btn-"]').forEach(function(button) {
+            const nim = button.id.replace('sp-btn-', '');
+            if (localStorage.getItem('sp_sent_' + nim)) {
+                button.disabled = true;
+                button.classList.remove('bg-blue-500', 'hover:bg-blue-700');
+                button.classList.add('bg-gray-400');
+            }
+        });
+    });
+
+    function disableButton(nim) {
+        // Simpan status di localStorage
+        localStorage.setItem('sp_sent_' + nim, true);
+
+        // Disable tombol langsung
+        const button = document.getElementById('sp-btn-' + nim);
+        button.disabled = true;
+        button.classList.remove('bg-blue-500', 'hover:bg-blue-700');
+        button.classList.add('bg-gray-400');
+    }
+</script>

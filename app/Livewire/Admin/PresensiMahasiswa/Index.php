@@ -3,7 +3,7 @@
 namespace App\Livewire\Admin\PresensiMahasiswa;
 
 use App\Models\Mahasiswa;
-use App\Models\User;
+use App\Models\RiwayatSP;
 use App\Exports\MahasiswaPresensiExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Prodi;
@@ -21,7 +21,7 @@ class Index extends Component
     public $semesters = []; // Untuk list semua semester    public $selectedProdi;
     public $prodi;
     public $selectedProdi;
-
+    public $spSent = false;
     public $user;
     public $search = '';
 
@@ -51,15 +51,25 @@ class Index extends Component
 
     public function kirimEmail($nim)
     {
+        // Cek apakah SP sudah dikirim sebelumnya
+        $sudahKirim = RiwayatSP::where('nim', $nim)->exists();
+
+        if ($sudahKirim) {
+            session()->flash('error', 'Surat peringatan sudah pernah dikirim.');
+            return;
+        }
+
+        // Ambil data mahasiswa dan hitung alpha
         $mahasiswa = Mahasiswa::where('NIM', $nim)
             ->withCount(['presensi as alpha_count' => function ($query) {
                 $query->where('keterangan', 'Alpha');
             }])
             ->first();
 
+        // Cek apakah memenuhi syarat pengiriman
         if ($mahasiswa && $mahasiswa->alpha_count == 2 && $mahasiswa->user) {
             $data = [
-                'nama' => $mahasiswa->nama, // Pastikan nama terisi
+                'nama' => $mahasiswa->nama,
                 'nim' => $mahasiswa->NIM,
                 'alpha_count' => $mahasiswa->alpha_count,
             ];
@@ -67,12 +77,21 @@ class Index extends Component
             // Kirim email
             Mail::to($mahasiswa->user->email)->send(new PeringatanMail($data));
 
+            // Simpan riwayat pengiriman SP
+            RiwayatSP::create([
+                'nim' => $nim,
+                'sent_at' => now(),
+            ]);
+
             session()->flash('success', 'Surat peringatan berhasil dikirim.');
+            $this->spSent = true;
+
+            // Emit event ke front-end untuk disable tombol
+            $this->dispatch('spSentSuccess', nim: $nim);
         } else {
             session()->flash('error', 'Mahasiswa tidak ditemukan atau belum memenuhi batas Alpha.');
         }
     }
-
     public function updatedSearch()
     {
         $this->resetPage();
@@ -80,34 +99,48 @@ class Index extends Component
 
     public function render()
     {
-        $dataMahasiswa = Mahasiswa::with([
-            'presensi' => function ($query) {
-                $query->select('nim', 'keterangan', 'created_at');
-            }
-        ])->withCount([
+        // Ambil semua data mahasiswa
+        $dataMahasiswa = Mahasiswa::with(['presensi' => function ($query) {
+            $query->select('nim', 'keterangan', 'created_at');
+        }])->withCount([
             'presensi as hadir_count' => function ($query) {
                 $query->where('keterangan', 'Hadir');
+                if ($this->semester) {
+                    $query->whereHas('token', function ($tokenQuery) {
+                        $tokenQuery->where('id_semester', intval($this->semester));
+                    });
+                }
             },
             'presensi as alpha_count' => function ($query) {
                 $query->where('keterangan', 'Alpha');
+                if ($this->semester) {
+                    $query->whereHas('token', function ($tokenQuery) {
+                        $tokenQuery->where('id_semester', intval($this->semester));
+                    });
+                }
             },
             'presensi as ijin_count' => function ($query) {
                 $query->where('keterangan', 'Ijin');
+                if ($this->semester) {
+                    $query->whereHas('token', function ($tokenQuery) {
+                        $tokenQuery->where('id_semester', intval($this->semester));
+                    });
+                }
             },
             'presensi as sakit_count' => function ($query) {
                 $query->where('keterangan', 'Sakit');
+                if ($this->semester) {
+                    $query->whereHas('token', function ($tokenQuery) {
+                        $tokenQuery->where('id_semester', intval($this->semester));
+                    });
+                }
             },
         ])
+            // Filter nama mahasiswa jika ada pencarian
             ->when($this->search, function ($query) {
                 $query->where('nama', 'like', '%' . $this->search . '%');
             })
-            ->when($this->semester, function ($query) {
-                $query->whereHas('presensi', function ($presensiQuery) {
-                    $presensiQuery->whereHas('token', function ($tokenQuery) {
-                        $tokenQuery->where('id_semester', intval($this->semester)); // Pastikan integer
-                    });
-                });
-            })
+            // Filter program studi jika dipilih
             ->when($this->selectedProdi, function ($query) {
                 $query->where('kode_prodi', $this->selectedProdi);
             })
