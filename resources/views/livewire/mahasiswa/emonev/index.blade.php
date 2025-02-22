@@ -63,13 +63,9 @@
                         <p class="text-gray-600 text-center text-sm mb-4">
                             {{ $item->matkul->nama_mata_kuliah }}
                             @php
-
                                 $kode = Hashids::encode($item->matkul->id_mata_kuliah, $k->id_kelas);
                             @endphp
                         </p>
-
-
-
                         <!-- Button -->
                         <button
                             onclick="window.location.href='{{ route('emonev.detail', ['id_mata_kuliah' => $kode, 'nama_semester' => $semester->nama_semester]) }}'"

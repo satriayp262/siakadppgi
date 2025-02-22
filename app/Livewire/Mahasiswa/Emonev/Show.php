@@ -53,13 +53,14 @@ class Show extends Component
     {
         // Validasi input
         $this->validate([
-            'jawaban' => 'required|array',
+            'jawaban' => 'required|array|min:' . Pertanyaan::count(),
             'jawaban.*' => 'required',
             'saran' => 'required|string',
         ], [
             'jawaban.required' => 'Jawaban wajib diisi.',
             'jawaban.array' => 'Jawaban harus berupa array.',
-            'jawaban.*.required' => 'Jawaban wajib diisi.',
+            'jawaban.min' => 'Semua pertanyaan harus dijawab.',
+            'jawaban.*.required' => 'Setiap jawaban wajib diisi.',
             'saran.required' => 'Saran wajib diisi.',
             'saran.string' => 'Saran harus berupa teks.',
         ]);
@@ -123,16 +124,25 @@ class Show extends Component
 
         $matkul = Matakuliah::query()->where('id_mata_kuliah', $this->id)->first();
         $pertanyaan = Pertanyaan::query()->get();
-        $semester = $this->semester;
+        $semester = Semester::query()->where('nama_semester', $this->semester)->pluck('id_semester', 'nama_semester');
         $kelas = Kelas::query()->where('id_kelas', $this->id_kelas)->first();
+        $mahasiswa = Mahasiswa::query()->where('NIM', auth()->user()->nim_nidn)->value('NIM');
+        $dosen = Dosen::query()->where('nidn', $matkul->nidn)->value('nidn');
 
+        $mahasiswaemonev = MahasiswaEmonev::query()
+            ->where('NIM', $mahasiswa)
+            ->where('id_mata_kuliah', $this->id)
+            ->where('id_semester', $semester->first())
+            ->where('nidn', $dosen)
+            ->value('sesi');
 
 
         return view('livewire.mahasiswa.emonev.show', [
             'matkul' => $matkul,
             'pertanyaans' => $pertanyaan,
-            'semester' => $semester,
+            'semester' => $semester->keys()->first(),
             'kelas' => $kelas,
+            'mahasiswaemonev' => $mahasiswaemonev,
 
         ]);
     }

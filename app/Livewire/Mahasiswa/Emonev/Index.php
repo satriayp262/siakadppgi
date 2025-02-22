@@ -45,14 +45,10 @@ class Index extends Component
         }
 
 
-
-
-
-
         return view('livewire.mahasiswa.emonev.index', [
             'krs' => $krs,
             'semester' => $this->nama_semester,
-            'k' => $kelas,
+            'k' => $kelas ?? null,
         ]);
     }
 }
