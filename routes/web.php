@@ -105,6 +105,9 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
     Route::prefix('pertanyaan')->group(function () {
         Route::get('/', App\Livewire\Admin\Pertanyaan\Index::class)->name('admin.pertanyaan');
     });
+    Route::prefix('emonev')->group(function () {
+        Route::get('/', App\Livewire\Admin\Emonev\Index::class)->name('admin.emonev');
+    });
 });
 
 // mahasiswa
