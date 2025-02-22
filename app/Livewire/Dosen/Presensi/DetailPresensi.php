@@ -15,6 +15,7 @@ class DetailPresensi extends Component
     public $search;
     public $id_kelas;
     public $mahasiswa;
+    public $mahasiswaPresensi;
 
     public function mount($token)
     {
@@ -50,7 +51,29 @@ class DetailPresensi extends Component
         }
 
         $this->mahasiswa = $query->get();
+
+        // Update data presensi yang relevan
+        $this->updatePresensiData();
     }
+
+    public function updatePresensiData()
+    {
+        $presensi = Presensi::where('token', $this->token->token)->get();
+
+        $this->mahasiswaPresensi = $this->mahasiswa->map(function ($mhs) use ($presensi) {
+            $presensiData = $presensi->firstWhere('nim', $mhs->NIM);
+
+            return [
+                'id_presensi' => $presensiData ? $presensiData->id_presensi : null,
+                'nama' => $mhs->nama,
+                'nim' => $mhs->NIM,
+                'waktu_submit' => $presensiData ? $presensiData->waktu_submit : null,
+                'keterangan' => $presensiData ? $presensiData->keterangan : 'Belum Presensi',
+                'alasan' => $presensiData ? $presensiData->alasan : '-',
+            ];
+        });
+    }
+
 
     public function updatedSearch()
     {
@@ -71,14 +94,15 @@ class DetailPresensi extends Component
 
         // Gabungkan mahasiswa dengan presensi
         $mahasiswaPresensi = $mahasiswa->map(function ($mhs) use ($presensi) {
-            $presensiData = $presensi->firstWhere('nim', $mhs->NIM); // Cari presensi untuk mahasiswa ini
+            $presensiData = $presensi->firstWhere('nim', $mhs->NIM);
 
             return [
+                'id_presensi' => $presensiData ? $presensiData->id_presensi : null,
                 'nama' => $mhs->nama,
                 'nim' => $mhs->NIM,
-                'waktu_submit' => $presensiData->waktu_submit ?? null,
-                'keterangan' => $presensiData->keterangan ?? 'Belum Presensi',
-                'alasan' => $presensiData->alasan ?? '-',
+                'waktu_submit' => $presensiData ? $presensiData->waktu_submit : null,
+                'keterangan' => $presensiData ? $presensiData->keterangan : 'Belum Presensi',
+                'alasan' => $presensiData ? $presensiData->alasan : '-',
             ];
         });
 

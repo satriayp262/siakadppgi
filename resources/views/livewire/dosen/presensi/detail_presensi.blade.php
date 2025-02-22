@@ -1,6 +1,7 @@
 <div class="mx-5">
     <div class="flex flex-row justify-between mx-4 mt-4 items-center">
-        <button type="button" onclick="window.history.back()" class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">
+        <button type="button" onclick="window.history.back()"
+            class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">
             Kembali
         </button>
         <input type="text" wire:model.live="search" placeholder="   Search"
@@ -30,12 +31,16 @@
                     <td class="px-2 py-2 text-center">{{ $item['nama'] }}</td>
                     <td class="px-2 py-2 text-center">{{ $item['nim'] }}</td>
                     <td class="px-2 py-2 text-center">
-                        {{ $item['waktu_submit']? \Carbon\Carbon::parse($item['waktu_submit'])->timezone('Asia/Jakarta')->format('d/m/Y H:i'): '-' }}
+                        {{ $item['waktu_submit'] ? \Carbon\Carbon::parse($item['waktu_submit'])->timezone('Asia/Jakarta')->format('d/m/Y H:i') : '-' }}
                     </td>
                     <td class="px-2 py-2 text-center">{{ $item['keterangan'] }}</td>
-                    <td class="px-2 py-2 text-center">{{ $item['alasan'] }}</td>
+                    <td class="px-2 py-2 text-center">{{ $item['alasan'] ?? '-' }}</td>
+                    <td class="px-2 py-2 text-center">
+                        <livewire:dosen.presensi.edit :id_presensi="$item['id_presensi']" wire:key="'edit-' . $item['id_presensi']" />
+                    </td>
                 </tr>
             @endforeach
         </tbody>
     </table>
+
 </div>
