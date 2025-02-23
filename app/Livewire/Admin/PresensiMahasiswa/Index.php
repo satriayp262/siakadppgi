@@ -51,7 +51,6 @@ class Index extends Component
 
     public function kirimEmail($nim)
     {
-        // Cek apakah SP sudah dikirim sebelumnya
         $sudahKirim = RiwayatSP::where('nim', $nim)->exists();
 
         if ($sudahKirim) {
@@ -59,31 +58,34 @@ class Index extends Component
             return;
         }
 
-        // Ambil data mahasiswa dan hitung alpha
         $mahasiswa = Mahasiswa::where('NIM', $nim)
             ->withCount(['presensi as alpha_count' => function ($query) {
                 $query->where('keterangan', 'Alpha');
             }])
             ->first();
 
-        // Cek apakah memenuhi syarat pengiriman
-        if ($mahasiswa && $mahasiswa->alpha_count == 2 && $mahasiswa->user) {
+        if ($mahasiswa && $mahasiswa->user) {
+            // Generate nomor surat otomatis
+            $countSP = RiwayatSP::count() + 1; // Hitung jumlah surat sebelumnya
+            $no_surat = sprintf("%03d", $countSP) . "/PPGI/11.7/" . date('m') . "/" . date('Y');
+
             $data = [
                 'nama' => $mahasiswa->nama,
                 'nim' => $mahasiswa->NIM,
                 'alpha_count' => $mahasiswa->alpha_count,
+                'no_surat' => $no_surat, // Sertakan nomor surat
             ];
 
-            // Kirim email
+            // Kirim email dengan nomor surat
             Mail::to($mahasiswa->user->email)->send(new PeringatanMail($data));
 
-            // Simpan riwayat pengiriman SP
+            // Simpan riwayat pengiriman SP dengan nomor surat
             RiwayatSP::create([
                 'nim' => $nim,
                 'sent_at' => now(),
             ]);
 
-            session()->flash('success', 'Surat peringatan berhasil dikirim.');
+            session()->flash('success', 'Surat peringatan berhasil dikirim dengan nomor surat.');
             $this->spSent = true;
 
             // Emit event ke front-end untuk disable tombol
@@ -92,6 +94,7 @@ class Index extends Component
             session()->flash('error', 'Mahasiswa tidak ditemukan atau belum memenuhi batas Alpha.');
         }
     }
+
     public function updatedSearch()
     {
         $this->resetPage();

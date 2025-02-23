@@ -164,7 +164,7 @@
                                 @php
                                     $sudahKirim = \App\Models\RiwayatSP::where('nim', $mahasiswa->NIM)->exists();
                                 @endphp
-                                @if ($mahasiswa->alpha_count == 2 && !$sudahKirim)
+                                @if (!$sudahKirim)
                                     <button class="py-2 px-4 bg-blue-500 text-white hover:bg-blue-700 rounded"
                                         wire:click="kirimEmail({{ $mahasiswa->NIM }})">
                                         Kirim SP

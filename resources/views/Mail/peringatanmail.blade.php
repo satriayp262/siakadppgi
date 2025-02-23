@@ -1,48 +1,33 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Surat Peringatan</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; }
+        .container { padding: 20px; }
+        .footer { margin-top: 30px; font-size: 12px; color: gray; }
+    </style>
 </head>
+<body>
+    <div class="container">
+        <h2>Surat Peringatan Akademik</h2>
 
-<body class="bg-gray-100 p-10">
-    <div class="max-w-2xl mx-auto bg-white p-8 shadow-lg rounded-lg">
-        <!-- Kop Surat -->
-        <div class="flex justify-center mb-6">
-            <img src="cid:kop_surat.jpg" alt="Kop Surat" style="width:100%; height:auto;">
-        </div>
+        <p>Yth. {{ $nama }},</p>
 
-        <!-- Isi Surat -->
-        <p>Kepada Yth.
-            <br class="font-semibold">{{ $nama }}</br> <!-- Nama Mahasiswa Dinamis -->
-            <br>Di Tempat</br>
-        </p>
+        <p>Kami informasikan bahwa Anda telah tercatat memiliki ketidakhadiran sebanyak {{ $alpha_count }} kali dalam kegiatan perkuliahan. Hal ini bertentangan dengan kebijakan Politeknik Piksi Ganesha Indonesia.</p>
 
-        <p class="mt-6">Dengan hormat,</p>
+        <p>Surat peringatan resmi telah kami lampirkan dalam bentuk PDF pada email ini. Silakan baca dan perhatikan informasi yang tertera dalam surat tersebut.</p>
 
-        <p class="mt-4 text-justify">
-            Surat ini kami sampaikan untuk memperingatkan Anda mengenai ketidakhadiran dalam mengikuti perkuliahan.
-            Kami mencatat bahwa Anda telah tidak mengikuti perkuliahan sebanyak 2 kali, yang bertentangan
-            dengan kebijakan Politeknik Piksi Ganesha Indonesia.
-        </p>
+        <p>Jika Anda memiliki pertanyaan lebih lanjut, silakan hubungi bagian akademik.</p>
 
-        <p class="mt-4 text-justify">
-            Kami berharap Anda dapat mematuhi semua aturan perguruan tinggi ke depannya dan mengambil tindakan yang
-            tepat
-            agar Anda dapat mengikuti kuliah dengan baik. Ini penting agar Anda tidak tertinggal dalam proses
-            pembelajaran.
-        </p>
+        <p>Terima kasih atas perhatian Anda.</p>
 
-        <div class="text-right">
-            <p class="mt-6">Hormat kami,
-                <br class="font-semibold">Wakil Direktur I Bidang Akademik</br>
-            </p>
-            <p class="mt-4 font-bold">Asni Tafrikhatin, M.Pd</p>
+        <div class="footer">
+            <p>Hormat Kami,<br>
+            Wakil Direktur I Bidang Akademik<br>
+            Politeknik Piksi Ganesha Indonesia</p>
         </div>
     </div>
 </body>
-
 </html>
