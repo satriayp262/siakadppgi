@@ -97,6 +97,7 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
 
     Route::prefix('presensiDosen')->group(function () {
         Route::get('/', App\Livewire\Admin\PresensiDosen\Index::class)->name('admin.presensiDosen');
+        Route::get('/detail', App\Livewire\Admin\PresensiDosen\Detail::class)->name('admin.detailPresensiDosen');
     });
 
     Route::prefix('presensiMahasiswa')->group(function () {

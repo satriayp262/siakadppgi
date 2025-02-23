@@ -73,13 +73,13 @@ class MahasiswaPresensiExport implements FromCollection, WithHeadings, ShouldAut
     public function headings(): array
     {
         return [
-            'Nama Mahasiswa', // Kolom A
-            'NIM',            // Kolom B
-            'Program Studi',  // Kolom C
-            'Hadir',          // Kolom D
-            'Ijin',           // Kolom E
-            'Sakit',          // Kolom F
-            'Alpha',          // Kolom G
+            'Nama Mahasiswa',
+            'NIM',
+            'Program Studi',
+            'Hadir',
+            'Ijin',
+            'Sakit',
+            'Alpha',         
         ];
     }
 
