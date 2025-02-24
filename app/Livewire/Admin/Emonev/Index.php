@@ -56,6 +56,15 @@ class Index extends Component
 
     }
 
+    public function download()
+    {
+        $this->loadData();
+
+        session()->put('jawaban', $this->jawaban->toArray());
+
+        return redirect()->route('admin.emonev.download');
+    }
+
     public function render()
     {
 
