@@ -82,8 +82,8 @@
                     <div class="flex items-center justify-between my-2">
                         <h2 class="font-bold text-[18px] ml-1 text-gray-700">Semester {{ $x->nama_semester }}</h2>
                         {{-- <a href="{{ route('admin.krs.edit', ['semester' => $x->id_semester, 'NIM' => $this->NIM]) }}" --}}
-                        @if ((auth()->user()->role == 'mahasiswa'))
-                            <a wire:click=""
+                        @if (auth()->user()->role == 'mahasiswa')
+                            <a href="{{route('mahasiswa.khs.download',[ $mahasiswa->NIM,$x->id_semester])}}"
                                 class="px-3 py-3 font-bold text-white bg-purple2 rounded hover:bg-purple2">
                                 <img width="24" height="24"
                                     src="https://img.icons8.com/material-sharp/24/download--v1.png"
@@ -103,12 +103,13 @@
                                         {{-- <th class="px-4 py-2 text-[15px] text-center border border-x-gray-500">SKS Praktek</th>
                                         <th class="px-4 py-2 text-[15px] text-center border border-x-gray-500">SKS Praktek Lapangan</th>
                                         <th class="px-4 py-2 text-[15px] text-center border border-x-gray-500">SKS Simulasi</th> --}}
-                                        <th class="px-4 py-2 text-[15px] text-center border border-x-gray-500">Bobot
-                                        </th>
                                         <th class="px-4 py-2 text-[15px] text-center border border-x-gray-500">Angka
                                         </th>
-                                        <th class="px-4 py-2 text-[15px] text-center border border-x-gray-500">S x N
+                                        <th class="px-4 py-2 text-[15px] text-center border border-x-gray-500">Angka
+                                            Mutu
                                         </th>
+                                        <th class="px-4 py-2 text-[15px] text-center border border-x-gray-500">Huruf
+                                            Mutu</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -132,11 +133,11 @@
                                             <td class="px-4 py-2 text-center border border-gray-500">{{ $item->matkul->sks_simulasi }}
                                             </td> --}}
                                             <td class="px-4 py-2 text-center border border-gray-500">
-                                                {{ $item->getGrade($item->bobot)['huruf'] }}</td>
-                                            <td class="px-4 py-2 text-center border border-gray-500">
                                                 {{ $item->getGrade($item->bobot)['angka'] }}</td>
                                             <td class="px-4 py-2 text-center border border-gray-500">
                                                 {{ $item->getGrade($item->bobot)['angka'] * $sks }}</td>
+                                            <td class="px-4 py-2 text-center border border-gray-500">
+                                                {{ $item->getGrade($item->bobot)['huruf'] }}</td>
                                         </tr>
                                         @php
                                             $jumlahSKS += $sks;
@@ -150,11 +151,11 @@
                                         <td class="px-4 py-2 font-bold text-left border border-gray-500">Jumlah</td>
                                         <td class="px-4 py-2 font-bold text-center border border-gray-500">
                                             {{ $jumlahSKS }}</td>
-                                        <td class="px-4 py-2 text-left border border-gray-500"></td>
                                         <td class="px-4 py-2 font-bold text-center border border-gray-500">
                                             {{ $totalAngka }}</td>
                                         <td class="px-4 py-2 font-bold text-center border border-gray-500">
                                             {{ $jumlahNilai }}</td>
+                                        <td class="px-4 py-2 text-left border border-gray-500"></td>
                                     </tr>
                                     <tr>
                                         <td class="px-4 py-2 text-left border border-gray-500"></td>

@@ -69,25 +69,25 @@ class KHS extends Model
         $bobotTugas = $bobot->tugas ?? 0;
         $bobotUTS = $bobot->uts ?? 0;
         $bobotUAS = $bobot->uas ?? 0;
-        $bobotLainnya = $bobot->lainnya ?? 0;
+        $bobotPartisipasi = $bobot->partisipasi ?? 0;
 
-        $totalWeight = $bobotTugas + $bobotUTS + $bobotUAS + $bobotLainnya;
+        $totalWeight = $bobotTugas + $bobotUTS + $bobotUAS + $bobotPartisipasi;
 
         if ($totalWeight != 100 && $totalWeight != 0) {
             $bobotTugas = ($bobotTugas / $totalWeight) * 100;
             $bobotUTS = ($bobotUTS / $totalWeight) * 100;
             $bobotUAS = ($bobotUAS / $totalWeight) * 100;
-            $bobotLainnya = ($bobotLainnya / $totalWeight) * 100;
+            $bobotPartisipasi = ($bobotPartisipasi / $totalWeight) * 100;
         }
 
         $aktifitas = Aktifitas::where('id_kelas', $id_kelas)
-            ->where('id_mata_kuliah', $matkul->id_mata_kuliah)->get();
+            ->where('id_mata_kuliah', $id_mata_kuliah)->get();
 
         if ($aktifitas->isEmpty()) {
             return 0;
         }
 
-        $TotalNilai = $NilaiUAS = $NilaiUTS = $NilaiLainnya = $JumlahnilaiTugas = $JumlahTugas = 0;
+        $TotalNilai = $NilaiUAS = $NilaiUTS = $NilaiPartisipasi = $JumlahnilaiTugas = $JumlahTugas = 0;
 
         foreach ($aktifitas as $y) {
             $nilai = Nilai::where('NIM', $NIM)
@@ -101,15 +101,26 @@ class KHS extends Model
                 case 'UTS':
                     $NilaiUTS = $nilai;
                     break;
-                case 'Lainnya':
-                    $NilaiLainnya = $nilai;
-                    break;
                 default:
                     $JumlahTugas++;
                     $JumlahnilaiTugas += $nilai;
                     break;
             }
         }
+
+            $PresensiCount = Presensi::where('id_mata_kuliah', $id_mata_kuliah)
+                ->where('id_kelas', $id_kelas)
+                ->get();
+
+            $totalPresensi = $PresensiCount->count();
+            $hadirCount = $PresensiCount->where('keterangan', 'Hadir')->count();
+
+            if($totalPresensi != 0){
+                $NilaiPartisipasi = ($hadirCount / $totalPresensi) * 100;
+            }else{
+            $NilaiPartisipasi = 0;
+            }
+
 
 
 
@@ -119,49 +130,35 @@ class KHS extends Model
 
         $TotalNilai += $NilaiUTS * ($bobotUTS / 100);
 
-        $TotalNilai += $NilaiLainnya * ($bobotLainnya / 100);
+        $TotalNilai += $NilaiPartisipasi * ($bobotPartisipasi / 100);
 
-        // dd($TotalNilai ,$JumlahnilaiTugas / $JumlahTugas,$NilaiUAS,$NilaiUTS,$NilaiLainnya );
+        // dd($TotalNilai ,$JumlahnilaiTugas / $JumlahTugas,$NilaiUAS,$NilaiUTS,$NilaiPartisipasi );
 
         return round($TotalNilai);
     }
 
     public $bobotNilai = [
-        ['min' => 80, 'max' => 100, 'huruf' => 'A'],
-        ['min' => 70, 'max' => 79, 'huruf' => 'B'],
-        ['min' => 50, 'max' => 69, 'huruf' => 'C'],
-        ['min' => 0, 'max' => 49, 'huruf' => 'D'],
-    ];
-    public $bobotHuruf = [
-        ['angka' => 4, 'huruf' => 'A'],
-        ['angka' => 3, 'huruf' => 'B'],
-        ['angka' => 2, 'huruf' => 'C'],
-        ['angka' => 1, 'huruf' => 'D'],
+        ['min' => 80, 'max' => 100, 'huruf' => 'A', 'angka' => 4],
+        ['min' => 70, 'max' => 79, 'huruf' => 'B', 'angka' => 3],
+        ['min' => 60, 'max' => 69, 'huruf' => 'C', 'angka' => 2],
+        ['min' => 50, 'max' => 59, 'huruf' => 'D', 'angka' => 1],
+        ['min' => 0, 'max' => 49, 'huruf' => 'E', 'angka' => 0],
     ];
 
     public function getGrade($nilai)
     {
-        $huruf = null;
         foreach ($this->bobotNilai as $bobot) {
             if ($nilai >= $bobot['min'] && $nilai <= $bobot['max']) {
-                $huruf = $bobot['huruf'];
-                break;
+                return [
+                    'huruf' => $bobot['huruf'],
+                    'angka' => $bobot['angka']
+                ];
             }
         }
-    
-        $angka = null;
-        foreach ($this->bobotHuruf as $x) {
-            if ($x['huruf'] === $huruf) {
-                $angka = $x['angka'];
-                break;
-            }
-        }
-    
-        return [
-            'huruf' => $huruf ?? 'Error',
-            'angka' => $angka ?? 0
-        ];
+
+        return ['huruf' => 'Error', 'angka' => 0];
     }
-    
+
+
 }
 

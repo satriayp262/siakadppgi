@@ -124,6 +124,7 @@ Route::middleware(['auth', CheckRole::class . ':mahasiswa'])->prefix('mahasiswa'
     Route::get('/jadwal', App\Livewire\Mahasiswa\Jadwal\Index::class)->name('mahasiswa.jadwal');
     Route::get('/emonev/{nama_semester}/{id_mata_kuliah}', App\Livewire\Mahasiswa\Emonev\Show::class)->name('emonev.detail');
     Route::get('/khs/detail/{NIM}', App\Livewire\Khs\Detail::class)->name('mahasiswa.khs.detail');
+    Route::get('/download/{NIM}/{id_semester}', [App\Http\Controllers\KHSController::class, 'generatePDF'])->name('mahasiswa.khs.download');
     Route::get('/keuangan/bayar/{order_id}', App\Livewire\Mahasiswa\Keuangan\Bayar::class)->name('mahasiswa.transaksi');
     Route::get('/keuangan/berhasil/{id_transaksi}', App\Livewire\Mahasiswa\Keuangan\Berhasil::class)->name('mahasiswa.transaksi.berhasil');
     Route::get('/keuangan/konfirmasi', App\Livewire\Mahasiswa\Keuangan\Konfirmasi::class)->name('mahasiswa.transaksi.konfirmasi');
@@ -176,75 +177,6 @@ Route::middleware(['auth', CheckRole::class . ':staff'])->prefix('staff')->group
 
 
 
-Route::get(
-    '/test',
-    function () {
-        $namaAktifitasList = ['Tugas 1', 'Tugas 2', 'Tugas 3', 'Tugas 4', 'Tugas 5', 'UTS', 'UAS'];
 
-        $kelasList = Kelas::all();
-
-
-        foreach ($kelasList as $kelas) {
-            foreach ($namaAktifitasList as $namaAktifitas) {
-                $aktifitas = Aktifitas::updateOrCreate(
-                    [
-                        'nama_aktifitas' => $namaAktifitas,
-                        'id_kelas' => $kelas->id_kelas,
-                    ],
-                    [
-                        'catatan' => null,
-                    ]
-                );
-                $mahasiswaList = Mahasiswa::whereIn('NIM', KRS::where('id_kelas', $kelas->id_kelas)->pluck('NIM'))->get();
-
-                foreach ($mahasiswaList as $mahasiswa) {
-                    Nilai::updateOrCreate(
-                        [
-                            'id_aktifitas' => $aktifitas->id_aktifitas,
-                            'NIM' => $mahasiswa->NIM,
-                            'id_kelas' => $kelas->id_kelas,
-                        ],
-                        [
-                            'nilai' => rand(80, 100),
-                        ]
-                    );
-                }
-            }
-        }
-        dd('done');
-    }
-)->name('saddsa');
-
-Route::get(
-    '/tambah_ke_kelas',
-    function () {
-        $mahasiswaList = Mahasiswa::orderBy('NIM', 'desc')->get();
-        $exceptions = ['9999999916', '99999999917', '9999999911', '9999999912', '9999999999', '9999999991', '9999999995', '9999999996'];
-
-        foreach ($mahasiswaList as $mahasiswa) {
-            $kelasA = Kelas::where('nama_kelas', 'a')
-                ->where('kode_prodi', $mahasiswa->kode_prodi)
-                ->first();
-            $kelasB = Kelas::where('nama_kelas', 'b')
-                ->where('kode_prodi', $mahasiswa->kode_prodi)
-                ->first();
-
-            if (in_array((string) $mahasiswa->NIM, array_map('strval', $exceptions))) {
-                $mahasiswa->update(['id_kelas' => $kelasB->id_kelas]);
-            } else {
-                $countInKelasA = Mahasiswa::where('id_kelas', $kelasA->id_kelas)->count();
-
-                if ($countInKelasA < 14) {
-                    $mahasiswa->update(['id_kelas' => $kelasA->id_kelas]);
-                } else {
-                    $mahasiswa->update(['id_kelas' => $kelasB->id_kelas]);
-                }
-            }
-        }
-
-        dd($mahasiswaList->pluck('id_kelas'));
-
-    }
-)->name('adsaa');
 
 

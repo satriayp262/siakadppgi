@@ -20,6 +20,9 @@ class Detail extends Component
             }
         }
     }
+    public function download($id_semester){
+        return redirect()->route('mahasiswa.khs.download', $this->NIM,$id_semester);
+    }
     public function calculate($NIM, $id_semester)
     {
         // Retrieve the KRS data for the given NIM and semester

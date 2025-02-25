@@ -12,13 +12,13 @@ use Livewire\Attributes\On;
 
 class Edit extends Component
 {
-    public $id_kelas,$kode_mata_kuliah,$id_mata_kuliah;
-    public $tugas, $uts, $uas, $lainnya;
+    public $id_kelas, $kode_mata_kuliah, $id_mata_kuliah;
+    public $tugas, $uts, $uas, $partisipasi;
 
     public function mount()
     {
         $matkul = Matakuliah::where('kode_mata_kuliah', $this->kode_mata_kuliah)
-        ->where('NIDN', Auth()->user()->nim_nidn)->first();
+            ->where('NIDN', Auth()->user()->nim_nidn)->first();
         $this->id_mata_kuliah = $matkul->id_mata_kuliah;
 
         $bobot = null;
@@ -26,20 +26,21 @@ class Edit extends Component
             'id_kelas' => $this->id_kelas,
             'id_mata_kuliah' => $this->id_mata_kuliah
         ]);
-        
+
+
         $this->tugas = $bobot->tugas;
         $this->uts = $bobot->uts;
         $this->uas = $bobot->uas;
-        $this->lainnya = $bobot->lainnya;
+        $this->partisipasi = $bobot->partisipasi;
     }
-    
+
     public function rules()
     {
         return [
             'tugas' => ['required', 'numeric', 'min:1'],
             'uts' => ['required', 'numeric', 'min:1'],
             'uas' => ['required', 'numeric', 'min:1'],
-            'lainnya' => ['nullable', 'numeric'],
+            'partisipasi' => ['required', 'numeric', 'min:1'],
         ];
     }
 
@@ -58,15 +59,17 @@ class Edit extends Component
             'uas.numeric' => 'Nilai UAS harus berupa angka.',
             'uas.min' => 'Nilai UAS minimal adalah 1.',
 
-            'lainnya.numeric' => 'Nilai lainnya harus berupa angka.',
+            'partisipasi.required' => 'Nilai partisipasi wajib diisi.',
+            'partisipasi.numeric' => 'Nilai partisipasi harus berupa angka.',
+            'partisipasi.min' => 'Nilai partisipasi minimal adalah 1.',
 
-            'error' => 'Jumlah total tugas, UTS, UAS, dan lainnya harus tepat 100.',
+            'error' => 'Jumlah total tugas, UTS, UAS, dan partisipasi harus tepat 100.',
         ];
     }
 
     protected function customValidation()
     {
-        $total = $this->tugas + $this->uts + $this->uas + $this->lainnya;
+        $total = $this->tugas + $this->uts + $this->uas + $this->partisipasi;
         if ($total !== 100) {
             throw \Illuminate\Validation\ValidationException::withMessages([
                 'error' => $this->customMessages()['error'],
@@ -82,16 +85,16 @@ class Edit extends Component
         $this->customValidation();
 
         $kelas = Bobot::where('id_kelas', $this->id_kelas)->where('id_mata_kuliah', $this->id_mata_kuliah)->first();
-        
-        if ($validatedData['lainnya'] == ' ' || $validatedData['lainnya'] == 0) {
-            $validatedData['lainnya'] = null;
+
+        if ($validatedData['partisipasi'] == ' ' || $validatedData['partisipasi'] == 0) {
+            $validatedData['partisipasi'] = null;
         }
         if ($kelas) {
             $kelas->update([
                 'tugas' => $validatedData['tugas'],
                 'uts' => $validatedData['uts'],
                 'uas' => $validatedData['uas'],
-                'lainnya' => $validatedData['lainnya'],
+                'partisipasi' => $validatedData['partisipasi'],
             ]);
 
             $this->calculate();
@@ -101,7 +104,7 @@ class Edit extends Component
 
     public function calculate()
     {
-        
+
         // Retrieve the KRS data for the given NIM and semester
         $krsData = KRS::where('id_kelas', $this->id_kelas)
             ->where('id_mata_kuliah', $this->id_mata_kuliah)
@@ -113,8 +116,8 @@ class Edit extends Component
         foreach ($krsData as $krs) {
 
             // Call the KHS model to calculate the bobot
-            $bobot = KHS::calculateBobot($krs->id_semester, $krs->NIM, $krs->id_mata_kuliah,$krs->id_kelas);
-            
+            $bobot = KHS::calculateBobot($krs->id_semester, $krs->NIM, $krs->id_mata_kuliah, $krs->id_kelas);
+
             // Create a new KHS entry for this specific class and bobot
             KHS::updateOrCreate([
                 'NIM' => $krs->NIM,

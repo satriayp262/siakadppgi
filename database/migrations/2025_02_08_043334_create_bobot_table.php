@@ -15,10 +15,10 @@ return new class extends Migration
             $table->integer('id_bobot')->autoIncrement();
             $table->integer('id_kelas');
             $table->integer('id_mata_kuliah');
-            $table->integer('tugas')->default(40);
+            $table->integer('tugas')->default(20);
             $table->integer('uts')->default(30);
-            $table->integer('uas')->default(30);
-            $table->integer('lainnya')->nullable();
+            $table->integer('uas')->default(40);
+            $table->integer('partisipasi')->default(10);
             $table->timestamps();
         });
     }

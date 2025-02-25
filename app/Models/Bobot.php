@@ -17,7 +17,7 @@ class Bobot extends Model
         'tugas',
         'uts',
         'uas',
-        'lainnya',
+        'partisipasi',
     ];
     public function kelas()
     {
