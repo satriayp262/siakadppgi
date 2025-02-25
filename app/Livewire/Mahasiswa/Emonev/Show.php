@@ -114,6 +114,8 @@ class Show extends Component
 
         // Beri notifikasi sukses ke user
         $this->dispatch('created', ['message' => 'Data e-Monev berhasil disimpan.']);
+
+        return redirect()->route('mahasiswa.emonev');
     }
 
 

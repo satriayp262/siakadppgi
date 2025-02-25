@@ -40,9 +40,10 @@ class Index extends Component
         $query = KRS::where('NIM', $this->mahasiswa->NIM);
 
         if (!empty($this->selectedSemester)) {
-            $findsemester = Semester::where('nama_semester', $this->selectedSemester)->first();
 
+            $findsemester = Semester::where('nama_semester', $this->selectedSemester)->first();
             $query->where('id_semester', $findsemester->id_semester);
+
         } else {
             $query->where('id_semester', $this->mahasiswa->mulai_semester);
         }
@@ -73,14 +74,13 @@ class Index extends Component
             $kelas = Kelas::where('id_kelas', $k->id_kelas)->first();
         }
 
+        $findsemester = Semester::where('nama_semester', $this->selectedSemester)->first();
 
         $nama_semester = Semester::where('id_semester', $this->mahasiswa->mulai_semester)->first();
 
-        $emonev = MahasiswaEmonev::where('NIM', $this->mahasiswa->NIM)->get();
-
         return view('livewire.mahasiswa.emonev.index', [
             'krs' => $this->krs,
-            'semester1' => $this->selectedSemester ?? $nama_semester->nama_semester,
+            'semester1' => $findsemester ?? $nama_semester,
             'k' => $kelas ?? null,
             'semesters' => $items,
             'semestermulai' => $semestermulai,
