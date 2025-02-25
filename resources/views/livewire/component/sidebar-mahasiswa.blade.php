@@ -142,7 +142,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('mahasiswa.emonev.semester') }}"
+                    <a href="{{ route('mahasiswa.emonev') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                         {{ request()->routeIs('mahasiswa.emonev.semester', 'emonev.detail', 'mahasiswa.emonev') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('mahasiswa.emonev.semester', 'emonev.detail', 'mahasiswa.emonev') ? ' text-white ' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"

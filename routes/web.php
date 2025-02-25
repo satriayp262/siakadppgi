@@ -120,7 +120,7 @@ Route::middleware(['auth', CheckRole::class . ':mahasiswa'])->prefix('mahasiswa'
     Route::get('/presensi', App\Livewire\Mahasiswa\Presensi\Index::class)->name('mahasiswa.presensi');
     Route::get('/download/{no_kwitansi}', [App\Http\Controllers\PDFController::class, 'generatePDF'])->name('mahasiswa.download');
     Route::get('/krs', App\Livewire\Mahasiswa\Krs\Index::class)->name('mahasiswa.krs');
-    Route::get('/emonev/{nama_semester}', App\Livewire\Mahasiswa\Emonev\Index::class)->name('mahasiswa.emonev');
+    Route::get('/emonev', App\Livewire\Mahasiswa\Emonev\Index::class)->name('mahasiswa.emonev');
     Route::get('/jadwal', App\Livewire\Mahasiswa\Jadwal\Index::class)->name('mahasiswa.jadwal');
     Route::get('/emonev/{nama_semester}/{id_mata_kuliah}', App\Livewire\Mahasiswa\Emonev\Show::class)->name('emonev.detail');
     Route::get('/khs/detail/{NIM}', App\Livewire\Khs\Detail::class)->name('mahasiswa.khs.detail');
@@ -128,7 +128,6 @@ Route::middleware(['auth', CheckRole::class . ':mahasiswa'])->prefix('mahasiswa'
     Route::get('/keuangan/berhasil/{id_transaksi}', App\Livewire\Mahasiswa\Keuangan\Berhasil::class)->name('mahasiswa.transaksi.berhasil');
     Route::get('/keuangan/konfirmasi', App\Livewire\Mahasiswa\Keuangan\Konfirmasi::class)->name('mahasiswa.transaksi.konfirmasi');
     Route::get('/kartu_ujian', App\Livewire\Mahasiswa\KartuUjian\Index::class)->name('mahasiswa.ujian');
-    Route::get('/emonev', App\Livewire\Mahasiswa\Emonev\SemesterView::class)->name('mahasiswa.emonev.semester');
 });
 
 // dosen

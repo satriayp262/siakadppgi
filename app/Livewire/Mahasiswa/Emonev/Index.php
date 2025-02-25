@@ -4,6 +4,7 @@ namespace App\Livewire\Mahasiswa\Emonev;
 
 use App\Models\Dosen;
 use App\Models\KRS;
+use App\Models\MahasiswaEmonev;
 use App\Models\Matakuliah;
 use App\Models\Semester;
 use Livewire\Component;
@@ -20,35 +21,70 @@ class Index extends Component
 
     public $id_semester;
 
-    public function mount($nama_semester)
+    public $nama_semester;
+
+    public $selectedSemester;
+
+    public $mahasiswa;
+
+    public function mount()
     {
-        $this->nama_semester = Semester::where('nama_semester', $nama_semester)->first();
+        $user = auth()->user();
+        $this->mahasiswa = Mahasiswa::where('NIM', $user->nim_nidn)->first();
+        $this->loadData();
+    }
+
+    public function loadData()
+    {
+
+        $query = KRS::where('NIM', $this->mahasiswa->NIM);
+
+        if (!empty($this->selectedSemester)) {
+            $findsemester = Semester::where('nama_semester', $this->selectedSemester)->first();
+
+            $query->where('id_semester', $findsemester->id_semester);
+        } else {
+            $query->where('id_semester', $this->mahasiswa->mulai_semester);
+        }
+        $this->krs = $query->get();
     }
 
 
     public function render()
     {
-        $user = auth()->user();
+        $semestermulai = Semester::where('id_semester', $this->mahasiswa->mulai_semester)->first();
 
-        $mahasiswa = Mahasiswa::where('NIM', $user->nim_nidn)->first();
+        $mahasiswajenjang = $this->mahasiswa->prodi->jenjang;
 
+        if ($mahasiswajenjang == 'D3') {
+            $totalsemester = 6;
+        } elseif ($mahasiswajenjang == 'S1') {
+            $totalsemester = 8;
+        } else {
+            return 'jenjang tidak terdaftar';
+        }
 
-        $semester = $this->nama_semester->id_semester;
+        $items = [];
+        for ($i = $semestermulai->id_semester; $i < $semestermulai->id_semester + $totalsemester; $i++) {
+            $items[] = Semester::where('id_semester', $i)->get();
+        }
 
-
-        $krs = KRS::where('NIM', $mahasiswa->NIM)
-            ->where('id_semester', $semester)
-            ->get();
-
-        foreach ($krs as $k) {
+        foreach ($this->krs as $k) {
             $kelas = Kelas::where('id_kelas', $k->id_kelas)->first();
         }
 
 
+        $nama_semester = Semester::where('id_semester', $this->mahasiswa->mulai_semester)->first();
+
+        $emonev = MahasiswaEmonev::where('NIM', $this->mahasiswa->NIM)->get();
+
         return view('livewire.mahasiswa.emonev.index', [
-            'krs' => $krs,
-            'semester' => $this->nama_semester,
+            'krs' => $this->krs,
+            'semester1' => $this->selectedSemester ?? $nama_semester->nama_semester,
             'k' => $kelas ?? null,
+            'semesters' => $items,
+            'semestermulai' => $semestermulai,
+            'totalsemester' => $totalsemester,
         ]);
     }
 }
