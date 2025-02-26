@@ -324,9 +324,9 @@
                 </li>
                 <li>
                     <button type="button"
-                        class="flex items-center w-full p-2 text-base transition duration-75 rounded-lg group hover:bg-purple2 text-purple3 hover:text-white {{ request()->routeIs('admin.emonev', 'admin.pertanyaan') ? 'text-white bg-purple2' : 'text-purple3' }}"
+                        class="flex items-center w-full p-2 text-base transition duration-75 rounded-lg group hover:bg-purple2 text-purple3 hover:text-white {{ request()->routeIs('admin.emonev', 'admin.pertanyaan', 'admin.emonev.periode') ? 'text-white bg-purple2' : 'text-purple3' }}"
                         aria-controls="dropdown-emonev" data-collapse-toggle="dropdown-emonev">
-                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.emonev', 'admin.pertanyaan') ? ' text-white ' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
+                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.emonev', 'admin.pertanyaan', 'admin.emonev.periode') ? ' text-white ' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                             fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -341,7 +341,13 @@
                         </svg>
                     </button>
                     <ul id="dropdown-emonev"
-                        class="{{ request()->routeIs(['admin.emonev', 'admin.pertanyaan']) ? '' : 'hidden' }} py-2 space-y-2">
+                        class="{{ request()->routeIs(['admin.emonev', 'admin.pertanyaan', 'admin.emonev.periode']) ? '' : 'hidden' }} py-2 space-y-2">
+                        <li>
+                            <a href="{{ route('admin.emonev.periode') }}"
+                                class="flex items-center mx-4 p-2 text-gray-100 rounded-lg group {{ request()->routeIs('admin.emonev.periode') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
+                                <span class="flex-1 ms-3 whitespace-nowrap">Set Periode</span>
+                            </a>
+                        </li>
                         <li>
                             <a href="{{ route('admin.pertanyaan') }}"
                                 class="flex items-center mx-4 p-2 text-gray-100 rounded-lg group {{ request()->routeIs('admin.pertanyaan') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
@@ -350,10 +356,11 @@
                         </li>
                         <li>
                             <a href="{{ route('admin.emonev') }}"
-                                class="flex items-center mx-4 p-2 text-gray-100 rounded-lg group {{ request()->routeIs('admin.emonev') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
+                                class="flex items-center mx-4 p-2 text-gray-100 rounded-lg group {{ request()->routeIs('admin.emonev.') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 <span class="flex-1 ms-3 whitespace-nowrap">Emonev</span>
                             </a>
                         </li>
+
 
                     </ul>
                 </li>
