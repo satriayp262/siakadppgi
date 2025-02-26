@@ -6,6 +6,7 @@ use App\Models\Dosen;
 use App\Models\KRS;
 use App\Models\MahasiswaEmonev;
 use App\Models\Matakuliah;
+use App\Models\PeriodeEMonev;
 use App\Models\Semester;
 use Livewire\Component;
 use App\Models\Kelas;
@@ -78,6 +79,14 @@ class Index extends Component
 
         $nama_semester = Semester::where('id_semester', $this->mahasiswa->mulai_semester)->first();
 
+        if ($this->selectedSemester) {
+            $periode = PeriodeEMonev::where('id_semester', $findsemester)->get();
+        } else {
+            $periode = PeriodeEMonev::where('id_semester', $this->mahasiswa->mulai_semester)->get();
+        }
+
+
+
         return view('livewire.mahasiswa.emonev.index', [
             'krs' => $this->krs,
             'semester1' => $findsemester ?? $nama_semester,
@@ -85,6 +94,8 @@ class Index extends Component
             'semesters' => $items,
             'semestermulai' => $semestermulai,
             'totalsemester' => $totalsemester,
+            'periode1' => $periode[0] ?? null,
+            'periode2' => $periode[1] ?? null,
         ]);
     }
 }

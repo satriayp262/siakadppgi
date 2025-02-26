@@ -110,7 +110,7 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
         Route::get('/', App\Livewire\Admin\Emonev\Index::class)->name('admin.emonev');
     });
     Route::prefix('emonev/periode')->group(function () {
-        Route::get('/', App\Livewire\Admin\Emonev\Periode::class)->name('admin.emonev.periode');
+        Route::get('/', App\Livewire\Admin\Periode\Index::class)->name('admin.emonev.periode');
     });
     Route::get('/emonev/download', [App\Http\Controllers\PdfEmonev::class, 'generatePDF'])->name('admin.emonev.download');
 });
