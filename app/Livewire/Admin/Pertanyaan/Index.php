@@ -5,6 +5,7 @@ namespace App\Livewire\Admin\Pertanyaan;
 use Livewire\Component;
 use App\Models\Pertanyaan;
 use Livewire\WithPagination;
+use App\Models\PeriodeEMonev;
 use Livewire\Attributes\On;
 
 class Index extends Component
@@ -19,6 +20,12 @@ class Index extends Component
     public function handlePertanyaanCreated()
     {
         $this->dispatch('created', ['message' => 'Pertanyaan Berhasil di Tambahkan']);
+    }
+
+    #[On('PertanyaanUpdated')]
+    public function handlePertanyaanUpdated()
+    {
+        $this->dispatch('created', ['message' => 'Pertanyaan Berhasil di Perbaharui']);
     }
 
     public function updatedSelectAll($value)
@@ -66,9 +73,14 @@ class Index extends Component
 
 
 
+
+
     public function render()
     {
         $pertanyaans = Pertanyaan::latest()->paginate(10);
+
+        $periode = PeriodeEMonev::all();
+
         return view('livewire.admin.pertanyaan.index', [
             'pertanyaans' => $pertanyaans
         ]);

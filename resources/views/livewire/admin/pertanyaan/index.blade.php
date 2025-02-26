@@ -40,8 +40,8 @@
             @endif
         </div>
     </div>
-
     <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
+        <h1 class="font-bold text-lg text-purple2">Daftar Pertanyaan Emonev Dosen PPGI</h1>
         <table class="min-w-full mt-4 bg-white border border-gray-200">
             <thead>
                 <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
@@ -63,8 +63,8 @@
                         <td class="px-4 py-2 w-1/4 text-left">{{ $pertanyaan->nama_pertanyaan }}</td>
                         <td class="px-4 py-2 text-center w-1/2">
                             <div class="flex justify-center space-x-2">
-                                {{-- <livewire:admin.pertanyaan.edit :id_pertanyaan="$pertanyaan->id_pertanyaan"
-                                    wire:key="edit-{{ $pertanyaan->id_pertanyaan }}" /> --}}
+                                <livewire:admin.pertanyaan.edit :id_pertanyaan="$pertanyaan->id_pertanyaan"
+                                    wire:key="edit-{{ $pertanyaan->id_pertanyaan }}" />
                                 <button class="inline-block px-4 py-1 text-white bg-red-500 rounded hover:bg-red-700"
                                     onclick="confirmDelete('{{ $pertanyaan->id_pertanyaan }}', '{{ $pertanyaan->nama_pertanyaan }}')"><svg
                                         class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
@@ -81,10 +81,10 @@
                 @endforeach
             </tbody>
         </table>
-        <!-- Pagination Controls -->
+        {{-- <!-- Pagination Controls -->
         <div class="py-8 mt-4 mb-4 text-center">
             {{ $pertanyaans->links('') }}
-        </div>
+        </div> --}}
     </div>
 
     <script>
