@@ -8,6 +8,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Livewire\Component;
 use App\Models\Mahasiswa;
 use App\Models\Jadwal;
+use App\Models\Tagihan;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -52,9 +53,27 @@ class Index extends Component
         $pdf = PDF::loadView('livewire.mahasiswa.kartu-ujian.download', $data);
         $pdf->setPaper('A5', 'landscape');
 
-        return response()->streamDownload(function () use ($pdf) {
-            echo $pdf->output();
-        }, 'kartu '. $z . ' Semester ' . $c . ' Tahun Ajaran ' . $y . '-' . $y + 1 .'.pdf');
+        $pembayaran = Tagihan::where('NIM', Auth::user()->nim_nidn)->firstOrFail();
+        $w = $pembayaran->total_bayar;
+
+        if ($z == "UTS") {
+            if ($w < 1500000) {
+                $this->dispatch('warning', ['message' => 'Lunasi Pembayaran dari bulan A sampai bulan D terlebih dahulu']);
+            }else{
+                return response()->streamDownload(function () use ($pdf) {
+                    echo $pdf->output();
+                }, 'kartu ' . $z . ' Semester ' . $c . ' Tahun Ajaran ' . $y . '-' . $y + 1 . '.pdf');
+            }
+            
+        }else{
+            if ($w < 3000000) {
+                $this->dispatch('warning', ['message' => 'Lunasi Semua Pembayaran terlebih dahulu']);
+            }else{
+                return response()->streamDownload(function () use ($pdf) {
+                    echo $pdf->output();
+                }, 'kartu ' . $z . ' Semester ' . $c . ' Tahun Ajaran ' . $y . '-' . $y + 1 . '.pdf');
+            }
+        }
     }
 
     public function render()
