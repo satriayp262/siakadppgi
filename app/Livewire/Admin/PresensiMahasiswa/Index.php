@@ -64,7 +64,7 @@ class Index extends Component
             }])
             ->first();
 
-        if ($mahasiswa && $mahasiswa->user) {
+        if ($mahasiswa && $mahasiswa->alpha_count == 2 && $mahasiswa->user) {
             // Generate nomor surat otomatis
             $countSP = RiwayatSP::count() + 1; // Hitung jumlah surat sebelumnya
             $no_surat = sprintf("%03d", $countSP) . "/PPGI/11.7/" . date('m') . "/" . date('Y');
