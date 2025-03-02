@@ -33,7 +33,6 @@ class Show extends Component
 
     public function mount($id_mata_kuliah, $nama_semester)
     {
-
         $decoded = Hashids::decode($id_mata_kuliah);
         $this->id = $decoded[0] ?? null;
         $this->id_kelas = $decoded[1] ?? null;
@@ -43,8 +42,6 @@ class Show extends Component
 
 
         $this->semester = $nama_semester;
-
-
     }
 
 
