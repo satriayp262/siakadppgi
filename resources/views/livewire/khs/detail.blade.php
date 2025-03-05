@@ -66,16 +66,8 @@
         <div class="">
             @foreach ($semester as $x)
                 @php
-                    if (auth()->user()->role == 'mahasiswa') {
-                        $khs = App\Models\KHS::where('id_semester', $x->id_semester)
-                            ->where('NIM', $mahasiswa->NIM)
-                            // ->where('publish', 'yes')
-                            ->get();
-                    } else {
-                        $khs = App\Models\KHS::where('id_semester', $x->id_semester)
-                            ->where('NIM', $mahasiswa->NIM)
-                            ->get();
-                    }
+                    $khs = App\Models\KHS::where('id_semester', $x->id_semester)->where('NIM', $mahasiswa->NIM)->get();
+
                     $jumlahSKS = 0;
                     $jumlahNilai = 0;
                     $totalAngka = 0;
@@ -99,6 +91,20 @@
                             $cekEmonev = true;
                         }
                     }
+                    foreach ($khs as $khsItem) {
+                        $sks =
+                            $khsItem->matkul->sks_tatap_muka +
+                            $khsItem->matkul->sks_simulasi +
+                            $khsItem->matkul->sks_praktek +
+                            $khsItem->matkul->sks_praktek_lapangan;
+                        $jumlahSKS += $sks;
+                        $jumlahNilai += $khsItem->getGrade($khsItem->bobot)['angka'] * $sks;
+                    }
+                    if ($jumlahSKS !== 0) {
+                        $IPS = round($jumlahNilai / $jumlahSKS, 2);
+                    }
+                    $nilaiKumulatif += $IPS;
+                    $IPK = round($nilaiKumulatif / $mahasiswa->getSemester($x->id_semester), 2);
                 @endphp
                 @if (count($khs) != 0)
                     @if ($cekTagihan == true && $cekEmonev == true)
@@ -106,15 +112,12 @@
                             <div class="flex items-center justify-between my-2">
                                 <h2 class="font-bold text-[18px] ml-1 text-gray-700">Semester
                                     {{ $mahasiswa->getSemester($x->id_semester) }}</h2>
-                                {{-- <a href="{{ route('admin.krs.edit', ['semester' => $x->id_semester, 'NIM' => $this->NIM]) }}" --}}
-                                @if (auth()->user()->role == 'mahasiswa')
-                                    <a href="{{ route('mahasiswa.khs.download', [$mahasiswa->NIM, $x->id_semester]) }}"
-                                        class="px-3 py-3 font-bold text-white bg-purple2 rounded hover:bg-purple2">
-                                        <img width="24" height="24"
-                                            src="https://img.icons8.com/material-sharp/24/download--v1.png"
-                                            alt="download--v1" />
-                                    </a>
-                                @endif
+                                <a href="{{ route('mahasiswa.khs.download', [$mahasiswa->NIM, $x->id_semester, $IPK]) }}"
+                                    class="px-3 py-3 font-bold text-white bg-purple2 rounded hover:bg-purple2">
+                                    <img width="24" height="24"
+                                        src="https://img.icons8.com/material-sharp/24/download--v1.png"
+                                        alt="download--v1" />
+                                </a>
                             </div>
                             <div class="my-4" wire:key="semester-{{ $x->id_semester }}">
                                 <table class="min-w-full border-collapse table-auto">
@@ -158,16 +161,9 @@
                                                     {{ $item->getGrade($item->bobot)['huruf'] }}</td>
                                             </tr>
                                             @php
-                                                $jumlahSKS += $sks;
                                                 $totalAngka += $item->getGrade($item->bobot)['angka'];
-                                                $jumlahNilai += $item->getGrade($item->bobot)['angka'] * $sks;
-                                                $IPS = round($jumlahNilai / $jumlahSKS, 2);
                                             @endphp
                                         @endforeach
-                                        @php
-                                            $nilaiKumulatif += $IPS;
-                                            $IPK = round($nilaiKumulatif / $mahasiswa->getSemester($x->id_semester), 2);
-                                        @endphp
                                         <tr>
                                             <td class="px-4 py-2 text-left border border-gray-500"></td>
                                             <td class="px-4 py-2 font-bold text-left border border-gray-500">Jumlah</td>
@@ -245,18 +241,3 @@
         <p>Mahasiswa tidak ditemukan</p>
     @endif
 </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        window.addEventListener('updatedKHS', event => {
-            Swal.fire({
-                title: 'Success!',
-                text: event.detail[0],
-                icon: 'success',
-                confirmButtonText: 'OK'
-            }).then(() => {
-                window.dispatchEvent(new CustomEvent('modal-closed'));
-            });
-        });
-    });
-</script>
