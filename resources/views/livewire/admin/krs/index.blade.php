@@ -1,6 +1,6 @@
 <div class="mx-5">
     <div class="flex flex-col justify-between mx-4 mt-2">
-        <div class="flex justify-between mt-2">
+        <div class="flex md:flex-row flex-col md:space-y-0 space-y-4  justify-between mt-2">
             <div class="flex space-x-2">
                 <!-- Modal Form -->
                 {{-- <livewire:admin.mahasiswa.create /> --}}
@@ -8,9 +8,8 @@
                 <div x-data="{ isOpen: false, load: false }" @modal-closed.window="isOpen = false">
                     <!-- Button to open the modal -->
                     <button @click="isOpen=true; load=true"
-                        class="flex items-center pr-4 py-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">
-                        <svg class="mx-2" xmlns="http://www.w3.org/2000/svg" width="26" height="26"
-                            viewBox="0 0 48 48">
+                        class="flex items-center md:pr-4 py-2 pr-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">
+                        <svg class="mx-2 md:w-8 md:h-8 w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
                             <path fill="#169154" d="M29,6H15.744C14.781,6,14,6.781,14,7.744v7.259h15V6z"></path>
                             <path fill="#18482a" d="M14,33.054v7.202C14,41.219,14.781,42,15.743,42H29v-8.946H14z">
                             </path>
@@ -123,9 +122,9 @@
                 <div x-data="{ isOpen: false, load: false }" @modal-closed.window="isOpen = false">
                     <!-- Button to open the modal -->
                     <button @click="isOpen=true; load=true"
-                        class="flex items-center pr-4 py-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">
-                        <svg class="mx-2" xmlns="http://www.w3.org/2000/svg" width="26" height="26"
-                            viewBox="0 0 48 48">
+                        class="flex items-center md:pr-4 py-2 pr-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">
+                        <svg class="mx-2 md:w-8 md:h-8 w-6 h-6" xmlns="http://www.w3.org/2000/svg" width="26"
+                            height="26" viewBox="0 0 48 48">
                             <path fill="#169154" d="M29,6H15.744C14.781,6,14,6.781,14,7.744v7.259h15V6z"></path>
                             <path fill="#18482a" d="M14,33.054v7.202C14,41.219,14.781,42,15.743,42H29v-8.946H14z">
                             </path>
@@ -211,7 +210,7 @@
                 </div>
             </div>
             <input type="text" wire:model.live="search" placeholder="   Search"
-                class="px-2 ml-4 border border-gray-300 rounded-lg">
+                class="px-2 md:ml-4 py-1 border border-gray-300 rounded-lg">
         </div>
         <div>
             @if (session()->has('message'))
@@ -261,30 +260,29 @@
         </div>
     </div>
 
-    <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
-        <table class="min-w-full mt-4 bg-white border border-gray-200">
+    <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full overflow-x-auto">
+        <table class="min-w-full mt-4 bg-white border border-gray-200 md:text-[16px] text-[10px]">
             <thead>
-                <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
-                    <th class="px-4 py-2 text-center">NIM Mahasiswa</th>
-                    <th class="px-4 py-2 text-center">Nama Mahasiswa</th>
-                    <th class="px-4 py-2 text-center">Semester</th>
-                    <th class="px-4 py-2 text-center">Prodi</th>
-                    <th class="px-4 py-2 text-center">Action</th>
+                <tr class="items-center w-full text-white align-middle bg-customPurple">
+                    <th class="px-2 py-1 sm:px-4 sm:py-2 text-center">NIM Mahasiswa</th>
+                    <th class="px-2 py-1 sm:px-4 sm:py-2 text-center">Nama Mahasiswa</th>
+                    <th class="px-2 py-1 sm:px-4 sm:py-2 text-center">Semester</th>
+                    <th class="px-2 py-1 sm:px-4 sm:py-2 text-center">Prodi</th>
+                    <th class="px-2 py-1 sm:px-4 sm:py-2 text-center">Action</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($mahasiswa as $item)
                     <tr class="border-t" wire:key="matkul-{{ $item->id_mahasiswa }}">
-                        <td class="px-4 py-2 text-center">{{ $item->NIM }}</td>
-                        <td class="px-4 py-2 text-center">{{ $item->nama }}</td>
-                        <td class="px-4 py-2 text-center">{{ $item->semesterDifference }}</td>
-                        <td class="px-4 py-2 text-center">{{ $item->prodi->nama_prodi }}</td>
-
-                        <td class="px-4 py-2 text-center">
+                        <td class="px-2 py-1 sm:px-4 sm:py-2 text-center">{{ $item->NIM }}</td>
+                        <td class="px-2 py-1 sm:px-4 sm:py-2 text-center">{{ $item->nama }}</td>
+                        <td class="px-2 py-1 sm:px-4 sm:py-2 text-center">{{ $item->semesterDifference }}</td>
+                        <td class="px-2 py-1 sm:px-4 sm:py-2 text-center">{{ $item->prodi->nama_prodi }}</td>
+                        <td class="px-2 py-1 sm:px-4 sm:py-2 text-center">
                             <div class="flex flex-col">
                                 <div class="flex justify-center space-x-2">
                                     <a href="{{ route('admin.krs.mahasiswa', ['NIM' => $item->NIM]) }}"
-                                        class="py-2 px-4 bg-blue-500 hover:bg-blue-700 rounded">
+                                        class="py-1 px-2 sm:py-2 sm:px-4 bg-blue-500 hover:bg-blue-700 rounded text-white">
                                         <p>▶</p>
                                     </a>
                                 </div>

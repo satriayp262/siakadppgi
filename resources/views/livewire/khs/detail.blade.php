@@ -111,15 +111,15 @@
                                 <h2 class="font-bold text-[18px] ml-1 text-gray-700">Semester
                                     {{ $mahasiswa->getSemester($x->id_semester) }}</h2>
                                 <a href="javascript:void(0)"
-                                wire:click="download('{{ $mahasiswa->NIM }}', '{{ $x->id_semester }}', '{{ $IPK }}')"
-                                    class="px-3 py-3 font-bold text-white bg-purple2 rounded hover:bg-purple2">
-                                    <img width="24" height="24"
+                                    wire:click="download('{{ $mahasiswa->NIM }}', '{{ $x->id_semester }}', '{{ $IPK }}')"
+                                    class="md:px-3 md:py-3 px-2 py-2 font-bold text-white bg-purple2 rounded hover:bg-purple2">
+                                    <img class="w-3 h-3 sm:w-6 sm:h-6 md:w-8 md:h-8"
                                         src="https://img.icons8.com/material-sharp/24/download--v1.png"
                                         alt="download--v1" />
                                 </a>
                             </div>
                             <div class="my-4" wire:key="semester-{{ $x->id_semester }}">
-                                <table class="min-w-full border-collapse table-auto md:text-sm text-[6px]">
+                                <table class="min-w-full border-collapse table-auto md:text-[16px] text-[6px]">
                                     <thead>
                                         <tr class="items-center w-full text-white align-middle bg-customPurple">
                                             <th class="px-2 py-1 text-center border border-x-gray-500">Kode</th>
@@ -133,14 +133,19 @@
                                     <tbody>
                                         @foreach ($khs as $item)
                                             <tr wire:key="khs-{{ $item->id_khs }}">
-                                                <td class="px-2 py-1 text-left border border-gray-500">{{ $item->matkul->kode_mata_kuliah }}</td>
-                                                <td class="px-2 py-1 text-left border border-gray-500">{{ $item->matkul->nama_mata_kuliah }}</td>
+                                                <td class="px-2 py-1 text-left border border-gray-500">
+                                                    {{ $item->matkul->kode_mata_kuliah }}</td>
+                                                <td class="px-2 py-1 text-left border border-gray-500">
+                                                    {{ $item->matkul->nama_mata_kuliah }}</td>
                                                 <td class="px-2 py-1 text-center border border-gray-500">
                                                     {{ $sks = $item->matkul->sks_tatap_muka + $item->matkul->sks_simulasi + $item->matkul->sks_praktek + $item->matkul->sks_praktek_lapangan }}
                                                 </td>
-                                                <td class="px-2 py-1 text-center border border-gray-500">{{ $item->getGrade($item->bobot)['angka'] }}</td>
-                                                <td class="px-2 py-1 text-center border border-gray-500">{{ $item->getGrade($item->bobot)['angka'] * $sks }}</td>
-                                                <td class="px-2 py-1 text-center border border-gray-500">{{ $item->getGrade($item->bobot)['huruf'] }}</td>
+                                                <td class="px-2 py-1 text-center border border-gray-500">
+                                                    {{ $item->getGrade($item->bobot)['angka'] }}</td>
+                                                <td class="px-2 py-1 text-center border border-gray-500">
+                                                    {{ $item->getGrade($item->bobot)['angka'] * $sks }}</td>
+                                                <td class="px-2 py-1 text-center border border-gray-500">
+                                                    {{ $item->getGrade($item->bobot)['huruf'] }}</td>
                                             </tr>
                                             @php
                                                 $totalAngka += $item->getGrade($item->bobot)['angka'];
@@ -148,27 +153,35 @@
                                         @endforeach
                                         <tr>
                                             <td class="px-2 py-1 text-left border border-gray-500"></td>
-                                            <td class="px-2 py-1 font-bold text-left border border-gray-500">Jumlah</td>
-                                            <td class="px-2 py-1 font-bold text-center border border-gray-500">{{ $jumlahSKS }}</td>
-                                            <td class="px-2 py-1 font-bold text-center border border-gray-500">{{ $totalAngka }}</td>
-                                            <td class="px-2 py-1 font-bold text-center border border-gray-500">{{ $jumlahNilai }}</td>
-                                            <td class="px-2 py-1 text-left border border-gray-500"></td>
+                                            <td class="px-2 py-1 font-bold text-right border border-gray-500">Jumlah
+                                            </td>
+                                            <td class="px-2 py-1 font-bold text-center border border-gray-500">
+                                                {{ $jumlahSKS }}</td>
+                                            <td class="px-2 py-1 font-bold text-center border border-gray-500">
+                                                {{ $totalAngka }}</td>
+                                            <td class="px-2 py-1 font-bold text-center border border-gray-500">
+                                                {{ $jumlahNilai }}</td>
+                                            <td class="px-2 py-1 text-right border border-gray-500"></td>
                                         </tr>
                                         <tr>
-                                            <td class="px-2 py-1 text-left border border-gray-500"></td>
-                                            <td class="px-2 py-1 font-bold text-left border border-gray-500">IPS</td>
+                                            <td class="px-2 py-1 text-right border border-gray-500"></td>
+                                            <td class="px-2 py-1 font-bold text-right border border-gray-500">Index
+                                                Prestasi Semester</td>
                                             <td class="px-2 py-1 text-center border border-gray-500"></td>
-                                            <td class="px-2 py-1 text-left border border-gray-500"></td>
+                                            <td class="px-2 py-1 text-right border border-gray-500"></td>
                                             <td class="px-2 py-1 text-center border border-gray-500"></td>
-                                            <td class="px-2 py-1 font-bold text-center border border-gray-500">{{ $IPS }}</td>
+                                            <td class="px-2 py-1 font-bold text-center border border-gray-500">
+                                                {{ $IPS }}</td>
                                         </tr>
                                         <tr>
-                                            <td class="px-2 py-1 text-left border border-gray-500"></td>
-                                            <td class="px-2 py-1 font-bold text-left border border-gray-500">IPK</td>
+                                            <td class="px-2 py-1 text-right border border-gray-500"></td>
+                                            <td class="px-2 py-1 font-bold text-right border border-gray-500">Index
+                                                Prestasi Kumulatif</td>
                                             <td class="px-2 py-1 text-center border border-gray-500"></td>
-                                            <td class="px-2 py-1 text-left border border-gray-500"></td>
+                                            <td class="px-2 py-1 text-right border border-gray-500"></td>
                                             <td class="px-2 py-1 text-center border border-gray-500"></td>
-                                            <td class="px-2 py-1 font-bold text-center border border-gray-500">{{ $IPK }}</td>
+                                            <td class="px-2 py-1 font-bold text-center border border-gray-500">
+                                                {{ $IPK }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -184,8 +197,8 @@
                                     <h2 class="font-bold text-[18px] ml-1 text-gray-700">Mohon Lunasi Tagihan</h2>
                                     @if (auth()->user()->role == 'mahasiswa')
                                         <a href="{{ route('mahasiswa.keuangan') }}"
-                                            class="px-3 py-3 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
-                                            <svg class="w-6 h-6 text-white" aria-hidden="true"
+                                            class="md:px-3 md:py-3 px-2 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
+                                            <svg class="w-3 h-3 md:w-6 md:h-6 text-white" aria-hidden="true"
                                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                 fill="currentColor" viewBox="0 0 24 24">
                                                 <path fill-rule="evenodd"
@@ -205,8 +218,8 @@
                                     </h2>
                                     @if (auth()->user()->role == 'mahasiswa')
                                         <a href="{{ route('mahasiswa.emonev') }}"
-                                            class="px-3 py-3 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
-                                            <svg class="flex-shrink-0 w-6 h-6 transition duration-75  }}"
+                                            class="md:px-3 md:py-3 px-2 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
+                                            <svg class="flex-shrink-0 w-3 h-3 md:w-6 md:h-6 transition duration-75  }}"
                                                 aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                                                 height="24" fill="none" viewBox="0 0 24 24">
                                                 <path stroke="currentColor" stroke-linecap="round"

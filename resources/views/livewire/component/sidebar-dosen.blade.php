@@ -1,8 +1,9 @@
-<div class="relative sticky left-0 h-screen top-16 -z-5">
-    <div id="default-sidebar " class="w-64 h-full transition-transform -translate-x-full bg-customPurple sm:translate-x-0"
+<div class="md:relative md:sticky fixed left-0 h-screen top-16 z-10">
+    <div id="default-sidebar" 
+        class="w-64 h-full transition-transform -translate-x-full bg-customPurple sm:translate-x-0"
         aria-label="Sidebar">
-        <div class="h-full px-3 py-4 ">
-            <ul class="relative sticky space-y-2 font-medium top-20">
+        <div class="h-full px-3 py-4">
+            <ul class="space-y-2 font-medium">
                 <li>
                     <a href="{{ route('dosen.dashboard') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
