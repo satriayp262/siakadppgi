@@ -27,8 +27,6 @@
                 </li>
             </ol>
         </nav>
-        <input type="text" wire:model.live="search" placeholder="   Search"
-            class="px-2 ml-4 py-2 border border-gray-300 rounded-lg">
     </div>
     @php
         $mahasiswa = App\Models\Mahasiswa::where('NIM', $NIM)->first();
@@ -107,12 +105,13 @@
                     $IPK = round($nilaiKumulatif / $mahasiswa->getSemester($x->id_semester), 2);
                 @endphp
                 @if (count($khs) != 0)
-                    @if ($cekTagihan == true && $cekEmonev == true)
+                    @if (($cekTagihan == true && $cekEmonev == true) || auth()->user()->role == 'dosen')
                         <div class="max-w-full p-4 mt-4 mb-4 bg-white rounded-lg shadow-lg ">
                             <div class="flex items-center justify-between my-2">
                                 <h2 class="font-bold text-[18px] ml-1 text-gray-700">Semester
                                     {{ $mahasiswa->getSemester($x->id_semester) }}</h2>
-                                <a href="{{ route('mahasiswa.khs.download', [$mahasiswa->NIM, $x->id_semester, $IPK]) }}"
+                                <a href="javascript:void(0)"
+                                wire:click="download('{{ $mahasiswa->NIM }}', '{{ $x->id_semester }}', '{{ $IPK }}')"
                                     class="px-3 py-3 font-bold text-white bg-purple2 rounded hover:bg-purple2">
                                     <img width="24" height="24"
                                         src="https://img.icons8.com/material-sharp/24/download--v1.png"
@@ -120,74 +119,60 @@
                                 </a>
                             </div>
                             <div class="my-4" wire:key="semester-{{ $x->id_semester }}">
-                                <table class="min-w-full border-collapse table-auto">
+                                <table class="min-w-full border-collapse table-auto md:text-sm text-[6px]">
                                     <thead>
-                                        <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
-                                            <th class="px-4 py-2 text-[15px] text-center border border-x-gray-500">Kode
-                                            </th>
-                                            <th class="px-4 py-2 text-[15px] text-center border border-x-gray-500">
-                                                Matkul
-                                            </th>
-                                            <th class="px-4 py-2 text-[15px] text-center border border-x-gray-500">SKS
-                                            </th>
-                                            <th class="px-4 py-2 text-[15px] text-center border border-x-gray-500">Angka
-                                            </th>
-                                            <th class="px-4 py-2 text-[15px] text-center border border-x-gray-500">Angka
-                                                Mutu
-                                            </th>
-                                            <th class="px-4 py-2 text-[15px] text-center border border-x-gray-500">Huruf
-                                                Mutu</th>
+                                        <tr class="items-center w-full text-white align-middle bg-customPurple">
+                                            <th class="px-2 py-1 text-center border border-x-gray-500">Kode</th>
+                                            <th class="px-2 py-1 text-center border border-x-gray-500">Matkul</th>
+                                            <th class="px-2 py-1 text-center border border-x-gray-500">SKS</th>
+                                            <th class="px-2 py-1 text-center border border-x-gray-500">Angka</th>
+                                            <th class="px-2 py-1 text-center border border-x-gray-500">Angka Mutu</th>
+                                            <th class="px-2 py-1 text-center border border-x-gray-500">Huruf Mutu</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($khs as $item)
                                             <tr wire:key="khs-{{ $item->id_khs }}">
-                                                <td class="px-4 py-2 text-left border border-gray-500">
-                                                    {{ $item->matkul->kode_mata_kuliah }}</td>
-                                                <td class="px-4 py-2 text-left border border-gray-500">
-                                                    {{ $item->matkul->nama_mata_kuliah }}</td>
-                                                <td class="px-4 py-2 text-center border border-gray-500">
-                                                    {{ $sks =
-                                                        $item->matkul->sks_tatap_muka +
-                                                        $item->matkul->sks_simulasi +
-                                                        $item->matkul->sks_praktek +
-                                                        $item->matkul->sks_praktek_lapangan }}
+                                                <td class="px-2 py-1 text-left border border-gray-500">{{ $item->matkul->kode_mata_kuliah }}</td>
+                                                <td class="px-2 py-1 text-left border border-gray-500">{{ $item->matkul->nama_mata_kuliah }}</td>
+                                                <td class="px-2 py-1 text-center border border-gray-500">
+                                                    {{ $sks = $item->matkul->sks_tatap_muka + $item->matkul->sks_simulasi + $item->matkul->sks_praktek + $item->matkul->sks_praktek_lapangan }}
                                                 </td>
-                                                <td class="px-4 py-2 text-center border border-gray-500">
-                                                    {{ $item->getGrade($item->bobot)['angka'] }}</td>
-                                                <td class="px-4 py-2 text-center border border-gray-500">
-                                                    {{ $item->getGrade($item->bobot)['angka'] * $sks }}</td>
-                                                <td class="px-4 py-2 text-center border border-gray-500">
-                                                    {{ $item->getGrade($item->bobot)['huruf'] }}</td>
+                                                <td class="px-2 py-1 text-center border border-gray-500">{{ $item->getGrade($item->bobot)['angka'] }}</td>
+                                                <td class="px-2 py-1 text-center border border-gray-500">{{ $item->getGrade($item->bobot)['angka'] * $sks }}</td>
+                                                <td class="px-2 py-1 text-center border border-gray-500">{{ $item->getGrade($item->bobot)['huruf'] }}</td>
                                             </tr>
                                             @php
                                                 $totalAngka += $item->getGrade($item->bobot)['angka'];
                                             @endphp
                                         @endforeach
                                         <tr>
-                                            <td class="px-4 py-2 text-left border border-gray-500"></td>
-                                            <td class="px-4 py-2 font-bold text-left border border-gray-500">Jumlah</td>
-                                            <td class="px-4 py-2 font-bold text-center border border-gray-500">
-                                                {{ $jumlahSKS }}</td>
-                                            <td class="px-4 py-2 font-bold text-center border border-gray-500">
-                                                {{ $totalAngka }}</td>
-                                            <td class="px-4 py-2 font-bold text-center border border-gray-500">
-                                                {{ $jumlahNilai }}</td>
-                                            <td class="px-4 py-2 text-left border border-gray-500"></td>
+                                            <td class="px-2 py-1 text-left border border-gray-500"></td>
+                                            <td class="px-2 py-1 font-bold text-left border border-gray-500">Jumlah</td>
+                                            <td class="px-2 py-1 font-bold text-center border border-gray-500">{{ $jumlahSKS }}</td>
+                                            <td class="px-2 py-1 font-bold text-center border border-gray-500">{{ $totalAngka }}</td>
+                                            <td class="px-2 py-1 font-bold text-center border border-gray-500">{{ $jumlahNilai }}</td>
+                                            <td class="px-2 py-1 text-left border border-gray-500"></td>
                                         </tr>
                                         <tr>
-                                            <td class="px-4 py-2 text-left border border-gray-500"></td>
-                                            <td class="px-4 py-2 font-bold text-left border border-gray-500">IPS</td>
-                                            <td class="px-4 py-2 text-center border border-gray-500"></td>
-                                            <td class="px-4 py-2 text-left border border-gray-500"></td>
-                                            <td class="px-4 py-2 text-center border border-gray-500"></td>
-                                            <td class="px-4 py-2 font-bold text-center border border-gray-500">
-                                                {{ $IPS }}</td>
+                                            <td class="px-2 py-1 text-left border border-gray-500"></td>
+                                            <td class="px-2 py-1 font-bold text-left border border-gray-500">IPS</td>
+                                            <td class="px-2 py-1 text-center border border-gray-500"></td>
+                                            <td class="px-2 py-1 text-left border border-gray-500"></td>
+                                            <td class="px-2 py-1 text-center border border-gray-500"></td>
+                                            <td class="px-2 py-1 font-bold text-center border border-gray-500">{{ $IPS }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-2 py-1 text-left border border-gray-500"></td>
+                                            <td class="px-2 py-1 font-bold text-left border border-gray-500">IPK</td>
+                                            <td class="px-2 py-1 text-center border border-gray-500"></td>
+                                            <td class="px-2 py-1 text-left border border-gray-500"></td>
+                                            <td class="px-2 py-1 text-center border border-gray-500"></td>
+                                            <td class="px-2 py-1 font-bold text-center border border-gray-500">{{ $IPK }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <h2 class="font-bold text-[18px] ml-1 text-gray-700">IPK : {{ $IPK }}</h2>
                         </div>
                     @else
                         <div

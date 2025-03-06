@@ -127,7 +127,7 @@ Route::middleware(['auth', CheckRole::class . ':mahasiswa'])->prefix('mahasiswa'
     Route::get('/jadwal', App\Livewire\Mahasiswa\Jadwal\Index::class)->name('mahasiswa.jadwal');
     Route::get('/emonev/{nama_semester}/{id_mata_kuliah}', App\Livewire\Mahasiswa\Emonev\Show::class)->name('emonev.detail');
     Route::get('/khs/detail/{NIM}', App\Livewire\Khs\Detail::class)->name('mahasiswa.khs.detail');
-    Route::get('/download/{NIM}/{id_semester}/{IPK}', [App\Http\Controllers\KHSController::class, 'generatePDF'])->name('mahasiswa.khs.download');
+    Route::get('/download/{NIM}/{id_semester}', [App\Http\Controllers\KHSController::class, 'generatePDF'])->name('mahasiswa.khs.download');
     Route::get('/keuangan/bayar/{order_id}', App\Livewire\Mahasiswa\Keuangan\Bayar::class)->name('mahasiswa.transaksi');
     Route::get('/keuangan/berhasil/{id_transaksi}', App\Livewire\Mahasiswa\Keuangan\Berhasil::class)->name('mahasiswa.transaksi.berhasil');
     Route::get('/keuangan/konfirmasi', App\Livewire\Mahasiswa\Keuangan\Konfirmasi::class)->name('mahasiswa.transaksi.konfirmasi');
@@ -165,6 +165,7 @@ Route::middleware(['auth', CheckRole::class . ':dosen'])->prefix('dosen')->group
     Route::get('/khs', App\Livewire\Khs\Index::class)->name('dosen.khs');
     Route::get('/khs/{nama_kelas}', App\Livewire\Khs\Show::class)->name('dosen.khs.show');
     Route::get('/khs/detail/{NIM}', App\Livewire\Khs\Detail::class)->name('dosen.khs.detail');
+    Route::get('/download/{NIM}/{id_semester}', [App\Http\Controllers\KHSController::class, 'generatePDF'])->name('dosen.khs.download');
 });
 
 // staff
