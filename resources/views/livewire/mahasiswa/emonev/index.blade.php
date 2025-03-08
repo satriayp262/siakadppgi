@@ -34,7 +34,7 @@
                     </div>
                 </div>
                 <div class="">
-                    <img src="{{ asset('img/empty-box_18864389.png') }}" alt="not found" class="w-40 h-auto mx-auto">
+                    <img src="{{ asset('img/boxempty.svg') }}" alt="not found" class="w-40 h-auto mx-auto">
                     <p class="font-bold text-customPurple text-lg mt-4">Belum Ada KRS di Semester ini</p>
                 </div>
             </div>
@@ -68,6 +68,7 @@
                         </div>
                     </div>
                     <div class="">
+                        <img src="{{ asset('img/calender.svg') }}" alt="not found" class="w-40 h-auto mx-auto">
                         <p class="font-bold text-customPurple text-lg mt-4">Periode pengisian Emonev semester ini belum
                             di buat
                         </p>
@@ -149,6 +150,10 @@
                                             @if ($isPeriode1 == true && $emonev?->sesi == 1)
                                                 <span
                                                     class="px-2 py-1 bg-blue-200 text-blue-800 rounded-full text-xs font-semibold">Sudah
+                                                    Mengisi</span>
+                                            @elseif ($isPeriode2 == true && $emonev?->sesi == 1)
+                                                <span
+                                                    class="px-2 py-1 bg-red-200 text-red-800 rounded-full text-xs font-semibold">Belum
                                                     Mengisi</span>
                                             @elseif ($isPeriode2 == true && $emonev?->sesi == 2)
                                                 <span
