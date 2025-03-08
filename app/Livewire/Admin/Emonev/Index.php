@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Emonev;
 
 use App\Models\Emonev;
 use App\Models\Jawaban;
+use App\Models\Pertanyaan;
 use Livewire\Component;
 use App\Models\Prodi;
 use App\Models\Semester;
@@ -29,31 +30,35 @@ class Index extends Component
     {
 
         $query = Jawaban::join('emonev', 'jawaban.id_emonev', '=', 'emonev.id_emonev')
+            ->join('pertanyaan', 'jawaban.id_pertanyaan', '=', 'pertanyaan.id_pertanyaan')
             ->join('dosen', 'emonev.nidn', '=', 'dosen.nidn')
+            ->join('kelas', 'emonev.id_kelas', '=', 'kelas.id_kelas')
+            ->join('matkul', 'emonev.id_mata_kuliah', '=', 'matkul.id_mata_kuliah')
             ->join('semester', 'emonev.id_semester', '=', 'semester.id_semester')
-            ->join('prodi', 'dosen.kode_prodi', '=', 'prodi.kode_prodi')
+            ->join('prodi', 'matkul.kode_prodi', '=', 'prodi.kode_prodi')
             ->select(
                 'dosen.nidn',
                 'dosen.nama_dosen',
                 'prodi.nama_prodi',
                 'semester.nama_semester',
-                \DB::raw('SUM(jawaban.nilai) as total_nilai')
+                'pertanyaan.nama_pertanyaan',
+                'jawaban.nilai',
+                'kelas.nama_kelas',
+                'jawaban.created_at',
+                'emonev.saran'
             );
 
         if (!empty($this->selectedprodi)) {
             $query->where('prodi.nama_prodi', $this->selectedprodi);
 
         }
-
-
         if (!empty($this->selectedSemester)) {
             $query->where('semester.nama_semester', $this->selectedSemester);
         }
 
         // Eksekusi query dan simpan hasil ke variabel
-        $this->jawaban = $query->groupBy('dosen.nidn', 'dosen.nama_dosen', 'prodi.nama_prodi', 'semester.nama_semester')
+        $this->jawaban = $query->groupBy('dosen.nidn', 'dosen.nama_dosen', 'prodi.nama_prodi', 'semester.nama_semester', 'pertanyaan.nama_pertanyaan', 'jawaban.nilai', 'emonev.saran', 'jawaban.created_at', 'kelas.nama_kelas')
             ->get();
-
     }
 
     public function download()
@@ -68,10 +73,12 @@ class Index extends Component
     public function render()
     {
 
+        $pertanyaan = Pertanyaan::all();
         return view('livewire.admin.emonev.index', [
             'jawaban' => $this->jawaban,
             'semesters' => $this->semesters,
             'Prodis' => $this->prodis,
+            'pertanyaan' => $pertanyaan
         ]);
     }
 }

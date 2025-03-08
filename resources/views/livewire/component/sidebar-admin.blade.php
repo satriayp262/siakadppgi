@@ -1,6 +1,5 @@
 <div class="md:relative md:sticky fixed left-0 h-screen top-16 z-10">
-    <div id="default-sidebar" 
-        class="w-64 h-full transition-transform -translate-x-full bg-customPurple sm:translate-x-0"
+    <div id="default-sidebar" class="w-64 h-full transition-transform -translate-x-full bg-customPurple sm:translate-x-0"
         aria-label="Sidebar">
         <div class="h-full px-3 py-4">
             <ul class="space-y-2 font-medium">
@@ -357,7 +356,7 @@
                         </li>
                         <li>
                             <a href="{{ route('admin.emonev') }}"
-                                class="flex items-center mx-4 p-2 text-gray-100 rounded-lg group {{ request()->routeIs('admin.emonev.') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
+                                class="flex items-center mx-4 p-2 text-gray-100 rounded-lg group {{ request()->routeIs('admin.emonev') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 <span class="flex-1 ms-3 whitespace-nowrap">Emonev</span>
                             </a>
                         </li>
