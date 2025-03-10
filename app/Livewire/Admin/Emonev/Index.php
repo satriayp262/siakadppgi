@@ -19,6 +19,7 @@ class Index extends Component
     public $prodis = [];
 
 
+
     public function mount()
     {
         $this->semesters = Semester::orderBy('id_semester', 'desc')->get();
@@ -28,7 +29,6 @@ class Index extends Component
 
     public function loadData()
     {
-
         $query = Jawaban::join('emonev', 'jawaban.id_emonev', '=', 'emonev.id_emonev')
             ->join('pertanyaan', 'jawaban.id_pertanyaan', '=', 'pertanyaan.id_pertanyaan')
             ->join('dosen', 'emonev.nidn', '=', 'dosen.nidn')
@@ -45,19 +45,22 @@ class Index extends Component
                 'jawaban.nilai',
                 'kelas.nama_kelas',
                 'jawaban.created_at',
-                'emonev.saran'
+                'emonev.saran',
+                'emonev.id_emonev'
             );
 
         if (!empty($this->selectedprodi)) {
             $query->where('prodi.nama_prodi', $this->selectedprodi);
-
         }
+
         if (!empty($this->selectedSemester)) {
             $query->where('semester.nama_semester', $this->selectedSemester);
+        } else {
+            $query->where('semester.nama_semester', $this->semesters[0]->nama_semester);
         }
 
         // Eksekusi query dan simpan hasil ke variabel
-        $this->jawaban = $query->groupBy('dosen.nidn', 'dosen.nama_dosen', 'prodi.nama_prodi', 'semester.nama_semester', 'pertanyaan.nama_pertanyaan', 'jawaban.nilai', 'emonev.saran', 'jawaban.created_at', 'kelas.nama_kelas')
+        $this->jawaban = $query->groupBy('dosen.nidn', 'dosen.nama_dosen', 'prodi.nama_prodi', 'semester.nama_semester', 'pertanyaan.nama_pertanyaan', 'jawaban.nilai', 'emonev.saran', 'jawaban.created_at', 'kelas.nama_kelas', 'emonev.id_emonev')
             ->get();
     }
 
@@ -72,7 +75,6 @@ class Index extends Component
 
     public function render()
     {
-
         $pertanyaan = Pertanyaan::all();
         return view('livewire.admin.emonev.index', [
             'jawaban' => $this->jawaban,

@@ -1,5 +1,5 @@
 <div class="mx-5">
-    <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-screen">
+    <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg w-full" style="width: 1225px">
         <!-- Dropdown Pilihan Semester dan Prodi -->
         <div class="flex space-x-4 mb-4">
             <!-- Dropdown Semester -->
@@ -32,74 +32,84 @@
                     class="bg-purple2 hover:bg-customPurple text-white font-semibold py-2 px-6 rounded-lg shadow-lg transition-transform hover:scale-105">
                     Tampilkan
                 </button>
-                @if ($selectedSemester || $selectedprodi)
-                    <a wire:click='download' target="_blank"
-                        class="bg-green-500 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg shadow-lg transition-transform hover:scale-105 flex items-center">
-                        <svg class="w-5 h-5 text-white mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                            width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 15v2a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-2m-8 1V4m0 12-4-4m4 4 4-4" />
-                        </svg>
-                        Download
-                    </a>
-                @endif
+                <a wire:click='download' target="_blank"
+                    class="bg-green-500 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg shadow-lg transition-transform hover:scale-105 flex items-center">
+                    <svg class="w-5 h-5 text-white mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                        width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 15v2a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-2m-8 1V4m0 12-4-4m4 4 4-4" />
+                    </svg>
+                    Download
+                </a>
             </div>
         </div>
 
         <!-- Tabel Data -->
-        @if ($selectedSemester || $selectedprodi)
-            <div class="overflow-x-auto">
-                <table class="min-w-full mt-4 bg-white border border-gray-200">
-                    <thead>
-                        <tr class="bg-customPurple text-white text-sm">
-                            <th class="px-2 py-2 text-center w-1/12">No.</th>
-                            <th class="px-4 py-2 text-center w-4/12">Nama Dosen</th>
-                            <th class="px-4 py-2 text-center w-4/12">Kelas</th>
-                            @foreach ($pertanyaan as $item)
-                                <th class="px-4 py-2 text-center w-1/12">{{ $item->nama_pertanyaan }}</th>
-                            @endforeach
-                            <th class="px-4 py-2 text-center w-4/12">Saran</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($jawaban->unique('nidn') as $item)
-                            <tr class="border-t" wire:key="jawaban-{{ $item->id_jawaban }}">
-                                <td class="px-2 py-2 text-center">{{ $loop->iteration }}</td>
 
-                                <td class="px-4 py-2 text-left">{{ $item->nama_dosen }}</td>
-                                <td class="px-4 py-2 text-left">{{ $item->nama_kelas }}</td>
-                                @foreach ($pertanyaan as $ins)
-                                    @php
-                                        $nilai = $item->where('id_pertanyaan', $ins->id_pertanyaan)->first()->nilai;
-                                        switch ($nilai) {
-                                            case null:
-                                                $nilai = '-';
-                                                break;
-                                            case 6:
-                                                $nilai = 'Kurang';
-                                                break;
-                                            case 7:
-                                                $nilai = 'Cukup';
-                                                break;
-                                            case 8:
-                                                $nilai = 'Baik';
-                                                break;
-                                            case 9:
-                                                $nilai = 'Sangat Baik';
-                                                break;
-                                            case 10:
-                                                $nilai = 'Istimewa';
-                                                break;
-                                        }
-                                    @endphp
-                                    <td class="px-4 py-2 text-center">{{ $nilai }}</td>
-                                @endforeach
-                                <td class="px-4 py-2 text-center">{{ $item->saran }}</td>
-                            </tr>
+        <div class="overflow-x-auto ">
+            <h1 class=" text-customPurple font-bold text-lg text-justify">Monitoring dan Evaluasi Dosen
+                {{ $selectedprodi }}
+                di semester
+                @if ($selectedSemester)
+                    {{ $selectedSemester }}
+                @else
+                    {{ $semesters[0]->nama_semester }}
+                @endif
+            </h1>
+            <table class="mt-4 bg-white border border-gray-200 whitespace-nowrap">
+                <thead>
+                    <tr class="bg-customPurple text-white text-sm">
+                        <th class="px-2 py-2 text-center w-12">No.</th>
+                        <th class="px-4 py-2 text-center w-40">Nama Dosen</th>
+                        <th class="px-4 py-2 text-center w-40">Kelas</th>
+                        @foreach ($pertanyaan as $item)
+                            <th class="px-4 py-2 text-center w-28">{{ $item->nama_pertanyaan }}</th>
                         @endforeach
-                    </tbody>
-                </table>
-            </div>
-        @endif
+                        <th class="px-4 py-2 text-center w-40">Saran</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($jawaban->unique('id_emonev') as $item)
+                        <tr class="border-t" wire:key="jawaban-{{ $item->id_jawaban }}">
+                            <td class=" px-2 py-2 text-center">{{ $loop->iteration }}
+                            </td>
+                            <td class="px-4 py-2 text-left">{{ $item->nama_dosen }}</td>
+                            <td class="px-4 py-2 text-left">{{ $item->nama_kelas }}</td>
+                            @foreach ($pertanyaan as $ins)
+                                @php
+                                    $nilai = $item
+                                        ->where('id_pertanyaan', $ins->id_pertanyaan)
+                                        ->where('id_emonev', $item->id_emonev)
+                                        ->first()->nilai;
+                                    switch ($nilai) {
+                                        case null:
+                                            $nilai = '-';
+                                            break;
+                                        case 6:
+                                            $nilai = 'Kurang';
+                                            break;
+                                        case 7:
+                                            $nilai = 'Cukup';
+                                            break;
+                                        case 8:
+                                            $nilai = 'Baik';
+                                            break;
+                                        case 9:
+                                            $nilai = 'Sangat Baik';
+                                            break;
+                                        case 10:
+                                            $nilai = 'Istimewa';
+                                            break;
+                                    }
+                                @endphp
+                                <td class="px-4 py-2 text-left">{{ $nilai }}</td>
+                            @endforeach
+                            <td class="px-4 py-2 text-left">{{ $item->saran }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+
     </div>
 </div>
