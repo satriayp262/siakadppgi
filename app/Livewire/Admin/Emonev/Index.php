@@ -16,6 +16,7 @@ class Index extends Component
     public $selectedprodi = '';
     public $selectedNilai = '';
     public $selectedPertanyaan = '';
+    public $selectedDosen = '';
     public $jawaban = [];
     public $semesters = [];
     public $prodis = [];
@@ -81,6 +82,10 @@ class Index extends Component
             }
         }
 
+        if ($this->selectedDosen) {
+            $query->where('dosen.nidn', $this->selectedDosen);
+        }
+
         // Eksekusi query dan simpan hasil ke variabel
         $this->jawaban = $query->groupBy('dosen.nidn', 'dosen.nama_dosen', 'prodi.nama_prodi', 'semester.nama_semester', 'pertanyaan.nama_pertanyaan', 'jawaban.nilai', 'emonev.saran', 'jawaban.created_at', 'kelas.nama_kelas', 'emonev.id_emonev', 'pertanyaan.id_pertanyaan')
             ->get();
@@ -91,6 +96,8 @@ class Index extends Component
         $this->loadData();
 
         session()->put('jawaban', $this->jawaban->toArray());
+
+        dd(session()->get('jawaban'));
 
         return redirect()->route('admin.emonev.download');
     }

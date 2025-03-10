@@ -60,7 +60,28 @@
                 <thead>
                     <tr class="bg-customPurple text-white text-sm">
                         <th class="px-2 py-2 text-center w-12">No.</th>
-                        <th class="px-4 py-2 text-center w-40">Nama Dosen</th>
+                        <th class="px-4 py-2 text-center w-40">
+                            <div class="relative"><button id="dropdownDosenButton" data-dropdown-toggle="dropdownDosen"
+                                    data-dropdown-delay="500" type="button" class="space-x-2 flex items-center">
+                                    Nama Dosen <br>
+                                    <svg class="w-[12px] h-[12px] text-white aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        fill="currentColor" viewBox="0 0 24 24">
+                                        <path
+                                            d="M5.05 3C3.291 3 2.352 5.024 3.51 6.317l5.422 6.059v4.874c0 .472.227.917.613 1.2l3.069 2.25c1.01.742 2.454.036 2.454-1.2v-7.124l5.422-6.059C21.647 5.024 20.708 3 18.95 3H5.05Z" />
+                                    </svg>
+                                </button></div>
+                            <div
+                                id="dropdownDosen"class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 absolute">
+                                <a href="#" wire:click.prevent="$set('selectedDosen', '')" wire:click="loadData()"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Semua</a>
+                                @foreach ($jawaban->unique('nidn') as $item)
+                                    <a href="#" wire:click.prevent="$set('selectedDosen', '{{ $item->nidn }}')"
+                                        wire:click="loadData()"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">{{ $item->nama_dosen }}</a>
+                                @endforeach
+                            </div>
+                        </th>
                         <th class="px-4 py-2 text-center w-40">Kelas</th>
                         @foreach ($pertanyaan as $item)
                             <th class="px-4 py-2 text-center w-30">
