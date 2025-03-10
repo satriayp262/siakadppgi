@@ -65,44 +65,45 @@
             @foreach ($semester as $x)
                 @php
                     $khs = App\Models\KHS::where('id_semester', $x->id_semester)->where('NIM', $mahasiswa->NIM)->get();
+                    if (count($khs) != 0) {
+                        $jumlahSKS = 0;
+                        $jumlahNilai = 0;
+                        $totalAngka = 0;
 
-                    $jumlahSKS = 0;
-                    $jumlahNilai = 0;
-                    $totalAngka = 0;
+                        $cekTagihan = App\Models\Tagihan::where('id_semester', $x->id_semester)
+                            ->where('NIM', $mahasiswa->NIM)
+                            ->where('status_tagihan', 'Lunas')
+                            ->exists();
 
-                    $cekTagihan = App\Models\Tagihan::where('id_semester', $x->id_semester)
-                        ->where('NIM', $mahasiswa->NIM)
-                        ->where('status_tagihan', 'Lunas')
-                        ->exists();
-
-                    foreach ($khs as $y) {
-                        if (
-                            !App\Models\MahasiswaEmonev::where('id_semester', $x->id_semester)
-                                ->where('NIM', $mahasiswa->NIM)
-                                ->where('id_mata_kuliah', $y->id_mata_kuliah)
-                                ->where('sesi', 2)
-                                ->exists()
-                        ) {
-                            $cekEmonev = false;
-                            break;
-                        } else {
-                            $cekEmonev = true;
+                        foreach ($khs as $y) {
+                            if (
+                                !App\Models\MahasiswaEmonev::where('id_semester', $x->id_semester)
+                                    ->where('NIM', $mahasiswa->NIM)
+                                    ->where('id_mata_kuliah', $y->id_mata_kuliah)
+                                    ->where('sesi', 2)
+                                    ->exists()
+                            ) {
+                                $cekEmonev = false;
+                                break;
+                            } else {
+                                $cekEmonev = true;
+                            }
                         }
+                        foreach ($khs as $khsItem) {
+                            $sks =
+                                $khsItem->matkul->sks_tatap_muka +
+                                $khsItem->matkul->sks_simulasi +
+                                $khsItem->matkul->sks_praktek +
+                                $khsItem->matkul->sks_praktek_lapangan;
+                            $jumlahSKS += $sks;
+                            $jumlahNilai += $khsItem->getGrade($khsItem->bobot)['angka'] * $sks;
+                        }
+                        if ($jumlahSKS !== 0) {
+                            $IPS = round($jumlahNilai / $jumlahSKS, 2);
+                        }
+                        $nilaiKumulatif += $IPS;
+                        $IPK = round($nilaiKumulatif / $mahasiswa->getSemester($x->id_semester), 2);
                     }
-                    foreach ($khs as $khsItem) {
-                        $sks =
-                            $khsItem->matkul->sks_tatap_muka +
-                            $khsItem->matkul->sks_simulasi +
-                            $khsItem->matkul->sks_praktek +
-                            $khsItem->matkul->sks_praktek_lapangan;
-                        $jumlahSKS += $sks;
-                        $jumlahNilai += $khsItem->getGrade($khsItem->bobot)['angka'] * $sks;
-                    }
-                    if ($jumlahSKS !== 0) {
-                        $IPS = round($jumlahNilai / $jumlahSKS, 2);
-                    }
-                    $nilaiKumulatif += $IPS;
-                    $IPK = round($nilaiKumulatif / $mahasiswa->getSemester($x->id_semester), 2);
                 @endphp
                 @if (count($khs) != 0)
                     @if (($cekTagihan == true && $cekEmonev == true) || auth()->user()->role == 'dosen')

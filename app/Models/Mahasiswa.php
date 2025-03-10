@@ -114,24 +114,20 @@ class Mahasiswa extends Model
 
     public function getSemester($id_semester)
     {
-        // Retrieve the chosen semester based on the provided ID
         $semester = Semester::find($id_semester);
 
         if (!$semester) {
-            return null; // Handle case when the semester is not found
+            return null; 
         }
-
+        
         $chosenSemesterYear = (int) substr($semester->nama_semester, 0, 4);
         $chosenSemesterDigit5 = (int) substr($semester->nama_semester, 4, 1);
 
-        // Get the initial semester for this mahasiswa
         $initialSemesterYear = (int) substr($this->semester->nama_semester ?? '0000', 0, 4);
         $initialSemesterDigit5 = (int) substr($this->semester->nama_semester ?? '00000', 4, 1);
 
-        // Calculate the semester difference
         $semesterDifference = ($chosenSemesterYear - $initialSemesterYear) * 2;
 
-        // Adjust based on the fifth digit
         if ($chosenSemesterDigit5 == $initialSemesterDigit5) {
             $semesterDifference += 1;
         } elseif ($chosenSemesterDigit5 > $initialSemesterDigit5) {

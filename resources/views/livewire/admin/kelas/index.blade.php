@@ -233,8 +233,8 @@
                                                 d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
                                         </svg>
                                     </button>
-                                    <livewire:admin.kelas.add :id_kelas="$kelas->id_kelas"
-                                        wire:key="edit-{{ rand() . $kelas->id_kelas }}" />
+                                    {{-- <livewire:admin.kelas.add :id_kelas="$kelas->id_kelas"
+                                        wire:key="edit-{{ rand() . $kelas->id_kelas }}" /> --}}
                                 </div>
                             </div>
                         </td>

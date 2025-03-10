@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::table('mahasiswa', function (Blueprint $table) {
             $table->integer('id_kelas')->nullable();
-            $table->foreign('id_kelas')->references('id_kelas')->on('kelas');
+            // $table->foreign('id_kelas')->references('id_kelas')->on('kelas');
         });
     }
 
