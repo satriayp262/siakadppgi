@@ -46,7 +46,7 @@
 
         <!-- Tabel Data -->
 
-        <div class="overflow-x-auto ">
+        <div class="overflow-x-scroll ">
             <h1 class=" text-customPurple font-bold text-lg text-justify">Monitoring dan Evaluasi Dosen
                 {{ $selectedprodi }}
                 di semester
@@ -63,8 +63,40 @@
                         <th class="px-4 py-2 text-center w-40">Nama Dosen</th>
                         <th class="px-4 py-2 text-center w-40">Kelas</th>
                         @foreach ($pertanyaan as $item)
-                            <th class="px-4 py-2 text-center w-28">{{ $item->nama_pertanyaan }}</th>
+                            <th class="px-4 py-2 text-center w-30">
+                                <div class="relative">
+                                    <button id="dropdownNilaiButton-{{ $item->id_pertanyaan }}"
+                                        data-dropdown-toggle="dropdownNilai-{{ $item->id_pertanyaan }}"
+                                        data-dropdown-delay="500" type="button" class="space-x-2 flex items-center">
+                                        {{ $item->nama_pertanyaan }} <br>
+                                        <svg class="w-[12px] h-[12px] text-white aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            fill="currentColor" viewBox="0 0 24 24">
+                                            <path
+                                                d="M5.05 3C3.291 3 2.352 5.024 3.51 6.317l5.422 6.059v4.874c0 .472.227.917.613 1.2l3.069 2.25c1.01.742 2.454.036 2.454-1.2v-7.124l5.422-6.059C21.647 5.024 20.708 3 18.95 3H5.05Z" />
+                                        </svg>
+                                    </button>
+                                    <div id="dropdownNilai-{{ $item->id_pertanyaan }}"
+                                        class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 absolute">
+                                        <a href="#" wire:click.prevent="setValues('', '')"
+                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Semua</a>
+                                        <a href="#" wire:click.prevent="setValues(6, {{ $item->id_pertanyaan }})"
+                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Kurang</a>
+                                        <a href="#" wire:click.prevent="setValues(7, {{ $item->id_pertanyaan }})"
+                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cukup</a>
+                                        <a href="#" wire:click.prevent="setValues(8, {{ $item->id_pertanyaan }})"
+                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Baik</a>
+                                        <a href="#" wire:click.prevent="setValues(9, {{ $item->id_pertanyaan }})"
+                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sangat
+                                            Baik</a>
+                                        <a href="#"
+                                            wire:click.prevent="setValues(10, {{ $item->id_pertanyaan }})"
+                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Istimewa</a>
+                                    </div>
+                                </div>
+                            </th>
                         @endforeach
+
                         <th class="px-4 py-2 text-center w-40">Saran</th>
                     </tr>
                 </thead>

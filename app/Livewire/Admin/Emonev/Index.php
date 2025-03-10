@@ -14,6 +14,8 @@ class Index extends Component
 {
     public $selectedSemester = '';
     public $selectedprodi = '';
+    public $selectedNilai = '';
+    public $selectedPertanyaan = '';
     public $jawaban = [];
     public $semesters = [];
     public $prodis = [];
@@ -25,10 +27,20 @@ class Index extends Component
         $this->semesters = Semester::orderBy('id_semester', 'desc')->get();
         $this->prodis = Prodi::latest()->get();
         $this->loadData();
+
+    }
+
+    public function setValues($nilai, $pertanyaanId)
+    {
+        $this->selectedNilai = $nilai;
+        $this->selectedPertanyaan = $pertanyaanId;
+        $this->loadData();
     }
 
     public function loadData()
     {
+
+
         $query = Jawaban::join('emonev', 'jawaban.id_emonev', '=', 'emonev.id_emonev')
             ->join('pertanyaan', 'jawaban.id_pertanyaan', '=', 'pertanyaan.id_pertanyaan')
             ->join('dosen', 'emonev.nidn', '=', 'dosen.nidn')
@@ -41,6 +53,7 @@ class Index extends Component
                 'dosen.nama_dosen',
                 'prodi.nama_prodi',
                 'semester.nama_semester',
+                'pertanyaan.id_pertanyaan',
                 'pertanyaan.nama_pertanyaan',
                 'jawaban.nilai',
                 'kelas.nama_kelas',
@@ -59,8 +72,17 @@ class Index extends Component
             $query->where('semester.nama_semester', $this->semesters[0]->nama_semester);
         }
 
+        if ($this->selectedNilai && $this->selectedPertanyaan) {
+            $query->where('pertanyaan.id_pertanyaan', $this->selectedPertanyaan);
+            $query->where('jawaban.nilai', $this->selectedNilai);
+            if ($query->count() == 0) {
+                $this->dispatch('warning', ['message' => 'Data tidak ditemukan']);
+                return $this->selectedNilai = '' && $this->selectedPertanyaan = '';
+            }
+        }
+
         // Eksekusi query dan simpan hasil ke variabel
-        $this->jawaban = $query->groupBy('dosen.nidn', 'dosen.nama_dosen', 'prodi.nama_prodi', 'semester.nama_semester', 'pertanyaan.nama_pertanyaan', 'jawaban.nilai', 'emonev.saran', 'jawaban.created_at', 'kelas.nama_kelas', 'emonev.id_emonev')
+        $this->jawaban = $query->groupBy('dosen.nidn', 'dosen.nama_dosen', 'prodi.nama_prodi', 'semester.nama_semester', 'pertanyaan.nama_pertanyaan', 'jawaban.nilai', 'emonev.saran', 'jawaban.created_at', 'kelas.nama_kelas', 'emonev.id_emonev', 'pertanyaan.id_pertanyaan')
             ->get();
     }
 
