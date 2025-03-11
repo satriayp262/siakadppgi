@@ -69,6 +69,7 @@
                         $jumlahSKS = 0;
                         $jumlahNilai = 0;
                         $totalAngka = 0;
+                        $IPS = 0;
 
                         $cekTagihan = App\Models\Tagihan::where('id_semester', $x->id_semester)
                             ->where('NIM', $mahasiswa->NIM)
@@ -95,14 +96,24 @@
                                 $khsItem->matkul->sks_simulasi +
                                 $khsItem->matkul->sks_praktek +
                                 $khsItem->matkul->sks_praktek_lapangan;
-                            $jumlahSKS += $sks;
-                            $jumlahNilai += $khsItem->getGrade($khsItem->bobot)['angka'] * $sks;
+
+                            if ($khsItem->bobot > 59) {
+                                $jumlahSKS += $sks;
+                                $jumlahNilai += $khsItem->getGrade($khsItem->bobot)['angka'] * $sks;
+                            }
                         }
+
                         if ($jumlahSKS !== 0) {
-                            $IPS = round($jumlahNilai / $jumlahSKS, 2);
+                            $IPS = number_format(round($jumlahNilai / $jumlahSKS, 2), 2, '.', '');
+                            $nilaiKumulatif += $IPS;
                         }
-                        $nilaiKumulatif += $IPS;
-                        $IPK = round($nilaiKumulatif / $mahasiswa->getSemester($x->id_semester), 2);
+
+                        $IPK = number_format(
+                            round($nilaiKumulatif / $mahasiswa->getSemester($x->id_semester), 2),
+                            2,
+                            '.',
+                            '',
+                        );
                     }
                 @endphp
                 @if (count($khs) != 0)
@@ -133,24 +144,42 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($khs as $item)
-                                            <tr wire:key="khs-{{ $item->id_khs }}">
-                                                <td class="px-2 py-1 text-left border border-gray-500">
-                                                    {{ $item->matkul->kode_mata_kuliah }}</td>
-                                                <td class="px-2 py-1 text-left border border-gray-500">
-                                                    {{ $item->matkul->nama_mata_kuliah }}</td>
-                                                <td class="px-2 py-1 text-center border border-gray-500">
-                                                    {{ $sks = $item->matkul->sks_tatap_muka + $item->matkul->sks_simulasi + $item->matkul->sks_praktek + $item->matkul->sks_praktek_lapangan }}
-                                                </td>
-                                                <td class="px-2 py-1 text-center border border-gray-500">
-                                                    {{ $item->getGrade($item->bobot)['angka'] }}</td>
-                                                <td class="px-2 py-1 text-center border border-gray-500">
-                                                    {{ $item->getGrade($item->bobot)['angka'] * $sks }}</td>
-                                                <td class="px-2 py-1 text-center border border-gray-500">
-                                                    {{ $item->getGrade($item->bobot)['huruf'] }}</td>
-                                            </tr>
-                                            @php
-                                                $totalAngka += $item->getGrade($item->bobot)['angka'];
-                                            @endphp
+                                            @if ($item->bobot < 59)
+                                                <tr wire:key="khs-{{ $item->id_khs }}" class="bg-red-600">
+                                                    <td class="px-2 py-1 text-left border border-gray-500">
+                                                        {{ $item->matkul->kode_mata_kuliah }}</td>
+                                                    <td class="px-2 py-1 text-left border border-gray-500">
+                                                        {{ $item->matkul->nama_mata_kuliah }}</td>
+                                                    <td class="px-2 py-1 text-center border border-gray-500">
+                                                        {{ $sks = $item->matkul->sks_tatap_muka + $item->matkul->sks_simulasi + $item->matkul->sks_praktek + $item->matkul->sks_praktek_lapangan }}
+                                                    </td>
+                                                    <td class="px-2 py-1 text-center border border-gray-500">
+                                                        {{ $item->getGrade($item->bobot)['angka'] }}</td>
+                                                    <td class="px-2 py-1 text-center border border-gray-500">
+                                                        {{ $item->getGrade($item->bobot)['angka'] * $sks }}</td>
+                                                    <td class="px-2 py-1 text-center border border-gray-500">
+                                                        {{ $item->getGrade($item->bobot)['huruf'] }}</td>
+                                                </tr>
+                                            @else
+                                                <tr wire:key="khs-{{ $item->id_khs }}">
+                                                    <td class="px-2 py-1 text-left border border-gray-500">
+                                                        {{ $item->matkul->kode_mata_kuliah }}</td>
+                                                    <td class="px-2 py-1 text-left border border-gray-500">
+                                                        {{ $item->matkul->nama_mata_kuliah }}</td>
+                                                    <td class="px-2 py-1 text-center border border-gray-500">
+                                                        {{ $sks = $item->matkul->sks_tatap_muka + $item->matkul->sks_simulasi + $item->matkul->sks_praktek + $item->matkul->sks_praktek_lapangan }}
+                                                    </td>
+                                                    <td class="px-2 py-1 text-center border border-gray-500">
+                                                        {{ $item->getGrade($item->bobot)['angka'] }}</td>
+                                                    <td class="px-2 py-1 text-center border border-gray-500">
+                                                        {{ $item->getGrade($item->bobot)['angka'] * $sks }}</td>
+                                                    <td class="px-2 py-1 text-center border border-gray-500">
+                                                        {{ $item->getGrade($item->bobot)['huruf'] }}</td>
+                                                </tr>
+                                                @php
+                                                    $totalAngka += $item->getGrade($item->bobot)['angka'];
+                                                @endphp
+                                            @endif
                                         @endforeach
                                         <tr>
                                             <td class="px-2 py-1 text-left border border-gray-500"></td>

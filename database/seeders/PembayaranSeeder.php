@@ -14,13 +14,13 @@ class PembayaranSeeder extends Seeder
      */
     public function run(): void
     {
-        $mahasiswaList = Mahasiswa::orderByDesc('NIM')->limit(30)->get();
+        $mahasiswaList = Mahasiswa::all();
 
         foreach ($mahasiswaList as $index => $mahasiswa) {
             try {
 
                 // Half 'Lunas', half 'Belum Lunas'
-                $statusTagihan = ($index % 2 === 0) ? 'Lunas' : 'Belum Lunas';
+                $statusTagihan =  'Lunas' ;
                 $totalBayar = ($statusTagihan === 'Lunas') ? 3000000 : 1500000;
 
                 // Create Tagihan for semester 6
@@ -43,6 +43,18 @@ class PembayaranSeeder extends Seeder
                     'total_tagihan' => 3000000,
                     'status_tagihan' => 'Lunas',
                     'id_semester' => 5,
+                    'Bulan' => '2025-02',
+                    'total_bayar' => 3000000,
+                    'id_staff' => 1,
+                    'metode_pembayaran' => 'Midtrans Payment',
+                    'jenis_tagihan' => 'aaaa',
+                    'no_kwitansi' => rand(),
+                ]);
+                Tagihan::create([
+                    'NIM' => $mahasiswa->NIM,
+                    'total_tagihan' => 3000000,
+                    'status_tagihan' => 'Lunas',
+                    'id_semester' => 7,
                     'Bulan' => '2025-02',
                     'total_bayar' => 3000000,
                     'id_staff' => 1,

@@ -156,18 +156,33 @@
                     $nilaiAngka = $item->getGrade($item->bobot)['angka'];
                     $nilaiHuruf = $item->getGrade($item->bobot)['huruf'];
                     $totalNilai = $nilaiAngka * $sks;
-                    $jumlahSKS += $sks;
-                    $jumlahNilai += $totalNilai;
+                    if ($item->bobot > 59) {
+                        $jumlahSKS += $sks;
+                        $jumlahNilai += $item->getGrade($item->bobot)['angka'] * $sks;
+                    }
                 @endphp
-                <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ $item->matkul->kode_mata_kuliah }}</td>
-                    <td style="text-align: left;">{{ $item->matkul->nama_mata_kuliah }}</td>
-                    <td>{{ $sks }}</td>
-                    <td>{{ $nilaiHuruf }}</td>
-                    <td>{{ $nilaiAngka }}</td>
-                    <td>{{ $totalNilai }}</td>
-                </tr>
+                @if ($item->bobot < 59)
+                <tr style="background-color: #dc2626;">
+
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $item->matkul->kode_mata_kuliah }}</td>
+                        <td style="text-align: left;">{{ $item->matkul->nama_mata_kuliah }}</td>
+                        <td>{{ $sks }}</td>
+                        <td>{{ $nilaiHuruf }}</td>
+                        <td>{{ $nilaiAngka }}</td>
+                        <td>{{ $totalNilai }}</td>
+                    </tr>
+                @else
+                    <tr>
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $item->matkul->kode_mata_kuliah }}</td>
+                        <td style="text-align: left;">{{ $item->matkul->nama_mata_kuliah }}</td>
+                        <td>{{ $sks }}</td>
+                        <td>{{ $nilaiHuruf }}</td>
+                        <td>{{ $nilaiAngka }}</td>
+                        <td>{{ $totalNilai }}</td>
+                    </tr>
+                @endif
             @endforeach
             <tr>
                 <td colspan="3" style="text-align: right"><strong>Jumlah SKS</strong></td>
@@ -201,11 +216,12 @@
                         return '(' . $terbilang . ')';
                     }
 
-                    $ips = round($jumlahNilai / $jumlahSKS, 2);
+                    $ips = number_format(round($jumlahNilai / $jumlahSKS, 2), 2, '.', '');
                     date_default_timezone_set('Asia/Bangkok'); // Set timezone to GMT+7
                 @endphp
-                <td colspan="3" style="text-align: right"><strong>Indeks Prestasi Semester {{$mahasiswa->getSemester($x->id_semester)}}</strong></td>
-                <td><strong>{{ round($jumlahNilai / $jumlahSKS, 2) }}</strong></td>
+                <td colspan="3" style="text-align: right"><strong>Indeks Prestasi Semester
+                        {{ $mahasiswa->getSemester($x->id_semester) }}</strong></td>
+                <td><strong>{{ number_format(round($jumlahNilai / $jumlahSKS, 2), 2, '.', '') }}</strong></td>
                 <td colspan="3"><strong>{{ terbilang(round($jumlahNilai / $jumlahSKS, 2)) }}</strong></td>
             </tr>
             <tr>

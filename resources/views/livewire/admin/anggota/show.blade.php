@@ -34,9 +34,10 @@
         </div>
     </div>
     <div class="flex justify-between mt-1">
+        @if ($nama_kelas !== 'Tanpa kelas')
         <livewire:admin.anggota.edit :$nama_kelas />
-        <input type="text" wire:model.live="search" placeholder="   Search"
-            class="px-2 ml-4 py-2 border border-gray-300 rounded-lg">
+        @endif
+        <div></div>
     </div>
     @foreach ($mahasiswa as $item)
         <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">

@@ -57,7 +57,7 @@ class Create extends Component
     {
         foreach ($this->paketKrsRecords as $index => $x) {
             $matkul = Matakuliah::where('id_mata_kuliah', $x['id_mata_kuliah'])->first();
-            $this->selectedKRS[$index] =  $matkul->nama_mata_kuliah ?? null;
+            $this->selectedKRS[$index] = $matkul->nama_mata_kuliah ?? null;
         }
 
     }
@@ -77,23 +77,27 @@ class Create extends Component
     public function save()
     {
         $id_prodi = prodi::where('kode_prodi', $this->selectedKodeProdi)->first()->id_prodi;
-        foreach ($this->paketKrsRecords as $record) {
-            PaketKRS::create([
-                'id_semester' => $this->selectedSemester,
-                'id_prodi' => $id_prodi,
-                'id_mata_kuliah' => $record['id_mata_kuliah'],
-                'id_kelas' => $this->selectedKelas,
-                'tanggal_mulai' => $this->tanggal_mulai,
-                'tanggal_selesai' => $this->tanggal_selesai,
-            ]);
+        if (paketKRS::where('id_semester', $this->selectedSemester)->where('id_prodi', $id_prodi)->where('id_kelas', $this->selectedKelas)->exists()) {
+            $this->dispatch('warningPaketKRS', 'Paket KRS untuk kelas ini sudah ada');
+        } else {
+            foreach ($this->paketKrsRecords as $record) {
+                PaketKRS::create([
+                    'id_semester' => $this->selectedSemester,
+                    'id_prodi' => $id_prodi,
+                    'id_mata_kuliah' => $record['id_mata_kuliah'],
+                    'id_kelas' => $this->selectedKelas,
+                    'tanggal_mulai' => $this->tanggal_mulai,
+                    'tanggal_selesai' => $this->tanggal_selesai,
+                ]);
+            }
+            $this->alert();
         }
-        $this->alert();
     }
 
     public function alert()
     {
         $this->dispatch('updatedPaketKRS', ['Paket KRS Berhasil Dibuat']);
-        
+
     }
 
     public function render()

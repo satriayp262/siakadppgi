@@ -7,6 +7,14 @@ use Livewire\Component;
 
 class Index extends Component
 {
+    public function destroy($id){
+        $x = paketKRS::find($id);
+        $paketKRS = paketKRS::where('id_semester', $x->id_semester)->where('id_kelas', $x->id_kelas)->get();
+        foreach ($paketKRS as $p) {
+            $p->delete();
+        }
+        $this->dispatch('deletedPaketKRS', ['message' => 'Paket KRS deleted Successfully']);
+    }
     public function render()
     {
         $paketKRS = paketKRS::whereIn(
@@ -15,9 +23,6 @@ class Index extends Component
                 ->groupBy('id_semester', 'id_prodi', 'id_kelas')
         )
             ->paginate(10);
-
-
-
         return view('livewire.admin.paket-krs.index', [
             'paketKRS' => $paketKRS
         ]);
