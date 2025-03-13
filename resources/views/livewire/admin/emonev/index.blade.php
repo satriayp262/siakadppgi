@@ -118,46 +118,26 @@
                             </th>
                         @endforeach
 
-                        <th class="px-4 py-2 text-center w-40">Saran</th>
+                        {{-- <th class="px-4 py-2 text-center w-40">Saran</th> --}}
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($jawaban->unique('id_emonev') as $item)
+                    @foreach ($jawaban->unique('nidn') as $item)
                         <tr class="border-t" wire:key="jawaban-{{ $item->id_jawaban }}">
                             <td class=" px-2 py-2 text-center">{{ $loop->iteration }}
                             </td>
                             <td class="px-4 py-2 text-left">{{ $item->nama_dosen }}</td>
-                            <td class="px-4 py-2 text-left">{{ $item->nama_kelas }}</td>
+                            <td class="px-4 py-2 text-left">{{ $item->nama_mata_kuliah }}</td>
                             @foreach ($pertanyaan as $ins)
                                 @php
-                                    $nilai = $item
-                                        ->where('id_pertanyaan', $ins->id_pertanyaan)
-                                        ->where('id_emonev', $item->id_emonev)
-                                        ->first()->nilai;
-                                    switch ($nilai) {
-                                        case null:
-                                            $nilai = '-';
-                                            break;
-                                        case 6:
-                                            $nilai = 'Kurang';
-                                            break;
-                                        case 7:
-                                            $nilai = 'Cukup';
-                                            break;
-                                        case 8:
-                                            $nilai = 'Baik';
-                                            break;
-                                        case 9:
-                                            $nilai = 'Sangat Baik';
-                                            break;
-                                        case 10:
-                                            $nilai = 'Istimewa';
-                                            break;
-                                    }
+                                    $average = number_format($item->{'pertanyaan_' . $ins->id_pertanyaan}, 2);
+                                    $round = round($average);
                                 @endphp
-                                <td class="px-4 py-2 text-left">{{ $nilai }}</td>
+                                <td class="px-4 py-2 text-left">
+                                    {{ $round }}
+                                </td>
                             @endforeach
-                            <td class="px-4 py-2 text-left">{{ $item->saran }}</td>
+                            {{-- <td class="px-4 py-2 text-left">{{ $item->saran }}</td> --}}
                         </tr>
                     @endforeach
                 </tbody>

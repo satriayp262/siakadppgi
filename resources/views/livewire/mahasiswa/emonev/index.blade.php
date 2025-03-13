@@ -14,7 +14,6 @@
                         <span class="block font-medium text-gray-700 text-left ">Semester :</span>
                         <select id="semester" wire:model="selectedSemester"
                             class="w-48 px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-purple-200">
-
                             @foreach ($semesters as $item)
                                 @foreach ($item as $semester)
                                     <option value="{{ $semester->nama_semester }}">{{ $semester->nama_semester }}
@@ -47,14 +46,12 @@
                             <span class="block font-medium text-gray-700 text-left ">Semester :</span>
                             <select id="semester" wire:model="selectedSemester"
                                 class="w-48 px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-purple-200">
-
                                 @foreach ($semesters as $item)
                                     @foreach ($item as $semester)
                                         <option value="{{ $semester->nama_semester }}">{{ $semester->nama_semester }}
                                         </option>
                                     @endforeach
                                 @endforeach
-
                             </select>
                         </div>
 

@@ -82,9 +82,13 @@ class Index extends Component
 
         if ($this->selectedSemester) {
             $periode = PeriodeEMonev::where('id_semester', $findsemester->id_semester)->get();
+
         } else {
             $periode = PeriodeEMonev::where('id_semester', $this->mahasiswa->mulai_semester)->get();
         }
+
+
+
 
 
 
