@@ -167,7 +167,7 @@ class Index extends Component
                             ->where('hari', $day)
                             ->count();
 
-                        if ($existingMatkulCount >= 3) {
+                        if ($existingMatkulCount >= 2) {
                             continue;
                         }
 
