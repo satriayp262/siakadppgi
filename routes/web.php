@@ -71,6 +71,17 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
         Route::get('/', App\Livewire\Admin\Kelas\Index::class)->name('admin.kelas');
     });
 
+    Route::prefix('anggota')->group(function () {
+        Route::get('/', App\Livewire\Admin\Anggota\Index::class)->name('admin.anggota');
+        Route::get('/{nama_kelas}', App\Livewire\Admin\Anggota\Show::class)->name('admin.anggota.show');
+        Route::get('/edit', App\Livewire\Admin\Anggota\Edit::class)->name('admin.anggota.edit');
+    });
+
+    Route::prefix('PaketKRS')->group(function () {
+        Route::get('/', App\Livewire\Admin\paketKrs\Index::class)->name('admin.paketkrs');
+        Route::get('/create', App\Livewire\Admin\paketKrs\Create::class)->name('admin.paketkrs.create');
+    });
+
     Route::prefix('dosen')->group(function () {
         Route::get('/', App\Livewire\Admin\Dosen\Index::class)->name('admin.dosen');
     });
@@ -132,6 +143,7 @@ Route::middleware(['auth', CheckRole::class . ':mahasiswa'])->prefix('mahasiswa'
     Route::get('/keuangan/berhasil/{id_transaksi}', App\Livewire\Mahasiswa\Keuangan\Berhasil::class)->name('mahasiswa.transaksi.berhasil');
     Route::get('/keuangan/konfirmasi', App\Livewire\Mahasiswa\Keuangan\Konfirmasi::class)->name('mahasiswa.transaksi.konfirmasi');
     Route::get('/kartu_ujian', App\Livewire\Mahasiswa\KartuUjian\Index::class)->name('mahasiswa.ujian');
+    Route::get('/PaketKRS', App\Livewire\Mahasiswa\paketKrs\Index::class)->name('mahasiswa.paketkrs');
 });
 
 // dosen
@@ -165,6 +177,8 @@ Route::middleware(['auth', CheckRole::class . ':dosen'])->prefix('dosen')->group
     Route::get('/khs', App\Livewire\Khs\Index::class)->name('dosen.khs');
     Route::get('/khs/{nama_kelas}', App\Livewire\Khs\Show::class)->name('dosen.khs.show');
     Route::get('/khs/detail/{NIM}', App\Livewire\Khs\Detail::class)->name('dosen.khs.detail');
+    Route::get('/emonev', App\Livewire\Dosen\Emonev\Index::class)->name('dosen.emonev');
+    Route::get('/download/{NIM}/{id_semester}', [App\Http\Controllers\KHSController::class, 'generatePDF'])->name('dosen.khs.download');
 });
 
 // staff

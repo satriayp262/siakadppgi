@@ -20,8 +20,15 @@ class Detail extends Component
             }
         }
     }
-    public function download($id_semester){
-        return redirect()->route('mahasiswa.khs.download', $this->NIM,$id_semester);
+    public function download($NIM,$id_semester,$IndexKumulatif){
+        session([
+            'IPK' => $IndexKumulatif,
+        ]);
+        if(auth()->user()->role == 'mahasiswa'){
+            return redirect()->route('mahasiswa.khs.download', [$NIM, $id_semester]);
+        }else if(auth()->user()->role == 'dosen'){
+            return redirect()->route('dosen.khs.download', [$NIM, $id_semester]);
+        }
     }
     public function calculate($NIM, $id_semester)
     {

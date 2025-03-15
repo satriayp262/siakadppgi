@@ -40,7 +40,7 @@ class NilaiSeeder extends Seeder
                         ],
                         [
                             'id_kelas' => $krs->id_kelas,
-                            'nilai' => rand(70, 100), // Nilai random antara 50-100
+                            'nilai' => rand(35, 100), // Nilai random antara 50-100
                         ]
                     );
                 }
@@ -85,6 +85,7 @@ class NilaiSeeder extends Seeder
                     }
                 }
             }
+            echo($nim." done \n");
         }
 
         echo "Done";

@@ -36,17 +36,13 @@ class Create extends Component
             $this->id_mata_kuliah = ' ';
             return;
         }
-        $kelas = KRS::where('id_semester', '' . --$this->semester . '')
-            ->where('NIM', $this->nim)
-            ->first();
-        if (!$kelas) {
-            $kelas = KRS::first();
-        }
+        $id_kelas = Mahasiswa::where('NIM', $this->nim)
+            ->first()->id_kelas;
         ++$this->semester;
         KRS::create([
             'id_semester' => $this->semester,
             'NIM' => $this->nim,
-            'id_kelas' => $kelas->id_kelas,
+            'id_kelas' => $id_kelas,
             'id_mata_kuliah' => $this->id_mata_kuliah,
             'id_prodi' => $this->prodi->id_prodi
         ]);

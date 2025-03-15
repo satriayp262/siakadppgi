@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Livewire\Admin\Emonev;
+namespace App\Livewire\Dosen\Emonev;
 
-use App\Models\Emonev;
+use Livewire\Component;
 use App\Models\Jawaban;
 use App\Models\Pertanyaan;
-use Livewire\Component;
 use App\Models\Prodi;
 use App\Models\Semester;
 use Illuminate\Support\Facades\DB;
@@ -21,8 +20,6 @@ class Index extends Component
     public $jawaban = [];
     public $semesters = [];
     public $prodis = [];
-
-
 
     public function mount()
     {
@@ -102,6 +99,10 @@ class Index extends Component
             ));
         }
 
+        $user = auth()->user();
+
+        $query->where('dosen.nidn', $user->nim_nidn);
+
 
         $this->jawaban = $query->groupBy(
             'dosen.nidn',
@@ -119,28 +120,14 @@ class Index extends Component
 
         return $query;
     }
-
-    public function download()
-    {
-        $this->loadData();
-
-        session()->put('jawaban', $this->jawaban->toArray());
-
-        dd(session()->get('jawaban'));
-
-        return redirect()->route('admin.emonev.download');
-    }
-
     public function render()
     {
-
         $pertanyaan = Pertanyaan::all();
-        return view('livewire.admin.emonev.index', [
+        return view('livewire.dosen.emonev.index', [
             'jawaban' => $this->jawaban,
             'semesters' => $this->semesters,
             'Prodis' => $this->prodis,
             'pertanyaan' => $pertanyaan,
-
         ]);
     }
 }

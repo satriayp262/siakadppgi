@@ -1,8 +1,8 @@
-<div class="relative sticky left-0 h-screen top-16 -z-5">
-    <div id="default-sidebar " class="w-64 h-full transition-transform -translate-x-full bg-customPurple sm:translate-x-0"
+<div class="md:relative md:sticky fixed left-0 h-screen top-16 z-10">
+    <div id="default-sidebar" class="w-64 h-full transition-transform -translate-x-full bg-customPurple sm:translate-x-0"
         aria-label="Sidebar">
-        <div class="h-full px-3 py-4 ">
-            <ul class="relative sticky space-y-2 font-medium top-20">
+        <div class="h-full px-3 py-4">
+            <ul class="space-y-2 font-medium">
                 <li>
                     <a href="{{ route('dosen.dashboard') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
@@ -94,7 +94,7 @@
 
                     <a href="{{ route('dosen.presensi') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
-                    {{ request()->routeIs('dosen.presensi') || request()->routeIs('dosen.presensiByKelas') || request()->routeIs('dosen.presensiByToken') || request()->routeIs('dosen.detail_presensi') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
+{{ request()->routeIs('dosen.presensi') || request()->routeIs('dosen.presensiByKelas') || request()->routeIs('dosen.presensiByToken') || request()->routeIs('dosen.detail_presensi') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('dosen.presensi') || request()->routeIs('dosen.presensiByKelas') || request()->routeIs('dosen.presensiByToken') || request()->routeIs('dosen.detail_presensi') ? 'text-white' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                             fill="currentColor" viewBox="0 0 24 24">
@@ -103,6 +103,19 @@
                                 clip-rule="evenodd" />
                         </svg>
                         <span class="flex-1 ms-3 whitespace-nowrap">E-Presensi</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('dosen.emonev') }}"
+                        class="flex items-center p-2 rounded-lg transition duration-75 group
+    {{ request()->routeIs('dosen.emonev') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
+                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('dosen.emonev') ? ' text-white ' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
+                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 15v3c0 .5523.44772 1 1 1h10M3 15v-4m0 4h9m-9-4V6c0-.55228.44772-1 1-1h16c.5523 0 1 .44772 1 1v3M3 11h11m-2-.2079V19m3-4h1.9909M21 15c0 1.1046-.8954 2-2 2s-2-.8954-2-2 .8954-2 2-2 2 .8954 2 2Z" />
+                        </svg>
+                        <span class="flex-1 ms-3 whitespace-nowrap"> Emonev</span>
                     </a>
                 </li>
 

@@ -117,12 +117,11 @@
                                 </div>
                             </th>
                         @endforeach
-
-                        {{-- <th class="px-4 py-2 text-center w-40">Saran</th> --}}
+                        <th class="px-4 py-2 text-center w-40">Saran</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($jawaban->unique('nidn') as $item)
+                    @foreach ($jawaban->unique('id_emonev') as $item)
                         <tr class="border-t" wire:key="jawaban-{{ $item->id_jawaban }}">
                             <td class=" px-2 py-2 text-center">{{ $loop->iteration }}
                             </td>
@@ -137,7 +136,7 @@
                                     {{ $round }}
                                 </td>
                             @endforeach
-                            {{-- <td class="px-4 py-2 text-left">{{ $item->saran }}</td> --}}
+                            <td class="px-4 py-2 text-left">{{ $item->saran }}</td>
                         </tr>
                     @endforeach
                 </tbody>

@@ -1,8 +1,8 @@
-<div class="sticky left-0 h-full top-16 -z-5">
-    <div id="default-sidebar " class="w-64 h-full transition-transform -translate-x-full bg-customPurple sm:translate-x-0"
+<div class="md:relative md:sticky fixed left-0 h-screen top-16 z-10">
+    <div id="default-sidebar" class="w-64 h-full transition-transform -translate-x-full bg-customPurple sm:translate-x-0"
         aria-label="Sidebar">
-        <div class="h-full px-3 py-4 ">
-            <ul class="sticky space-y-2 font-medium top-20">
+        <div class="h-full px-3 py-4">
+            <ul class="space-y-2 font-medium">
                 <li>
                     <a href="{{ route('admin.dashboard') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
@@ -144,6 +144,20 @@
                             </a>
                         </li>
                         <li>
+                            <a href="{{ route('admin.anggota') }}"
+                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.anggota') || request()->routeIs('admin.anggota.edit') || request()->routeIs('admin.anggota.show') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
+                                {{-- <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.kelas') ? 'text-white' : 'text-gray-500' }}"
+                                    aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    fill="currentColor" viewBox="0 0 24 24">
+                                    <path fill-rule="evenodd"
+                                        d="M2 6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6Zm4.996 2a1 1 0 0 0 0 2h.01a1 1 0 1 0 0-2h-.01ZM11 8a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-6Zm-4.004 3a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2h-.01ZM11 11a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-6Zm-4.004 3a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2h-.01ZM11 14a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-6Z"
+                                        clip-rule="evenodd" />
+                                </svg> --}}
+
+                                <span class="flex-1 ms-3 whitespace-nowrap">Anggota Kelas</span>
+                            </a>
+                        </li>
+                        <li>
                             <a href="{{ route('admin.ruangan') }}"
                                 class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.ruangan') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 {{-- <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.ruangan') ? 'text-white' : 'text-gray-500' }}"
@@ -256,6 +270,19 @@
                             </a>
                         </li>
                         <li>
+                            <a href="{{ route('admin.paketkrs') }}"
+                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.paketkrs') ||request()->routeIs('admin.paketkrs.create') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
+                                {{-- <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.krs') ? 'text-white' : 'text-gray-500' }}"
+                                    aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+                                    height="24" fill="currentColor" viewBox="0 0 24 24">
+                                    <path fill-rule="evenodd"
+                                        d="M4 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h2V4Zm2 6v10h12V10H6Zm4 2h2v2H9V12Zm4 0h2v2h-2V12Zm-4 4h2v2H9v-2Zm4 0h2v2h-2v-2Z"
+                                        clip-rule="evenodd" />
+                                </svg> --}}
+                                <span class="flex-1 ms-3 whitespace-nowrap">Paket KRS</span>
+                            </a>
+                        </li>
+                        <li>
                             <a href="{{ route('admin.presensiMahasiswa') }}"
                                 class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.presensiMahasiswa') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 {{-- <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.krs') ? 'text-white' : 'text-gray-500' }}"
@@ -356,7 +383,7 @@
                         </li>
                         <li>
                             <a href="{{ route('admin.emonev') }}"
-                                class="flex items-center mx-4 p-2 text-gray-100 rounded-lg group {{ request()->routeIs('admin.emonev.') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
+                                class="flex items-center mx-4 p-2 text-gray-100 rounded-lg group {{ request()->routeIs('admin.emonev') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 <span class="flex-1 ms-3 whitespace-nowrap">Emonev</span>
                             </a>
                         </li>

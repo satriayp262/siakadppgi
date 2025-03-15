@@ -1,8 +1,9 @@
-<div class="relative sticky left-0 h-screen top-16 -z-5">
-    <div id="default-sidebar " class="w-64 h-full transition-transform -translate-x-full bg-customPurple sm:translate-x-0"
+<div class="md:relative md:sticky fixed left-0 h-screen top-16 z-10">
+    <div id="default-sidebar" 
+        class="w-64 h-full transition-transform -translate-x-full bg-customPurple sm:translate-x-0"
         aria-label="Sidebar">
-        <div class="h-full px-3 py-4 ">
-            <ul class="relative sticky space-y-2 font-medium top-20">
+        <div class="h-full px-3 py-4">
+            <ul class="space-y-2 font-medium">
                 {{-- <li>
                     <a href="{{ route('mahasiswa.profile') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
@@ -69,6 +70,20 @@
                                 clip-rule="evenodd" />
                         </svg>
                         <span class="flex-1 ms-3 whitespace-nowrap">KRS</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('mahasiswa.paketkrs') }}"
+                        class="flex items-center p-2 rounded-lg transition duration-75 group
+                        {{ request()->routeIs('mahasiswa.paketkrs') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
+                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('mahasiswa.krs') ? ' text-white ' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
+                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                            viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M11.293 3.293a1 1 0 0 1 1.414 0l6 6 2 2a1 1 0 0 1-1.414 1.414L19 12.414V19a2 2 0 0 1-2 2h-3a1 1 0 0 1-1-1v-3h-2v3a1 1 0 0 1-1 1H7a2 2 0 0 1-2-2v-6.586l-.293.293a1 1 0 0 1-1.414-1.414l2-2 6-6Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        <span class="flex-1 ms-3 whitespace-nowrap">Pengajuan KRS</span>
                     </a>
                 </li>
                 <li>

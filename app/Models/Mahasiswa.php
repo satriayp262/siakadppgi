@@ -112,6 +112,32 @@ class Mahasiswa extends Model
         return $semesterDifference;
     }
 
+    public function getSemester($id_semester)
+    {
+        $semester = Semester::find($id_semester);
+
+        if (!$semester) {
+            return null; 
+        }
+        
+        $chosenSemesterYear = (int) substr($semester->nama_semester, 0, 4);
+        $chosenSemesterDigit5 = (int) substr($semester->nama_semester, 4, 1);
+
+        $initialSemesterYear = (int) substr($this->semester->nama_semester ?? '0000', 0, 4);
+        $initialSemesterDigit5 = (int) substr($this->semester->nama_semester ?? '00000', 4, 1);
+
+        $semesterDifference = ($chosenSemesterYear - $initialSemesterYear) * 2;
+
+        if ($chosenSemesterDigit5 == $initialSemesterDigit5) {
+            $semesterDifference += 1;
+        } elseif ($chosenSemesterDigit5 > $initialSemesterDigit5) {
+            $semesterDifference += 2;
+        }
+
+        return $semesterDifference;
+    }
+
+
 
     private static $jenisKelaminOptions = [
         'L' => 'Laki-laki',
