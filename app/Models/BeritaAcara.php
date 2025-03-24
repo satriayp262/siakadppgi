@@ -15,7 +15,7 @@ class BeritaAcara extends Model
     public $incrementing = false; // Karena UUID tidak auto-increment
     protected $keyType = 'string'; // Tipe data UUID
 
-    protected $fillable = ['tanggal', 'nidn', 'id_mata_kuliah', 'materi', 'jumlah_mahasiswa', 'id_kelas'];
+    protected $fillable = ['tanggal', 'nidn', 'id_mata_kuliah', 'materi', 'jumlah_mahasiswa', 'id_kelas', 'id_semester'];
 
     // Menggunakan boot untuk menghasilkan UUID secara otomatis
     protected static function boot()

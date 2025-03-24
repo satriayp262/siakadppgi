@@ -6,6 +6,7 @@ use App\Models\Dosen;
 use App\Models\BeritaAcara;
 use App\Models\Matakuliah;
 use App\Models\Kelas;
+use App\Models\Semester;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -36,14 +37,12 @@ class Create extends Component
         }
 
         if ($this->id_kelas) {
-            // Fetch Kelas
             $kelas = Kelas::find($this->id_kelas);
             if ($kelas) {
                 $this->nama_kelas = $kelas->nama_kelas;
             }
         }
 
-        // Fetch Dosen data based on the logged-in user
         $user = Auth::user();
         $dosen = Dosen::where('nidn', $user->nim_nidn)->first();
 
@@ -53,25 +52,31 @@ class Create extends Component
         }
     }
 
-
-
     public function save()
     {
-        $validatedData = $this->validate();
+        $this->validate();
+
+        $semesterAktif = Semester::where('is_active', 1)->first();
+
+        if (!$semesterAktif) {
+            session()->flash('error', 'Tidak ada semester aktif.');
+            return;
+        }
 
         BeritaAcara::create([
-            'tanggal' => $validatedData['tanggal'],
-            'nidn' => $validatedData['nidn'],
-            'id_mata_kuliah' => $validatedData['id_mata_kuliah'],
-            'materi' => $validatedData['materi'],
-            'jumlah_mahasiswa' => $validatedData['jumlah_mahasiswa'],
-            'id_kelas' => $validatedData['id_kelas'],
+            'tanggal' => $this->tanggal,
+            'nidn' => $this->nidn,
+            'id_mata_kuliah' => $this->id_mata_kuliah,
+            'materi' => $this->materi,
+            'jumlah_mahasiswa' => $this->jumlah_mahasiswa,
+            'id_kelas' => $this->id_kelas,
+            'id_semester' => $semesterAktif->id, 
         ]);
 
+        session()->flash('success', 'Berita Acara berhasil disimpan.');
         $this->resetExcept('nidn', 'id_mata_kuliah', 'id_kelas');
         $this->dispatch('acaraCreated');
     }
-
 
     public function messages()
     {
@@ -87,6 +92,6 @@ class Create extends Component
 
     public function render()
     {
-        return view('livewire.dosen.berita_acara.create',);
+        return view('livewire.dosen.berita_acara.create');
     }
 }
