@@ -26,8 +26,11 @@ class Index extends Component
             ->orderBy('sesi')  // Urutkan berdasarkan sesi
             ->get();
 
+        $jadwal = $jadwals->first();
+
         return view('livewire.mahasiswa.jadwal.index',[
-            'jadwals' => $jadwals
+            'jadwals' => $jadwals,
+            'jadwal' => $jadwal
         ]);
     }
 }

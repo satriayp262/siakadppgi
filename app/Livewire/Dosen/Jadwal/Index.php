@@ -20,13 +20,13 @@ class Index extends Component
     {
         $dosen = Dosen::where('nidn', Auth()->user()->nim_nidn)->first();
 
-        $jadwals = Jadwal::whereHas('kelas.matkul.dosen', function ($query) use ($dosen) {
+        $jadwals = Jadwal::whereHas('kelas.krs.mahasiswa', function ($query) use ($dosen) {
             $query->where('nidn', $dosen->nidn);
         })
             ->orderByRaw("FIELD(hari, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')")  // Urutkan hari sesuai urutan minggu
             ->orderBy('sesi')  // Urutkan berdasarkan sesi
             ->get();
-            
+
         return view('livewire.dosen.jadwal.index',[
             'jadwals' => $jadwals
         ]);

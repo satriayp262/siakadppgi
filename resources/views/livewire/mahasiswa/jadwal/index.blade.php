@@ -1,4 +1,5 @@
 <div class="max-w-full p-4 mt-4 mb-4 bg-white rounded-lg shadow-lg">
+    <P class="px-4 py-2 text-lg font-bold text-customPurple">Jadwal Kelas {{ $jadwal->kelas->nama_kelas }}</P>
         <table class="w-full mt-4 bg-white border border-gray-200">
             <thead>
                 <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
@@ -39,7 +40,7 @@
                             <td class="px-3 py-1 text-center">{{ $jadwal->kelas->nama_kelas }}</td>
                             <td class="px-3 py-1 text-center">{{ $jadwal->dosen->nama_dosen }}</td>
                             @if ($jadwal->id_ruangan == 'Online')
-                                <td class="px-3 py-1 text-center">Online</td>  
+                                <td class="px-3 py-1 text-center">Online</td>
                             @else
                                 <td class="px-3 py-1 text-center">{{ $jadwal->ruangan->kode_ruangan }}</td>
                             @endif
