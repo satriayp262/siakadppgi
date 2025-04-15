@@ -43,14 +43,13 @@
                             </div>
 
                             <div class="mb-4">
-                                <label for="keterangan" class="block text-sm font-medium text-gray-700">Jenis
-                                    Kelamin</label>
-                                <select id="keterangan" wire:model="keterangan" name="keterangan"
-                                    class="block w-full py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring px-2focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
-                                    <option value="" disabled selected>Select</option>
+                                <label for="keterangan" class="block text-sm font-medium text-gray-700">Keterangan</label>
+                                <select id="keterangan" wire:model.change="keterangan" name="keterangan"
+                                    class="block w-full py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 px-2 sm:text-sm">
+                                    <option value="">Select</option>
                                     <option value="Hadir">Hadir</option>
                                     <option value="Alpha">Alpha</option>
-                                    <option value="Izin">Izin</option>
+                                    <option value="Ijin">Ijin</option>
                                     <option value="Sakit">Sakit</option>
                                 </select>
                                 @error('keterangan')
@@ -58,21 +57,23 @@
                                 @enderror
                             </div>
 
-                            <div class="mb-4">
-                                <label for="alasan" class="block text-sm font-medium text-gray-700">Jabatan
-                                    Fungsional</label>
-                                <input type="text" id="alasan" wire:model="alasan" name="alasan"
-                                    class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
-                                @error('alasan')
-                                    <span class="text-sm text-red-500">{{ $message }}</span>
-                                @enderror
-                            </div>
+                            {{-- Input alasan hanya muncul saat Ijin --}}
+                            @if ($keterangan === 'Ijin')
+                                <div class="mb-4 transition-all duration-300 ease-in-out">
+                                    <label for="alasan" class="block text-sm font-medium text-gray-700">Alasan</label>
+                                    <input type="text" id="alasan" wire:model="alasan" name="alasan"
+                                        class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
+                                    @error('alasan')
+                                        <span class="text-sm text-red-500">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            @endif
 
                             <!-- Submit Button inside the form -->
                             <div class="flex justify-end p-4 bg-gray-200 rounded-b-lg">
                                 <button type="button" wire:click="clear({{ $id_presensi }})" @click="isOpen = false"
                                     class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">Close</button>
-                                <button type="submit" @click="isOpen = false"
+                                <button type="submit"
                                     class="px-4 py-2 ml-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">Submit</button>
                             </div>
                         </form>

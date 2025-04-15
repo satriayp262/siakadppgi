@@ -7,6 +7,7 @@ use App\Models\Mahasiswa;
 use App\Models\KRS;
 use App\Models\Token;
 use Livewire\Component;
+use Livewire\Attributes\On;
 
 class DetailPresensi extends Component
 {
@@ -29,6 +30,12 @@ class DetailPresensi extends Component
             $this->matkul = 'Token tidak valid';
             $this->mahasiswa = collect(); // Kosongkan mahasiswa jika token tidak ditemukan
         }
+    }
+
+    #[On('presensiUpdated')]
+    public function handlepresensiEdited()
+    {
+        $this->dispatch('updated', params: ['message' => 'Presensi updated Successfully']);
     }
 
     public function updateMahasiswa()
@@ -64,7 +71,7 @@ class DetailPresensi extends Component
             $presensiData = $presensi->firstWhere('nim', $mhs->NIM);
 
             return [
-                'id_presensi' => $presensiData ? $presensiData->id_presensi : null,
+                'id_presensi' => $presensiData ? $presensiData->id : null,
                 'nama' => $mhs->nama,
                 'nim' => $mhs->NIM,
                 'waktu_submit' => $presensiData ? $presensiData->waktu_submit : null,
@@ -97,7 +104,7 @@ class DetailPresensi extends Component
             $presensiData = $presensi->firstWhere('nim', $mhs->NIM);
 
             return [
-                'id_presensi' => $presensiData ? $presensiData->id_presensi : null,
+                'id_presensi' => $presensiData ? $presensiData->id : null,
                 'nama' => $mhs->nama,
                 'nim' => $mhs->NIM,
                 'waktu_submit' => $presensiData ? $presensiData->waktu_submit : null,
@@ -105,6 +112,7 @@ class DetailPresensi extends Component
                 'alasan' => $presensiData ? $presensiData->alasan : '-',
             ];
         });
+        // dd($mahasiswaPresensi);
 
         return view('livewire.dosen.presensi.detail_presensi', [
             'mahasiswaPresensi' => $mahasiswaPresensi,
