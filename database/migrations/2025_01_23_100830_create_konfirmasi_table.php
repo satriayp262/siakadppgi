@@ -13,6 +13,8 @@ return new class extends Migration {
         Schema::create('konfirmasi', function (Blueprint $table) {
             $table->integer('id_konfirmasi')->autoIncrement();
             $table->integer('id_tagihan');
+            $table->string('tanggal_pembayaran');
+            $table->string('jumlah_pembayaran');
             $table->string('bukti_pembayaran');
             $table->string('NIM');
             $table->foreign('id_tagihan')->references('id_tagihan')->on('tagihan')->onDelete('cascade');

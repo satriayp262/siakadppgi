@@ -55,8 +55,8 @@
         <div class="p-2 overflow-hidden bg-purple-300 rounded-lg shadow-lg">
             <p class="inline-block font-semibold text-purple-600 whitespace-nowrap text-md marquee-text"
                 style="animation: marquee 20s linear infinite;">
-                Pastikan pembayaran BPP dilakukan sebelum jatuh tempo.
-                <span class="text-purple-600">Segera lunasi BPP untuk menghindari denda keterlambatan</span>.
+                Halaman ini menampilkan informasi tagihan dan pembayaran Anda, Info Rekening PPGI
+                <span class="text-yellow-300">13123213 </span>.
             </p>
         </div>
 
@@ -157,7 +157,7 @@
                                     <button @click="isOpen = !isOpen"
                                         class="inline-flex px-4 py-2 text-white bg-blue-500 hover:bg-blue-700 rounded-md transition-transform transform hover:scale-105"
                                         type="button"
-                                        wire:click.prevent="bayar({{ $tagihan->id_tagihan }}, 'Bayar Penuh')">
+                                        wire:click.prevent="bayar({{ $tagihan->id_tagihan }}, 'Midtrans')">
                                         <svg class="w-6 h-6 text-white" aria-hidden="true"
                                             xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             fill="currentColor" viewBox="0 0 24 24">

@@ -32,7 +32,7 @@ class Index extends Component
 
         // Tentukan metode pembayaran dan hitung nominal
         $nominal = $tagihan->total_tagihan;
-        $tagihan->metode_pembayaran = 'Bayar Penuh';
+        $tagihan->metode_pembayaran = $metode_pembayaran;
         $tagihan->save();
 
         // Konfigurasi Midtrans

@@ -171,9 +171,6 @@ class PDFController extends Controller
 
         $staff = Staff::find($tagihan->id_staff);
 
-
-
-
         $y = 'Rp. ' . number_format($tagihan->total_tagihan, 2, ',', '.');
 
         $total_tagihan_terbilang = $this->terbilang($tagihan->total_tagihan);
@@ -228,6 +225,7 @@ class PDFController extends Controller
             'Bulan' => $namaBulan,
             'nip' => $tagihan->staff->nip,
             'kwitansi' => $kwitansi,
+            'pembayaran' => $tagihan->jenis_tagihan,
             'metode' => $tagihan->metode_pembayaran,
             'tahun' => substr($tagihan->Bulan, 0, 4)
 
