@@ -24,8 +24,6 @@ class Berhasil extends Component
             return; // Transaksi tidak ditemukan
         }
 
-        // Update status transaksi
-        $transaksi->status = 'success';
         $transaksi->save();
 
         $tagihan = Tagihan::find($transaksi->id_tagihan);

@@ -21,6 +21,7 @@ return new class extends Migration {
             $table->string('va_number')->nullable();
             $table->string('bank')->nullable();
             $table->string('payment_type')->nullable();
+            $table->string('tanggal_transaksi')->nullable();
             $table->timestamps();
         });
     }

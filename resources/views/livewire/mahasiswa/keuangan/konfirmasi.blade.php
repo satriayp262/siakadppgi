@@ -11,12 +11,12 @@
 
                     <div class="mb-4">
                         <label for="id_tagihan" class="block text-sm font-medium text-gray-700">Tagihan</label>
-                        <select id="id_tagihan" wire:model.live="id_tagihan" name="id_tagihan"
+                        <select id="id_tagihan" wire:model="id_tagihan" name="id_tagihan"
                             class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
                             @if ($tagihan->isEmpty())
                                 <option value="" disabled selected>Tidak ada tagihan</option>
                             @else
-                                <option value="" disabled selected>Pilih Tegihan</option>
+                                <option value="" disabled selected>Pilih Tagihan</option>
                                 @foreach ($tagihan as $x)
                                     <option value="{{ $x->id_tagihan }}">
                                         {{ $x->jenis_tagihan . ' (' . $x->semester->nama_semester . ')' }}
@@ -43,7 +43,7 @@
                     <div class="mb-4">
                         <label for="tanggal_pembayaran" class="block text-sm font-medium text-gray-700">Tanggal
                             Pembayaran</label>
-                        <input type="date" id="tanggal_pembayaran" wire:model.live="tanggal_pembayaran"
+                        <input type="datetime-local" id="tanggal_pembayaran" wire:model.live="tanggal_pembayaran"
                             class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm" />
                         @error('tanggal_pembayaran')
                             <span class="mt-1 text-sm text-red-500">{{ $message }}</span>
@@ -52,11 +52,13 @@
 
 
                     <div class="mb-4">
-                        <label for="jumlah" class="block text-sm font-medium text-gray-700">Jumlah Pembayaran</label>
-                        <input type="text" id="jumlah" wire:model.live="jumlah"
+                        <label for="jumlah_pembayaran" class="block text-sm font-medium text-gray-700">Jumlah
+                            Pembayaran</label>
+                        <input type="text" id="jumlah_pembayaran" wire:model.live="jumlah_pembayaran"
+                            name="jumlah_pembayaran"
                             class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm"
-                            placeholder="Masukkan Jumlah Pembayaran" />
-                        @error('jumlah')
+                            oninput="formatCurrency(this)">
+                        @error('jumlah_pembayaran')
                             <span class="mt-1 text-sm text-red-500">{{ $message }}</span>
                         @enderror
                     </div>
@@ -73,13 +75,11 @@
                         @if ($bukti)
                             <div class="mt-4">
                                 <p class="text-sm text-gray-600 mb-1">Preview:</p>
-                                <img src="{{ $bukti->temporaryUrl() }}" class="max-h-128 rounded-md shadow border"
+                                <img src="{{ $bukti->temporaryUrl() }}" class="max-h-64 rounded-md shadow border"
                                     alt="Preview Bukti Pembayaran">
                             </div>
                         @endif
                     </div>
-
-
 
                     <!-- Submit Button inside the form -->
                     <div class="flex justify-left p-4 bg-gray-200 rounded-b-lg">
@@ -92,3 +92,32 @@
         </div>
     </div>
 </div>
+<script>
+    function formatCurrency(input) {
+        // Get the value of the input and remove non-numeric characters (except for periods or commas)
+        let value = input.value.replace(/[^,\d]/g, '');
+
+        // Format the value into Indonesian Rupiah currency
+        let numberString = value.replace(/[^,\d]/g, '').toString(),
+            split = numberString.split(','),
+            remainder = split[0].length % 3,
+            rupiah = split[0].substr(0, remainder),
+            thousand = split[0].substr(remainder).match(/\d{3}/gi);
+
+        if (thousand) {
+            let separator = remainder ? '.' : '';
+            rupiah += separator + thousand.join('.');
+        }
+
+        // Combine with decimal if present
+        rupiah = split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
+
+        // Update the displayed value
+        input.value = rupiah;
+
+        // Set the actual model value as the unformatted integer value (without dots or commas)
+        if (component) {
+            component.set('jumlah_pembayaran', value.replace(/\D/g, ''));
+        }
+    }
+</script>
