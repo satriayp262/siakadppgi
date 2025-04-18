@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Konfirmasi_Pembayaran;
+use App\Models\KRS;
 use App\Models\Staff;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
@@ -171,8 +172,6 @@ class PDFController extends Controller
             return redirect()->back()->with('error', 'Tagihan not found.');
         }
 
-
-
         if ($tagihan->metode_pembayaran == 'Midtrans Payment') {
             $transaksi = Transaksi::where('id_tagihan', $tagihan->id_tagihan)->first();
             if (!$transaksi) {
@@ -211,6 +210,13 @@ class PDFController extends Controller
 
         $kwitansi = $tagihan->no_kwitansi;
 
+        //krs untuk cari kelas
+        $krs = KRS::with(['kelas', 'mahasiswa'])
+            ->where('NIM', $tagihan->mahasiswa->NIM)
+            ->first();
+
+
+
 
         $imagePath = storage_path("app/public/image/ttd/{$t}"); // Adjust path based on your storage
         $imageData = base64_encode(file_get_contents($imagePath));
@@ -237,9 +243,9 @@ class PDFController extends Controller
             'pembayaran' => $tagihan->jenis_tagihan,
             'metode' => $tagihan->metode_pembayaran,
             'jam' => $jam,
+            'kelas' => $krs->kelas->nama_kelas,
 
         ];
-
         // dd($pdfData);
         // Load the view and pass data to it, then generate the PDF
         $pdf = Pdf::loadView('livewire.mahasiswa.keuangan.download', $pdfData)->setPaper([0, 0, 905.512, 283.465]); // Set the paper size to 32 * 10 cm
