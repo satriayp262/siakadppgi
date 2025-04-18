@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->string('tanggal_pembayaran');
             $table->string('jumlah_pembayaran');
             $table->string('bukti_pembayaran');
+            $table->string('status')->default('Menunggu Konfirmasi');
             $table->string('NIM');
             $table->foreign('id_tagihan')->references('id_tagihan')->on('tagihan')->onDelete('cascade');
             $table->foreign('NIM')->references('NIM')->on('mahasiswa')->onDelete('cascade');

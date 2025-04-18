@@ -10,13 +10,13 @@
                 <form wire:submit="save">
 
                     <div class="mb-4">
-                        <label for="id_tagihan" class="block text-sm font-medium text-gray-700">Tagihan</label>
-                        <select id="id_tagihan" wire:model="id_tagihan" name="id_tagihan"
+                        <label for="id_tagihan" class="block text-sm font-medium text-gray-700">Guna Pembayaran</label>
+                        <select id="id_tagihan" wire:model.live="id_tagihan" name="id_tagihan"
                             class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
+                            <option value="" disabled selected>Pilih Tagihan</option>
                             @if ($tagihan->isEmpty())
                                 <option value="" disabled selected>Tidak ada tagihan</option>
                             @else
-                                <option value="" disabled selected>Pilih Tagihan</option>
                                 @foreach ($tagihan as $x)
                                     <option value="{{ $x->id_tagihan }}">
                                         {{ $x->jenis_tagihan . ' (' . $x->semester->nama_semester . ')' }}
@@ -83,9 +83,11 @@
 
                     <!-- Submit Button inside the form -->
                     <div class="flex justify-left p-4 bg-gray-200 rounded-b-lg">
-
                         <button type="submit"
                             class="px-4 py-2 ml-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">Submit</button>
+                        <a type="button"
+                            class="px-4 py-2 ml-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">Lihat
+                            Riwayat Pembayaran</a>
                     </div>
                 </form>
             </div>

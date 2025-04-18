@@ -14,7 +14,7 @@ class Konfirmasi extends Component
     public $bukti;
     public $jumlah_pembayaran;
     public $tanggal_pembayaran;
-    public $id_tagihan;
+    public $id_tagihan = '';
     public $nim;
 
     use WithFileUploads;
@@ -46,20 +46,37 @@ class Konfirmasi extends Component
 
     public function save()
     {
-
-
         $validatedData = $this->validate();
 
+        //Search Apakah Sudah ada konfirmasi pembayaran
+
+
+        $x = Konfirmasi_Pembayaran::where('id_tagihan', $this->id_tagihan)
+            ->where('status', 'Menunggu Konfirmasi')
+            ->first();
+
+
+        if ($x) {
+            $this->dispatch('warning', ['message' => 'Tagihan Sudah Ada Konfirmasi Pembayaran']);
+            return;
+        }
 
         $konfirmasi = Konfirmasi_Pembayaran::create([
             'id_tagihan' => $this->id_tagihan,
             'bukti_pembayaran' => $this->bukti->store('public/image/bukti_pembayaran'),
             'NIM' => auth()->user()->nim_nidn,
             'jumlah_pembayaran' => $validatedData['jumlah_pembayaran'],
+            'status' => 'Menunggu Konfirmasi',
             'tanggal_pembayaran' => $validatedData['tanggal_pembayaran'],
         ]);
 
         $konfirmasi->save();
+
+        $this->reset();
+
+        $this->dispatch('created', ['message' => 'Pembayaran Berhasil di Tambahkan']);
+
+        return $konfirmasi;
 
     }
 
