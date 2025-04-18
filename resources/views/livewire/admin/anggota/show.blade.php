@@ -43,9 +43,9 @@
         <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
             <div class="flex flex-row justify-between">
                 <div class="flex flex-col">
-                    <span class="text-xl font-bold text-purple2">{{ $item->nama }}</span>
-                    <span class="text-sm font-bold text-gray-400">NIM :
-                        {{ $item->NIM }}</span>
+                    <span class="text-xl font-bold text-purple2">{{ $item->NIM }}</span>
+                    <span class="text-sm font-bold text-gray-400">
+                        {{ $item->nama }}</span>
                 </div>
                 <div class="flex justify-center space-x-2">
                     <button wire:key="delete-{{ $item->id_kelas }}"
@@ -63,7 +63,7 @@
         </div>
     @endforeach
     <div class="py-8 mt-4 mb-4 text-center">
-        @if (!count($mahasiswa) === 0)
+        @if ( !count($mahasiswa) === 0)
             {{ $mahasiswa->links('') }}
         @endif
     </div>

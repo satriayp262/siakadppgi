@@ -199,7 +199,7 @@
                 <div>
                     <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email</label>
                     <div class="mt-2">
-                        <input
+                        <input onclick="document.getElementById('flash-message').style.display='none'"
                             class="block pl-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             wire:model='email' type="text" name="email" id="email">
                         @error('email')
@@ -219,7 +219,7 @@
                     </div>
                     <div class="mt-2 relative">
                         <div class="relative">
-                            <input
+                            <input onclick="document.getElementById('flash-message').style.display='none'"
                                 class="pl-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 wire:model="password" type="password" name="password" id="password">
                             <button type="button" onclick="togglePassword('password', this)"

@@ -120,7 +120,7 @@ class Show extends Component
 
     public function export(Excel $excel)
     {
-        $nama_kelas = Kelas::where('id_kelas', $this->id_kelas)->first()->nama_kelas;
+        $nama_kelas = str_replace('/', '-', Kelas::where('id_kelas', $this->id_kelas)->first()->nama_kelas);
         $fileName = 'Data Aktifitas ' . $nama_kelas . ' ' . now()->format('Y-m-d') . '.xlsx';
         return $excel->download(new NilaiExport($this->id_kelas), $fileName);
     }

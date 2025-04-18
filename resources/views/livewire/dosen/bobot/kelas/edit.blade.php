@@ -1,6 +1,6 @@
-<div x-data="{ isOpen: false }" @modal-closed.window="isOpen = false">
+<div x-data="{ isOpen: false }" @modal-closed.window="isOpen = false" >
     <!-- Button to open the modal -->
-    <button @click="isOpen=true" class="inline-block px-4 py-2   text-white bg-blue-500 rounded hover:bg-blue-700"><svg
+    <button @click="isOpen=true" class="inline-block px-4 py-2  text-white bg-blue-500 rounded hover:bg-blue-700"><svg
             class="w-8 h-8 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
             width="24" height="24" fill="none" viewBox="0 0 24 24">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -10,9 +10,9 @@
 
     <!-- Modal Background -->
     <div x-data="{ load: false }" x-show="isOpen && load" x-init="load = true" x-cloak
-        class="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-75">
+        class="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-75 ">
         <!-- Modal Content -->
-        <div class="w-1/2 bg-white rounded-lg shadow-lg">
+        <div class="mx-6 md:w-1/2 bg-white rounded-lg shadow-lg">
             <!-- Modal Header -->
             <div class="flex items-center justify-between p-4 bg-gray-200 rounded-t-lg">
                 <h3 class="text-xl font-semibold">Edit Bobot</h3>

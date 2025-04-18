@@ -31,13 +31,13 @@
     </div>
 
     <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
-        <table class="min-w-full mt-4 bg-white text-sm border border-gray-200">
+        <table class="min-w-full mt-4 bg-white text-[8px] md:text-[16px]  border border-gray-200">
             <thead>
-                <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
-                    <th class="px-4 py-2 text-center">Nama Kelas</th>
-                    <th class="px-4 py-2 text-center">Semester</th>
-                    <th class="px-4 py-2 text-center">Mulai</th>
-                    <th class="px-4 py-2 text-center">Selesai</th>
+                <tr class="items-center w-full text-[8px] md:text-[16px]  text-white align-middle bg-customPurple">
+                    <th class="md:px-4 py-2 text-center">Nama Kelas</th>
+                    <th class="md:px-4 py-2 text-center">Semester</th>
+                    <th class="px-5 md:px-4 py-2 text-center">Mulai</th>
+                    <th class="px-5 md:px-4 py-2 text-center">Selesai</th>
                     <th class="px-4 py-2 text-center">Aksi</th>
                 </tr>
             </thead>
@@ -47,11 +47,13 @@
 
                         <td class="px-4 py-2 text-center">{{ $item->kelas->nama_kelas }}</td>
                         <td class="px-4 py-2 text-center">{{ $item->semester->nama_semester }}</td>
-                        <td class="px-4 py-2 text-center">{{ $item->tanggal_mulai }}</td>
-                        <td class="px-4 py-2 text-center">{{ $item->tanggal_selesai }}</td>
+                        <td class="px-4 py-2 text-center">
+                            {{ \Carbon\Carbon::parse($item->tanggal_mulai)->format('d-m-Y') }}</td>
+                        <td class="px-4 py-2 text-center">
+                            {{ \Carbon\Carbon::parse($item->tanggal_selesai)->format('d-m-Y') }}</td>
                         <td class="px-4 py-2 text-center">
                             <button wire:key="delete-{{ $item->id_kelas }}"
-                                class="inline-block px-3 py-2 ml-2 text-white bg-red-500 rounded hover:bg-red-700"
+                                class="inline-block px-2 sm:px-4 py-1 sm:py-2 text-white bg-red-500 rounded hover:bg-red-700"
                                 onclick="confirmDelete({{ $item->id_paket_krs }}, '{{ $item->kelas->nama_kelas }}', '{{ $item->semester->nama_semester }}')"><svg
                                     class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
@@ -90,7 +92,8 @@
                 @this.call('destroy', id);
             }
         });
-    }document.addEventListener('DOMContentLoaded', function() {
+    }
+    document.addEventListener('DOMContentLoaded', function() {
         window.addEventListener('deletedPaketKRS', event => {
             Swal.fire({
                 title: 'Success!',

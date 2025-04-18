@@ -2,7 +2,7 @@
     <div class="flex items-center justify-between p-4">
         <div class="flex items-center space-x-2">
             <button id="sidebarToggle" aria-controls="default-sidebar" type="button"
-                class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-transparent focus:outline-none">
+                class="inline-flex items-center p-2 text-sm text-gray-800 rounded-lg sm:hidden hover:bg-transparent focus:outline-none">
                 <span class="sr-only">Open sidebar</span>
                 <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg">
