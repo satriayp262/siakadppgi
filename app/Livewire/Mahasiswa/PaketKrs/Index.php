@@ -31,10 +31,11 @@ class Index extends Component
     }
     public function render()
     {
+        $semester = Semester::where('is_active', 1)->first();
         $this->mahasiswa = Mahasiswa::where('NIM', auth()->user()->nim_nidn)->first();
         $this->paketKRS = paketKRS::where('id_prodi', $this->mahasiswa->prodi->id_prodi)
-            ->where('id_kelas', $this->mahasiswa->id_kelas)->get();
-        $semester = Semester::orderBy('nama_semester', 'desc')->get();
+            ->where('id_kelas', $this->mahasiswa->id_kelas)
+            ->where('id_semester', $semester->id_semester)->get();
         return view('livewire.mahasiswa.paket-krs.index', [
             'paketKRS' => $this->paketKRS,
             'semester' => $semester
