@@ -121,9 +121,12 @@
         // Update the displayed value
         input.value = rupiah;
 
-        // Set the actual model value as the unformatted integer value (without dots or commas)
-        if (component) {
-            component.set('jumlah_pembayaran', value.replace(/\D/g, ''));
+        // Set nilai asli ke Livewire (jumlah_pembayaran)
+        if (window.livewire) {
+            let component = Livewire.find(input.closest('[wire\\:id]').getAttribute('wire:id'));
+            if (component) {
+                component.set('jumlah_pembayaran', raw);
+            }
         }
     }
 </script>

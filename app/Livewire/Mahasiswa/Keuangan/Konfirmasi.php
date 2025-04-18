@@ -46,7 +46,13 @@ class Konfirmasi extends Component
 
     public function save()
     {
+
+        $this->jumlah_pembayaran = str_replace(['.', ','], '', $this->jumlah_pembayaran);
+
+
         $validatedData = $this->validate();
+
+
 
         //Search Apakah Sudah ada konfirmasi pembayaran
 
@@ -65,7 +71,7 @@ class Konfirmasi extends Component
 
 
 
-        $imageName = 'konfirmasi_pembayaran' . $nim . '_' . time() . '.' . $this->bukti->extension();
+        $imageName = 'konfirmasi_pembayaran_' . $nim . '_' . time() . '.' . $this->bukti->extension();
 
         $this->bukti->storeAs('public/image/bukti_pembayaran', $imageName);
 

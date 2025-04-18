@@ -9,6 +9,7 @@ class Konfirmasi_Pembayaran extends Model
 {
     use HasFactory;
     protected $table = 'konfirmasi';
+    protected $primaryKey = 'id_konfirmasi';
     protected $fillable = [
         'id_tagihan',
         'bukti_pembayaran',

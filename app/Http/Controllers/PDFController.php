@@ -183,14 +183,16 @@ class PDFController extends Controller
             $waktu = $transaksi->tanggal_transaksi;
             $jam = \Carbon\Carbon::parse($waktu)->format('h:i:s A');
 
-        } elseif ($tagihan->metode_pembayaran == 'Transfer') {
+        } elseif ($tagihan->metode_pembayaran == 'Transfer Rek PPGI') {
             $konfirmasi = Konfirmasi_Pembayaran::where('id_tagihan', $tagihan->id_tagihan)->first();
             if (!$konfirmasi) {
                 return redirect()->back()->with('error', 'Konfirmasi Pembayaran not found.');
             }
-            $jam = $konfirmasi->tanggal_pembayaran;
+            $waktu = $konfirmasi->tanggal_pembayaran;
+            $jam = \Carbon\Carbon::parse($waktu)->format('h:i:s A');
         } else {
-            $jam = $tagihan->updated_at;
+            $waktu = $tagihan->updated_at;
+            $jam = \Carbon\Carbon::parse($waktu)->format('h:i:s A');
         }
 
         $staff = Staff::find($tagihan->id_staff);

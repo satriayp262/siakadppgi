@@ -36,15 +36,7 @@
                                 @endif
                             </td>
                             <td class="px-4 py-2 text-center">
-                                @if ($tagihan->status == 0)
-                                    <span class="text-yellow-500">Menunggu Konfirmasi</span>
-                                @elseif($tagihan->status == 1)
-                                    <span class="text-green-500">Diterima</span>
-                                @elseif($tagihan->status == 2)
-                                    <span class="text-red-500">Ditolak</span>
-                                @else
-                                    <span class="text-gray-500">Tidak Diketahui</span>
-                                @endif
+                                {{ $tagihan->status }}
                             </td>
                         </tr>
                     @endforeach
