@@ -181,7 +181,7 @@
                     :</td>
                 <td
                     style="font-size: 12px; margin-bottom: 1%; letter-spacing: 3px; font-family: Arial, Helvetica, sans-serif\;">
-                    {{ $metode }}</td>
+                    {{ $kelas }}</td>
             </tr>
 
         </table>
