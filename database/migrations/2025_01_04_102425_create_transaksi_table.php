@@ -11,7 +11,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('transaksi', function (Blueprint $table) {
-            $table->integer('id_transaksi', true);
+            $table->uuid('id_transaksi')->primary();
             $table->string('NIM');
             $table->integer('nominal'); //Nominal bayar bukan total tagihan
             $table->string('snap_token')->nullable();

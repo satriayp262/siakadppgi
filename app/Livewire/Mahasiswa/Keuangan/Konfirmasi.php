@@ -61,9 +61,17 @@ class Konfirmasi extends Component
             return;
         }
 
+        $nim = auth()->user()->nim_nidn;
+
+
+
+        $imageName = 'konfirmasi_pembayaran' . $nim . '_' . time() . '.' . $this->bukti->extension();
+
+        $this->bukti->storeAs('public/image/bukti_pembayaran', $imageName);
+
         $konfirmasi = Konfirmasi_Pembayaran::create([
             'id_tagihan' => $this->id_tagihan,
-            'bukti_pembayaran' => $this->bukti->store('public/image/bukti_pembayaran'),
+            'bukti_pembayaran' => $imageName,
             'NIM' => auth()->user()->nim_nidn,
             'jumlah_pembayaran' => $validatedData['jumlah_pembayaran'],
             'status' => 'Menunggu Konfirmasi',

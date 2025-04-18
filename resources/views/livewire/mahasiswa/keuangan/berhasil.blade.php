@@ -25,7 +25,7 @@
         <script>
             setTimeout(function() {
                 window.location.href = "{{ route('mahasiswa.keuangan') }}";
-            }, 3000);
+            }, 2000);
         </script>
     </div>
 </div>

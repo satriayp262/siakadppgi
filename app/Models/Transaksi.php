@@ -9,7 +9,10 @@ class Transaksi extends Model
 {
     protected $table = 'transaksi';
     protected $primaryKey = 'id_transaksi';
+    public $incrementing = false;
+    protected $keyType = 'string';
     protected $fillable = [
+        'id_transaksi',
         'nominal',
         'NIM',
         'id_tagihan',

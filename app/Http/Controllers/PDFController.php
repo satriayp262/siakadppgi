@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Konfirmasi_Pembayaran;
 use App\Models\Staff;
+use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use App\Models\Tagihan;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -169,6 +171,28 @@ class PDFController extends Controller
             return redirect()->back()->with('error', 'Tagihan not found.');
         }
 
+
+
+        if ($tagihan->metode_pembayaran == 'Midtrans Payment') {
+            $transaksi = Transaksi::where('id_tagihan', $tagihan->id_tagihan)->first();
+            if (!$transaksi) {
+                return redirect()->back()->with('error', 'Transaksi not found.');
+            }
+            //$jam = substr($transaksi->tanggal_transaksi, 11, 8);
+
+            $waktu = $transaksi->tanggal_transaksi;
+            $jam = \Carbon\Carbon::parse($waktu)->format('h:i:s A');
+
+        } elseif ($tagihan->metode_pembayaran == 'Transfer') {
+            $konfirmasi = Konfirmasi_Pembayaran::where('id_tagihan', $tagihan->id_tagihan)->first();
+            if (!$konfirmasi) {
+                return redirect()->back()->with('error', 'Konfirmasi Pembayaran not found.');
+            }
+            $jam = $konfirmasi->tanggal_pembayaran;
+        } else {
+            $jam = $tagihan->updated_at;
+        }
+
         $staff = Staff::find($tagihan->id_staff);
 
         $y = 'Rp. ' . number_format($tagihan->total_tagihan, 2, ',', '.');
@@ -184,22 +208,6 @@ class PDFController extends Controller
         $t = $staff->ttd;
 
         $kwitansi = $tagihan->no_kwitansi;
-
-        $bulan = substr($tagihan->Bulan, 5, 2);
-        $namaBulan = [
-            '01' => 'Januari',
-            '02' => 'Februari',
-            '03' => 'Maret',
-            '04' => 'April',
-            '05' => 'Mei',
-            '06' => 'Juni',
-            '07' => 'Juli',
-            '08' => 'Agustus',
-            '09' => 'September',
-            '10' => 'Oktober',
-            '11' => 'November',
-            '12' => 'Desember',
-        ][$bulan];
 
 
         $imagePath = storage_path("app/public/image/ttd/{$t}"); // Adjust path based on your storage
@@ -222,12 +230,11 @@ class PDFController extends Controller
             'semester' => $tagihan->semester->nama_semester,
             'total_bayar' => $tagihan->total_bayar,
             'status' => $tagihan->status_tagihan,
-            'Bulan' => $namaBulan,
             'nip' => $tagihan->staff->nip,
             'kwitansi' => $kwitansi,
             'pembayaran' => $tagihan->jenis_tagihan,
             'metode' => $tagihan->metode_pembayaran,
-            'tahun' => substr($tagihan->Bulan, 0, 4)
+            'jam' => $jam,
 
         ];
 

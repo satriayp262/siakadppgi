@@ -1,11 +1,17 @@
 <div class="mx-5">
     <div class="flex flex-col justify-between mx-4 mt-4">
         <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg">
-            <div class="flex flex-col">
-                <h1 class="text-2xl font-bold">Konfirmasi Pembayaran</h1>
-                <p class="text-sm text-gray-500">Halaman ini ditunjukan untuk konfirmasi pembayaran melalui rekening PPGI
-                </p>
+            <div class="justify-between flex items-center mr-2">
+                <div class="flex flex-col">
+                    <h1 class="text-2xl font-bold">Konfirmasi Pembayaran</h1>
+                    <p class="text-sm text-gray-500">Halaman ini ditunjukan untuk konfirmasi pembayaran bila membayar
+                        melalui rekening
+                        PPGI
+                    </p>
+                </div>
+                <a href="{{ route('mahasiswa.transaksi.histori') }}" class=" text-blue-500">Histori Pembayaran</a>
             </div>
+
             <div class="flex flex-col mt-4">
                 <form wire:submit="save">
 
@@ -85,9 +91,7 @@
                     <div class="flex justify-left p-4 bg-gray-200 rounded-b-lg">
                         <button type="submit"
                             class="px-4 py-2 ml-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">Submit</button>
-                        <a type="button"
-                            class="px-4 py-2 ml-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">Lihat
-                            Riwayat Pembayaran</a>
+
                     </div>
                 </form>
             </div>

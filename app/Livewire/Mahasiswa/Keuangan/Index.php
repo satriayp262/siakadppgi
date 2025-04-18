@@ -11,6 +11,7 @@ use Livewire\Attributes\On;
 use Auth;
 use Midtrans\Snap;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Str;
 
 class Index extends Component
 {
@@ -49,6 +50,7 @@ class Index extends Component
         }
 
         $transaksi = Transaksi::create([
+            'id_transaksi' => (string) Str::uuid(),
             'nominal' => $nominal + 5000, // Tambahkan biaya admin
             'NIM' => $tagihan->NIM,
             'id_tagihan' => $this->id_tagihan,

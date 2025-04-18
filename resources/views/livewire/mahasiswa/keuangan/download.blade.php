@@ -159,7 +159,7 @@
                     :</td>
                 <td
                     style="font-size: 12px; margin-bottom: 1%; letter-spacing: 3px; font-family: Arial, Helvetica, sans-serif\;">
-                    y</td>
+                    {{ $jam }}</td>
             </tr>
             <tr>
                 <td
