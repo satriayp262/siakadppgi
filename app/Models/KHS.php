@@ -101,6 +101,9 @@ class KHS extends Model
                 case 'UTS':
                     $NilaiUTS = $nilai;
                     break;
+                case 'Partisipasi':
+                    $NilaiPartisipasi = $nilai;
+                    break;
                 default:
                     $JumlahTugas++;
                     $JumlahnilaiTugas += $nilai;
@@ -108,18 +111,18 @@ class KHS extends Model
             }
         }
 
-            $PresensiCount = Presensi::where('id_mata_kuliah', $id_mata_kuliah)
-                ->where('id_kelas', $id_kelas)
-                ->get();
+        // $PresensiCount = Presensi::where('id_mata_kuliah', $id_mata_kuliah)
+        //     ->where('id_kelas', $id_kelas)
+        //     ->get();
 
-            $totalPresensi = $PresensiCount->count();
-            $hadirCount = $PresensiCount->where('keterangan', 'Hadir')->count();
+        // $totalPresensi = $PresensiCount->count();
+        // $hadirCount = $PresensiCount->where('keterangan', 'Hadir')->count();
 
-            if($totalPresensi != 0){
-                $NilaiPartisipasi = ($hadirCount / $totalPresensi) * 100;
-            }else{
-            $NilaiPartisipasi = 0;
-            }
+        // if($totalPresensi != 0){
+        //     $NilaiPartisipasi = ($hadirCount / $totalPresensi) * 100;
+        // }else{
+        // $NilaiPartisipasi = 0;
+        // }
 
 
 

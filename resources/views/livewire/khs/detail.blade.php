@@ -62,6 +62,10 @@
             </div>
         </div>
         <div class="">
+            @php
+                $totalNilaiKumulatif = 0;
+                $totalSKSKumulatif = 0;
+            @endphp
             @foreach ($semester as $x)
                 @php
                     $khs = App\Models\KHS::where('id_semester', $x->id_semester)->where('NIM', $mahasiswa->NIM)->get();
@@ -108,12 +112,15 @@
                             $nilaiKumulatif += $IPS;
                         }
 
-                        $IPK = number_format(
-                            round($nilaiKumulatif / $mahasiswa->getSemester($x->id_semester), 2),
-                            2,
-                            '.',
-                            '',
-                        );
+                        $totalNilaiKumulatif += $jumlahNilai;
+                        $totalSKSKumulatif += $jumlahSKS;
+
+                        $IPK =
+                            $totalSKSKumulatif > 0
+                                ? number_format(round($totalNilaiKumulatif / $totalSKSKumulatif, 2), 2, '.', '')
+                                : '0.00';
+
+                        $presensi = $this->presensiMahasiswa($mahasiswa->NIM, $x->id_semester);
                     }
                 @endphp
                 @if (count($khs) != 0)
@@ -144,7 +151,7 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($khs as $item)
-                                            @if ($item->bobot < 59)
+                                            @if ($item->bobot <= 59)
                                                 <tr wire:key="khs-{{ $item->id_khs }}" class="bg-red-600">
                                                     <td class="px-2 py-1 text-left border border-gray-500">
                                                         {{ $item->matkul->kode_mata_kuliah }}</td>
@@ -197,22 +204,59 @@
                                             <td class="px-2 py-1 text-right border border-gray-500"></td>
                                             <td class="px-2 py-1 font-bold text-right border border-gray-500">Index
                                                 Prestasi Semester</td>
-                                            <td class="px-2 py-1 text-center border border-gray-500"></td>
-                                            <td class="px-2 py-1 text-right border border-gray-500"></td>
-                                            <td class="px-2 py-1 text-center border border-gray-500"></td>
-                                            <td class="px-2 py-1 font-bold text-center border border-gray-500">
+                                            <td class="px-2 py-1 text-center border-b border-t border-gray-500"></td>
+                                            <td class="px-2 py-1 text-right border-b border-t border-gray-500"></td>
+                                            <td class="px-2 py-1 text-center border-b border-t border-gray-500"></td>
+                                            <td
+                                                class="px-2 py-1 font-bold text-center border-b border-t border-r border-gray-500">
                                                 {{ $IPS }}</td>
                                         </tr>
                                         <tr>
                                             <td class="px-2 py-1 text-right border border-gray-500"></td>
                                             <td class="px-2 py-1 font-bold text-right border border-gray-500">Index
                                                 Prestasi Kumulatif</td>
-                                            <td class="px-2 py-1 text-center border border-gray-500"></td>
-                                            <td class="px-2 py-1 text-right border border-gray-500"></td>
-                                            <td class="px-2 py-1 text-center border border-gray-500"></td>
-                                            <td class="px-2 py-1 font-bold text-center border border-gray-500">
+                                            <td class="px-2 py-1 text-center border-b border-t border-gray-500"></td>
+                                            <td class="px-2 py-1 text-center border-b border-t border-gray-500"></td>
+                                            <td class="px-2 py-1 text-center border-b border-t border-gray-500"></td>
+                                            <td
+                                                class="px-2 py-1 font-bold text-center border-b border-t border-r border-gray-500">
                                                 {{ $IPK }}</td>
                                         </tr>
+                                        <tr>
+                                            <td class="px-2 py-1 text-right border-l  border-gray-500"></td>
+                                            <td class="px-2 py-1 font-bold text-right border-r border-gray-500">Ketidak
+                                                Hadiran</td>
+                                            <td class="px-2 py-1 font-bold text-left  border-gray-500">
+                                                <p>Ijin</p>
+                                            </td>
+                                            <td class="px-2 py-1 text-center  border-gray-500 font-bold">= {{ ($presensi->ijin_count ?? 0) == 0 ? '0' : $presensi->ijin_count }} Jam</td>
+                                            <td class="px-2 py-1 text-center  border-gray-500"></td>
+                                            <td class="px-2 py-1 text-center  border-r border-gray-500"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-2 py-1 text-right border-l border-gray-500"></td>
+                                            <td class="px-2 py-1 font-bold text-right border-r border-gray-500"></td>
+                                            <td class="px-2 py-1 font-bold text-left border-gray-500">
+                                                <p>Sakit</p>
+                                            </td>
+                                            <td class="px-2 py-1 text-center  border-gray-500 font-bold">= {{ ($presensi->sakit_count ?? 0) == 0 ? '0' : $presensi->sakit_count }} Jam</td>
+                                            <td class="px-2 py-1 text-center  border-gray-500"></td>
+                                            <td class="px-2 py-1 text-center  border-r border-gray-500"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-2 py-1 text-right border-l border-b border-gray-500"></td>
+                                            <td
+                                                class="px-2 py-1 font-bold text-right border-r border-b border-gray-500">
+                                            </td>
+                                            <td
+                                                class="px-2 py-1 font-bold text-left border-b  border-gray-500">
+                                                <p>Alpa</p>
+                                            </td>
+                                            <td class="px-2 py-1 text-center border-b  border-gray-500 font-bold">= {{ ($presensi->alpa_count ?? 0) == 0 ? '0' : $presensi->alpa_count }} Jam</td>
+                                            <td class="px-2 py-1 text-center border-b  border-gray-500"></td>
+                                            <td class="px-2 py-1 text-center border-b  border-r border-gray-500"></td>
+                                        </tr>
+
                                     </tbody>
                                 </table>
                             </div>

@@ -46,7 +46,7 @@
 </head>
 
 <body>
-    <table style="width: 100%; border: none; margin: 0; border-spacing: 0;">
+    {{-- <table style="width: 100%; border: none; margin: 0; border-spacing: 0;">
         <tr style="vertical-align: top;">
             <!-- Logo Kiri -->
             <td style="width: 5%; text-align: left;">
@@ -84,7 +84,9 @@
                     style="border-top: 3px solid darkviolet; height: 2px; border-bottom: 1px solid darkviolet; margin: 0;">
             </td>
         </tr>
-    </table>
+    </table> --}}
+    <img src="{{ public_path('img/kop_surat.jpg') }}" alt="Kop Surat" style="width: 100%; margin-bottom: 10px;">
+
     <table
         style=" border-collapse: collapse; font-size: 12px; margin-bottom: 10px; margin-top: 10px;
             margin-left: 15%;">
@@ -161,8 +163,8 @@
                         $jumlahNilai += $item->getGrade($item->bobot)['angka'] * $sks;
                     }
                 @endphp
-                @if ($item->bobot < 59)
-                <tr style="background-color: #dc2626;">
+                @if ($item->bobot <= 59)
+                    <tr style="background-color: #dc2626;">
 
                         <td>{{ $index + 1 }}</td>
                         <td>{{ $item->matkul->kode_mata_kuliah }}</td>
@@ -218,6 +220,52 @@
 
                     $ips = number_format(round($jumlahNilai / $jumlahSKS, 2), 2, '.', '');
                     date_default_timezone_set('Asia/Bangkok'); // Set timezone to GMT+7
+
+                    $id_semester = $x->id_semester;
+                    $NIM = $mahasiswa->NIM;
+
+                    $presensi = App\Models\Mahasiswa::select('nim')
+                        ->where('nim', $NIM)
+                        ->with([
+                            'presensi' => function ($query) use ($id_semester) {
+                                $query
+                                    ->select('nim', 'keterangan', 'created_at')
+                                    ->whereHas('token', function ($tokenQuery) use ($id_semester) {
+                                        $tokenQuery->where('id_semester', intval($id_semester));
+                                    });
+                            },
+                        ])
+                        ->withCount([
+                            'presensi as hadir_count' => function ($query) use ($id_semester) {
+                                $query
+                                    ->where('keterangan', 'Hadir')
+                                    ->whereHas('token', function ($tokenQuery) use ($id_semester) {
+                                        $tokenQuery->where('id_semester', intval($id_semester));
+                                    });
+                            },
+                            'presensi as alpa_count' => function ($query) use ($id_semester) {
+                                $query
+                                    ->where('keterangan', 'Alpha')
+                                    ->whereHas('token', function ($tokenQuery) use ($id_semester) {
+                                        $tokenQuery->where('id_semester', intval($id_semester));
+                                    });
+                            },
+                            'presensi as ijin_count' => function ($query) use ($id_semester) {
+                                $query
+                                    ->where('keterangan', 'Ijin')
+                                    ->whereHas('token', function ($tokenQuery) use ($id_semester) {
+                                        $tokenQuery->where('id_semester', intval($id_semester));
+                                    });
+                            },
+                            'presensi as sakit_count' => function ($query) use ($id_semester) {
+                                $query
+                                    ->where('keterangan', 'Sakit')
+                                    ->whereHas('token', function ($tokenQuery) use ($id_semester) {
+                                        $tokenQuery->where('id_semester', intval($id_semester));
+                                    });
+                            },
+                        ])
+                        ->first();
                 @endphp
                 <td colspan="3" style="text-align: right"><strong>Indeks Prestasi Semester
                         {{ $mahasiswa->getSemester($x->id_semester) }}</strong></td>
@@ -229,6 +277,20 @@
                 <td><strong>{{ $IPK }}</strong></td>
                 <td colspan="3"><strong>{{ terbilang($IPK) }}</strong></td>
             </tr>
+            <tr>
+                <td colspan="3" rowspan="3" style="text-align: right;"><strong>Ketidak Hadiran</strong></td>
+                <td style="text-align: left; border-right: none;"><strong>Izin<strong></td>
+                <td colspan="3" style="text-align: left; border-left: none;"><strong>= {{ ($presensi->ijin_count ?? 0) == 0 ? '0' : $presensi->ijin_count }} Jam<strong></td>
+            </tr>
+            <tr>
+                <td style="text-align: left; border-right: none;"><strong>Sakit<strong></td>
+                <td colspan="3" style="text-align: left; border-left: none;"><strong>= {{ ($presensi->sakit_count ?? 0) == 0 ? '0' : $presensi->sakit_count }} Jam<strong></td>
+            </tr>
+            <tr>
+                <td style="text-align: left; border-right: none;"><strong>Alpa<strong></td>
+                <td colspan="3" style="text-align: left; border-left: none;"><strong>= {{ ($presensi->alpa_count ?? 0) == 0 ? '0' : $presensi->alpa_count }} Jam<strong></td>
+            </tr>
+
         </tbody>
     </table>
 

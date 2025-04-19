@@ -14,11 +14,12 @@ class NilaiSeeder extends Seeder
     public function run()
     {
         DB::transaction(function () {
-            $aktifitasList = ['UAS', 'UTS', 'Tugas 1', 'Tugas 2', 'Tugas 3', 'Tugas 4', 'Tugas 5'];
+            $aktifitasList = ['UAS', 'UTS', 'Tugas 1', 'Tugas 2', 'Tugas 3', 'Tugas 4', 'Tugas 5','Partisipasi'];
 
             $krsRecords = KRS::all();
 
             foreach ($krsRecords as $krs) {
+
                 foreach ($aktifitasList as $namaAktifitas) {
                     // Buat atau ambil aktifitas yang sesuai
                     $aktifitas = Aktifitas::firstOrCreate(
@@ -40,10 +41,11 @@ class NilaiSeeder extends Seeder
                         ],
                         [
                             'id_kelas' => $krs->id_kelas,
-                            'nilai' => rand(35, 100), // Nilai random antara 50-100
+                            'nilai' => rand(35, 100), 
                         ]
                     );
                 }
+                
             }
         });
 

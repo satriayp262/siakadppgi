@@ -27,4 +27,27 @@ class Aktifitas extends Model
         return $this->belongsTo(Matakuliah::class, 'id_mata_kuliah', 'id_mata_kuliah');
     }
 
+    public function createNilaiPartisipasi($id_mata_kuliah)
+    {
+        // Get all classes
+        $kelas = Kelas::all();
+    
+        foreach ($kelas as $kelasItem) {
+            $exists = self::where('id_kelas', $kelasItem->id_kelas)
+                ->where('id_mata_kuliah', $id_mata_kuliah)
+                ->where('nama_aktifitas', 'Lainnya')
+                ->exists();
+    
+            // If 'Lainnya' does not exist, create it
+            if (!$exists) {
+                self::create([
+                    'id_kelas' => $kelasItem->id_kelas,
+                    'id_mata_kuliah' => $id_mata_kuliah,
+                    'nama_aktifitas' => 'Partisipasi',
+                    'catatan' => 'Nilai partisipasi atau keaktifan mahasiswa',
+                ]);
+            }
+        }
+    }
+
 }

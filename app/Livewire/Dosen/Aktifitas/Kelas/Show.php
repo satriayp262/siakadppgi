@@ -18,7 +18,7 @@ class Show extends Component
 {
     use WithFileUploads;
     public $id_kelas, $kode_mata_kuliah, $id_mata_kuliah, $CheckDosen = false, $file, $nama_kelas;
-    
+
     #[On('aktifitasCreated')]
     public function handleAktifitasCreated()
     {
@@ -32,9 +32,12 @@ class Show extends Component
     public function mount()
     {
         $this->id_mata_kuliah = Matakuliah::where('kode_mata_kuliah', $this->kode_mata_kuliah)->where('nidn', Auth()->user()->nim_nidn)->first()->id_mata_kuliah;
-        
+
+        $aktifitas = new Aktifitas();
+        $aktifitas->createNilaiPartisipasi($this->id_mata_kuliah);
+
         $this->id_kelas = kelas::where('nama_kelas', str_replace('-', '/', $this->nama_kelas))->first()->id_kelas;
-        
+
         $this->CheckDosen = (Matakuliah::where('id_mata_kuliah', $this->id_mata_kuliah)->where('nidn', Auth()->user()->nim_nidn)->exists());
     }
 
@@ -67,7 +70,7 @@ class Show extends Component
         $skippedRecords = [];
         $createdRecords = [];
 
-        $import = new NilaiImport($this->id_kelas,$this->kode_mata_kuliah); 
+        $import = new NilaiImport($this->id_kelas, $this->kode_mata_kuliah);
 
         try {
             $excel->import($import, Storage::path($path));
@@ -129,8 +132,8 @@ class Show extends Component
     public function render()
     {
         $aktifitas = Aktifitas::where('id_kelas', $this->id_kelas)
-    ->where('id_mata_kuliah', $this->id_mata_kuliah)
-    ->orderByRaw("
+            ->where('id_mata_kuliah', $this->id_mata_kuliah)
+            ->orderByRaw("
         CASE 
             WHEN nama_aktifitas IN ('UTS', 'UAS', 'Lainnya') THEN 
                 CASE 
@@ -142,7 +145,7 @@ class Show extends Component
             ELSE 1
         END
     ")
-    ->get();
+            ->get();
 
         return view('livewire.dosen.aktifitas.kelas.show', [
             'aktifitas' => $aktifitas
