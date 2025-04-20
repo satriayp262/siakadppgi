@@ -29,7 +29,7 @@ class TagihanMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Tagihan BPP',
+            subject: 'Invoice Tagihan ' . $this->tagihan->jenis_tagihan,
         );
     }
 

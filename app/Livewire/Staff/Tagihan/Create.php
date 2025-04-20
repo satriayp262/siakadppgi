@@ -61,6 +61,8 @@ class Create extends Component
         $user = auth()->user();
 
         $staff = Staff::where('nip', $user->nim_nidn)->first();
+
+
         // Clean the 'total_tagihan' field (remove non-numeric characters)
         $validatedData['total_tagihan'] = preg_replace('/\D/', '', $validatedData['total_tagihan']);
 
@@ -106,6 +108,8 @@ class Create extends Component
         if ($existingTagihan) {
             $this->addError('Bulan', "Tagihan untuk bulan ini sudah ada untuk mahasiswa dengan prodi {$mahasiswa->prodi->nama_prodi} semester {$mahasiswa->semester->nama_semester}");
             return;
+
+
         } else {
             // Create a new Tagihan if no existing one
             $tagihan = Tagihan::create([
