@@ -56,7 +56,6 @@
                     <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
                         <th class="px-4 py-2 text-center">No.</th>
                         <th class="px-4 py-2 text-center">Semester</th>
-                        <th class="px-4 py-2 text-center">Bulan</th>
                         <th class="px-4 py-2 text-center">Jenis Tagihan</th>
                         <th class="px-4 py-2 text-center">Tagihan</th>
                         <th class="px-4 py-2 text-center">Status</th>
@@ -70,26 +69,6 @@
                             <td class="px-4 py-2 text-center">{{ $loop->iteration }}</td>
                             <td class="px-4 py-2 text-center">{{ $tagihan->semester->nama_semester }}</td>
                             <td class="px-4 py-2 text-center">
-                                @php
-                                    $bulan = substr($tagihan->Bulan, 5, 2);
-                                    $namaBulan = [
-                                        '01' => 'Januari',
-                                        '02' => 'Februari',
-                                        '03' => 'Maret',
-                                        '04' => 'April',
-                                        '05' => 'Mei',
-                                        '06' => 'Juni',
-                                        '07' => 'Juli',
-                                        '08' => 'Agustus',
-                                        '09' => 'September',
-                                        '10' => 'Oktober',
-                                        '11' => 'November',
-                                        '12' => 'Desember',
-                                    ][$bulan];
-                                @endphp
-                                {{ $namaBulan }}
-                            </td>
-                            <td class="px-4 py-2 text-center">
                                 {{ $tagihan->jenis_tagihan }}
                             </td>
                             <td class="px-4 py-2 text-center italic font-semibold">
@@ -102,7 +81,7 @@
                             <td class="px-4 py-2 text-center">
                                 @php
                                     $status = [
-                                        'Belum Bayar' => 'bg-red-100 text-red-800',
+                                        'Menunggu Pembayaran' => 'bg-red-100 text-red-800',
                                         'Lunas' => 'bg-blue-400 text-white px-2 py-0.5 rounded-full',
                                     ];
                                     $status = $status[$tagihan->status_tagihan] ?? 'bg-gray-500';
@@ -119,15 +98,56 @@
                                 {{ $formattedTotalBayar }}
                             </td>
                             <td class="px-4 py-2 text-center justify-items-center">
-                                @if ($tagihan->status_tagihan == 'Belum Bayar')
-                                    <livewire:staff.tagihan.update :id_tagihan="$tagihan->id_tagihan"
-                                        wire:key="edit-{{ $tagihan->id_tagihan }}" />
+
+                                @if ($tagihan->bisa_dicicil == '1')
+                                    <div class="relative inline-block">
+                                        <button id="dropdownBayarButton-{{ $tagihan->id_tagihan }}"
+                                            data-dropdown-toggle="dropdownBayar-{{ $tagihan->id_tagihan }}"
+                                            data-dropdown-delay="500"
+                                            class="flex items-center px-3 py-1 font-sm text-white bg-purple2 rounded hover:bg-customPurple">
+                                            Update Bayar
+                                        </button>
+
+                                        <div id="dropdownBayar-{{ $tagihan->id_tagihan }}"
+                                            class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
+                                            <ul class="py-2 text-sm text-gray-500"
+                                                aria-labelledby="dropdownBayarButton-{{ $tagihan->id_tagihan }}">
+                                                <li>
+                                                    <button
+                                                        wire:click="updatePembayaran({{ $tagihan->id_tagihan }} , 'Lunas')"
+                                                        class="block w-full text-left px-4 py-2 hover:bg-gray-100">
+                                                        Bayar Penuh
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button
+                                                        wire:click="updatePembayaran({{ $tagihan->id_tagihan }}, 'Cicil')"
+                                                        class="block w-full text-left px-4 py-2 hover:bg-gray-100">
+                                                        Cicilan
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                @else
+                                    <button
+                                        class="flex items-center px-3 py-1 font-sm text-white bg-purple2 rounded hover:bg-customPurple"
+                                        wire:click="updatePembayaran({{ $tagihan->id_tagihan }} , 'Lunas')"
+                                        class="block w-full text-left px-4 py-2 hover:bg-gray-100">
+                                        Update Bayar
+                                    </button>
+                                @endif
+
+                                @if ($cicil == 'Lunas')
+                                    <livewire:staff.tagihan.update :id_tagihan="$id"
+                                        wire:key="edit-{{ $id }}" />
+                                @elseif($cicil == 'Cicil')
+                                    <livewire:staff.tagihan.update-cicilan :id_tagihan="$id"
+                                        wire:key="edit-{{ $id }}" />
                                 @else
                                 @endif
 
                             </td>
-
-
                         </tr>
                     @endforeach
                 </tbody>

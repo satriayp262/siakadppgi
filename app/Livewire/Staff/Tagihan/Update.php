@@ -13,8 +13,6 @@ use App\Models\Staff;
 
 class Update extends Component
 {
-    use WithFileUploads;
-
     public $NIM;
     public $total_tagihan;
     public $total_bayar;
@@ -58,23 +56,20 @@ class Update extends Component
     {
         // Validate the input fields
         $this->validate();
-        $total_tagihan_cleaned = preg_replace('/\D/', '', $this->total_bayar);
 
         $user = Auth::user();
         $staff = Staff::where('nip', $user->nim_nidn)->first();
         $this->id_staff = $staff->id_staff;
 
         $this->tagihan->no_kwitansi = rand();
-
-        // Pastikan kwitansi unik
         while (Tagihan::where('no_kwitansi', $this->tagihan->no_kwitansi)->exists()) {
             $this->tagihan->no_kwitansi = rand();
         }
 
         $this->tagihan->update([
-            'total_bayar' => $this->tagihan->total_bayar ? $this->tagihan->total_bayar + $total_tagihan_cleaned : $total_tagihan_cleaned,
+            'total_bayar' => $this->tagihan->total_bayar,
             'metode_pembayaran' => 'Tunai',
-            'status_tagihan' => $total_tagihan_cleaned == $this->total_tagihan ? 'Lunas' : 'Belum Lunas',
+            'status_tagihan' => 'Lunas',
             'id_staff' => $this->id_staff,
         ]);
 

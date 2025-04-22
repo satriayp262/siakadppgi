@@ -17,6 +17,9 @@ class Detail extends Component
     public $status_tagihan;
     public $tagihan;
     public $search = '';
+    public $lunas;
+    public $id;
+
 
     public function mount($NIM)
     {
@@ -27,6 +30,16 @@ class Detail extends Component
         $this->status_tagihan = $this->tagihan->status_tagihan;
     }
 
+
+    public function updatePembayaran($id, $status)
+    {
+        $this->lunas = $status;
+        $this->id = $id;
+
+    }
+
+
+
     #[On('TagihanUpdated')]
     public function handleTagihanUpdated()
     {
@@ -36,6 +49,8 @@ class Detail extends Component
 
     public function render()
     {
+        $id = $this->id;
+        $cicil = $this->lunas;
         $semesters = Semester::all();
         $mahasiswas = Mahasiswa::all();
         $tagihans = Tagihan::where('NIM', $this->NIM)
@@ -44,6 +59,8 @@ class Detail extends Component
             'semesters' => $semesters,
             'tagihans' => $tagihans,
             'mahasiswas' => $mahasiswas,
+            'cicil' => $cicil,
+            'id' => $id,
         ]);
     }
 }

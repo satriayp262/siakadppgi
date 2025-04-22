@@ -6,7 +6,7 @@
         <div class="w-1/2 bg-white rounded-lg shadow-lg">
             <!-- Modal Header -->
             <div class="flex items-center justify-between p-4 bg-gray-200 rounded-t-lg">
-                <h3 class="text-xl font-semibold">Upload Bukti Pembayaran</h3>
+                <h3 class="text-xl font-semibold">Update Pembayaran Cicilan</h3>
                 <div @click="isOpen=false; window.location.reload();" class="px-3 rounded-sm shadow hover:bg-red-500">
                     <button class="text-gray-900">&times;</button>
                 </div>

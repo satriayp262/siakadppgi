@@ -74,7 +74,7 @@
                     <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
                         <th class="px-4 py-2 text-center">No.</th>
                         <th class="px-4 py-2 text-center">Semester</th>
-                        <th class="px-4 py-2 text-center">Bulan</th>
+
                         <th class="px-4 py-2 text-center">Jenis Tagihan</th>
                         <th class="px-4 py-2 text-center">Total Tagihan</th>
                         <th class="px-4 py-2 text-center">Total Pembayaran</th>
@@ -88,27 +88,11 @@
                             <td class="px-4 py-2 text-center">{{ $loop->iteration }}</td>
                             <td class="px-4 py-2 text-center">{{ $tagihan->semester->nama_semester }}</td>
                             @php
-                                $bulan = substr($tagihan->Bulan, 5, 2);
-                                $namaBulan = [
-                                    '01' => 'Januari',
-                                    '02' => 'Februari',
-                                    '03' => 'Maret',
-                                    '04' => 'April',
-                                    '05' => 'Mei',
-                                    '06' => 'Juni',
-                                    '07' => 'Juli',
-                                    '08' => 'Agustus',
-                                    '09' => 'September',
-                                    '10' => 'Oktober',
-                                    '11' => 'November',
-                                    '12' => 'Desember',
-                                ][$bulan];
-                                $tahun = substr($tagihan->Bulan, 0, 4);
 
                                 $formattedTotalTagihan = 'Rp. ' . number_format($tagihan->total_tagihan, 0, ',', '.');
                                 $formattedTotalBayar = 'Rp. ' . number_format($tagihan->total_bayar, 0, ',', '.');
                             @endphp
-                            <td class="px-4 py-2 text-center">{{ $namaBulan }}, {{ $tahun }}</td>
+
                             <td class="px-4 py-2 text-center">
                                 {{ $tagihan->jenis_tagihan }}
                             </td>

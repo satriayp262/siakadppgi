@@ -141,7 +141,7 @@ class GroupCreate extends Component
                 ]);
                 $this->reset(); // Reset only form-related properties
                 $this->dispatch('TagihanCreated');
-                //Mail::to($mhs->email)->send(new TagihanMail($tagihan));
+                Mail::to($mhs->email)->send(new TagihanMail($tagihan));
             }
         }
         $this->reset(); // Reset hanya properti terkait form

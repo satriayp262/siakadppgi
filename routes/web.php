@@ -192,6 +192,7 @@ Route::middleware(['auth', CheckRole::class . ':staff'])->prefix('staff')->group
     Route::get('/konfirmasi', App\Livewire\Staff\Konfirmasi\Index::class)->name('staff.konfirmasi');
     Route::get('/dashboard', App\Livewire\Staff\Dashboard\Index::class)->name('staff.dashboard');
     Route::get('/tagihan/multiple-create', App\Livewire\Staff\Tagihan\MultipleCreate::class)->name('staff.tagihan.multiple-create');
+    Route::get('/tagihan/update/{id_tagihan}', App\Livewire\Staff\Tagihan\Update::class)->name('staff.tagihan.update');
 });
 
 

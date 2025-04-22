@@ -98,6 +98,7 @@ class MultipleCreate extends Component
                     'bisa_cicil' => $cicil,
                 ]);
                 $this->dispatch('TagihanAdded');
+                Mail::to($mhs->email)->send(new TagihanMail($tagihan));
                 // Mail::to($mhs->email)->send(new TagihanMail($tagihan));
             }
         }

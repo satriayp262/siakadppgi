@@ -101,9 +101,7 @@ class Create extends Component
             ->first();
 
         if ($existingTagihan) {
-            $this->dispatch('warning', [
-                'message' => 'Tagihan sudah ada untuk mahasiswa ini.',
-            ]);
+            $this->addError('jenis_tagihan', 'Tagihan sudah ada untuk mahasiswa ini pada semester ini.');
         } else {
             // Create a new Tagihan if no existing one
             $tagihan = Tagihan::create([
@@ -116,13 +114,10 @@ class Create extends Component
                 'id_staff' => $staff,
             ]);
 
+            Mail::to($mahasiswa->email)->send(new TagihanMail($tagihan));
+
+            $this->dispatch('TagihanCreated');
         }
-
-        Mail::to($mahasiswa->email)->send(new TagihanMail($tagihan));
-
-        $this->dispatch('TagihanCreated');
-
-
         // Reset the form values
         $this->reset(['total_tagihan', 'semester', 'jenis_tagihan', 'cicil', 'tagihan_lain']);
         return $tagihan ?? null;
