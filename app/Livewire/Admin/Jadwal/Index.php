@@ -117,7 +117,7 @@ class Index extends Component
 
     public function generate()
     {
-        $kelasByProdi = Kelas::with('matkul')
+        $kelasByProdi = Kelas::with('prodi')
             ->where('id_semester', $this->Semester)
             ->get()
             ->shuffle()
@@ -140,7 +140,7 @@ class Index extends Component
         foreach ($kelasByProdi as $prodi => $kelasList) {
             foreach ($kelasList as $kelas) {
                 $kelasSchedule = []; // Menyimpan jumlah mata kuliah per hari
-                
+
                 // Cek apakah ruangan tersedia
                 $jumlahMahasiswa = KRS::where('id_kelas', $kelas->id_kelas)->count();
                 $ruangan = null;
@@ -182,7 +182,7 @@ class Index extends Component
                                 ->exists();
 
                             if (!$conflict) {
-                                
+
 
                                 if ($ruangan) {
                                     Jadwal::create([
@@ -208,8 +208,6 @@ class Index extends Component
 
         $this->dispatch('created', ['message' => 'Jadwal Created Successfully']);
     }
-
-
 
 
     public function destroy2()

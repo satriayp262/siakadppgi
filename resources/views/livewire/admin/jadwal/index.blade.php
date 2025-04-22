@@ -9,7 +9,7 @@
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="m1 9 4-4-4-4" />
                         </svg>
-                        <span class="text-sm font-medium text-gray-500 ms-1 md:ms-2">Jadwal Mengajar</span>
+                        <span class="text-sm font-medium text-gray-500 ms-1 md:ms-2">Jadwal Perkuliahan</span>
                     </div>
                 </li>
             </ol>
@@ -31,7 +31,7 @@
                 <option value="{{ $x->kode_prodi }}">{{ $x->nama_prodi }}</option>
                 @endforeach
             </select>
-            
+
             <select name="semesterfilter" id="semesterfilter" wire:model.live="semesterfilter" class="items-center px-4 py-2 pr-2 ml-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
                 <option value="" selected>Pilih semester</option>
                 @foreach ($semesterfilters as $v)
@@ -39,7 +39,7 @@
                 @endforeach
             </select>
         </div>
-        
+
         <div x-data="{ isOpen: false }" @modal-closed.window="isOpen = false">
         <!-- Button to open the modal -->
         <button @click="isOpen=true"
@@ -74,7 +74,7 @@
                 </div>
             </div>
         </div>
-        
+
         <button onclick="confirmDeleteAll()" class='flex items-center px-4 py-2 ml-2 font-bold text-white bg-red-500 rounded hover:bg-red-700'>
             Hapus Semua Jadwal
         </button>
@@ -158,7 +158,7 @@
                                     <td class="px-3 py-1 text-center">{{ $jadwal->matakuliah->nama_mata_kuliah }}</td>
                                     <td class="px-3 py-1 text-center">{{ $jadwal->dosen->nama_dosen }}</td>
                                     @if ($jadwal->id_ruangan == 'Online')
-                                        <td class="px-3 py-1 text-center">Online</td>  
+                                        <td class="px-3 py-1 text-center">Online</td>
                                     @else
                                             <td class="px-3 py-1 text-center">{{ $jadwal->ruangan->kode_ruangan }}</td>
                                     @endif
@@ -265,7 +265,7 @@
                                     <td class="px-3 py-1 text-center">{{ $jadwal->matakuliah->nama_mata_kuliah }}</td>
                                     <td class="px-3 py-1 text-center">{{ $jadwal->dosen->nama_dosen }}</td>
                                     @if ($jadwal->id_ruangan == 'Online')
-                                        <td class="px-3 py-1 text-center">Online</td>  
+                                        <td class="px-3 py-1 text-center">Online</td>
                                     @else
                                             <td class="px-3 py-1 text-center">{{ $jadwal->ruangan->kode_ruangan }}</td>
                                     @endif
@@ -393,7 +393,7 @@
                                     <td class="px-3 py-1 text-center">{{ $jadwal->matakuliah->nama_mata_kuliah }}</td>
                                     <td class="px-3 py-1 text-center">{{ $jadwal->dosen->nama_dosen }}</td>
                                     @if ($jadwal->id_ruangan == 'Online')
-                                        <td class="px-3 py-1 text-center">Online</td>  
+                                        <td class="px-3 py-1 text-center">Online</td>
                                     @else
                                             <td class="px-3 py-1 text-center">{{ $jadwal->ruangan->kode_ruangan }}</td>
                                     @endif
@@ -448,7 +448,7 @@
                 }
             });
         }
-        
+
         function confirmDelete(id, nama_kelas) {
             Swal.fire({
                 title: `Apakah anda yakin ingin menghapus jadwal ${nama_kelas}?`,
