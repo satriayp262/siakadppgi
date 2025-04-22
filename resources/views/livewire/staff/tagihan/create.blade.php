@@ -47,18 +47,54 @@
                                 @enderror
                             </div>
 
+                            <div class="mb-4">
+                                <label for="semester" class="block text-sm font-medium text-gray-700">Semester</label>
+                                <select id="semester" wire:model.live="semester" name="semester"
+                                    class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
+                                    <option disabled value="">Pilih Semester</option>
+                                    @foreach ($semesters as $x)
+                                        <option value="{{ $x->id_semester }}">{{ $x->nama_semester }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('semester')
+                                    <span class="text-sm text-red-500">{{ $message }}</span>
+                                @enderror
 
+                            </div>
 
                             <div class="mb-4">
                                 <label for="jenis_tagihan" class="block text-sm font-medium text-gray-700">Jenis
                                     Tagihan</label>
-                                <input type="text" id="jenis_tagihan" wire:model="jenis_tagihan" name="jenis_tagihan"
-                                    class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm"></input>
-                                @error('Keterangan')
+                                <select id="jenis_tagihan" wire:model.live="jenis_tagihan" name="jenis_tagihan"
+                                    class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm"@if (empty($semester)) disabled @endif>
+
+                                    <option disabled value="">Pilih Jenis Tagihan</option>
+                                    <option value="BPP">BPP Semester
+                                        {{ $semesters->firstWhere('id_semester', $semester)->nama_semester ?? 'Tidak ditemukan' }}
+                                    </option>
+                                    <option value="Lainnya">Lainnya</option>
+
+                                </select>
+                                @error('jenis_tagihan')
                                     <span class="text-sm text-red-500">{{ $message }}</span>
                                 @enderror
                             </div>
 
+
+                            @if ($jenis_tagihan == 'Lainnya')
+                                <div class="mb-4">
+                                    <label for="tagihan_lain" class="block text-sm font-medium text-gray-700">Jenis
+                                        Tagihan
+                                        Lainnya</label>
+                                    <input type="text" id="tagihan_lain" wire:model="tagihan_lain"
+                                        name="tagihan_lain"
+                                        class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
+                                </div>
+                            @endif
+                            @error('tagihan_lain')
+                                <span class="text-sm text-red-500">{{ $message }}</span>
+                            @enderror
 
                             <div class="mb-4">
                                 <label for="total_tagihan" class="block text-sm font-medium text-gray-700">Total
@@ -77,13 +113,24 @@
                             </div>
 
                             <div class="mb-4">
-                                <label for="Bulan" class="block text-sm font-medium text-gray-700">Bulan</label>
-                                <input type="month" id="Bulan" wire:model="Bulan" name="Bulan"
-                                    class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
-                                @error('Bulan')
+
+                                <div class="flex justify-between items-center mt-2">
+                                    <label for="bisa_dicicil" class="block text-sm font-medium text-gray-700">Bisa
+                                        Dicicil ?</label>
+                                    <label class="inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" wire:model="cicil" value="true" class="sr-only peer">
+                                        <div
+                                            class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer  peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600 ">
+                                        </div>
+                                    </label>
+
+                                </div>
+                                @error('bisa_dicicil')
                                     <span class="text-sm text-red-500">{{ $message }}</span>
                                 @enderror
                             </div>
+
+
                             <!-- Submit Button inside the form -->
                             <div class="flex justify-end p-4 bg-gray-200 rounded-b-lg">
                                 <button type="button" @click="isOpen = false"

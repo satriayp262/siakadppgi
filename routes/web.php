@@ -191,7 +191,7 @@ Route::middleware(['auth', CheckRole::class . ':staff'])->prefix('staff')->group
     Route::get('/profil', App\Livewire\Staff\Profil\Index::class)->name('staff.profil');
     Route::get('/konfirmasi', App\Livewire\Staff\Konfirmasi\Index::class)->name('staff.konfirmasi');
     Route::get('/dashboard', App\Livewire\Staff\Dashboard\Index::class)->name('staff.dashboard');
-    Route::get('/tagihan/transaksi', App\Livewire\Staff\Tagihan\Transaksi::class)->name('staff.tagihan.transaksi');
+    Route::get('/tagihan/multiple-create', App\Livewire\Staff\Tagihan\MultipleCreate::class)->name('staff.tagihan.multiple-create');
 });
 
 

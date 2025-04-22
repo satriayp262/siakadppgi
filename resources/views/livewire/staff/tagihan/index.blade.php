@@ -19,7 +19,7 @@
                     <livewire:staff.tagihan.group-create />
                 @endif
                 @if ($buttontransaksi)
-                    <livewire:staff.tagihan.transaksi :selectedMahasiswa="$selectedMahasiswa" />
+                    <livewire:staff.tagihan.multiple-create :selectedMahasiswa="$selectedMahasiswa" />
                 @endif
             </div>
             <button id="dropdownDelayButton" data-dropdown-toggle="dropdownDelay" data-dropdown-delay="500"

@@ -16,17 +16,22 @@ class Create extends Component
     public $nama;
     public $total_tagihan;
     public $status_tagihan = '';
-    public $Bulan = '';
-    public $jenis_tagihan;
-    public $id_semester;
+    public $jenis_tagihan = '';
+    public $tagihan_lain;
+    public $cicil = false;
+    public $id_semester = '';
+    public $semester = '';
+    public $staff;
     public $kode_prodi;
+    public $semesters = [];
+
 
     public function rules()
     {
         return [
-            'nim' => 'required',
             'total_tagihan' => 'required',
-            'Bulan' => 'required|date_format:Y-m', // Validasi menggunakan format YYYY-MM
+            'semester' => 'required
+            |exists:semester,id_semester',
             'jenis_tagihan' => 'required',
         ];
     }
@@ -34,12 +39,11 @@ class Create extends Component
     public function messages()
     {
         return [
-            'nim.required' => 'nim tidak boleh kosong',
             'total_tagihan.required' => 'Total tagihan tidak boleh kosong',
             'total_tagihan.numeric' => 'Total tagihan harus berupa angka',
             'jenis_tagihan.required' => 'Jenis tagihan tidak boleh kosong',
-            'Bulan.required' => 'Bulan harus dipilih',
-            'Bulan.date_format' => 'Bulan harus berformat YYYY-MM',
+            'semester.required' => 'Semester harus dipilih',
+            'semester.exists' => 'Semester tidak valid',
         ];
     }
 
@@ -47,10 +51,24 @@ class Create extends Component
     {
         $this->nim = $nim;
         $this->nama = $nama;
+
         $mahasiswa = Mahasiswa::where('NIM', $nim)->first();
+
 
         // Set the id_semester from the Mahasiswa object
         $this->id_semester = $mahasiswa?->mulai_semester;
+
+        $semesters = Semester::where('id_semester', '>=', $mahasiswa?->mulai_semester)
+            ->orderBy('id_semester', 'asc')
+            ->get();
+
+        $this->semesters = $semesters;
+
+        $user = auth()->user();
+
+        $staff = Staff::where('nip', $user->nim_nidn)->first();
+
+        $this->staff = $staff;
     }
 
 
@@ -58,85 +76,72 @@ class Create extends Component
     {
         $validatedData = $this->validate();
 
-        $user = auth()->user();
+        $mahasiswa = Mahasiswa::where('NIM', $this->nim)->first();
+        $staff = $this->staff->id_staff;
+        $semester = Semester::where('id_semester', $validatedData['semester'])->first();
 
-        $staff = Staff::where('nip', $user->nim_nidn)->first();
-
+        if (!$mahasiswa) {
+            dd('Mahasiswa not found');
+        }
 
         // Clean the 'total_tagihan' field (remove non-numeric characters)
         $validatedData['total_tagihan'] = preg_replace('/\D/', '', $validatedData['total_tagihan']);
 
-        // Assuming you want to create the Tagihan for the single Mahasiswa identified by $this->nim
-        $mahasiswa = Mahasiswa::where('NIM', $this->nim)->first();
-
-        $semester1 = substr($validatedData['Bulan'], 0, 4);
-
-        if (in_array(substr($validatedData['Bulan'], 5, 2), [2, 3, 4, 5, 6, 7, 8])) {
-            $semester = "{$semester1}2";
-            $id = Semester::where('nama_semester', $semester)->value('id_semester');
-        } elseif (in_array(substr($validatedData['Bulan'], 5, 2), [9, 10, 11, 12])) {
-            $semester = (int) $semester1 + 1 . '1';
-            $id = Semester::where('nama_semester', $semester)->value('id_semester');
-        } elseif (substr($validatedData['Bulan'], 5, 2) == 1) {
-            $semester = "{$semester1}1";
-            $id = Semester::where('nama_semester', $semester)->value('id_semester');
+        // Renaming the 'jenis_tagihan' field
+        if ($validatedData['jenis_tagihan'] != 'BPP') {
+            $jenis_tagihan = $this->tagihan_lain;
         } else {
-            $this->addError('Bulan', 'Bulan tidak valid');
+            $jenis_tagihan = $validatedData['jenis_tagihan'] . ' Semester ' . $semester->nama_semester;
         }
 
-        // Check if the semester exists in the Semester table
-        $semesterExists = Semester::where('nama_semester', $semester)->exists();
-
-        if (!$semesterExists) {
-            $this->addError('Bulan', 'Tahun ini belum terdaftar sebagai semester');
-            return;
-        }
-
-
-        if (!$mahasiswa) {
-            $this->addError('NIM', "Mahasiswa dengan NIM {$this->nim} tidak ditemukan.");
-            return;
-        }
-
-        // Check if a Tagihan already exists for the current Mahasiswa
+        // Check if a Tagihan already exists for the given NIM and semester
         $existingTagihan = Tagihan::where('NIM', $mahasiswa->NIM)
-            ->where('jenis_tagihan', $validatedData['jenis_tagihan'])
-            ->where('Bulan', $validatedData['Bulan'])
+            ->where('jenis_tagihan', $jenis_tagihan)
+            ->where('id_semester', $validatedData['semester'])
             ->first();
 
-        // Check if there is already a Tagihan for the Mahasiswa
         if ($existingTagihan) {
-            $this->addError('Bulan', "Tagihan untuk bulan ini sudah ada untuk mahasiswa dengan prodi {$mahasiswa->prodi->nama_prodi} semester {$mahasiswa->semester->nama_semester}");
-            return;
-
-
+            $this->dispatch('warning', [
+                'message' => 'Tagihan sudah ada untuk mahasiswa ini.',
+            ]);
         } else {
             // Create a new Tagihan if no existing one
             $tagihan = Tagihan::create([
                 'NIM' => $mahasiswa->NIM,
                 'total_tagihan' => $validatedData['total_tagihan'],
-                'status_tagihan' => 'Belum Bayar',
-                'Bulan' => $validatedData['Bulan'],
-                'jenis_tagihan' => $validatedData['jenis_tagihan'],
-                'id_semester' => $id,
-                'id_staff' => $staff->id_staff,
+                'bisa_dicicil' => $this->cicil,
+                'status_tagihan' => 'Menunggu Pembayaran',
+                'jenis_tagihan' => $jenis_tagihan,
+                'id_semester' => $validatedData['semester'],
+                'id_staff' => $staff,
             ]);
 
-            Mail::to($mahasiswa->email)->send(new TagihanMail($tagihan));
-            $this->dispatch('TagihanCreated');
         }
 
+        Mail::to($mahasiswa->email)->send(new TagihanMail($tagihan));
+
+        $this->dispatch('TagihanCreated');
+
+
         // Reset the form values
-        $this->reset(['total_tagihan', 'Bulan', 'jenis_tagihan']);
+        $this->reset(['total_tagihan', 'semester', 'jenis_tagihan', 'cicil', 'tagihan_lain']);
         return $tagihan ?? null;
     }
 
 
     public function render()
     {
-        $mahasiswas = Mahasiswa::all();
+
+        $mahasiswas = Mahasiswa::with('prodi', 'semester')
+            ->get();
+
+        $s = $this->semesters;
+
+
         return view('livewire.staff.tagihan.create', [
-            'mahasiswas' => $mahasiswas
+            'mahasiswas' => $mahasiswas,
+            // 'semesters' => Semester::orderBy('id_semester', 'desc')->get(),
+            'semesters' => $s,
         ]);
     }
 }

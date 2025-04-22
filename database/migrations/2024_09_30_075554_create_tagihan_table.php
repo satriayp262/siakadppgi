@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->string('metode_pembayaran')->nullable();
             $table->string('status_tagihan');
             $table->string('no_kwitansi')->nullable()->unique();
-            $table->string('Bulan', 7);
+            $table->boolean('bisa_dicicil')->default(false);
             $table->integer('id_semester');
             $table->foreign('NIM')->references('NIM')->on('mahasiswa')->omDelete('cascade');
             $table->foreign('id_semester')->references('id_semester')->on('semester')->onDelete('cascade');

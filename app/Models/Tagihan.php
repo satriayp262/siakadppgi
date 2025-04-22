@@ -14,7 +14,7 @@ class Tagihan extends Model
         'total_tagihan',
         'status_tagihan',
         'id_semester',
-        'Bulan',
+        'bisa_dicicil',
         'total_bayar',
         'id_staff',
         'metode_pembayaran',
