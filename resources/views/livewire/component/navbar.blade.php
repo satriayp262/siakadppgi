@@ -21,10 +21,10 @@
 
         <div class="relative flex items-center space-x-4">
             <div>
-                <p class="text-white text-sm font-semibold">Hi, {{ Auth::user()->name ?? 'user' }}!</p>
+                <p class="text-sm font-semibold text-white">Hi, {{ Auth::user()->name ?? 'user' }}!</p>
             </div>
             <button type="button"
-                class="flex text-sm bg-customPurple rounded-full focus:ring-5 focus:ring-gray-300 border-2 border-wwhite"
+                class="flex text-sm border-2 rounded-full bg-customPurple focus:ring-5 focus:ring-gray-300 border-wwhite"
                 id="user-menu-button" aria-expanded="false">
                 <span class="sr-only">Open user menu</span>
                 <svg class="w-8 h-8 text-white rounded-full" fill="currentColor" viewBox="0 0 20 20"
@@ -57,7 +57,7 @@
                             class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
                     </li>
                     <li>
-                        <button class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
+                        <button class="block w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100"
                             onclick="keluar('{{ $user->id }}', '{{ $user->role }}')">
                             Log Out
                         </button>

@@ -55,18 +55,20 @@ class Index extends Component
 
         $pembayaran = Tagihan::where('NIM', Auth::user()->nim_nidn)->firstOrFail();
         $w = $pembayaran->total_bayar;
+        $s = $pembayaran->total_tagihan;
+        $a = $s/2;
 
         if ($z == "UTS") {
-            if ($w < 1500000) {
+            if ($w < $a) {
                 $this->dispatch('warning', ['message' => 'Lunasi Pembayaran dari bulan A sampai bulan D terlebih dahulu']);
             }else{
                 return response()->streamDownload(function () use ($pdf) {
                     echo $pdf->output();
                 }, 'kartu ' . $z . ' Semester ' . $c . ' Tahun Ajaran ' . $y . '-' . $y + 1 . '.pdf');
             }
-            
+
         }else{
-            if ($w < 3000000) {
+            if ($w < $s) {
                 $this->dispatch('warning', ['message' => 'Lunasi Semua Pembayaran terlebih dahulu']);
             }else{
                 return response()->streamDownload(function () use ($pdf) {
@@ -79,7 +81,6 @@ class Index extends Component
     public function render()
     {
         $mahasiswa = Mahasiswa::where('NIM', Auth()->user()->nim_nidn)->first();
-
         $jadwals = Jadwal::whereHas('kelas.krs.mahasiswa', function ($query) use ($mahasiswa) {
             $query->where('NIM', $mahasiswa->NIM);
         })
@@ -87,14 +88,19 @@ class Index extends Component
             ->orderBy('sesi')  // Urutkan berdasarkan sesi
             ->get();
 
-        $ujian = jadwal::whereHas('kelas.krs.mahasiswa', function ($query) use ($mahasiswa) {
-            $query->where('NIM', $mahasiswa->NIM);
-        })
-            ->first();
+        // $ujian = jadwal::whereHas('kelas.krs.mahasiswa', function ($query) use ($mahasiswa) {
+        //     $query->where('NIM', $mahasiswa->NIM);
+        // })
+        //     ->first();
+
+        $ujian = Jadwal::where('jenis_ujian', '!=', null)->first();
 
         $c = "";
         $y = "";
         $z = "";
+        $w = "";
+        $a = "";
+        $s = "";
 
         if ($ujian) {
             $x = substr($ujian->id_semester, -1);
@@ -107,6 +113,11 @@ class Index extends Component
             $y = substr($ujian->semester->nama_semester, 0, 4);
 
             $z = $ujian->jenis_ujian;
+
+            $pembayaran = Tagihan::where('NIM', Auth::user()->nim_nidn)->firstOrFail();
+            $w = $pembayaran->total_bayar;
+            $s = $pembayaran->total_tagihan;
+            $a = $s / 2;
         }
 
         return view('livewire.mahasiswa.kartu-ujian.index',[
@@ -115,7 +126,10 @@ class Index extends Component
             'ujian' => $ujian,
             'c' => $c,
             'y' => $y,
-            'z' => $z
+            'z' => $z,
+            'w' => $w,
+            'a' => $a,
+            's' => $s
         ]);
     }
 }
