@@ -12,19 +12,16 @@ class Cicilan_BPP extends Model
     protected $primaryKey = 'id_cicilan';
     protected $fillable = [
         'id_tagihan',
-        'order_id',
+        'metode_pembayaran',
         'id_semester',
-        'bulan_cicilan',
+        'jumlah_bayar',
+        'tanggal_bayar',
         'cicilan_ke'
     ];
 
     public function tagihan()
     {
         return $this->belongsTo(Tagihan::class, 'id_tagihan', 'id_tagihan');
-    }
-    public function transaksi()
-    {
-        return $this->belongsTo(Transaksi::class, 'order_id', 'order_id');
     }
     public function semester()
     {

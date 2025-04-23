@@ -14,11 +14,10 @@ return new class extends Migration {
             $table->integer('id_cicilan')->autoIncrement()->primary();
             $table->integer('id_tagihan');
             $table->foreign('id_tagihan')->references('id_tagihan')->on('tagihan')->onDelete('cascade');
-            $table->string('order_id')->unique();
-            $table->foreign('order_id')->references('order_id')->on('transaksi')->onDelete('cascade');
             $table->integer('id_semester');
             $table->foreign('id_semester')->references('id_semester')->on('semester')->onDelete('cascade');
-            $table->string('bulan_cicilan');
+            $table->integer('jumlah_bayar');
+            $table->string('tanggal_bayar');
             $table->integer('cicilan_ke');
             $table->timestamps();
         });

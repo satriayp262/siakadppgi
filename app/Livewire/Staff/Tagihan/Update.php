@@ -49,6 +49,7 @@ class Update extends Component
             $this->total_tagihan = $this->tagihan->total_tagihan;
             $this->id_semester = $this->tagihan->semester->nama_semester;
             $this->status_tagihan = $this->tagihan->status_tagihan;
+            $this->total_bayar = $this->tagihan->total_tagihan;
         }
     }
 
@@ -74,7 +75,7 @@ class Update extends Component
         ]);
 
         $this->dispatch('TagihanUpdated');
-        $this->reset(['id_staff', 'total_bayar']);
+        $this->reset(['total_bayar']);
     }
 
 

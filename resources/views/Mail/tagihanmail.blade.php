@@ -39,12 +39,6 @@
                         </tr>
                         <tr>
                             <td style="font-weight: bold;">
-                                <P>Periode Tagihan</P>
-                            </td>
-                            <td>: <strong>{{ $tagihan->Bulan }}</strong></td>
-                        </tr>
-                        <tr>
-                            <td style="font-weight: bold;">
                                 <P>Atas Nama</P>
                             </td>
                             <td>: <strong>{{ $tagihan->mahasiswa->nama }}</strong></td>

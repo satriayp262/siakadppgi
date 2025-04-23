@@ -35,6 +35,13 @@ class Index extends Component
         return redirect()->route('staff.tagihan');
     }
 
+    #[On('PembayaranCreated')]
+    public function handlePembayaranCreated()
+    {
+        $this->dispatch('created', ['message' => 'Pembayaran Berhasil Ditambahkan']);
+        return redirect()->route('staff.tagihan.detail', ['id_tagihan' => $this->id_tagihan]);
+    }
+
     public function updatedSearch()
     {
         $this->resetPage();
