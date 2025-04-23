@@ -16,7 +16,8 @@ class Cicilan_BPP extends Model
         'id_semester',
         'jumlah_bayar',
         'tanggal_bayar',
-        'cicilan_ke'
+        'cicilan_ke',
+        'bulan',
     ];
 
     public function tagihan()

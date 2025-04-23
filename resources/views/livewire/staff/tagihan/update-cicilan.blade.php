@@ -48,6 +48,20 @@
                         </div>
 
                         <div class="mb-4">
+                            <label for="bulan" class="block text-sm font-medium text-gray-700">Bulan</label>
+                            <select id="bulan" wire:model="bulan" name="bulan"
+                                class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
+                                <option value="">Pilih Bulan</option>
+                                @foreach ($bulan as $b)
+                                    <option value="{{ $b }}">{{ $b }}</option>
+                                @endforeach
+                            </select>
+                            @error('bulan')
+                                <span class="text-sm text-red-500">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="mb-4">
                             <label for="total_bayar" class="block text-sm font-medium text-gray-700">Jumlah
                                 Pembayaran</label>
                             <div class="flex">

@@ -79,18 +79,31 @@
                                 {{ $formattedTotalTagihan }}
                             </td>
                             <td class="px-4 py-2 text-center">
-                                @php
-                                    $status = [
-                                        'Menunggu Pembayaran' => 'bg-red-100 text-red-800 w-full py-1',
-                                        'Belum Lunas' => 'bg-yellow-100 text-yellow-800 w-full py-1',
-                                        'Lunas' => 'bg-blue-100 text-blue-800 w-full py-1',
-                                    ];
-                                    $status = $status[$tagihan->status_tagihan] ?? 'bg-gray-500';
-                                @endphp
-                                <span class="me-2 px-2.5 py-0.5 text-xs rounded-full {{ $status }}"
-                                    style="width: 80px;">
-                                    {{ ucfirst($tagihan->status_tagihan) }}
-                                </span>
+
+                                @if ($tagihan->status_tagihan == 'Belum Lunas')
+                                    @php
+                                        $x = $tagihan->cicilan_bpp->sortByDesc('created_at')->first();
+                                        $progressPercentage = round(($x->cicilan_ke / 6) * 100, 2);
+                                    @endphp
+                                    <div class=" w-5/6 bg-gray-200 rounded-full mx-auto">
+                                        <div class="bg-indigo-300 py-1  text-xs font-medium text-indigo-800 text-center p-0.5 leading-none rounded-full"
+                                            style="width: {{ $progressPercentage }}%">{{ $x->cicilan_ke . ' / 6' }}
+                                        </div>
+                                    </div>
+                                @else
+                                    @php
+                                        $status = [
+                                            'Menunggu Pembayaran' => 'bg-red-100 text-red-800 w-5/6 py-1',
+                                            'Belum Lunas' => 'bg-yellow-100 text-yellow-800 w-full py-1',
+                                            'Lunas' => 'bg-blue-100 px-16 text-blue-800 w-5/6 py-1',
+                                        ];
+                                        $status = $status[$tagihan->status_tagihan] ?? 'bg-gray-500';
+                                    @endphp
+                                    <span class="me-2 px-2.5 py-0.5 text-xs rounded-full {{ $status }}"
+                                        style="width: 80px;">
+                                        {{ ucfirst($tagihan->status_tagihan) }}
+                                    </span>
+                                @endif
                             </td>
                             <td class="px-4 py-2 text-center italic font-semibold">
                                 @php

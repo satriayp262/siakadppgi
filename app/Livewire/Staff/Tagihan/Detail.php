@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Staff\Tagihan;
 
+use App\Models\Cicilan_BPP;
 use App\Models\Mahasiswa;
 use Livewire\Component;
 use App\Models\Tagihan;
@@ -19,6 +20,8 @@ class Detail extends Component
     public $search = '';
     public $lunas;
     public $id;
+    public $cicilan_bpp;
+
 
 
     public function mount($NIM)
@@ -51,10 +54,16 @@ class Detail extends Component
     {
         $id = $this->id;
         $cicil = $this->lunas;
+
+
         $semesters = Semester::all();
         $mahasiswas = Mahasiswa::all();
-        $tagihans = Tagihan::where('NIM', $this->NIM)
+
+        $tagihans = Tagihan::with('cicilan_bpp')
+            ->where('NIM', $this->NIM)
             ->get();
+
+
         return view('livewire.staff.tagihan.detail', [
             'semesters' => $semesters,
             'tagihans' => $tagihans,
