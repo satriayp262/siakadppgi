@@ -79,15 +79,18 @@
                                 {{ $formattedTotalTagihan }}
                             </td>
                             <td class="px-4 py-2 text-center">
-
                                 @if ($tagihan->status_tagihan == 'Belum Lunas')
                                     @php
                                         $x = $tagihan->cicilan_bpp->sortByDesc('created_at')->first();
                                         $progressPercentage = round(($x->cicilan_ke / 6) * 100, 2);
                                     @endphp
-                                    <div class=" w-5/6 bg-gray-200 rounded-full mx-auto">
-                                        <div class="bg-indigo-300 py-1  text-xs font-medium text-indigo-800 text-center p-0.5 leading-none rounded-full"
-                                            style="width: {{ $progressPercentage }}%">{{ $x->cicilan_ke . ' / 6' }}
+                                    <div class="flex justify-center items-center">
+                                        <div class="w-full bg-gray-200 rounded-full"
+                                            style="height: 20px; width: 150px;">
+                                            <div class="bg-indigo-300 me-2 text-xs text-indigo-800 text-center px-2 py-1 leading-none rounded-full"
+                                                style="width: {{ $progressPercentage }}%">
+                                                {{ $x->cicilan_ke . ' / 6' }}
+                                            </div>
                                         </div>
                                     </div>
                                 @else

@@ -16,6 +16,10 @@ return new class extends Migration {
             $table->foreign('id_tagihan')->references('id_tagihan')->on('tagihan')->onDelete('cascade');
             $table->integer('id_semester');
             $table->foreign('id_semester')->references('id_semester')->on('semester')->onDelete('cascade');
+            $table->uuid('id_transaksi')->nullable();
+            $table->foreign('id_transaksi')->references('id_transaksi')->on('transaksi')->onDelete('cascade');
+            $table->integer('id_konfirmasi')->nullable();
+            $table->foreign('id_konfirmasi')->references('id_konfirmasi')->on('konfirmasi')->onDelete('cascade');
             $table->string('metode_pembayaran');
             $table->string('bulan');
             $table->integer('jumlah_bayar');

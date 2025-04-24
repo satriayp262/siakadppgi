@@ -18,23 +18,25 @@ class UpdateCicilan extends Component
     public $id_semester;
     public $tagihan;
     public $id_tagihan;
-    public $bulan;
+    public $bulan = '';
     public $tanggal_pembayaran;
     public $status_tagihan = '';
     public $id_staff = '';
     public function mount()
     {
         $this->tagihan = Tagihan::find($this->id_tagihan);
-
+        $hitung_cicilan = Cicilan_BPP::where('id_tagihan', $this->id_tagihan)->count();
         $user = auth()->user();
         $this->id_staff = $user->id_staff;
-
         $total = $this->tagihan->total_tagihan;
         $cicil = round($total / 6, -3);
 
         //untuk pembuatan cicilan
         if ($cicil * 6 < $total) {
             $cicil = $cicil + 500;
+            if ($hitung_cicilan > 4) {
+                $cicil = $total - ($cicil * 5);
+            }
         }
 
         if ($this->tagihan) {
@@ -44,6 +46,8 @@ class UpdateCicilan extends Component
             $this->status_tagihan = $this->tagihan->status_tagihan;
             $this->total_bayar = $cicil;
         }
+
+        $this->listbulan = $this->listbulan();
     }
     public function rules()
     {
@@ -108,6 +112,7 @@ class UpdateCicilan extends Component
             }
         }
 
+
         return $dropdown;
     }
 
@@ -118,20 +123,16 @@ class UpdateCicilan extends Component
         $s = Cicilan_BPP::where('id_tagihan', $this->id_tagihan)->count();
         $count_cicilan = $s + 1;
 
-        $cicilan_bpp = Cicilan_BPP::where('id_tagihan', $this->id_tagihan)->where('cicilan_ke', $count_cicilan)->first();
-
-        if ($cicilan_bpp > 4) {
-            $kurang = $this->total_tagihan - $validatedata['total_bayar'];
-        } else {
-            $kurang = $validatedata['total_bayar'];
-        }
-
         $tagihan = Tagihan::find($this->id_tagihan);
         $tagihan->total_bayar = $tagihan->total_bayar + $validatedata['total_bayar'];
         $tagihan->metode_pembayaran = 'cicilan';
 
         if ($tagihan->total_bayar >= $tagihan->total_tagihan) {
             $tagihan->status_tagihan = 'Lunas';
+            $tagihan->id_staff = $this->id_staff;
+            if($tagihan->id_staff == null) {
+                dd('Staff tidak ada');
+            }
             $tagihan->no_kwitansi = rand();
             while (Tagihan::where('no_kwitansi', $tagihan->no_kwitansi)->exists()) {
                 $tagihan->no_kwitansi = rand();
@@ -139,7 +140,7 @@ class UpdateCicilan extends Component
         } else {
             $tagihan->status_tagihan = 'Belum Lunas';
         }
-        $tagihan->id_staff = $this->id_staff;
+
         $tagihan->save();
 
         $semester = Semester::where('nama_semester', $this->id_semester)->first();
@@ -147,7 +148,7 @@ class UpdateCicilan extends Component
         $cicilan = Cicilan_BPP::create([
             'id_tagihan' => $this->id_tagihan,
             'id_semester' => $semester->id_semester,
-            'jumlah_bayar' => $kurang,
+            'jumlah_bayar' => $validatedata['total_bayar'],
             'tanggal_bayar' => $validatedata['tanggal_pembayaran'],
             'cicilan_ke' => $count_cicilan,
             'bulan' => $validatedata['bulan'],
@@ -167,7 +168,7 @@ class UpdateCicilan extends Component
     public function render()
     {
         return view('livewire.staff.tagihan.update-cicilan', [
-            'bulan' => $this->listbulan(),
+            'listbulan' => $this->listbulan,
         ]);
     }
 }

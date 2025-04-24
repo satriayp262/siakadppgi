@@ -56,7 +56,7 @@ class Update extends Component
     public function save()
     {
         // Validate the input fields
-        $this->validate();
+        $validated = $this->validate();
 
         $user = Auth::user();
         $staff = Staff::where('nip', $user->nim_nidn)->first();
@@ -68,7 +68,7 @@ class Update extends Component
         }
 
         $this->tagihan->update([
-            'total_bayar' => $this->tagihan->total_bayar,
+            'total_bayar' => $validated['total_bayar'],
             'metode_pembayaran' => 'Tunai',
             'status_tagihan' => 'Lunas',
             'id_staff' => $this->id_staff,
