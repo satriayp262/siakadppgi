@@ -9,13 +9,14 @@ use App\Models\Tagihan;
 use App\Models\Cicilan_BPP;
 use App\Models\Transaksi;
 use App\Models\Konfirmasi;
-use Livewire\WithPagination;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
+
 
 class Index extends Component
 {
     public $total_bayar;
 
-    use WithPagination;
     public $NIM;
     public function render()
     {
@@ -78,9 +79,26 @@ class Index extends Component
         // Lalu kamu bisa assign ke Livewire property atau view:
         $this->total_bayar = $totalUangMasukHariIni;
 
+        // Ambil halaman sekarang dari query string (?page=...)
+        $currentPage = request()->get('page', 1);
+        $perPage = 10;
+
+        // Ambil data yang sesuai halaman
+        $currentPageResults = $pembayaran->slice(($currentPage - 1) * $perPage, $perPage)->values();
+
+        // Buat paginator manual
+        $paginatedPembayaran = new LengthAwarePaginator(
+            $currentPageResults,
+            $pembayaran->count(),
+            $perPage,
+            $currentPage,
+            ['path' => request()->url(), 'query' => request()->query()]
+        );
+
 
         return view('livewire.staff.dashboard.index', [
             'tagihans' => $pembayaran,
+            'paginatedPembayaran' => $paginatedPembayaran,
             'total_bayar' => $this->total_bayar,
         ]);
     }

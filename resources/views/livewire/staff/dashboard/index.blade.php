@@ -49,9 +49,9 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($tagihans as $index => $data)
+                @foreach ($paginatedPembayaran as $data)
                     <tr class="border-t">
-                        <td class="px-4 py-2 text-center">{{ $index + 1 }}</td>
+                        <td class="px-4 py-2 text-center">{{ $loop->iteration }}</td>
                         <td class="px-4 py-2 text-center">{{ \Carbon\Carbon::parse($data['tanggal'])->format('d-m-Y') }}
                         </td>
                         <td class="px-4 py-2 text-center">{{ $data['jam'] }}</td>
@@ -64,8 +64,8 @@
         </table>
 
         <!-- Pagination Controls -->
-        {{-- <div class="py-4 mt-4 text-center">
-            {{ $tagihans->links('') }}
-        </div> --}}
+        <div class="py-4 mt-4 text-center">
+            {{ $paginatedPembayaran->links('') }}
+        </div>
     </div>
 </div>
