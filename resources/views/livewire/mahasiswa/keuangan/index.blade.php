@@ -68,7 +68,14 @@
 
 
         <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg">
-            <h1 class="text-3xl font-bold text-gray-800">Pembayaran Anda</h1>
+            <div class="justify-between flex items-end mr-2">
+                <div class="flex flex-col">
+                    <h1 class="text-2xl font-bold">Pembayaran Anda</h1>
+                    <p class="text-sm text-gray-500">Halaman ini ditunjukan untuk melihat tagihan dan pembayaran Anda
+                    </p>
+                </div>
+                <a href="{{ route('mahasiswa.transaksi.histori') }}" class=" text-blue-500">Histori Pembayaran</a>
+            </div>
             <table class="min-w-full mt-4 bg-white border border-gray-200">
                 <thead>
                     <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
@@ -137,8 +144,81 @@
                                         </svg>
                                         Unduh
                                     </a>
-                                @else
+                                @elseif($tagihan->status_tagihan == 'Belum Lunas')
                                     <button @click="isOpen = !isOpen"
+                                        class="inline-flex px-4 py-2 text-white bg-blue-500 hover:bg-blue-700 rounded-md transition-transform transform hover:scale-105"
+                                        type="button"
+                                        wire:click.prevent="updatePembayaran({{ $tagihan->id_tagihan }}, 'cicil')">
+                                        <svg class="w-6 h-6 text-white" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            fill="currentColor" viewBox="0 0 24 24">
+                                            <path fill-rule="evenodd"
+                                                d="M12 14a3 3 0 0 1 3-3h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4a3 3 0 0 1-3-3Zm3-1a1 1 0 1 0 0 2h4v-2h-4Z"
+                                                clip-rule="evenodd" />
+                                            <path fill-rule="evenodd"
+                                                d="M12.293 3.293a1 1 0 0 1 1.414 0L16.414 6h-2.828l-1.293-1.293a1 1 0 0 1 0-1.414ZM12.414 6 9.707 3.293a1 1 0 0 0-1.414 0L5.586 6h6.828ZM4.586 7l-.056.055A2 2 0 0 0 3 9v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2h-4a5 5 0 0 1 0-10h4a2 2 0 0 0-1.53-1.945L17.414 7H4.586Z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                        Bayar
+                                    </button>
+                                @else
+                                    @if ($tagihan->bisa_dicicil == '1')
+                                        <button @click="isOpen = !isOpen"
+                                            class="inline-flex px-4 py-2 text-white bg-blue-500 hover:bg-blue-700 rounded-md transition-transform transform hover:scale-105"
+                                            type="button" id="dropdownBayarButton-{{ $tagihan->id_tagihan }}"
+                                            data-dropdown-toggle="dropdownBayar-{{ $tagihan->id_tagihan }}"
+                                            data-dropdown-delay="500">
+                                            <svg class="w-6 h-6 text-white" aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                fill="currentColor" viewBox="0 0 24 24">
+                                                <path fill-rule="evenodd"
+                                                    d="M12 14a3 3 0 0 1 3-3h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4a3 3 0 0 1-3-3Zm3-1a1 1 0 1 0 0 2h4v-2h-4Z"
+                                                    clip-rule="evenodd" />
+                                                <path fill-rule="evenodd"
+                                                    d="M12.293 3.293a1 1 0 0 1 1.414 0L16.414 6h-2.828l-1.293-1.293a1 1 0 0 1 0-1.414ZM12.414 6 9.707 3.293a1 1 0 0 0-1.414 0L5.586 6h6.828ZM4.586 7l-.056.055A2 2 0 0 0 3 9v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2h-4a5 5 0 0 1 0-10h4a2 2 0 0 0-1.53-1.945L17.414 7H4.586Z"
+                                                    clip-rule="evenodd" />
+                                            </svg>
+                                            Bayar
+                                        </button>
+                                        <div id="dropdownBayar-{{ $tagihan->id_tagihan }}"
+                                            class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
+                                            <ul class="py-2 text-sm text-gray-500"
+                                                aria-labelledby="dropdownBayarButton-{{ $tagihan->id_tagihan }}">
+                                                <li>
+                                                    <button
+                                                        wire:click="updatePembayaran({{ $tagihan->id_tagihan }} , 'Midtrans')"
+                                                        class="block w-full text-left px-4 py-2 hover:bg-gray-100">
+                                                        Bayar Penuh
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button
+                                                        wire:click="updatePembayaran({{ $tagihan->id_tagihan }}, 'cicil')"
+                                                        class="block w-full text-left px-4 py-2 hover:bg-gray-100">
+                                                        Bayar Sebagian
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    @else
+                                        <button @click="isOpen = !isOpen"
+                                            class="inline-flex px-4 py-2 text-white bg-blue-500 hover:bg-blue-700 rounded-md transition-transform transform hover:scale-105"
+                                            type="button"
+                                            wire:click.prevent="bayar({{ $tagihan->id_tagihan }}, 'Midtrans')">
+                                            <svg class="w-6 h-6 text-white" aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                fill="currentColor" viewBox="0 0 24 24">
+                                                <path fill-rule="evenodd"
+                                                    d="M12 14a3 3 0 0 1 3-3h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4a3 3 0 0 1-3-3Zm3-1a1 1 0 1 0 0 2h4v-2h-4Z"
+                                                    clip-rule="evenodd" />
+                                                <path fill-rule="evenodd"
+                                                    d="M12.293 3.293a1 1 0 0 1 1.414 0L16.414 6h-2.828l-1.293-1.293a1 1 0 0 1 0-1.414ZM12.414 6 9.707 3.293a1 1 0 0 0-1.414 0L5.586 6h6.828ZM4.586 7l-.056.055A2 2 0 0 0 3 9v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2h-4a5 5 0 0 1 0-10h4a2 2 0 0 0-1.53-1.945L17.414 7H4.586Z"
+                                                    clip-rule="evenodd" />
+                                            </svg>
+                                            Bayar
+                                        </button>
+                                    @endif
+                                    {{-- <button @click="isOpen = !isOpen"
                                         class="inline-flex px-4 py-2 text-white bg-blue-500 hover:bg-blue-700 rounded-md transition-transform transform hover:scale-105"
                                         type="button"
                                         wire:click.prevent="bayar({{ $tagihan->id_tagihan }}, 'Midtrans')">
@@ -153,7 +233,7 @@
                                                 clip-rule="evenodd" />
                                         </svg>
                                         Bayar
-                                    </button>
+                                    </button> --}}
                                 @endif
                             </td>
                         </tr>
@@ -162,7 +242,7 @@
             </table>
             <!-- Pagination Controls -->
             <div class="py-8 mt-4 text-center">
-                {{-- {{ $mahasiswas->links() }} --}}
+                {{ $tagihans->links() }}
             </div>
         </div>
     </div>

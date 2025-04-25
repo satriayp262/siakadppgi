@@ -27,7 +27,7 @@ class UpdateCicilan extends Component
         $this->tagihan = Tagihan::find($this->id_tagihan);
         $hitung_cicilan = Cicilan_BPP::where('id_tagihan', $this->id_tagihan)->count();
         $user = auth()->user();
-        $this->id_staff = $user->id_staff;
+        $this->id_staff = $user->nim_nidn;
         $total = $this->tagihan->total_tagihan;
         $cicil = round($total / 6, -3);
 
@@ -112,6 +112,15 @@ class UpdateCicilan extends Component
             }
         }
 
+        //cek apakah sudah ada di cicilan
+        $cicilan = Cicilan_BPP::where('id_tagihan', $this->id_tagihan)->get();
+        $bulancicilan = [];
+
+        foreach ($cicilan as $item) {
+            $bulancicilan[] = $item->bulan;
+        }
+
+        $dropdown = array_diff($dropdown, $bulancicilan);
 
         return $dropdown;
     }
@@ -125,12 +134,12 @@ class UpdateCicilan extends Component
 
         $tagihan = Tagihan::find($this->id_tagihan);
         $tagihan->total_bayar = $tagihan->total_bayar + $validatedata['total_bayar'];
-        $tagihan->metode_pembayaran = 'cicilan';
+        $tagihan->metode_pembayaran = 'Cicilan';
 
         if ($tagihan->total_bayar >= $tagihan->total_tagihan) {
             $tagihan->status_tagihan = 'Lunas';
             $tagihan->id_staff = $this->id_staff;
-            if($tagihan->id_staff == null) {
+            if ($tagihan->id_staff == null) {
                 dd('Staff tidak ada');
             }
             $tagihan->no_kwitansi = rand();

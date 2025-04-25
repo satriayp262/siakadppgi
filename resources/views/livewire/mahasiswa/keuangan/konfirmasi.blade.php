@@ -14,7 +14,6 @@
 
             <div class="flex flex-col mt-4">
                 <form wire:submit="save">
-
                     <div class="mb-4">
                         <label for="id_tagihan" class="block text-sm font-medium text-gray-700">Guna Pembayaran</label>
                         <select id="id_tagihan" wire:model.live="id_tagihan" name="id_tagihan"
