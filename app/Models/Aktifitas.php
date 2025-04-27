@@ -35,7 +35,7 @@ class Aktifitas extends Model
         foreach ($kelas as $kelasItem) {
             $exists = self::where('id_kelas', $kelasItem->id_kelas)
                 ->where('id_mata_kuliah', $id_mata_kuliah)
-                ->where('nama_aktifitas', 'Lainnya')
+                ->where('nama_aktifitas', 'Partisipasi')
                 ->exists();
     
             // If 'Lainnya' does not exist, create it

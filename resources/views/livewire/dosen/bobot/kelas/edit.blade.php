@@ -20,7 +20,7 @@
                     <button class="text-gray-900">&times;</button>
                 </div>
             </div>
-            <div class="p-4 text-left"> <!-- Added text-left here -->
+            <div class="p-4 text-left"> 
                 <div class="p-4 max-h-[500px] overflow-y-auto">
                     <form wire:submit="update" class="flex space-x-2">
                         <input type="text" hidden wire:model="id_kelas">
