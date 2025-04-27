@@ -1,4 +1,8 @@
 <div class="mx-5">
+    <div wire:loading wire:target="save"
+        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div class="spinner loading-spinner"></div>
+    </div>
     <div class="flex flex-col justify-between mx-4 mt-4">
         <div class="flex flex-col md:flex-row justify-start md:justify-between  items-center">
             <nav aria-label="Breadcrumb">
@@ -7,7 +11,8 @@
                         <div class="flex items-center ">
                             <a href="{{ route('dosen.aktifitas') }}"
                                 class="text-[12px] md:text-[14px]  font-medium text-gray-500 hover:text-gray-700 flex items-center">
-                                <span class="text-[12px] md:text-[14px]  font-medium text-gray-500 ms-1 md:ms-2">Aktifitas</span>
+                                <span
+                                    class="text-[12px] md:text-[14px]  font-medium text-gray-500 ms-1 md:ms-2">Aktifitas</span>
                                 <svg class="w-3 h-3 mx-1 text-gray-400 rtl:rotate-180" aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -47,7 +52,7 @@
     </div>
     <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
         <div class="flex justify-between">
-            <p class="px-4 py-2 font-bold">{{$nama_aktifitas}}</p>
+            <p class="px-4 py-2 font-bold">{{ $nama_aktifitas }}</p>
             <button wire:click="save" class="px-4 py-2 bg-blue-500 text-white">Save Nilai</button>
         </div>
         <table class="min-w-full mt-4 bg-white text-[12px] md:text-[14px] border border-gray-200">
@@ -64,11 +69,12 @@
                         <td class="px-4 py-2 text-center">{{ $item['NIM'] }}</td>
                         <td class="px-4 py-2 text-center">{{ $item['nama'] }}</td>
                         <td class="px-4 py-2 text-center flex flex-col items-center">
-                            <input wire:loading.remove type="number" wire:model.defer="Nilai.{{ $index }}.nilai"
-                                class="w-24 px-2 py-1 border" required>
-                                @error('Nilai.' . $index . '.nilai')
-                                    <small class="text-red-500">{{ $message }}</small>
-                                @enderror
+                            <input wire:loading.remove type="number"
+                                wire:model.defer="Nilai.{{ $index }}.nilai" class="w-24 px-2 py-1 border"
+                                required>
+                            @error('Nilai.' . $index . '.nilai')
+                                <small class="text-red-500">{{ $message }}</small>
+                            @enderror
                         </td>
                     </tr>
                 @endforeach

@@ -1,4 +1,8 @@
 <div x-data="{ isOpen: false }" @modal-closed.window="isOpen = false">
+    <div wire:loading wire:target="update"
+        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-60">
+        <div class="spinner loading-spinner"></div>
+    </div>
     <button @click="isOpen=true" class="inline-block px-2 sm:px-4 py-2 sm:py-2 text-white bg-blue-500 rounded hover:bg-blue-700">
         <svg class="w-4 sm:w-6 h-4 sm:h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
             width="24" height="24" fill="none" viewBox="0 0 24 24">

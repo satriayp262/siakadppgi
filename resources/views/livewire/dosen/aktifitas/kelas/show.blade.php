@@ -1,4 +1,8 @@
 <div class="mx-5">
+    <div wire:loading wire:target="save,export,destroy"
+        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div class="spinner loading-spinner"></div>
+    </div>
     <div class="flex flex-col justify-between mx-4 mt-4 ">
         <div class="flex justify-between items-center">
             <nav aria-label="Breadcrumb" class="py-2">

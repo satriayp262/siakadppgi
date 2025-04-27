@@ -1,4 +1,8 @@
 <div class="">
+    <div wire:loading wire:target="addRow,save"
+        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-60">
+        <div class="spinner loading-spinner"></div>
+    </div>
     <nav aria-label="Breadcrumb">
         <ol class="flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse px-2 mt-7 mb-6 mx-7">
             <li aria-current="page">
@@ -45,6 +49,9 @@
                             <option value="{{ $semester->id_semester }}">{{ $semester->nama_semester }}</option>
                         @endforeach
                     </select>
+                    @error('selectedSemester')
+                        <span class="text-sm text-red-500">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <div class="flex flex-col w-full justify-start">
@@ -54,6 +61,9 @@
                             <option value="{{ $prodi->kode_prodi }}">{{ $prodi->nama_prodi }}</option>
                         @endforeach
                     </select>
+                    @error('selectedKodeProdi')
+                        <span class="text-sm text-red-500">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
 
@@ -62,10 +72,16 @@
                 <div class="w-full">
                     <label for="tanggal_mulai" class="block text-sm font-medium">Tanggal Mulai:</label>
                     <input type="date" wire:model="tanggal_mulai" class="w-full px-2 py-1 border rounded">
+                    @error('tanggal_mulai')
+                        <span class="text-sm text-red-500">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div class="w-full">
                     <label for="tanggal_selesai" class="block text-sm font-medium">Tanggal Selesai:</label>
                     <input type="date" wire:model="tanggal_selesai" class="w-full px-2 py-1 border rounded">
+                    @error('tanggal_selesai')
+                        <span class="text-sm text-red-500">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
             <div class="flex justify-between items-center space-x-2">
@@ -86,6 +102,9 @@
                             <option value="{{ $item->id_kelas }}">{{ $item->nama_kelas }}</option>
                         @endforeach
                     </select>
+                    @error('selectedKelas')
+                        <span class="text-sm text-red-500">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div class="flex flex-col w-full justify-start">
                     <button type="button" wire:click="addRow"
@@ -134,6 +153,13 @@
                         </tr>
                     @endforeach
                 </tbody>
+
+                @error('paketKrsRecords.*.id_mata_kuliah')
+                <span class="text-sm text-red-500">{{ $message }}</span>
+                @enderror
+                @error('paketKrsRecords')
+                <span class="text-sm text-red-500">{{ $message }}</span>
+                @enderror
             </table>
             <button type="button" wire:click="save"
                 class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">Simpan</button>

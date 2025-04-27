@@ -9,6 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title> {{ $title ?? 'SIAKAD PPGI' }}</title>
     <link rel="icon" href="{!! asset('img/piksi.png') !!}" />
+    @livewireStyles
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -16,6 +17,22 @@
         }
 
         .spinner {
+            border: 5px solid rgba(0, 0, 0, 0.2);
+            /* Light border for background */
+            border-radius: 50%;
+            border-top: 5px solid #3498db;
+            /* Blue border for spinner */
+            width: 36px;
+            /* Increased size for visibility */
+            height: 36px;
+            animation: spin 1s linear infinite;
+        }
+
+        .loading-spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             border: 5px solid rgba(0, 0, 0, 0.2);
             /* Light border for background */
             border-radius: 50%;
@@ -40,6 +57,7 @@
 </head>
 
 <body class="flex flex-col w-full z-14">
+
     <livewire:component.navbar />
     <div class="flex flex-col min-h-screen md:flex-row z-12">
         <aside class="flex-shrink-0 z-11">

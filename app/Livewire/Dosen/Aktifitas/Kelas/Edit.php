@@ -31,7 +31,8 @@ class Edit extends Component
                         Aktifitas::where('id_kelas', $this->id_kelas)
                             ->where('nama_aktifitas', $value)
                             ->where('id_mata_kuliah', $this->id_mata_kuliah)
-                            ->exists()
+                            ->exists() &&
+                        $value !== $this->nama_aktifitas    
                     ) {
                         $fail('Aktifitas ini sudah ada');
                     }
