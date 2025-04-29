@@ -162,7 +162,7 @@ class Index extends Component
 
                 foreach (Matakuliah::where('kode_prodi', $kelas->kode_prodi)->get() as $matkul) {
                     foreach ($days as $day) {
-                        // Batasi maksimal 3 mata kuliah per hari per kelas
+                        // Batasi maksimal 2 mata kuliah per hari per kelas
                         $existingMatkulCount = Jadwal::where('id_kelas', $kelas->id_kelas)
                             ->where('hari', $day)
                             ->count();
