@@ -18,6 +18,8 @@ use App\Models\Pengumuman;
 use App\Models\Staff;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -505,6 +507,10 @@ class DatabaseSeeder extends Seeder
         Pertanyaan::factory()->create([
             'nama_pertanyaan' => 'sistematika penyajian mata kuliah'
         ]);
+
+        DB::table('komponen_kartu_ujian')->insert([
+            'jabatan' => 'Wakil Direktur Bidang Akademik',
+            'nama' => 'santoso']);
 
     }
 }

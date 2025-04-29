@@ -193,7 +193,7 @@
                         </svg>
                     </button>
                     <ul id="dropdown-jadwal"
-                        class="py-2 space-y-2 {{ request()->routeIs(['admin.jadwal', 'admin.ujian']) ? '' : 'hidden' }}">
+                        class="py-2 space-y-2 {{ request()->routeIs(['admin.jadwal', 'admin.ujian', 'admin.komponen_ujian']) ? '' : 'hidden' }}">
                         <li>
                             <a href="{{ route('admin.jadwal') }}"
                                 class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.jadwal') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
@@ -218,6 +218,19 @@
                                         clip-rule="evenodd" />
                                 </svg> --}}
                                 <span class="flex-1 ms-3 whitespace-nowrap">Jadwal Ujian</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.komponen_ujian') }}"
+                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.komponen_ujian') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
+                                {{-- <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.krs') ? 'text-white' : 'text-gray-500' }}"
+                                    aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+                                    height="24" fill="currentColor" viewBox="0 0 24 24">
+                                    <path fill-rule="evenodd"
+                                        d="M4 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h2V4Zm2 6v10h12V10H6Zm4 2h2v2H9V12Zm4 0h2v2h-2V12Zm-4 4h2v2H9v-2Zm4 0h2v2h-2v-2Z"
+                                        clip-rule="evenodd" />
+                                </svg> --}}
+                                <span class="flex-1 ms-3 whitespace-nowrap">komponen Kartu Ujian</span>
                             </a>
                         </li>
                     </ul>
