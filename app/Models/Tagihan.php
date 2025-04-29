@@ -40,6 +40,14 @@ class Tagihan extends Model
     {
         return $this->hasMany(Transaksi::class, 'id_tagihan', 'id_tagihan');
     }
+    public function cicilan_bpp()
+    {
+        return $this->hasMany(Cicilan_BPP::class, 'id_tagihan', 'id_tagihan');
+    }
+    public function konfirmasi()
+    {
+        return $this->hasMany(Konfirmasi_Pembayaran::class, 'id_tagihan', 'id_tagihan');
+    }
 
 
 

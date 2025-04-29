@@ -49,13 +49,14 @@ class Update extends Component
             $this->total_tagihan = $this->tagihan->total_tagihan;
             $this->id_semester = $this->tagihan->semester->nama_semester;
             $this->status_tagihan = $this->tagihan->status_tagihan;
+            $this->total_bayar = $this->tagihan->total_tagihan;
         }
     }
 
     public function save()
     {
         // Validate the input fields
-        $this->validate();
+        $validated = $this->validate();
 
         $user = Auth::user();
         $staff = Staff::where('nip', $user->nim_nidn)->first();
@@ -67,14 +68,14 @@ class Update extends Component
         }
 
         $this->tagihan->update([
-            'total_bayar' => $this->tagihan->total_bayar,
+            'total_bayar' => $validated['total_bayar'],
             'metode_pembayaran' => 'Tunai',
             'status_tagihan' => 'Lunas',
             'id_staff' => $this->id_staff,
         ]);
 
         $this->dispatch('TagihanUpdated');
-        $this->reset(['id_staff', 'total_bayar']);
+        $this->reset(['total_bayar']);
     }
 
 

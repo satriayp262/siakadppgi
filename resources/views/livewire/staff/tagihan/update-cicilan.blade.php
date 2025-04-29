@@ -37,15 +37,46 @@
                         </div>
 
                         <div class="mb-4">
+                            <label for="tanggal_pembayaran" class="block text-sm font-medium text-gray-700">Tanggal
+                                Pembayaran</label>
+                            <input type="datetime-local" id="tanggal_pembayaran" wire:model="tanggal_pembayaran"
+                                name="tanggal_pembayaran"
+                                class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
+                            @error('tanggal_pembayaran')
+                                <span class="text-sm text-red-500">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="bulan" class="block text-sm font-medium text-gray-700">Bulan</label>
+                            <select id="bulan" wire:model="bulan" name="bulan"
+                                class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
+                                <option disabled value="">Pilih Bulan</option>
+                                @foreach ($listbulan as $b)
+                                    <option value="{{ $b }}">{{ $b }}</option>
+                                @endforeach
+                            </select>
+                            @error('bulan')
+                                <span class="text-sm text-red-500">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="mb-4">
                             <label for="total_bayar" class="block text-sm font-medium text-gray-700">Jumlah
                                 Pembayaran</label>
-                            <input type="text" id="formatted_bayar" wire:model.live="total_bayar" name="total_bayar"
-                                class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm"
-                                oninput="formatCurrency(this);">
+                            <div class="flex">
+                                <span
+                                    class="inline-flex items-center px-2 py-1 mt-1 text-sm text-gray-900 bg-gray-200 border-gray-700 rounded-l-md">Rp.</span>
+                                <input type="text" id="total_bayar" wire:model="total_bayar" name="total_bayar"
+                                    class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-r-md shadow-2xl sm:text-sm"
+                                    oninput="formatCurrency(this)">
+                            </div>
                             @error('total_bayar')
                                 <span class="text-sm text-red-500">{{ $message }}</span>
                             @enderror
                         </div>
+
+
 
 
                         <!-- Submit Button inside the form -->
@@ -86,6 +117,6 @@
         input.value = rupiah;
 
         // Set the actual model value as the unformatted integer value (without dots or commas)
-        @this.set('total_bayar', value.replace(/\./g, ''));
+        @this.set('total_bayar', value.replace(/[^0-9]/g, ''));
     }
 </script>

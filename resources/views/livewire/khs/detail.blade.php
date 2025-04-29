@@ -1,5 +1,8 @@
 <div class="py-1 mx-5">
-
+    <div wire:loading wire:target="download"
+        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-60">
+        <div class="spinner loading-spinner"></div>
+    </div>
     <div class="flex justify-between items-center mt-4 ml-4">
         <nav aria-label="Breadcrumb">
             <ol class="flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
@@ -229,7 +232,9 @@
                                             <td class="px-2 py-1 font-bold text-left  border-gray-500">
                                                 <p>Ijin</p>
                                             </td>
-                                            <td class="px-2 py-1 text-center  border-gray-500 font-bold">= {{ ($presensi->ijin_count ?? 0) == 0 ? '0' : $presensi->ijin_count }} Jam</td>
+                                            <td class="px-2 py-1 text-center  border-gray-500 font-bold">=
+                                                {{ ($presensi->ijin_count ?? 0) == 0 ? '0' : $presensi->ijin_count }}
+                                                Jam</td>
                                             <td class="px-2 py-1 text-center  border-gray-500"></td>
                                             <td class="px-2 py-1 text-center  border-r border-gray-500"></td>
                                         </tr>
@@ -239,7 +244,9 @@
                                             <td class="px-2 py-1 font-bold text-left border-gray-500">
                                                 <p>Sakit</p>
                                             </td>
-                                            <td class="px-2 py-1 text-center  border-gray-500 font-bold">= {{ ($presensi->sakit_count ?? 0) == 0 ? '0' : $presensi->sakit_count }} Jam</td>
+                                            <td class="px-2 py-1 text-center  border-gray-500 font-bold">=
+                                                {{ ($presensi->sakit_count ?? 0) == 0 ? '0' : $presensi->sakit_count }}
+                                                Jam</td>
                                             <td class="px-2 py-1 text-center  border-gray-500"></td>
                                             <td class="px-2 py-1 text-center  border-r border-gray-500"></td>
                                         </tr>
@@ -248,11 +255,12 @@
                                             <td
                                                 class="px-2 py-1 font-bold text-right border-r border-b border-gray-500">
                                             </td>
-                                            <td
-                                                class="px-2 py-1 font-bold text-left border-b  border-gray-500">
+                                            <td class="px-2 py-1 font-bold text-left border-b  border-gray-500">
                                                 <p>Alpa</p>
                                             </td>
-                                            <td class="px-2 py-1 text-center border-b  border-gray-500 font-bold">= {{ ($presensi->alpa_count ?? 0) == 0 ? '0' : $presensi->alpa_count }} Jam</td>
+                                            <td class="px-2 py-1 text-center border-b  border-gray-500 font-bold">=
+                                                {{ ($presensi->alpa_count ?? 0) == 0 ? '0' : $presensi->alpa_count }}
+                                                Jam</td>
                                             <td class="px-2 py-1 text-center border-b  border-gray-500"></td>
                                             <td class="px-2 py-1 text-center border-b  border-r border-gray-500"></td>
                                         </tr>

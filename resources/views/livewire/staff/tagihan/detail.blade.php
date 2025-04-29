@@ -79,17 +79,34 @@
                                 {{ $formattedTotalTagihan }}
                             </td>
                             <td class="px-4 py-2 text-center">
-                                @php
-                                    $status = [
-                                        'Menunggu Pembayaran' => 'bg-red-100 text-red-800',
-                                        'Lunas' => 'bg-blue-400 text-white px-2 py-0.5 rounded-full',
-                                    ];
-                                    $status = $status[$tagihan->status_tagihan] ?? 'bg-gray-500';
-                                @endphp
-                                <span class="me-2 px-2.5 py-0.5 text-xs rounded-full {{ $status }}"
-                                    style="width: 80px;">
-                                    {{ ucfirst($tagihan->status_tagihan) }}
-                                </span>
+                                @if ($tagihan->status_tagihan == 'Belum Lunas')
+                                    @php
+                                        $x = $tagihan->cicilan_bpp->sortByDesc('created_at')->first();
+                                        $progressPercentage = round(($x->cicilan_ke / 6) * 100, 2);
+                                    @endphp
+                                    <div class="flex justify-center items-center">
+                                        <div class="w-full bg-gray-200 rounded-full"
+                                            style="height: 20px; width: 150px;">
+                                            <div class="bg-indigo-300 me-2 text-xs text-indigo-800 text-center px-2 py-1 leading-none rounded-full"
+                                                style="width: {{ $progressPercentage }}%">
+                                                {{ $x->cicilan_ke . ' / 6' }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                @else
+                                    @php
+                                        $status = [
+                                            'Menunggu Pembayaran' => 'bg-red-100 text-red-800 w-5/6 py-1',
+                                            'Belum Lunas' => 'bg-yellow-100 text-yellow-800 w-full py-1',
+                                            'Lunas' => 'bg-blue-100 px-16 text-blue-800 w-5/6 py-1',
+                                        ];
+                                        $status = $status[$tagihan->status_tagihan] ?? 'bg-gray-500';
+                                    @endphp
+                                    <span class="me-2 px-2.5 py-0.5 text-xs rounded-full {{ $status }}"
+                                        style="width: 80px;">
+                                        {{ ucfirst($tagihan->status_tagihan) }}
+                                    </span>
+                                @endif
                             </td>
                             <td class="px-4 py-2 text-center italic font-semibold">
                                 @php
@@ -98,45 +115,60 @@
                                 {{ $formattedTotalBayar }}
                             </td>
                             <td class="px-4 py-2 text-center justify-items-center">
-
-                                @if ($tagihan->bisa_dicicil == '1')
-                                    <div class="relative inline-block">
-                                        <button id="dropdownBayarButton-{{ $tagihan->id_tagihan }}"
-                                            data-dropdown-toggle="dropdownBayar-{{ $tagihan->id_tagihan }}"
-                                            data-dropdown-delay="500"
-                                            class="flex items-center px-3 py-1 font-sm text-white bg-purple2 rounded hover:bg-customPurple">
-                                            Update Bayar
-                                        </button>
-
-                                        <div id="dropdownBayar-{{ $tagihan->id_tagihan }}"
-                                            class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
-                                            <ul class="py-2 text-sm text-gray-500"
-                                                aria-labelledby="dropdownBayarButton-{{ $tagihan->id_tagihan }}">
-                                                <li>
-                                                    <button
-                                                        wire:click="updatePembayaran({{ $tagihan->id_tagihan }} , 'Lunas')"
-                                                        class="block w-full text-left px-4 py-2 hover:bg-gray-100">
-                                                        Bayar Penuh
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button
-                                                        wire:click="updatePembayaran({{ $tagihan->id_tagihan }}, 'Cicil')"
-                                                        class="block w-full text-left px-4 py-2 hover:bg-gray-100">
-                                                        Cicilan
-                                                    </button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                @else
+                                @if ($tagihan->status_tagihan == 'Lunas')
+                                    <button
+                                        class="flex items-center px-3 py-1 font-sm text-white bg-gray-300 rounded cursor-not-allowed"
+                                        disabled>
+                                        Update Bayar
+                                    </button>
+                                @elseif ($tagihan->status_tagihan == 'Belum Lunas')
                                     <button
                                         class="flex items-center px-3 py-1 font-sm text-white bg-purple2 rounded hover:bg-customPurple"
-                                        wire:click="updatePembayaran({{ $tagihan->id_tagihan }} , 'Lunas')"
+                                        wire:click="updatePembayaran({{ $tagihan->id_tagihan }} , 'Cicil')"
                                         class="block w-full text-left px-4 py-2 hover:bg-gray-100">
                                         Update Bayar
                                     </button>
+                                @else
+                                    @if ($tagihan->bisa_dicicil == '1')
+                                        <div class="relative inline-block">
+                                            <button id="dropdownBayarButton-{{ $tagihan->id_tagihan }}"
+                                                data-dropdown-toggle="dropdownBayar-{{ $tagihan->id_tagihan }}"
+                                                data-dropdown-delay="500"
+                                                class="flex items-center px-3 py-1 font-sm text-white bg-purple2 rounded hover:bg-customPurple">
+                                                Update Bayar
+                                            </button>
+
+                                            <div id="dropdownBayar-{{ $tagihan->id_tagihan }}"
+                                                class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
+                                                <ul class="py-2 text-sm text-gray-500"
+                                                    aria-labelledby="dropdownBayarButton-{{ $tagihan->id_tagihan }}">
+                                                    <li>
+                                                        <button
+                                                            wire:click="updatePembayaran({{ $tagihan->id_tagihan }} , 'Lunas')"
+                                                            class="block w-full text-left px-4 py-2 hover:bg-gray-100">
+                                                            Bayar Penuh
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button
+                                                            wire:click="updatePembayaran({{ $tagihan->id_tagihan }}, 'Cicil')"
+                                                            class="block w-full text-left px-4 py-2 hover:bg-gray-100">
+                                                            Cicilan
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    @else
+                                        <button
+                                            class="flex items-center px-3 py-1 font-sm text-white bg-purple2 rounded hover:bg-customPurple"
+                                            wire:click="updatePembayaran({{ $tagihan->id_tagihan }} , 'Lunas')"
+                                            class="block w-full text-left px-4 py-2 hover:bg-gray-100">
+                                            Update Bayar
+                                        </button>
+                                    @endif
                                 @endif
+
 
                                 @if ($cicil == 'Lunas')
                                     <livewire:staff.tagihan.update :id_tagihan="$id"

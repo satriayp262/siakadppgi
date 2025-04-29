@@ -18,8 +18,7 @@
                     </li>
                 </ol>
             </nav>
-            <input type="text" wire:model.live="search" placeholder="   Search"
-                class="px-2 ml-4 py-2 border border-gray-300 rounded-lg">
+           
         </div>
     </div>
 

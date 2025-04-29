@@ -135,11 +135,11 @@ class Show extends Component
             ->where('id_mata_kuliah', $this->id_mata_kuliah)
             ->orderByRaw("
         CASE 
-            WHEN nama_aktifitas IN ('UTS', 'UAS', 'Lainnya') THEN 
+            WHEN nama_aktifitas IN ('UTS', 'UAS', 'Partisipasi') THEN 
                 CASE 
                     WHEN nama_aktifitas = 'UTS' THEN 2
                     WHEN nama_aktifitas = 'UAS' THEN 3
-                    WHEN nama_aktifitas = 'Lainnya' THEN 4
+                    WHEN nama_aktifitas = 'Partisipasi' THEN 4
                     ELSE 1
                 END
             ELSE 1

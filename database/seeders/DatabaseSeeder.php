@@ -93,11 +93,9 @@ class DatabaseSeeder extends Seeder
             Prodi::factory()->create($prodi);
         }
 
-
-
         Semester::factory()->create([
             'nama_semester' => '20201',
-            'bulan_mulai' => '2019-09',
+            'bulan_mulai' => '2019-08',
             'bulan_selesai' => '2020-01',
             'is_active' => 0,
         ]);
@@ -105,13 +103,13 @@ class DatabaseSeeder extends Seeder
         Semester::factory()->create([
             'nama_semester' => '20202',
             'bulan_mulai' => '2020-02',
-            'bulan_selesai' => '2020-08',
+            'bulan_selesai' => '2020-07',
             'is_active' => 0,
         ]);
 
         Semester::factory()->create([
             'nama_semester' => '20211',
-            'bulan_mulai' => '2020-09',
+            'bulan_mulai' => '2020-08',
             'bulan_selesai' => '2021-01',
             'is_active' => 0,
         ]);
@@ -119,13 +117,13 @@ class DatabaseSeeder extends Seeder
         Semester::factory()->create([
             'nama_semester' => '20212',
             'bulan_mulai' => '2021-02',
-            'bulan_selesai' => '2021-08',
+            'bulan_selesai' => '2021-07',
             'is_active' => 0,
         ]);
 
         Semester::factory()->create([
             'nama_semester' => '20221',
-            'bulan_mulai' => '2021-09',
+            'bulan_mulai' => '2021-08',
             'bulan_selesai' => '2022-01',
             'is_active' => 0,
         ]);
@@ -133,13 +131,13 @@ class DatabaseSeeder extends Seeder
         Semester::factory()->create([
             'nama_semester' => '20222',
             'bulan_mulai' => '2022-02',
-            'bulan_selesai' => '2022-08',
+            'bulan_selesai' => '2022-07',
             'is_active' => 0,
         ]);
 
         Semester::factory()->create([
             'nama_semester' => '20231',
-            'bulan_mulai' => '2022-09',
+            'bulan_mulai' => '2022-08',
             'bulan_selesai' => '2023-01',
             'is_active' => 0,
         ]);
@@ -147,13 +145,13 @@ class DatabaseSeeder extends Seeder
         Semester::factory()->create([
             'nama_semester' => '20232',
             'bulan_mulai' => '2023-02',
-            'bulan_selesai' => '2023-08',
+            'bulan_selesai' => '2023-07',
             'is_active' => 0,
         ]);
 
         Semester::factory()->create([
             'nama_semester' => '20241',
-            'bulan_mulai' => '2023-09',
+            'bulan_mulai' => '2023-08',
             'bulan_selesai' => '2024-01',
             'is_active' => 0,
         ]);
@@ -161,13 +159,13 @@ class DatabaseSeeder extends Seeder
         Semester::factory()->create([
             'nama_semester' => '20242',
             'bulan_mulai' => '2024-02',
-            'bulan_selesai' => '2024-08',
+            'bulan_selesai' => '2024-07',
             'is_active' => 0,
         ]);
 
         Semester::factory()->create([
             'nama_semester' => '20251',
-            'bulan_mulai' => '2024-09',
+            'bulan_mulai' => '2024-08',
             'bulan_selesai' => '2025-01',
             'is_active' => 0,
         ]);
@@ -175,7 +173,7 @@ class DatabaseSeeder extends Seeder
         Semester::factory()->create([
             'nama_semester' => '20252',
             'bulan_mulai' => '2025-02',
-            'bulan_selesai' => '2025-08',
+            'bulan_selesai' => '2025-07',
             'is_active' => 1,
         ]);
 
@@ -482,7 +480,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Pertanyaan::factory()->create([
-            'nama_pertanyaan' => 'Penampilan berpakaian dosen (Rate Outfit) '
+            'nama_pertanyaan' => 'Penampilan berpakaian dosen'
         ]);
 
         Pertanyaan::factory()->create([

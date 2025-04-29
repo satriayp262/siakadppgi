@@ -1,4 +1,8 @@
 <div x-data="{ isOpen: false }" @modal-closed.window="isOpen = false" >
+    <div wire:loading wire:target="update"
+        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-60">
+        <div class="spinner loading-spinner"></div>
+    </div>
     <!-- Button to open the modal -->
     <button @click="isOpen=true" class="inline-block px-4 py-2  text-white bg-blue-500 rounded hover:bg-blue-700"><svg
             class="w-8 h-8 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -20,7 +24,7 @@
                     <button class="text-gray-900">&times;</button>
                 </div>
             </div>
-            <div class="p-4 text-left"> <!-- Added text-left here -->
+            <div class="p-4 text-left"> 
                 <div class="p-4 max-h-[500px] overflow-y-auto">
                     <form wire:submit="update" class="flex space-x-2">
                         <input type="text" hidden wire:model="id_kelas">

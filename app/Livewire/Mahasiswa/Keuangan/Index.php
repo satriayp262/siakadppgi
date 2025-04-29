@@ -9,8 +9,10 @@ use App\Models\Semester;
 use App\Models\Transaksi;
 use Livewire\Attributes\On;
 use Auth;
+use Livewire\WithPagination;
 use Midtrans\Snap;
 use Illuminate\Support\Facades\Crypt;
+
 use Illuminate\Support\Str;
 
 class Index extends Component
@@ -18,6 +20,8 @@ class Index extends Component
     public $id_tagihan;
     public $snapToken;
     public $tagihan;
+
+    use WithPagination;
 
     public function bayar($id_tagihan, $metode_pembayaran)
     {
@@ -88,7 +92,7 @@ class Index extends Component
 
         $tagihans = Tagihan::with('mahasiswa')->whereHas('mahasiswa', function ($query) use ($user) {
             $query->where('NIM', $user->nim_nidn); // Match the user with mahasiswa
-        })->get();
+        })->paginate(5);
 
         // dd($tagihans);
 
