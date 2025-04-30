@@ -27,16 +27,14 @@ class LogRequests
 
     public function terminate($request, $response)
     {
-        $input = $request->except(['_token']);
+        $input = $request->except([ '_token']);
 
-        // if (!empty($input)) {
-            RequestLog::create([
-                'method' => $request->method(),
-                'url' => $request->fullUrl(),
-                'ip' => $request->ip(),
-                'input' => json_encode($input),
-                'status_code' => method_exists($response, 'getStatusCode') ? $response->getStatusCode() : null,
-            ]);
-        // }
+        RequestLog::create([
+            'method' => $request->method(),
+            'url' => $request->fullUrl(),
+            'ip' => $request->ip(),
+            'input' => json_encode($input),
+            'status_code' => method_exists($response, 'getStatusCode') ? $response->getStatusCode() : null,
+        ]);
     }
 }

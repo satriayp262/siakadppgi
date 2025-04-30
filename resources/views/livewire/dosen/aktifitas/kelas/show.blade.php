@@ -45,8 +45,8 @@
                 <!-- Button to open the modal -->
                 <button @click="isOpen=true; load=true"
                     class="flex items-center text-[10px] md:text-[16px] px-2 sm:px-2 py-1 sm:py-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">
-                    <svg class="mr-1 md:mr-2 w-4 sm:w-6 h-4 sm:h-6" xmlns="http://www.w3.org/2000/svg" width="26"
-                        height="26" viewBox="0 0 48 48">
+                    <svg class="mr-1 md:mr-2 w-4 sm:w-6 h-4 sm:h-6" xmlns="http://www.w3.org/2000/svg" width="26" height="26"
+                        viewBox="0 0 48 48">
                         <path fill="#169154" d="M29,6H15.744C14.781,6,14,6.781,14,7.744v7.259h15V6z"></path>
                         <path fill="#18482a" d="M14,33.054v7.202C14,41.219,14.781,42,15.743,42H29v-8.946H14z">
                         </path>
@@ -151,8 +151,8 @@
             <div>
                 <button wire:click="export"
                     class="flex items-center text-[10px] md:text-[16px] px-2 sm:px-2 py-1 sm:py-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">
-                    <svg class="mr-1 md:mr-2 w-4 sm:w-6 h-4 sm:h-6" xmlns="http://www.w3.org/2000/svg" width="26"
-                        height="26" c viewBox="0 0 48 48">
+                    <svg class="mr-1 md:mr-2 w-4 sm:w-6 h-4 sm:h-6" xmlns="http://www.w3.org/2000/svg" width="26" height="26" c
+                        viewBox="0 0 48 48">
                         <path fill="#169154" d="M29,6H15.744C14.781,6,14,6.781,14,7.744v7.259h15V6z"></path>
                         <path fill="#18482a" d="M14,33.054v7.202C14,41.219,14.781,42,15.743,42H29v-8.946H14z">
                         </path>
@@ -223,40 +223,36 @@
             @endif
         </div>
     </div>
-    <style>
-        #aktifitasTable_filter {
-            margin-bottom: 1rem;
-            /* adjust as needed */
 
-        }
-    </style>
     <div class="bg-white shadow-lg p-2 sm:p-4 mt-2 sm:mt-4 mb-2 sm:mb-4 rounded-lg max-w-full">
-        <h2 class="px-4 font-bold text-[20px] mb-4">
+        <h2 class="px-4 font-bold text-[20px]">
             {{ str_replace('-', '/', $nama_kelas) . '  (' . $kode_mata_kuliah . ')' }}
         </h2>
-        <table id="aktifitasTable" class="min-w-full mt-2 sm:mt-4 bg-white text-xs sm:text-sm border border-gray-200">
+        <table class="min-w-full mt-2 sm:mt-4 bg-white text-xs sm:text-sm border border-gray-200">
             <thead>
                 <tr class="items-center w-full text-white align-middle bg-gray-800">
                     {{-- <th class="px-2 sm:px-4 py-1 sm:py-2 text-center">Nama Kelas</th> --}}
-                    <th class="border border-gray-700 px-2 sm:px-4 py-1 sm:py-2 text-center">Nama aktifitas</th>
-                    <th class="border border-gray-700 px-2 sm:px-4 py-1 sm:py-2 text-center">Catatan</th>
-                    <th class="border border-gray-700 px-2 sm:px-4 py-1 sm:py-2 text-center">Aksi</th>
+                    <th class="px-2 sm:px-4 py-1 sm:py-2 text-center">Nama aktifitas</th>
+                    <th class="px-2 sm:px-4 py-1 sm:py-2 text-center">Catatan</th>
+                    <th class="px-2 sm:px-4 py-1 sm:py-2 text-center">Aksi</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($aktifitas as $item)
                     <tr wire:key="item-{{ $item->id_aktifitas }}">
                         {{-- <td class="px-2 sm:px-4 py-1 sm:py-2 text-center">{{ $item->kelas->nama_kelas }}</td> --}}
-                        <td class="border border-gray-300 px-2 sm:px-4 py-1 sm:py-2 text-center">
-                            {{ $item->nama_aktifitas }}</td>
-                        <td class="border border-gray-300 px-2 sm:px-4 py-1 sm:py-2 text-center">
+                        <td class="px-2 sm:px-4 py-1 sm:py-2 text-center">{{ $item->nama_aktifitas }}</td>
+                        <td class="px-2 sm:px-4 py-1 sm:py-2 text-center">
                             {{ $item->catatan ?? 'Belum ada Catatan' }}
                         </td>
-                        <td class="border border-gray-300 px-2 sm:px-4 py-1 sm:py-2 text-center">
+                        <td class="px-2 sm:px-4 py-1 sm:py-2 text-center">
                             <div class="flex flex-row justify-center space-x-1 sm:space-x-2">
-                                <livewire:dosen.aktifitas.kelas.edit :id_aktifitas="$item->id_aktifitas" :$id_kelas :$id_mata_kuliah
+                                <livewire:dosen.aktifitas.kelas.edit 
+                                    :id_aktifitas="$item->id_aktifitas" 
+                                    :$id_kelas 
+                                    :$id_mata_kuliah 
                                     wire:key="edit-{{ rand() . $item->id_aktifitas }}" />
-
+    
                                 <button
                                     class="inline-block px-2 sm:px-4 py-1 sm:py-2 text-white bg-red-500 rounded hover:bg-red-700"
                                     wire:key="delete-{{ $item->id_aktifitas }}"
@@ -268,7 +264,7 @@
                                             d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
                                     </svg>
                                 </button>
-
+    
                                 <a href="{{ route('dosen.aktifitas.kelas.aktifitas', ['kode_mata_kuliah' => $kode_mata_kuliah, 'nama_kelas' => str_replace('/', '-', $nama_kelas), 'nama_aktifitas' => $item->nama_aktifitas]) }}"
                                     class="py-1 sm:py-2 px-3 sm:px-5 bg-blue-500 hover:bg-blue-700 rounded text-white text-sm">
                                     ▶
@@ -280,7 +276,7 @@
             </tbody>
         </table>
     </div>
-
+    
 </div>
 <script>
     function confirmDelete(id_aktifitas) {
@@ -298,21 +294,4 @@
             }
         });
     }
-</script>
-<script>
-    $(document).ready(function() {
-        $('#aktifitasTable').DataTable({
-            responsive: true,
-            language: {
-                search: "Cari:",
-                lengthMenu: "Tampilkan _MENU_ data",
-                info: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
-                paginate: {
-                    next: "→",
-                    previous: "←"
-                },
-                zeroRecords: "Tidak ditemukan data yang cocok",
-            }
-        });
-    });
 </script>

@@ -1,12 +1,4 @@
 <div class="mx-5">
-    <div wire:loading wire:target="import,export,destroy"
-        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-60">
-        <div class="spinner loading-spinner"></div>
-    </div>
-    <div id="table-loader"
-        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-60">
-        <div class="spinner loading-spinner"></div>
-    </div>
     <div class="flex flex-col mx-4 mt-2">
         <div class="flex justify-between mt-2">
             <div class="flex space-x-2">
@@ -146,14 +138,13 @@
                     Export
                 </button>
                 @if ($showDeleteButton)
-                    <button id="deleteButton"
-                        class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700"
+                    <button id="deleteButton" class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700"
                         onclick="confirmDeleteSelected()">
                         Hapus Data Terpilih
                     </button>
                 @endif
             </div>
-            {{-- <div class="flex justify-end">
+            <div class="flex justify-end">
                 <button id="dropdownDelayButton" data-dropdown-toggle="dropdownDelay" data-dropdown-delay="500"
                     data-dropdown-trigger="hover"
                     class="text-white bg-purple2 hover:bg-customPurple font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
@@ -243,7 +234,7 @@
                 <!-- Search Input -->
                 <input type="text" wire:model.live="search" placeholder="   Search"
                     class="px-2 ml-4 border border-gray-300 rounded-lg focus:ring focus:ring-blue-300">
-            </div> --}}
+            </div>
         </div>
         <div>
             @if (session()->has('message'))
@@ -294,10 +285,10 @@
     </div>
 
     <div class="max-w-full p-4 mt-4 mb-4 bg-white rounded-lg shadow-lg">
-        <table id="mahasiswaTable" class="min-w-full mt-4 bg-white border border-gray-200">
+        <table class="min-w-full mt-4 bg-white border border-gray-200">
             <thead>
                 <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
-                    {{-- <th class="px-4 py-2"><input type="checkbox" id="selectAll" wire:model="selectAll"></th> --}}
+                    <th class="px-4 py-2"><input type="checkbox" id="selectAll" wire:model="selectAll"></th>
                     <th class="px-4 py-2 text-center">No</th>
                     <th class="px-4 py-2 text-center">Nama Mahasiswa</th>
                     <th class="px-4 py-2 text-center">NIM Mahasiswa</th>
@@ -309,22 +300,18 @@
             <tbody>
                 @foreach ($mahasiswas as $mahasiswa)
                     <tr class="border-t" wire:key="matkul-{{ $mahasiswa->id_mahasiswa }}">
-                        {{-- <td class="border border-gray-300 px-4 py-2 text-center">
+                        <td class="px-4 py-2 text-center">
                             <input type="checkbox" class="selectRow" wire:model="selectedMahasiswa"
                                 value="{{ $mahasiswa->id_mahasiswa }}">
-                        </td> --}}
-                        <td class="border border-gray-300 px-4 py-2 text-center">
-                            {{ $loop->iteration }}
                         </td>
-                        <td class="border border-gray-300 px-4 py-2 text-center">{{ $mahasiswa->nama }}</td>
-                        <td class="border border-gray-300 px-4 py-2 text-center">{{ $mahasiswa->NIM }}</td>
-                        <td class="border border-gray-300 px-4 py-2 text-center">
-                            {{ $mahasiswa->semesterDifference }}
+                        <td class="px-4 py-2 text-center">
+                            {{ ($mahasiswas->currentPage() - 1) * $mahasiswas->perPage() + $loop->iteration }}
                         </td>
-                        <td class="border border-gray-300 px-4 py-2 text-center">
-                            {{ $mahasiswa->prodi->nama_prodi }}
-                        </td>
-                        <td class="border border-gray-300 px-4 py-2 text-center">
+                        <td class="px-4 py-2 text-center">{{ $mahasiswa->nama }}</td>
+                        <td class="px-4 py-2 text-center">{{ $mahasiswa->NIM }}</td>
+                        <td class="px-4 py-2 text-center">{{ $mahasiswa->semesterDifference }}</td>
+                        <td class="px-4 py-2 text-center">{{ $mahasiswa->prodi->nama_prodi }}</td>
+                        <td class="px-4 py-2 text-center">
                             <div class="flex flex-col">
                                 <div class="flex justify-center space-x-2">
                                     <livewire:admin.mahasiswa.show :id_mahasiswa="$mahasiswa->id_mahasiswa"
@@ -350,40 +337,10 @@
             </tbody>
         </table>
         <!-- Pagination Controls -->
-        {{-- <div class="mt-4 mb-4 text-center">
+        <div class="mt-4 mb-4 text-center">
             {{ $mahasiswas->links('') }}
-        </div> --}}
+        </div>
     </div>
-    <style>
-        #mahasiswaTable_filter {
-            margin-bottom: 1rem;
-            /* adjust as needed */
-
-        }
-    </style>
-    <script>
-        $(document).ready(function() {
-            $('#mahasiswaTable').DataTable({
-                paging: true, // Disable pagination
-                info: true, // Hide "Showing X to Y of Z" info
-                searching: true, // Enable search bar
-                responsive: true,
-                language: {
-                    search: "Cari:",
-                    lengthMenu: "Tampilkan _MENU_ data", // You can remove or modify this text if needed
-                    zeroRecords: "Tidak ditemukan data yang cocok",
-                    paginate: {
-                        next: "→",
-                        previous: "←"
-                    },
-                },
-                initComplete: function() {
-                    // Hide the loader when DataTable is fully initialized
-                    $('#table-loader').hide();
-                }
-            });
-        });
-    </script>
 
     <script>
         function confirmDelete(id, nama) {

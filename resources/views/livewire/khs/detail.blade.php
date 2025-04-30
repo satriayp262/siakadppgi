@@ -233,7 +233,7 @@
                                                 <p>Ijin</p>
                                             </td>
                                             <td class="px-2 py-1 text-center  border-gray-500 font-bold">=
-                                                {{ $presensi->ijin_count }}
+                                                {{ ($presensi->ijin_count ?? 0) == 0 ? '0' : $presensi->ijin_count }}
                                                 Jam</td>
                                             <td class="px-2 py-1 text-center  border-gray-500"></td>
                                             <td class="px-2 py-1 text-center  border-r border-gray-500"></td>
@@ -245,7 +245,7 @@
                                                 <p>Sakit</p>
                                             </td>
                                             <td class="px-2 py-1 text-center  border-gray-500 font-bold">=
-                                                {{  $presensi->sakit_count }}
+                                                {{ ($presensi->sakit_count ?? 0) == 0 ? '0' : $presensi->sakit_count }}
                                                 Jam</td>
                                             <td class="px-2 py-1 text-center  border-gray-500"></td>
                                             <td class="px-2 py-1 text-center  border-r border-gray-500"></td>
@@ -259,7 +259,7 @@
                                                 <p>Alpa</p>
                                             </td>
                                             <td class="px-2 py-1 text-center border-b  border-gray-500 font-bold">=
-                                                {{ $presensi->alpa_count }}
+                                                {{ ($presensi->alpa_count ?? 0) == 0 ? '0' : $presensi->alpa_count }}
                                                 Jam</td>
                                             <td class="px-2 py-1 text-center border-b  border-gray-500"></td>
                                             <td class="px-2 py-1 text-center border-b  border-r border-gray-500"></td>
