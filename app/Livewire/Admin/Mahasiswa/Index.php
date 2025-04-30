@@ -18,7 +18,6 @@ use App\Imports\MahasiswaImport;
 class Index extends Component
 {
     use WithFileUploads;
-    use WithPagination;
 
     public $search = '';
 
@@ -29,7 +28,6 @@ class Index extends Component
     public $selectedprodi = '';
     public $file;
     public $importing = false;
-
 
     protected $updatesQueryString = ['search'];
 
@@ -47,12 +45,13 @@ class Index extends Component
 
             $this->selectedMahasiswa = [];
         }
+        dd($this->selectedMahasiswa);
     }
 
     public function updatedselectedMahasiswa()
     {
-
-        $this->showDeleteButton = count($this->selectedMahasiswa) > 0;
+        dd('asd');
+                $this->showDeleteButton = count($this->selectedMahasiswa) > 0;
     }
 
     public function destroySelected()
@@ -176,16 +175,16 @@ class Index extends Component
             ->latest()
             ->get();
 
-        $query = Mahasiswa::with('semester');
+        $query =  Mahasiswa::latest();
 
-        if ($this->search) {
-            $query->where('nama', 'like', '%' . $this->search . '%')
-                ->orWhere('NIM', 'like', '%' . $this->search . '%')
-                ->orWhereHas('prodi', function ($query) {
-                    $query->where('nama_prodi', 'like', '%' . $this->search . '%');
-                })
-                ->orWhere('email', 'like', '%' . $this->search . '%');
-        }
+        // if ($this->search) {
+        //     $query->where('nama', 'like', '%' . $this->search . '%')
+        //         ->orWhere('NIM', 'like', '%' . $this->search . '%')
+        //         ->orWhereHas('prodi', function ($query) {
+        //             $query->where('nama_prodi', 'like', '%' . $this->search . '%');
+        //         })
+        //         ->orWhere('email', 'like', '%' . $this->search . '%');
+        // }
 
         if ($this->selectedprodi) {
             $query->whereHas('prodi', function ($query) {
@@ -200,7 +199,7 @@ class Index extends Component
         }
 
         return view('livewire.admin.mahasiswa.index', [
-            'mahasiswas' => $query->latest()->paginate(20),
+            'mahasiswas' =>$query->get(),
             'semesters' => $semesters,
             'Prodis' => $prodis,
         ]);

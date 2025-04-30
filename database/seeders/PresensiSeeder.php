@@ -88,7 +88,7 @@ class PresensiSeeder extends Seeder
                                         'nim' => $khs->NIM,
                                         'token' => $token->token,
                                         'waktu_submit' => Carbon::now(),
-                                        'keterangan' => (rand(1, 10) <= 9) ? 'Hadir' : ['Sakit', 'Izin', 'Alpha'][array_rand(['Sakit', 'Izin', 'Alpha'])],
+                                        'keterangan' => (rand(1, 10) <= 9) ? 'Hadir' : ['Sakit', 'Ijin', 'Alpha'][array_rand(['Sakit', 'Ijin', 'Alpha'])],
                                         'alasan' => null,
                                         'id_kelas' => $khs->id_kelas,
                                         'id_mata_kuliah' => $khs->id_mata_kuliah,
