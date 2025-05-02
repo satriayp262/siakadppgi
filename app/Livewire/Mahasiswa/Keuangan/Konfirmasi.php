@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Mahasiswa\Keuangan;
 
+use App\Models\Cicilan_BPP;
 use App\Models\Mahasiswa;
 use App\Models\Semester;
 use App\Models\Tagihan;
@@ -44,6 +45,63 @@ class Konfirmasi extends Component
         ];
     }
 
+    public function listbulan()
+    {
+        $semester = Semester::where('nama_semester', $this->id_semester)->first();
+        $awalbulan = $semester->bulan_mulai;
+        $akhirbulan = $semester->bulan_selesai;
+
+        $bulan1 = (int) substr($awalbulan, 5, 2);
+        $bulan2 = (int) substr($akhirbulan, 5, 2);
+        $tahun1 = (int) substr($awalbulan, 0, 4);
+        $tahun2 = (int) substr($akhirbulan, 0, 4);
+
+        $namaBulan = [
+            1 => 'Januari',
+            2 => 'Februari',
+            3 => 'Maret',
+            4 => 'April',
+            5 => 'Mei',
+            6 => 'Juni',
+            7 => 'Juli',
+            8 => 'Agustus',
+            9 => 'September',
+            10 => 'Oktober',
+            11 => 'November',
+            12 => 'Desember',
+        ];
+
+        $dropdown = [];
+
+        // Tangani jika beda tahun (misal: Nov 2024 - Feb 2025)
+        if ($tahun1 == $tahun2) {
+            for ($i = $bulan1; $i <= $bulan2; $i++) {
+                $dropdown[] = $namaBulan[$i] . ' ' . $tahun1;
+            }
+        } else {
+            // Tahun pertama
+            for ($i = $bulan1; $i <= 12; $i++) {
+                $dropdown[] = $namaBulan[$i] . ' ' . $tahun1;
+            }
+            // Tahun kedua
+            for ($i = 1; $i <= $bulan2; $i++) {
+                $dropdown[] = $namaBulan[$i] . ' ' . $tahun2;
+            }
+        }
+
+        //cek apakah sudah ada di cicilan
+        $cicilan = Cicilan_BPP::where('id_tagihan', $this->id_tagihan)->get();
+        $bulancicilan = [];
+
+        foreach ($cicilan as $item) {
+            $bulancicilan[] = $item->bulan;
+        }
+
+        $dropdown = array_diff($dropdown, $bulancicilan);
+
+        return $dropdown;
+    }
+
     public function save()
     {
 
@@ -68,8 +126,6 @@ class Konfirmasi extends Component
         }
 
         $nim = auth()->user()->nim_nidn;
-
-
 
         $imageName = 'konfirmasi_pembayaran_' . $nim . '_' . time() . '.' . $this->bukti->extension();
 
@@ -102,6 +158,9 @@ class Konfirmasi extends Component
         $tagihan = Tagihan::with('semester')
             ->where('NIM', $mahasiswa->NIM)
             ->where('status_tagihan', '!=', 'Lunas')
+            ->get();
+
+        $cicilan = Cicilan_BPP::where('id_tagihan', $this->id_tagihan)
             ->get();
 
         return view('livewire.mahasiswa.keuangan.konfirmasi', [

@@ -21,6 +21,7 @@ class Transaksi extends Model
         'snap_token',
         'status',
         'order_id',
+        'bulan',
     ];
 
     use HasFactory;

@@ -13,7 +13,7 @@ class Konfirmasi_Pembayaran extends Model
     protected $fillable = [
         'id_tagihan',
         'bukti_pembayaran',
-        'NIM',
+        'bulan',
         'jumlah_pembayaran',
         'tanggal_pembayaran',
     ];
@@ -21,9 +21,5 @@ class Konfirmasi_Pembayaran extends Model
     public function tagihan()
     {
         return $this->belongsTo(Tagihan::class, 'id_tagihan', 'id_tagihan');
-    }
-    public function mahasiswa()
-    {
-        return $this->belongsTo(Mahasiswa::class, 'NIM', 'NIM');
     }
 }

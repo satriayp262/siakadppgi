@@ -15,7 +15,6 @@ class Cicilan_BPP extends Model
         'id_transaksi',
         'id_konfirmasi',
         'metode_pembayaran',
-        'id_semester',
         'jumlah_bayar',
         'tanggal_bayar',
         'cicilan_ke',
@@ -25,10 +24,6 @@ class Cicilan_BPP extends Model
     public function tagihan()
     {
         return $this->belongsTo(Tagihan::class, 'id_tagihan', 'id_tagihan');
-    }
-    public function semester()
-    {
-        return $this->belongsTo(Semester::class, 'id_semester', 'id_semester');
     }
     public function transaksi()
     {

@@ -26,28 +26,34 @@ class UpdateCicilan extends Component
     {
         $this->tagihan = Tagihan::find($this->id_tagihan);
         $hitung_cicilan = Cicilan_BPP::where('id_tagihan', $this->id_tagihan)->count();
+
         $user = auth()->user();
         $this->id_staff = $user->nim_nidn;
-        $total = $this->tagihan->total_tagihan;
-        $cicil = round($total / 6, -3);
-
-        //untuk pembuatan cicilan
-        if ($cicil * 6 < $total) {
-            $cicil = $cicil + 500;
-            if ($hitung_cicilan > 4) {
-                $cicil = $total - ($cicil * 5);
-            }
-        }
 
         if ($this->tagihan) {
             $this->NIM = $this->tagihan->mahasiswa->NIM;
             $this->total_tagihan = $this->tagihan->total_tagihan;
             $this->id_semester = $this->tagihan->semester->nama_semester;
             $this->status_tagihan = $this->tagihan->status_tagihan;
-            $this->total_bayar = $cicil;
         }
 
+        $total = $this->total_tagihan;
         $this->listbulan = $this->listbulan();
+
+        $hitung_bulan = count($this->listbulan);
+        $cicil = round($total / $hitung_bulan, -3);
+
+        //untuk pembuatan cicilan
+        if ($cicil * $hitung_bulan < $total) {
+            $cicil = $cicil + 500;
+            if ($hitung_cicilan > 4) {
+                $cicil = $total - ($cicil * ($hitung_bulan - 1));
+            }
+        }
+
+        $this->total_bayar = $cicil;
+
+
     }
     public function rules()
     {
@@ -152,11 +158,8 @@ class UpdateCicilan extends Component
 
         $tagihan->save();
 
-        $semester = Semester::where('nama_semester', $this->id_semester)->first();
-
         $cicilan = Cicilan_BPP::create([
             'id_tagihan' => $this->id_tagihan,
-            'id_semester' => $semester->id_semester,
             'jumlah_bayar' => $validatedata['total_bayar'],
             'tanggal_bayar' => $validatedata['tanggal_pembayaran'],
             'cicilan_ke' => $count_cicilan,

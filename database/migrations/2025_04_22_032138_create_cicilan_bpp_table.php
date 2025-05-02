@@ -14,8 +14,6 @@ return new class extends Migration {
             $table->integer('id_cicilan')->autoIncrement()->primary();
             $table->integer('id_tagihan');
             $table->foreign('id_tagihan')->references('id_tagihan')->on('tagihan')->onDelete('cascade');
-            $table->integer('id_semester');
-            $table->foreign('id_semester')->references('id_semester')->on('semester')->onDelete('cascade');
             $table->uuid('id_transaksi')->nullable();
             $table->foreign('id_transaksi')->references('id_transaksi')->on('transaksi')->onDelete('cascade');
             $table->integer('id_konfirmasi')->nullable();

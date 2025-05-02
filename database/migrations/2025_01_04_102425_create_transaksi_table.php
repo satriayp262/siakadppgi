@@ -22,6 +22,7 @@ return new class extends Migration {
             $table->string('bank')->nullable();
             $table->string('payment_type')->nullable();
             $table->string('tanggal_transaksi')->nullable();
+            $table->string('bulan')->nullable();
             $table->timestamps();
         });
     }
