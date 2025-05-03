@@ -16,7 +16,7 @@ class KRS extends Model
         'id_semester',
         'id_mata_kuliah',
         'id_kelas',
-        'id_prodi',
+        'id_prodi', /// g perlu
     ];
 
     public function prodi()

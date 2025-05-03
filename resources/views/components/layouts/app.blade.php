@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" >
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
+    @vite('resources/js/app.js')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@9.0.3"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <title> {{ $title ?? 'SIAKAD PPGI' }}</title>
     <link rel="icon" href="{!! asset('img/piksi.png') !!}" />
     @livewireStyles

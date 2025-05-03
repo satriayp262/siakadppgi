@@ -14,7 +14,7 @@ class Nilai extends Model
     protected $fillable = [
         'id_aktifitas',
         'NIM',
-        'id_kelas',
+        'id_kelas',// g perlu
         'nilai',
     ];
 

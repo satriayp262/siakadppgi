@@ -38,13 +38,13 @@
                     <ul id="dropdown-sistem"
                         class="{{ request()->routeIs(['admin.user', 'admin.pengumuman', 'admin.staff']) ? '' : 'hidden' }} py-2 space-y-2">
                         <li>
-                            <a href="{{ route('admin.user') }}"
+                            <a wire:navigate.hover href="{{ route('admin.user') }}"
                                 class="flex items-center mx-4 p-2 text-gray-100 rounded-lg group {{ request()->routeIs('admin.user') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 <span class="flex-1 ms-3 whitespace-nowrap">User</span>
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('admin.pengumuman') }}"
+                            <a wire:navigate.hover href="{{ route('admin.pengumuman') }}"
                                 class="flex items-center mx-4 p-2 text-gray-100 rounded-lg group {{ request()->routeIs('admin.pengumuman') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 <span class="flex-1 ms-3 whitespace-nowrap">Pengumuman</span>
                             </a>

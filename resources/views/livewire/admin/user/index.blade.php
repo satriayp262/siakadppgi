@@ -12,7 +12,7 @@
                 @endif
             </div>
             <div class="justify-around space-x-2 flex">
-                <button id="dropdownDelayButton" data-dropdown-toggle="dropdownDelay" data-dropdown-delay="500"
+                {{-- <button id="dropdownDelayButton" data-dropdown-toggle="dropdownDelay" data-dropdown-delay="500"
                     data-dropdown-trigger="hover"
                     class="text-white bg-purple2 hover:bg-customPurple font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
                     type="button"><svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
@@ -60,7 +60,7 @@
                     </ul>
                 </div>
                 <input type="text" wire:model.live="search" placeholder="   Search"
-                    class="px-2 ml-4 border border-gray-300 rounded-lg">
+                    class="px-2 ml-4 border border-gray-300 rounded-lg"> --}}
             </div>
         </div>
         <div>
@@ -99,7 +99,8 @@
     </div>
 
     <div class="max-w-full p-4 mt-4 mb-4 bg-white rounded-lg shadow-lg">
-        <table class="min-w-full mt-4 bg-white border border-gray-200">
+        <livewire:Table.user-table />
+        {{-- <table class="min-w-full mt-4 bg-white border border-gray-200">
             <thead>
                 <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
                     <th class="py-2 px-4"><input type="checkbox" id="selectAll" wire:model="selectAll"></th>
@@ -157,7 +158,7 @@
         <!-- Pagination Controls -->
         <div class="py-8 mt-4 mb-4 text-center">
             {{ $users->links('') }}
-        </div>
+        </div> --}}
     </div>
 
     <script>
@@ -177,32 +178,31 @@
             });
         }
 
-        // Ambil elemen checkbox di header
-        const selectAllCheckbox = document.getElementById('selectAll');
-
-        // Ambil semua checkbox di baris
-        const rowCheckboxes = document.querySelectorAll('.selectRow');
-
-        // Event listener untuk checkbox di header
-        selectAllCheckbox.addEventListener('change', function() {
-            const isChecked = this.checked;
-
-            // Iterasi semua checkbox di row dan ubah status checked sesuai header
-            rowCheckboxes.forEach(function(checkbox) {
-                checkbox.checked = isChecked; // Update status checkbox di baris
+        function confirmDelete(id, name) {
+            Swal.fire({
+                title: `Apakah anda yakin ingin menghapus User ${name}?`,
+                text: "Data yang telah dihapus tidak dapat dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#28a745',
+                confirmButtonText: 'Hapus'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    @this.call('destroy', id);
+                }
             });
+        }
 
-            // Jika Anda menggunakan Livewire, Anda bisa memanggil update pada model
-            @this.set('selectedUser', isChecked ? [...rowCheckboxes].map(cb => cb.value) : []);
-        });
 
-        function confirmDeleteSelected() {
-            const selectedUser = @this.selectedUser; // Dapatkan data dari Livewire
+        window.addEventListener('bulkDelete.alert.user-table-igtxk9-table', (event) => {
+            const ids = event.detail[0].ids;
 
-            console.log(selectedUser); // Tambahkan log untuk memeriksa nilai
+            // console.log(event.detail[0].ids);
+            if (!ids || ids.length === 0) return;
 
             Swal.fire({
-                title: `Apakah anda yakin ingin menghapus ${selectedUser.length} data User?`,
+                title: `Apakah anda yakin ingin menghapus ${ids.length} data User?`,
                 text: "Data yang telah dihapus tidak dapat dikembalikan!",
                 icon: 'warning',
                 showCancelButton: true,
@@ -211,10 +211,11 @@
                 confirmButtonText: 'Hapus'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Panggil method Livewire untuk menghapus data terpilih
-                    @this.call('destroySelected');
+                    // Livewire.find(
+                    //     document.querySelector('[wire\\:id]').getAttribute('wire:id')
+                    // ).call('destroySelected', ids);
+                    @this.call('destroySelected',ids);
                 }
             });
-        }
+        });
     </script>
-</div>

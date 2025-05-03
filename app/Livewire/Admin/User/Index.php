@@ -23,16 +23,16 @@ class Index extends Component
     #[On('UserCreated')]
     public function handleUserCreated()
     {
-        // session()->flash('message', 'User Berhasil di Tambahkan');
-        // session()->flash('message_type', 'success');
+
         $this->dispatch('created', ['message' => 'User Berhasil di Tambahkan']);
     }
 
     #[On('UserUpdated')]
     public function handleUserUpdated()
     {
-        // session()->flash('message', 'User Berhasil di Update');
-        // session()->flash('message_type', 'update');
+
+        $this->dispatch('pg:eventRefresh-user-table-igtxk9-table');
+
         $this->dispatch('updated', ['message' => 'User Berhasil di Update']);
     }
 
@@ -52,31 +52,22 @@ class Index extends Component
         $this->showDeleteButton = count($this->selectedUser) > 0;
     }
 
-    public function destroySelected()
+    public function destroySelected($ids): void
     {
-        // Hapus data user yang terpilih
-        User::whereIn('id', $this->selectedUser)->delete();
-
-        // Reset array selectedUser setelah penghapusan
-        $this->selectedUser = [];
-        $this->selectAll = false; // Reset juga selectAll
+        User::whereIn('id', $ids)->delete();
         $this->userDeleted();
+        $this->dispatch('pg:eventRefresh-user-table-igtxk9-table');
     }
-
-    public function userDeleted()
-    {
-        $this->dispatch('destroyed', ['message' => ' User Berhasil di Hapus']);
-        $this->showDeleteButton = false;
-    }
+    
 
     public function destroy($id)
     {
         $user = User::find($id);
         $user->delete();
-        // session()->flash('message', 'User Berhasil di Hapus');
-        // session()->flash('message_type', 'error');
         $this->dispatch('destroyed', ['message' => 'User Berhasil di Hapus']);
+        $this->dispatch('pg:eventRefresh-user-table-igtxk9-table');
     }
+    
 
     public function updatedSearch()
     {
@@ -99,6 +90,7 @@ class Index extends Component
                     ->orWhere('email', 'like', '%' . $this->search . '%');
             });
         }
+        
         return view('livewire.admin.user.index', [
             'users' => $usersQuery->latest()->paginate(10),
         ]);

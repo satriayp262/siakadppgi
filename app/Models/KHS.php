@@ -13,13 +13,13 @@ class KHS extends Model
     protected $table = 'khs';
     protected $fillable = [
         'id_khs',
-        'NIM',
-        'id_semester',
-        'id_mata_kuliah',
-        'id_kelas',
-        'id_prodi',
+        'NIM',              // ganti id_krs
+        'id_semester',      //
+        'id_mata_kuliah',   //
+        'id_kelas',         //
+        'id_prodi', //g perlu
         'bobot',
-        'publish',
+        'publish', //g perlu
     ];
 
     public function prodi()

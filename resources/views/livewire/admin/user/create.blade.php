@@ -14,6 +14,10 @@
     <!-- Modal Background -->
     <div x-data="{ load: false }" x-show="isOpen && load" x-init="load = true" wire:init="" x-cloak
         class="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-75">
+        <div wire:loading wire:target="save"
+            class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-60">
+            <div class="spinner loading-spinner"></div>
+        </div>
         <!-- Modal Content -->
         <div class="w-1/2 bg-white rounded-lg shadow-lg">
             <!-- Modal Header -->
@@ -29,7 +33,7 @@
                         <div>
                             <div class="mb-4">
                                 <label for="role" class="block text-sm font-medium text-gray-700">Role</label>
-                                <select id="role" wire:model.live="role" name="role"
+                                <select  wire:model.live="role" name="role"
                                     class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
                                     <option value=" " disabled selected>Role</option>
                                     <option value="admin">Admin</option>
@@ -44,7 +48,7 @@
 
                             <div class="mb-4">
                                 <label for="name" class="block text-sm font-medium text-gray-700">Nama</label>
-                                <input type="text" id="name" wire:model="name" name="name"
+                                <input type="text"  wire:model="name" name="name"
                                     class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
                                 @error('name')
                                     <span class="text-sm text-red-500">{{ $message }}</span>
@@ -53,38 +57,35 @@
 
                             <div class="mb-4">
                                 <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                                <input type="text" id="email" wire:model="email" name="email"
+                                <input type="text"  wire:model="email" name="email"
                                     class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
                                 @error('email')
                                     <span class="text-sm text-red-500">{{ $message }}</span>
                                 @enderror
                             </div>
 
-                            <!-- Conditionally show NIM/NIDN field based on role -->
-                            @if ($role === 'mahasiswa' || $role === 'dosen' || $role === 'staff')
-                                <div class="mb-4">
-                                    @if ($role === 'mahasiswa')
-                                        <label for="nim"
-                                            class="block text-sm font-medium text-gray-700">NIM</label>
-                                    @elseif ($role === 'dosen')
-                                        <label for="nim"
-                                            class="block text-sm font-medium text-gray-700">NIDN</label>
-                                    @elseif ($role === 'staff')
-                                        <label for="nim"
-                                            class="block text-sm font-medium text-gray-700">NIP</label>
-                                    @endif
-                                    <input type="text" id="nim" wire:model="nim" name="nim"
+                            <div class="mb-4">
+                                @if ($role === 'mahasiswa')
+                                    <label for="nim" class="block text-sm font-medium text-gray-700">NIM</label>
+                                @elseif ($role === 'dosen')
+                                    <label for="nim" class="block text-sm font-medium text-gray-700">NIDN</label>
+                                @elseif ($role === 'staff')
+                                    <label for="nim" class="block text-sm font-medium text-gray-700">NIP</label>
+                                @endif
+                                <!-- Conditionally show NIM/NIDN field based on role -->
+                                @if ($role === 'mahasiswa' || $role === 'dosen' || $role === 'staff')
+                                    <input type="text"  wire:model="nim" name="nim"
                                         class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
-                                    @error('nim')
-                                        <span class="text-sm text-red-500">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            @endif
+                                @endif
+                                @error('nim')
+                                    <span class="text-sm text-red-500">{{ $message }}</span>
+                                @enderror
+                            </div>
 
                             <div class="mb-4">
                                 <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
                                 <div class="relative">
-                                    <input type="password" id="confirmPassword" wire:model="confirmPassword"
+                                    <input type="password"  wire:model="confirmPassword"
                                         name="confirmPassword"
                                         class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
                                     <button type="button" onclick="togglePassword('confirmPassword', this)"
