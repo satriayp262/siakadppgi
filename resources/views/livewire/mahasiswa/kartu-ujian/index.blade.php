@@ -12,8 +12,18 @@
                 <p class="mt-1 text-sm text-gray-500">Silakan cek kembali nanti atau hubungi bagian akademik.</p>
             </div>
         </div>
+    @elseif ($pembayaran == null)
+        <div class="flex items-center justify-center mt-10">
+            <div class="flex flex-col items-center max-w-md p-6 text-center border border-yellow-300 shadow-md backdrop-blur-md bg-yellow-50 rounded-xl">
+                <!-- Ikon Warning / Money-Off -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 mb-3 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.105 0-2 .672-2 1.5S10.895 11 12 11s2 .672 2 1.5S13.105 14 12 14m0-6v6m-9 2a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v10z" />
+                </svg>
 
-
+                <span class="text-xl font-semibold text-yellow-700">Data Pembayaran Tidak Ditemukan</span>
+                <p class="mt-1 text-sm text-yellow-600">Silakan hubungi bagian keuangan untuk memastikan status pembayaran Anda telah terdaftar.</p>
+            </div>
+        </div>
     @else
         <div class="flex flex-col w-3/4 p-4 bg-white border border-black">
             <div class="flex">

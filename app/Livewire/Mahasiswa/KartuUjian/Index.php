@@ -3,7 +3,6 @@
 namespace App\Livewire\Mahasiswa\KartuUjian;
 
 use App\Models\KRS;
-use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Livewire\Component;
 use App\Models\Mahasiswa;
@@ -112,17 +111,21 @@ class Index extends Component
 
             $y = substr($ujian->semester->nama_semester, 0, 4);
 
+
             $z = $ujian->jenis_ujian;
 
-            $pembayaran = Tagihan::where('NIM', Auth::user()->nim_nidn)->firstOrFail();
-            $w = $pembayaran->total_bayar;
-            $s = $pembayaran->total_tagihan;
-            $a = $s / 2;
+            $pembayaran = Tagihan::where('NIM', Auth::user()->nim_nidn)->first();
+            if ($pembayaran != null) {
+                $w = $pembayaran->total_bayar;
+                $s = $pembayaran->total_tagihan;
+                $a = $s / 2;
+            }
         }
 
         return view('livewire.mahasiswa.kartu-ujian.index',[
             'jadwals' => $jadwals,
             'mahasiswa' => $mahasiswa,
+            'pembayaran' => $pembayaran,
             'ujian' => $ujian,
             'c' => $c,
             'y' => $y,
