@@ -46,16 +46,19 @@
                     <div class="p-4 bg-white shadow-md rounded-lg border border-gray-200">
                         <h2 class="text-purple2 text-xl md:text-2xl font-extrabold mb-2">Evaluasi Dosen dan
                             Perkuliahan</h2>
-                        <p class="text-gray-700 text-sm md:text-md font-medium">
-                            1. Anda tidak perlu memasukkan nama, dan jawaban Anda akan dijamin kerahasiaannya.
-                        </p>
-                        <p class="text-gray-700 text-sm md:text-md font-medium">
-                            2. Silakan isi dengan seobjektif mungkin sesuai pendapat Anda dengan memilih nilai yang
-                            paling sesuai.
-                        </p>
-                        <p class="text-gray-700 text-sm md:text-md font-semibold">3. Keterangan nilai: </p>
+                        <div class="ml-2">
+                            <p class="text-gray-700 text-sm md:text-md font-medium">
+                                1. Pengisian emonev bersifat anonymous, jawaban Anda akan dijamin kerahasiaannya.
+                            </p>
+                            <p class="text-gray-700 text-sm md:text-md font-medium">
+                                2. Silakan isi dengan seobjektif mungkin sesuai pendapat Anda dengan memilih nilai yang
+                                paling sesuai.
+                            </p>
+                            <p class="text-gray-700 text-sm md:text-md font-semibold">3. Keterangan nilai: </p>
+                        </div>
+
                         <div class="flex flex-wrap items-center gap-2 md:gap-4 ml-3 md:ml-5 mt-3">
-                            @foreach ([6 => 'red', 7 => 'purple', 8 => 'yellow', 9 => 'green', 10 => 'blue'] as $value => $color)
+                            @foreach ([6 => 'red', 7 => 'gray', 8 => 'yellow', 9 => 'green', 10 => 'blue'] as $value => $color)
                                 <div class="flex items-center">
                                     <span
                                         class="w-7 h-7 md:w-8 md:h-8 flex items-center justify-center bg-{{ $color }}-500 text-white font-semibold rounded-full mr-2">
@@ -114,10 +117,15 @@
                     @enderror
                 </div>
 
+                @php
+                    $maxSkor = 10 * count($pertanyaans);
+                @endphp
+
                 <!-- Submit & Score -->
                 <div class="flex flex-col md:flex-row justify-between items-center mt-6">
                     <div class="text-lg font-semibold">
-                        Skor: <span class="text-customPurple" id="skor">0</span>
+                        Skor: <span class="text-customPurple" id="skor">0</span><span
+                            class="text-customPurple">{{ ' / ' . $maxSkor }}</span>
                     </div>
                     <button type="submit"
                         class="bg-purple2 hover:bg-customPurple mt-2 md:mt-0 text-white font-semibold py-2 px-4 md:px-6 rounded-lg shadow-lg transition-transform hover:scale-105">

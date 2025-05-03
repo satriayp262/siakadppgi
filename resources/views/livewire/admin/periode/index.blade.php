@@ -6,32 +6,35 @@
             </div>
         </div>
         <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
-            <table class="min-w-full mt-4 bg-white border border-gray-200">
+            <h2 class=" text-base font-semibold text-customPurple">Periode Pengisian Emonev</h2>
+            <table class="min-w-full mt-4 bg-white border border-gray-200 overflow-hidden text-sm">
                 <thead>
-                    <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
-                        <th class="px-4 py-2 text-center">No.</th>
-                        <th class="px-4 py-2 text-center">Semester</th>
-                        <th class="px-4 py-2 text-center">Sesi</th>
-                        <th class="px-4 py-2 text-center">Tanggal Mulai</th>
-                        <th class="px-4 py-2 text-center">Tanggal Selesai</th>
-                        <th class="px-4 py-2 text-center">Aksi</th>
+                    <tr class="text-white bg-customPurple text-xs sm:text-sm">
+                        <th class="px-4 py-3 text-center">No.</th>
+                        <th class="px-4 py-3 text-center">Semester</th>
+                        <th class="px-4 py-3 text-center">Periode</th>
+                        <th class="px-4 py-3 text-center">Sesi</th>
+                        <th class="px-4 py-3 text-center">Tanggal Mulai</th>
+                        <th class="px-4 py-3 text-center">Tanggal Selesai</th>
+                        <th class="px-4 py-3 text-center">Aksi</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="text-gray-700">
                     @foreach ($periode as $item)
-                        <tr class="border-t" wire:key="periode-{{ $item->id_periode }}">
-                            <td class="px-4 py-2 text-center">
-                                {{ $loop->iteration }}</td>
-                            <td class="px-4 py-2 text-center w-1/4">{{ $item->semester->nama_semester }}</td>
-                            <td class="px-4 py-2 text-center w-1/4">{{ $item->sesi }}</td>
-                            <td class="px-4 py-2 text-center w-1/4">{{ $item->tanggal_mulai }}</td>
-                            <td class="px-4 py-2 text-center w-1/4">{{ $item->tanggal_selesai }}</td>
-                            <td class="px-4 py-2 text-center w-1/2">
-                                <div class="flex justify-center space-x-2">
-                                    {{-- <livewire:admin.periode.edit :id_periode="$item->id_periode" wire:key="edit-{{ $item->id_periode }}" /> --}}
+                        <tr class="border-t hover:bg-gray-50 transition duration-150"
+                            wire:key="periode-{{ $item->id_periode }}">
+                            <td class="px-4 py-2 text-center align-middle">{{ $loop->iteration }}</td>
+                            <td class="px-4 py-2 text-center align-middle text-nowrap">
+                                {{ $item->semester->nama_semester }}</td>
+                            <td class="px-4 py-2 text-center align-middle">{{ $item->nama_periode }}</td>
+                            <td class="px-4 py-2 text-center align-middle">{{ $item->sesi }}</td>
+                            <td class="px-4 py-2 text-center align-middle text-nowrap">{{ $item->tanggal_mulai }}</td>
+                            <td class="px-4 py-2 text-center align-middle text-nowrap">{{ $item->tanggal_selesai }}</td>
+                            <td class="px-4 py-2 text-center align-middle">
+                                <div class="flex justify-center items-center space-x-2">
                                     <button
                                         class="inline-block px-4 py-1 text-white bg-red-500 rounded hover:bg-red-700"
-                                        onclick="confirmDelete('{{ $item->id_periode }}', '{{ $item->nama_periode }}')"><svg
+                                        onclick="confirmDelete('{{ $item->id_periode }}', '{{ $item->semester->nama_semester . '-' . $item->sesi }}')"><svg
                                             class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
                                             xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             fill="none" viewBox="0 0 24 24">
@@ -47,9 +50,29 @@
                 </tbody>
             </table>
             <!-- Pagination Controls -->
-            {{-- <div class="py-8 mt-4 mb-4 text-center">
-            {{ $prodis->links('') }}
-        </div> --}}
+            <div class="py-8 mt-4 mb-4 text-center">
+                {{ $periode->links('') }}
+            </div>
         </div>
     </div>
 </div>
+<script>
+    function confirmDelete(id_periode, sesi) {
+        Swal.fire({
+            title: `Apakah anda yakin ingin menghapus Periode ${sesi}?`,
+            text: "Data yang telah dihapus tidak dapat dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Hapus'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                @this.call('destroy', id_periode);
+            }
+        });
+    }
+    $(document).ready(function() {
+        $('#example').DataTable();
+    });
+</script>

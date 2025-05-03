@@ -15,10 +15,21 @@ class Index extends Component
         $this->dispatch('created', ['message' => 'Periode Berhasil di Tambahkan']);
     }
 
+    public function destroy($id)
+    {
+        $periode = PeriodeEMonev::find($id);
+        if ($periode) {
+            $periode->delete();
+            $this->dispatch('deleted', ['message' => 'Periode Berhasil di Hapus']);
+        } else {
+            $this->dispatch('error', ['message' => 'Periode tidak ditemukan']);
+        }
+    }
+
 
     public function render()
     {
-        $periode = PeriodeEMonev::with('semester')->get();
+        $periode = PeriodeEMonev::with('semester')->paginate(10);
         return view('livewire.admin.periode.index', [
             'periode' => $periode
         ]);

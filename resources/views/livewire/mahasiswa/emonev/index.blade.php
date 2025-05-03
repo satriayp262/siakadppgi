@@ -73,13 +73,49 @@
             @else
                 <!-- Jika diluar periode 1 dan periode 2 -->
                 @php
-                    $now = now(); // Ambil tanggal sekarang
+                    $now = now()->toDateString(); // Ambil tanggal sekarang
                     $isPeriode1 = $periode1 && $now >= $periode1->tanggal_mulai && $now <= $periode1->tanggal_selesai;
                     $isPeriode2 = $periode2 && $now >= $periode2->tanggal_mulai && $now <= $periode2->tanggal_selesai;
                 @endphp
+                @if ($isPeriode1 == true)
+                    @php
+                        $periode = $periode1;
+                    @endphp
+                    <span>periode 1</span>
+                @elseif ($isPeriode2 == true)
+                    @php
+                        $periode = $periode2;
+                    @endphp
+                    <span>periode 2</span>
+                @endif
                 @if (!$isPeriode1 && !$isPeriode2)
-                    <div class="bg-red-100 text-red-800 px-4 py-2 rounded-lg text-center">
-                        <p class="font-semibold">e-Monev Semester {{ $periode1->semester->nama_semester }}tidak dapat
+                    <div class="bg-white shadow-lg p-6 rounded-lg max-w-full text-center">
+                        <div class="flex space-x-4 mb-4">
+                            <!-- Dropdown Semester -->
+                            <div class="flex space-x-4 items-center">
+                                <span class="block font-medium text-gray-700 text-left ">Semester :</span>
+                                <select id="semester" wire:model="selectedSemester"
+                                    class="w-48 px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-purple-200">
+                                    @foreach ($semesters as $item)
+                                        @foreach ($item as $semester)
+                                            <option value="{{ $semester->nama_semester }}">
+                                                {{ $semester->nama_semester }}
+                                            </option>
+                                        @endforeach
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <!-- Tombol Tampilkan -->
+                            <div class="flex items-end space-x-2">
+                                <button wire:click="loadData"
+                                    class="bg-purple2 hover:bg-customPurple text-white font-semibold py-2 px-6 rounded-lg shadow-lg transition-transform hover:scale-105">
+                                    Tampilkan
+                                </button>
+                            </div>
+                        </div>
+                        <p class="font-semibold">e-Monev Semester {{ $periode1->semester->nama_semester . '' }}tidak
+                            dapat
                             diakses saat ini.</p>
                         <p>Periode 1: {{ $periode1->tanggal_mulai }} -
                             {{ $periode1->tanggal_selesai }}</p>
@@ -163,7 +199,11 @@
                                         </td>
                                         <td class="px-2 py-2 text-center">
                                             @php
-                                                $kode = Hashids::encode($item->matkul->id_mata_kuliah, $k->id_kelas);
+                                                $kode = Hashids::encode(
+                                                    $item->matkul->id_mata_kuliah,
+                                                    $k->id_kelas,
+                                                    $periode->id_periode,
+                                                );
                                             @endphp
 
                                             @if ($isPeriode1 == true && $emonev?->sesi == 1)
@@ -199,8 +239,8 @@
                                                     onclick="window.location.href='{{ route('emonev.detail', ['id_mata_kuliah' => $kode, 'nama_semester' => $semester1->nama_semester]) }}'"
                                                     class="bg-purple2 hover:bg-customPurple text-white px-5 py-2 rounded-lg transition-transform transform hover:scale-105 text-sm font-medium">
                                                     <svg class="w-6 h-6 text-white" aria-hidden="true"
-                                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        fill="currentColor" viewBox="0 0 24 24">
+                                                        xmlns="http://www.w3.org/2000/svg" width="24"
+                                                        height="24" fill="currentColor" viewBox="0 0 24 24">
                                                         <path fill-rule="evenodd"
                                                             d="M11.32 6.176H5c-1.105 0-2 .949-2 2.118v10.588C3 20.052 3.895 21 5 21h11c1.105 0 2-.948 2-2.118v-7.75l-3.914 4.144A2.46 2.46 0 0 1 12.81 16l-2.681.568c-1.75.37-3.292-1.263-2.942-3.115l.536-2.839c.097-.512.335-.983.684-1.352l2.914-3.086Z"
                                                             clip-rule="evenodd" />

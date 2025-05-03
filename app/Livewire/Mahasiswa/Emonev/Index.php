@@ -77,7 +77,6 @@ class Index extends Component
 
         $findsemester = Semester::where('nama_semester', $this->selectedSemester)->first();
 
-
         $nama_semester = Semester::where('id_semester', $this->mahasiswa->mulai_semester)->first();
 
         if ($this->selectedSemester) {
@@ -86,12 +85,6 @@ class Index extends Component
         } else {
             $periode = PeriodeEMonev::where('id_semester', $this->mahasiswa->mulai_semester)->get();
         }
-
-
-
-
-
-
 
         return view('livewire.mahasiswa.emonev.index', [
             'krs' => $this->krs,

@@ -17,7 +17,7 @@
         <div class="w-1/2 bg-white rounded-lg shadow-lg">
             <!-- Modal Header -->
             <div class="flex items-center justify-between p-4 bg-gray-200 rounded-t-lg">
-                <h3 class="text-xl font-semibold">Tambah Data Periode Emonev</h3>
+                <h3 class="text-xl font-semibold">Set Periode Pengisian Emonev</h3>
                 <div @click="isOpen=false" class="px-3 rounded-sm shadow hover:bg-red-500">
                     <button class="text-gray-900">&times;</button>
                 </div>
@@ -41,37 +41,67 @@
                             @enderror
                         </div>
 
-                        <div class="mb-4">
-                            <label for="sesi" class="block text-sm font-medium text-gray-700">Sesi</label>
-                            <input type="number" wire:model="sesi" name="sesi" id="sesi"
-                                class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
-                            @error('sesi')
-                                <span class="text-sm text-red-500">{{ $message }}</span>
-                            @enderror
-                        </div>
+                        <div class="ml-2 mt-2">
+                            <h2 class="text-base font-semibold text-gray-800 mb-2 border-b pb-1">Sesi Pertama</h2>
+                            <div class="mb-4">
+                                <label for="tanggal_mulai_1" class="block text-sm font-medium text-gray-700">Tanggal
+                                    Mulai</label>
+                                <input type="date" wire:model="tanggal_mulai_1" name="tanggal_mulai_1"
+                                    id="tanggal_mulai_1"
+                                    class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
+                                @error('tanggal_mulai_1')
+                                    <span class="text-sm text-red-500">{{ $message }}</span>
+                                @enderror
+                            </div>
 
-                        <div class="mb-4">
-                            <label for="tanggal_mulai" class="block text-sm font-medium text-gray-700">Tanggal
-                                Mulai</label>
-                            <input type="date" wire:model="tanggal_mulai" name="tanggal_mulai" id="tanggal_mulai"
-                                class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
-                            @error('tanggal_mulai')
-                                <span class="text-sm text-red-500">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="tanggal_selesai" class="block text-sm font-medium text-gray-700">Tanggal
-                                Selesai</label>
-                            <input type="date" wire:model="tanggal_selesai" name="tanggal_selesai"
-                                id="tanggal_selesai"
-                                class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
-                            @error('tanggal_selesai')
-                                <span class="text-sm text-red-500">{{ $message }}</span>
-                            @enderror
+                            <div class="mb-4">
+                                <label for="tanggal_selesai_1" class="block text-sm font-medium text-gray-700">Tanggal
+                                    Selesai</label>
+                                <input type="date" wire:model="tanggal_selesai_1" name="tanggal_selesai_1"
+                                    id="tanggal_selesai_1"
+                                    class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
+                                @error('tanggal_selesai_1')
+                                    <span class="text-sm text-red-500">{{ $message }}</span>
+                                @enderror
+                            </div>
                         </div>
 
 
+                        <div class="ml-2">
+                            <h2 class=" text-base font-semibold text-gray-800 mb-2 border-b pb-1">Sesi Kedua</h2>
+                            {{-- <div class="mb-4">
+                                <label for="sesi_2" class="block text-sm font-medium text-gray-700">Sesi
+                                    Kedua</label>
+                                <input hidden disabled type="number" wire:model="sesi_2" name="sesi_2" id="sesi_2"
+                                    value="2"
+                                    class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
+                                @error('sesi_2')
+                                    <span class="text-sm text-red-500">{{ $message }}</span>
+                                @enderror
+                            </div> --}}
+
+                            <div class="mb-4">
+                                <label for="tanggal_mulai_2" class="block text-sm font-medium text-gray-700">Tanggal
+                                    Mulai</label>
+                                <input type="date" wire:model="tanggal_mulai_2" name="tanggal_mulai_2"
+                                    id="tanggal_mulai_2"
+                                    class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
+                                @error('tanggal_mulai_2')
+                                    <span class="text-sm text-red-500">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="tanggal_selesai_2" class="block text-sm font-medium text-gray-700">Tanggal
+                                    Selesai</label>
+                                <input type="date" wire:model="tanggal_selesai_2" name="tanggal_selesai_2"
+                                    id="tanggal_selesai_2"
+                                    class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
+                                @error('tanggal_selesai_2')
+                                    <span class="text-sm text-red-500">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
 
                         <!-- Submit Button inside the form -->
                         <div class="flex justify-end p-4 bg-gray-200 rounded-b-lg">

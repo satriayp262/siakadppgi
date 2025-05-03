@@ -5,6 +5,7 @@ namespace App\Livewire\Mahasiswa\Emonev;
 use App\Models\Dosen;
 use App\Models\Emonev;
 use App\Models\Mahasiswa;
+use App\Models\PeriodeEMonev;
 use App\Models\Semester;
 use Livewire\Component;
 use App\Models\Matakuliah;
@@ -24,6 +25,7 @@ class Show extends Component
     public $saran;
     public $emon;
     public $sesi;
+    public $periode;
     public $pertanyaan;
     public $mahasiswa;
     public $id_kelas;
@@ -36,36 +38,49 @@ class Show extends Component
         $decoded = Hashids::decode($id_mata_kuliah);
         $this->id = $decoded[0] ?? null;
         $this->id_kelas = $decoded[1] ?? null;
+        $this->periode = $decoded[2] ?? null;
 
-        if (!$this->id || !$this->id_kelas)
+
+        if (!$this->id || !$this->id_kelas || !$this->periode) {
             abort(404);
-
+        }
 
         $this->semester = $nama_semester;
     }
 
-
-
-    public function save()
+    public function rules()
     {
-        // Validasi input
-        $this->validate([
+        return [
             'jawaban' => 'required|array|min:' . Pertanyaan::count(),
             'jawaban.*' => 'required',
             'saran' => 'required|string',
-        ], [
+        ];
+    }
+    public function messages()
+    {
+        return [
             'jawaban.required' => 'Jawaban wajib diisi.',
             'jawaban.array' => 'Jawaban harus berupa array.',
             'jawaban.min' => 'Semua pertanyaan harus dijawab.',
             'jawaban.*.required' => 'Setiap jawaban wajib diisi.',
             'saran.required' => 'Saran wajib diisi.',
             'saran.string' => 'Saran harus berupa teks.',
-        ]);
+        ];
+    }
+
+
+    public function save()
+    {
+        // Validasi input
+        $this->validate();
+
 
         // Ambil data yang dibutuhkan
         $matkul = Matakuliah::with('dosen')->findOrFail($this->id);
         $semester = Semester::where('nama_semester', $this->semester)->firstOrFail();
         $mahasiswa = Mahasiswa::where('NIM', auth()->user()->nim_nidn)->firstOrFail();
+        $periode = PeriodeEMonev::where('id_periode', $this->periode)
+            ->first();
 
         // Cek apakah sudah ada data MahasiswaEmonev
         $emon = MahasiswaEmonev::where('NIM', $mahasiswa->NIM)
@@ -92,7 +107,7 @@ class Show extends Component
         // Simpan data e-Monev
         $emonev = Emonev::create([
             'id_mata_kuliah' => $this->id,
-            'id_semester' => $semester->id_semester,
+            'nama_periode' => $periode->nama_periode,
             'nidn' => $matkul->dosen->nidn,
             'id_kelas' => $this->id_kelas,
             'saran' => $this->saran,

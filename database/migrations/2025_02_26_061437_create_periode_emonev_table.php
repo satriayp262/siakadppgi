@@ -13,6 +13,7 @@ return new class extends Migration {
         Schema::create('periode_emonev', function (Blueprint $table) {
             $table->integer('id_periode', true);
             $table->integer('id_semester');
+            $table->string('nama_periode', 50)->unique();
             $table->integer('sesi');
             $table->date('tanggal_mulai');
             $table->date('tanggal_selesai');

@@ -122,7 +122,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($jawaban->unique('nidn') as $item)
+                    @foreach ($jawaban as $item)
                         <tr class="border-t" wire:key="jawaban-{{ $item->id_jawaban }}">
                             <td class=" px-2 py-2 text-center">{{ $loop->iteration }}
                             </td>

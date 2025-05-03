@@ -11,13 +11,12 @@ class Emonev extends Model
 
     protected $table = 'emonev';
     protected $primaryKey = 'id_emonev';
-    protected $fillable = ['id_semester', 'nidn', 'id_mata_kuliah', 'saran', 'id_kelas'];
+    protected $fillable = ['nama_periode', 'nidn', 'id_mata_kuliah', 'saran', 'id_kelas'];
 
-    public function semester()
+    public function periode()
     {
-        return $this->belongsTo(Semester::class, 'id_semester', 'id_semester');
+        return $this->belongsTo(PeriodeEMonev::class, 'nama_periode', 'nama_periode');
     }
-
 
     public function dosen()
     {

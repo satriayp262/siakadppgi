@@ -18,6 +18,7 @@ class Index extends Component
     public $selectedNilai = '';
     public $selectedPertanyaan = '';
     public $selectedDosen = '';
+    public $query = [];
     public $jawaban = [];
     public $semesters = [];
     public $prodis = [];
@@ -47,20 +48,14 @@ class Index extends Component
             ->join('kelas', 'emonev.id_kelas', '=', 'kelas.id_kelas')
             ->join('matkul', 'emonev.id_mata_kuliah', '=', 'matkul.id_mata_kuliah')
             ->join('dosen', 'matkul.nidn', '=', 'dosen.nidn')
-            ->join('semester', 'emonev.id_semester', '=', 'semester.id_semester')
+            ->join('periode_emonev', 'emonev.nama_periode', '=', 'periode_emonev.nama_periode')
             ->join('prodi', 'matkul.kode_prodi', '=', 'prodi.kode_prodi')
             ->select(
                 'dosen.nidn',
                 'dosen.nama_dosen',
                 'prodi.nama_prodi',
-                'semester.nama_semester',
-                'pertanyaan.id_pertanyaan',
-                'pertanyaan.nama_pertanyaan',
+                'periode_emonev.nama_periode',
                 'matkul.nama_mata_kuliah',
-                'jawaban.created_at',
-                'emonev.saran',
-                'emonev.id_emonev',
-
             );
 
         if (!empty($this->selectedprodi)) {
@@ -68,11 +63,12 @@ class Index extends Component
         }
 
         if (!empty($this->selectedSemester)) {
-            $query->where('semester.nama_semester', $this->selectedSemester);
+            $findsemester = Semester::where('nama_semester', $this->selectedSemester)->first();
+            $query->where('periode_emonev.id_semester', $findsemester->id_semester);
 
         } else {
-            $query->where('semester.nama_semester', $this->semesters[0]->nama_semester);
-            // $query->where('semester.nama_semester', '20221')
+            // $query->where('periode_emonev.id_semester', $this->semesters[0]->id_semester);
+            $query->where('periode_emonev.id_semester', '5');
             //     ->where('dosen.nidn', '1111111111');
         }
 
@@ -102,18 +98,12 @@ class Index extends Component
             ));
         }
 
-
         $this->jawaban = $query->groupBy(
             'dosen.nidn',
             'dosen.nama_dosen',
             'matkul.nama_mata_kuliah',
             'prodi.nama_prodi',
-            'semester.nama_semester',
-            'emonev.id_emonev',
-            'pertanyaan.id_pertanyaan',
-            'pertanyaan.nama_pertanyaan',
-            'emonev.saran',
-            'jawaban.created_at'
+            'periode_emonev.nama_periode',
         )->get();
 
 
@@ -124,9 +114,7 @@ class Index extends Component
     {
         $this->loadData();
 
-        session()->put('jawaban', $this->jawaban->toArray());
-
-        dd(session()->get('jawaban'));
+        session()->put('jawaban', $this->jawaban);
 
         return redirect()->route('admin.emonev.download');
     }

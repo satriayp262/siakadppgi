@@ -11,6 +11,7 @@ class PeriodeEMonev extends Model
     protected $primaryKey = 'id_periode';
     protected $fillable = [
         'id_semester',
+        'nama_periode',
         'sesi',
         'tanggal_mulai',
         'tanggal_selesai',
