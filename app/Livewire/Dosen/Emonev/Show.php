@@ -1,44 +1,30 @@
 <?php
 
-namespace App\Livewire\Admin\Emonev;
+namespace App\Livewire\Dosen\Emonev;
 
-use App\Models\Emonev;
+use Livewire\Component;
 use App\Models\Jawaban;
 use App\Models\Pertanyaan;
-use Livewire\Component;
-use App\Models\Prodi;
 use App\Models\Semester;
 use Illuminate\Support\Facades\DB;
+use Vinkla\Hashids\Facades\Hashids;
 
 
-class Index extends Component
+class Show extends Component
 {
     public $selectedSemester = '';
-    public $selectedprodi = '';
     public $selectedNilai = '';
     public $selectedPertanyaan = '';
-    public $selectedDosen = '';
-    public $query = [];
     public $jawaban = [];
     public $semesters = [];
-    public $prodis = [];
-
-
-
-    public function mount()
+    public $id;
+    public function mount($kode)
     {
+        $decoded = Hashids::decode($kode);
+        $this->id = $decoded[0];
         $this->semesters = Semester::orderBy('id_semester', 'desc')->get();
-        $this->prodis = Prodi::latest()->get();
         $this->loadData();
     }
-
-    public function setValues($nilai, $pertanyaanId)
-    {
-        $this->selectedNilai = $nilai;
-        $this->selectedPertanyaan = $pertanyaanId;
-
-    }
-
     public function loadData()
     {
         // Ambil semua pertanyaan agar bisa dijadikan header
@@ -49,18 +35,13 @@ class Index extends Component
             ->join('matkul', 'emonev.id_mata_kuliah', '=', 'matkul.id_mata_kuliah')
             ->join('dosen', 'matkul.nidn', '=', 'dosen.nidn')
             ->join('periode_emonev', 'emonev.nama_periode', '=', 'periode_emonev.nama_periode')
-            ->join('prodi', 'matkul.kode_prodi', '=', 'prodi.kode_prodi')
             ->select(
                 'dosen.nidn',
                 'dosen.nama_dosen',
-                'prodi.nama_prodi',
+                'emonev.saran',
                 'periode_emonev.nama_periode',
                 'matkul.nama_mata_kuliah',
             );
-
-        if (!empty($this->selectedprodi)) {
-            $query->where('prodi.nama_prodi', $this->selectedprodi);
-        }
 
         if (!empty($this->selectedSemester)) {
             $findsemester = Semester::where('nama_semester', $this->selectedSemester)->first();
@@ -71,6 +52,12 @@ class Index extends Component
 
         }
 
+        $query->where('dosen.nidn', auth()->user()->nim_nidn);
+        $query->where('matkul.id_mata_kuliah', $this->id);
+
+
+
+
         if ($this->selectedNilai && $this->selectedPertanyaan) {
             $query->where('pertanyaan.id_pertanyaan', $this->selectedPertanyaan);
             $query->where('jawaban.nilai', $this->selectedNilai);
@@ -78,10 +65,6 @@ class Index extends Component
                 $this->dispatch('warning', ['message' => 'Data tidak ditemukan']);
                 return $this->selectedNilai = '' && $this->selectedPertanyaan = '';
             }
-        }
-
-        if ($this->selectedDosen) {
-            $query->where('dosen.nidn', $this->selectedDosen);
         }
 
         // Tambahkan kolom rata-rata untuk setiap pertanyaan
@@ -101,33 +84,21 @@ class Index extends Component
             'dosen.nidn',
             'dosen.nama_dosen',
             'matkul.nama_mata_kuliah',
-            'prodi.nama_prodi',
+            'emonev.saran',
             'periode_emonev.nama_periode',
         )->get();
-
 
         return $query;
     }
 
-    public function download()
-    {
-        $this->loadData();
-
-        session()->put('jawaban', $this->jawaban);
-
-        return redirect()->route('admin.emonev.download');
-    }
-
     public function render()
     {
-
         $pertanyaan = Pertanyaan::all();
-        return view('livewire.admin.emonev.index', [
+
+        return view('livewire.dosen.emonev.show', [
             'jawaban' => $this->jawaban,
             'semesters' => $this->semesters,
-            'Prodis' => $this->prodis,
             'pertanyaan' => $pertanyaan,
-
         ]);
     }
 }

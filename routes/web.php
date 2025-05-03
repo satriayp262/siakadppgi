@@ -183,6 +183,7 @@ Route::middleware(['auth', CheckRole::class . ':dosen'])->prefix('dosen')->group
     Route::get('/khs/{nama_kelas}', App\Livewire\Khs\Show::class)->name('dosen.khs.show');
     Route::get('/khs/detail/{NIM}', App\Livewire\Khs\Detail::class)->name('dosen.khs.detail');
     Route::get('/emonev', App\Livewire\Dosen\Emonev\Index::class)->name('dosen.emonev');
+    Route::get('/emonev/show/{kode}', App\Livewire\Dosen\Emonev\Show::class)->name('dosen.emonev.show');
     Route::get('/download/{NIM}/{id_semester}', [App\Http\Controllers\KHSController::class, 'generatePDF'])->name('dosen.khs.download');
 });
 
