@@ -23,6 +23,7 @@ class Index extends Component
     #[On('UserCreated')]
     public function handleUserCreated()
     {
+        $this->dispatch('pg:eventRefresh-user-table-igtxk9-table');
 
         $this->dispatch('created', ['message' => 'User Berhasil di Tambahkan']);
     }
@@ -55,17 +56,20 @@ class Index extends Component
     public function destroySelected($ids): void
     {
         User::whereIn('id', $ids)->delete();
-        $this->userDeleted();
-        $this->dispatch('pg:eventRefresh-user-table-igtxk9-table');
+        $this->deleted();
     }
     
+    public function deleted(){
+        
+        $this->dispatch('pg:eventRefresh-user-table-igtxk9-table');
+        $this->dispatch('destroyed', ['message' => 'User Berhasil di Hapus']);
+    }
 
     public function destroy($id)
     {
         $user = User::find($id);
         $user->delete();
-        $this->dispatch('destroyed', ['message' => 'User Berhasil di Hapus']);
-        $this->dispatch('pg:eventRefresh-user-table-igtxk9-table');
+        $this->deleted();
     }
     
 

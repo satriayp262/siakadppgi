@@ -55,44 +55,43 @@ class Index extends Component
         $this->showDeleteButton = count($this->selectedMahasiswa) > 0;
     }
 
-    public function destroySelected()
-    {
-        // Hapus data Mahasiswa yang terpilih
-        Mahasiswa::whereIn('id_mahasiswa', $this->selectedMahasiswa)->delete();
 
-        // Reset array selectedMahasiswa setelah penghapusan
-        $this->selectedMahasiswa = [];
-        $this->selectAll = false; // Reset juga selectAll
+    public function destroySelected($ids): void
+    {
+        Mahasiswa::whereIn('id_mahasiswa', $ids)->delete();
+
+        $this->dispatch('pg:eventRefresh-mahasiswa-table-s8eldb-table');
         $this->dispatch('destroyed', ['message' => 'Mahasiswa Berhasil dibahpus']);
-        $this->showDeleteButton = false;
+
     }
 
     #[On('mahasiswaUpdated')]
     public function handleMahasiswaEdited()
     {
+        $this->dispatch('pg:eventRefresh-mahasiswa-table-s8eldb-table');
+
         $this->dispatch('updated', ['message' => 'Mahasiswa Edited Successfully']);
 
-        // session()->flash('message', 'Mahasiswa Berhasil di Update');
-        // session()->flash('message_type', 'update');
     }
 
     public function destroy($id_mahasiswa)
     {
         $mahasiswa = Mahasiswa::find($id_mahasiswa);
         $mahasiswa->delete();
+        $this->dispatch('pg:eventRefresh-mahasiswa-table-s8eldb-table');
+
         $this->dispatch('destroyed', params: ['message' => 'Mahasiswa deleted Successfully']);
 
-        // session()->flash('message', 'Mahasiswa Berhasil di Hapus');
-        // session()->flash('message_type', 'error');
+
     }
 
     #[On('mahasiswaCreated')]
     public function handleMahasiswaCreated()
     {
+        $this->dispatch('pg:eventRefresh-mahasiswa-table-s8eldb-table');
         $this->dispatch('created', ['message' => 'Mahasiswa Created Successfully']);
 
-        // session()->flash('message', 'Mahasiswa Berhasil di Tambahkan');
-        // session()->flash('message_type', 'success');
+
     }
 
     public function import()
@@ -148,6 +147,7 @@ class Index extends Component
             session()->flash('message_type', 'error');
         } finally {
             $this->reset('file');
+            $this->dispatch('pg:eventRefresh-mahasiswa-table-s8eldb-table');
         }
 
 
