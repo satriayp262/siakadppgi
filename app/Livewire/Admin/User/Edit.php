@@ -63,7 +63,6 @@ class Edit extends Component
             $this->id = $user->id;
             $this->name = $user->name;
             $this->email = $user->email;
-            $this->nim = $user->nim;
             $this->nim = $user->nim_nidn;
             $this->role = $user->role;
         }
@@ -77,18 +76,23 @@ class Edit extends Component
 
         $user = User::find($this->id);
         if ($user) {
-            // Update user data with validated data
-            $user->update([
+            $updateData = [
                 'name' => $validatedData['name'],
                 'email' => $validatedData['email'],
                 'nim_nidn' => $validatedData['nim'],
-                'password' => Hash::make($validatedData['confirmPassword']),
                 'role' => $validatedData['role'],
-            ]);
+            ];
+
+            if (!empty($validatedData['confirmPassword'])) {
+                $updateData['password'] = Hash::make($validatedData['confirmPassword']);
+            }
+
+            $user->update($updateData);
             $this->mount($this->id);
             $this->dispatch('UserUpdated');
         }
     }
+
 
     public function render()
     {

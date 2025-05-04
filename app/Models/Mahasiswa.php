@@ -26,7 +26,6 @@ class Mahasiswa extends Model
         });
     }
     protected $fillable = [
-        'id_mahasiswa',
         'id_orangtua_wali',
         'NIM',
         'NISN',
@@ -111,7 +110,20 @@ class Mahasiswa extends Model
 
         return $semesterDifference;
     }
-
+    
+    public function getFilteredMahasiswaProperty()
+    {
+        $data = Mahasiswa::with('semester')->get();
+    
+        if ($this->filters['semester_diff'] ?? null) {
+            $data = $data->filter(function ($mahasiswa) {
+                return $mahasiswa->semester_difference == $this->filters['semester_diff'];
+            });
+        }
+    
+        return $data;
+    }
+    
     public function getSemester($id_semester)
     {
         $semester = Semester::find($id_semester);
@@ -138,6 +150,10 @@ class Mahasiswa extends Model
     }
 
 
+    public function getIdAttribute()
+    {
+        return $this->attributes['id_mahasiswa'];
+    }
 
     private static $jenisKelaminOptions = [
         'L' => 'Laki-laki',

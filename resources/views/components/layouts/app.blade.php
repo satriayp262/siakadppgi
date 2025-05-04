@@ -78,6 +78,10 @@
         </aside>
         <div class="flex flex-col flex-1">
             <main class="flex-1 bg-gray-200">
+                <div wire:loading
+                class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-60">
+                <div class="spinner loading-spinner"></div>
+            </div>
                 {{ $slot }}
             </main>
             <livewire:component.footer />
@@ -101,6 +105,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             window.addEventListener('updated', event => {
+                if (!event.detail[0]?.message) return;
                 Swal.fire({
                     title: 'Success!',
                     text: event.detail[0].message,
@@ -115,6 +120,7 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             window.addEventListener('created', event => {
+                if (!event.detail[0]?.message) return;
                 Swal.fire({
                     title: 'Success!',
                     text: event.detail[0].message,
@@ -132,6 +138,7 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             window.addEventListener('destroyed', event => {
+                if (!event.detail[0]?.message) return;
                 Swal.fire({
                     title: 'Success!',
                     text: event.detail[0].message,
@@ -146,6 +153,7 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             window.addEventListener('warning', event => {
+                if (!event.detail[0]?.message) return;
                 Swal.fire({
                     title: 'Error!',
                     text: event.detail[0].message,
@@ -160,6 +168,7 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             window.addEventListener('BobotUpdate', event => {
+                if (!event.detail[0]?.message) return;
                 Swal.fire({
                     title: 'Success!',
                     text: event.detail[0].message,

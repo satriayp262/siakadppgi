@@ -1,4 +1,8 @@
 <div class="mx-5">
+    <div wire:loading wire:target="export,destroySelected,destroy"
+        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-60">
+        <div class="spinner loading-spinner"></div>
+    </div>
     <div class="flex flex-col mx-4 mt-2">
         <div class="flex justify-between mt-2">
             <div class="flex space-x-2">
@@ -6,6 +10,7 @@
                 <livewire:admin.mahasiswa.create />
                 {{-- modal import --}}
                 <div x-data="{ isOpen: false, load: false }" @modal-closed.window="isOpen = false">
+
                     <!-- Button to open the modal -->
                     <button @click="isOpen=true; load=true"
                         class="flex items-center py-2 pr-4 font-bold text-white bg-green-500 rounded hover:bg-green-700">
@@ -37,6 +42,10 @@
                     <div x-show="isOpen && load" x-cloak
                         class="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-75">
                         <div class="w-1/2 bg-white shadow-lg">
+                            <div wire:loading wire:target="import"
+                                class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-60">
+                                <div class="spinner loading-spinner"></div>
+                            </div>
                             <div class="flex items-center justify-between p-4 bg-gray-200 rounded-t-lg">
                                 <h3 class="text-xl font-semibold">Import Mahasiswa</h3>
                                 <div @click="isOpen=false" class="px-3 rounded-sm shadow hover:bg-red-500">
@@ -137,8 +146,9 @@
                     </svg>
                     Export
                 </button>
-                @if ($showDeleteButton)
-                    <button id="deleteButton" class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700"
+                {{-- @if ($showDeleteButton)
+                    <button id="deleteButton"
+                        class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700"
                         onclick="confirmDeleteSelected()">
                         Hapus Data Terpilih
                     </button>
@@ -234,7 +244,7 @@
                 <!-- Search Input -->
                 <input type="text" wire:model.live="search" placeholder="   Search"
                     class="px-2 ml-4 border border-gray-300 rounded-lg focus:ring focus:ring-blue-300">
-            </div>
+            </div> --}}
         </div>
         <div>
             @if (session()->has('message'))
@@ -285,7 +295,8 @@
     </div>
 
     <div class="max-w-full p-4 mt-4 mb-4 bg-white rounded-lg shadow-lg">
-        <table class="min-w-full mt-4 bg-white border border-gray-200">
+        <livewire:table.mahasiswa-table/>
+        {{-- <table class="min-w-full mt-4 bg-white border border-gray-200">
             <thead>
                 <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
                     <th class="px-4 py-2"><input type="checkbox" id="selectAll" wire:model="selectAll"></th>
@@ -339,7 +350,7 @@
         <!-- Pagination Controls -->
         <div class="mt-4 mb-4 text-center">
             {{ $mahasiswas->links('') }}
-        </div>
+        </div> --}}
     </div>
 
     <script>
@@ -359,44 +370,15 @@
                 }
             });
         }
-        // Ambil elemen checkbox di header
-        const selectAllCheckbox = document.getElementById('selectAll');
-        const rowCheckboxes = document.querySelectorAll('.selectRow');
+       
+        window.addEventListener('bulkDelete.alert.mahasiswa-table-s8eldb-table', (event) => {
+            const ids = event.detail[0].ids;
 
-        selectAllCheckbox.addEventListener('change', function() {
-            const isChecked = this.checked;
-
-            rowCheckboxes.forEach(function(checkbox) {
-                checkbox.checked = isChecked;
-            });
-
-            @this.set('selectedMahasiswa', isChecked ? [...rowCheckboxes].map(cb => cb.value) : []);
-        });
-
-        rowCheckboxes.forEach(function(checkbox) {
-            checkbox.addEventListener('change', function() {
-                @this.set('selectedMahasiswa', [...rowCheckboxes].filter(cb => cb.checked).map(cb => cb
-                    .value));
-            });
-        });
-
-
-        function confirmDeleteSelected() {
-            const selectedMahasiswa = @this.selectedMahasiswa;
-
-            // console.log(selectedMahasiswa);
-
-            if (selectedMahasiswa.length === 0) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Tidak ada data yang dipilih!',
-                    text: 'Silakan pilih data yang ingin dihapus terlebih dahulu.',
-                });
-                return;
-            }
+            // console.log(event.detail[0].ids);
+            if (!ids || ids.length === 0) return;
 
             Swal.fire({
-                title: `Apakah anda yakin ingin menghapus ${selectedMahasiswa.length} data mahasiswaz?`,
+                title: `Apakah anda yakin ingin menghapus ${ids.length} data User?`,
                 text: "Data yang telah dihapus tidak dapat dikembalikan!",
                 icon: 'warning',
                 showCancelButton: true,
@@ -405,14 +387,32 @@
                 confirmButtonText: 'Hapus'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    @this.call('destroySelected');
+                    // Livewire.find(
+                    //     document.querySelector('[wire\\:id]').getAttribute('wire:id')
+                    // ).call('destroySelected', ids);
+                    @this.call('destroySelected',ids);
                 }
             });
-        }
+        });
 
         function isMovingToDropdown(event) {
             const target = event.relatedTarget; // Elemen tujuan kursor
             return target && (target.closest('.relative') !== null);
         }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+                window.addEventListener('destroyed', event => {
+                Swal.fire({
+                        title: 'Success!',
+                        text: event.detail.params.message,
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        // Dispatch the modal-closed event to close the modal
+                        window.dispatchEvent(new CustomEvent('modal-closed'));
+                    });
+                });
+            });
     </script>
 </div>

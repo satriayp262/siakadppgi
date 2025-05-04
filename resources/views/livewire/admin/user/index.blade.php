@@ -1,4 +1,8 @@
 <div class="mx-5">
+    <div wire:loading wire:target="destroySelected,destroy"
+        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-60">
+        <div class="spinner loading-spinner"></div>
+    </div>
     <div class="flex flex-col justify-between mx-4 mt-4">
         <!-- Modal Form -->
         <div class="flex justify-between mt-2">
@@ -177,23 +181,6 @@
                 }
             });
         }
-
-        function confirmDelete(id, name) {
-            Swal.fire({
-                title: `Apakah anda yakin ingin menghapus User ${name}?`,
-                text: "Data yang telah dihapus tidak dapat dikembalikan!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#28a745',
-                confirmButtonText: 'Hapus'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    @this.call('destroy', id);
-                }
-            });
-        }
-
 
         window.addEventListener('bulkDelete.alert.user-table-igtxk9-table', (event) => {
             const ids = event.detail[0].ids;
