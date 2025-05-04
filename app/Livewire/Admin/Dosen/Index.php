@@ -22,6 +22,8 @@ class Index extends Component
 
     public $id_dosen, $nama_dosen, $nidn, $jenis_kelamin, $jabatan_fungsional, $kepangkatan, $kode_prodi, $email, $password;
     public $selectedDosen = [];
+    public $selectedKodeProdi = '';
+    public $selectedJenisKelamin = '';
     public $selectAll = false;
     public $showDeleteButton = false;
 
@@ -29,17 +31,20 @@ class Index extends Component
     public function handledosenCreated()
     {
         $this->dispatch('created', params: ['message' => 'Dosen created Successfully']);
+        $this->dispatch('pg:eventRefresh-dosen-table-lw2rml-table');
     }
     #[On('userCreated')]
     public function handleuserCreated()
     {
         $this->dispatch('created', params: ['message' => 'User created Successfully']);
+        $this->dispatch('pg:eventRefresh-dosen-table-lw2rml-table');
     }
 
     #[On('dosenUpdated')]
     public function handledosenEdited()
     {
         $this->dispatch('updated', params: ['message' => 'Dosen updated Successfully']);
+        $this->dispatch('pg:eventRefresh-dosen-table-lw2rml-table');
     }
 
 
@@ -50,7 +55,8 @@ class Index extends Component
         // Hapus data dosen
         $dosen->delete();
 
-        $this->dispatch('destroyed', params: ['message' => 'Dosen deleted Successfully']);
+        $this->dispatch('destroyed', params: ['message' => 'Dosen berhasil dihapus!']);
+        $this->dispatch('pg:eventRefresh-dosen-table-lw2rml-table');
     }
 
     public function updatedSelectAll($value)
@@ -77,6 +83,7 @@ class Index extends Component
         $this->selectAll = false;
         session()->flash('message', 'Dosen Berhasil di Hapus');
         session()->flash('message_type', 'error');
+        $this->dispatch('pg:eventRefresh-dosen-table-lw2rml-table');
     }
 
     public function import()
@@ -141,18 +148,28 @@ class Index extends Component
 
     public function render()
     {
-        $dosens = Dosen::query()
-            ->where('nama_dosen', 'like', '%' . $this->search . '%')
-            ->orWhere('nidn', 'like', '%' . $this->search . '%')
-            ->orWhere('jenis_kelamin', 'like', '%' . $this->search . '%')
-            ->orWhere('jabatan_fungsional', 'like', '%' . $this->search . '%')
-            ->orWhere('kepangkatan', 'like', '%' . $this->search . '%')
-            ->orWhere('kode_prodi', 'like', '%' . $this->search . '%')
-            ->latest()
-            ->paginate(10);
+        $dosensQuery = Dosen::query();
+
+        if ($this->selectedKodeProdi) {
+            $dosensQuery->where('kode_prodi', $this->selectedKodeProdi);
+        }
+
+        if ($this->selectedJenisKelamin) {
+            $dosensQuery->where('jenis_kelamin', $this->selectedJenisKelamin);
+        }
+
+        // Search functionality (if implemented)
+        if ($this->search) {
+            $dosensQuery->where(function ($query) {
+                $query->where('nama_dosen', 'like', '%' . $this->search . '%')
+                    ->orWhere('nidn', 'like', '%' . $this->search . '%')
+                    ->orWhere('jabatan_fungsional', 'like', '%' . $this->search . '%')
+                    ->orWhere('kepangkatan', 'like', '%' . $this->search . '%');
+            });
+        }
 
         return view('livewire.admin.dosen.index', [
-            'dosens' => $dosens,
+            'dosens' => $dosensQuery->latest()->paginate(10),
         ]);
     }
 }

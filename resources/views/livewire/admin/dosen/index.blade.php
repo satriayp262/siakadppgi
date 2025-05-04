@@ -6,6 +6,12 @@
             <div class="flex space-x-2">
                 <!-- Modal Form -->
                 <livewire:admin.dosen.create />
+                @if ($showDeleteButton)
+                    <button id="deleteButton" class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700"
+                        onclick="confirmDeleteSelected()">
+                        Hapus Data Terpilih
+                    </button>
+                @endif
                 {{-- modal import --}}
                 <div x-data="{ isOpen: false, load: false }" @modal-closed.window="isOpen = false">
                     <!-- Button to open the modal -->
@@ -210,124 +216,51 @@
     </div>
 
     <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
-        <table class="w-full table-auto border border-gray-200 mt-4">
-            <thead>
-                <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
-                    <th class="px-3 py-2 text-center"><input type="checkbox" id="selectAll" wire:model="selectAll">
-                    </th>
-                    <th class="px-3 py-2 text-center">No</th>
-                    <th class="px-3 py-2 text-center">Nama Dosen</th>
-                    <th class="px-3 py-2 text-center">NIDN</th>
-                    <th class="px-3 py-2 text-center">Jenis Kelamin</th>
-                    <th class="px-3 py-2 text-center">Jabatan Fungsional</th>
-                    <th class="px-3 py-2 text-center">Kepangkatan</th>
-                    <th class="px-3 py-2 text-center">Nama Prodi</th>
-                    <th class="px-3 py-2 text-center">Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($dosens as $dosen)
-                    <tr class="border-t" wire:key="dosen-{{ $dosen->id_dosen }}">
-                        <td class="px-3 py-2 text-center">
-                            <input type="checkbox" class="selectRow" wire:model="selectedDosen"
-                                value="{{ $dosen->id_dosen }}">
-                        </td>
-                        <td class="px-3 py-2  text-center">
-                            {{ ($dosens->currentPage() - 1) * $dosens->perPage() + $loop->iteration }}</td>
-                        </td>
-                        <td class="px-3 py-2  text-center">{{ $dosen->nama_dosen }}</td>
-                        <td class="px-3 py-2  text-center">{{ $dosen->nidn }}</td>
-                        <td class="px-3 py-2  text-center">{{ $dosen->jenis_kelamin }}</td>
-                        <td class="px-3 py-2  text-center">{{ $dosen->jabatan_fungsional }}</td>
-                        <td class="px-3 py-2  text-center">{{ $dosen->kepangkatan }}</td>
-                        <td class="px-3 py-2  text-center">{{ $dosen->prodi->nama_prodi }}</td>
-                        <td class="px-3 py-2 text-center">
-                            <div class="flex flex-row">
-                                <div class="flex justify-center space-x-2">
-                                    <livewire:admin.dosen.edit :id_dosen="$dosen->id_dosen"
-                                        wire:key="edit-{{ rand() . $dosen->id_dosen }}" />
-                                </div>
-                                <button wire:key="delete-{{ $dosen->id_dosen }}"
-                                    class="inline-block px-4 py-2 ml-2 text-white bg-red-500 rounded hover:bg-red-700"
-                                    onclick="confirmDelete({{ $dosen->id_dosen }}, '{{ $dosen->nama_dosen }}')"><svg
-                                        class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        fill="none" viewBox="0 0 24 24">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
-                                    </svg>
-                                </button>
-                                <div class="flex justify-center space-x-2">
-                                    <livewire:admin.dosen.create-user-dosen :id_dosen="$dosen->id_dosen"
-                                        wire:key="create-{{ rand() . $dosen->id_dosen }}" />
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-
-        <!-- Pagination Controls -->
-        <div class="mt-4 mb-4 text-center">
-            {{ $dosens->links() }}
-        </div>
+        <livewire:Table.dosen-table />
     </div>
 
     <script>
-        function confirmDelete(id, nama_dosen) {
+        function confirmDelete(id_dosen, nama_dosen) {
             Swal.fire({
                 title: `Apakah anda yakin ingin menghapus Dosen ${nama_dosen}?`,
                 text: "Data yang telah dihapus tidak dapat dikembalikan!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
-                cancelButtonColor: '#6c757d',
+                cancelButtonColor: '#28a745',
                 confirmButtonText: 'Hapus'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Panggil method Livewire jika konfirmasi diterima
-                    @this.call('destroy', id);
+                    @this.call('destroy', id_dosen);
                 }
             });
         }
 
-        const selectAllCheckbox = document.getElementById('selectAll');
-        const rowCheckboxes = document.querySelectorAll('.selectRow');
-
-        selectAllCheckbox.addEventListener('change', function() {
-            const isChecked = this.checked;
-
-            rowCheckboxes.forEach(function(checkbox) {
-                checkbox.checked = isChecked;
+        function confirmDelete(id_dosen, nama_dosen) {
+            Swal.fire({
+                title: `Apakah anda yakin ingin menghapus Dosen ${nama_dosen}?,
+                text: "Data yang telah dihapus tidak dapat dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#28a745',
+                confirmButtonText: 'Hapus'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    @this.call('destroy', id_dosen);
+                }
             });
+        }
 
-            @this.set('selectedDosen', isChecked ? [...rowCheckboxes].map(cb => cb.value) : []);
-        });
 
-        rowCheckboxes.forEach(function(checkbox) {
-            checkbox.addEventListener('change', function() {
-                @this.set('selectedDosen', [...rowCheckboxes].filter(cb => cb.checked).map(cb => cb.value));
-            });
-        });
+        window.addEventListener('bulkDelete.alert.dosen-table-lw2rml-table', (event) => {
+            const ids = event.detail[0].ids;
 
-        function confirmDeleteSelected() {
-            const selectedDosen = @this.selectedDosen;
-
-            console.log(selectedDosen);
-
-            if (selectedDosen.length === 0) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Tidak ada data yang dipilih!',
-                    text: 'Silakan pilih data yang ingin dihapus terlebih dahulu.',
-                });
-                return;
-            }
+            // console.log(event.detail[0].ids);
+            if (!ids || ids.length === 0) return;
 
             Swal.fire({
-                title: `Apakah anda yakin ingin menghapus ${selectedDosen.length} data dosen?`,
+                title: `Apakah anda yakin ingin menghapus ${ids.length} data Dosen?`,
                 text: "Data yang telah dihapus tidak dapat dikembalikan!",
                 icon: 'warning',
                 showCancelButton: true,
@@ -336,50 +269,11 @@
                 confirmButtonText: 'Hapus'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    @this.call('destroySelected');
+                    // Livewire.find(
+                    //     document.querySelector('[wire\\:id]').getAttribute('wire:id')
+                    // ).call('destroySelected', ids);
+                    @this.call('destroySelected',ids);
                 }
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            window.addEventListener('updated', event => {
-                Swal.fire({
-                    title: 'Success!',
-                    text: event.detail.params.message,
-                    icon: 'success',
-                    confirmButtonText: 'OK'
-                }).then(() => {
-                    // Dispatch the modal-closed event to close the modal
-                    window.dispatchEvent(new CustomEvent('modal-closed'));
-                });
-            });
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            window.addEventListener('created', event => {
-                Swal.fire({
-                    title: 'Success!',
-                    text: event.detail.params.message,
-                    icon: 'success',
-                    confirmButtonText: 'OK'
-                }).then(() => {
-                    // Dispatch the modal-closed event to close the modal
-                    window.dispatchEvent(new CustomEvent('modal-closed'));
-                });
-            });
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            window.addEventListener('destroyed', event => {
-                Swal.fire({
-                    title: 'Success!',
-                    text: event.detail.params.message,
-                    icon: 'success',
-                    confirmButtonText: 'OK'
-                }).then(() => {
-                    // Dispatch the modal-closed event to close the modal
-                    window.dispatchEvent(new CustomEvent('modal-closed'));
-                });
             });
         });
     </script>

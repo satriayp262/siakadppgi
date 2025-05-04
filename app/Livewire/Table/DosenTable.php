@@ -2,7 +2,9 @@
 
 namespace App\Livewire\Table;
 
-use App\Models\User;
+use App\Models\Dosen;
+use App\Models\Prodi;
+use Livewire\Attributes\On;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -11,11 +13,14 @@ use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
-use Livewire\Attributes\On;
 
-final class UserTable extends PowerGridComponent
+
+final class DosenTable extends PowerGridComponent
 {
-    public string $tableName = 'user-table-igtxk9-table';
+    public string $tableName = 'dosen-table-lw2rml-table';
+    public ?string $primaryKeyAlias = 'id';
+    public string $primaryKey = 'dosen.id_dosen';
+    public string $sortField = 'dosen.id_dosen';
 
     public function setUp(): array
     {
@@ -51,44 +56,61 @@ final class UserTable extends PowerGridComponent
         ]);
     }
 
-
-
     public function datasource(): Builder
     {
-        return User::query();
+        return Dosen::query()->with('prodi');
     }
+
+
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'prodi' => [
+                'nama_prodi',
+                'kode_prodi',
+            ],
+        ];
     }
+
 
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
-            ->add('name')
-            ->add('email')
-            ->add('nim_nidn')
-            ->add('role', fn($dish) => e($dish->role));
+            ->add('nama_dosen')
+            ->add('nidn')
+            ->add('jenis_kelamin')
+            ->add('jabatan_fungsional')
+            ->add('kepangkatan')
+            ->add('prodi.nama_prodi');
     }
 
     public function columns(): array
     {
         return [
-            Column::make('Name', 'name')
+            Column::make('Nama dosen', 'nama_dosen')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Email', 'email')
+            Column::make('Nidn', 'nidn')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Nim/Nidn', 'nim_nidn')
+            Column::make('Jenis kelamin', 'jenis_kelamin')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Role', 'role')
-                ->sortable(),
+            Column::make('Jabatan fungsional', 'jabatan_fungsional')
+                ->sortable()
+                ->searchable(),
+
+            Column::make('Kepangkatan', 'kepangkatan')
+                ->sortable()
+                ->searchable(),
+
+            Column::make('Prodi', 'prodi.nama_prodi')
+                ->sortable()
+                ->searchable(),
 
             Column::action('Action')
         ];
@@ -97,24 +119,32 @@ final class UserTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::select('role', 'role') // Filtering by 'role' column
-                ->dataSource([
-                    ['id' => 'Admin', 'name' => 'Admin'],
-                    ['id' => 'Mahasiswa', 'name' => 'Mahasiswa'],
-                    ['id' => 'Dosen', 'name' => 'Dosen'],
-                    ['id' => 'Staff', 'name' => 'Staff'],
-                ])
+            Filter::select('prodi.nama_prodi', 'dosen.kode_prodi')
+                ->dataSource(
+                    Prodi::all()->map(fn($prodi) => [
+                        'id' => $prodi->kode_prodi,
+                        'name' => $prodi->nama_prodi,
+                    ])
+                )
+                ->optionLabel('name')
+                ->optionValue('id'),
+
+
+            Filter::select('jenis_kelamin', 'jenis_kelamin')
+                ->dataSource(collect([
+                    ['id' => 'laki-laki', 'name' => 'Laki-laki'],
+                    ['id' => 'perempuan', 'name' => 'Perempuan'],
+                ]))
                 ->optionLabel('name')
                 ->optionValue('id'),
         ];
     }
 
 
-
     public function actionsFromView($row)
     {
 
-        return view('livewire.admin.user.action', ['row' => $row]);
+        return view('livewire.admin.dosen.action', ['row' => $row]);
     }
 
     /*
