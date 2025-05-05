@@ -5,7 +5,7 @@
             <div class="flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto">
                 <a href="#" class="flex items-center">
                     <img src="{{ asset('img/piksi.png') }}" class="h-6 mr-3 sm:h-9" alt="Landwind Logo" />
-                    <span class="dark:text-white tracking-widest text-xl font-bold"
+                    <span class="text-white tracking-widest text-xl font-bold"
                         style="font-family: 'Nunito', sans-serif;">SIAKAD
                         PPGI</span>
                 </a>
@@ -178,7 +178,7 @@
                         </button>
                     </div>
                     <img src="{{ asset('storage/image/pengumuman/' . $latestAnnouncement->image) }}"
-                        alt="{{ $latestAnnouncement->title }}" class="w-full h-full object-cover mb-4 rounded">
+                        alt="{{ $latestAnnouncement->title }}" class=" w-fit h-fit object-cover mb-4 rounded">
                 </div>
             </div>
         </div>

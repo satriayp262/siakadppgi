@@ -10,7 +10,8 @@
     </div>
 
     <div class="max-w-full p-4 mt-4 mb-4 bg-white rounded-lg shadow-lg">
-        <table class="w-full mt-4 bg-white border border-gray-200">
+        <livewire:table.pengumuman-table />
+        {{-- <table class="w-full mt-4 bg-white border border-gray-200">
             <thead>
                 <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
                     <th class="px-3 py-2 text-center">No</th>
@@ -49,7 +50,7 @@
                                     <button
                                         class="inline-block px-3 py-2 ml-2 text-white bg-red-500 rounded hover:bg-red-700"
                                         onclick="confirmDelete({{ $item->id_pengumuman }}, '{{ $item->title }}')">
-                                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                                        <svg class="w-6 h-6 text-white" aria-hidden="true"
                                             xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             fill="none" viewBox="0 0 24 24">
                                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -63,11 +64,11 @@
                     </tr>
                 @endforeach
             </tbody>
-        </table>
+        </table> --}}
         <!-- Pagination Controls -->
-        <div class="mt-4 mb-4 text-center">
+        {{-- <div class="mt-4 mb-4 text-center">
             {{ $pengumuman->links('') }}
-        </div>
+        </div> --}}
     </div>
     <script>
         function confirmDelete(id, title) {

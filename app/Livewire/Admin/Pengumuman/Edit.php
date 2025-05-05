@@ -10,7 +10,7 @@ class Edit extends Component
 {
     use WithFileUploads;
 
-    public $title, $desc, $image, $file,$id_pengumuman, $pengumuman;
+    public $title, $desc, $image, $file, $id_pengumuman, $pengumuman;
     public $newImage, $newFile;
 
     public function mount()
@@ -27,8 +27,8 @@ class Edit extends Component
         $this->validate([
             'title' => 'required',
             'desc' => 'required',
-            'newImage' => 'nullable|image', 
-            'newFile' => 'nullable|mimes:pdf|max:10240', 
+            'newImage' => 'nullable|image',
+            'newFile' => 'nullable|mimes:pdf|max:10240',
         ], [
             'title.required' => 'Judul Pengumuman Tidak Boleh Kosong',
             'desc.required' => 'Deskripsi Pengumuman Tidak Boleh Kosong',
@@ -54,9 +54,10 @@ class Edit extends Component
             'image' => $this->image,
             'file' => $this->file,
         ]);
-        
+
         $this->dispatch('aaaaa', ['message' => 'Pengumuman Updated Successfully']);
         $this->dispatch('updated', ['message' => 'Pengumuman Edited Successfully']);
+        return redirect()->route('admin.pengumuman');
 
 
     }

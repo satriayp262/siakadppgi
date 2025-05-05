@@ -38,8 +38,9 @@ class Index extends Component
     public function render()
     {
         $pengumuman = Pengumuman::query()->orderBy('created_at', 'desc')->paginate(10);
+        $pengumumanQuery = Pengumuman::query();
         return view('livewire.admin.pengumuman.index', [
-            'pengumuman' => $pengumuman
+            'pengumuman' => $pengumumanQuery->latest()->paginate(10),
         ]);
     }
 }
