@@ -209,8 +209,8 @@
                     </div>
                 </div>
             </div>
-            <input type="text" wire:model.live="search" placeholder="   Search"
-                class="px-2 md:ml-4 py-1 border border-gray-300 rounded-lg">
+            {{-- <input type="text" wire:model.live="search" placeholder="   Search"
+                class="px-2 md:ml-4 py-1 border border-gray-300 rounded-lg"> --}}
         </div>
         <div>
             @if (session()->has('message'))
@@ -261,7 +261,9 @@
     </div>
 
     <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full overflow-x-auto">
-        <table class="min-w-full mt-4 bg-white border border-gray-200 md:text-[16px] text-[10px]">
+        <livewire:table.krstable/>
+
+        {{-- <table class="min-w-full mt-4 bg-white border border-gray-200 md:text-[16px] text-[10px]">
             <thead>
                 <tr class="items-center w-full text-white align-middle bg-customPurple">
                     <th class="px-2 py-1 sm:px-4 sm:py-2 text-center">NIM Mahasiswa</th>
@@ -295,6 +297,6 @@
         <!-- Pagination Controls -->
         <div class="mt-4 mb-4 text-center">
             {{ $mahasiswa->links('') }}
-        </div>
+        </div> --}}
     </div>
 </div>

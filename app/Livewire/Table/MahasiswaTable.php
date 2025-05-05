@@ -57,13 +57,11 @@ final class MahasiswaTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::select('kode_prodi', 'kode_prodi')
-                ->dataSource(Prodi::select('kode_prodi')->get()->map(function ($item) {
-                    return [
-                        'value' => $item->kode_prodi,
-                        'label' => $item->kode_prodi,
-                    ];
-                })->toArray())
+            Filter::select('prodi.nama_prodi', 'kode_prodi')
+                ->dataSource(Prodi::all()->map(fn($prodi) => [
+                    'value' => $prodi->kode_prodi,
+                    'label' => $prodi->nama_prodi,
+                ]))
                 ->optionLabel('label')
                 ->optionValue('value'),
 
@@ -81,15 +79,15 @@ final class MahasiswaTable extends PowerGridComponent
 
     public function datasource(): \Illuminate\Support\Collection
     {
-        $mahasiswaQuery = Mahasiswa::with('semester');
+        $mahasiswaQuery = Mahasiswa::with('semester','prodi');
     
         if ($this->filters['semester_difference'] ?? null) {
             $mahasiswaQuery = $mahasiswaQuery->where('semester_difference', $this->filters['semester_difference']);
         }
     
-        if ($this->filters['kode_prodi'] ?? null) {
-            $mahasiswaQuery = $mahasiswaQuery->where('kode_prodi', $this->filters['kode_prodi']);
-        }
+        // if ($this->filters['kode_prodi'] ?? null) {
+        //     $mahasiswaQuery = $mahasiswaQuery->where('kode_prodi', $this->filters['kode_prodi']);
+        // }
     
         return $mahasiswaQuery->get();
     }
@@ -97,7 +95,12 @@ final class MahasiswaTable extends PowerGridComponent
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'prodi' => [
+                'nama_prodi',
+                'kode_prodi',
+            ],
+        ];
     }
 
     public function fields(): PowerGridFields
@@ -106,7 +109,7 @@ final class MahasiswaTable extends PowerGridComponent
             ->add('NIM')
             ->add('nama')
             ->add('mulai_semester')
-            ->add('kode_prodi');
+            ->add('prodi.nama_prodi');
     }
 
     public function columns(): array
@@ -122,9 +125,7 @@ final class MahasiswaTable extends PowerGridComponent
 
             Column::make('Semester', 'semester_difference'),
 
-            Column::make('Kode prodi', 'kode_prodi')
-                ->sortable()
-                ->searchable(),
+            Column::make('Kode prodi', 'prodi.nama_prodi'),
 
             Column::action('Action')
         ];

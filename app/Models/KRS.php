@@ -11,7 +11,6 @@ class KRS extends Model
     protected $primaryKey = 'id_krs';
     protected $table = 'krs';
     protected $fillable = [
-        'id_krs',
         'NIM',
         'id_semester',
         'id_mata_kuliah',
