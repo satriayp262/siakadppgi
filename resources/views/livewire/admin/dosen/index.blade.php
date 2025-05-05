@@ -165,8 +165,8 @@
                     </button>
                 @endif
             </div>
-            <input type="text" wire:model.live="search" placeholder="   Search"
-                class="px-2 ml-4 border border-gray-300 rounded-lg">
+            {{-- <input type="text" wire:model.live="search" placeholder="   Search"
+                class="px-2 ml-4 border border-gray-300 rounded-lg"> --}}
         </div>
     </div>
     {{-- </div> --}}
@@ -236,27 +236,30 @@
             });
         }
 
-        function confirmDelete(id_dosen, nama_dosen) {
+        window.addEventListener('created', event => {
             Swal.fire({
-                title: `Apakah anda yakin ingin menghapus Dosen ${nama_dosen}?,
-                text: "Data yang telah dihapus tidak dapat dikembalikan!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#28a745',
-                confirmButtonText: 'Hapus'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    @this.call('destroy', id_dosen);
-                }
+                icon: 'success',
+                title: 'Berhasil',
+                text: event.detail.message,
+                timer: 2000,
+                showConfirmButton: false
             });
-        }
+        });
+
+        window.addEventListener('updated', event => {
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil',
+                text: event.detail.message,
+                timer: 2000,
+                showConfirmButton: false
+            });
+        });
 
 
         window.addEventListener('bulkDelete.alert.dosen-table-lw2rml-table', (event) => {
             const ids = event.detail[0].ids;
 
-            // console.log(event.detail[0].ids);
             if (!ids || ids.length === 0) return;
 
             Swal.fire({
@@ -269,10 +272,7 @@
                 confirmButtonText: 'Hapus'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Livewire.find(
-                    //     document.querySelector('[wire\\:id]').getAttribute('wire:id')
-                    // ).call('destroySelected', ids);
-                    @this.call('destroySelected',ids);
+                    @this.call('destroySelected', ids);
                 }
             });
         });

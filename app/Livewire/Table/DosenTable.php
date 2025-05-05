@@ -37,6 +37,7 @@ final class DosenTable extends PowerGridComponent
 
     public function header(): array
     {
+        $this->checkboxAttribute = 'id_dosen';
         return [
             Button::add('bulk-delete')
                 ->slot('Hapus data terpilih (<span x-text="window.pgBulkActions.count(\'' . $this->tableName . '\')"></span>)')
@@ -61,8 +62,6 @@ final class DosenTable extends PowerGridComponent
         return Dosen::query()->with('prodi');
     }
 
-
-
     public function relationSearch(): array
     {
         return [
@@ -72,7 +71,6 @@ final class DosenTable extends PowerGridComponent
             ],
         ];
     }
-
 
     public function fields(): PowerGridFields
     {
@@ -88,7 +86,7 @@ final class DosenTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('Nama dosen', 'nama_dosen')
+            Column::make('Nama', 'nama_dosen')
                 ->sortable()
                 ->searchable(),
 
@@ -100,7 +98,7 @@ final class DosenTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Jabatan fungsional', 'jabatan_fungsional')
+            Column::make('Jabatan', 'jabatan_fungsional')
                 ->sortable()
                 ->searchable(),
 

@@ -25,7 +25,7 @@
                         <div class="flex flex-col">
                             <label for="email"
                                 class="block text-sm font-medium text-gray-700 text-left">Email</label>
-                            <input type="email" id="email" wire:model="email"
+                            <input type="email" id="email_{{ $id_dosen }}" wire:model="email"
                                 class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                             @error('email')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -33,7 +33,7 @@
 
                             <label for="password"
                                 class="block mt-2 text-sm font-medium text-gray-700 text-left">Password</label>
-                            <input type="password" id="password" wire:model="password"
+                            <input type="password" id="password_{{ $id_dosen }}" wire:model="password"
                                 class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                 readonly>
                             @error('password')

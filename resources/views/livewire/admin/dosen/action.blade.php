@@ -1,5 +1,3 @@
-
-
 <div class="flex justify-center space-x-2">
 
     <livewire:admin.dosen.edit :id_dosen="$row->id_dosen" wire:key="edit-{{ rand() . $row->id_dosen }}" />

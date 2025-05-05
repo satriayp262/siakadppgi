@@ -35,7 +35,7 @@ class Token extends Model
         return $this->belongsTo(Kelas::class, 'id_kelas', 'id_kelas');
     }
 
-    public function semster()
+    public function semester()
     {
         return $this->belongsTo(Semester::class, 'id_semester', 'id_semester');
     }

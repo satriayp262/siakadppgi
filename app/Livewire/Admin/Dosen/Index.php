@@ -30,33 +30,35 @@ class Index extends Component
     #[On('dosenCreated')]
     public function handledosenCreated()
     {
-        $this->dispatch('created', params: ['message' => 'Dosen created Successfully']);
         $this->dispatch('pg:eventRefresh-dosen-table-lw2rml-table');
+        $this->dispatch('created', params: ['message' => 'Dosen berhasil ditambahkan!']);
     }
     #[On('userCreated')]
     public function handleuserCreated()
     {
-        $this->dispatch('created', params: ['message' => 'User created Successfully']);
         $this->dispatch('pg:eventRefresh-dosen-table-lw2rml-table');
+        $this->dispatch('created', params: ['message' => 'Dosen berhasil ditambahkan!']);
     }
 
     #[On('dosenUpdated')]
-    public function handledosenEdited()
+    public function handledosenUpdated()
     {
-        $this->dispatch('updated', params: ['message' => 'Dosen updated Successfully']);
         $this->dispatch('pg:eventRefresh-dosen-table-lw2rml-table');
+        $this->dispatch('updated', params: ['message' => 'Dosen berhasil diubah!']);
     }
 
+
+    public function deleted(){
+
+        $this->dispatch('pg:eventRefresh-dosen-table-lw2rml-table');
+        $this->dispatch('destroyed', ['message' => 'Dosen Berhasil di Hapus!']);
+    }
 
     public function destroy($id_dosen)
     {
         $dosen = Dosen::find($id_dosen);
-
-        // Hapus data dosen
         $dosen->delete();
-
-        $this->dispatch('destroyed', params: ['message' => 'Dosen berhasil dihapus!']);
-        $this->dispatch('pg:eventRefresh-dosen-table-lw2rml-table');
+        $this->deleted();
     }
 
     public function updatedSelectAll($value)
@@ -75,15 +77,10 @@ class Index extends Component
         $this->showDeleteButton = count($this->selectedDosen) > 0;
     }
 
-    public function destroySelected()
+    public function destroySelected($ids)
     {
-        Dosen::whereIn('id_dosen', $this->selectedDosen)->delete();
-
-        $this->selectedDosen = [];
-        $this->selectAll = false;
-        session()->flash('message', 'Dosen Berhasil di Hapus');
-        session()->flash('message_type', 'error');
-        $this->dispatch('pg:eventRefresh-dosen-table-lw2rml-table');
+        Dosen::whereIn('id_dosen', $ids)->delete();
+        $this->deleted();
     }
 
     public function import()
@@ -143,7 +140,6 @@ class Index extends Component
     {
         $this->resetPage();
     }
-
 
 
     public function render()
