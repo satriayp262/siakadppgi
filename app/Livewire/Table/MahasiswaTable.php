@@ -72,14 +72,13 @@ final class MahasiswaTable extends PowerGridComponent
                 ])->toArray())
                 ->optionLabel('label')
                 ->optionValue('value')
-
-
         ];
     }
 
     public function datasource(): \Illuminate\Support\Collection
     {
         $mahasiswaQuery = Mahasiswa::with('semester','prodi');
+
     
         if ($this->filters['semester_difference'] ?? null) {
             $mahasiswaQuery = $mahasiswaQuery->where('semester_difference', $this->filters['semester_difference']);

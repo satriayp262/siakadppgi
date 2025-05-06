@@ -1,15 +1,14 @@
-<div class="md:relative md:sticky fixed left-0 h-screen top-16 z-10">
-    <div id="default-sidebar" class="w-64 h-full transition-transform -translate-x-full bg-customPurple sm:translate-x-0"
-        aria-label="Sidebar">
-        <div class="h-full px-3 py-4">
+<div class="fixed left-0 z-10 h-full min-h-screen md:relative md:sticky md:top-16">
+    <div :class="showSidebar ? 'translate-x-0' : '-translate-x-full'"
+        class="w-64 h-full transition-transform bg-customPurple sm:translate-x-0" aria-label="Sidebar">
+        <div class="h-full px-3 py-4 overflow-y-auto">
             <ul class="space-y-2 font-medium">
                 <li>
-                    <a href="{{ route('dosen.dashboard') }}"
+                    <a wire:navigate.hover href="{{ route('dosen.dashboard') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                         {{ request()->routeIs('dosen.dashboard') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('dosen.dashboard') ? 'text-white' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
-                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                            viewBox="0 0 20 20">
+                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd"
                                 d="M11.293 3.293a1 1 0 0 1 1.414 0l6 6 2 2a1 1 0 0 1-1.414 1.414L19 12.414V19a2 2 0 0 1-2 2h-3a1 1 0 0 1-1-1v-3h-2v3a1 1 0 0 1-1 1H7a2 2 0 0 1-2-2v-6.586l-.293.293a1 1 0 0 1-1.414-1.414l2-2 6-6Z"
                                 clip-rule="evenodd" />
@@ -18,7 +17,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('dosen.jadwal') }}"
+                    <a wire:navigate.hover href="{{ route('dosen.jadwal') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                         {{ request()->routeIs('dosen.jadwal') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('dosen.jadwal') ? 'text-white' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
@@ -32,7 +31,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('dosen.bobot') }}"
+                    <a wire:navigate.hover href="{{ route('dosen.bobot') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                     {{ request()->routeIs('dosen.bobot') || request()->routeIs('dosen.bobot.kelas') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('dosen.bobot') ? 'text-white' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
@@ -46,7 +45,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('dosen.aktifitas') }}"
+                    <a wire:navigate.hover href="{{ route('dosen.aktifitas') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                     {{ request()->routeIs('dosen.aktifitas') || request()->routeIs('dosen.aktifitas.kelas') || request()->routeIs('dosen.aktifitas.kelas.show') || request()->routeIs('dosen.aktifitas.kelas.aktifitas') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('dosen.input_nilai') ? 'text-white' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
@@ -74,7 +73,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('dosen.berita_acara') }}"
+                    <a wire:navigate.hover href="{{ route('dosen.berita_acara') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                     {{ request()->routeIs('dosen.berita_acara') || request()->routeIs('dosen.berita_acara.detail_matkul') || request()->routeIs('dosen.berita_acara.detail_kelas') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('dosen.berita_acara') || request()->routeIs('dosen.berita_acara.detail_matkul') || request()->routeIs('dosen.berita_acara.detail_kelas') ? 'text-white' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
@@ -92,7 +91,7 @@
                         $token = \App\Models\Token::first();
                     @endphp
 
-                    <a href="{{ route('dosen.presensi') }}"
+                    <a wire:navigate.hover href="{{ route('dosen.presensi') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
 {{ request()->routeIs('dosen.presensi') || request()->routeIs('dosen.presensiByKelas') || request()->routeIs('dosen.presensiByToken') || request()->routeIs('dosen.detail_presensi') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('dosen.presensi') || request()->routeIs('dosen.presensiByKelas') || request()->routeIs('dosen.presensiByToken') || request()->routeIs('dosen.detail_presensi') ? 'text-white' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
@@ -106,7 +105,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('dosen.emonev') }}"
+                    <a wire:navigate.hover href="{{ route('dosen.emonev') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
     {{ request()->routeIs('dosen.emonev') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('dosen.emonev') ? ' text-white ' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
@@ -123,4 +122,3 @@
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
