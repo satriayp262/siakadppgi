@@ -9,7 +9,7 @@
                 <ol class="flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
                     <li aria-current="page">
                         <div class="flex items-center">
-                            <a href="{{ route('dosen.aktifitas') }}"
+                            <a wire:navigate.hover  href="{{ route('dosen.aktifitas') }}"
                                 class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
                                 <span class="text-sm font-medium text-gray-500 ms-1 md:ms-2">Aktifitas</span>
                                 <svg class="w-3 h-3 mx-1 text-gray-400 rtl:rotate-180" aria-hidden="true"
@@ -18,7 +18,7 @@
                                         stroke-width="2" d="m1 9 4-4-4-4" />
                                 </svg>
                             </a>
-                            <a href="{{ route('dosen.aktifitas.kelas', ['kode_mata_kuliah' => $kode_mata_kuliah]) }}"
+                            <a wire:navigate.hover  href="{{ route('dosen.aktifitas.kelas', ['kode_mata_kuliah' => $kode_mata_kuliah]) }}"
                                 class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
                                 {{ $kode_mata_kuliah }}
                                 <svg class="w-3 h-3 mx-1 text-gray-400 rtl:rotate-180" aria-hidden="true"
@@ -27,7 +27,7 @@
                                         stroke-width="2" d="m1 9 4-4-4-4" />
                                 </svg>
                             </a>
-                            <a href="{{ route('dosen.aktifitas.kelas.show', ['nama_kelas' => str_replace('/', '-', $nama_kelas), 'kode_mata_kuliah' => $kode_mata_kuliah]) }}"
+                            <a wire:navigate.hover  href="{{ route('dosen.aktifitas.kelas.show', ['nama_kelas' => str_replace('/', '-', $nama_kelas), 'kode_mata_kuliah' => $kode_mata_kuliah]) }}"
                                 class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
                                 {{ str_replace('-', '/', $nama_kelas) }}
                             </a>
@@ -86,7 +86,7 @@
                                         <div class="flex flex-col">
                                             <label class="block text-sm font-medium text-gray-700">Template
                                                 Dokumen</label>
-                                            <a href="{{ asset('template/template_import_nilai.xlsx') }}"
+                                            <a wire:navigate.hover  href="{{ asset('template/template_import_nilai.xlsx') }}"
                                                 class="flex items-center justify-between w-full px-2 py-1 mt-1 text-sm bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
 
                                                 <!-- Left icon -->
@@ -265,7 +265,7 @@
                                     </svg>
                                 </button>
     
-                                <a href="{{ route('dosen.aktifitas.kelas.aktifitas', ['kode_mata_kuliah' => $kode_mata_kuliah, 'nama_kelas' => str_replace('/', '-', $nama_kelas), 'nama_aktifitas' => $item->nama_aktifitas]) }}"
+                                <a wire:navigate.hover  href="{{ route('dosen.aktifitas.kelas.aktifitas', ['kode_mata_kuliah' => $kode_mata_kuliah, 'nama_kelas' => str_replace('/', '-', $nama_kelas), 'nama_aktifitas' => $item->nama_aktifitas]) }}"
                                     class="py-1 sm:py-2 px-3 sm:px-5 bg-blue-500 hover:bg-blue-700 rounded text-white text-sm">
                                     ▶
                                 </a>

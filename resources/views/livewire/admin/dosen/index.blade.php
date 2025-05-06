@@ -58,7 +58,7 @@
                                                 <label for=""
                                                     class="block text-sm font-medium text-gray-700">Template
                                                     Dokumen</label>
-                                                <a href="{{ asset('template/template_dosen.xlsx') }}"
+                                                <a wire:navigate.hover  href="{{ asset('template/template_dosen.xlsx') }}"
                                                     class="flex justify-between items-center w-full px-2 py-1 mt-1 text-sm bg-gray-200 rounded-md border-gray-700 shadow-2xl focus:border-indigo-500 sm:text-sm">
                                                     <!-- Left icon -->
                                                     <svg class="w-6 h-6 text-gray-500" aria-hidden="true"

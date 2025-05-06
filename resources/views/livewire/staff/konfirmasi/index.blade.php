@@ -140,7 +140,7 @@
                             {{ $x->status }}
                         </td>
                         <td class="px-4 py-2 text-center">
-                            <a href="{{ asset('storage/image/bukti_pembayaran/' . $x->bukti_pembayaran) }}"
+                            <a wire:navigate.hover  href="{{ asset('storage/image/bukti_pembayaran/' . $x->bukti_pembayaran) }}"
                                 target="_blank" class="text-blue-500 hover:underline">Lihat</a>
                         </td>
                         <td class="px-4 py-2 text-center justify-items-center">

@@ -8,7 +8,7 @@
             <ol class="flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
                 <li aria-current="page">
                     <div class="flex items-center">
-                        <a href="{{ route('dosen.khs') }}"
+                        <a wire:navigate.hover  href="{{ route('dosen.khs') }}"
                             class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
                             <span class="text-sm font-medium text-gray-500 ms-1 md:ms-2">KHS</span>
                             <svg class="w-3 h-3 mx-1 text-gray-400 rtl:rotate-180" aria-hidden="true"
@@ -17,7 +17,7 @@
                                     stroke-width="2" d="m1 9 4-4-4-4" />
                             </svg>
                         </a>
-                        <a href="{{ route('dosen.khs.detail', ['NIM' => $NIM]) }}"
+                        <a wire:navigate.hover  href="{{ route('dosen.khs.detail', ['NIM' => $NIM]) }}"
                             class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
                             <span class="text-sm font-medium text-gray-500 ">Detail</span>
                             <svg class="w-3 h-3 mx-1 text-gray-400 rtl:rotate-180" aria-hidden="true"
@@ -278,7 +278,7 @@
                                 <div class="flex items-center justify-between my-2">
                                     <h2 class="font-bold text-[18px] ml-1 text-gray-700">Mohon Lunasi Tagihan</h2>
                                     @if (auth()->user()->role == 'mahasiswa')
-                                        <a href="{{ route('mahasiswa.keuangan') }}"
+                                        <a wire:navigate.hover  href="{{ route('mahasiswa.keuangan') }}"
                                             class="md:px-3 md:py-3 px-2 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
                                             <svg class="w-3 h-3 md:w-6 md:h-6 text-white" aria-hidden="true"
                                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -299,7 +299,7 @@
                                     <h2 class="font-bold text-[18px] ml-1 text-gray-700">Mohon Selesaikan E-monev
                                     </h2>
                                     @if (auth()->user()->role == 'mahasiswa')
-                                        <a href="{{ route('mahasiswa.emonev') }}"
+                                        <a wire:navigate.hover  href="{{ route('mahasiswa.emonev') }}"
                                             class="md:px-3 md:py-3 px-2 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
                                             <svg class="flex-shrink-0 w-3 h-3 md:w-6 md:h-6 transition duration-75  }}"
                                                 aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"

@@ -9,7 +9,7 @@
                         PPGI
                     </p>
                 </div>
-                <a href="{{ route('mahasiswa.transaksi.histori') }}" class=" text-blue-500">Histori Pembayaran</a>
+                <a wire:navigate.hover  href="{{ route('mahasiswa.transaksi.histori') }}" class=" text-blue-500">Histori Pembayaran</a>
             </div>
 
             <div class="flex flex-col mt-4">

@@ -4,7 +4,7 @@
             <ol class="flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
                 <li aria-current="page">
                     <div class="flex items-center">
-                        <a href="{{ route('admin.paketkrs') }}"
+                        <a wire:navigate.hover  href="{{ route('admin.paketkrs') }}"
                             class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
                             <span class="text-sm font-medium text-gray-500 ms-1 md:ms-2">Anggota Kelas</span>
                             <svg class="w-3 h-3 mx-1 text-gray-400 rtl:rotate-180" aria-hidden="true"
@@ -18,7 +18,7 @@
             </ol>
         </nav>
         <div class="flex justify-between items-center space-x-4">
-            <a href="{{ route('admin.paketkrs.create') }}"
+            <a wire:navigate.hover  href="{{ route('admin.paketkrs.create') }}"
                 class="flex items-center px-4 py-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">
                 <svg class="w-6 h-6 mr-2 font-black text-gray-800 dark:text-white" aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24">

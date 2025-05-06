@@ -74,7 +74,7 @@
                     <p class="text-sm text-gray-500">Halaman ini ditunjukan untuk melihat tagihan dan pembayaran Anda
                     </p>
                 </div>
-                <a href="{{ route('mahasiswa.transaksi.histori') }}" class=" text-blue-500">Histori Pembayaran</a>
+                <a wire:navigate.hover  href="{{ route('mahasiswa.transaksi.histori') }}" class=" text-blue-500">Histori Pembayaran</a>
             </div>
             <table class="min-w-full mt-4 bg-white border border-gray-200">
                 <thead>
@@ -132,7 +132,7 @@
 
                             <td class="px-4 py-2 text-center">
                                 @if ($tagihan->status_tagihan === 'Lunas')
-                                    <a href="{{ route('mahasiswa.download', $tagihan->no_kwitansi) }}" target="_blank"
+                                    <a wire:navigate.hover  href="{{ route('mahasiswa.download', $tagihan->no_kwitansi) }}" target="_blank"
                                         class="inline-flex px-4 py-2 text-white bg-purple2 hover:bg-customPurple rounded-md">
 
                                         <svg class="w-6 h-6 text-white" aria-hidden="true"

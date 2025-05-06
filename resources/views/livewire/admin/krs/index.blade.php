@@ -49,7 +49,7 @@
                                             <div class="flex flex-col">
                                                 <label class="block text-sm font-medium text-gray-700">Template
                                                     Dokumen</label>
-                                                <a href="{{ asset('template/template_import_krs.xlsx') }}"
+                                                <a wire:navigate.hover  href="{{ asset('template/template_import_krs.xlsx') }}"
                                                     class="flex items-center justify-between w-full px-2 py-1 mt-1 text-sm bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
 
                                                     <!-- Left icon -->
@@ -283,7 +283,7 @@
                         <td class="px-2 py-1 sm:px-4 sm:py-2 text-center">
                             <div class="flex flex-col">
                                 <div class="flex justify-center space-x-2">
-                                    <a href="{{ route('admin.krs.mahasiswa', ['NIM' => $item->NIM]) }}"
+                                    <a wire:navigate.hover  href="{{ route('admin.krs.mahasiswa', ['NIM' => $item->NIM]) }}"
                                         class="py-1 px-2 sm:py-2 sm:px-4 bg-blue-500 hover:bg-blue-700 rounded text-white">
                                         <p>▶</p>
                                     </a>

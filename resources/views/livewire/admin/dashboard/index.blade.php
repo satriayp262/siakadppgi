@@ -20,49 +20,49 @@
     </div>
 
     <div class="grid grid-cols-1 gap-4 mt-5 rounded-lg sm:grid-cols-2 lg:grid-cols-4">
-        <a href="{{ route('admin.semester') }}"
+        <a wire:navigate.hover  href="{{ route('admin.semester') }}"
             class="relative block p-4 rounded-lg shadow-lg bg-yellow-500 hover:bg-yellow-600">
             <h2 class="text-lg font-semibold text-white">Semester</h2>
             <p class="mt-1 text-xl font-bold text-white">{{ $semester }}</p>
         </a>
 
-        <a href="{{ route('admin.mahasiswa') }}"
+        <a wire:navigate.hover  href="{{ route('admin.mahasiswa') }}"
             class="relative block p-4 rounded-lg shadow-lg bg-lime-500 hover:bg-lime-600">
             <h2 class="text-lg font-semibold text-white">Mahasiswa</h2>
             <p class="mt-1 text-xl font-bold text-white">{{ $mahasiswa }}</p>
         </a>
 
-        <a href="{{ route('admin.prodi') }}"
+        <a wire:navigate.hover  href="{{ route('admin.prodi') }}"
             class="relative block p-4 rounded-lg shadow-lg bg-blue-500 hover:bg-blue-600">
             <h2 class="text-lg font-semibold text-white">Program Studi</h2>
             <p class="mt-1 text-xl font-bold text-white">{{ $prodi }}</p>
         </a>
 
-        <a href="{{ route('admin.mata_kuliah') }}"
+        <a wire:navigate.hover  href="{{ route('admin.mata_kuliah') }}"
             class="relative block p-4 rounded-lg shadow-lg bg-pink-500 hover:bg-pink-600">
             <h2 class="text-lg font-semibold text-white">Mata Kuliah</h2>
             <p class="mt-1 text-xl font-bold text-white">{{ $matakuliah }}</p>
         </a>
 
-        <a href="{{ route('admin.user') }}"
+        <a wire:navigate.hover  href="{{ route('admin.user') }}"
             class="relative block p-4 rounded-lg shadow-lg bg-orange-500 hover:bg-orange-600">
             <h2 class="text-lg font-semibold text-white">User</h2>
             <p class="mt-1 text-xl font-bold text-white">{{ $user }}</p>
         </a>
 
-        <a href="{{ route('admin.dosen') }}"
+        <a wire:navigate.hover  href="{{ route('admin.dosen') }}"
             class="relative block p-4 rounded-lg shadow-lg bg-purple-400 hover:bg-purple-500">
             <h2 class="text-lg font-semibold text-white">Dosen</h2>
             <p class="mt-1 text-xl font-bold text-white">{{ $dosen }}</p>
         </a>
 
-        <a href="{{ route('admin.kelas') }}"
+        <a wire:navigate.hover  href="{{ route('admin.kelas') }}"
             class="relative block p-4 rounded-lg shadow-lg bg-green-500 hover:bg-green-600">
             <h2 class="text-lg font-semibold text-white">Kelas</h2>
             <p class="mt-1 text-xl font-bold text-white">{{ $kelas }}</p>
         </a>
 
-        <a href="{{ route('admin.kurikulum') }}"
+        <a wire:navigate.hover  href="{{ route('admin.kurikulum') }}"
             class="relative block p-4 rounded-lg shadow-lg bg-red-500 hover:bg-red-600">
             <h2 class="text-lg font-semibold text-white">Kurikulum</h2>
             <p class="mt-1 text-xl font-bold text-white">{{ $kurikulum }}</p>
