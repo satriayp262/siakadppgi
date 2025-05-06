@@ -25,9 +25,9 @@ class Detail extends Component
 
     public function render()
     {
-        $beritaAcaras = BeritaAcara::with(['kelas', 'matkul', 'dosen'])
+        $beritaAcaras = BeritaAcara::with(['kelas', 'mataKuliah', 'dosen'])
             ->when($this->selectedMatkul, function ($query) {
-                $query->whereHas('matkul', function ($q) {
+                $query->whereHas('mataKuliah', function ($q) {
                     $q->where('kode_mata_kuliah', $this->selectedMatkul);
                 });
             })

@@ -15,6 +15,8 @@ use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 final class DetailPresensiDosenTable extends PowerGridComponent
 {
     public string $tableName = 'detail-presensi-dosen-table-l65zhd-table';
+    public string $primaryKey = 'id_berita_acara';
+    public string $sortField = 'id_berita_acara';
 
     public function setUp(): array
     {

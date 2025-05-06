@@ -17,10 +17,10 @@ use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 
 final class DosenTable extends PowerGridComponent
 {
+    public string $primaryKey = 'id_dosen';
+    public string $sortField = 'id_dosen';
     public string $tableName = 'dosen-table-lw2rml-table';
-    public ?string $primaryKeyAlias = 'id';
-    public string $primaryKey = 'dosen.id_dosen';
-    public string $sortField = 'dosen.id_dosen';
+
 
     public function setUp(): array
     {
@@ -38,6 +38,7 @@ final class DosenTable extends PowerGridComponent
     public function header(): array
     {
         $this->checkboxAttribute = 'id_dosen';
+        // dd($this);
         return [
             Button::add('bulk-delete')
                 ->slot('Hapus data terpilih (<span x-text="window.pgBulkActions.count(\'' . $this->tableName . '\')"></span>)')
@@ -79,7 +80,7 @@ final class DosenTable extends PowerGridComponent
             ->add('nidn')
             ->add('jenis_kelamin')
             ->add('jabatan_fungsional')
-            ->add('kepangkatan')
+            // ->add('kepangkatan')
             ->add('prodi.nama_prodi');
     }
 
@@ -102,9 +103,9 @@ final class DosenTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Kepangkatan', 'kepangkatan')
-                ->sortable()
-                ->searchable(),
+            // Column::make('Kepangkatan', 'kepangkatan')
+            //     ->sortable()
+            //     ->searchable(),
 
             Column::make('Prodi', 'prodi.nama_prodi')
                 ->sortable()
