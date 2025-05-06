@@ -176,7 +176,7 @@
 
                 <li>
                     <button type="button"
-                        class="flex items-center w-full p-2 text-base transition duration-75 rounded-lg group hover:bg-purple2 text-purple3 hover:text-white {{ request()->routeIs('admin.mahasiswa', 'admin.krs') ? 'text-white bg-purple2' : 'text-purple3' }}"
+                        class="flex items-center w-full p-2 text-base transition duration-75 rounded-lg group hover:bg-purple2 text-purple3 hover:text-white {{ request()->routeIs('admin.jadwal', 'admin.ujian', 'admin.komponen_ujian') ? 'text-white bg-purple2' : 'text-purple3' }}"
                         aria-controls="dropdown-jadwal" data-collapse-toggle="dropdown-jadwal">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.jadwal', 'admin.ujian') ? 'text-white' : '' }}"
                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"height="24"

@@ -89,7 +89,7 @@
                     <a href="{{ route('mahasiswa.jadwal') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                         {{ request()->routeIs('mahasiswa.jadwal') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
-                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('dosen.jadwal') ? 'text-white' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
+                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('mahasiswa.jadwal') ? 'text-white' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                             fill="currentColor" viewBox="0 0 24 24">
                             <path fill-rule="evenodd"
@@ -103,7 +103,7 @@
                     <a wire:navigate.hover href="{{ route('mahasiswa.ujian') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                         {{ request()->routeIs('mahasiswa.ujian') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
-                        <svg class="flex-shrink-0 w-6 h-6 transition duration-75 group-hover:text-white {{ request()->routeIs('dosen.kartu-ujian') ? 'text-white' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
+                        <svg class="flex-shrink-0 w-6 h-6 transition duration-75 group-hover:text-white {{ request()->routeIs('mahasiswa.ujian') ? 'text-white' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                             viewBox="0 0 24 24">
                             <path fill-rule="evenodd"
