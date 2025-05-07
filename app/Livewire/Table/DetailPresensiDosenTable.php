@@ -3,6 +3,8 @@
 namespace App\Livewire\Table;
 
 use App\Models\BeritaAcara;
+use App\Models\Kelas;
+use App\Models\Matakuliah;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -31,48 +33,57 @@ final class DetailPresensiDosenTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        // Ambil nidn dari query parameter URL
-        $nidn = request()->query('nidn');  // Ambil nilai nidn dari URL
+        $nidn = request()->query('nidn');
 
         return BeritaAcara::query()
+            ->with(['mataKuliah', 'kelas', 'semester'])
             ->when($nidn, function ($query) use ($nidn) {
-                return $query->where('nidn', $nidn);  // Filter berdasarkan nidn
+                return $query->where('nidn', $nidn);
             });
     }
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'mataKuliah' => [
+                'nama_mata_kuliah',
+                'id_mata_kuliah',
+            ],
+            'kelas' => [
+                'nama_kelas',
+                'id_kelas',
+            ],
+            'semester' => [
+                'nama_semester',
+                'id_semester',
+            ],
+        ];
     }
 
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
             ->add('id_berita_acara')
-            ->add('tanggal_formatted', fn (BeritaAcara $model) => Carbon::parse($model->tanggal)->format('d/m/Y'))
+            ->add('tanggal_formatted', fn(BeritaAcara $model) => Carbon::parse($model->tanggal)->format('d/m/Y'))
             ->add('nidn')
-            ->add('id_mata_kuliah')
+            ->add('mataKuliah.nama_mata_kuliah')
             ->add('materi')
             ->add('jumlah_mahasiswa')
-            ->add('id_kelas')
-            ->add('id_semester');
+            ->add('kelas.nama_kelas')
+            ->add('semester.nama_semester');
     }
 
     public function columns(): array
     {
         return [
-            // Column::make('Id berita acara', 'id_berita_acara')
-            //     ->sortable()
-            //     ->searchable(),
-
             Column::make('Tanggal', 'tanggal_formatted', 'tanggal')
                 ->sortable(),
 
-            Column::make('Nidn', 'nidn')
+            Column::make('NIDN', 'nidn')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Id mata kuliah', 'id_mata_kuliah')
+            Column::make('Mata Kuliah', 'mataKuliah.nama_mata_kuliah')
                 ->sortable()
                 ->searchable(),
 
@@ -80,15 +91,15 @@ final class DetailPresensiDosenTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Jumlah mahasiswa', 'jumlah_mahasiswa')
+            Column::make('Jumlah Mahasiswa', 'jumlah_mahasiswa')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Id kelas', 'id_kelas')
+            Column::make('Kelas', 'kelas.nama_kelas')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Id semester', 'id_semester')
+            Column::make('Semester', 'semester.nama_semester')
                 ->sortable()
                 ->searchable(),
         ];
@@ -98,23 +109,26 @@ final class DetailPresensiDosenTable extends PowerGridComponent
     {
         return [
             Filter::datepicker('tanggal'),
+
+            Filter::select('mataKuliah.nama_mata_kuliah', 'berita_acara.id_mata_kuliah')
+                ->dataSource(
+                    \App\Models\Matakuliah::all()->map(fn($mataKuliah) => [
+                        'id' => $mataKuliah->id_mata_kuliah,
+                        'name' => $mataKuliah->nama_mata_kuliah,
+                    ])
+                )
+                ->optionLabel('name')
+                ->optionValue('id'),
+
+            Filter::select('kelas.nama_kelas', 'berita_acara.id_kelas')
+                ->dataSource(
+                    \App\Models\Kelas::all()->map(fn($kelas) => [
+                        'id' => $kelas->id_kelas,
+                        'name' => $kelas->nama_kelas,
+                    ])
+                )
+                ->optionLabel('name')
+                ->optionValue('id'),
         ];
     }
-
-    // #[\Livewire\Attributes\On('edit')]
-    // public function edit($rowId): void
-    // {
-    //     $this->js('alert('.$rowId.')');
-    // }
-
-    // public function actions(BeritaAcara $row): array
-    // {
-    //     return [
-    //         Button::add('edit')
-    //             ->slot('Edit: '.$row->id)
-    //             ->id()
-    //             ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-    //             ->dispatch('edit', ['rowId' => $row->id])
-    //     ];
-    // }
 }
