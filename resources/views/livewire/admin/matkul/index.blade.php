@@ -13,8 +13,8 @@
                     </button>
                 @endif
             </div>
-            <input type="text" wire:model.live="search" placeholder="   Search"
-                class="px-2 ml-4 border border-gray-300 rounded-lg">
+            {{-- <input type="text" wire:model.live="search" placeholder="   Search"
+                class="px-2 ml-4 border border-gray-300 rounded-lg"> --}}
         </div>
 
         <div>
@@ -57,7 +57,8 @@
     </div>
 
     <div class="max-w-full p-4 mt-4 mb-4 bg-white rounded-lg shadow-lg">
-        <table class="w-full mt-4 bg-white border border-gray-200">
+        <livewire:table.matkul />
+        {{-- <table class="w-full mt-4 bg-white border border-gray-200">
             <thead>
                 <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
                     <th class="px-3 py-2"><input type="checkbox" id="selectAll" wire:model="selectAll"></th>
@@ -117,7 +118,7 @@
         <!-- Pagination Controls -->
         <div class="mt-4 mb-4 text-center">
             {{ $matkuls->links('') }}
-        </div>
+        </div> --}}
     </div>
 
     <script>
@@ -138,45 +139,48 @@
             });
         }
 
-        const selectAllCheckbox = document.getElementById('selectAll');
-        const rowCheckboxes = document.querySelectorAll('.selectRow');
+        window.addEventListener('bulkDelete.alert.matkul-gsy2i9-table', (event) => {
+        const ids = event.detail[0].ids;
 
-        selectAllCheckbox.addEventListener('change', function() {
-            const isChecked = this.checked;
+        // console.log(event.detail[0].ids);
+        if (!ids || ids.length === 0) return;
 
-            rowCheckboxes.forEach(function(checkbox) {
-                checkbox.checked = isChecked;
-            });
-
-            @this.set('selectedMatkul', isChecked ? [...rowCheckboxes].map(cb => cb.value) : []);
+        Swal.fire({
+            title: `Apakah anda yakin ingin menghapus ${ids.length} data User?`,
+            text: "Data yang telah dihapus tidak dapat dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Hapus'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Livewire.find(
+                //     document.querySelector('[wire\\:id]').getAttribute('wire:id')
+                // ).call('destroySelected', ids);
+                @this.call('destroySelected', ids);
+            }
         });
+    });
 
-        rowCheckboxes.forEach(function(checkbox) {
-            checkbox.addEventListener('change', function() {
-                @this.set('selectedMatkul', [...rowCheckboxes].filter(cb => cb.checked).map(cb => cb
-                    .value));
-            });
-        });
-
-        function confirmDeleteSelected() {
-            const selectedMatkul = @this.selectedMatkul; // Dapatkan data dari Livewire
-
-            console.log(selectedMatkul); // Tambahkan log untuk memeriksa nilai
-
+    function isMovingToDropdown(event) {
+        const target = event.relatedTarget; // Elemen tujuan kursor
+        return target && (target.closest('.relative') !== null);
+    }
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        window.addEventListener('destroyed', event => {
             Swal.fire({
-                title: `Apakah anda yakin ingin menghapus ${selectedMatkul.length} data Matkul?`,
-                text: "Data yang telah dihapus tidak dapat dikembalikan!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#6c757d',
-                confirmButtonText: 'Hapus'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Panggil method Livewire untuk menghapus data terpilih
-                    @this.call('destroySelected');
-                }
+                title: 'Success!',
+                text: event.detail.params.message,
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                // Dispatch the modal-closed event to close the modal
+                window.dispatchEvent(new CustomEvent('modal-closed'));
             });
-        }
+        });
+    });
     </script>
 </div>
