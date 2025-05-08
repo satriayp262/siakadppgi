@@ -14,7 +14,7 @@ class Index extends Component
 {
     use WithPagination;
 
-    public $month, $year, $search = '', $id_semester = "semua", $id_prodi = "semua";
+    public $month, $year, $search = '', $id_semester = "semua", $kode_prodi = "semua";
     public $selectedProdi;
     public $selectedKodeProdi = '';
 
@@ -44,7 +44,7 @@ class Index extends Component
     {
         // Set id_semester and id_prodi to null if "semua" is selected
         $this->id_semester = ($this->id_semester === "semua") ? null : $this->id_semester;
-        $this->id_prodi = ($this->id_prodi === "semua") ? null : $this->id_prodi;
+        $this->kode_prodi = ($this->kode_prodi === "semua") ? null : $this->kode_prodi;
     }
 
     public function exportExcel()
@@ -53,7 +53,7 @@ class Index extends Component
         $this->setDefaults();  // Memastikan id_semester dan id_prodi sudah diset
 
         $nama_semester = $this->id_semester ? Semester::where('id_semester', $this->id_semester)->first()->nama_semester : null;
-        $nama_prodi = $this->id_prodi ? Prodi::where('id_prodi', $this->id_prodi)->first()->nama_prodi : null;
+        $nama_prodi = $this->kode_prodi ? Prodi::where('kode_prodi', $this->kode_prodi)->first()->nama_prodi : null;
 
         // Menentukan nama file berdasarkan semester dan prodi
         $fileName = 'Data Presensi Dosen ';
@@ -66,7 +66,7 @@ class Index extends Component
         $fileName .= now()->format('Y-m-d') . '.xlsx';
 
         // Menjalankan ekspor data
-        return Excel::download(new PresensiDosenExport($this->month, $this->year, $this->search, $this->id_prodi, $this->id_semester), $fileName);
+        return Excel::download(new PresensiDosenExport($this->month, $this->year, $this->search, $this->kode_prodi, $this->id_semester), $fileName);
     }
 
     public function render()

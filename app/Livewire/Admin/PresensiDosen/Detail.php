@@ -3,20 +3,47 @@
 namespace App\Livewire\Admin\PresensiDosen;
 
 use Livewire\Component;
+use App\Exports\BeritaAcaraExport;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Models\BeritaAcara;
+use App\Models\Semester;
 use App\Models\Kelas;
 use App\Models\Matakuliah;
-use App\Models\Semester;
 use Livewire\WithPagination;
+use Livewire\Attributes\Url;
 
 class Detail extends Component
 {
     use WithPagination;
 
+    #[Url]
+    public $nidn;
+
     public $search = '';
     public $selectedMatkul = '';
     public $selectedKelas = '';
     public $selectedSemester = '';
+
+    public $semesters;
+    public $kelasList;
+    public $matkuls;
+
+    public function mount()
+    {
+        $this->semesters = Semester::orderBy('nama_semester')->get();
+        $this->kelasList = Kelas::orderBy('nama_kelas')->get();
+        $this->matkuls = Matakuliah::orderBy('nama_mata_kuliah')->get();
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new BeritaAcaraExport(
+            $this->nidn,
+            $this->selectedSemester ?: 'semua',
+            $this->selectedKelas ?: 'semua',
+            $this->selectedMatkul ?: 'semua'
+        ), 'berita_acara_export_' . $this->nidn . '_' . ($this->selectedSemester ?: 'semua') . '_' . ($this->selectedKelas ?: 'semua') . '_' . ($this->selectedMatkul ?: 'semua') . '.xlsx');
+    }
 
     public function updatingSearch()
     {
@@ -26,28 +53,34 @@ class Detail extends Component
     public function render()
     {
         $beritaAcaras = BeritaAcara::with(['kelas', 'mataKuliah', 'dosen'])
+            ->where('nidn', $this->nidn)
             ->when($this->selectedMatkul, function ($query) {
-                $query->whereHas('mataKuliah', function ($q) {
-                    $q->where('kode_mata_kuliah', $this->selectedMatkul);
-                });
+                $query->where('id_mata_kuliah', $this->selectedMatkul);
             })
             ->when($this->selectedKelas, function ($query) {
-                $query->where('kelas', $this->selectedKelas);
+                $query->where('id_kelas', $this->selectedKelas);
             })
             ->when($this->selectedSemester, function ($query) {
-                $query->where('semester', $this->selectedSemester);
+                $query->where('id_semester', $this->selectedSemester);
             })
+            ->when($this->search, function ($query) {
+                $query->where(function ($q) {
+                    $q->WhereHas('kelas', function ($q) {
+                          $q->where('nama_kelas', 'like', '%' . $this->search . '%');
+                      })
+                      ->orWhereHas('mataKuliah', function ($q) {
+                          $q->where('nama_mata_kuliah', 'like', '%' . $this->search . '%');
+                      });
+                });
+            })
+            ->orderByDesc('created_at')
             ->paginate(10);
-
-        $matkuls = Matakuliah::pluck('kode_mata_kuliah', 'nama_mata_kuliah');
-        $kelasList = Kelas::pluck('nama_kelas', 'id_kelas');
-        $semesters = Semester::pluck('nama_semester', 'id_semester');
 
         return view('livewire.admin.presensi-dosen.detail', [
             'beritaAcaras' => $beritaAcaras,
-            'matkuls' => $matkuls,
-            'kelasList' => $kelasList,
-            'semesters' => $semesters,
+            'semesters' => $this->semesters,
+            'kelasList' => $this->kelasList,
+            'matkuls' => $this->matkuls,
         ]);
     }
 }

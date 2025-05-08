@@ -28,23 +28,29 @@ class PresensiDosenExport implements FromCollection, WithHeadings, WithMapping
     {
         return Dosen::with(['prodi'])
             ->withCount(['tokens as tokens_count' => function ($query) {
-                $query->where('id_semester', $this->selectedSemester);
+                if ($this->selectedSemester) {
+                    $query->where('id_semester', $this->selectedSemester);
+                }
+                if ($this->selectedProdi) {
+                    $query->where('kode_prodi', $this->selectedProdi);
+                }
             }])
             ->where(function ($query) {
+                // Filter pencarian berdasarkan nama dosen, nidn, atau prodi
                 $query->where('nama_dosen', 'like', '%' . $this->search . '%')
-                      ->orWhere('nidn', 'like', '%' . $this->search . '%')
-                      ->orWhereHas('prodi', function ($q) {
-                          $q->where('nama_prodi', 'like', '%' . $this->search . '%');
-                      });
+                    ->orWhere('nidn', 'like', '%' . $this->search . '%')
+                    ->orWhereHas('prodi', function ($q) {
+                        $q->where('nama_prodi', 'like', '%' . $this->search . '%');
+                    });
             })
-            ->when($this->selectedProdi, function ($query) {
-                $query->whereHas('prodi', function ($q) {
-                    $q->where('kode_prodi', $this->selectedProdi);
-                });
-            })
+            // ->when($this->selectedProdi, function ($query) {
+            //     // Filter dosen berdasarkan kode_prodi
+            //     $query->where('kode_prodi', $this->selectedProdi);
+            // })
             ->get()
             ->map(function ($dosen) {
-                $dosen->total_jam = ($dosen->tokens_count ?? 0) * 1.5;
+                // Menambahkan kolom total_jam berdasarkan jumlah token yang dihitung
+                $dosen->total_jam = ($dosen->tokens_count ?? 0) * 1.5; // Asumsi 1 token = 1.5 jam
                 return $dosen;
             });
     }
