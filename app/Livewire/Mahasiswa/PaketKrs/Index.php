@@ -38,7 +38,8 @@ class Index extends Component
             ->where('id_semester', $semester->id_semester)->get();
         return view('livewire.mahasiswa.paket-krs.index', [
             'paketKRS' => $this->paketKRS,
-            'semester' => $semester
+            'semester' => $semester,
+            'mahasiswa' => $this->mahasiswa,
         ]);
     }
 }

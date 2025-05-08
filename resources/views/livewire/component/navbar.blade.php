@@ -42,16 +42,19 @@
                     </div>
                     <ul class="py-2">
                         <li>
-                            <a href="
+                            <a wire:navigate.hover href="
                             @php
-$user = Auth::user();
+                                $user = Auth::user();
                                 if ($user->role == 'staff') {
                                     echo route('staff.profil');
                                 } elseif ($user->role == 'mahasiswa') {
                                     echo route('mahasiswa.profile');
                                 } elseif ($user->role == 'dosen') {
                                     echo route('dosen.dashboard');
-                                } @endphp
+                                } else{
+                                    echo route('admin.user');
+                                }
+                            @endphp
                             "
                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
                         </li>
