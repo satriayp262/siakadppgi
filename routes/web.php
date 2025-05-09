@@ -127,7 +127,9 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
     Route::prefix('emonev/periode')->group(function () {
         Route::get('/', App\Livewire\Admin\Periode\Index::class)->name('admin.emonev.periode');
     });
-    Route::get('/emonev/download', [App\Http\Controllers\PdfEmonev::class, 'generatePDF'])->name('admin.emonev.download');
+    Route::prefix('emonev/list-mahasiswa')->group(function () {
+        Route::get('/', App\Livewire\Admin\Emonev\ListMahasiswa::class)->name('admin.emonev.list-mahasiswa');
+    });
 });
 
 // mahasiswa
