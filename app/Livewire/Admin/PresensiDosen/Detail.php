@@ -39,10 +39,10 @@ class Detail extends Component
     {
         return Excel::download(new BeritaAcaraExport(
             $this->nidn,
-            $this->selectedSemester ?: 'semua',
-            $this->selectedKelas ?: 'semua',
-            $this->selectedMatkul ?: 'semua'
-        ), 'berita_acara_export_' . $this->nidn . '_' . ($this->selectedSemester ?: 'semua') . '_' . ($this->selectedKelas ?: 'semua') . '_' . ($this->selectedMatkul ?: 'semua') . '.xlsx');
+            $this->selectedSemester ?: null,
+            $this->selectedKelas ?: null,
+            $this->selectedMatkul ?: null
+        ), 'berita_acara_export_' . $this->nidn . '.xlsx');
     }
 
     public function updatingSearch()
@@ -54,23 +54,18 @@ class Detail extends Component
     {
         $beritaAcaras = BeritaAcara::with(['kelas', 'mataKuliah', 'dosen'])
             ->where('nidn', $this->nidn)
-            ->when($this->selectedMatkul, function ($query) {
-                $query->where('id_mata_kuliah', $this->selectedMatkul);
-            })
-            ->when($this->selectedKelas, function ($query) {
-                $query->where('id_kelas', $this->selectedKelas);
-            })
-            ->when($this->selectedSemester, function ($query) {
-                $query->where('id_semester', $this->selectedSemester);
-            })
+            ->when($this->selectedMatkul, fn($query) =>
+                $query->where('id_mata_kuliah', $this->selectedMatkul))
+            ->when($this->selectedKelas, fn($query) =>
+                $query->where('id_kelas', $this->selectedKelas))
+            ->when($this->selectedSemester, fn($query) =>
+                $query->where('id_semester', $this->selectedSemester))
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {
-                    $q->WhereHas('kelas', function ($q) {
-                          $q->where('nama_kelas', 'like', '%' . $this->search . '%');
-                      })
-                      ->orWhereHas('mataKuliah', function ($q) {
-                          $q->where('nama_mata_kuliah', 'like', '%' . $this->search . '%');
-                      });
+                    $q->whereHas('kelas', fn($q) =>
+                        $q->where('nama_kelas', 'like', '%' . $this->search . '%'))
+                      ->orWhereHas('mataKuliah', fn($q) =>
+                        $q->where('nama_mata_kuliah', 'like', '%' . $this->search . '%'));
                 });
             })
             ->orderByDesc('created_at')
