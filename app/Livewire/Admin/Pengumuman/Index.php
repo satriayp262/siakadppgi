@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Pengumuman;
 
 use App\Models\Pengumuman;
+use App\Models\Pertanyaan;
 use Livewire\Component;
 use livewire\Attributes\On;
 use Livewire\WithPagination;
@@ -20,8 +21,20 @@ class Index extends Component
     {
         $pengumuman = Pengumuman::find($id);
         $pengumuman->delete();
+        $this->deleted();
+    }
 
-        $this->dispatch('destroyed', ['message' => 'Pengumuman Deleted Successfully']);
+    public function destroySelected($ids)
+    {
+        dd($ids);
+        Pengumuman::whereIn('id_pengumuman', $ids)->delete();
+        $this->deleted();
+    }
+
+    public function deleted()
+    {
+        $this->dispatch('pg:eventRefresh-pengumuman-table-evxe2o-table');
+        $this->dispatch('destroyed', ['message' => 'Pengumuman Berhasil di Hapus']);
     }
 
     protected $listeners = ['showPengumumanDetail'];
@@ -32,7 +45,7 @@ class Index extends Component
         $this->title = $this->pengumuman->title ?? 'No Title';
         $this->desc = $this->pengumuman->desc ?? 'No Description';
 
-        $this->dispatch('open-modal'); // Trigger frontend modal
+        $this->dispatch('open-modal');
     }
 
     public function render()
