@@ -81,10 +81,7 @@ final class ListMahasiswaTable extends PowerGridComponent
             ->add('id')
             ->add('nama')
             ->add('NIM')
-            ->add('prodi.nama_prodi')
-            ->add('created_at_formatted', function ($entry) {
-                return Carbon::parse($entry->created_at)->format('d/m/Y');
-            });
+            ->add('prodi.nama_prodi');
     }
 
     public function columns(): array
@@ -111,9 +108,9 @@ final class ListMahasiswaTable extends PowerGridComponent
     {
         return [
 
-            Filter::select('prodi.nama_prodi', 'nama_prodi')
+            Filter::select('prodi.nama_prodi', 'kode_prodi')
                 ->dataSource(Prodi::all()->map(fn($prodi) => [
-                    'value' => $prodi->nama_prodi,
+                    'value' => $prodi->kode_prodi,
                     'label' => $prodi->nama_prodi,
                 ]))
                 ->optionLabel('label')

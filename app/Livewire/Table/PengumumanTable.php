@@ -80,8 +80,7 @@ final class PengumumanTable extends PowerGridComponent
             })
             ->add('image', function ($pengumuman) {
                 return '<img src="' . asset("storage/image/pengumuman/{$pengumuman->image}") . '">';
-            })
-            ->add('file');
+            });
     }
 
     public function columns(): array
@@ -98,9 +97,7 @@ final class PengumumanTable extends PowerGridComponent
             Column::make('Image', 'image'),
 
 
-            Column::make('File', 'file'),
-
-            Column::action('Action')
+            Column::action('Aksi')
         ];
     }
 

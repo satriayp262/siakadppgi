@@ -23,6 +23,10 @@ class ListMahasiswa extends Component
 
     public function loadData()
     {
+        if ($this->selectedSemester == '') {
+            $this->dispatch('warning', ['message' => 'Pilih Periode']);
+            return;
+        }
 
         $periode = PeriodeEMonev::with('semester')
             ->where('id_periode', $this->selectedSemester)
