@@ -146,6 +146,7 @@ Route::middleware(['auth', CheckRole::class . ':mahasiswa'])->prefix('mahasiswa'
     Route::get('/khs/detail/{NIM}', App\Livewire\Khs\Detail::class)->name('mahasiswa.khs.detail');
     Route::get('/download/{NIM}/{id_semester}', [App\Http\Controllers\KHSController::class, 'generatePDF'])->name('mahasiswa.khs.download');
     Route::get('/keuangan/bayar/{order_id}', App\Livewire\Mahasiswa\Keuangan\Bayar::class)->name('mahasiswa.transaksi');
+    Route::get('/keuangan/cicilan/{id_tagihan}', App\Livewire\Mahasiswa\Keuangan\Cicil::class)->name('mahasiswa.transaksi.cicilan');
     Route::get('/keuangan/berhasil/{id_transaksi}', App\Livewire\Mahasiswa\Keuangan\Berhasil::class)->name('mahasiswa.transaksi.berhasil');
     Route::get('/keuangan/konfirmasi', App\Livewire\Mahasiswa\Keuangan\Konfirmasi::class)->name('mahasiswa.transaksi.konfirmasi');
     Route::get('/keuangan/histori', App\Livewire\Mahasiswa\Keuangan\Histori::class)->name('mahasiswa.transaksi.histori');

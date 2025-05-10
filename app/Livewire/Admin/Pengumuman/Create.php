@@ -55,9 +55,8 @@ class Create extends Component
         ]);
 
         $this->reset();
-
-        $this->dispatch('pengumumanAdded');
-
+        $this->dispatch('pg:eventRefresh-pengumuman-table-evxe2o-table');
+        $this->dispatch('created', ['message' => 'Pengumuman Berhasil di Tambahkan']);
         return $pengumuman;
     }
 

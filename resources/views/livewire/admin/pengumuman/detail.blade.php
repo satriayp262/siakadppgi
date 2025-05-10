@@ -43,8 +43,7 @@
                     <div class="mb-4">
                         <h4 class="text-md mb-2">
                             @if ($pengumuman->file)
-                                <a wire:navigate.hover
-                                    href="{{ asset('storage/file/pengumuman/' . $pengumuman->file) }}" target="_blank"
+                                <a href="{{ asset('storage/file/pengumuman/' . $pengumuman->file) }}" target="_blank"
                                     class="text-purple2 hover:underline">
                                     {{ $pengumuman->title }}.pdf
                                 </a>

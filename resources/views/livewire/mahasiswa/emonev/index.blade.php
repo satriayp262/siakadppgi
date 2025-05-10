@@ -81,12 +81,10 @@
                     @php
                         $periode = $periode1;
                     @endphp
-                    <span>periode 1</span>
                 @elseif ($isPeriode2 == true)
                     @php
                         $periode = $periode2;
                     @endphp
-                    <span>periode 2</span>
                 @endif
                 @if (!$isPeriode1 && !$isPeriode2)
                     <div class="bg-white shadow-lg p-6 rounded-lg max-w-full text-center">
@@ -117,9 +115,9 @@
                         <p class="font-semibold">e-Monev Semester {{ $periode1->semester->nama_semester . '' }}tidak
                             dapat
                             diakses saat ini.</p>
-                        <p>Periode 1: {{ $periode1->tanggal_mulai }} -
+                        <p>Periode 1 : {{ $periode1->tanggal_mulai }} -
                             {{ $periode1->tanggal_selesai }}</p>
-                        <p>Periode 2: {{ $periode2->tanggal_mulai }} -
+                        <p>Periode 2 : {{ $periode2->tanggal_mulai }} -
                             {{ $periode2->tanggal_selesai }}</p>
                     </div>
                 @else

@@ -12,8 +12,8 @@ class Index extends Component
 {
     use WithPagination;
 
-    #[On('pengumumanAdded')]
-    public function handlepengumumanAdded()
+    #[On('PengumumanCreated')]
+    public function handlePengumumanCreated()
     {
         $this->dispatch('pg:eventRefresh-pengumuman-table-evxe2o-table');
         $this->dispatch('created', ['message' => 'Pengumuman Berhasil di Tambahkan']);
