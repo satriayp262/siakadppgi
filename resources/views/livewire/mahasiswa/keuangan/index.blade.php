@@ -51,7 +51,7 @@
                     </p>
                 </div>
                 <a wire:navigate.hover href="{{ route('mahasiswa.transaksi.histori') }}" class=" text-blue-500">Histori
-                    Pembayaran</a>
+                    Transaksi</a>
             </div>
             @livewire('table.mahasiswa.keuangan.tagihan-table')
         </div>

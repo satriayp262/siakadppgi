@@ -44,17 +44,6 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="tanggal_pembayaran" class="block text-sm font-medium text-gray-700">Tanggal
-                                Pembayaran</label>
-                            <input type="datetime-local" id="tanggal_pembayaran" wire:model="tanggal_pembayaran"
-                                name="tanggal_pembayaran"
-                                class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
-                            @error('tanggal_pembayaran')
-                                <span class="text-sm text-red-500">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <div class="mb-4">
                             <label for="bulan" class="block text-sm font-medium text-gray-700">Bulan</label>
                             <select id="bulan" wire:model="bulan" name="bulan"
                                 class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">

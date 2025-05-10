@@ -1,19 +1,25 @@
 <?php
 
-namespace App\Livewire\Mahasiswa\Keuangan;
+namespace App\Livewire\Table\Mahasiswa\Keuangan;
 
-use Livewire\Component;
+use Illuminate\Support\Carbon;
+use App\Models\Cicilan_BPP;
 use App\Models\Konfirmasi_Pembayaran;
 use App\Models\Tagihan;
-use App\Models\Cicilan_BPP;
 use App\Models\Transaksi;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Carbon\Carbon;
+use Illuminate\Support\Collection;
+use PowerComponents\LivewirePowerGrid\Column;
+use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
+use PowerComponents\LivewirePowerGrid\PowerGridFields;
+use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 
-class Histori extends Component
+final class HistoryTable extends PowerGridComponent
 {
-    public function render()
+    public string $tableName = 'history-table-va2for-table';
+
+    public function datasource(): Collection
     {
+
         $user = auth()->user();
 
         $cicilan = Cicilan_BPP::with('tagihan.mahasiswa')
@@ -81,32 +87,62 @@ class Histori extends Component
             ->merge($transaksi)
             ->merge($tag)
             ->sortByDesc('tanggal')
-            ->values(); // reset index
+            ->values();
 
+        return $dataPembayaran;
+    }
 
+    public function setUp(): array
+    {
+        //$this->showCheckBox();
 
+        return [
+            PowerGrid::header()
+                ->showSearchInput(),
+            PowerGrid::footer()
+                ->showPerPage()
+                ->showRecordCount(),
+        ];
+    }
 
-        // Gabungkan semua data
-        $pembayaran = $cicilan->merge($konfirmasi)->merge($transaksi)->merge($tag)->sortByDesc('tanggal')->values();
-        $currentPage = request()->get('page', 1);
-        $perPage = 10;
+    public function fields(): PowerGridFields
+    {
+        return PowerGrid::fields()
+            ->add('id')
+            ->add('nama')
+            ->add('tanggal')
+            ->add('jam')
+            ->add('nominal', function ($dish) {
+                return 'Rp. ' . number_format($dish->nominal, 2, ',', '.'); // IDR 170,90
+            })
+            ->add('metode')
+            ->add('pembayaran');
+    }
 
-        // Ambil data yang sesuai halaman
-        $currentPageResults = $pembayaran->slice(($currentPage - 1) * $perPage, $perPage)->values();
+    public function columns(): array
+    {
+        return [
+            Column::make('ID', 'id')->index(),
 
-        // Buat paginator manual
-        $paginatedPembayaran = new LengthAwarePaginator(
-            $currentPageResults,
-            $pembayaran->count(),
-            $perPage,
-            $currentPage,
-            ['path' => request()->url(), 'query' => request()->query()]
-        );
+            Column::make('Guna Pembayaran', 'metode')
+                ->searchable()
+                ->sortable(),
 
+            Column::make('Tanggal Transaksi', 'tanggal')
+                ->searchable()
+                ->sortable(),
 
+            Column::make('Jam Transaksi', 'jam')
+                ->searchable()
+                ->sortable(),
 
-        return view('livewire.mahasiswa.keuangan.histori', [
-            'paginatedPembayaran' => $paginatedPembayaran,
-        ]);
+            Column::make('Nominal', 'nominal')
+                ->searchable()
+                ->sortable(),
+
+            Column::make('Metode Pembayaran', 'pembayaran')
+                ->searchable()
+                ->sortable(),
+        ];
     }
 }

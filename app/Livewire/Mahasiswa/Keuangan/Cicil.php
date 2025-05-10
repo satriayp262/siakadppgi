@@ -63,7 +63,6 @@ class Cicil extends Component
     public function rules()
     {
         return [
-            'tanggal_pembayaran' => 'required|date',
             'bulan' => 'required',
             'total_bayar' => 'required|numeric',
         ];
@@ -71,8 +70,6 @@ class Cicil extends Component
     public function messages()
     {
         return [
-            'tanggal_pembayaran.required' => 'Tanggal pembayaran tidak boleh kosong',
-            'tanggal_pembayaran.date' => 'Tanggal pembayaran harus berupa tanggal yang valid',
             'total_bayar.required' => 'Total bayar tidak boleh kosong',
             'total_bayar.numeric' => 'Total bayar harus berupa angka',
             'bulan.required' => 'Bulan tidak boleh kosong',

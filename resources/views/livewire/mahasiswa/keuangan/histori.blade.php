@@ -7,7 +7,8 @@
                     dilakukan
                 </p>
             </div>
-            <table class="min-w-full mt-4 bg-white border border-gray-200">
+            @livewire('table.mahasiswa.keuangan.history-table')
+            {{-- <table class="min-w-full mt-4 bg-white border border-gray-200">
                 <thead>
                     <tr class="bg-customPurple text-white text-sm">
                         <th class="px-4 py-2 text-center">No.</th>
@@ -36,11 +37,7 @@
                         </tr>
                     @endforeach
                 </tbody>
-            </table>
-            <!-- Pagination Controls -->
-            <div class="py-4 mt-4 text-center">
-                {{ $paginatedPembayaran->links('') }}
-            </div>
+            </table> --}}
         </div>
     </div>
 </div>
