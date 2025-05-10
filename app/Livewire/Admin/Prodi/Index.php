@@ -21,57 +21,34 @@ class Index extends Component
     #[On('ProdiCreated')]
     public function handleProdiCreated()
     {
-        // session()->flash('message', 'Prodi Berhasil di Tambahkan');
-        // session()->flash('message_type', 'success');
+        $this->dispatch('pg:eventRefresh-prodi-table-pzqflt-table');
         $this->dispatch('created', ['message' => 'Prodi Berhasil di Tambahkan']);
     }
 
     #[On('ProdiUpdated')]
     public function handleProdiUpdated()
     {
-        // session()->flash('message', 'Prodi Berhasil di Update');
-        // session()->flash('message_type', 'update');
+        $this->dispatch('pg:eventRefresh-prodi-table-pzqflt-table');
+
         $this->dispatch('updated', ['message' => 'Prodi Berhasil di Update']);
     }
-    public function updatedSelectAll($value)
+   
+    public function destroySelected($ids)
     {
-        if ($value) {
-            // Jika selectAll true, pilih semua id_dosen
-            $this->selectedProdi = Prodi::pluck('id_prodi')->toArray();
-        } else {
-            // Jika selectAll false, hapus semua pilihan
-            $this->selectedProdi = [];
-        }
-    }
-
-    public function updatedSelectedProdi()
-    {
-        // Jika ada dosen yang dipilih, tampilkan tombol, jika tidak, sembunyikan
-        $this->showDeleteButton = count($this->selectedProdi) > 0;
-    }
-    public function destroySelected()
-    {
-        Prodi::whereIn('id_prodi', $this->selectedProdi)->delete();
-
-        // Reset array selectedDosen setelah penghapusan
-        $this->selectedProdi = [];
-        $this->selectAll = false; // Reset juga selectAll
-
+        Prodi::whereIn('id_prodi', $ids)->delete();
+        $this->dispatch('pg:eventRefresh-prodi-table-pzqflt-table');
         $this->dispatch('destroyed', ['message' => 'Prodi Berhasil Dihapus']);
-        $this->showDeleteButton = false;
+
     }
 
     public function destroy($id_prodi)
     {
         $prodi = Prodi::find($id_prodi);
 
-
-        // Hapus data prodi
         $prodi->delete();
 
-        // Tampilkan pesan sukses
-        // session()->flash('message', 'Prodi Berhasil di Hapus');
-        // session()->flash('message_type', 'error');
+        $this->dispatch('pg:eventRefresh-prodi-table-pzqflt-table');
+
         $this->dispatch('destroyed', ['message' => 'Prodi Berhasil di Hapus']);
     }
 
