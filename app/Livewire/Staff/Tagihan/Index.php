@@ -3,6 +3,7 @@
 namespace App\Livewire\Staff\Tagihan;
 
 use Livewire\Component;
+use Livewire\Livewire;
 use Livewire\WithPagination;
 use App\Models\Tagihan;
 use App\Models\Semester;
@@ -14,10 +15,7 @@ use Livewire\Attributes\On;
 
 class Index extends Component
 {
-    use WithPagination;
-    public $search = '';
-    public $selectedprodi = '';
-    public $selectedSemester = '';
+    public $ids = '';
     public $selectedMahasiswa = [];
     public $showUpdateButton = false;
     public $buttontransaksi = false;
@@ -42,10 +40,7 @@ class Index extends Component
         return redirect()->route('staff.tagihan.detail', ['id_tagihan' => $this->id_tagihan]);
     }
 
-    public function updatedSearch()
-    {
-        $this->resetPage();
-    }
+
 
     public function updatedselectedMahasiswa()
     {
@@ -65,9 +60,10 @@ class Index extends Component
     public function createTagihan()
     {
 
+        dd($this->ids);
+
         $Mahasiswa = Mahasiswa::whereIn('id_mahasiswa', $this->selectedMahasiswa)->get();
 
-        // Simpan data mahasiswa ke session sebelum redirect
         session(['selectedMahasiswa' => $Mahasiswa]);
 
         $this->buttontransaksi = true;
@@ -75,38 +71,22 @@ class Index extends Component
         return $Mahasiswa;
     }
 
+    public function Tagihan($ids)
+    {
+        $mahasiswa = Mahasiswa::whereIn('id_mahasiswa', $ids)->get();
+
+        session(['selectedMahasiswa' => $mahasiswa]);
+
+        $this->buttontransaksi = true;
+
+        return $mahasiswa;
+    }
+
 
     public function render()
     {
-        $query = Mahasiswa::with('prodi', 'semester');
-
-        if ($this->search) {
-            $query->where('nama', 'like', '%' . $this->search . '%')
-                ->orWhere('NIM', 'like', '%' . $this->search . '%');
-        }
-
-        $Prodis = Prodi::all();
-
-
-        $semesters = Semester::all();
-
-        if ($this->selectedprodi) {
-            $prodi = Prodi::where('nama_prodi', $this->selectedprodi)->first();
-            $query->where('kode_prodi', $prodi->kode_prodi);
-        }
-
-
-        if ($this->selectedSemester) {
-            $semester = Semester::where('nama_semester', $this->selectedSemester)->first();
-            $query->where('mulai_semester', $semester->id_semester);
-        }
-
-
-
-        return view('livewire.staff.tagihan.index', [
-            'mahasiswas' => $query->latest()->paginate(20),
-            'Prodis' => $Prodis,
-            'semesters' => $semesters,
-        ]);
+        return view(
+            'livewire.staff.tagihan.index'
+        );
     }
 }
