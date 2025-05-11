@@ -14,7 +14,8 @@
         </div>
     </div>
     <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
-        <table class="min-w-full mt-4 bg-white border border-gray-200">
+        @livewire('table.semester-table')
+        {{-- <table class="min-w-full mt-4 bg-white border border-gray-200">
             <thead>
                 <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
                     <th class="py-2 px-4"><input type="checkbox" id="selectAll" wire:model="selectAll"></th>
@@ -71,11 +72,7 @@
                     </tr>
                 @endforeach
             </tbody>
-        </table>
-        <!-- Pagination Controls -->
-        <div class="py-8 mt-4 mb-4 text-center">
-            {{-- {{ $semesters->links('') }} --}}
-        </div>
+        </table> --}}
     </div>
 
     <script>
@@ -111,33 +108,13 @@
             });
         }
 
+        window.addEventListener('bulkDelete.alert.semester-table-4jkmt3-table', (event) => {
+            const ids = event.detail[0].ids;
 
-        // Ambil elemen checkbox di header
-        const selectAllCheckbox = document.getElementById('selectAll');
-
-        // Ambil semua checkbox di baris
-        const rowCheckboxes = document.querySelectorAll('.selectRow');
-
-        // Event listener untuk checkbox di header
-        selectAllCheckbox.addEventListener('change', function() {
-            const isChecked = this.checked;
-
-            // Iterasi semua checkbox di row dan ubah status checked sesuai header
-            rowCheckboxes.forEach(function(checkbox) {
-                checkbox.checked = isChecked; // Update status checkbox di baris
-            });
-
-            // Jika Anda menggunakan Livewire, Anda bisa memanggil update pada model
-            @this.set('selectedSemester', isChecked ? [...rowCheckboxes].map(cb => cb.value) : []);
-        });
-
-        function confirmDeleteSelected() {
-            const selectedSemester = @this.selectedSemester; // Dapatkan data dari Livewire
-
-            console.log(selectedSemester); // Tambahkan log untuk memeriksa nilai
+            if (!ids || ids.length === 0) return;
 
             Swal.fire({
-                title: `Apakah anda yakin ingin menghapus ${selectedSemester.length} data Semester?`,
+                title: `Apakah anda yakin ingin menghapus ${ids.length} data Semester?`,
                 text: "Data yang telah dihapus tidak dapat dikembalikan!",
                 icon: 'warning',
                 showCancelButton: true,
@@ -146,10 +123,9 @@
                 confirmButtonText: 'Hapus'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Panggil method Livewire untuk menghapus data terpilih
-                    @this.call('destroySelected');
+                    @this.call('destroySelected', ids);
                 }
             });
-        }
+        });
     </script>
 </div>
