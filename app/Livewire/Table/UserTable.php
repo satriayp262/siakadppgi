@@ -70,7 +70,17 @@ final class UserTable extends PowerGridComponent
             ->add('name')
             ->add('email')
             ->add('nim_nidn')
-            ->add('role', fn($dish) => e($dish->role));
+            ->add('role', function ($dish) {
+                $role = $dish->role;
+                $badgeClass = match ($role) {
+                    'admin' => 'bg-blue-100 text-blue-800',
+                    'dosen' => 'bg-indigo-100 text-indigo-800',
+                    'mahasiswa' => 'bg-pink-100 text-pink-800',
+                    'staff' => 'bg-purple-100 text-purple-800',
+                    default => 'bg-gray-100 text-gray-800',
+                };
+                return "<span class='px-2 py-1 text-xs font-semibold rounded $badgeClass'>$role</span>";
+            });
     }
 
     public function columns(): array

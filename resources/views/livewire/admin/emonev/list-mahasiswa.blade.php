@@ -50,6 +50,14 @@
                     <p class="mt-1 text-xl font-bold text-white">{{ $belum }}</p>
                 </a>
             </div>
+            <div class="justify-between flex items-center mr-2 mt=2">
+                <div class="flex flex-col">
+                    <h1 class="text-2xl font-bold">Daftar Mahasiswa</h1>
+                    <p class="text-sm text-gray-500">Daftar Mahasiswa yang belum mengisi emonev pada periode
+                        {{ $nama }}</p>
+                    </p>
+                </div>
+            </div>
             @livewire('table.emonev.list-mahasiswa-table', ['selectedSemester' => $selectedSemester], key($selectedSemester))
         @endif
 
