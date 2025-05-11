@@ -22,25 +22,23 @@ class Index extends Component
     #[On('PeriodeCreated')]
     public function handlePeriodeCreated()
     {
+        $this->dispatch('pg:eventRefresh-periode-table-hwo90b-table');
         $this->dispatch('created', ['message' => 'Periode Berhasil di Tambahkan']);
-        return redirect()->route('admin.emonev.periode');
     }
 
     public function destroySelected($ids): void
     {
         PeriodeEMonev::whereIn('id_periode', $ids)->delete();
-        $this->deleted();
+        $this->dispatch('pg:eventRefresh-periode-table-hwo90b-table');
+        $this->dispatch('destroyed', ['message' => 'Periode Berhasil di Hapus']);
     }
 
     public function destroy($id)
     {
         $periode = PeriodeEMonev::find($id);
-        if ($periode) {
-            $periode->delete();
-            $this->dispatch('pg: eventRefresh - periode - table - hwo90b - table');
-        } else {
-            $this->dispatch('error', ['message' => 'Periode tidak ditemukan']);
-        }
+        $periode->delete();
+        $this->dispatch('pg:eventRefresh-periode-table-hwo90b-table');
+        $this->dispatch('destroyed', ['message' => 'Periode Berhasil di Hapus']);
     }
 
 

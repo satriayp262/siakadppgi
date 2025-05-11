@@ -17,48 +17,23 @@ class Index extends Component
     #[On('semesterCreated')]
     public function handlesemesterCreated()
     {
+        $this->dispatch('pg:eventRefresh-semester-table-4jkmt3-table');
         $this->dispatch('created', ['message' => 'Semester Berhasil Disimpan']);
     }
 
-    public function updatedSelectAll($value)
+    public function destroySelected($ids)
     {
-        if ($value) {
-            // Jika selectAll true, pilih semua id_semester
-            $this->selectedSemester = Semester::pluck('id_semester')->toArray();
-        } else {
-            // Jika selectAll false, hapus semua pilihan
-            $this->selectedSemester = [];
-        }
-    }
-
-    public function updatedSelectedSemester()
-    {
-        $this->showDeleteButton = count($this->selectedSemester) > 0;
-    }
-
-    public function destroySelected()
-    {
-        // Hapus data dosen yang terpilih
-        Semester::whereIn('id_semester', $this->selectedSemester)->delete();
-
-        // Reset array selectedDosen setelah penghapusan
-        $this->selectedSemester = [];
-        $this->selectAll = false; // Reset juga selectAll
-        $this->semesterDeleted();
-    }
-
-    public function semesterDeleted()
-    {
+        Semester::whereIn('id_semester', $ids)->delete();
+        $this->dispatch('pg:eventRefresh-semester-table-4jkmt3-table');
         $this->dispatch('destroyed', ['message' => 'Semester Berhasil di Hapus']);
-        $this->showDeleteButton = false;
     }
+
 
     public function destroy($id_semester)
     {
         $semester = Semester::find($id_semester);
         $semester->delete();
-        // session()->flash('message', 'Semester Berhasil di Hapus');
-        // session()->flash('message_type', 'error');
+        $this->dispatch('pg:eventRefresh-semester-table-4jkmt3-table');
         $this->dispatch('destroyed', ['message' => 'Semester Berhasil di Hapus']);
     }
 
@@ -73,6 +48,9 @@ class Index extends Component
             $semester->is_active = true;
             $semester->save();
         }
+
+        $this->dispatch('pg:eventRefresh-semester-table-4jkmt3-table');
+        $this->dispatch('created', ['message' => 'Semester Berhasil di Aktifkan']);
     }
     public function render()
     {

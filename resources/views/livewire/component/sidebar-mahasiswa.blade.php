@@ -1,30 +1,16 @@
-<div class="fixed left-0 z-10 h-screen md:relative md:sticky top-16">
-    <div id="default-sidebar" class="w-64 h-full transition-transform -translate-x-full bg-customPurple sm:translate-x-0"
-        aria-label="Sidebar">
-        <div class="h-full px-3 py-4">
+<div class="fixed left-0 z-10 h-full min-h-screen md:relative md:sticky md:top-16">
+    <div :class="showSidebar ? 'translate-x-0' : '-translate-x-full'"
+        class="w-64 h-full transition-transform bg-customPurple sm:translate-x-0" aria-label="Sidebar">
+        <div class="h-full px-3 py-4 overflow-y-auto">
             <ul class="space-y-2 font-medium">
-                {{-- <li>
-                    <a href="{{ route('mahasiswa.profile') }}"
-                        class="flex items-center p-2 rounded-lg transition duration-75 group
-                        {{ request()->routeIs('mahasiswa.profile') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
-                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('mahasiswa.profile') ? ' text-white' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
-                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"
-                            aria-hidden="true">
-                            <path fill-rule="evenodd"
-                                d="M12 12c2.21 0 4-1.79 4-4S14.21 4 12 4 8 5.79 8 8s1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
-                                clip-rule="evenodd" />
-                        </svg>
-                        <span class="flex-1 ms-3 whitespace-nowrap">Profil</span>
-                    </a>
-                </li> --}}
-
-                <li>
-                    <button type="button"
-                        class="flex items-center w-full p-2 text-base transition duration-75 rounded-lg group hover:bg-purple2 text-purple3 hover:text-white {{ request()->routeIs('mahasiswa.keuangan', 'mahasiswa.transaksi', 'mahasiswa.transaksi.konfirmasi', 'mahasiswa.transaksi.histori') ? 'text-white bg-purple2' : 'text-purple3' }}"
-                        aria-controls="dropdown-sistem" data-collapse-toggle="dropdown-sistem">
-                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('mahasiswa.keuangan', 'mahasiswa.transaksi', 'mahasiswa.transaksi.konfirmasi', 'mahasiswa.transaksi.histori') ? ' text-white' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
-                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            fill="currentColor" viewBox="0 0 24 24">
+                <li x-data="{ open: {{ request()->routeIs('mahasiswa.keuangan', 'mahasiswa.transaksi', 'mahasiswa.transaksi.konfirmasi', 'mahasiswa.transaksi.histori') ? 'true' : 'false' }} }">
+                    <button type="button" @click="open = !open"
+                        class="flex items-center w-full p-2 text-base transition duration-75 rounded-lg group
+                            hover:bg-purple2 hover:text-white
+                            {{ request()->routeIs('mahasiswa.keuangan', 'mahasiswa.transaksi', 'mahasiswa.transaksi.konfirmasi', 'mahasiswa.transaksi.histori') ? 'bg-purple2 text-white' : 'text-purple3' }}">
+                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white
+                            {{ request()->routeIs('mahasiswa.keuangan', 'mahasiswa.transaksi', 'mahasiswa.transaksi.konfirmasi', 'mahasiswa.transaksi.histori') ? 'text-white' : 'text-purple3' }}"
+                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                             <path fill-rule="evenodd"
                                 d="M7 6a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-2v-4a3 3 0 0 0-3-3H7V6Z"
                                 clip-rule="evenodd" />
@@ -34,31 +20,38 @@
                             <path d="M10.5 14.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z" />
                         </svg>
                         <span class="flex-1 text-left ms-3 rtl:text-right whitespace-nowrap">Keuangan</span>
-                        <svg class="w-3 h-3 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        <svg class="w-3 h-3 mr-2 transform transition-transform duration-200"
+                            :class="{ 'rotate-180': open }" xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 10 6">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="m1 1 4 4 4-4" />
                         </svg>
                     </button>
-                    <ul id="dropdown-sistem"
-                        class="{{ request()->routeIs(['mahasiswa.keuangan', 'mahasiswa.transaksi', 'mahasiswa.transaksi.konfirmasi']) ? '' : 'hidden' }} py-2 space-y-2">
+                    <ul x-show="open" x-collapse class="py-2 space-y-2">
+
                         <li>
-                            <a href="{{ route('mahasiswa.keuangan', 'mahasiswa.transaksi') }}"
+                            <a wire:navigate.hover href="{{ route('mahasiswa.keuangan', 'mahasiswa.transaksi') }}"
                                 class="flex items-center mx-4 p-2 text-gray-100 rounded-lg group {{ request()->routeIs('mahasiswa.keuangan', 'mahasiswa.transaksi') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 <span class="flex-1 ms-3 whitespace-nowrap">Pembayaran</span>
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('mahasiswa.transaksi.konfirmasi') }}"
+                            <a wire:navigate.hover href="{{ route('mahasiswa.transaksi.konfirmasi') }}"
                                 class="flex items-center mx-4 p-2 text-gray-100 rounded-lg group {{ request()->routeIs('mahasiswa.transaksi.konfirmasi') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 <span class="flex-1 ms-3 whitespace-nowrap">konfirmasi Pembayaran</span>
                             </a>
-                        </li>
 
+                        </li>
+                        <li>
+                            <a wire:navigate.hover href="{{ route('mahasiswa.transaksi.histori') }}"
+                                class="flex items-center mx-4 p-2 text-gray-100 rounded-lg group {{ request()->routeIs('mahasiswa.transaksi.histori') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
+                                <span class="flex-1 ms-3 whitespace-nowrap">Histori Transaksi</span>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li>
-                    <a href="{{ route('mahasiswa.krs') }}"
+                    <a wire:navigate.hover href="{{ route('mahasiswa.krs') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                         {{ request()->routeIs('mahasiswa.krs') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('mahasiswa.krs') ? ' text-white ' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
@@ -72,7 +65,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('mahasiswa.paketkrs') }}"
+                    <a wire:navigate.hover href="{{ route('mahasiswa.paketkrs') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                         {{ request()->routeIs('mahasiswa.paketkrs') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('mahasiswa.krs') ? ' text-white ' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
@@ -86,7 +79,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('mahasiswa.jadwal') }}"
+                    <a wire:navigate.hover href="{{ route('mahasiswa.jadwal') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                         {{ request()->routeIs('mahasiswa.jadwal') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('mahasiswa.jadwal') ? 'text-white' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
@@ -114,7 +107,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#"
+                    <a wire:navigate.hover href="#"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                         {{ request()->routeIs('admin.dashboard') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.dashboard') ? ' text-white ' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
@@ -128,7 +121,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('mahasiswa.khs.detail', ['NIM' => auth()->user()->nim_nidn]) }}"
+                    <a wire:navigate.hover
+                        href="{{ route('mahasiswa.khs.detail', ['NIM' => auth()->user()->nim_nidn]) }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                         {{ request()->routeIs('admin.dashboard') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.dashboard') ? ' text-white ' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
@@ -142,7 +136,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('mahasiswa.presensi') }}"
+                    <a wire:navigate.hover href="{{ route('mahasiswa.presensi') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                         {{ request()->routeIs('mahasiswa.presensi') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('mahasiswa.presensi') ? ' text-white ' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
@@ -156,7 +150,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('mahasiswa.emonev') }}"
+                    <a wire:navigate.hover href="{{ route('mahasiswa.emonev') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                         {{ request()->routeIs('mahasiswa.emonev.semester', 'emonev.detail', 'mahasiswa.emonev') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('mahasiswa.emonev.semester', 'emonev.detail', 'mahasiswa.emonev') ? ' text-white ' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
@@ -173,6 +167,4 @@
             </ul>
         </div>
     </div>
-    {{-- Add Flowbite Script --}}
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
 </div>

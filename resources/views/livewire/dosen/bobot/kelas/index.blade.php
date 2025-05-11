@@ -5,7 +5,7 @@
                 <ol class="flex flex-wrap items-center space-x-1 md:space-x-2 rtl:space-x-reverse overflow-hidden">
                     <li aria-current="page">
                         <div class="flex items-center flex-wrap">
-                            <a href="{{ route('dosen.bobot') }}"
+                            <a wire:navigate.hover  href="{{ route('dosen.bobot') }}"
                                 class="text-xs md:text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center truncate">
                                 <span class="text-xs md:text-sm font-medium text-gray-500 ms-1 md:ms-2">Bobot</span>
                                 <svg class="w-3 h-3 mx-1 text-gray-400 rtl:rotate-180" aria-hidden="true"
@@ -14,7 +14,7 @@
                                         stroke-width="2" d="m1 9 4-4-4-4" />
                                 </svg>
                             </a>
-                            <a href="{{ route('dosen.bobot.kelas', ['kode_mata_kuliah' => $kode_mata_kuliah]) }}"
+                            <a wire:navigate.hover  href="{{ route('dosen.bobot.kelas', ['kode_mata_kuliah' => $kode_mata_kuliah]) }}"
                                 class="text-xs md:text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center truncate">
                                 <span class="text-xs md:text-sm font-medium text-gray-500">{{ $kode_mata_kuliah }}</span>
                                 <svg class="w-3 h-3 mx-1 text-gray-400 rtl:rotate-180" aria-hidden="true"

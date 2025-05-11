@@ -1,11 +1,12 @@
 <div class="py-1 mx-5">
     <div class="">
         @php
-            $mahasiswa = App\Models\Mahasiswa::where('NIM', auth()->user()->nim_nidn)->first();
-            $maxSemester = App\Models\Semester::orderByDesc('nama_semester')->first()->nama_semester;
+            // $mahasiswa = App\Models\Mahasiswa::where('NIM', auth()->user()->nim_nidn)->first();
+            // $maxSemester = App\Models\Semester::orderByDesc('nama_semester')->first()->nama_semester;
             $krsThisSemester = App\Models\KRS::where('id_semester', $semester->id_semester)
                 ->where('NIM', auth()->user()->nim_nidn)
                 ->exists();
+
         @endphp
         @if ($paketKRS)
             @if (
@@ -81,35 +82,38 @@
 
                 </div>
             @endif
+        @else
+            <div class="w-full flex items-center justify-center mt-20 text-[25px] font-bold">
+                <p>Belum ada paket KRS </p>
+            </div>
         @endif
     </div>
-</div>
-<script>
-    function confirm() {
-        Swal.fire({
-            title: `Apakah anda yakin untuk mengajukan KRS ini?`,
-            text: "Aksi ini tidak bisa di batalkan!",
-            icon: 'warning',
-            showCancelButton: true,
-            cancelButtonColor: '#d33',
-            confirmButtonColor: '#28a745',
-            confirmButtonText: 'Ajukan'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                @this.call('create');
-            }
-        });
-    }
-    document.addEventListener('DOMContentLoaded', function() {
-        window.addEventListener('asd', event => {
-            console.log(event.detail)
+    <script>
+        function confirm() {
             Swal.fire({
-                title: 'Success!',
-                text: event.detail[0],
-                icon: 'success',
-            }).then(() => {
-                window.dispatchEvent(new CustomEvent('modal-closed'));
+                title: `Apakah anda yakin untuk mengajukan KRS ini?`,
+                text: "Aksi ini tidak bisa di batalkan!",
+                icon: 'warning',
+                showCancelButton: true,
+                cancelButtonColor: '#d33',
+                confirmButtonColor: '#28a745',
+                confirmButtonText: 'Ajukan'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    @this.call('create');
+                }
+            });
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            window.addEventListener('asd', event => {
+                console.log(event.detail)
+                Swal.fire({
+                    title: 'Success!',
+                    text: event.detail[0],
+                    icon: 'success',
+                }).then(() => {
+                    window.dispatchEvent(new CustomEvent('modal-closed'));
+                });
             });
         });
-    });
-</script>
+    </script>

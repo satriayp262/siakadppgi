@@ -11,17 +11,18 @@ use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
+use Livewire\Attributes\On;
 
 final class PeriodeTable extends PowerGridComponent
 {
-    public ?string $primaryKeyAlias = 'id';
+
     public string $tableName = 'periode-table-hwo90b-table';
-    public string $primaryKey = 'periode_emonev.id_periode';
-    public string $sortField = 'periode_emonev.id_periode';
+    public string $primaryKey = 'id_periode';
+    public string $sortField = 'id_periode';
 
     public function setUp(): array
     {
-        // $this->showCheckBox();
+        $this->showCheckBox();
 
         return [
             PowerGrid::header()
@@ -33,27 +34,28 @@ final class PeriodeTable extends PowerGridComponent
         ];
     }
 
-    // public function header(): array
-    // {
-    //     return [
-    //         Button::add('bulk-delete')
-    //             ->slot('Hapus data terpilih (<span x-text="window.pgBulkActions.count(\'' . $this->tableName . '\')"></span>)')
-    //             ->class('bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700')
-    //             ->dispatch('bulkDelete.' . $this->tableName, [
-    //                 // 'ids' => $this->checkboxValues
-    //             ]),
-    //     ];
-    // }
+    public function header(): array
+    {
+        $this->checkboxAttribute = 'id_periode';
+        return [
+            Button::add('bulk-delete')
+                ->slot('Hapus data terpilih (<span x-text="window.pgBulkActions.count(\'' . $this->tableName . '\')"></span>)')
+                ->class('bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700')
+                ->dispatch('bulkDelete.' . $this->tableName, [
+                    // 'ids' => $this->checkboxValues
+                ]),
+        ];
+    }
 
-    // #[On('bulkDelete.{tableName}')]
-    // public function bulkDelete(): void
-    // {
-    //     // $this->js('alert(window.pgBulkActions.get(\'' . $this->tableName . '\'))');
-    //     $this->dispatch('bulkDelete.alert.' . $this->tableName, [
-    //         'ids' => $this->checkboxValues
-    //     ]);
-    //     $this->checkboxValues = [];
-    // }
+    #[On('bulkDelete.{tableName}')]
+    public function bulkDelete(): void
+    {
+        $this->checkboxAttribute = 'id_periode';
+        $this->dispatch('bulkDelete.alert.' . $this->tableName, [
+            'ids' => $this->checkboxValues
+        ]);
+        $this->checkboxValues = [];
+    }
 
     public function datasource(): Builder
     {

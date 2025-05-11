@@ -35,9 +35,9 @@
                         alt="{{ $pengumuman->title }}" class="w-fit h-fit object-cover mb-4 rounded">
 
                     <div class="mb-4">
-                        <h4 class="text-md mb-2">
+                        <p class="text-md mb-2 break-words whitespace-pre-line">
                             {{ $pengumuman->desc }}
-                        </h4>
+                        </p>
                     </div>
 
                     <div class="mb-4">

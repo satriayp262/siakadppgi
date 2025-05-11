@@ -1,5 +1,55 @@
-<div class="mx-5">
+<div class="mx-5 mt-4">
+    <nav aria-label="Breadcrumb">
+        <ol class="flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+            <li>
+                <a href="{{ route('dosen.emonev') }}"
+                    class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
+                    Emonev
+                </a>
+            </li>
+            <li aria-current="page">
+                <div class="flex items-center">
+                    <svg class="w-3 h-3 mx-1 text-gray-400 rtl:rotate-180" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m1 9 4-4-4-4" />
+                    </svg>
+                    <span class="text-sm font-medium text-gray-500 ms-1 md:ms-2">{{ $Matakuliah }}</span>
+                </div>
+            </li>
+        </ol>
+    </nav>
     <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg w-full" style="width: 1225px">
+
+        <div class=" flex items-stretch">
+            <div class="">
+                <h2 class="text-gray-700 text-base md:text-md font-medium">
+                    Halaman ini menampilkan hasil survei Emonev yang telah diisi oleh mahasiswa.
+                </h2>
+                <h3 class="text-gray-700 text-base md:text-md font-medium">
+                    Silakan pilih semester yang diinginkan untuk melihat hasil survei Emonev.
+                </h3>
+
+            </div>
+            <div class=" flex-grow text-center items-center">
+                <h4 class="text-gray-700 text-base md:text-md font-semibold">Keterangan nilai: </h4>
+                <div class="flex flex-wrap items-center gap-2 md:gap-4 ml-3 md:ml-5 mt-3">
+                    @foreach ([6 => 'red', 7 => 'gray', 8 => 'yellow', 9 => 'green', 10 => 'blue'] as $value => $color)
+                        <div class="flex items-center">
+                            <span
+                                class="w-7 h-7 md:w-8 md:h-8 flex items-center justify-center bg-{{ $color }}-500 text-white font-semibold rounded-full mr-2">
+                                {{ $value }}
+                            </span>
+                            <span class="text-gray-700 text-sm md:text-base">
+                                {{ ['Kurang', 'Cukup', 'Baik', 'Sangat Baik', 'Istimewa'][$value - 6] }}
+                            </span>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+
+        </div>
+
         <!-- Dropdown Pilihan Semester dan Prodi -->
         <div class="flex space-x-4 mb-4">
             <!-- Dropdown Semester -->
@@ -33,14 +83,12 @@
         </div>
 
         <!-- Tabel Data -->
-
         <div class="overflow-x-scroll ">
 
             <table class="mt-4 bg-white border border-gray-200 whitespace-nowrap">
                 <thead>
                     <tr class="bg-customPurple text-white text-sm">
                         <th class="px-2 py-2 text-center w-12">No.</th>
-                        <th class="px-4 py-2 text-center w-40">Kelas</th>
                         @foreach ($pertanyaan as $item)
                             <th class="px-4 py-2 text-center w-30">
                                 <div class="relative">
@@ -84,7 +132,7 @@
                         <tr class="border-t" wire:key="jawaban-{{ $item->id_jawaban }}">
                             <td class=" px-2 py-2 text-center">{{ $loop->iteration }}
                             </td>
-                            <td class="px-4 py-2 text-left">{{ $item->nama_mata_kuliah }}</td>
+
                             @foreach ($pertanyaan as $ins)
                                 @php
                                     $average = number_format($item->{'pertanyaan_' . $ins->id_pertanyaan}, 2);
@@ -100,6 +148,7 @@
                 </tbody>
             </table>
         </div>
+        {{ $jawaban->links() }}
 
     </div>
 </div>

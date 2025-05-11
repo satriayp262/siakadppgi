@@ -18,15 +18,15 @@ class Index extends Component
     use WithPagination;
 
     public $semester; // Untuk menyimpan semester terpilih
-    public $semesters = []; // Untuk list semua semester    public $selectedProdi;
-    public $prodi;
+    public $semesters = []; // Untuk list semua semester
     public $selectedProdi;
+    public $prodi;
     public $spSent = false;
-    public $user;
     public $search = '';
 
     public function mount()
     {
+        // Load all Prodi and Semester data for dropdowns and filters
         $this->prodi = Prodi::all();
         $this->semesters = Semester::all(); // Ambil semua semester sebagai koleksi
     }
@@ -105,40 +105,41 @@ class Index extends Component
         // Ambil semua data mahasiswa
         $dataMahasiswa = Mahasiswa::with(['presensi' => function ($query) {
             $query->select('nim', 'keterangan', 'created_at');
-        }])->withCount([
-            'presensi as hadir_count' => function ($query) {
-                $query->where('keterangan', 'Hadir');
-                if ($this->semester) {
-                    $query->whereHas('token', function ($tokenQuery) {
-                        $tokenQuery->where('id_semester', intval($this->semester));
-                    });
-                }
-            },
-            'presensi as alpha_count' => function ($query) {
-                $query->where('keterangan', 'Alpha');
-                if ($this->semester) {
-                    $query->whereHas('token', function ($tokenQuery) {
-                        $tokenQuery->where('id_semester', intval($this->semester));
-                    });
-                }
-            },
-            'presensi as ijin_count' => function ($query) {
-                $query->where('keterangan', 'Ijin');
-                if ($this->semester) {
-                    $query->whereHas('token', function ($tokenQuery) {
-                        $tokenQuery->where('id_semester', intval($this->semester));
-                    });
-                }
-            },
-            'presensi as sakit_count' => function ($query) {
-                $query->where('keterangan', 'Sakit');
-                if ($this->semester) {
-                    $query->whereHas('token', function ($tokenQuery) {
-                        $tokenQuery->where('id_semester', intval($this->semester));
-                    });
-                }
-            },
-        ])
+        }])
+            ->withCount([
+                'presensi as hadir_count' => function ($query) {
+                    $query->where('keterangan', 'Hadir');
+                    if ($this->semester) {
+                        $query->whereHas('token', function ($tokenQuery) {
+                            $tokenQuery->where('id_semester', intval($this->semester));
+                        });
+                    }
+                },
+                'presensi as alpha_count' => function ($query) {
+                    $query->where('keterangan', 'Alpha');
+                    if ($this->semester) {
+                        $query->whereHas('token', function ($tokenQuery) {
+                            $tokenQuery->where('id_semester', intval($this->semester));
+                        });
+                    }
+                },
+                'presensi as ijin_count' => function ($query) {
+                    $query->where('keterangan', 'Ijin');
+                    if ($this->semester) {
+                        $query->whereHas('token', function ($tokenQuery) {
+                            $tokenQuery->where('id_semester', intval($this->semester));
+                        });
+                    }
+                },
+                'presensi as sakit_count' => function ($query) {
+                    $query->where('keterangan', 'Sakit');
+                    if ($this->semester) {
+                        $query->whereHas('token', function ($tokenQuery) {
+                            $tokenQuery->where('id_semester', intval($this->semester));
+                        });
+                    }
+                },
+            ])
             // Filter nama mahasiswa jika ada pencarian
             ->when($this->search, function ($query) {
                 $query->where('nama', 'like', '%' . $this->search . '%');

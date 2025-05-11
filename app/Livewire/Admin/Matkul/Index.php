@@ -25,6 +25,7 @@ class Index extends Component
     #[On('matkulUpdated')]
     public function handlematkulEdited()
     {
+        $this->dispatch('pg:eventRefresh-matkul-gsy2i9-table');
         $this->dispatch('updated', ['message' => 'Matakuliah Edited Successfully']);
     }
 
@@ -37,12 +38,14 @@ class Index extends Component
         $matkul->delete();
 
         // Tampilkan pesan sukses
+        $this->dispatch('pg:eventRefresh-matkul-gsy2i9-table');
         $this->dispatch('destroyed', ['message' => 'Matakuliah Deleted Successfully']);
     }
 
     #[On('matkulCreated')]
     public function handlematkulCreated()
     {
+        $this->dispatch('pg:eventRefresh-matkul-gsy2i9-table');
         $this->dispatch('created', ['message' => 'Matkul Created Successfully']);
     }
 
@@ -80,7 +83,7 @@ class Index extends Component
             session()->flash('message', 'Tidak ada mata kuliah yang ditambahkan');
             session()->flash('message_type', 'error');
         }
-
+        $this->dispatch('pg:eventRefresh-matkul-gsy2i9-table');
         // dd(session()->all());
     }
 
@@ -103,15 +106,8 @@ class Index extends Component
 
     public function destroySelected()
     {
-        // Hapus data dosen yang terpilih
-        Matakuliah::whereIn('id_mata_kuliah', $this->selectedMatkul)->delete();
-
-        // Reset array selectedDosen setelah penghapusan
-        $this->selectedMatkul = [];
-        $this->selectAll = false; // Reset juga selectAll
-
+        $this->dispatch('pg:eventRefresh-matkul-gsy2i9-table');
         $this->dispatch('destroyed', ['message' => 'Matakuliah Deleted Successfully']);
-        $this->showDeleteButton = false;
     }
 
     public function updatedSearch()

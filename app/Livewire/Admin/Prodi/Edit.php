@@ -69,6 +69,7 @@ class Edit extends Component
 
             // Reset form dan dispatch event
             $this->clear($this->id_prodi);
+            
             $this->dispatch('ProdiUpdated');
         }
     }

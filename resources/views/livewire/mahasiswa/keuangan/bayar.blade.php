@@ -29,9 +29,9 @@
                 </tr>
                 <!-- Total Pembayaran -->
                 <tr>
-                    <td class="font-medium text-left">Total Pembayaran</td>
+                    <td class="font-medium text-left">Total Pembayaran + biaya admin</td>
                     <td class="text-center">:</td>
-                    <td class="font-bold ">Rp. {{ number_format($transaksi->nominal - 5000, 0, ',', '.') }}</td>
+                    <td class="font-bold ">Rp. {{ number_format($transaksi->nominal, 0, ',', '.') }}</td>
                 </tr>
             </tbody>
         </table>

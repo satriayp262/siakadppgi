@@ -12,13 +12,14 @@ use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
+use Livewire\Attributes\On;
 
 final class PengumumanTable extends PowerGridComponent
 {
+    public string $primaryKey = 'id_pengumuman';
+    public string $sortField = 'id_pengumuman';
     public string $tableName = 'pengumuman-table-evxe2o-table';
-    public ?string $primaryKeyAlias = 'id';
-    public string $primaryKey = 'pengumuman.id_pengumuman';
-    public string $sortField = 'pengumuman.id_pengumuman';
+
 
     public function setUp(): array
     {
@@ -33,9 +34,33 @@ final class PengumumanTable extends PowerGridComponent
         ];
     }
 
+    public function header(): array
+    {
+        $this->checkboxAttribute = 'id_pengumuman';
+
+        return [
+            Button::add('bulk-delete')
+                ->slot('Hapus data terpilih (<span x-text="window.pgBulkActions.count(\'' . $this->tableName . '\')"></span>)')
+                ->class('bg-red-600 text-semibold text-white px-3 py-1 rounded hover:bg-red-700')
+                ->dispatch('bulkDelete.' . $this->tableName, []),
+        ];
+
+    }
+
+    #[On('bulkDelete.{tableName}')]
+    public function bulkDelete(): void
+    {
+        //$this->js('alert(window.pgBulkActions.get(\'' . $this->tableName . '\'))');
+        $this->dispatch('bulkDelete.alert.' . $this->tableName, [
+            'ids' => $this->checkboxValues
+        ]);
+    }
+
     public function datasource(): Builder
     {
-        return Pengumuman::query();
+        $query = Pengumuman::query();
+        return $query;
+
     }
 
     public function relationSearch(): array
@@ -46,9 +71,7 @@ final class PengumumanTable extends PowerGridComponent
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
-            ->add('id')
-            // ->add('id_pengumuman')
-            // ->add('id_pengumuman')
+            ->add('id_pengumuman')
             ->add('title', function ($pengumuman) {
                 return e(Str::words($pengumuman->title, 6));
             })
@@ -57,25 +80,13 @@ final class PengumumanTable extends PowerGridComponent
             })
             ->add('image', function ($pengumuman) {
                 return '<img src="' . asset("storage/image/pengumuman/{$pengumuman->image}") . '">';
-            })
-            ->add('file');
-        // ->add('created_at');
+            });
     }
 
     public function columns(): array
     {
         return [
-            // Column::make('Id pengumuman', 'id_pengumuman')
-            //     ->sortable()
-            //     ->searchable(),
-
-            // Column::make('Id pengumuman', 'id_pengumuman')
-            //     ->sortable()
-            //     ->searchable(),
-
-            Column::make('No.', 'id')->index(),
-
-            Column::make('Title', 'title')
+            Column::make('Judul', 'title')
                 ->sortable()
                 ->searchable(),
 
@@ -83,22 +94,10 @@ final class PengumumanTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Image', 'image')
-                ->sortable()
-                ->searchable(),
+            Column::make('Image', 'image'),
 
-            Column::make('File', 'file')
-                ->sortable()
-                ->searchable(),
 
-            // Column::make('Created at', 'created_at_formatted', 'created_at')
-            //     ->sortable(),
-
-            // Column::make('Created at', 'created_at')
-            //     ->sortable()
-            //     ->searchable(),
-
-            Column::action('Action')
+            Column::action('Aksi')
         ];
     }
 
@@ -107,21 +106,10 @@ final class PengumumanTable extends PowerGridComponent
         return [
         ];
     }
-
-    #[\Livewire\Attributes\On('edit')]
-    public function edit($rowId): void
-    {
-        $this->js('alert(' . $rowId . ')');
-    }
-
     public function actions(Pengumuman $row): array
     {
         return [
-            Button::add('edit')
-                ->slot('Edit: ' . $row->id)
-                ->id()
-                ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                ->dispatch('edit', ['rowId' => $row->id])
+
         ];
     }
 

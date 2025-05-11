@@ -5,7 +5,7 @@
                 <ol class="flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
                     <li aria-current="page">
                         <div class="flex items-center">
-                            <a href="{{ route('dosen.khs') }}"
+                            <a wire:navigate.hover  href="{{ route('dosen.khs') }}"
                                 class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
                                 <span class="text-sm font-medium text-gray-500 ms-1 md:ms-2">KHS</span>
                                 <svg class="w-3 h-3 mx-1 text-gray-400 rtl:rotate-180" aria-hidden="true"
@@ -14,7 +14,7 @@
                                         stroke-width="2" d="m1 9 4-4-4-4" />
                                 </svg>
                             </a>
-                            <a href="{{ route('dosen.khs.show', ['nama_kelas' => str_replace('/', '-', $nama_kelas)]) }}"
+                            <a wire:navigate.hover  href="{{ route('dosen.khs.show', ['nama_kelas' => str_replace('/', '-', $nama_kelas)]) }}"
                                 class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
                                 <span
                                     class="text-sm font-medium text-gray-500 ">{{ str_replace('-', '/', $nama_kelas) }}</span>
@@ -45,12 +45,12 @@
                 </div>
                 <div class="flex justify-center space-x-2">
                     @if (auth()->user()->role == 'dosen')
-                        <a href="{{ route('dosen.khs.detail', ['NIM' => $item->NIM]) }}"
+                        <a wire:navigate.hover  href="{{ route('dosen.khs.detail', ['NIM' => $item->NIM]) }}"
                             class="py-2 px-4 bg-blue-500 hover:bg-blue-700 rounded flex items-center">
                             <p>▶</p>
                         </a>
                     @elseif(auth()->user()->role == 'admin')
-                        <a href="{{ route('dosen.khs.detail', ['NIM' => $item->NIM]) }}"
+                        <a wire:navigate.hover  href="{{ route('dosen.khs.detail', ['NIM' => $item->NIM]) }}"
                             class="py-2 px-4 bg-blue-500 hover:bg-blue-700 rounded flex items-center">
                             <p>▶</p>
                         </a>

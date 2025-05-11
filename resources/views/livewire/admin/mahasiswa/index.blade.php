@@ -245,58 +245,58 @@
                 <input type="text" wire:model.live="search" placeholder="   Search"
                     class="px-2 ml-4 border border-gray-300 rounded-lg focus:ring focus:ring-blue-300">
             </div> --}}
+            </div>
+            <div>
+                @if (session()->has('message'))
+                    @php
+                        $messageType = session('message_type', 'success'); // Default to success
+                        $bgColor =
+                            $messageType === 'error'
+                                ? 'bg-red-500'
+                                : (($messageType === 'warning'
+                                        ? 'bg-yellow-500'
+                                        : $messageType === 'update')
+                                    ? 'bg-blue-500'
+                                    : 'bg-green-500');
+                    @endphp
+                    <div id="flash-message"
+                        class="flex items-center justify-between p-2 mx-2 mt-4 text-white {{ $bgColor }} rounded">
+                        <span>{!! session('message') !!}</span>
+                        <button class="p-1" onclick="document.getElementById('flash-message').remove();"
+                            class="font-bold text-white">
+                            &times;
+                        </button>
+                    </div>
+                @endif
+            </div>
+            <div>
+                @if (session()->has('message2'))
+                    @php
+                        $messageType = session('message_type', 'success'); // Default to success
+                        $bgColor =
+                            $messageType === 'error'
+                                ? 'bg-red-500'
+                                : (($messageType === 'warning'
+                                        ? 'bg-yellow-500'
+                                        : $messageType === 'update')
+                                    ? 'bg-blue-500'
+                                    : 'bg-green-500');
+                    @endphp
+                    <div id="flash-message"
+                        class="flex items-center justify-between p-2 mx-2 mt-4 text-white {{ $bgColor }} rounded">
+                        <span>{!! session('message2') !!}</span>
+                        <button class="p-1" onclick="document.getElementById('flash-message').remove();"
+                            class="font-bold text-white">
+                            &times;
+                        </button>
+                    </div>
+                @endif
+            </div>
         </div>
-        <div>
-            @if (session()->has('message'))
-                @php
-                    $messageType = session('message_type', 'success'); // Default to success
-                    $bgColor =
-                        $messageType === 'error'
-                            ? 'bg-red-500'
-                            : (($messageType === 'warning'
-                                    ? 'bg-yellow-500'
-                                    : $messageType === 'update')
-                                ? 'bg-blue-500'
-                                : 'bg-green-500');
-                @endphp
-                <div id="flash-message"
-                    class="flex items-center justify-between p-2 mx-2 mt-4 text-white {{ $bgColor }} rounded">
-                    <span>{!! session('message') !!}</span>
-                    <button class="p-1" onclick="document.getElementById('flash-message').remove();"
-                        class="font-bold text-white">
-                        &times;
-                    </button>
-                </div>
-            @endif
-        </div>
-        <div>
-            @if (session()->has('message2'))
-                @php
-                    $messageType = session('message_type', 'success'); // Default to success
-                    $bgColor =
-                        $messageType === 'error'
-                            ? 'bg-red-500'
-                            : (($messageType === 'warning'
-                                    ? 'bg-yellow-500'
-                                    : $messageType === 'update')
-                                ? 'bg-blue-500'
-                                : 'bg-green-500');
-                @endphp
-                <div id="flash-message"
-                    class="flex items-center justify-between p-2 mx-2 mt-4 text-white {{ $bgColor }} rounded">
-                    <span>{!! session('message2') !!}</span>
-                    <button class="p-1" onclick="document.getElementById('flash-message').remove();"
-                        class="font-bold text-white">
-                        &times;
-                    </button>
-                </div>
-            @endif
-        </div>
-    </div>
 
-    <div class="max-w-full p-4 mt-4 mb-4 bg-white rounded-lg shadow-lg">
-        <livewire:table.mahasiswa-table/>
-        {{-- <table class="min-w-full mt-4 bg-white border border-gray-200">
+        <div class="max-w-full p-4 mt-4 mb-4 bg-white rounded-lg shadow-lg">
+            <livewire:table.mahasiswa-table />
+            {{-- <table class="min-w-full mt-4 bg-white border border-gray-200">
             <thead>
                 <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
                     <th class="px-4 py-2"><input type="checkbox" id="selectAll" wire:model="selectAll"></th>
@@ -351,59 +351,59 @@
         <div class="mt-4 mb-4 text-center">
             {{ $mahasiswas->links('') }}
         </div> --}}
-    </div>
+        </div>
 
-    <script>
-        function confirmDelete(id, nama) {
-            Swal.fire({
-                title: `Apakah anda yakin ingin menghapus Mahasiswa ${nama}?`,
-                text: "Data yang telah dihapus tidak dapat dikembalikan!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#6c757d',
-                confirmButtonText: 'Hapus'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Panggil method Livewire jika konfirmasi diterima
-                    @this.call('destroy', id);
-                }
-            });
-        }
-       
-        window.addEventListener('bulkDelete.alert.mahasiswa-table-s8eldb-table', (event) => {
-            const ids = event.detail[0].ids;
-
-            // console.log(event.detail[0].ids);
-            if (!ids || ids.length === 0) return;
-
-            Swal.fire({
-                title: `Apakah anda yakin ingin menghapus ${ids.length} data User?`,
-                text: "Data yang telah dihapus tidak dapat dikembalikan!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#6c757d',
-                confirmButtonText: 'Hapus'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Livewire.find(
-                    //     document.querySelector('[wire\\:id]').getAttribute('wire:id')
-                    // ).call('destroySelected', ids);
-                    @this.call('destroySelected',ids);
-                }
-            });
-        });
-
-        function isMovingToDropdown(event) {
-            const target = event.relatedTarget; // Elemen tujuan kursor
-            return target && (target.closest('.relative') !== null);
-        }
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-                window.addEventListener('destroyed', event => {
+        <script>
+            function confirmDelete(id, nama) {
                 Swal.fire({
+                    title: `Apakah anda yakin ingin menghapus Mahasiswa ${nama}?`,
+                    text: "Data yang telah dihapus tidak dapat dikembalikan!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Hapus'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Panggil method Livewire jika konfirmasi diterima
+                        @this.call('destroy', id);
+                    }
+                });
+            }
+
+            window.addEventListener('bulkDelete.alert.mahasiswa-table-s8eldb-table', (event) => {
+                const ids = event.detail[0].ids;
+
+                // console.log(event.detail[0].ids);
+                if (!ids || ids.length === 0) return;
+
+                Swal.fire({
+                    title: `Apakah anda yakin ingin menghapus ${ids.length} data User?`,
+                    text: "Data yang telah dihapus tidak dapat dikembalikan!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Hapus'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Livewire.find(
+                        //     document.querySelector('[wire\\:id]').getAttribute('wire:id')
+                        // ).call('destroySelected', ids);
+                        @this.call('destroySelected', ids);
+                    }
+                });
+            });
+
+            function isMovingToDropdown(event) {
+                const target = event.relatedTarget; // Elemen tujuan kursor
+                return target && (target.closest('.relative') !== null);
+            }
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                window.addEventListener('destroyed', event => {
+                    Swal.fire({
                         title: 'Success!',
                         text: event.detail.params.message,
                         icon: 'success',
@@ -414,5 +414,5 @@
                     });
                 });
             });
-    </script>
-</div>
+        </script>
+    </div>

@@ -12,8 +12,6 @@
                     </button>
                 @endif
             </div>
-            <input type="text" wire:model.live="search" placeholder="   Search"
-                class="px-2 ml-4 border border-gray-300 rounded-lg">
         </div>
 
         <div>
@@ -41,50 +39,8 @@
         </div>
     </div>
     <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
-        <h1 class="font-bold text-lg text-purple2">Daftar Pertanyaan Emonev Dosen PPGI</h1>
-        <table class="min-w-full mt-4 bg-white border border-gray-200">
-            <thead>
-                <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
-                    <th class="px-4 py-2"><input type="checkbox" id="selectAll" wire:model="selectAll"></th>
-                    <th class="px-4 py-2 text-center w-1/12">No.</th>
-                    <th class="px-4 py-2 text-center w-7/12">Nama Pertanyaan</th>
-                    <th class="px-4 py-2 text-center w-2/12">Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($pertanyaans as $pertanyaan)
-                    <tr class="border-t" wire:key="pertanyaan-{{ $pertanyaan->id_pertanyaan }}">
-                        <td class="px-4 py-2 text-center">
-                            <input type="checkbox" class="selectRow" wire:model="selectedPertanyaan"
-                                value="{{ $pertanyaan->id_pertanyaan }}">
-                        </td>
-                        <td class="px-4 py-2 text-center">
-                            {{ ($pertanyaans->currentPage() - 1) * $pertanyaans->perPage() + $loop->iteration }}</td>
-                        <td class="px-4 py-2 w-1/4 text-left">{{ $pertanyaan->nama_pertanyaan }}</td>
-                        <td class="px-4 py-2 text-center w-1/2">
-                            <div class="flex justify-center space-x-2">
-                                <livewire:admin.pertanyaan.edit :id_pertanyaan="$pertanyaan->id_pertanyaan"
-                                    wire:key="edit-{{ $pertanyaan->id_pertanyaan }}" />
-                                <button class="inline-block px-4 py-1 text-white bg-red-500 rounded hover:bg-red-700"
-                                    onclick="confirmDelete('{{ $pertanyaan->id_pertanyaan }}', '{{ $pertanyaan->nama_pertanyaan }}')"><svg
-                                        class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
-                                        viewBox="0 0 24 24">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-        {{-- <!-- Pagination Controls -->
-        <div class="py-8 mt-4 mb-4 text-center">
-            {{ $pertanyaans->links('') }}
-        </div> --}}
+        <livewire:table.pertanyaan-table />
+
     </div>
 
     <script>
@@ -103,43 +59,13 @@
                 }
             });
         }
-        const selectAllCheckbox = document.getElementById('selectAll');
-        const rowCheckboxes = document.querySelectorAll('.selectRow');
+        window.addEventListener('bulkDelete.alert.pertanyaan-table-adupmv-table', (event) => {
+            const ids = event.detail[0].ids;
 
-        selectAllCheckbox.addEventListener('change', function() {
-            const isChecked = this.checked;
-
-            rowCheckboxes.forEach(function(checkbox) {
-                checkbox.checked = isChecked;
-            });
-
-            @this.set('selectedPertanyaan', isChecked ? [...rowCheckboxes].map(cb => cb.value) : []);
-        });
-
-        rowCheckboxes.forEach(function(checkbox) {
-            checkbox.addEventListener('change', function() {
-                @this.set('selectedPertanyaan', [...rowCheckboxes].filter(cb => cb.checked).map(cb => cb
-                    .value));
-            });
-        });
-
-
-        function confirmDeleteSelected() {
-            const selectedPertanyaan = @this.selectedPertanyaan; // Dapatkan data dari Livewire
-
-            console.log(selectedPertanyaan); // Tambahkan log untuk memeriksa nilai
-
-            if (selectedPertanyaan.length === 0) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Tidak ada data yang dipilih!',
-                    text: 'Silakan pilih data yang ingin dihapus terlebih dahulu.',
-                });
-                return;
-            }
+            if (!ids || ids.length === 0) return;
 
             Swal.fire({
-                title: `Apakah anda yakin ingin menghapus ${selectedPertanyaan.length} data Pertanyaan?`,
+                title: `Apakah anda yakin ingin menghapus ${ids.length} data Pertanyaan?`,
                 text: "Data yang telah dihapus tidak dapat dikembalikan!",
                 icon: 'warning',
                 showCancelButton: true,
@@ -148,10 +74,9 @@
                 confirmButtonText: 'Hapus'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Panggil method Livewire untuk menghapus data terpilih
-                    @this.call('destroySelected');
+                    @this.call('destroySelected', ids);
                 }
             });
-        }
+        });
     </script>
 </div>

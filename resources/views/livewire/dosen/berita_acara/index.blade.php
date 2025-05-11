@@ -5,7 +5,7 @@
             <nav aria-label="Breadcrumb">
                 <ol class="flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
                     {{-- <li>
-                        <a href="{{ route('dosen.berita_acara') }}"
+                        <a wire:navigate.hover  href="{{ route('dosen.berita_acara') }}"
                             class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
                             Berita Acara
                         </a>
@@ -17,7 +17,7 @@
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                     stroke-width="2" d="m1 9 4-4-4-4" />
                             </svg>
-                            <a href="{{ route('dosen.berita_acara.detail_matkul', ['id_mata_kuliah' => $matkul->id_mata_kuliah]) }}"
+                            <a wire:navigate.hover  href="{{ route('dosen.berita_acara.detail_matkul', ['id_mata_kuliah' => $matkul->id_mata_kuliah]) }}"
                                 class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
                                 {{ $matkul->nama_mata_kuliah }}
                             </a>
@@ -69,7 +69,7 @@
                         {{ $mataKuliah->kode_mata_kuliah }}</span>
                 </div>
                 <div class="flex justify-center space-x-2 py-2">
-                    <a href="{{ route('dosen.berita_acara.detail_matkul', ['id_mata_kuliah' => $mataKuliah->id_mata_kuliah]) }}"
+                    <a wire:navigate.hover  href="{{ route('dosen.berita_acara.detail_matkul', ['id_mata_kuliah' => $mataKuliah->id_mata_kuliah]) }}"
                         class="py-2 px-4 bg-blue-500 hover:bg-blue-700 rounded">
                         <p class="text-white">▶</p>
                     </a>

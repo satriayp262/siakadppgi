@@ -7,7 +7,7 @@
         <ol class="flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse px-2 mt-7 mb-6 mx-7">
             <li aria-current="page">
                 <div class="flex items-center">
-                    <a href="{{ route('admin.paketkrs') }}"
+                    <a wire:navigate.hover href="{{ route('admin.paketkrs') }}"
                         class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
                         <span class="text-sm font-medium text-gray-500 ms-1 md:ms-2">Paket KRS</span>
                         <svg class="w-3 h-3 mx-1 text-gray-400 rtl:rotate-180" aria-hidden="true"
@@ -16,7 +16,7 @@
                                 d="m1 9 4-4-4-4" />
                         </svg>
                     </a>
-                    <a href="{{ route('admin.paketkrs.create') }}"
+                    <a wire:navigate.hover href="{{ route('admin.paketkrs.create') }}"
                         class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
                         <span class="text-sm font-medium text-gray-500 ms-1 md:ms-2">Create</span>
                         <svg class="w-3 h-3 mx-1 text-gray-400 rtl:rotate-180" aria-hidden="true"
@@ -29,7 +29,7 @@
             </li>
         </ol>
     </nav>
-    <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full mx-5">
+    <div class=" shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full mx-5">
         <div class="p-4 bg-white shadow-md rounded-md">
             <!-- Semester Selection -->
             <div class="flex justify-between items-center space-x-2">
@@ -112,6 +112,8 @@
                         Kuliah</button>
                 </div>
             </div>
+        </div>
+        <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full ">
 
             <table class="min-w-full table-auto border-collapse mt-4">
                 <thead>
@@ -155,10 +157,10 @@
                 </tbody>
 
                 @error('paketKrsRecords.*.id_mata_kuliah')
-                <span class="text-sm text-red-500">{{ $message }}</span>
+                    <span class="text-sm text-red-500">{{ $message }}</span>
                 @enderror
                 @error('paketKrsRecords')
-                <span class="text-sm text-red-500">{{ $message }}</span>
+                    <span class="text-sm text-red-500">{{ $message }}</span>
                 @enderror
             </table>
             <button type="button" wire:click="save"

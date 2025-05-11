@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Mahasiswa\Keuangan;
 
+use App\Models\Cicilan_BPP;
 use App\Models\Tagihan;
 use App\Models\Transaksi;
 use Livewire\Component;
@@ -21,10 +22,10 @@ class Berhasil extends Component
     {
         $transaksi = Transaksi::find($this->id_transaksi);
         if (!$transaksi) {
-            return; // Transaksi tidak ditemukan
+            return $this->dispatch('warning', [
+                'message' => 'Transaksi tidak ditemukan',
+            ]);
         }
-
-        $transaksi->save();
 
         $tagihan = Tagihan::find($transaksi->id_tagihan);
         if (!$tagihan) {
@@ -40,18 +41,34 @@ class Berhasil extends Component
         // Periksa apakah sudah lunas
         if ($tagihan->total_bayar == $tagihan->total_tagihan) {
             $tagihan->status_tagihan = 'Lunas';
-        }
-        if ($tagihan->status_tagihan == 'Lunas') {
-            // Generate nomor kwitansi
-            $tagihan->metode_pembayaran = 'Midtrans Payment';
-            $tagihan->no_kwitansi = rand();
+        } else {
 
-            // Pastikan kwitansi unik
+            $tagihan->status_tagihan = 'Belum Lunas';
+
+            if ($transaksi->bulan != null) {
+                $s = Cicilan_BPP::where('id_tagihan', $tagihan->id_tagihan)->count();
+                $count_cicilan = $s + 1;
+                $cicilan = Cicilan_BPP::create([
+                    'id_tagihan' => $tagihan->id_tagihan,
+                    'jumlah_bayar' => $bayar,
+                    'tanggal_bayar' => $transaksi->tanggal_transaksi,
+                    'cicilan_ke' => $count_cicilan,
+                    'bulan' => $transaksi->bulan,
+                    'metode_pembayaran' => 'Midtrans Payment',
+                ]);
+
+                $cicilan->save();
+            }
+
+        }
+
+        if ($tagihan->status_tagihan == 'Lunas') {
+
+            $tagihan->no_kwitansi = rand();
             while (Tagihan::where('no_kwitansi', $tagihan->no_kwitansi)->exists()) {
                 $tagihan->no_kwitansi = rand();
             }
         }
-
         $tagihan->save();
     }
 

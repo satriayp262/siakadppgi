@@ -50,7 +50,8 @@
                                                 <label for=""
                                                     class="block text-sm font-medium text-gray-700">Template
                                                     Dokumen</label>
-                                                <a href="{{ asset('template/template_import_kelas.xlsx') }}"
+                                                <a wire:navigate.hover
+                                                    href="{{ asset('template/template_import_kelas.xlsx') }}"
                                                     class="flex items-center justify-between w-full px-2 py-1 mt-1 text-sm bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
                                                     <!-- Left icon -->
                                                     <svg class="w-6 h-6 text-gray-500" aria-hidden="true"
@@ -225,7 +226,7 @@
                                     <button wire:key="delete-{{ $kelas->id_kelas }}"
                                         class="inline-block px-3 py-2 ml-2 text-white bg-red-500 rounded hover:bg-red-700"
                                         onclick="confirmDelete({{ $kelas->id_kelas }}, '{{ $kelas->nama_kelas }}')"><svg
-                                            class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                                            class="w-6 h-6 text-white" aria-hidden="true"
                                             xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             fill="none" viewBox="0 0 24 24">
                                             <path stroke="currentColor" stroke-linecap="round"

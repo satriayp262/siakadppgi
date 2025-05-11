@@ -3,7 +3,7 @@
         <nav aria-label="Breadcrumb">
             <ol class="flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
                 <li>
-                    <a href="{{ route('dosen.berita_acara') }}"
+                    <a wire:navigate.hover  href="{{ route('dosen.berita_acara') }}"
                         class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
                         Berita Acara
                     </a>
@@ -38,7 +38,7 @@
                             {{ $item->prodi->nama_prodi ?? '-' }}</span>
                     </div>
                     <div class="flex justify-center space-x-2 py-2">
-                        <a href="{{ route('dosen.berita_acara.detail_kelas', ['id_mata_kuliah' => $this->matkul->id_mata_kuliah, 'id_kelas' => $item->id_kelas]) }}"
+                        <a wire:navigate.hover  href="{{ route('dosen.berita_acara.detail_kelas', ['id_mata_kuliah' => $this->matkul->id_mata_kuliah, 'id_kelas' => $item->id_kelas]) }}"
                             class="py-2 px-4 bg-blue-500 hover:bg-blue-700 rounded">
                             <p class="text-white">▶</p>
                         </a>

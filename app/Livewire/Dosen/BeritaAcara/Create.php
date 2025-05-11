@@ -70,7 +70,7 @@ class Create extends Component
             'materi' => $this->materi,
             'jumlah_mahasiswa' => $this->jumlah_mahasiswa,
             'id_kelas' => $this->id_kelas,
-            'id_semester' => $semesterAktif->id, 
+            'id_semester' => $semesterAktif->id_semester,
         ]);
 
         session()->flash('success', 'Berita Acara berhasil disimpan.');

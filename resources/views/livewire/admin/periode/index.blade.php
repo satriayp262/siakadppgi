@@ -3,7 +3,6 @@
         <div class="flex justify-between mt-2">
             <div class="flex space-x-2">
                 <livewire:admin.periode.create />
-
             </div>
         </div>
         <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
@@ -35,7 +34,7 @@
         if (!ids || ids.length === 0) return;
 
         Swal.fire({
-            title: `Apakah anda yakin ingin menghapus ${ids.length} data User?`,
+            title: `Apakah anda yakin ingin menghapus ${ids.length} data Periode?`,
             text: "Data yang telah dihapus tidak dapat dikembalikan!",
             icon: 'warning',
             showCancelButton: true,
@@ -44,9 +43,7 @@
             confirmButtonText: 'Hapus'
         }).then((result) => {
             if (result.isConfirmed) {
-                // Livewire.find(
-                //     document.querySelector('[wire\\:id]').getAttribute('wire:id')
-                // ).call('destroySelected', ids);
+
                 @this.call('destroySelected', ids);
             }
         });

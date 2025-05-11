@@ -1,10 +1,10 @@
-<div class="md:relative md:sticky fixed left-0 h-screen top-16 z-10">
-    <div id="default-sidebar" class="w-64 h-full transition-transform -translate-x-full bg-customPurple sm:translate-x-0"
-        aria-label="Sidebar">
-        <div class="h-full px-3 py-4">
+<div class="fixed left-0 z-10 h-full min-h-screen md:relative md:sticky md:top-16">
+    <div :class="showSidebar ? 'translate-x-0' : '-translate-x-full'"
+        class="w-64 h-full transition-transform bg-customPurple sm:translate-x-0" aria-label="Sidebar">
+        <div class="h-full px-3 py-4 overflow-y-auto">
             <ul class="space-y-2 font-medium">
                 <li>
-                    <a href="{{ route('staff.dashboard') }}"
+                    <a wire:navigate.hover href="{{ route('staff.dashboard') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                         {{ request()->routeIs('staff.dashboard') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('staff.dashboard') ? 'text-white' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
@@ -20,7 +20,7 @@
                 </li>
 
                 <li>
-                    <a href="{{ route('staff.tagihan') }}"
+                    <a wire:navigate.hover href="{{ route('staff.tagihan') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                         {{ request()->routeIs('staff.tagihan') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('staff.tagihan') ? 'text-white' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
@@ -38,7 +38,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('staff.pembayaran', 'staff.detail') }}"
+                    <a wire:navigate.hover href="{{ route('staff.pembayaran', 'staff.detail') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                         {{ request()->routeIs('staff.pembayaran', 'staff.detail') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white ?>' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('staff.pembayaran', 'staff.detail') ? 'text-white' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
@@ -52,7 +52,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('staff.konfirmasi') }}"
+                    <a wire:navigate.hover href="{{ route('staff.konfirmasi') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                         {{ request()->routeIs('staff.konfirmasi') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white ?>' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('staff.konfirmasi') ? 'text-white' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
@@ -70,6 +70,4 @@
             </ul>
         </div>
     </div>
-    {{-- Add Flowbite Script --}}
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
 </div>

@@ -7,7 +7,7 @@
                 <ol class="flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse truncate">
                     <li>
                         <div class="flex items-center">
-                            <a href="{{ route('mahasiswa.emonev') }}"
+                            <a wire:navigate.hover  href="{{ route('mahasiswa.emonev') }}"
                                 class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center ms-1 md:ms-2 truncate">
                                 {{ $semester }}
                             </a>

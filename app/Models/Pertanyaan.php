@@ -11,7 +11,6 @@ class Pertanyaan extends Model
     protected $table = 'pertanyaan';
     protected $primaryKey = 'id_pertanyaan';
     protected $fillable = [
-        'id_pertanyaan',
         'nama_pertanyaan'
     ];
 

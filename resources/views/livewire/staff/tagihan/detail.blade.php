@@ -5,7 +5,7 @@
                 <nav aria-label="Breadcrumb">
                     <ol class="flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
                         <li>
-                            <a href="{{ route('staff.pembayaran') }}"
+                            <a wire:navigate.hover  href="{{ route('staff.pembayaran') }}"
                                 class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
                                 Pembayaran
                             </a>

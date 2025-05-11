@@ -9,6 +9,50 @@
         </div>
     </div>
 
+    <div>
+        @if (session()->has('message'))
+            @php
+                $messageType = session('message_type', 'success'); // Default to success
+                $bgColor =
+                    $messageType === 'error'
+                        ? 'bg-red-500'
+                        : (($messageType === 'warning'
+                                ? 'bg-yellow-500'
+                                : $messageType === 'update')
+                            ? 'bg-blue-500'
+                            : 'bg-green-500');
+            @endphp
+            <div id="flash-message"
+                class="flex items-center justify-between p-2 mx-2 mt-4 text-white {{ $bgColor }} rounded">
+                <span>{{ session('message') }}</span>
+                <button class="p-1 font-bold text-white"
+                    onclick="document.getElementById('flash-message').style.display='none'">
+                    &times;
+                </button>
+            </div>
+        @endif
+    </div>
+    <div>
+        @if (session()->has('message2'))
+            @php
+                $messageType = session('message_type2', 'warning');
+                $bgColor =
+                    $messageType === 'error'
+                        ? 'bg-red-500'
+                        : ($messageType === 'warning'
+                            ? 'bg-yellow-500'
+                            : 'bg-green-500');
+            @endphp
+            <div id="flash-message"
+                class="flex items-center justify-between p-2 mx-2 mt-4 text-white {{ $bgColor }} rounded">
+                <span>{!! session('message2') !!}</span>
+                <button class="p-1 font-bold text-white" onclick="document.getElementById('flash-message').remove();">
+                    &times;
+                </button>
+            </div>
+        @endif
+    </div>
+
     <div class="max-w-full p-4 mt-4 mb-4 bg-white rounded-lg shadow-lg">
         <livewire:table.pengumuman-table />
         {{-- <table class="w-full mt-4 bg-white border border-gray-200">
@@ -32,7 +76,7 @@
                                 src="{{ asset('storage/image/pengumuman/' . $item->image) }}" alt=""></td>
                         <td class="px-3 py-1 text-center">
                             @if ($item->file)
-                                <a href="{{ asset('storage/file/pengumuman/' . $item->file) }}" target="_blank"
+                                <a wire:navigate.hover  href="{{ asset('storage/file/pengumuman/' . $item->file) }}" target="_blank"
                                     class="text-purple2 hover:underline">
                                     {{ $item->title }}.pdf
                                 </a>
@@ -86,5 +130,24 @@
                 }
             });
         }
+        window.addEventListener('bulkDelete.alert.pengumuman-table-evxe2o-table', (event) => {
+            const ids = event.detail[0].ids;
+
+            if (!ids || ids.length === 0) return;
+
+            Swal.fire({
+                title: `Apakah anda yakin ingin menghapus ${ids.length} data pengumuman?`,
+                text: "Data yang telah dihapus tidak dapat dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Hapus'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    @this.call('destroySelected', ids);
+                }
+            });
+        });
     </script>
 </div>

@@ -59,12 +59,14 @@
     </style>
 </head>
 
-<body class="flex flex-col w-full z-14">
-
+<body x-data="{ showSidebar: false }" @toggle-sidebar.window="showSidebar = !showSidebar" class="flex flex-col w-full z-14">
     <livewire:component.navbar />
+
     <div class="flex flex-col min-h-screen md:flex-row z-12">
-        <aside class="flex-shrink-0 z-11">
-            @if (auth()->check())
+        <aside
+            :class="showSidebar ? 'translate-x-0' : '-translate-x-full'"
+            class="fixed z-20 left-0 w-64 min-h-screen bg-customPurple transform transition-transform duration-300 md:relative md:translate-x-0">
+            @auth
                 @if (auth()->user()->role === 'admin')
                     <livewire:component.sidebar-admin />
                 @elseif (auth()->user()->role === 'dosen')
@@ -74,19 +76,21 @@
                 @elseif (auth()->user()->role === 'staff')
                     <livewire:component.sidebar-staff />
                 @endif
-            @endif
+            @endauth
         </aside>
+
         <div class="flex flex-col flex-1">
             <main class="flex-1 bg-gray-200">
                 <div wire:loading
-                class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-60">
-                <div class="spinner loading-spinner"></div>
-            </div>
+                    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-60">
+                    <div class="spinner loading-spinner"></div>
+                </div>
                 {{ $slot }}
             </main>
             <livewire:component.footer />
         </div>
     </div>
+
 
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
