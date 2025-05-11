@@ -43,150 +43,157 @@
         <tr>
             <td colspan="3" style="padding: 0;">
                 <hr
-                    style="border-top: 3px solid darkviolet; height: 2px; border-bottom: 1px solid darkviolet; margin: 0;">
+                    style="border-top: 2px solid darkviolet; border-bottom: 1px solid darkviolet; border-left: none; border-right: none; height: 0; margin-top: 6px;">
             </td>
         </tr>
     </table>
 
     <!-- Content -->
     <div>
-        <span style="display: flex; text-align: center; margin-top: 0.5rem; font-size: 1.125rem; font-weight: bold;">
-            KARTU {{ $z }} SEMESTER {{ $c }} TAHUN AJARAN {{ $y }}/{{ $y + 1 }}
+        <span style="display: flex; text-align: center; font-size: 16px; font-weight: bold;">
+            @if ($z == 'UTS')
+                KARTU PESERTA UJIAN TENGAH SEMESTER (UTS)
+            @elseif ($z == 'UAS')
+                KARTU PESERTA UJIAN AKHIR SEMESTER (UAS)
+            @endif
         </span>
     </div>
 
-    <!-- Nama, NIM, dan Prodi di kiri, tabel di kanan -->
-    <div style="display: flex; margin-top: 2%;">
-        
-        <!-- Nama, NIM, dan Prodi di kiri -->
-        <table style="float: left; text-align: left; margin-right: 2%">
+    <table style="width: 100%; margin-top: 0.5rem; font-size: 12px;">
+    <tr>
+        <!-- Kolom kiri -->
+        <td style="width: 50%; vertical-align: top;">
+            <table style="width: 100%; font-size: 12px;">
+                <tr>
+                    <td style="width: 25%;">Semester</td>
+                    <td style="width: 5%;">:</td>
+                    <td>{{ $c }} {{ $y }}/{{ $y + 1 }}</td>
+                </tr>
+                <tr>
+                    <td>Program Studi</td>
+                    <td>:</td>
+                    <td>{{ $mahasiswa->prodi->nama_prodi }}</td>
+                </tr>
+                <tr>
+                    <td>Nama</td>
+                    <td>:</td>
+                    <td>{{ $mahasiswa->nama }}</td>
+                </tr>
+            </table>
+        </td>
 
-                @php
-                    $nama = $mahasiswa->nama;
-                    $pisah = explode(" ", $nama);
-                    $cont = null;
-                    $cont2 = null;
-                    $cont3 = null;
+        <!-- Kolom kanan -->
+        <td style="width: 50%; vertical-align: top;">
+            <table style="width: 100%; font-size: 12px;">
+                <tr>
+                    <td style="width: 10%;">NPM</td>
+                    <td style="width: 5%;">:</td>
+                    <td>{{ $mahasiswa->NIM }}</td>
+                </tr>
+                <tr>
+                    <td>Kelas</td>
+                    <td>:</td>
+                    <td>{{ $kelas->kelas->nama_kelas }}</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
 
-                    if (count($pisah) > 2) {
-                        $nama = implode(" ", array_slice($pisah, 0, 2));
-                        $cont = implode(" ", array_slice($pisah, 2, 2));
-                        $cont2 = implode(" ", array_slice($pisah, 4, 2));
-                        $cont3 = implode(" ", array_slice($pisah, 6, 2));
-                    }
-                @endphp
 
-            <tr>
-                <td style=" font-weight: 500; color: #4b5563;">Nama</td>
-                <td style=" text-align: center;">:</td>
-                <td style="flex-grow: 1; color: #1f2937;">{{ $nama }}</td>
+    <table style="width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 0.5rem;">
+        <thead>
+            <tr style="background-color: #d1d5db;">
+                <th style="padding: 1px; border: 1px solid black; text-align: center;">Hari</th>
+                <th style="padding: 1px; border: 1px solid black; text-align: center;">Sesi</th>
+                <th style="padding: 1px; border: 1px solid black; text-align: center;">Mata Kuliah</th>
+                <th style="padding: 1px; border: 1px solid black; text-align: center;">Dosen</th>
+                <th style="padding: 1px; border: 1px solid black; text-align: center;">Ruangan</th>
+                <th style="padding: 1px; border: 1px solid black; text-align: center;">Paraf</th>
+                <th style="padding: 1px; border: 1px solid black; text-align: center;">Catatan</th>
             </tr>
+        </thead>
+        <tbody>
+            @foreach ($groupedJadwals as $hari => $items)
+                @foreach ($items as $index => $jadwal)
+                    <tr>
+                        @if ($index === 0)
+                            <td rowspan="{{ count($items) }}" style="padding: 1px; text-align: center; border: 1px solid black;">
+                                <div>
+                                    @switch($hari)
+                                        @case('Monday') Senin @break
+                                        @case('Tuesday') Selasa @break
+                                        @case('Wednesday') Rabu @break
+                                        @case('Thursday') Kamis @break
+                                        @case('Friday') Jumat @break
+                                        @default {{ $hari }}
+                                    @endswitch
+                                </div>
+                                <div style="font-size: 12px; margin-top: 1px;">
+                                    {{ \Carbon\Carbon::parse($jadwal->tanggal)->locale('id')->isoFormat('D MMMM YYYY') }}
+                                </div>
+                            </td>
+                        @endif
+                        <td style="padding: 1px; text-align: center; border: 1px solid black;">
+                            {{ $jadwal->sesi }}
+                        </td>
+                        <td style="padding: 1px; text-align: center; border: 1px solid black;">
+                            {{ $jadwal->matakuliah->nama_mata_kuliah }}
+                        </td>
+                        <td style="padding: 1px; text-align: center; border: 1px solid black;">
+                            {{ $jadwal->dosen->nama_dosen }}
+                        </td>
+                        <td style="padding: 1px; text-align: center; border: 1px solid black;">
+                            {{ $jadwal->id_ruangan == 'Online' ? 'Online' : $jadwal->ruangan->kode_ruangan }}
+                        </td>
+                        <td style="padding: 1px; border: 1px solid black;"></td>
+                        <td style="padding: 1px; border: 1px solid black;"></td>
+                    </tr>
+                @endforeach
+            @endforeach
+        </tbody>
+    </table>
 
-            @if ($cont)
-            <tr>
-                <td></td>
-                <td></td>
-                <td style="flex-grow: 1; color: #1f2937;">{{ $cont }}</td>
-            </tr>
-            @endif
-
-            @if ($cont2)
-            <tr>
-                <td></td>
-                <td></td>
-                <td style="flex-grow: 1; color: #1f2937;">{{ $cont2 }}</td>
-            </tr>
-            @endif
-
-            @if ($cont3)
-            <tr>
-                <td></td>
-                <td></td>
-                <td style="flex-grow: 1; color: #1f2937;">{{ $cont3 }}</td>
-            </tr>
-            
-            @endif
-            <tr>
-                <td style=" font-weight: 500; color: #4b5563;">NIM</td>
-                <td style=" text-align: center;">:</td>
-                <td style="flex-grow: 1; color: #1f2937;">{{ $mahasiswa->NIM }}</td>
-            </tr>
-            <tr>
-                <td style=" font-weight: 500; color: #4b5563;">Prodi</td>
-                <td style=" text-align: center;">:</td>
-                <td style="flex-grow: 1; color: #1f2937;">{{ $mahasiswa->prodi->nama_prodi }}</td>
-            </tr>
-            <tr>
-                <td style=" font-weight: 500; color: #4b5563;">Kelas</td>
-                <td style=" text-align: center;">:</td>
-                <td style="flex-grow: 1; color: #1f2937;">{{ $kelas->kelas->nama_kelas }}</td>
-            </tr>
-        </table>
-
-        <!-- Tabel di kanan -->
-        <div style="float: left;">
-            <div style="border-left: 3px solid darkviolet;">
-                <table style="width: 90%; background-color: white; border-collapse: collapse; border: 2px solid black; margin-left: 2%;">
-                    <thead>
-                        <tr style="text-align: center; font-size: 0.775rem; color: black;">
-                            <th style="padding: 0.5rem; border: 2px solid black;">Hari</th>
-                            <th style="padding: 0.5rem; border: 2px solid black;">Sesi</th>
-                            <th style="padding: 0.5rem; border: 2px solid black;">Mata Kuliah</th>
-                            <th style="padding: 0.5rem; border: 2px solid black;">Dosen</th>
-                            <th style="padding: 0.5rem; border: 2px solid black;">Kelas</th>
-                            <th style="padding: 0.5rem; border: 2px solid black;">Ruangan</th>
-                            <th style="padding: 0.5rem; border: 2px solid black;">paraf</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @php
-                            $previousDay = null;
-                        @endphp
-
-                        @foreach ($jadwals as $jadwal)
-                            @if ($jadwal->hari != $previousDay)
-                                <tr style="border-top: 2px solid black; font-size: 0.775rem;" wire:key="jadwal-{{ $jadwal->id_jadwal }}">
-                            @else
-                                <tr wire:key="jadwal-{{ $jadwal->id_jadwal }}" style="font-size: 0.775rem;">
-                            @endif
-                                <td style="padding: 0.25rem 0.5rem; text-align: center;">
-                                    @if ($jadwal->hari != $previousDay)
-                                        <div>
-                                            @if ($jadwal->hari == 'Monday')
-                                                Senin
-                                            @elseif ($jadwal->hari == 'Tuesday')
-                                                Selasa
-                                            @elseif ($jadwal->hari == 'Wednesday')
-                                                Rabu
-                                            @elseif ($jadwal->hari == 'Thursday')
-                                                Kamis
-                                            @elseif ($jadwal->hari == 'Friday')
-                                                Jumat
-                                            @endif
-                                        </div>
-                                        <div style="font-size: 0.875rem;">
-                                            {{ \Carbon\Carbon::parse($jadwal->tanggal)->locale('id')->isoFormat('D MMMM YYYY') }}
-                                        </div>
-                                        @php
-                                            $previousDay = $jadwal->hari;
-                                        @endphp
-                                    @endif
-                                </td>
-                                <td style="padding: 0.25rem 0.5rem; text-align: center; border: 2px solid black;">{{ $jadwal->sesi }}</td>
-                                <td style="padding: 0.25rem 0.5rem; text-align: center; border: 2px solid black;">{{ $jadwal->matakuliah->nama_mata_kuliah }}</td>
-                                <td style="padding: 0.25rem 0.5rem; text-align: center; border: 2px solid black;">{{ $jadwal->dosen->nama_dosen }}</td>
-                                <td style="padding: 0.25rem 0.5rem; text-align: center; border: 2px solid black;">{{ $jadwal->kelas->nama_kelas }}</td>
-                                <td style="padding: 0.25rem 0.5rem; text-align: center; border: 2px solid black;">
-                                    {{ $jadwal->id_ruangan == 'Online' ? 'Online' : $jadwal->ruangan->kode_ruangan }}
-                                </td>
-                                <td style="padding: 0.25rem 0.5rem; text-align: center; border: 2px solid black;"></td>
-                            </tr>
-                        @endforeach
-                    </tbody>
+    <div style="position: fixed; bottom: 0; width: 100%; font-size: 12px;">
+    <table style="width: 100%; border-collapse: collapse;">
+        <tr>
+            <td style="width: 50%; vertical-align: top;">
+                <table style="width: 70%; border: 1px solid black; border-collapse: collapse;">
+                    <tr>
+                        <td colspan="2" style="padding-left: 5px;">
+                            <span>Keterangan :</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 50%; vertical-align: top; padding-left: 5px;">
+                            <div style="margin: 0;">Sesi 1 : 08.00 - 09.30</div>
+                            <div style="margin: 0;">Sesi 2 : 09.30 - 11.00</div>
+                            <div style="margin: 0;">Sesi 3 : 11.00 - 12.30</div>
+                            <div style="margin: 0;">Sesi 4 : 12.30 - 14.00</div>
+                        </td>
+                        <td style="width: 50%; vertical-align: top;">
+                            <div style="margin: 0;">Sesi 5 : 14.00 - 15.30</div>
+                            <div style="margin: 0;">Sesi 6 : 15.30 - 17.00</div>
+                            <div style="margin: 0;">Sesi 7 : 17.00 - 18.30</div>
+                            <div style="margin: 0;">Sesi 8 : 18.30 - 20.00</div>
+                        </td>
+                    </tr>
                 </table>
-            </div>
-        </div>
-    </div>
+            </td>
+            <td style="width: 50%; vertical-align: top; padding-left: 184px;">
+                <div>
+                    <div>Kebumen, {{ \Carbon\Carbon::parse($komponen->tanggal_dibuat)->locale('id')->isoFormat('DD MMMM YYYY') }}</div>
+                    <div>{{ $komponen->jabatan }}</div>
+                    <div style="padding-left: 5px;">
+                        <img style="width: 85px;" src="storage/{{ $komponen->ttd }}" alt="Tanda Tangan">
+                    </div>
+                    <div>{{ $komponen->nama }}</div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
 </body>
 
 </html>

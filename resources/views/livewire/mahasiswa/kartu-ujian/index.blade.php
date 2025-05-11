@@ -38,86 +38,91 @@
                                 Kebumen, Jawa Tengah, Indonesia 54311
                     </p>
                 </div>
-
             </div>
-                <div class="my-4 border-t border-black">
-                    <span class="flex items-center justify-center mt-4 text-lg font-bold">KARTU {{ $z }} SEMESTER {{ $c }} TAHUN AJARAN {{ $y }}/{{ $y + 1 }}</span>
+            <div style="border: 2px solid darkviolet; height: 2px; margin-top: 6px;"></div>
+                <div class="mb-2">
+                    <span class="flex items-center justify-center mt-2 text-lg font-bold">
+                        @if ($z == 'UTS')
+                            KARTU PESERTA UJIAN TENGAH SEMESTER (UTS)
+                        @elseif ($z == 'UAS')
+                            KARTU PESERTA UJIAN AKHIR SEMESTER (UAS)
+                        @endif
+                    </span>
                 </div>
-                <div class="flex justify-center px-2">
-                    <div class="flex flex-col">
+                    <div class="grid grid-cols-2 mb-4">
                         <div class="flex">
-                            <span class="w-16 font-medium text-gray-600">Nama</span>
+                            <span class="font-medium text-black w-28">Semester</span>
                             <span class="w-4 text-center">:</span>
-                            <span class="flex-1 text-gray-800">{{ $mahasiswa->nama }}</span>
+                            <span class="flex-1 text-black">{{ $c }} {{ $y }}/{{ $y + 1 }}</span>
                         </div>
                         <div class="flex">
-                            <span class="w-16 font-medium text-gray-600">NIM</span>
+                            <span class="w-16 font-medium text-black">NPM</span>
                             <span class="w-4 text-center">:</span>
-                            <span class="flex-1 text-gray-800">{{ $mahasiswa->NIM }}</span>
+                            <span class="flex-1 text-black">{{ $mahasiswa->NIM }}</span>
                         </div>
                         <div class="flex">
-                            <span class="w-16 font-medium text-gray-600">Prodi</span>
+                            <span class="font-medium text-black w-28">Program Studi</span>
                             <span class="w-4 text-center">:</span>
-                            <span class="flex-1 text-gray-800">{{ $mahasiswa->prodi->nama_prodi }}</span>
+                            <span class="flex-1 text-black">{{ $mahasiswa->prodi->nama_prodi }}</span>
+                        </div>
+                        <div class="flex">
+                            <span class="w-16 font-medium text-black">Kelas</span>
+                            <span class="w-4 text-center">:</span>
+                            <span class="flex-1 text-black">{{ $kelas->kelas->nama_kelas }}</span>
+                        </div>
+                        <div class="flex">
+                            <span class="font-medium text-black w-28">Nama</span>
+                            <span class="w-4 text-center">:</span>
+                            <span class="flex-1 text-black">{{ $mahasiswa->nama }}</span>
                         </div>
                     </div>
-                    <div class="mx-4 border-r border-black"></div>
                     <div>
                         @if ($z == 'UTS' && $w >= $a || $z == 'UAS' && $w == $s)
                             <table class="w-full bg-white border border-gray-600">
                                 <thead>
-                                    <tr class="items-center w-full text-sm text-black align-middle">
+                                    <tr class="items-center w-full text-sm text-black align-middle bg-gray-300">
                                         <th class="px-2 py-2 text-center border border-gray-600">Hari</th>
                                         <th class="px-2 py-2 text-center border border-gray-600">Sesi</th>
                                         <th class="px-2 py-2 text-center border border-gray-600">Mata Kuliah</th>
                                         <th class="px-2 py-2 text-center border border-gray-600">Dosen</th>
-                                        <th class="px-2 py-2 text-center border border-gray-600">Kelas</th>
-                                        <th class="px-2 py-2 text-center border border-gray-600">Ruangan</th>
+                                        <th class="px-2 py-2 text-center border border-gray-600">Ruang</th>
+                                        <th class="px-2 py-2 text-center border border-gray-600">Paraf</th>
+                                        <th class="px-2 py-2 text-center border border-gray-600">Catatan</th>
                                     </tr>
                                 </thead>
-                                    <tbody>
-                                        @php
-                                            $previousDay = null;
-                                        @endphp
-
-                                        @foreach ($jadwals as $jadwal)
-                                            <tr class="border-t" wire:key="jadwal-{{ $jadwal->id_jadwal }}">
-                                                <!-- Tampilkan Hari hanya jika berbeda dari hari sebelumnya -->
-                                                <td class="px-1 py-1 text-center border border-gray-400">
-                                                    @if ($jadwal->hari != $previousDay)
+                                <tbody>
+                                    @foreach ($groupedJadwals as $hari => $items)
+                                        @foreach ($items as $index => $jadwal)
+                                            <tr wire:key="jadwal-{{ $jadwal->id_jadwal }}">
+                                                @if ($index === 0)
+                                                    <td class="px-1 py-1 text-center border border-gray-400" rowspan="{{ count($items) }}">
                                                         <div>
-                                                            @if ($jadwal->hari == 'Monday')
-                                                                Senin
-                                                            @elseif ($jadwal->hari == 'Tuesday')
-                                                                Selasa
-                                                            @elseif ($jadwal->hari == 'Wednesday')
-                                                                Rabu
-                                                            @elseif ($jadwal->hari == 'Thursday')
-                                                                Kamis
-                                                            @elseif ($jadwal->hari == 'Friday')
-                                                                Jumat
-                                                            @endif
+                                                            @switch($hari)
+                                                                @case('Monday') Senin @break
+                                                                @case('Tuesday') Selasa @break
+                                                                @case('Wednesday') Rabu @break
+                                                                @case('Thursday') Kamis @break
+                                                                @case('Friday') Jumat @break
+                                                                @default {{ $hari }}
+                                                            @endswitch
                                                         </div>
                                                         <div class="text-sm">
                                                             {{ \Carbon\Carbon::parse($jadwal->tanggal)->locale('id')->isoFormat('D MMMM YYYY') }}
                                                         </div>
-                                                        @php
-                                                            $previousDay = $jadwal->hari;
-                                                        @endphp
-                                                    @endif
-                                                </td>
+                                                    </td>
+                                                @endif
                                                 <td class="px-1 py-1 text-center border border-gray-400">{{ $jadwal->sesi }}</td>
                                                 <td class="px-1 py-1 text-center border border-gray-400">{{ $jadwal->matakuliah->nama_mata_kuliah }}</td>
                                                 <td class="px-1 py-1 text-center border border-gray-400">{{ $jadwal->dosen->nama_dosen }}</td>
-                                                <td class="px-1 py-1 text-center border border-gray-400">{{ $jadwal->kelas->nama_kelas }}</td>
-                                                @if ($jadwal->id_ruangan == 'Online')
-                                                    <td class="px-1 py-1 text-center border border-gray-400">Online</td>
-                                                @else
-                                                    <td class="px-1 py-1 text-center border border-gray-400">{{ $jadwal->ruangan->kode_ruangan }}</td>
-                                                @endif
+                                                <td class="px-1 py-1 text-center border border-gray-400">
+                                                    {{ $jadwal->id_ruangan == 'Online' ? 'Online' : $jadwal->ruangan->kode_ruangan }}
+                                                </td>
+                                                <td class="px-1 py-1 text-center border border-gray-400"></td>
+                                                <td class="px-1 py-1 text-center border border-gray-400"></td>
                                             </tr>
                                         @endforeach
-                                    </tbody>
+                                    @endforeach
+                                </tbody>
                             </table>
                         @else
                             @if ($z == 'UTS')
@@ -142,8 +147,66 @@
                                 </div>
                              @endif
                         @endif
+                        <div class="grid grid-cols-2 mt-4 gap-x-96">
+                            <div class="flex-col items-center pl-[10px] border border-black w-80 py-2">
+                                <span>Keterangan    :</span>
+                                <div class="grid items-center grid-cols-2 text-sm w-80">
+                                    <div class="flex">
+                                        <span class="font-medium text-black ">Sesi 1</span>
+                                        <span class="w-4 text-center">:</span>
+                                        <span class="flex text-black">08.00 - 09.30</span>
+                                    </div>
+                                    <div class="flex">
+                                        <span class="font-medium text-black ">Sesi 2</span>
+                                        <span class="w-4 text-center">:</span>
+                                        <span class="flex text-black">09.30 - 11.00</span>
+                                    </div>
+                                    <div class="flex">
+                                        <span class="font-medium text-black ">Sesi 3</span>
+                                        <span class="w-4 text-center">:</span>
+                                        <span class="flex text-black">11.00 - 12.30</span>
+                                    </div>
+                                    <div class="flex">
+                                        <span class="font-medium text-black ">Sesi 4</span>
+                                        <span class="w-4 text-center">:</span>
+                                        <span class="flex text-black">12.30 - 14.00</span>
+                                    </div>
+                                    <div class="flex">
+                                        <span class="font-medium text-black ">Sesi 5</span>
+                                        <span class="w-4 text-center">:</span>
+                                        <span class="flex text-black">14.00 - 15.30</span>
+                                    </div>
+                                    <div class="flex">
+                                        <span class="font-medium text-black ">Sesi 6</span>
+                                        <span class="w-4 text-center">:</span>
+                                        <span class="flex text-black">15.30 - 17.00</span>
+                                    </div>
+                                    <div class="flex">
+                                        <span class="font-medium text-black ">Sesi 7</span>
+                                        <span class="w-4 text-center">:</span>
+                                        <span class="flex text-black">17.00 - 18.30</span>
+                                    </div>
+                                    <div class="flex">
+                                        <span class="font-medium text-black ">Sesi 8</span>
+                                        <span class="w-4 text-center">:</span>
+                                        <span class="flex text-black">18.30 - 20.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col text-black">
+                                <span class="mb-1">
+                                    Kebumen, {{ \Carbon\Carbon::parse($komponen->tanggal_dibuat)->locale('id')->isoFormat('DD MMMM YYYY') }}
+                                </span>
+                                <span class="mb-1">{{ $komponen->jabatan }}</span>
+
+                                <div class="h-16 my-2">
+                                    <img src="{{ asset('storage/' . $komponen->ttd) }}" alt="Tanda Tangan" class="object-contain h-full" />
+                                </div>
+
+                                <span>{{ $komponen->nama }}</span>
+                            </div>
+                        </div>
                     </div>
-                </div>
                 <button type="button" class="px-4 py-2 mt-4 font-bold text-white rounded bg-purple2" wire:click='generatePdf()'>Download Kartu Ujian</button>
         </div>
     @endif

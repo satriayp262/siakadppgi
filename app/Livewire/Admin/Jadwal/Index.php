@@ -134,8 +134,7 @@ class Index extends Component
             ['sesi' => 5, 'jam_mulai' => '14.00', 'jam_selesai' => '15.30'],
             ['sesi' => 6, 'jam_mulai' => '15.30', 'jam_selesai' => '17.00'],
             ['sesi' => 7, 'jam_mulai' => '17.00', 'jam_selesai' => '18.30'],
-            ['sesi' => 8, 'jam_mulai' => '18.30', 'jam_selesai' => '20.00'],
-            ['sesi' => 9, 'jam_mulai' => '20.00', 'jam_selesai' => '21.30']
+            ['sesi' => 8, 'jam_mulai' => '18.30', 'jam_selesai' => '20.00']
         ];
 
         foreach ($kelasByProdi as $prodi => $kelasList) {

@@ -8,6 +8,7 @@ use Livewire\Component;
 use App\Models\Mahasiswa;
 use App\Models\Jadwal;
 use App\Models\Tagihan;
+use App\Models\komponen_kartu_ujian;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -24,9 +25,13 @@ class Index extends Component
             ->orderBy('sesi')
             ->get();
 
+        $groupedJadwals = collect($jadwals)->groupBy('hari');
+
         $ujian = Jadwal::whereHas('kelas.krs.mahasiswa', function ($query) use ($mahasiswa) {
             $query->where('NIM', $mahasiswa->NIM);
         })->first();
+
+        $komponen = komponen_kartu_ujian::first();
 
         $c = "";
         $y = "";
@@ -34,16 +39,18 @@ class Index extends Component
 
         if ($ujian) {
             $x = substr($ujian->id_semester, -1);
-            $c = ($x % 2 != 0) ? "GANJIL" : "GENAP";
+            $c = ($x % 2 != 0) ? "Ganjil" : "Genap";
             $y = substr($ujian->semester->nama_semester, 0, 4);
             $z = $ujian->jenis_ujian;
         }
 
         $data = [
             'jadwals' => $jadwals,
+            'groupedJadwals' => $groupedJadwals,
             'kelas' => $kelas,
             'mahasiswa' => $mahasiswa,
             'ujian' => $ujian,
+            'komponen' => $komponen,
             'c' => $c,
             'y' => $y,
             'z' => $z
@@ -87,6 +94,8 @@ class Index extends Component
             ->orderBy('sesi')  // Urutkan berdasarkan sesi
             ->get();
 
+        $groupedJadwals = collect($jadwals)->groupBy('hari');
+
         // $ujian = jadwal::whereHas('kelas.krs.mahasiswa', function ($query) use ($mahasiswa) {
         //     $query->where('NIM', $mahasiswa->NIM);
         // })
@@ -105,9 +114,9 @@ class Index extends Component
         if ($ujian) {
             $x = substr($ujian->id_semester, -1);
             if ($x % 2 != 0) {
-                $c = "GANJIL";
+                $c = "Ganjil";
             } else {
-                $c = "GENAP";
+                $c = "Genap";
             }
 
             $y = substr($ujian->semester->nama_semester, 0, 4);
@@ -121,6 +130,10 @@ class Index extends Component
                 $s = $pembayaran->total_tagihan;
                 $a = $s / 2;
             }
+
+            $kelas = KRS::where('NIM', Auth::user()->nim_nidn)->firstOrFail();
+
+            $komponen = komponen_kartu_ujian::first();
         }
 
         return view('livewire.mahasiswa.kartu-ujian.index',[
@@ -133,7 +146,10 @@ class Index extends Component
             'z' => $z,
             'w' => $w,
             'a' => $a,
-            's' => $s
+            's' => $s,
+            'kelas' => $kelas,
+            'groupedJadwals' => $groupedJadwals,
+            'komponen' => $komponen
         ]);
     }
 }
