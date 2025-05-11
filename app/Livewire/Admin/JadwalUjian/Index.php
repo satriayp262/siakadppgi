@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\JadwalUjian;
 
+use App\Models\komponen_kartu_ujian;
 use Livewire\Component;
 use App\Models\Jadwal;
 use App\Models\Prodi;
@@ -14,38 +15,46 @@ class Index extends Component
     public $prodi;
     public $ujian;
     public $jenis;
+    public $tanggalttd;
 
     public function rules()
     {
         return [
-            'jenis' => 'required'
+            'jenis' => 'required',
+            'tanggalttd' => 'required',
+            'ujian' => 'required'
         ];
     }
 
     public function messages()
     {
         return [
-            'jenis.required' => 'Jenis Ujian harus dipilih'
+            'jenis.required' => 'Jenis Ujian harus dipilih',
+            'tanggalttd.required' => 'Tanggal TTD harus diisi',
+            'ujian.required' => 'Tanggal Ujian harus diisi',
         ];
     }
 
-    public function clear2()
-    {
-        jadwal::query()->update(['jenis_ujian' => null]);
+    // public function clear2()
+    // {
+    //     jadwal::query()->update(['jenis_ujian', 'tanggal' => null]);
 
-        $this->dispatch('destroyed', ['message' => 'jenis Ujian Deleted Successfully']);
-    }
+    //     $this->dispatch('destroyed', ['message' => 'jenis Ujian Deleted Successfully']);
+    // }
 
     public function clear()
     {
-        jadwal::query()->update(['tanggal' => null]);
+        jadwal::query()->update(['jenis_ujian' => null, 'tanggal' => null]);
+        komponen_kartu_ujian::query()->update(['tanggal_dibuat' => null]);
 
-        $this->dispatch('destroyed', ['message' => 'tanggal Ujian Deleted Successfully']);
+        $this->dispatch('destroyed', ['message' => 'Jadwal Ujian Deleted Successfully']);
     }
+
 
     public function tanggal()
     {
         $this->validate();
+        $tanggalTTD = komponen_kartu_ujian::first();
         // Ambil semua jadwal yang dikelompokkan berdasarkan 'kode_prodi'
         $jadwalUjians = Jadwal::orderBy('id_kelas')
             ->orderByRaw("FIELD(hari, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday')")
@@ -78,7 +87,12 @@ class Index extends Component
                 $previousHari = $jadwal->hari;
             }
         }
-        $this->dispatch('updated', ['message' => 'Tanggal Ujian updated Successfully']);
+        if ($jadwalUjians->isEmpty()) {
+            $this->dispatch('warning', ['message' => 'Belum Ada Jadwal']);
+        } else {
+            $tanggalTTD->update(['tanggal_dibuat' => $this->tanggalttd]);
+            $this->dispatch('updated', ['message' => 'Jadwal Ujian Created Successfully']);
+        }
     }
 
     public function render()

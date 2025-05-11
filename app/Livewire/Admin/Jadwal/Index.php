@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Jadwal;
 
 use App\Livewire\Staff\Tagihan\Update;
+use App\Models\komponen_kartu_ujian;
 use Livewire\Component;
 use App\Models\Kelas;
 use App\Models\Ruangan;
@@ -213,6 +214,7 @@ class Index extends Component
     public function destroy2()
     {
         Jadwal::truncate();
+        komponen_kartu_ujian::query()->update(['tanggal_dibuat' => null]);
         $this->dispatch('destroyed', ['message' => 'Jadwal Deleted Successfully']);
     }
 

@@ -23,8 +23,7 @@
                             <tr>
                                 <th class="px-4 py-2 text-white border border-gray-300">Hari</th>
                                 <th class="px-4 py-2 text-white border border-gray-300">Sesi</th>
-                                <th class="px-4 py-2 text-white border border-gray-300">Prodi</th>
-                                <th class="px-4 py-2 text-white border border-gray-300">Kelas</th>
+                                <th class="px-4 py-2 text-white border border-gray-300">Mata Kuliah</th>
                                 <th class="px-4 py-2 text-white border border-gray-300">Dosen</th>
                             </tr>
                         </thead>
@@ -44,8 +43,7 @@
                                     @endif
                                 </td>
                                 <td class="px-4 py-2 border border-gray-300">{{ $ammo->sesi }}</td>
-                                <td class="px-4 py-2 border border-gray-300">{{ $ammo->kelas->prodi->nama_prodi }}</td>
-                                <td class="px-4 py-2 border border-gray-300">{{ $ammo->kelas->nama_kelas }}</td>
+                                <td class="px-4 py-2 border border-gray-300">{{ $ammo->matakuliah->nama_mata_kuliah }}</td>
                                 <td class="px-4 py-2 border border-gray-300">{{ $ammo->dosen->nama_dosen }}</td>
                             </tr>
                         </tbody>
@@ -63,21 +61,21 @@
                     <form wire:submit='tukar' class="space-y-4">
                         <select wire:model.live="target" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <option value="" selected>Pilih Jadwal yang akan ditukar</option>
+                            <option value="" disabled class="text-white bg-customPurple">Hari  /   Sesi   /   Mata Kuliah   /   Dosen</option>
                             @foreach ($jadwals as $x)
                                 <option value="{{ $x->id_jadwal }}">
-                                    Hari: 
                                     @if ($x->hari == "Monday")
-                                        Senin,
-                                    @elseif ($x->hari == "Tuesday") 
-                                        Selasa,
+                                        Senin /
+                                    @elseif ($x->hari == "Tuesday")
+                                        Selasa /
                                     @elseif ($x->hari == "Wednesday")
-                                        Rabu,
+                                        Rabu /
                                     @elseif ($x->hari == "Thursday")
-                                        Kamis,
+                                        Kamis /
                                     @elseif ($x->hari == "Friday")
-                                        Jumat,
+                                        Jumat /
                                     @endif
-                                    Sesi: {{ $x->sesi }}, Prodi: {{ $x->kelas->prodi->nama_prodi }}, Kelas: {{ $x->kelas->nama_kelas }}, Dosen: {{ $x->dosen->nama_dosen }}
+                                    {{ $x->sesi }} / {{ $x->matakuliah->nama_mata_kuliah }} / {{ $x->dosen->nama_dosen }}
                                 </option>
                             @endforeach
                         </select>

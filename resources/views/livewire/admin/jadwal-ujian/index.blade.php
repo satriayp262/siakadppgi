@@ -39,12 +39,15 @@
                 @endforeach
             </select>
         </div>
-        
+
         <div x-data="{ isOpen: false }" @modal-closed.window="isOpen = false" class="right-0 flex">
             <!-- Button to open the modal -->
             <button @click="isOpen=true"
                 class="flex items-center px-4 py-2 ml-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">
                 Input Jadwal Ujian
+            </button>
+            <button wire:click='clear' class="px-2 py-1 ml-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">
+                Hapus Jadwal Ujian
             </button>
 
             <!-- Modal Background -->
@@ -66,9 +69,6 @@
                                         <div class="mb-4">
                                            <div class="flex items-center justify-between mb-2">
                                                 <label for="">Jenis Ujian</label>
-                                                <button wire:click='clear2' class="px-2 py-1 ml-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">
-                                                    Hapus Jenis
-                                                </button>
                                             </div>
                                             <select name="jenis" id="jenis" wire:model="jenis"
                                                     class="block w-full px-2 py-1 mt-1 border border-gray-700 rounded shadow-2xl focus:border-indigo-500 sm:text-sm">
@@ -83,12 +83,22 @@
                                         <div class="mb-4">
                                             <div class="flex items-center justify-between mb-2">
                                                 <label for="">Tanggal Pertama Ujian</label>
-                                                <button wire:click='clear' class="px-2 py-1 ml-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">
-                                                    Hapus Tanggal
-                                                </button>
                                             </div>
                                             <input type="date" name="ujian" id="ujian" wire:model="ujian"
                                                 class="block w-full px-2 py-1 mt-1 border border-gray-700 rounded shadow-2xl focus:border-indigo-500 sm:text-sm">
+                                            @error('ujian')
+                                                <span class="mt-1 text-sm text-red-500">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                        <div class="mb-4">
+                                            <div class="flex items-center justify-between mb-2">
+                                                <label for="">Tanggal TTD</label>
+                                            </div>
+                                            <input type="date" name="tanggalttd" id="tanggalttd" wire:model="tanggalttd"
+                                                class="block w-full px-2 py-1 mt-1 border border-gray-700 rounded shadow-2xl focus:border-indigo-500 sm:text-sm">
+                                            @error('tanggalttd')
+                                                <span class="mt-1 text-sm text-red-500">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="flex justify-end p-4 bg-gray-200 rounded-b-lg">
@@ -146,7 +156,7 @@
                                         <td colspan="8" class="py-4 bg-gray-100"></td>
                                     </tr>
                                 @endif
-                                @if ($previousDay != $jadwal->hari)   
+                                @if ($previousDay != $jadwal->hari)
                                     <tr class="border-t border-gray-500" wire:key="jadwal-{{ $jadwal->id_jadwal }}">
                                 @else
                                     <tr class="border-t border-gray-300" wire:key="jadwal-{{ $jadwal->id_jadwal }}">
@@ -184,7 +194,7 @@
                                         <td class="px-3 py-1 text-center">Belum ada tanggal Ujian</td>
                                     @else
                                         <td class="px-3 py-1 text-center">
-                                            @if ($jadwal->tanggal != $previousTanggal)  
+                                            @if ($jadwal->tanggal != $previousTanggal)
                                                 {{ \Carbon\Carbon::parse($jadwal->tanggal)->locale('id')->isoFormat('D MMMM YYYY') }}
                                             @endif
                                             @php
@@ -196,7 +206,7 @@
                                     <td class="px-3 py-1 text-center">{{ $jadwal->dosen->nama_dosen }}</td>
                                     <td class="px-3 py-1 text-center">{{ $jadwal->sesi }}</td>
                                     @if ($jadwal->id_ruangan == 'Online')
-                                        <td class="px-3 py-1 text-center">Online</td>  
+                                        <td class="px-3 py-1 text-center">Online</td>
                                     @else
                                             <td class="px-3 py-1 text-center">{{ $jadwal->ruangan->kode_ruangan }}</td>
                                     @endif
@@ -260,7 +270,7 @@
                                         <td colspan="8" class="py-4 bg-gray-100"></td>
                                     </tr>
                                 @endif
-                                @if ($previousDay != $jadwal->hari)   
+                                @if ($previousDay != $jadwal->hari)
                                     <tr class="border-t border-gray-500" wire:key="jadwal-{{ $jadwal->id_jadwal }}">
                                 @else
                                     <tr class="border-t border-gray-300" wire:key="jadwal-{{ $jadwal->id_jadwal }}">
@@ -298,7 +308,7 @@
                                         <td class="px-3 py-1 text-center">Belum ada tanggal Ujian</td>
                                     @else
                                         <td class="px-3 py-1 text-center">
-                                            @if ($jadwal->tanggal != $previousTanggal)  
+                                            @if ($jadwal->tanggal != $previousTanggal)
                                                 {{ \Carbon\Carbon::parse($jadwal->tanggal)->locale('id')->isoFormat('D MMMM YYYY') }}
                                             @endif
                                             @php
@@ -310,7 +320,7 @@
                                     <td class="px-3 py-1 text-center">{{ $jadwal->dosen->nama_dosen }}</td>
                                     <td class="px-3 py-1 text-center">{{ $jadwal->sesi }}</td>
                                     @if ($jadwal->id_ruangan == 'Online')
-                                        <td class="px-3 py-1 text-center">Online</td>  
+                                        <td class="px-3 py-1 text-center">Online</td>
                                     @else
                                             <td class="px-3 py-1 text-center">{{ $jadwal->ruangan->kode_ruangan }}</td>
                                     @endif
@@ -384,7 +394,7 @@
                                         <td colspan="8" class="py-4 bg-gray-100"></td>
                                     </tr>
                                 @endif
-                                @if ($previousTanggal != $jadwal->tanggal)   
+                                @if ($previousTanggal != $jadwal->tanggal)
                                     <tr class="border-t border-gray-500" wire:key="jadwal-{{ $jadwal->id_jadwal }}">
                                 @else
                                     <tr class="border-t border-gray-300" wire:key="jadwal-{{ $jadwal->id_jadwal }}">
@@ -422,7 +432,7 @@
                                         <td class="px-3 py-1 text-center">Belum ada tanggal Ujian</td>
                                     @else
                                         <td class="px-3 py-1 text-center">
-                                            @if ($jadwal->tanggal != $previousTanggal)  
+                                            @if ($jadwal->tanggal != $previousTanggal)
                                                 {{ \Carbon\Carbon::parse($jadwal->tanggal)->locale('id')->isoFormat('D MMMM YYYY') }}
                                             @endif
                                             @php
@@ -434,7 +444,7 @@
                                     <td class="px-3 py-1 text-center">{{ $jadwal->dosen->nama_dosen }}</td>
                                     <td class="px-3 py-1 text-center">{{ $jadwal->sesi }}</td>
                                     @if ($jadwal->id_ruangan == 'Online')
-                                        <td class="px-3 py-1 text-center">Online</td>  
+                                        <td class="px-3 py-1 text-center">Online</td>
                                     @else
                                             <td class="px-3 py-1 text-center">{{ $jadwal->ruangan->kode_ruangan }}</td>
                                     @endif
@@ -472,7 +482,7 @@
                 }
             });
         }
-        
+
         function confirmDelete(id, nama_kelas) {
             Swal.fire({
                 title: `Apakah anda yakin ingin menghapus jadwal ${nama_kelas}?`,

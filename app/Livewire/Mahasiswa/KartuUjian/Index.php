@@ -100,6 +100,7 @@ class Index extends Component
         $w = "";
         $a = "";
         $s = "";
+        $pembayaran = "";
 
         if ($ujian) {
             $x = substr($ujian->id_semester, -1);

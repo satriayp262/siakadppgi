@@ -45,7 +45,7 @@ class Edit extends Component
 
     public function clear($id_jadwal)
     {
-        
+
         $jadwal = Jadwal::find($id_jadwal);
 
         $this->id_jadwal = $jadwal->id_jadwal;
@@ -87,12 +87,12 @@ class Edit extends Component
         if ($ammo->id_ruangan == 'Online' || $target->id_ruangan == 'Online') {
             $conflict = jadwal::where('hari', $target->hari)
                 ->where('sesi', $target->sesi)
-                ->where('nidn', $ammo->kelas->matkul->nidn)
+                ->where('nidn', $ammo->nidn)
                 ->exists();
 
             $conflict2 = jadwal::where('hari', $ammo->hari)
                 ->where('sesi', $ammo->sesi)
-                ->where('nidn', $target->kelas->matkul->nidn)
+                ->where('nidn', $target->nidn)
                 ->exists();
 
             if (!$conflict && !$conflict2) {
@@ -328,7 +328,7 @@ class Edit extends Component
             }else if (!$this->z) {
                 $this->dispatch('warning', ['message' => 'Jadwal di kelas ' . $jadwal->kelas->nama_kelas . ' hari ' . $this->hari . ' dan sesi ' . $this->x . ' sudah ada']);
             }else{
-                
+
                 $this->dispatch('warning', ['message' => 'Jadwal di kelas ' . $jadwal->kelas->nama_kelas . ' hari ' . $this->z . ' dan sesi ' . $this->x . ' sudah ada']);
             }
         }elseif ($conflict4) {
@@ -374,7 +374,7 @@ class Edit extends Component
                 $this->dispatch('warning', ['message' => 'Dosen ' . $dosen . ' sudah memiliki jadwal di hari ' . $this->z . ' dan sesi ' . $this->x . ' pada kelas ' . $kelas]);
             }
         }
-        
+
     }
 
     public function render()
