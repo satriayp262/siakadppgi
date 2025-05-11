@@ -3,8 +3,8 @@
         <!-- Modal Form -->
         <div class="flex justify-between mt-2">
             <livewire:admin.staff.create />
-            <input type="text" wire:model.live="search" placeholder="   Search"
-                class="px-2 ml-4 border border-gray-300 rounded-lg">
+            {{-- <input type="text" wire:model.live="search" placeholder="   Search"
+                class="px-2 ml-4 border border-gray-300 rounded-lg"> --}}
         </div>
         <div>
             @if (session()->has('message'))
@@ -29,7 +29,17 @@
         </div>
     </div>
     <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
-        <table class="min-w-full mt-4 bg-white border border-gray-200">
+        <div class="justify-between flex items-center mr-2">
+            <div class="flex flex-col">
+                <h1 class="text-2xl font-bold text-customPurple">Daftar Staff Bagian Keuangan</h1>
+                <p class="text-sm text-gray-500">Halaman ini ditunjukan untuk melihat daftar staff bagian
+                    keuangan
+                    PPGI</p>
+                </p>
+            </div>
+        </div>
+        @livewire('table.daftar-staf-table')
+        {{-- <table class="min-w-full mt-4 bg-white border border-gray-200">
             <thead>
                 <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
                     <th class="px-4 py-2 text-center">No.</th>
@@ -51,9 +61,9 @@
                             <img src="{{ asset('storage/image/ttd/' . $staff1->ttd) }}" alt="Tanda Tangan"
                                 class="h-12 mx-auto">
                         </td>
-                        <td class=" mt-2 flex justify-center space-x-2">
-                            {{-- <livewire:staff.profil.edit :id_staff="$staff1->id_staff" wire:key="edit-{{ $staff1->id_staff }}" /> --}}
-                            <button class="inline-block px-4 py-2 text-white bg-red-500 rounded hover:bg-red-700"
+                        <td class=" mt-2 flex justify-center space-x-2"> --}}
+        {{-- <livewire:staff.profil.edit :id_staff="$staff1->id_staff" wire:key="edit-{{ $staff1->id_staff }}" /> --}}
+        {{-- <button class="inline-block px-4 py-2 text-white bg-red-500 rounded hover:bg-red-700"
                                 onclick="confirmDelete('{{ $staff1->id_staff }}', '{{ $staff1->nama_staff }}')"><svg
                                     class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
@@ -67,11 +77,7 @@
                     </tr>
                 @endforeach
             </tbody>
-        </table>
-    </div>
-    <!-- Pagination Controls -->
-    <div class="py-8 mt-4 text-center">
-        {{-- {{ $mahasiswas->links('') }} --}}
+        </table> --}}
     </div>
 </div>
 <script>

@@ -1,8 +1,8 @@
     <div x-data="{ isOpen: false }" @modal-closed.window="isOpen = false">
         <!-- Button to open the modal -->
         <button @click="isOpen=true" class="px-3 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"><svg
-                class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                width="24" height="24" fill="none" viewBox="0 0 24 24">
+                class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+                height="24" fill="none" viewBox="0 0 24 24">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M10.779 17.779 4.36 19.918 6.5 13.5m4.279 4.279 8.364-8.643a3.027 3.027 0 0 0-2.14-5.165 3.03 3.03 0 0 0-2.14.886L6.5 13.5m4.279 4.279L6.499 13.5m2.14 2.14 6.213-6.504M12.75 7.04 17 11.28" />
             </svg></button>
@@ -11,9 +11,9 @@
         <div x-data="{ load: false }" x-show="isOpen && load" x-init="load = true" wire:init="" x-cloak
             class="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-75">
             <div wire:loading wire:target="save"
-        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-60">
-        <div class="spinner loading-spinner"></div>
-    </div>
+                class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-60">
+                <div class="spinner loading-spinner"></div>
+            </div>
             <!-- Modal Content -->
             <div class="w-1/2 bg-white rounded-lg shadow-lg">
                 <!-- Modal Header -->
@@ -34,20 +34,32 @@
                                     @foreach (['NIM', 'NIK', 'NISN', 'nama', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'NPWP', 'mulai_semester', 'kode_prodi', 'agama', 'alamat', 'jalur_pendaftaran', 'kewarganegaraan', 'jenis_pendaftaran', 'tanggal_masuk_kuliah', 'jenis_tempat_tinggal', 'telp_rumah', 'no_hp', 'email', 'terima_kps', 'no_kps', 'jenis_transportasi', 'kode_pt_asal', 'nama_pt_asal', 'kode_prodi_asal', 'nama_prodi_asal', 'jenis_pembiayaan', 'jumlah_biaya_masuk'] as $field)
                                         <div class="mb-4">
                                             @php
-                                            // Fields that skip title() transformation
-                                            $noTitleFields = ['NIM', 'NIK', 'NISN', 'NPWP'];
-                                            // Fields that require a red asterisk
-                                            $requiredFields = ['NIM', 'NIK', 'NISN', 'nama', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'mulai_semester', 'kode_prodi'];
-                                
-                                            if (in_array($field, $noTitleFields)) {
-                                                $label = $field;
-                                            } else {
-                                                $label = Str::of($field)->replace('_', ' ')->title();
-                                            }
-                                
-                                            // Add red asterisk for required fields
-                                            $label .= in_array($field, $requiredFields) ? ' <span class="text-red-500">*</span>' : '';
-                                        @endphp
+                                                // Fields that skip title() transformation
+                                                $noTitleFields = ['NIM', 'NIK', 'NISN', 'NPWP'];
+                                                // Fields that require a red asterisk
+                                                $requiredFields = [
+                                                    'NIM',
+                                                    'NIK',
+                                                    'NISN',
+                                                    'nama',
+                                                    'tempat_lahir',
+                                                    'tanggal_lahir',
+                                                    'jenis_kelamin',
+                                                    'mulai_semester',
+                                                    'kode_prodi',
+                                                ];
+
+                                                if (in_array($field, $noTitleFields)) {
+                                                    $label = $field;
+                                                } else {
+                                                    $label = Str::of($field)->replace('_', ' ')->title();
+                                                }
+
+                                                // Add red asterisk for required fields
+                                                $label .= in_array($field, $requiredFields)
+                                                    ? ' <span class="text-red-500">*</span>'
+                                                    : '';
+                                            @endphp
                                             <label for="{{ strtolower($field) }}"
                                                 class="block text-sm text-left font-medium text-gray-700">{!! $label !!}</label>
                                             @if ($field === 'tanggal_lahir' || $field === 'tanggal_masuk_kuliah')
@@ -237,14 +249,14 @@
                                             } else {
                                                 $label = Str::of($field)->replace('_', ' ')->title();
                                             }
-                                            if($field === 'nama_ibu'){
-                                        $label .=  ' <span class="text-red-500">*</span>';
-                                        }
+                                            if ($field === 'nama_ibu') {
+                                                $label .= ' <span class="text-red-500">*</span>';
+                                            }
 
-                                    @endphp
-                                    <div class="mb-4">
-                                        <label for="{{ strtolower($field) }}"
-                                            class="block text-sm text-left font-medium text-gray-700">{!! $label !!}</label>
+                                        @endphp
+                                        <div class="mb-4">
+                                            <label for="{{ strtolower($field) }}"
+                                                class="block text-sm text-left font-medium text-gray-700">{!! $label !!}</label>
 
                                             @if ($field === 'pendidikan_ayah' || $field === 'pendidikan_ibu' || $field === 'pendidikan_wali')
                                                 <select id="{{ strtolower($field) }}"

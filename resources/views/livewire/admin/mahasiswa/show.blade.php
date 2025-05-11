@@ -1,8 +1,8 @@
 <div x-data="{ isOpen: false }" @modal-closed.window="isOpen = false">
     <!-- Button to open the modal -->
     <button @click="isOpen=true" class="px-3 py-2 font-bold text-white bg-yellow-500 rounded hover:bg-yellow-700"><svg
-            class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-            width="24" height="24" fill="none" viewBox="0 0 24 24">
+            class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+            fill="none" viewBox="0 0 24 24">
             <path stroke="currentColor" stroke-width="2"
                 d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z" />
             <path stroke="currentColor" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
@@ -24,7 +24,7 @@
             <div class="p-4">
                 <div class="p-4 max-h-[500px] overflow-y-auto">
                     <div class="grid grid-cols-3">
-                        @foreach (['NIM' => 'NIM', 'NIK' => 'NIK','NISN' => 'NISN','NPWP' => 'NPWP', 'nama' => 'Nama Mahasiswa', 'tempat_lahir' => 'Tempat Lahir', 'tanggal_lahir' => 'Tanggal Lahir', 'jenis_kelamin' => 'Jenis Kelamin', 'mulai_semester' => 'Mulai Semester', 'kode_prodi' => 'Prodi', 'agama' => 'Agama', 'alamat' => 'Alamat', 'jalur_pendaftaran' => 'Jalur Pendaftaran', 'kewarganegaraan' => 'Kewarganegaraan', 'jenis_pendaftaran' => 'Jenis Pendaftaran', 'tanggal_masuk_kuliah' => 'Tanggal Masuk Kuliah', 'jenis_tempat_tinggal' => 'Jenis Tempat Tinggal', 'telp_rumah' => 'Telp Rumah', 'no_hp' => 'No HP', 'email' => 'Email', 'terima_kps' => 'Terima KPS', 'no_kps' => 'No KPS', 'jenis_transportasi' => 'Jenis Transportasi', 'kode_pt_asal' => 'Kode PT Asal', 'nama_pt_asal' => 'Nama PT Asal', 'kode_prodi_asal' => 'Kode Prodi Asal', 'nama_prodi_asal' => 'Nama Prodi Asal', 'jenis_pembiayaan' => 'Jenis Pembiayaan', 'jumlah_biaya_masuk' => 'Jumlah Biaya Masuk'] as $field => $label)
+                        @foreach (['NIM' => 'NIM', 'NIK' => 'NIK', 'NISN' => 'NISN', 'NPWP' => 'NPWP', 'nama' => 'Nama Mahasiswa', 'tempat_lahir' => 'Tempat Lahir', 'tanggal_lahir' => 'Tanggal Lahir', 'jenis_kelamin' => 'Jenis Kelamin', 'mulai_semester' => 'Mulai Semester', 'kode_prodi' => 'Prodi', 'agama' => 'Agama', 'alamat' => 'Alamat', 'jalur_pendaftaran' => 'Jalur Pendaftaran', 'kewarganegaraan' => 'Kewarganegaraan', 'jenis_pendaftaran' => 'Jenis Pendaftaran', 'tanggal_masuk_kuliah' => 'Tanggal Masuk Kuliah', 'jenis_tempat_tinggal' => 'Jenis Tempat Tinggal', 'telp_rumah' => 'Telp Rumah', 'no_hp' => 'No HP', 'email' => 'Email', 'terima_kps' => 'Terima KPS', 'no_kps' => 'No KPS', 'jenis_transportasi' => 'Jenis Transportasi', 'kode_pt_asal' => 'Kode PT Asal', 'nama_pt_asal' => 'Nama PT Asal', 'kode_prodi_asal' => 'Kode Prodi Asal', 'nama_prodi_asal' => 'Nama Prodi Asal', 'jenis_pembiayaan' => 'Jenis Pembiayaan', 'jumlah_biaya_masuk' => 'Jumlah Biaya Masuk'] as $field => $label)
                             <div class="mb-4 text-left border w-full h-full p-2">
                                 <label for="{{ $field }}"
                                     class="block text-sm font-medium text-gray-700">{{ $label }}</label>
