@@ -21,6 +21,13 @@ class ListMahasiswa extends Component
     public $nama;
     public $semester;
 
+    public $status = null;
+
+    public $mahasiswaList = [];
+
+    public $mahasiswaSudahIsi = [];
+    public $mahasiswaBelumIsi = [];
+
     public function loadData()
     {
         if ($this->selectedSemester == '') {
@@ -42,6 +49,7 @@ class ListMahasiswa extends Component
         })->get();
 
         $mahasiswaBelumIsi = [];
+        $mahasiswaSudahIsi = [];
 
         foreach ($mahasiswaList as $mhs) {
             $matkulKRS = KRS::where('NIM', $mhs->NIM)
@@ -57,13 +65,21 @@ class ListMahasiswa extends Component
 
             if (!$sudahIsiSemua) {
                 $mahasiswaBelumIsi[] = $mhs;
+            } else {
+                $mahasiswaSudahIsi[] = $mhs;
             }
         }
+
         $this->nama = $periode->nama_periode;
         $this->itung2 = count($mahasiswaList);         // Total mahasiswa yang punya KRs
-        $this->itung = count($mahasiswaList) - count($mahasiswaBelumIsi);        // Mahasiswa yang sudah isi semua e-Monev
-        $this->itung3 = count($mahasiswaBelumIsi);    // Mahasiswa yang belum isi semua e-Monev
+        $this->itung = count($mahasiswaSudahIsi);       // Mahasiswa yang sudah isi semua e-Monev
+        $this->itung3 = count($mahasiswaBelumIsi);
+
+        $this->mahasiswaBelumIsi = $mahasiswaBelumIsi;
+        $this->mahasiswaSudahIsi = $mahasiswaSudahIsi;
     }
+
+
 
     public function render()
     {
@@ -74,6 +90,8 @@ class ListMahasiswa extends Component
             'mahasiswa' => $this->itung2,
             'emonev' => $this->itung,
             'belum' => $this->itung3,
+            'mahasiswabelum' => $this->mahasiswaBelumIsi,
+            'mahasiswasudah' => $this->mahasiswaSudahIsi,
         ]);
     }
 }

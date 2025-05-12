@@ -210,16 +210,18 @@
     <br>
     <br>
 
-    <h4 style="font-family: helvetica; margin-top: 10%; color:darkviolet; font-size: 14px;">
+    <h4 style="font-family: helvetica; margin-top: 8%; color:darkviolet; font-size: 14px;">
         Catatan
     </h4>
     <ul style="margin-top: -1%">
         <li style="padding:1px; font-size: 12px;">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. repudiandae.
+            Simpan bukti pembayaran ini sebagai bukti pembayaran yang sah
         </li>
         <li style="padding:1px; font-size: 12px;">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. repudiandae
-            alias sit, eaque est ut.
+            Segala bentuk kekeliruan pembayaran harap dikonfirmasi ke bagian keuangan.
+        </li>
+        <li style="padding:1px; font-size: 12px;">
+            Bukti ini hanya berlaku untuk transaksi yang tercantum dan tidak dapat digandakan untuk transaksi lain.
         </li>
     </ul>
 </body>

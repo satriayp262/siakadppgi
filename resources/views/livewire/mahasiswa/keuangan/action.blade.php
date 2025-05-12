@@ -1,5 +1,5 @@
 @if ($row->status_tagihan === 'Lunas')
-    <a wire:navigate.hover href="{{ route('mahasiswa.download', $row->no_kwitansi) }}" target="_blank"
+    <a href="{{ route('mahasiswa.download', $row->no_kwitansi) }}" target="_blank"
         class="inline-flex px-4 py-2 text-white bg-purple2 hover:bg-customPurple rounded-md">
 
         <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"

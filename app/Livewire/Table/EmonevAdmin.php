@@ -60,9 +60,13 @@ final class EmonevAdmin extends PowerGridComponent
             'periode_emonev.nama_periode',
         )->get();
 
-        $query = $query->get();
+        return $query->get();
+    }
 
-        return $query;
+
+    public function boot(): void
+    {
+        config(['livewire-powergrid.filter' => 'outside']);
     }
 
     public function setUp(): array

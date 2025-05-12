@@ -54,7 +54,7 @@ final class TagihanTable extends PowerGridComponent
             ->add('total_bayar', function ($dish) {
                 return 'Rp. ' . number_format($dish->total_bayar, 2, ',', '.'); // IDR 170,90
             })
-            ->add('status_tagihan', function ($dish) {
+            ->add('status', function ($dish) {
                 $status = $dish->status_tagihan;
                 $badgeClass = match ($status) {
                     'Lunas' => 'bg-green-100 text-green-800',
@@ -65,6 +65,7 @@ final class TagihanTable extends PowerGridComponent
 
                 return "<span class='px-2 py-1 text-xs font-semibold rounded $badgeClass'>$status</span>";
             })
+            ->add('status_tagihan')
             ->add('semester.nama_semester');
     }
 
@@ -85,7 +86,7 @@ final class TagihanTable extends PowerGridComponent
             Column::make('Total Pembayaran', 'total_bayar')
                 ->sortable()
                 ->searchable(),
-            Column::make('Status', 'status_tagihan'),
+            Column::make('Status', 'status'),
 
 
             Column::action('Action')
