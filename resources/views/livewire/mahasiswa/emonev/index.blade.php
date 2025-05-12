@@ -5,248 +5,127 @@
 
 <div class="mx-5">
     <div class="flex flex-col justify-between mx-4 mt-4 mb-6">
-        @if ($krs->isEmpty())
-            <div class="bg-white shadow-lg p-6 rounded-lg max-w-full text-center">
-                <!-- Dropdown Semester -->
-                <div class="flex space-x-4 mb-4">
-                    <!-- Dropdown Semester -->
-                    <div class="flex space-x-4 items-center">
-                        <span class="block font-medium text-gray-700 text-left ">Semester :</span>
-                        <select id="semester" wire:model="selectedSemester"
-                            class="w-48 px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-purple-200">
-                            @foreach ($semesters as $item)
-                                @foreach ($item as $semester)
-                                    <option value="{{ $semester->nama_semester }}">{{ $semester->nama_semester }}
-                                    </option>
-                                @endforeach
-                            @endforeach
-                        </select>
-                    </div>
+        <div class="bg-white shadow-lg p-6 rounded-lg max-w-full text-center">
 
-                    <!-- Tombol Tampilkan -->
-                    <div class="flex items-end space-x-2">
-                        <button wire:click="loadData"
-                            class="bg-purple2 hover:bg-customPurple text-white font-semibold py-2 px-6 rounded-lg shadow-lg transition-transform hover:scale-105">
-                            Tampilkan
-                        </button>
-                    </div>
+            {{-- Filter Semester --}}
+            <div class="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0 mb-4">
+                <div class="flex flex-col md:flex-row md:items-center md:space-x-4 space-y-2 md:space-y-0">
+                    <span class="block font-medium text-gray-700 text-left">Semester :</span>
+                    <select id="semester" wire:model="selectedSemester"
+                        class="w-full md:w-48 px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-purple-200">
+                        <option value="" disabled>Pilih Semester</option>
+                        @foreach ($semesters as $item)
+                            @foreach ($item as $semester)
+                                <option value="{{ $semester->nama_semester }}">{{ $semester->nama_semester }}</option>
+                            @endforeach
+                        @endforeach
+                    </select>
                 </div>
-                <div class="">
-                    <img src="{{ asset('img/boxempty.svg') }}" alt="not found" class="w-40 h-auto mx-auto">
-                    <p class="font-bold text-customPurple text-lg mt-4">Belum Ada KRS di Semester ini</p>
+
+                <div class="flex justify-start md:items-end">
+                    <button wire:click="loadData"
+                        class="md:w-auto bg-purple2 hover:bg-customPurple text-white font-semibold py-2 px-6 rounded-lg shadow-lg transition-transform hover:scale-105">
+                        Tampilkan
+                    </button>
                 </div>
             </div>
-        @else
-            @if ($periode1 == null && $periode2 == null)
-                <div class="bg-white shadow-lg p-6 rounded-lg max-w-full text-center">
-                    <!-- Dropdown Semester -->
-                    <div class="flex space-x-4 mb-4">
-                        <!-- Dropdown Semester -->
-                        <div class="flex space-x-4 items-center">
-                            <span class="block font-medium text-gray-700 text-left ">Semester :</span>
-                            <select id="semester" wire:model="selectedSemester"
-                                class="w-48 px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-purple-200">
-                                @foreach ($semesters as $item)
-                                    @foreach ($item as $semester)
-                                        <option value="{{ $semester->nama_semester }}">{{ $semester->nama_semester }}
-                                        </option>
-                                    @endforeach
-                                @endforeach
-                            </select>
-                        </div>
 
-                        <!-- Tombol Tampilkan -->
-                        <div class="flex items-end space-x-2">
-                            <button wire:click="loadData"
-                                class="bg-purple2 hover:bg-customPurple text-white font-semibold py-2 px-6 rounded-lg shadow-lg transition-transform hover:scale-105">
-                                Tampilkan
-                            </button>
-                        </div>
-                    </div>
-                    <div class="">
-                        <img src="{{ asset('img/calender.svg') }}" alt="not found" class="w-40 h-auto mx-auto">
-                        <p class="font-bold text-customPurple text-lg mt-4">Periode pengisian Emonev semester ini belum
-                            di buat
-                        </p>
-                    </div>
-                </div>
+            {{-- Tidak ada KRS --}}
+            @if ($krs->isEmpty())
+                <img src="{{ asset('img/boxempty.svg') }}" alt="not found" class="w-40 h-auto mx-auto">
+                <p class="font-bold text-customPurple text-lg mt-4">Belum Ada KRS di Semester ini</p>
+
+                {{-- Tidak ada periode --}}
+            @elseif ($periode1 == null && $periode2 == null)
+                <img src="{{ asset('img/calender.svg') }}" alt="not found" class="w-40 h-auto mx-auto">
+                <p class="font-bold text-customPurple text-lg mt-4">Periode pengisian Emonev semester ini belum dibuat
+                </p>
+
+                {{-- Ada data --}}
             @else
-                <!-- Jika diluar periode 1 dan periode 2 -->
                 @php
-                    $now = now()->toDateString(); // Ambil tanggal sekarang
+                    $now = now()->toDateString();
                     $isPeriode1 = $periode1 && $now >= $periode1->tanggal_mulai && $now <= $periode1->tanggal_selesai;
                     $isPeriode2 = $periode2 && $now >= $periode2->tanggal_mulai && $now <= $periode2->tanggal_selesai;
+                    $periode = $isPeriode1 ? $periode1 : ($isPeriode2 ? $periode2 : null);
                 @endphp
-                @if ($isPeriode1 == true)
-                    @php
-                        $periode = $periode1;
-                    @endphp
-                @elseif ($isPeriode2 == true)
-                    @php
-                        $periode = $periode2;
-                    @endphp
-                @endif
+
+                {{-- Di luar periode --}}
                 @if (!$isPeriode1 && !$isPeriode2)
-                    <div class="bg-white shadow-lg p-6 rounded-lg max-w-full text-center">
-                        <div class="flex space-x-4 mb-4">
-                            <!-- Dropdown Semester -->
-                            <div class="flex space-x-4 items-center">
-                                <span class="block font-medium text-gray-700 text-left ">Semester :</span>
-                                <select id="semester" wire:model="selectedSemester"
-                                    class="w-48 px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-purple-200">
-                                    @foreach ($semesters as $item)
-                                        @foreach ($item as $semester)
-                                            <option value="{{ $semester->nama_semester }}">
-                                                {{ $semester->nama_semester }}
-                                            </option>
-                                        @endforeach
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <!-- Tombol Tampilkan -->
-                            <div class="flex items-end space-x-2">
-                                <button wire:click="loadData"
-                                    class="bg-purple2 hover:bg-customPurple text-white font-semibold py-2 px-6 rounded-lg shadow-lg transition-transform hover:scale-105">
-                                    Tampilkan
-                                </button>
-                            </div>
-                        </div>
-                        <p class="font-semibold">e-Monev Semester {{ $periode1->semester->nama_semester . '' }}tidak
-                            dapat
-                            diakses saat ini.</p>
-                        <p>Periode 1 : {{ $periode1->tanggal_mulai }} -
-                            {{ $periode1->tanggal_selesai }}</p>
-                        <p>Periode 2 : {{ $periode2->tanggal_mulai }} -
-                            {{ $periode2->tanggal_selesai }}</p>
-                    </div>
+                    <p class="font-semibold">
+                        e-Monev Semester {{ $periode1->semester->nama_semester }} tidak dapat diakses saat ini.
+                    </p>
+                    <p>Periode 1: {{ $periode1->tanggal_mulai }} - {{ $periode1->tanggal_selesai }}</p>
+                    <p>Periode 2: {{ $periode2->tanggal_mulai }} - {{ $periode2->tanggal_selesai }}</p>
                 @else
-                    <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
-                        <div class="flex space-x-4 mb-4">
-                            <!-- Dropdown Semester -->
-                            <div class="flex space-x-4 items-center">
-                                <span class="block font-medium text-gray-700 text-left ">Semester :</span>
-                                <select id="semester" wire:model="selectedSemester"
-                                    class="w-48 px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-purple-200">
-                                    @foreach ($semesters as $item)
-                                        @foreach ($item as $semester)
-                                            <option value="{{ $semester->nama_semester }}">
-                                                {{ $semester->nama_semester }}
-                                            </option>
-                                        @endforeach
-                                    @endforeach
-                                </select>
-                            </div>
-                            <!-- Tombol Tampilkan -->
-                            <div class="flex items-end space-x-2">
-                                <button wire:click="loadData"
-                                    class="bg-purple2 hover:bg-customPurple text-white font-semibold py-2 px-6 rounded-lg shadow-lg transition-transform hover:scale-105">
-                                    Tampilkan
-                                </button>
-                            </div>
-                        </div>
+                    <h1 class="text-xl font-bold text-center mt-6">Dosen yang mengajar di kelas {{ $k->nama_kelas }} di
+                        semester {{ $semester1->nama_semester }}</h1>
 
-                        <h1 class=" text-xl font-bold text-center mt-6">Dosen yang mengajar di kelas
-                            {{ $k->nama_kelas }} di semester
-                            {{ $semester1->nama_semester }}</h1>
-
-                        <table class="min-w-full mt-4 bg-white border border-gray-200">
-                            <thead class="bg-purple2 text-white">
-                                <thead>
-                                    <tr class="bg-customPurple text-white text-sm">
-                                        <th class="px-4 py-2 text-center w-[10%]">#</th>
-                                        <th class="px-4 py-2 text-center w-[30%]">Nama Dosen</th>
-                                        <th class="px-4 py-2 text-center w-[20%]">NIDN</th>
-                                        <th class="px-4 py-2 text-center w-[20%]">Mata Kuliah</th>
-                                        <th class="px-4 py-2 text-center w-[20%]">Status</th>
-                                        <th class="px-4 py-2 text-center w-[40%]">Aksi</th>
-                                    </tr>
-                                </thead>
+                    {{-- Tabel versi desktop --}}
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full mt-4 bg-white border border-gray-200 hidden md:table">
+                            <thead class="bg-gray-100 text-gray-900">
+                                <tr class="text-sm">
+                                    <th class="px-4 py-2 text-center w-[10%]">#</th>
+                                    <th class="px-4 py-2 text-center w-[30%]">Nama Dosen</th>
+                                    <th class="px-4 py-2 text-center w-[20%]">NIDN</th>
+                                    <th class="px-4 py-2 text-center w-[20%]">Mata Kuliah</th>
+                                    <th class="px-4 py-2 text-center w-[20%]">Status</th>
+                                    <th class="px-4 py-2 text-center w-[40%]">Aksi</th>
+                                </tr>
                             </thead>
                             <tbody>
                                 @foreach ($krs as $item)
-                                    <tr class="border-b border-gray-200">
+                                    @php
+                                        $emonev = MahasiswaEmonev::where('NIM', Auth::user()->nim_nidn)
+                                            ->where('id_mata_kuliah', $item->matkul->id_mata_kuliah)
+                                            ->where('id_semester', $semester1->id_semester)
+                                            ->first();
+
+                                        $sesi = $emonev?->sesi;
+                                        $sudahIsi = ($isPeriode1 && $sesi == 1) || ($isPeriode2 && $sesi == 2);
+                                        $kode = Hashids::encode(
+                                            $item->matkul->id_mata_kuliah,
+                                            $k->id_kelas,
+                                            $periode->id_periode,
+                                        );
+                                    @endphp
+                                    <tr class="border-b border-gray-200 text-sm">
                                         <td class="px-2 py-2 text-center">{{ $loop->iteration }}</td>
-                                        <td class="px-2 py-2 text-left">{{ $item->matkul->dosen->nama_dosen }}</td>
-                                        <td class="px-2 py-2 text-left">{{ $item->matkul->nidn }}</td>
-                                        <td class="px-2 py-2 text-left">{{ $item->matkul->nama_mata_kuliah }}</td>
+                                        <td class="px-2 py-2">{{ $item->matkul->dosen->nama_dosen }}</td>
+                                        <td class="px-2 py-2">{{ $item->matkul->nidn }}</td>
+                                        <td class="px-2 py-2">{{ $item->matkul->nama_mata_kuliah }}</td>
                                         <td class="px-2 py-2 text-center">
-                                            @php
-                                                $emonev = MahasiswaEmonev::where('NIM', Auth::user()->nim_nidn)
-                                                    ->where('id_mata_kuliah', $item->matkul->id_mata_kuliah)
-                                                    ->where('id_semester', $semester1->id_semester)
-                                                    ->first();
-                                            @endphp
-                                            @if ($isPeriode1 == true && $emonev?->sesi == 1)
-                                                <span
-                                                    class="px-2 py-1 bg-blue-200 text-blue-800 rounded-full text-xs font-semibold">Sudah
-                                                    Mengisi</span>
-                                            @elseif ($isPeriode2 == true && $emonev?->sesi == 1)
-                                                <span
-                                                    class="px-2 py-1 bg-red-200 text-red-800 rounded-full text-xs font-semibold">Belum
-                                                    Mengisi</span>
-                                            @elseif ($isPeriode2 == true && $emonev?->sesi == 2)
-                                                <span
-                                                    class="px-2 py-1 bg-blue-200 text-blue-800 rounded-full text-xs font-semibold">Sudah
-                                                    Mengisi</span>
-                                            @else
-                                                <span
-                                                    class="px-2 py-1 bg-red-200 text-red-800 rounded-full text-xs font-semibold">Belum
-                                                    Mengisi</span>
-                                            @endif
+                                            <span
+                                                class="px-2 py-1 rounded-full text-xs font-semibold {{ $sudahIsi ? 'bg-blue-200 text-blue-800' : 'bg-red-200 text-red-800' }}">
+                                                {{ $sudahIsi ? 'Sudah Mengisi' : 'Belum Mengisi' }}
+                                            </span>
                                         </td>
                                         <td class="px-2 py-2 text-center">
-                                            @php
-                                                $kode = Hashids::encode(
-                                                    $item->matkul->id_mata_kuliah,
-                                                    $k->id_kelas,
-                                                    $periode->id_periode,
-                                                );
-                                            @endphp
+                                            @if ($sudahIsi)
+                                                <button
+                                                    class="bg-gray-200 text-gray-500 px-5 py-2 rounded-lg text-sm font-medium"
+                                                    disabled>
+                                                    <svg class="w-6 h-6 text-gray-500" aria-hidden="true"
+                                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                        fill="none" viewBox="0 0 24 24">
+                                                        <path stroke="currentColor" stroke-linecap="round"
+                                                            stroke-linejoin="round" stroke-width="2"
+                                                            d="M10.779 17.779 4.36 19.918 6.5 13.5m4.279 4.279 8.364-8.643a3.027 3.027 0 0 0-2.14-5.165 3.03 3.03 0 0 0-2.14.886L6.5 13.5m4.279 4.279L6.499 13.5m2.14 2.14 6.213-6.504M12.75 7.04 17 11.28" />
+                                                    </svg>
 
-                                            @if ($isPeriode1 == true && $emonev?->sesi == 1)
-                                                <button
-                                                    class="bg-gray-200 text-gray-500 px-5 py-2 rounded-lg text-sm font-medium ">
-                                                    <svg class="w-6 h-6 text-gray-500" aria-hidden="true"
-                                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        fill="currentColor" viewBox="0 0 24 24">
-                                                        <path fill-rule="evenodd"
-                                                            d="M11.32 6.176H5c-1.105 0-2 .949-2 2.118v10.588C3 20.052 3.895 21 5 21h11c1.105 0 2-.948 2-2.118v-7.75l-3.914 4.144A2.46 2.46 0 0 1 12.81 16l-2.681.568c-1.75.37-3.292-1.263-2.942-3.115l.536-2.839c.097-.512.335-.983.684-1.352l2.914-3.086Z"
-                                                            clip-rule="evenodd" />
-                                                        <path fill-rule="evenodd"
-                                                            d="M19.846 4.318a2.148 2.148 0 0 0-.437-.692 2.014 2.014 0 0 0-.654-.463 1.92 1.92 0 0 0-1.544 0 2.014 2.014 0 0 0-.654.463l-.546.578 2.852 3.02.546-.579a2.14 2.14 0 0 0 .437-.692 2.244 2.244 0 0 0 0-1.635ZM17.45 8.721 14.597 5.7 9.82 10.76a.54.54 0 0 0-.137.27l-.536 2.84c-.07.37.239.696.588.622l2.682-.567a.492.492 0 0 0 .255-.145l4.778-5.06Z"
-                                                            clip-rule="evenodd" />
-                                                    </svg>
-                                                </button>
-                                            @elseif ($isPeriode2 == true && $emonev?->sesi == 2)
-                                                <button
-                                                    class="bg-gray-200 text-gray-500 px-5 py-2 rounded-lg text-sm font-medium ">
-                                                    <svg class="w-6 h-6 text-gray-500" aria-hidden="true"
-                                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        fill="currentColor" viewBox="0 0 24 24">
-                                                        <path fill-rule="evenodd"
-                                                            d="M11.32 6.176H5c-1.105 0-2 .949-2 2.118v10.588C3 20.052 3.895 21 5 21h11c1.105 0 2-.948 2-2.118v-7.75l-3.914 4.144A2.46 2.46 0 0 1 12.81 16l-2.681.568c-1.75.37-3.292-1.263-2.942-3.115l.536-2.839c.097-.512.335-.983.684-1.352l2.914-3.086Z"
-                                                            clip-rule="evenodd" />
-                                                        <path fill-rule="evenodd"
-                                                            d="M19.846 4.318a2.148 2.148 0 0 0-.437-.692 2.014 2.014 0 0 0-.654-.463 1.92 1.92 0 0 0-1.544 0 2.014 2.014 0 0 0-.654.463l-.546.578 2.852 3.02.546-.579a2.14 2.14 0 0 0 .437-.692 2.244 2.244 0 0 0 0-1.635ZM17.45 8.721 14.597 5.7 9.82 10.76a.54.54 0 0 0-.137.27l-.536 2.84c-.07.37.239.696.588.622l2.682-.567a.492.492 0 0 0 .255-.145l4.778-5.06Z"
-                                                            clip-rule="evenodd" />
-                                                    </svg>
                                                 </button>
                                             @else
-                                                <button
-                                                    onclick="window.location.href='{{ route('emonev.detail', ['id_mata_kuliah' => $kode, 'nama_semester' => $semester1->nama_semester]) }}'"
-                                                    class="bg-purple2 hover:bg-customPurple text-white px-5 py-2 rounded-lg transition-transform transform hover:scale-105 text-sm font-medium">
+                                                <a href="{{ route('emonev.detail', ['id_mata_kuliah' => $kode, 'nama_semester' => $semester1->nama_semester]) }}"
+                                                    class="bg-blue-500 hover:bg-blue-700 text-white px-5 py-2 rounded-lg transition-transform transform hover:scale-105 text-sm font-medium inline-flex items-center justify-center">
                                                     <svg class="w-6 h-6 text-white" aria-hidden="true"
-                                                        xmlns="http://www.w3.org/2000/svg" width="24"
-                                                        height="24" fill="currentColor" viewBox="0 0 24 24">
-                                                        <path fill-rule="evenodd"
-                                                            d="M11.32 6.176H5c-1.105 0-2 .949-2 2.118v10.588C3 20.052 3.895 21 5 21h11c1.105 0 2-.948 2-2.118v-7.75l-3.914 4.144A2.46 2.46 0 0 1 12.81 16l-2.681.568c-1.75.37-3.292-1.263-2.942-3.115l.536-2.839c.097-.512.335-.983.684-1.352l2.914-3.086Z"
-                                                            clip-rule="evenodd" />
-                                                        <path fill-rule="evenodd"
-                                                            d="M19.846 4.318a2.148 2.148 0 0 0-.437-.692 2.014 2.014 0 0 0-.654-.463 1.92 1.92 0 0 0-1.544 0 2.014 2.014 0 0 0-.654.463l-.546.578 2.852 3.02.546-.579a2.14 2.14 0 0 0 .437-.692 2.244 2.244 0 0 0 0-1.635ZM17.45 8.721 14.597 5.7 9.82 10.76a.54.54 0 0 0-.137.27l-.536 2.84c-.07.37.239.696.588.622l2.682-.567a.492.492 0 0 0 .255-.145l4.778-5.06Z"
-                                                            clip-rule="evenodd" />
+                                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                        fill="none" viewBox="0 0 24 24">
+                                                        <path stroke="currentColor" stroke-linecap="round"
+                                                            stroke-linejoin="round" stroke-width="2"
+                                                            d="M10.779 17.779 4.36 19.918 6.5 13.5m4.279 4.279 8.364-8.643a3.027 3.027 0 0 0-2.14-5.165 3.03 3.03 0 0 0-2.14.886L6.5 13.5m4.279 4.279L6.499 13.5m2.14 2.14 6.213-6.504M12.75 7.04 17 11.28" />
                                                     </svg>
-                                                </button>
+                                                </a>
                                             @endif
                                         </td>
                                     </tr>
@@ -254,8 +133,43 @@
                             </tbody>
                         </table>
                     </div>
+
+                    {{-- Versi Mobile --}}
+                    <div class="space-y-4 mt-2 md:hidden">
+                        @foreach ($krs as $item)
+                            <div class="border rounded-lg p-4 shadow-sm">
+                                <div class="font-semibold text-gray-700 mb-2">{{ $loop->iteration }}.
+                                    {{ $item->matkul->dosen->nama_dosen }}</div>
+                                <div class="text-sm text-gray-600"><strong>NIDN:</strong> {{ $item->matkul->nidn }}
+                                </div>
+                                <div class="text-sm text-gray-600"><strong>Matkul:</strong>
+                                    {{ $item->matkul->nama_mata_kuliah }}</div>
+                                <div class="text-sm text-gray-600 mt-2">
+                                    <strong>Status:</strong>
+                                    <span
+                                        class="inline-block px-2 py-1 rounded-full text-xs font-semibold {{ $sudahIsi ? 'bg-blue-200 text-blue-800' : 'bg-red-200 text-red-800' }}">
+                                        {{ $sudahIsi ? 'Sudah Mengisi' : 'Belum Mengisi' }}
+                                    </span>
+                                </div>
+                                <div class="mt-3">
+                                    @if (!$sudahIsi)
+                                        <a href="{{ route('emonev.detail', ['id_mata_kuliah' => $kode, 'nama_semester' => $semester1->nama_semester]) }}"
+                                            class="bg-blue-500 hover:bg-blue-700 text-white w-full py-2 rounded-lg text-sm font-medium block text-center">
+                                            Isi e-Monev
+                                        </a>
+                                    @else
+                                        <button
+                                            class="bg-gray-200 text-gray-500 w-full py-2 rounded-lg text-sm font-medium"
+                                            disabled>
+                                            Sudah Mengisi
+                                        </button>
+                                    @endif
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
                 @endif
             @endif
-        @endif
+        </div>
     </div>
 </div>

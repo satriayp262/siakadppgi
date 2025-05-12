@@ -7,7 +7,7 @@
                 <ol class="flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse truncate">
                     <li>
                         <div class="flex items-center">
-                            <a wire:navigate.hover  href="{{ route('mahasiswa.emonev') }}"
+                            <a wire:navigate.hover href="{{ route('mahasiswa.emonev') }}"
                                 class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center ms-1 md:ms-2 truncate">
                                 {{ $semester }}
                             </a>
@@ -29,7 +29,7 @@
             </nav>
 
             <!-- Dosen dan Kelas-->
-            <div class="flex flex-col md:flex-row items-center gap-4 text-center md:text-left">
+            <div class="flex flex-row flex-wrap items-center gap-4 text-center md:text-left">
                 <h1 class="text-lg font-semibold">
                     Dosen: <span class="text-customPurple">{{ $matkul->dosen->nama_dosen }}</span>
                 </h1>
@@ -37,6 +37,7 @@
                     Kelas: <span class="text-customPurple">{{ $kelas->nama_kelas }}</span>
                 </h1>
             </div>
+
         </div>
 
         <!-- FORM START -->
@@ -122,13 +123,13 @@
                 @endphp
 
                 <!-- Submit & Score -->
-                <div class="flex flex-col md:flex-row justify-between items-center mt-6">
+                <div class="flex flex-row flex-wrap justify-between items-center mt-6 gap-4">
                     <div class="text-lg font-semibold">
                         Skor: <span class="text-customPurple" id="skor">0</span><span
                             class="text-customPurple">{{ ' / ' . $maxSkor }}</span>
                     </div>
                     <button type="submit"
-                        class="bg-purple2 hover:bg-customPurple mt-2 md:mt-0 text-white font-semibold py-2 px-4 md:px-6 rounded-lg shadow-lg transition-transform hover:scale-105">
+                        class="bg-purple2 hover:bg-customPurple text-white font-semibold py-2 px-4 md:px-6 rounded-lg shadow-lg transition-transform hover:scale-105">
                         Submit Jawaban
                     </button>
                 </div>
