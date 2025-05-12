@@ -50,26 +50,33 @@ class Index extends Component
 
     private function loadFilteredNilaiData()
     {
-        $query = Mahasiswa::query();
+        // Get NIMs from KRS first
+        $nims = KRS::where('id_mata_kuliah', $this->id_mata_kuliah)
+            ->where('id_kelas', $this->id_kelas)
+            ->pluck('NIM');
 
-        // Filter based on search
-        if ($this->search) {
-            $query->where('nama', 'like', '%' . $this->search . '%')
-                ->orWhere('NIM', 'like', '%' . $this->search . '%')
-                ->orWhereHas('prodi', function ($query) {
-                    $query->where('nama_prodi', 'like', '%' . $this->search . '%');
-                })
-                ->orWhere('email', 'like', '%' . $this->search . '%');
+        // If no NIMs found in KRS, return empty
+        if ($nims->isEmpty()) {
+            $this->Nilai = [];
+            return;
         }
 
-        // Filter by kelas
-        $query->whereIn('NIM', KRS::where('id_mata_kuliah', $this->id_mata_kuliah)->pluck('NIM'));
+        // Query Mahasiswa filtered by search & NIMs from KRS
+        $mahasiswa = Mahasiswa::whereIn('NIM', $nims)
+            ->when($this->search, function ($query) {
+                $query->where(function ($q) {
+                    $q->where('nama', 'like', '%' . $this->search . '%')
+                        ->orWhere('NIM', 'like', '%' . $this->search . '%')
+                        ->orWhereHas('prodi', function ($subQuery) {
+                            $subQuery->where('nama_prodi', 'like', '%' . $this->search . '%');
+                        })
+                        ->orWhere('email', 'like', '%' . $this->search . '%');
+                });
+            })
+            ->get();
 
-        // Get filtered mahasiswa and map their nilai
-        $mahasiswa = $query->get();
-
-        $this->Nilai = [];
-        foreach ($mahasiswa as $item) {
+        // Map Nilai
+        $this->Nilai = $mahasiswa->map(function ($item) {
             $nilaiRecord = Nilai::firstOrCreate(
                 [
                     'id_aktifitas' => $this->id_aktifitas,
@@ -77,19 +84,18 @@ class Index extends Component
                     'NIM' => $item->NIM
                 ],
                 [
-                    'nilai' => 0 
+                    'nilai' => 0
                 ]
             );
 
-            $this->Nilai[] = [
+            return [
                 'NIM' => $item->NIM,
                 'nama' => $item->nama,
-                'prodi' => $item->prodi->nama_prodi ?? '',
-                'email' => $item->email,
                 'nilai' => $nilaiRecord->nilai,
             ];
-        }
+        })->toArray();
     }
+
 
 
 

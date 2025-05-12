@@ -9,7 +9,7 @@
                 <ol class="flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
                     <li aria-current="page">
                         <div class="flex items-center">
-                            <a wire:navigate.hover  href="{{ route('dosen.aktifitas') }}"
+                            <a wire:navigate.hover href="{{ route('dosen.aktifitas') }}"
                                 class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
                                 <span class="text-sm font-medium text-gray-500 ms-1 md:ms-2">Aktifitas</span>
                                 <svg class="w-3 h-3 mx-1 text-gray-400 rtl:rotate-180" aria-hidden="true"
@@ -18,7 +18,8 @@
                                         stroke-width="2" d="m1 9 4-4-4-4" />
                                 </svg>
                             </a>
-                            <a wire:navigate.hover  href="{{ route('dosen.aktifitas.kelas', ['kode_mata_kuliah' => $kode_mata_kuliah]) }}"
+                            <a wire:navigate.hover
+                                href="{{ route('dosen.aktifitas.kelas', ['kode_mata_kuliah' => $kode_mata_kuliah]) }}"
                                 class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
                                 {{ $kode_mata_kuliah }}
                                 <svg class="w-3 h-3 mx-1 text-gray-400 rtl:rotate-180" aria-hidden="true"
@@ -27,7 +28,8 @@
                                         stroke-width="2" d="m1 9 4-4-4-4" />
                                 </svg>
                             </a>
-                            <a wire:navigate.hover  href="{{ route('dosen.aktifitas.kelas.show', ['nama_kelas' => str_replace('/', '-', $nama_kelas), 'kode_mata_kuliah' => $kode_mata_kuliah]) }}"
+                            <a wire:navigate.hover
+                                href="{{ route('dosen.aktifitas.kelas.show', ['nama_kelas' => str_replace('/', '-', $nama_kelas), 'kode_mata_kuliah' => $kode_mata_kuliah]) }}"
                                 class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
                                 {{ str_replace('-', '/', $nama_kelas) }}
                             </a>
@@ -45,8 +47,8 @@
                 <!-- Button to open the modal -->
                 <button @click="isOpen=true; load=true"
                     class="flex items-center text-[10px] md:text-[16px] px-2 sm:px-2 py-1 sm:py-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">
-                    <svg class="mr-1 md:mr-2 w-4 sm:w-6 h-4 sm:h-6" xmlns="http://www.w3.org/2000/svg" width="26" height="26"
-                        viewBox="0 0 48 48">
+                    <svg class="mr-1 md:mr-2 w-4 sm:w-6 h-4 sm:h-6" xmlns="http://www.w3.org/2000/svg" width="26"
+                        height="26" viewBox="0 0 48 48">
                         <path fill="#169154" d="M29,6H15.744C14.781,6,14,6.781,14,7.744v7.259h15V6z"></path>
                         <path fill="#18482a" d="M14,33.054v7.202C14,41.219,14.781,42,15.743,42H29v-8.946H14z">
                         </path>
@@ -80,13 +82,18 @@
                         </div>
                         <div class="p-4">
                             <div class="p-4 max-h-[500px] overflow-y-auto">
+                                <div wire:loading wire:target="import"
+                                    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                                    <div class="spinner loading-spinner"></div>
+                                </div>
                                 <form wire:submit.prevent="import">
                                     @csrf <!-- CSRF protection for form submission -->
                                     <div class="mb-4">
                                         <div class="flex flex-col">
                                             <label class="block text-sm font-medium text-gray-700">Template
                                                 Dokumen</label>
-                                            <a wire:navigate.hover  href="{{ asset('template/template_import_nilai.xlsx') }}"
+                                            <a wire:navigate.hover
+                                                href="{{ asset('template/template_import_nilai.xlsx') }}"
                                                 class="flex items-center justify-between w-full px-2 py-1 mt-1 text-sm bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
 
                                                 <!-- Left icon -->
@@ -119,7 +126,8 @@
                                                 x-on:livewire-upload-start="uploading = true; clearTimeout(timeout);"
                                                 x-on:livewire-upload-finish="timeout = setTimeout(() => { uploading = false; }, 1000);"
                                                 x-on:livewire-upload-progress="progress = $event.detail.progress">
-                                                <input type="file" id="file" wire:model="file" name="file"
+                                                <input type="file" id="file" wire:model="file"
+                                                    name="file"
                                                     class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
                                                 @error('file')
                                                     <span class="text-sm text-red-500">{{ $message }}</span>
@@ -151,8 +159,8 @@
             <div>
                 <button wire:click="export"
                     class="flex items-center text-[10px] md:text-[16px] px-2 sm:px-2 py-1 sm:py-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">
-                    <svg class="mr-1 md:mr-2 w-4 sm:w-6 h-4 sm:h-6" xmlns="http://www.w3.org/2000/svg" width="26" height="26" c
-                        viewBox="0 0 48 48">
+                    <svg class="mr-1 md:mr-2 w-4 sm:w-6 h-4 sm:h-6" xmlns="http://www.w3.org/2000/svg" width="26"
+                        height="26" c viewBox="0 0 48 48">
                         <path fill="#169154" d="M29,6H15.744C14.781,6,14,6.781,14,7.744v7.259h15V6z"></path>
                         <path fill="#18482a" d="M14,33.054v7.202C14,41.219,14.781,42,15.743,42H29v-8.946H14z">
                         </path>
@@ -225,13 +233,13 @@
     </div>
 
     <div class="bg-white shadow-lg p-2 sm:p-4 mt-2 sm:mt-4 mb-2 sm:mb-4 rounded-lg max-w-full">
-        <h2 class="px-4 font-bold text-[20px]">
+        <h2 class="px-4 font-bold text-[20px] -ml-4">
             {{ str_replace('-', '/', $nama_kelas) . '  (' . $kode_mata_kuliah . ')' }}
         </h2>
-        <table class="min-w-full mt-2 sm:mt-4 bg-white text-xs sm:text-sm border border-gray-200">
+        <livewire:table.aktifitas-table :$id_kelas :$id_mata_kuliah />
+        {{-- <table class="min-w-full mt-2 sm:mt-4 bg-white text-xs sm:text-sm border border-gray-200">
             <thead>
                 <tr class="items-center w-full text-white align-middle bg-gray-800">
-                    {{-- <th class="px-2 sm:px-4 py-1 sm:py-2 text-center">Nama Kelas</th> --}}
                     <th class="px-2 sm:px-4 py-1 sm:py-2 text-center">Nama aktifitas</th>
                     <th class="px-2 sm:px-4 py-1 sm:py-2 text-center">Catatan</th>
                     <th class="px-2 sm:px-4 py-1 sm:py-2 text-center">Aksi</th>
@@ -240,7 +248,6 @@
             <tbody>
                 @foreach ($aktifitas as $item)
                     <tr wire:key="item-{{ $item->id_aktifitas }}">
-                        {{-- <td class="px-2 sm:px-4 py-1 sm:py-2 text-center">{{ $item->kelas->nama_kelas }}</td> --}}
                         <td class="px-2 sm:px-4 py-1 sm:py-2 text-center">{{ $item->nama_aktifitas }}</td>
                         <td class="px-2 sm:px-4 py-1 sm:py-2 text-center">
                             {{ $item->catatan ?? 'Belum ada Catatan' }}
@@ -274,9 +281,9 @@
                     </tr>
                 @endforeach
             </tbody>
-        </table>
+        </table> --}}
     </div>
-    
+
 </div>
 <script>
     function confirmDelete(id_aktifitas) {

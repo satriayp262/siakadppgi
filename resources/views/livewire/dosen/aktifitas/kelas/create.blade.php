@@ -1,8 +1,5 @@
 <div x-data="{ isOpen: false }" @modal-closed.window="isOpen = false">
-    <div wire:loading wire:target="save"
-        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-60">
-        <div class="spinner loading-spinner"></div>
-    </div>
+
     <button @click="isOpen=true"
         class="flex items-center px-2 sm:px-4 py-1 sm:py-2 text-[8px] md:text-[16px] font-bold text-white bg-green-500 rounded hover:bg-green-700">
         <svg class="w-4 sm:w-6 h-4 sm:h-6 mr-2 text-gray-800 dark:text-white font-black" aria-hidden="true"
@@ -18,6 +15,10 @@
     <div x-data="{ load: false }" x-show="isOpen && load" x-init="load = true" wire:init="" x-cloak
         class="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-75">
         <!-- Modal Content -->
+        <div wire:loading wire:target="save"
+            class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-60">
+            <div class="spinner loading-spinner"></div>
+        </div>
         <div class="w-1/2 bg-white rounded-lg shadow-lg">
             <!-- Modal Header -->
             <div class="flex items-center justify-between p-4 bg-gray-200 rounded-t-lg">
@@ -30,7 +31,8 @@
                 <div class="p-4 max-h-[500px] overflow-y-auto">
                     <form wire:submit="save">
                         <div class="mb-4">
-                            <label for="nama_aktifitas" class="block text-sm font-medium text-gray-700">Nama Aktifitas</label>
+                            <label for="nama_aktifitas" class="block text-sm font-medium text-gray-700">Nama
+                                Aktifitas</label>
                             <input type="text" id="nama_aktifitas" wire:model="nama_aktifitas" name="nama_aktifitas"
                                 class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
                             @error('nama_aktifitas')

@@ -22,7 +22,6 @@
                     </li>
                 </ol>
             </nav>
-            {{-- <livewire:dosen.presensi.create-token /> --}}
             <input type="text" wire:model.live="search" placeholder="   Search"
                 class="px-2 ml-4 py-2 border border-gray-300 rounded-lg w-24 md:w-48">
         </div>

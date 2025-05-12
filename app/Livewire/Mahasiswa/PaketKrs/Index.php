@@ -10,36 +10,46 @@ use Livewire\Component;
 
 class Index extends Component
 {
-    public $mahasiswa, $paketKRS;
+    public $semester,$krsThisSemester,$mahasiswa, $paketKRS;
 
     public function create($data)
     {
 
         $paketKRSBySemester = $this->paketKRS->where('id_semester', $data);
+        $rows = [];
         foreach ($paketKRSBySemester as $item) {
-            KRS::create([
+            $rows[] = [
                 'id_semester' => $data,
-                'NIM' => auth()->user()->nim_nidn,
+                'NIM' => $this->mahasiswa->NIM,
                 'id_kelas' => $item->id_kelas,
                 'id_mata_kuliah' => $item->id_mata_kuliah,
-                'id_prodi' => $item->id_prodi
-            ]);
+                'id_prodi' => $item->id_prodi,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
         }
+        KRS::insert($rows);
+
         $this->dispatch('asd', 'Pengajuan Berhasil');
 
 
     }
-    public function render()
+    public function mount()
     {
-        $semester = Semester::where('is_active', 1)->first();
+        $this->semester = Semester::where('is_active', 1)->first();
         $this->mahasiswa = Mahasiswa::where('NIM', auth()->user()->nim_nidn)->first();
         $this->paketKRS = paketKRS::where('id_prodi', $this->mahasiswa->prodi->id_prodi)
             ->where('id_kelas', $this->mahasiswa->id_kelas)
-            ->where('id_semester', $semester->id_semester)->get();
+            ->where('id_semester', $this->semester->id_semester)->get();
+        $this->krsThisSemester = KRS::where('id_semester', $this->semester->id_semester)
+            ->where('NIM', auth()->user()->nim_nidn)
+            ->exists();
+    }
+    public function render()
+    {
+
         return view('livewire.mahasiswa.paket-krs.index', [
-            'paketKRS' => $this->paketKRS,
-            'semester' => $semester,
-            'mahasiswa' => $this->mahasiswa,
+
         ]);
     }
 }

@@ -22,11 +22,13 @@ class Show extends Component
     #[On('aktifitasCreated')]
     public function handleAktifitasCreated()
     {
+        $this->dispatch('pg:eventRefresh-aktifitas-table-fonjfc-table');
         $this->dispatch('created', ['message' => 'Aktifitas Created Successfully']);
     }
     #[On('aktifitasUpdated')]
     public function handleAktifitasUpdated()
     {
+        $this->dispatch('pg:eventRefresh-aktifitas-table-fonjfc-table');
         $this->dispatch('updated', ['message' => 'Aktifitas Updated Successfully']);
     }
     public function mount()
@@ -53,8 +55,9 @@ class Show extends Component
             $nilai->delete();
         }
         $acara->delete();
+        $this->dispatch('pg:eventRefresh-aktifitas-table-fonjfc-table');
 
-        $this->dispatch('destroyed', ['message' => 'Berita Acara dan Nilai deleted successfully']);
+        $this->dispatch('destroyed', ['message' => 'Aktifitas dan Nilai deleted successfully']);
 
     }
 
@@ -118,6 +121,8 @@ class Show extends Component
         } finally {
             $this->reset('file');
             $this->importing = false;
+        $this->dispatch('pg:eventRefresh-aktifitas-table-fonjfc-table');
+
         }
     }
 

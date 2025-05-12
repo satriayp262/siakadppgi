@@ -3,12 +3,17 @@
         @php
             // $mahasiswa = App\Models\Mahasiswa::where('NIM', auth()->user()->nim_nidn)->first();
             // $maxSemester = App\Models\Semester::orderByDesc('nama_semester')->first()->nama_semester;
-            $krsThisSemester = App\Models\KRS::where('id_semester', $semester->id_semester)
-                ->where('NIM', auth()->user()->nim_nidn)
-                ->exists();
+            
 
         @endphp
-        @if ($paketKRS)
+        @if (!($paketKRS === []))
+        <div class="w-full flex items-center justify-center mt-10 text-[25px] font-bold">
+                    <p>Masa Pengajuan dimulai pada
+                        {{ \Carbon\Carbon::parse($paketKRS->first()->tanggal_mulai)->format('d/m/Y') }} dan
+                        berakhir pada
+                        {{ \Carbon\Carbon::parse($paketKRS->first()->tanggal_selesai)->format('d/m/Y') }}</p>
+
+                </div>
             @if (
                 $paketKRS->first()->tanggal_mulai < Carbon\Carbon::now('Asia/Bangkok')->toDateString() &&
                     $paketKRS->first()->tanggal_selesai > Carbon\Carbon::now('Asia/Bangkok')->toDateString())
@@ -72,14 +77,6 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
-            @else
-                <div class="w-full flex items-center justify-center mt-20 text-[25px] font-bold">
-                    <p>Masa Pengajuan dimulai pada
-                        {{ \Carbon\Carbon::parse($paketKRS->first()->tanggal_mulai)->format('d/m/Y') }} dan
-                        berakhir pada
-                        {{ \Carbon\Carbon::parse($paketKRS->first()->tanggal_selesai)->format('d/m/Y') }}</p>
-
                 </div>
             @endif
         @else
