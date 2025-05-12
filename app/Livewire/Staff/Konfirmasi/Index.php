@@ -61,37 +61,8 @@ class Index extends Component
 
     public function render()
     {
-        $query = Konfirmasi_Pembayaran::with('tagihan', 'mahasiswa');
-
-        if ($this->search) {
-            $query->where('NIM', 'like', '%' . $this->search . '%')
-            ;
-        }
-
-        $Prodis = Prodi::all();
-
-
-        $semesters = Semester::all();
-
-        if ($this->selectedprodi) {
-            $prodi = Prodi::where('nama_prodi', $this->selectedprodi)->first();
-            $query->whereHas('mahasiswa', function ($q) use ($prodi) {
-                $q->where('kode_prodi', $prodi->kode_prodi);
-            });
-        }
-
-
-        if ($this->selectedSemester) {
-            $semester = Semester::where('nama_semester', $this->selectedSemester)->first();
-            $query->whereHas('mahasiswa', function ($q) use ($semester) {
-                $q->where('mulai_semester', $semester->id_semester);
-            });
-        }
-
         return view('livewire.staff.konfirmasi.index', [
-            'konfirmasi' => $query->orderBy('created_at', 'desc')->paginate(20),
-            'Prodis' => $Prodis,
-            'semesters' => $semesters,
+           
         ]);
     }
 }

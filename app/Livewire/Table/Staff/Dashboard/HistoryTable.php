@@ -17,73 +17,18 @@ use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 final class HistoryTable extends PowerGridComponent
 {
     public string $tableName = 'history-table-3c3mrw-table';
+    public $dataPembayaran = [];
 
     public function datasource(): Collection
     {
-        $cicilan = Cicilan_BPP::with('tagihan.mahasiswa')
-            ->get()
-            ->map(fn($item) => [
-                'nama' => $item->tagihan->mahasiswa->nama ?? '-',
-                'nim' => $item->tagihan->mahasiswa->NIM ?? '-',
-                'tanggal' => $item->tanggal_bayar,
-                'jam' => \Carbon\Carbon::parse($item->tanggal_bayar)->format('H:i A'),
-                'nominal' => $item->jumlah_bayar,
-                'metode' => $item->tagihan->jenis_tagihan . ' ( ' . $item->cicilan_ke . ' / 6 )',
-                'pembayaran' => 'Bayar Sebagian' . ' ( ' . $item->metode_pembayaran . ' )',
-            ]);
-
-        $konfirmasi = Konfirmasi_Pembayaran::with('tagihan.mahasiswa')
-            ->get()
-            ->map(fn($item) => [
-                'nama' => $item->tagihan->mahasiswa->nama ?? '-',
-                'nim' => $item->tagihan->mahasiswa->NIM ?? '-',
-                'tanggal' => $item->tanggal_pembayaran,
-                'jam' => \Carbon\Carbon::parse($item->tanggal_pembayaran)->format('H:i A'),
-                'nominal' => $item->jumlah_pembayaran,
-                'metode' => $item->tagihan->jenis_tagihan,
-                'pembayaran' => $item->tagihan->metode_pembayaran,
-            ]);
-
-        $transaksi = Transaksi::with('tagihan.mahasiswa')
-            ->where('status', 'success')
-            ->get()
-            ->map(fn($item) => [
-                'nama' => $item->tagihan->mahasiswa->nama ?? '-',
-                'nim' => $item->tagihan->mahasiswa->NIM ?? '-',
-                'tanggal' => $item->tanggal_transaksi,
-                'jam' => \Carbon\Carbon::parse($item->tanggal_transaksi)->format('H:i A'),
-                'nominal' => $item->nominal,
-                'metode' => $item->tagihan->jenis_tagihan,
-                'pembayaran' => 'Bayar Penuh (' . ($item->tagihan->metode_pembayaran ?? '-') . ')',
-            ]);
-
-        $tunai = PembayaranTunai::with('tagihan.mahasiswa')
-            ->get()
-            ->map(fn($item) => [
-                'nama' => $item->tagihan->mahasiswa->nama ?? '-',
-                'nim' => $item->tagihan->mahasiswa->NIM ?? '-',
-                'tanggal' => $item->tanggal_pembayaran,
-                'jam' => \Carbon\Carbon::parse($item->tanggal_pembayaran)->format('H:i A'),
-                'nominal' => $item->nominal,
-                'metode' => $item->tagihan->jenis_tagihan,
-                'pembayaran' => 'Bayar Penuh (' . $item->tagihan->metode_pembayaran . ')',
-            ]);
-
-        $dataPembayaran = collect()
-            ->merge($cicilan)
-            ->merge($konfirmasi)
-            ->merge($transaksi)
-            ->merge($tunai)
-            ->sortByDesc('tanggal')
-            ->values();
-
+        $dataPembayaran = $this->dataPembayaran;
         return $dataPembayaran;
 
     }
 
     public function setUp(): array
     {
-        $this->showCheckBox();
+        //$this->showCheckBox();
 
         return [
             PowerGrid::header()
@@ -113,7 +58,7 @@ final class HistoryTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('ID', 'id')->index(),
+            Column::make('No', 'id')->index(),
 
             Column::make('Nama', 'nama')
                 ->searchable()

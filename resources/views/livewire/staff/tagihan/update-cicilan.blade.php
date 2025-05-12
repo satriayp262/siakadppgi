@@ -75,13 +75,11 @@
                                     class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-r-md shadow-2xl sm:text-sm"
                                     oninput="formatCurrency(this)">
                             </div>
+
                             @error('total_bayar')
                                 <span class="text-sm text-red-500">{{ $message }}</span>
                             @enderror
                         </div>
-
-
-
 
                         <!-- Submit Button inside the form -->
                         <div class="flex justify-end p-4 bg-gray-200 rounded-b-lg">

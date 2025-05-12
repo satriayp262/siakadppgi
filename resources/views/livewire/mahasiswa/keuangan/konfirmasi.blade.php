@@ -9,7 +9,8 @@
                         PPGI
                     </p>
                 </div>
-                <a wire:navigate.hover  href="{{ route('mahasiswa.transaksi.histori') }}" class=" text-blue-500">Histori Pembayaran</a>
+                <a wire:navigate.hover href="{{ route('mahasiswa.transaksi.histori') }}" class=" text-blue-500">Histori
+                    Pembayaran</a>
             </div>
 
             <div class="flex flex-col mt-4">
@@ -24,15 +25,61 @@
                             @else
                                 @foreach ($tagihan as $x)
                                     <option value="{{ $x->id_tagihan }}">
-                                        {{ $x->jenis_tagihan . ' (' . $x->semester->nama_semester . ')' }}
+                                        {{ $x->jenis_tagihan }}
                                     </option>
                                 @endforeach
                             @endif
                         </select>
                         @error('id_tagihan')
-                            <span class="mt-1 text-sm text-red-500">{{ $message }}</span>
+                            <span class="mt-1 text-sm text-red-500">
+                                @error('metode_pembayaran')
+                                    {{ $message }}
+                                @enderror
+                            </span>
                         @enderror
                     </div>
+
+                    @php
+                        $tagihanDipilih = $tagihan->firstWhere('id_tagihan', $id_tagihan);
+                    @endphp
+
+                    @if ($tagihanDipilih)
+                        <div class="mb-4">
+                            <label for="metode_pembayaran" class="block text-sm font-medium text-gray-700">Metode
+                                Pembayaran</label>
+                            <select id="metode_pembayaran" wire:model.live="metode_pembayaran" name="metode_pembayaran"
+                                class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
+                                <option value="" disabled selected>Pilih Metode Pembayaran</option>
+                                @if ($tagihanDipilih && $tagihanDipilih->metode_pembayaran == 'Cicilan')
+                                    <option value="sebagian">Bayar Sebagian</option>
+                                @else
+                                    <option value="penuh">Bayar Penuh</option>
+                                    <option value="sebagian">Bayar Sebagian</option>
+                                @endif
+                            </select>
+                        </div>
+                    @endif
+                    @error('metode_pembayaran')
+                        <span class="text-sm text-red-500">{{ $message }}</span>
+                    @enderror
+
+                    @if ($tagihanDipilih && $tagihanDipilih->bisa_dicicil && $metode_pembayaran == 'sebagian')
+                        @if (!empty($bulan_tersedia))
+                            <div class="mb-4">
+                                <label for="bulan" class="block text-sm font-medium text-gray-700">Bulan</label>
+                                <select id="bulan" wire:model="bulan" name="bulan"
+                                    class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
+                                    <option disabled value="">Pilih Bulan</option>
+                                    @foreach ($bulan_tersedia as $b)
+                                        <option value="{{ $b }}">{{ $b }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        @endif
+                    @endif
+                    @error('bulan')
+                        <span class="text-sm text-red-500">{{ $message }}</span>
+                    @enderror
 
                     <div class="mb-4">
                         <label for="nim" class="block text-sm font-medium text-gray-700">NIM</label>
@@ -63,6 +110,16 @@
                             name="jumlah_pembayaran"
                             class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm"
                             oninput="formatCurrency(this)">
+                        @if ($tagihanDipilih)
+                            @if ($metode_pembayaran == 'sebagian')
+                                <span class="text-sm text-gray-500">Pembayaran Disarankan:
+                                    Rp. {{ number_format($tagihanDipilih->total_tagihan / 6, 0, ',', '.') }}</span>
+                            @elseif ($metode_pembayaran == 'penuh')
+                                <span class="text-sm text-gray-500">Pembayaran Disarankan:
+                                    Rp. {{ number_format($tagihanDipilih->total_tagihan, 0, ',', '.') }}</span>
+                            @else
+                            @endif
+                        @endif
                         @error('jumlah_pembayaran')
                             <span class="mt-1 text-sm text-red-500">{{ $message }}</span>
                         @enderror

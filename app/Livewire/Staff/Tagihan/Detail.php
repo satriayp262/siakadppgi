@@ -33,14 +33,6 @@ class Detail extends Component
         $this->status_tagihan = $this->tagihan->status_tagihan;
     }
 
-
-    public function updatePembayaran($id, $status)
-    {
-        $this->lunas = $status;
-        $this->id = $id;
-
-    }
-
     #[On('TagihanUpdated')]
     public function handleTagihanUpdated()
     {

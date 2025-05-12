@@ -15,7 +15,10 @@ class Konfirmasi extends Component
     public $bukti;
     public $jumlah_pembayaran;
     public $tanggal_pembayaran;
+    public $metode_pembayaran = '';
+    public $bulan = '';
     public $id_tagihan = '';
+    public $bulan_tersedia = [];
     public $nim;
 
     use WithFileUploads;
@@ -27,6 +30,7 @@ class Konfirmasi extends Component
             'bukti' => 'required|image|max:2048',
             'tanggal_pembayaran' => 'required|date',
             'jumlah_pembayaran' => 'required|numeric|min:0',
+            'bulan' => 'nullable|string',
         ];
     }
     public function messages()
@@ -42,12 +46,25 @@ class Konfirmasi extends Component
             'jumlah_pembayaran.required' => 'Jumlah pembayaran tidak boleh kosong',
             'jumlah_pembayaran.numeric' => 'Jumlah pembayaran harus berupa angka',
             'jumlah_pembayaran.min' => 'Jumlah pembayaran tidak boleh negatif',
+            'bulan.string' => 'Bulan tidak valid',
         ];
+    }
+    public function updatedIdTagihan()
+    {
+        $this->bulan_tersedia = $this->listbulan();
     }
 
     public function listbulan()
     {
-        $semester = Semester::where('nama_semester', $this->id_semester)->first();
+        $tagihan = Tagihan::find($this->id_tagihan);
+        if (!$tagihan)
+            return [];
+
+        $x = Semester::where('id_semester', $tagihan->id_semester)->first();
+        if (!$x)
+            return [];
+
+        $semester = Semester::where('nama_semester', $x->nama_semester)->first();
         $awalbulan = $semester->bulan_mulai;
         $akhirbulan = $semester->bulan_selesai;
 
@@ -107,23 +124,7 @@ class Konfirmasi extends Component
 
         $this->jumlah_pembayaran = str_replace(['.', ','], '', $this->jumlah_pembayaran);
 
-
         $validatedData = $this->validate();
-
-
-
-        //Search Apakah Sudah ada konfirmasi pembayaran
-
-
-        $x = Konfirmasi_Pembayaran::where('id_tagihan', $this->id_tagihan)
-            ->where('status', 'Menunggu Konfirmasi')
-            ->first();
-
-
-        if ($x) {
-            $this->dispatch('warning', ['message' => 'Tagihan Sudah Ada Konfirmasi Pembayaran']);
-            return;
-        }
 
         $nim = auth()->user()->nim_nidn;
 
@@ -138,6 +139,7 @@ class Konfirmasi extends Component
             'jumlah_pembayaran' => $validatedData['jumlah_pembayaran'],
             'status' => 'Menunggu Konfirmasi',
             'tanggal_pembayaran' => $validatedData['tanggal_pembayaran'],
+            'bulan' => $validatedData['bulan'],
         ]);
 
         $konfirmasi->save();
@@ -154,13 +156,9 @@ class Konfirmasi extends Component
     {
         $user = auth()->user();
         $mahasiswa = Mahasiswa::where('nim', $user->nim_nidn)->first();
-
         $tagihan = Tagihan::with('semester')
             ->where('NIM', $mahasiswa->NIM)
             ->where('status_tagihan', '!=', 'Lunas')
-            ->get();
-
-        $cicilan = Cicilan_BPP::where('id_tagihan', $this->id_tagihan)
             ->get();
 
         return view('livewire.mahasiswa.keuangan.konfirmasi', [

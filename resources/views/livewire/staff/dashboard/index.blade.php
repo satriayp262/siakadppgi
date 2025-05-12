@@ -36,11 +36,12 @@
             <div class="w-full md:w-auto">
                 <div class="p-4 rounded-lg shadow-md bg-purple-500 hover:bg-purple-600 transition duration-200">
                     <h2 class="text-base font-semibold text-white">Uang Masuk (Hari ini)</h2>
-                    <p class="mt-1 text-xl font-bold text-yellow-300">{{ $formattedTotalBayar }}</p>
+                    <p class="mt-1 text-xl font-bold text-yellow-300">
+                        {{ 'Rp ' . number_format($totalUangMasukHariIni, 0, ',', '.') }}</p>
                 </div>
             </div>
         </div>
 
-        @livewire('table.staff.dashboard.history-table')
+        @livewire('table.staff.dashboard.history-table', ['dataPembayaran' => $dataPembayaran])
     </div>
 </div>
