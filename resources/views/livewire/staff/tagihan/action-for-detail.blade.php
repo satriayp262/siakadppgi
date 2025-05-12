@@ -1,4 +1,5 @@
 @if ($row->status_tagihan == 'Lunas')
+
     <button class="flex items-center px-3 py-1 font-sm text-white bg-gray-300 rounded cursor-not-allowed" disabled>
         Update Bayar
     </button>
