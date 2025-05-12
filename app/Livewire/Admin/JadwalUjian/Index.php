@@ -8,6 +8,7 @@ use App\Models\Jadwal;
 use App\Models\Prodi;
 use App\Models\Semester;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Http;
 
 class Index extends Component
 {
@@ -50,43 +51,48 @@ class Index extends Component
         $this->dispatch('destroyed', ['message' => 'Jadwal Ujian Deleted Successfully']);
     }
 
-
     public function tanggal()
     {
         $this->validate();
+
         $tanggalTTD = komponen_kartu_ujian::first();
-        // Ambil semua jadwal yang dikelompokkan berdasarkan 'kode_prodi'
+
+        // Ambil data libur nasional dari API
+        $response = Http::get('https://libur.deno.dev/api?year=' . Carbon::now()->year);
+        $liburNasional = [];
+
+        if ($response->ok()) {
+            $liburNasional = collect($response->json())->pluck('date')->toArray(); // Format: Y-m-d
+        }
+
         $jadwalUjians = Jadwal::orderBy('id_kelas')
             ->orderByRaw("FIELD(hari, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday')")
             ->get()
-            ->groupBy('id_kelas'); // Kelompokkan berdasarkan id_kelas
-        // Iterasi melalui setiap grup jadwal berdasarkan 'kode_prodi'
+            ->groupBy('id_kelas');
+
         foreach ($jadwalUjians as $group) {
-
-            // Ambil tanggal awal dari input
             $tanggal = Carbon::parse($this->ujian);
+            $previousHari = '';
 
-            // Inisialisasi hari sebelumnya untuk setiap grup
-            $previousHari = 'Monday';
-
-            // Iterasi untuk setiap jadwal dalam grup
             foreach ($group as $jadwal) {
-                // Tentukan hari dan sesuaikan tanggal
                 if ($jadwal->hari !== $previousHari) {
-                    // Jika hari berubah, tambah 1 hari pada tanggal
                     $tanggal = $tanggal->addDay();
                 }
 
-                // Update tanggal untuk jadwal ini
+                // Lewati jika tanggal masuk tanggal merah atau akhir pekan
+                while (in_array($tanggal->toDateString(), $liburNasional) || $tanggal->isWeekend()) {
+                    $tanggal = $tanggal->addDay();
+                }
+
                 $jadwal->update([
-                    'tanggal' => $tanggal->toDateString(), // Simpan tanggal dalam format yang sesuai
+                    'tanggal' => $tanggal->toDateString(),
                     'jenis_ujian' => $this->jenis
                 ]);
 
-                // Simpan hari sebelumnya untuk perbandingan di iterasi berikutnya
                 $previousHari = $jadwal->hari;
             }
         }
+
         if ($jadwalUjians->isEmpty()) {
             $this->dispatch('warning', ['message' => 'Belum Ada Jadwal']);
         } else {
@@ -94,6 +100,7 @@ class Index extends Component
             $this->dispatch('updated', ['message' => 'Jadwal Ujian Created Successfully']);
         }
     }
+
 
     public function render()
     {

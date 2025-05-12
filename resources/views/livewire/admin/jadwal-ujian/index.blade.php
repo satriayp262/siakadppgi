@@ -120,11 +120,10 @@
             <thead>
                 <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
                     <th class="px-3 py-2 text-center">Kelas</th>
-                    <th class="px-3 py-2 text-center">Hari</th>
-                    <th class="px-3 py-2 text-center">Tanggal</th>
+                    <th class="px-3 py-2 text-center">Hari, Tanggal</th>
+                    <th class="px-3 py-2 text-center">Sesi</th>
                     <th class="px-3 py-2 text-center">Mata Kuliah</th>
                     <th class="px-3 py-2 text-center">Dosen</th>
-                    <th class="px-3 py-2 text-center">Sesi</th>
                     <th class="px-3 py-2 text-center">Ruangan</th>
                 </tr>
             </thead>
@@ -156,7 +155,7 @@
                                         <td colspan="8" class="py-4 bg-gray-100"></td>
                                     </tr>
                                 @endif
-                                @if ($previousDay != $jadwal->hari)
+                                @if ($previousTanggal != $jadwal->tanggal)
                                     <tr class="border-t border-gray-500" wire:key="jadwal-{{ $jadwal->id_jadwal }}">
                                 @else
                                     <tr class="border-t border-gray-300" wire:key="jadwal-{{ $jadwal->id_jadwal }}">
@@ -165,7 +164,7 @@
                                     @php
                                         $ujian = $jadwal::where('id_kelas', $jadwal->id_kelas)->get('jenis_ujian')->first();
                                         if ($ujian->jenis_ujian == null) {
-                                            $ujian->jenis_ujian = 'Belum ada jenis Ujian';
+                                            $ujian->jenis_ujian = '-';
                                         }
                                     @endphp
                                     <td class="px-3 py-1 text-center">
@@ -177,34 +176,33 @@
                                         @endif
                                     </td>
                                     <td class="px-3 py-1 text-center">
-                                        @if ($jadwal->hari != $previousDay)
-                                            @switch($jadwal->hari)
-                                                @case('Monday') Senin @break
-                                                @case('Tuesday') Selasa @break
-                                                @case('Wednesday') Rabu @break
-                                                @case('Thursday') Kamis @break
-                                                @case('Friday') Jumat @break
-                                            @endswitch
+                                        @if ($jadwal->tanggal)
                                             @php
-                                                $previousDay = $jadwal->hari;
+                                                $day = \Carbon\Carbon::parse($jadwal->tanggal)->format('l');
+                                                $tanggalFormat = \Carbon\Carbon::parse($jadwal->tanggal)->locale('id')->isoFormat('DD MMMM YYYY');
                                             @endphp
+
+                                            @if ($day != $previousDay || $jadwal->tanggal != $previousTanggal)
+                                                @switch($day)
+                                                    @case('Monday') Senin @break
+                                                    @case('Tuesday') Selasa @break
+                                                    @case('Wednesday') Rabu @break
+                                                    @case('Thursday') Kamis @break
+                                                    @case('Friday') Jumat @break
+                                                @endswitch,
+                                                {{ $tanggalFormat }}
+                                                @php
+                                                    $previousDay = $day;
+                                                    $previousTanggal = $jadwal->tanggal;
+                                                @endphp
+                                            @endif
+                                        @else
+                                            <span>-</span>
                                         @endif
                                     </td>
-                                    @if ($jadwal->tanggal == null)
-                                        <td class="px-3 py-1 text-center">Belum ada tanggal Ujian</td>
-                                    @else
-                                        <td class="px-3 py-1 text-center">
-                                            @if ($jadwal->tanggal != $previousTanggal)
-                                                {{ \Carbon\Carbon::parse($jadwal->tanggal)->locale('id')->isoFormat('D MMMM YYYY') }}
-                                            @endif
-                                            @php
-                                                $previousTanggal = $jadwal->tanggal;
-                                            @endphp
-                                        </td>
-                                    @endif
+                                    <td class="px-3 py-1 text-center">{{ $jadwal->sesi }}</td>
                                     <td class="px-3 py-1 text-center">{{ $jadwal->matakuliah->nama_mata_kuliah }}</td>
                                     <td class="px-3 py-1 text-center">{{ $jadwal->dosen->nama_dosen }}</td>
-                                    <td class="px-3 py-1 text-center">{{ $jadwal->sesi }}</td>
                                     @if ($jadwal->id_ruangan == 'Online')
                                         <td class="px-3 py-1 text-center">Online</td>
                                     @else
@@ -270,7 +268,7 @@
                                         <td colspan="8" class="py-4 bg-gray-100"></td>
                                     </tr>
                                 @endif
-                                @if ($previousDay != $jadwal->hari)
+                                @if ($previousTanggal != $jadwal->tanggal)
                                     <tr class="border-t border-gray-500" wire:key="jadwal-{{ $jadwal->id_jadwal }}">
                                 @else
                                     <tr class="border-t border-gray-300" wire:key="jadwal-{{ $jadwal->id_jadwal }}">
@@ -279,7 +277,7 @@
                                     @php
                                         $ujian = $jadwal::where('id_kelas', $jadwal->id_kelas)->get('jenis_ujian')->first();
                                         if ($ujian->jenis_ujian == null) {
-                                            $ujian->jenis_ujian = 'Belum ada jenis Ujian';
+                                            $ujian->jenis_ujian = '-';
                                         }
                                     @endphp
                                     <td class="px-3 py-1 text-center">
@@ -291,34 +289,33 @@
                                         @endif
                                     </td>
                                     <td class="px-3 py-1 text-center">
-                                        @if ($jadwal->hari != $previousDay)
-                                            @switch($jadwal->hari)
-                                                @case('Monday') Senin @break
-                                                @case('Tuesday') Selasa @break
-                                                @case('Wednesday') Rabu @break
-                                                @case('Thursday') Kamis @break
-                                                @case('Friday') Jumat @break
-                                            @endswitch
+                                        @if ($jadwal->tanggal)
                                             @php
-                                                $previousDay = $jadwal->hari;
+                                                $day = \Carbon\Carbon::parse($jadwal->tanggal)->format('l');
+                                                $tanggalFormat = \Carbon\Carbon::parse($jadwal->tanggal)->locale('id')->isoFormat('DD MMMM YYYY');
                                             @endphp
+
+                                            @if ($day != $previousDay || $jadwal->tanggal != $previousTanggal)
+                                                @switch($day)
+                                                    @case('Monday') Senin @break
+                                                    @case('Tuesday') Selasa @break
+                                                    @case('Wednesday') Rabu @break
+                                                    @case('Thursday') Kamis @break
+                                                    @case('Friday') Jumat @break
+                                                @endswitch,
+                                                {{ $tanggalFormat }}
+                                                @php
+                                                    $previousDay = $day;
+                                                    $previousTanggal = $jadwal->tanggal;
+                                                @endphp
+                                            @endif
+                                        @else
+                                            <span>-</span>
                                         @endif
                                     </td>
-                                    @if ($jadwal->tanggal == null)
-                                        <td class="px-3 py-1 text-center">Belum ada tanggal Ujian</td>
-                                    @else
-                                        <td class="px-3 py-1 text-center">
-                                            @if ($jadwal->tanggal != $previousTanggal)
-                                                {{ \Carbon\Carbon::parse($jadwal->tanggal)->locale('id')->isoFormat('D MMMM YYYY') }}
-                                            @endif
-                                            @php
-                                                $previousTanggal = $jadwal->tanggal;
-                                            @endphp
-                                        </td>
-                                    @endif
+                                    <td class="px-3 py-1 text-center">{{ $jadwal->sesi }}</td>
                                     <td class="px-3 py-1 text-center">{{ $jadwal->matakuliah->nama_mata_kuliah }}</td>
                                     <td class="px-3 py-1 text-center">{{ $jadwal->dosen->nama_dosen }}</td>
-                                    <td class="px-3 py-1 text-center">{{ $jadwal->sesi }}</td>
                                     @if ($jadwal->id_ruangan == 'Online')
                                         <td class="px-3 py-1 text-center">Online</td>
                                     @else
@@ -403,7 +400,7 @@
                                     @php
                                         $ujian = $jadwal::where('id_kelas', $jadwal->id_kelas)->get('jenis_ujian')->first();
                                         if ($ujian->jenis_ujian == null) {
-                                            $ujian->jenis_ujian = 'Belum ada jenis Ujian';
+                                            $ujian->jenis_ujian = '-';
                                         }
                                     @endphp
                                     <td class="px-3 py-1 text-center">
@@ -415,34 +412,33 @@
                                         @endif
                                     </td>
                                     <td class="px-3 py-1 text-center">
-                                        @if ($jadwal->hari != $previousDay)
-                                            @switch($jadwal->hari)
-                                                @case('Monday') Senin @break
-                                                @case('Tuesday') Selasa @break
-                                                @case('Wednesday') Rabu @break
-                                                @case('Thursday') Kamis @break
-                                                @case('Friday') Jumat @break
-                                            @endswitch
+                                        @if ($jadwal->tanggal)
                                             @php
-                                                $previousDay = $jadwal->hari;
+                                                $day = \Carbon\Carbon::parse($jadwal->tanggal)->format('l');
+                                                $tanggalFormat = \Carbon\Carbon::parse($jadwal->tanggal)->locale('id')->isoFormat('DD MMMM YYYY');
                                             @endphp
+
+                                            @if ($day != $previousDay || $jadwal->tanggal != $previousTanggal)
+                                                @switch($day)
+                                                    @case('Monday') Senin @break
+                                                    @case('Tuesday') Selasa @break
+                                                    @case('Wednesday') Rabu @break
+                                                    @case('Thursday') Kamis @break
+                                                    @case('Friday') Jumat @break
+                                                @endswitch,
+                                                {{ $tanggalFormat }}
+                                                @php
+                                                    $previousDay = $day;
+                                                    $previousTanggal = $jadwal->tanggal;
+                                                @endphp
+                                            @endif
+                                        @else
+                                            <span>-</span>
                                         @endif
                                     </td>
-                                    @if ($jadwal->tanggal == null)
-                                        <td class="px-3 py-1 text-center">Belum ada tanggal Ujian</td>
-                                    @else
-                                        <td class="px-3 py-1 text-center">
-                                            @if ($jadwal->tanggal != $previousTanggal)
-                                                {{ \Carbon\Carbon::parse($jadwal->tanggal)->locale('id')->isoFormat('D MMMM YYYY') }}
-                                            @endif
-                                            @php
-                                                $previousTanggal = $jadwal->tanggal;
-                                            @endphp
-                                        </td>
-                                    @endif
+                                    <td class="px-3 py-1 text-center">{{ $jadwal->sesi }}</td>
                                     <td class="px-3 py-1 text-center">{{ $jadwal->matakuliah->nama_mata_kuliah }}</td>
                                     <td class="px-3 py-1 text-center">{{ $jadwal->dosen->nama_dosen }}</td>
-                                    <td class="px-3 py-1 text-center">{{ $jadwal->sesi }}</td>
                                     @if ($jadwal->id_ruangan == 'Online')
                                         <td class="px-3 py-1 text-center">Online</td>
                                     @else
