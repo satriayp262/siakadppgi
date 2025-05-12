@@ -25,20 +25,22 @@
 
     <!-- Table Section -->
     <div class="bg-white shadow-lg p-4 mt-5 rounded-lg">
-        <div class="flex justify-between mb-2">
-            <div class="flex-col">
-                <h1 class="text-2xl font-bold">Histori Pembayaran</h1>
-                <p class="text-sm text-gray-500">Halaman ini ditunjukan untuk melihat histori pembayaran uang kuliah
-                </p>
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6 space-y-4 md:space-y-0">
+            <!-- Header Title & Description -->
+            <div>
+                <h1 class="text-2xl font-bold text-gray-800">Histori Pembayaran</h1>
+                <p class="text-sm text-gray-500">Halaman ini ditunjukan untuk melihat histori pembayaran uang kuliah</p>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-3">
-                <a wire:navigate.hover href="#"
-                    class="relative block p-4 rounded-lg shadow-lg bg-purple-500 hover:bg-purple-600">
-                    <h2 class="text-lg font-semibold text-white">Uang Masuk (Hari ini)</h2>
+
+            <!-- Info Card -->
+            <div class="w-full md:w-auto">
+                <div class="p-4 rounded-lg shadow-md bg-purple-500 hover:bg-purple-600 transition duration-200">
+                    <h2 class="text-base font-semibold text-white">Uang Masuk (Hari ini)</h2>
                     <p class="mt-1 text-xl font-bold text-yellow-300">{{ $formattedTotalBayar }}</p>
-                </a>
+                </div>
             </div>
         </div>
+
         @livewire('table.staff.dashboard.history-table')
     </div>
 </div>

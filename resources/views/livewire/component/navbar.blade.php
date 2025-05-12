@@ -2,7 +2,7 @@
     <div class="flex items-center justify-between p-4">
         <div class="flex items-center space-x-2">
             <button @click="$dispatch('toggle-sidebar')" type="button"
-                class="inline-flex items-center p-2 text-sm text-gray-800 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none">
+                class="inline-flex items-center p-2 text-sm text-white rounded-lg sm:hidden hover:bg-customPurple focus:outline-none">
                 <span class="sr-only">Toggle sidebar</span>
                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                     <path clip-rule="evenodd" fill-rule="evenodd"
@@ -42,9 +42,10 @@
                     </div>
                     <ul class="py-2">
                         <li>
-                            <a wire:navigate.hover href="
+                            <a wire:navigate.hover
+                                href="
                             @php
-                                $user = Auth::user();
+$user = Auth::user();
                                 if ($user->role == 'staff') {
                                     echo route('staff.profil');
                                 } elseif ($user->role == 'mahasiswa') {
@@ -53,8 +54,7 @@
                                     echo route('dosen.dashboard');
                                 } else{
                                     echo route('admin.user');
-                                }
-                            @endphp
+                                } @endphp
                             "
                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
                         </li>

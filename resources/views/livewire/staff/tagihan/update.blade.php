@@ -1,4 +1,8 @@
-<div x-data="{ isOpen: true }" @modal-closed.window="isOpen = false">
+<div x-data="{ isOpen: false }" @modal-closed.window="isOpen = false">
+    <button @click="isOpen=true" class="block w-full text-left px-4 py-2 hover:bg-gray-100">
+        Bayar Penuh
+    </button>
+
     <!-- Modal Background -->
     <div x-data="{ load: false }" x-show="isOpen && load" x-init="load = true" wire:init="" x-cloak
         class="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-75">

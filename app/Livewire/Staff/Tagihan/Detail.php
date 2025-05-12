@@ -41,8 +41,6 @@ class Detail extends Component
 
     }
 
-
-
     #[On('TagihanUpdated')]
     public function handleTagihanUpdated()
     {
@@ -52,24 +50,7 @@ class Detail extends Component
 
     public function render()
     {
-        $id = $this->id;
-        $cicil = $this->lunas;
-
-
-        $semesters = Semester::all();
-        $mahasiswas = Mahasiswa::all();
-
-        $tagihans = Tagihan::with('cicilan_bpp')
-            ->where('NIM', $this->NIM)
-            ->get();
-
-
         return view('livewire.staff.tagihan.detail', [
-            'semesters' => $semesters,
-            'tagihans' => $tagihans,
-            'mahasiswas' => $mahasiswas,
-            'cicil' => $cicil,
-            'id' => $id,
         ]);
     }
 }

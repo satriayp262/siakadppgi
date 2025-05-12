@@ -21,6 +21,7 @@ class MultipleCreate extends Component
     public $semester = '';
     public $cicil = false;
     public $staff;
+    public $nama;
     public $tagihan_lain;
     public $jenis_tagihan = '';
 
@@ -65,7 +66,8 @@ class MultipleCreate extends Component
         // Remove non-digit characters from total_tagihan
         $validatedData['total_tagihan'] = preg_replace('/\D/', '', $validatedData['total_tagihan']);
 
-        $mahasiswa = Mahasiswa::whereIn('id_mahasiswa', $this->selectedMahasiswa)->get();
+        $mahasiswa = $this->mahasiswas;
+
 
         // Renaming the 'jenis_tagihan' field
         if ($validatedData['jenis_tagihan'] != 'BPP') {
@@ -77,14 +79,14 @@ class MultipleCreate extends Component
         $cicil = $this->cicil;
 
         foreach ($mahasiswa as $mhs) {
+
             $existingTagihan = Tagihan::where('NIM', $mhs->NIM)
                 ->where('jenis_tagihan', $jenis_tagihan)
                 ->where('id_semester', $validatedData['semester'])
                 ->first();
 
-            // Check if there is already a Tagihan for the Mahasiswa
             if ($existingTagihan) {
-                $this->addError('jenis_tagihan', 'Tagihan untuk bulan ini sudah ada untuk mahasiswa dengan prodi ' . $mhs->prodi->nama_prodi . ' semester ' . $mhs->semester->nama_semester);
+                $this->addError('jenis_tagihan', 'Tagihan ' . $jenis_tagihan . ' ini sudah ada untuk mahasiswa ' . $mhs->nama);
                 return;
             } else {
                 // Create a new Tagihan for the Mahasiswa
@@ -99,11 +101,10 @@ class MultipleCreate extends Component
                 ]);
                 $this->dispatch('TagihanAdded');
                 Mail::to($mhs->email)->send(new TagihanMail($tagihan));
-                // Mail::to($mhs->email)->send(new TagihanMail($tagihan));
             }
         }
         $this->reset(['total_tagihan', 'semester', 'jenis_tagihan', 'cicil', 'tagihan_lain']);
-        return $tagihan;
+        return $tagihan ?? null;
     }
     public function render()
     {

@@ -23,12 +23,14 @@ class Index extends Component
     #[On('TagihanCreated')]
     public function handletagihanCreated()
     {
+        $this->dispatch('pg:eventRefresh-buat-tagihan-table-njgizx-table');
         $this->dispatch('created', ['message' => 'Tagihan Berhasil Ditambahkan']);
     }
 
     #[On('TagihanAdded')]
     public function handletagihanAdded()
     {
+        $this->dispatch('pg:eventRefresh-buat-tagihan-table-njgizx-table');
         $this->dispatch('created', ['message' => 'Tagihan Berhasil Ditambahkan']);
         return redirect()->route('staff.tagihan');
     }
@@ -40,36 +42,6 @@ class Index extends Component
         return redirect()->route('staff.tagihan.detail', ['id_tagihan' => $this->id_tagihan]);
     }
 
-
-
-    public function updatedselectedMahasiswa()
-    {
-        $this->showUpdateButton = count($this->selectedMahasiswa) > 0;
-    }
-
-    public function updatedSelectAll($value)
-    {
-        if ($value) {
-            $this->selectedMahasiswa = Mahasiswa::pluck('id_mahasiswa')->toArray();
-        } else {
-            $this->selectedMahasiswa = [];
-        }
-    }
-
-
-    public function createTagihan()
-    {
-
-        dd($this->ids);
-
-        $Mahasiswa = Mahasiswa::whereIn('id_mahasiswa', $this->selectedMahasiswa)->get();
-
-        session(['selectedMahasiswa' => $Mahasiswa]);
-
-        $this->buttontransaksi = true;
-
-        return $Mahasiswa;
-    }
 
     public function Tagihan($ids)
     {
