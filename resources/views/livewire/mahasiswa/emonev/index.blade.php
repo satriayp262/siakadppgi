@@ -137,6 +137,20 @@
                     {{-- Versi Mobile --}}
                     <div class="space-y-4 mt-2 md:hidden">
                         @foreach ($krs as $item)
+                            @php
+                                $emonev = MahasiswaEmonev::where('NIM', Auth::user()->nim_nidn)
+                                    ->where('id_mata_kuliah', $item->matkul->id_mata_kuliah)
+                                    ->where('id_semester', $semester1->id_semester)
+                                    ->first();
+
+                                $sesi = $emonev?->sesi;
+                                $sudahIsi = ($isPeriode1 && $sesi == 1) || ($isPeriode2 && $sesi == 2);
+                                $kode = Hashids::encode(
+                                    $item->matkul->id_mata_kuliah,
+                                    $k->id_kelas,
+                                    $periode->id_periode,
+                                );
+                            @endphp
                             <div class="border rounded-lg p-4 shadow-sm">
                                 <div class="font-semibold text-gray-700 mb-2">{{ $loop->iteration }}.
                                     {{ $item->matkul->dosen->nama_dosen }}</div>
