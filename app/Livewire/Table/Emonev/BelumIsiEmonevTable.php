@@ -8,6 +8,8 @@ use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
+use PowerComponents\LivewirePowerGrid\Traits\WithExport;
+use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use App\Models\Prodi;
 
@@ -15,6 +17,8 @@ final class BelumIsiEmonevTable extends PowerGridComponent
 {
     public string $tableName = 'belum-isi-emonev-table-kyayuq-table';
     public $mahasiswabelum = [];
+
+    use WithExport;
 
     public function datasource(): Collection
     {
@@ -30,8 +34,10 @@ final class BelumIsiEmonevTable extends PowerGridComponent
     public function setUp(): array
     {
         //$this->showCheckBox();
-
         return [
+            PowerGrid::exportable(fileName: 'belum_isi_emonev-file')
+                ->type(Exportable::TYPE_XLS),
+
             PowerGrid::header()
                 ->showSearchInput(),
             PowerGrid::footer()
@@ -53,7 +59,7 @@ final class BelumIsiEmonevTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('ID', 'id')->index(),
+            Column::make('ID', 'id')->index()->visibleInExport(false),
 
             Column::make('Nama', 'nama')
                 ->searchable()

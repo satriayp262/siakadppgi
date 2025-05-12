@@ -51,7 +51,7 @@
                 </a>
             </div>
             <div class="">
-                    @if ($status == 'sudah')
+                      @if ($status == 'sudah')
                     <div class="flex flex-col">
                         <h1 class="text-2xl font-bold">Daftar Mahasiswa</h1>
                         <p class="text-sm text-gray-500">Daftar Mahasiswa yang <span

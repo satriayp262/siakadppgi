@@ -21,7 +21,6 @@ final class HistoryTable extends PowerGridComponent
     {
 
         $user = auth()->user();
-
         $cicilan = Cicilan_BPP::with('tagihan.mahasiswa')
             ->whereHas('tagihan', fn($query) => $query->where('NIM', $user->nim_nidn))
             ->get()
