@@ -3,6 +3,7 @@
 namespace App\Livewire\Staff\Tagihan;
 
 use App\Models\Mahasiswa;
+use App\Models\PembayaranTunai;
 use Auth;
 use Livewire\Component;
 use App\Models\Semester;
@@ -15,6 +16,7 @@ class Update extends Component
 {
     public $NIM;
     public $total_tagihan;
+    public $tanggal_pembayaran;
     public $total_bayar;
     public $id_semester;
     public $bukti_bayar_tagihan;
@@ -29,6 +31,7 @@ class Update extends Component
     {
         return [
             'total_bayar' => 'required',
+            'tanggal_pembayaran' => 'required|date',
         ];
     }
 
@@ -36,6 +39,8 @@ class Update extends Component
     {
         return [
             'total_bayar.required' => 'Total bayar tidak boleh kosong',
+            'tanggal_pembayaran.required' => 'Tanggal pembayaran tidak boleh kosong',
+
 
         ];
     }
@@ -71,9 +76,16 @@ class Update extends Component
             'total_bayar' => $validated['total_bayar'],
             'metode_pembayaran' => 'Tunai',
             'status_tagihan' => 'Lunas',
-            'id_staff' => $this->id_staff,
         ]);
 
+        $tunai = PembayaranTunai::create([
+            'id_pembayaran' => Str::uuid(),
+            'id_tagihan' => $this->tagihan->id_tagihan,
+            'nominal' => $validated['total_bayar'],
+            'tanggal_pembayaran' => $validated['tanggal_pembayaran'],
+        ]);
+
+        $tunai->save();
         $this->dispatch('TagihanUpdated');
         $this->reset(['total_bayar']);
     }

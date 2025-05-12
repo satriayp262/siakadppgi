@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Table\Staff\Dashboard;
 
+use App\Models\PembayaranTunai;
 use Illuminate\Support\Carbon;
 use App\Models\Cicilan_BPP;
 use App\Models\Konfirmasi_Pembayaran;
@@ -56,25 +57,23 @@ final class HistoryTable extends PowerGridComponent
                 'pembayaran' => 'Bayar Penuh (' . ($item->tagihan->metode_pembayaran ?? '-') . ')',
             ]);
 
-
-        $tag = Tagihan::with('mahasiswa')
-            ->where('metode_pembayaran', 'Tunai')
+        $tunai = PembayaranTunai::with('tagihan.mahasiswa')
             ->get()
             ->map(fn($item) => [
-                'nama' => $item->mahasiswa->nama ?? '-',
-                'nim' => $item->mahasiswa->NIM ?? '-',
-                'tanggal' => $item->updated_at->timezone('Asia/Jakarta'),
-                'jam' => \Carbon\Carbon::parse($item->updated_at)->timezone('Asia/Jakarta')->format('H:i A'),
-                'nominal' => $item->total_bayar,
-                'metode' => $item->jenis_tagihan,
-                'pembayaran' => 'Bayar Penuh (' . $item->metode_pembayaran . ')',
+                'nama' => $item->tagihan->mahasiswa->nama ?? '-',
+                'nim' => $item->tagihan->mahasiswa->NIM ?? '-',
+                'tanggal' => $item->tanggal_pembayaran,
+                'jam' => \Carbon\Carbon::parse($item->tanggal_pembayaran)->format('H:i A'),
+                'nominal' => $item->nominal,
+                'metode' => $item->tagihan->jenis_tagihan,
+                'pembayaran' => 'Bayar Penuh (' . $item->tagihan->metode_pembayaran . ')',
             ]);
 
         $dataPembayaran = collect()
             ->merge($cicilan)
             ->merge($konfirmasi)
             ->merge($transaksi)
-            ->merge($tag)
+            ->merge($tunai)
             ->sortByDesc('tanggal')
             ->values();
 

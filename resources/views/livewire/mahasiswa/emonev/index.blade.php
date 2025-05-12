@@ -116,7 +116,8 @@
 
                                                 </button>
                                             @else
-                                                <a href="{{ route('emonev.detail', ['id_mata_kuliah' => $kode, 'nama_semester' => $semester1->nama_semester]) }}"
+                                                <a wire:navigate.hover
+                                                    href="{{ route('emonev.detail', ['id_mata_kuliah' => $kode, 'nama_semester' => $semester1->nama_semester]) }}"
                                                     class="bg-blue-500 hover:bg-blue-700 text-white px-5 py-2 rounded-lg transition-transform transform hover:scale-105 text-sm font-medium inline-flex items-center justify-center">
                                                     <svg class="w-6 h-6 text-white" aria-hidden="true"
                                                         xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -167,7 +168,8 @@
                                 </div>
                                 <div class="mt-3">
                                     @if (!$sudahIsi)
-                                        <a href="{{ route('emonev.detail', ['id_mata_kuliah' => $kode, 'nama_semester' => $semester1->nama_semester]) }}"
+                                        <a wire:navigate.hover
+                                            href="{{ route('emonev.detail', ['id_mata_kuliah' => $kode, 'nama_semester' => $semester1->nama_semester]) }}"
                                             class="bg-blue-500 hover:bg-blue-700 text-white w-full py-2 rounded-lg text-sm font-medium block text-center">
                                             Isi e-Monev
                                         </a>

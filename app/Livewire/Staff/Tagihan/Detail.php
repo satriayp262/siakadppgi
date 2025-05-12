@@ -44,6 +44,7 @@ class Detail extends Component
     #[On('TagihanUpdated')]
     public function handleTagihanUpdated()
     {
+        $this->dispatch('pg:eventRefresh-detail-tagihan-table-i0pfub-table');
         $this->dispatch('updated', ['message' => 'Pembayaran Berhasil Diinput']);
     }
 
