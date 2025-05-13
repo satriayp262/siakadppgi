@@ -78,9 +78,9 @@ final class DosenTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('nama_dosen')
             ->add('nidn')
-            ->add('jenis_kelamin')
+            // ->add('jenis_kelamin')
             ->add('jabatan_fungsional')
-            // ->add('kepangkatan')
+            ->add('kepangkatan')
             ->add('prodi.nama_prodi');
     }
 
@@ -95,17 +95,13 @@ final class DosenTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Jenis kelamin', 'jenis_kelamin')
-                ->sortable()
-                ->searchable(),
-
             Column::make('Jabatan', 'jabatan_fungsional')
                 ->sortable()
                 ->searchable(),
 
-            // Column::make('Kepangkatan', 'kepangkatan')
-            //     ->sortable()
-            //     ->searchable(),
+            Column::make('Kepangkatan', 'kepangkatan')
+                ->sortable()
+                ->searchable(),
 
             Column::make('Prodi', 'prodi.nama_prodi')
                 ->sortable()
@@ -128,12 +124,18 @@ final class DosenTable extends PowerGridComponent
                 ->optionLabel('name')
                 ->optionValue('id'),
 
-
-            Filter::select('jenis_kelamin', 'jenis_kelamin')
-                ->dataSource(collect([
-                    ['id' => 'laki-laki', 'name' => 'Laki-laki'],
-                    ['id' => 'perempuan', 'name' => 'Perempuan'],
-                ]))
+            Filter::select('jabatan_fungsional', 'jabatan_fungsional')
+                ->dataSource(
+                    Dosen::query()
+                        ->select('jabatan_fungsional')
+                        ->distinct()
+                        ->whereNotNull('jabatan_fungsional')
+                        ->get()
+                        ->map(fn($item) => [
+                            'id' => $item->jabatan_fungsional,
+                            'name' => $item->jabatan_fungsional,
+                        ])
+                )
                 ->optionLabel('name')
                 ->optionValue('id'),
         ];

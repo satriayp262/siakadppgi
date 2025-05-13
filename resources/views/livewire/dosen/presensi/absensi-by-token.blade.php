@@ -37,13 +37,12 @@
         </nav>
         <div class="flex justify-between items-center space-x-2 mt-2">
             <livewire:dosen.presensi.create-token :id_mata_kuliah="$id_mata_kuliah" :id_kelas="$id_kelas" />
-            <input type="text" wire:model.live="search" placeholder="   Search"
-                class="px-2 py-2 ml-4 border border-gray-300 rounded-lg">
         </div>
     </div>
 
     <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
-        <table class="min-w-full mt-2 bg-white text-sm">
+        <livewire:table.token-table :id_mata_kuliah="$id_mata_kuliah" :id_kelas="$id_kelas" />
+        {{-- <table class="min-w-full mt-2 bg-white text-sm">
             <thead>
                 <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
                     <th class="px-4 py-2 text-center">No</th>
@@ -99,7 +98,7 @@
                     </tr>
                 @endforeach
             </tbody>
-        </table>
+        </table> --}}
 
         <!-- Pagination Controls -->
         <div class="py-4 mt-4 text-center">

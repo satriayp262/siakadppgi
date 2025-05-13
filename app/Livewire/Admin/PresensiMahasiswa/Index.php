@@ -12,6 +12,7 @@ use Livewire\WithPagination;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PeringatanMail;
 use App\Models\Semester;
+use Livewire\Attributes\On;
 
 class Index extends Component
 {
@@ -36,18 +37,48 @@ class Index extends Component
         return Semester::pluck('nama_semester', 'id_semester');
     }
 
+    public function setDefaults()
+    {
+        // Pastikan id_semester dan kode_prodi sudah diset
+        if (!$this->semester) {
+            $this->semester = 'semua';  // Atau ID semester default jika tidak ada yang dipilih
+        }
+
+        if (!$this->selectedProdi) {
+            $this->selectedProdi = 'semua';  // Atau kode prodi default jika tidak ada yang dipilih
+        }
+    }
+
+
     public function exportExcel()
     {
-        // Ambil filter semester yang dipilih
-        $semester = $this->semester ?? 'Default'; // Default jika semester belum dipilih
-        $selectedProdi = $this->selectedProdi; // Ambil filter program studi
+        // Menyiapkan nama file dengan kondisi semester dan prodi
+        $this->setDefaults();  // Memastikan id_semester dan id_prodi sudah diset
 
-        // Nama file berdasarkan filter semester
-        $fileName = "Presensi_Mahasiswa_Semester_{$semester}.xlsx";
+        // Mendapatkan nama semester dan prodi berdasarkan ID
+        $semesterData = $this->semester ? Semester::where('id_semester', $this->semester)->first() : null;
+        $nama_semester = $semesterData ? $semesterData->nama_semester : 'Semua Semester';
 
-        // Ekspor menggunakan export class dengan filter semester yang dipilih
-        return Excel::download(new MahasiswaPresensiExport($semester, $selectedProdi), $fileName);
+        // Mengecek apakah kode_prodi ada dan valid
+        $prodiData = $this->selectedProdi ? Prodi::where('kode_prodi', $this->selectedProdi)->first() : null;
+        $nama_prodi = $prodiData ? $prodiData->nama_prodi : 'Semua Prodi';
+
+        // Menentukan nama file berdasarkan semester dan prodi
+        $fileName = 'Data Presensi Mahasiswa ';
+        $fileName .= $nama_semester . ' ';
+        $fileName .= $nama_prodi . ' ';
+        $fileName .= now()->format('Y-m-d') . '.xlsx';
+
+        // Menjalankan ekspor data dengan filter berdasarkan semester dan prodi
+        return Excel::download(new MahasiswaPresensiExport($this->semester, $this->selectedProdi), $fileName);
     }
+
+    #[On('kirimEmail')]
+    public function kirimEmailHandler($nim)
+    {
+        $this->kirimEmail($nim);
+    }
+
 
     public function kirimEmail($nim)
     {
@@ -64,7 +95,7 @@ class Index extends Component
             }])
             ->first();
 
-        if ($mahasiswa && $mahasiswa->alpha_count == 2 && $mahasiswa->user) {
+        if ($mahasiswa && $mahasiswa->alpha_count >= 2 && $mahasiswa->user) {
             // Generate nomor surat otomatis
             $countSP = RiwayatSP::count() + 1; // Hitung jumlah surat sebelumnya
             $no_surat = sprintf("%03d", $countSP) . "/PPGI/11.7/" . date('m') . "/" . date('Y');
@@ -89,6 +120,7 @@ class Index extends Component
             $this->spSent = true;
 
             // Emit event ke front-end untuk disable tombol
+            $this->dispatch('pg:eventRefresh-presensi-mahasiwa-table-qyqn0i-table');
             $this->dispatch('spSentSuccess', nim: $nim);
         } else {
             session()->flash('error', 'Mahasiswa tidak ditemukan atau belum memenuhi batas Alpha.');
@@ -102,57 +134,43 @@ class Index extends Component
 
     public function render()
     {
-        // Ambil semua data mahasiswa
         $dataMahasiswa = Mahasiswa::with(['presensi' => function ($query) {
             $query->select('nim', 'keterangan', 'created_at');
         }])
             ->withCount([
                 'presensi as hadir_count' => function ($query) {
                     $query->where('keterangan', 'Hadir');
-                    if ($this->semester) {
-                        $query->whereHas('token', function ($tokenQuery) {
-                            $tokenQuery->where('id_semester', intval($this->semester));
-                        });
-                    }
                 },
                 'presensi as alpha_count' => function ($query) {
                     $query->where('keterangan', 'Alpha');
-                    if ($this->semester) {
-                        $query->whereHas('token', function ($tokenQuery) {
-                            $tokenQuery->where('id_semester', intval($this->semester));
-                        });
-                    }
                 },
                 'presensi as ijin_count' => function ($query) {
                     $query->where('keterangan', 'Ijin');
-                    if ($this->semester) {
-                        $query->whereHas('token', function ($tokenQuery) {
-                            $tokenQuery->where('id_semester', intval($this->semester));
-                        });
-                    }
                 },
                 'presensi as sakit_count' => function ($query) {
                     $query->where('keterangan', 'Sakit');
-                    if ($this->semester) {
-                        $query->whereHas('token', function ($tokenQuery) {
-                            $tokenQuery->where('id_semester', intval($this->semester));
-                        });
-                    }
                 },
             ])
-            // Filter nama mahasiswa jika ada pencarian
             ->when($this->search, function ($query) {
-                $query->where('nama', 'like', '%' . $this->search . '%');
+                $query->where('nama', 'like', '%' . $this->search . '%')
+                    ->orWhere('NIM', 'like', '%' . $this->search . '%')
+                    ->orWhereHas('prodi', function ($prodiQuery) {
+                        $prodiQuery->where('nama_prodi', 'like', '%' . $this->search . '%');
+                    });
             })
-            // Filter program studi jika dipilih
             ->when($this->selectedProdi, function ($query) {
                 $query->where('kode_prodi', $this->selectedProdi);
             })
             ->paginate(10);
 
+        // Rename variables here to avoid conflict
+        $semesterList = Semester::all();
+        $prodiList = Prodi::all();
+
         return view('livewire.admin.presensi-mahasiswa.index', [
             'dataMahasiswa' => $dataMahasiswa,
-            'semester' => $this->getAllSemesters(), // Kirim data semester ke view
+            'semesterList' => $semesterList,  // Changed from 'semester'
+            'prodiList' => $prodiList       // Changed from 'prodi'
         ]);
     }
 }

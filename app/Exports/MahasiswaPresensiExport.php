@@ -24,38 +24,60 @@ class MahasiswaPresensiExport implements FromCollection, WithHeadings, ShouldAut
 
     public function collection()
     {
-        $dataMahasiswa = Mahasiswa::withCount([
-            'presensi as hadir_count' => function ($query) {
-                $query->where('keterangan', 'Hadir')
-                    ->whereHas('token', function ($q) {
-                        $q->where('id_semester', $this->semester);
-                    });
-            },
-            'presensi as ijin_count' => function ($query) {
-                $query->where('keterangan', 'Ijin')
-                    ->whereHas('token', function ($q) {
-                        $q->where('id_semester', $this->semester);
-                    });
-            },
-            'presensi as sakit_count' => function ($query) {
-                $query->where('keterangan', 'Sakit')
-                    ->whereHas('token', function ($q) {
-                        $q->where('id_semester', $this->semester);
-                    });
-            },
-            'presensi as alpha_count' => function ($query) {
-                $query->where('keterangan', 'Alpha')
-                    ->whereHas('token', function ($q) {
-                        $q->where('id_semester', $this->semester);
-                    });
-            },
-        ])
-            ->when($this->selectedProdi, function ($query) {
-                $query->where('kode_prodi', $this->selectedProdi);
-            })
-            ->get();
+        $semester = $this->semester;
+        $prodi = $this->selectedProdi; // Ganti dari $this->prodi ke $this->selectedProdi
 
-        $formattedData = $dataMahasiswa->map(function ($mahasiswa) {
+        // Membangun query untuk filter berdasarkan semester dan prodi
+        $query = Mahasiswa::with(['presensi' => function ($query) use ($semester) {
+            $query->select('nim', 'keterangan', 'created_at');
+            if ($semester && $semester != 'semua') {
+                $query->whereHas('token', function ($tokenQuery) use ($semester) {
+                    $tokenQuery->where('id_semester', $semester);
+                });
+            }
+        }])
+            ->withCount([
+                'presensi as hadir_count' => function ($query) use ($semester) {
+                    $query->where('keterangan', 'Hadir');
+                    if ($semester && $semester != 'semua') {
+                        $query->whereHas('token', function ($tokenQuery) use ($semester) {
+                            $tokenQuery->where('id_semester', $semester);
+                        });
+                    }
+                },
+                'presensi as alpha_count' => function ($query) use ($semester) {
+                    $query->where('keterangan', 'Alpha');
+                    if ($semester && $semester != 'semua') {
+                        $query->whereHas('token', function ($tokenQuery) use ($semester) {
+                            $tokenQuery->where('id_semester', $semester);
+                        });
+                    }
+                },
+                'presensi as ijin_count' => function ($query) use ($semester) {
+                    $query->where('keterangan', 'Ijin');
+                    if ($semester && $semester != 'semua') {
+                        $query->whereHas('token', function ($tokenQuery) use ($semester) {
+                            $tokenQuery->where('id_semester', $semester);
+                        });
+                    }
+                },
+                'presensi as sakit_count' => function ($query) use ($semester) {
+                    $query->where('keterangan', 'Sakit');
+                    if ($semester && $semester != 'semua') {
+                        $query->whereHas('token', function ($tokenQuery) use ($semester) {
+                            $tokenQuery->where('id_semester', $semester);
+                        });
+                    }
+                },
+            ]);
+
+        // Filter berdasarkan prodi
+        if ($prodi && $prodi != 'semua') {
+            $query->where('kode_prodi', $prodi);
+        }
+
+        // Ambil data mahasiswa yang sudah difilter
+        return $query->get()->map(function ($mahasiswa) {
             return [
                 'nama' => $mahasiswa->nama,
                 'nim' => $mahasiswa->NIM,
@@ -66,9 +88,8 @@ class MahasiswaPresensiExport implements FromCollection, WithHeadings, ShouldAut
                 'alpha' => $mahasiswa->alpha_count,
             ];
         });
-
-        return $formattedData;
     }
+
 
     public function headings(): array
     {
@@ -79,7 +100,7 @@ class MahasiswaPresensiExport implements FromCollection, WithHeadings, ShouldAut
             'Hadir',
             'Ijin',
             'Sakit',
-            'Alpha',         
+            'Alpha',
         ];
     }
 
@@ -91,14 +112,14 @@ class MahasiswaPresensiExport implements FromCollection, WithHeadings, ShouldAut
         ];
     }
 
-    // Event hanya untuk memberi warna di baris heading
+    // Event untuk memberi warna di baris heading
     public function registerEvents(): array
     {
         return [
             AfterSheet::class => function (AfterSheet $event) {
                 $sheet = $event->sheet->getDelegate();
 
-                // Warna hanya untuk heading (baris pertama)
+                // Warna untuk header
                 $colors = [
                     'A1' => 'FF00FF00', // Hijau untuk Nama Mahasiswa
                     'B1' => 'FF00FF00', // Hijau untuk NIM

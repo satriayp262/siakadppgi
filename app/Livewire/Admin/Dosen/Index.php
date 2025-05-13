@@ -150,9 +150,9 @@ class Index extends Component
             $dosensQuery->where('kode_prodi', $this->selectedKodeProdi);
         }
 
-        if ($this->selectedJenisKelamin) {
-            $dosensQuery->where('jenis_kelamin', $this->selectedJenisKelamin);
-        }
+        // if ($this->selectedJenisKelamin) {
+        //     $dosensQuery->where('jenis_kelamin', $this->selectedJenisKelamin);
+        // }
 
         // Search functionality (if implemented)
         if ($this->search) {

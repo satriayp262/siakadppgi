@@ -15,6 +15,8 @@ use App\Models\Semester;
 use App\Models\Kurikulum;
 use App\Models\Token;
 use Illuminate\Support\Carbon;
+use DateTime;
+use DateTimeZone;
 
 
 class Index extends Component
@@ -60,10 +62,12 @@ class Index extends Component
     private function tandaiAlfa()
     {
         $token = Token::all(); // Ambil semua token yang ada
+        $date = new DateTime('now', new DateTimeZone('Asia/Bangkok'));
+        $dateNow = $date->format('Y/m/d H:i:s');
 
         foreach ($token as $token) {
             // Cek apakah waktu valid_until sudah lewat
-            if (Carbon::now()->greaterThan($token->valid_until)) {
+            if ($dateNow > $token->valid_until) {
 
                 // Ambil mahasiswa yang terdaftar di kelas dan mata kuliah tertentu
                 $mahasiswaTerdaftar = Mahasiswa::whereIn(
@@ -91,7 +95,7 @@ class Index extends Component
                         'id_kelas' => $token->id_kelas,
                         'token' => $token->token,
                         'keterangan' => 'Alpha',
-                        'waktu_submit' => Carbon::now(), // Waktu saat data disimpan
+                        'waktu_submit' => $dateNow, // Waktu saat data disimpan
                     ]);
                 }
             }
