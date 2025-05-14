@@ -125,7 +125,7 @@
                 <!-- Submit & Score -->
                 <div class="flex flex-row flex-wrap justify-between items-center mt-6 gap-4">
                     <div class="text-lg font-semibold">
-                        Skor: <span class="text-customPurple" id="skor">0</span><span
+                        Skor: <span class="text-customPurple" id="skor"></span><span
                             class="text-customPurple">{{ ' / ' . $maxSkor }}</span>
                     </div>
                     <button type="submit"
