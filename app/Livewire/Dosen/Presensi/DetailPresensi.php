@@ -8,6 +8,9 @@ use App\Models\KRS;
 use App\Models\Token;
 use Livewire\Component;
 use Livewire\Attributes\On;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PresensiExport;
+use App\Exports\PresensiMahasiswaByToken;
 
 class DetailPresensi extends Component
 {
@@ -37,6 +40,35 @@ class DetailPresensi extends Component
     {
         $this->dispatch('updated', params: ['message' => 'Presensi updated Successfully']);
     }
+
+    public function sanitizeFilename(string $name): string
+    {
+        // Ganti semua karakter selain huruf, angka, dash dan underscore dengan underscore
+        return preg_replace('/[^A-Za-z0-9-_]/', '_', strtolower($name));
+    }
+
+    public function exportExcel()
+    {
+        $namaKelas = $this->token->kelas->nama_kelas ?? 'kelas';
+        $namaMatkul = $this->token->matkul->nama_mata_kuliah ?? 'matkul';
+        $tokenString = $this->token->token;
+
+        $namaFile = 'presensi_' .
+            $this->sanitizeFilename($namaKelas) . '_' .
+            $this->sanitizeFilename($namaMatkul) . '_' .
+            $this->sanitizeFilename($tokenString) . '.xlsx';
+
+        return Excel::download(
+            new PresensiMahasiswaByToken(
+                $this->id_kelas,
+                $this->token->id_token,
+                $this->token->id_mata_kuliah
+            ),
+            $namaFile
+        );
+    }
+
+
 
     public function updateMahasiswa()
     {

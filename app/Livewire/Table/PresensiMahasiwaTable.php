@@ -12,6 +12,7 @@ use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\PowerGridEloquent;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Request;
 
 final class PresensiMahasiwaTable extends PowerGridComponent
 {
@@ -30,21 +31,44 @@ final class PresensiMahasiwaTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
+        $semesterFilter = $this->filters['semester'] ?? null;
+
         $query = Mahasiswa::with(['prodi', 'presensi.token.semester'])
             ->withCount([
-                'presensi as alpha_count' => function ($query) {
+                'presensi as alpha_count' => function ($query) use ($semesterFilter) {
                     $query->where('keterangan', 'Alpha');
+                    if ($semesterFilter) {
+                        $query->whereHas('token.semester', function ($q) use ($semesterFilter) {
+                            $q->where('id', $semesterFilter);
+                        });
+                    }
                 },
-                'presensi as ijin_count' => function ($query) {
+                'presensi as ijin_count' => function ($query) use ($semesterFilter) {
                     $query->where('keterangan', 'Ijin');
+                    if ($semesterFilter) {
+                        $query->whereHas('token.semester', function ($q) use ($semesterFilter) {
+                            $q->where('id', $semesterFilter);
+                        });
+                    }
                 },
-                'presensi as sakit_count' => function ($query) {
+                'presensi as sakit_count' => function ($query) use ($semesterFilter) {
                     $query->where('keterangan', 'Sakit');
+                    if ($semesterFilter) {
+                        $query->whereHas('token.semester', function ($q) use ($semesterFilter) {
+                            $q->where('id', $semesterFilter);
+                        });
+                    }
                 },
-                'presensi as hadir_count' => function ($query) {
+                'presensi as hadir_count' => function ($query) use ($semesterFilter) {
                     $query->where('keterangan', 'Hadir');
+                    if ($semesterFilter) {
+                        $query->whereHas('token.semester', function ($q) use ($semesterFilter) {
+                            $q->where('id', $semesterFilter);
+                        });
+                    }
                 },
             ]);
+
         return $query;
     }
 
@@ -64,12 +88,18 @@ final class PresensiMahasiwaTable extends PowerGridComponent
             ->add('id_mahasiswa')
             ->add('nama', fn($row) => $row->nama)
             ->add('nim', fn($row) => $row->NIM)
-            // ->add('prodi', fn($row) => $row->prodi->nama_prodi ?? '-')
             ->add('prodi.nama_prodi')
             ->add('alpha_count', fn($row) => $row->alpha_count ?? 0)
             ->add('ijin_count', fn($row) => $row->ijin_count ?? 0)
             ->add('sakit_count', fn($row) => $row->sakit_count ?? 0)
             ->add('hadir_count', fn($row) => $row->hadir_count ?? 0);
+            // ->add('semester', function ($row) {
+            //     if ($row->presensi->count() > 0) {
+            //         $semester = $row->presensi->first()->token->semester->nama_semester ?? '-';
+            //         return $semester;
+            //     }
+            //     return '-';
+            // });
     }
 
 
@@ -82,6 +112,9 @@ final class PresensiMahasiwaTable extends PowerGridComponent
             Column::make('Prodi', 'prodi.nama_prodi')
                 ->sortable()
                 ->searchable(),
+            // Column::make('Semester', 'semester.nama_semester')
+            //     ->sortable()
+            //     ->searchable(),
             Column::make('H', 'hadir_count')->sortable(),
             Column::make('S', 'sakit_count')->sortable(),
             Column::make('I', 'ijin_count')->sortable(),
@@ -102,6 +135,15 @@ final class PresensiMahasiwaTable extends PowerGridComponent
                 )
                 ->optionLabel('name')
                 ->optionValue('id'),
+
+            // Filter::select('semester.nama_semester', 'token.id_semester')
+            //     ->dataSource(\App\Models\Semester::all()->map(fn($semester) => [
+            //         'id' => $semester->id_semester,
+            //         'name' => $semester->nama_semester,
+            //     ]))
+            //     ->optionLabel('name')
+            //     ->optionValue('id'),
+
         ];
     }
 
