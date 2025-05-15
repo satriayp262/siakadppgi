@@ -61,7 +61,7 @@ class DetailPresensi extends Component
         return Excel::download(
             new PresensiMahasiswaByToken(
                 $this->id_kelas,
-                $this->token->id_token,
+                $this->token->token,
                 $this->token->id_mata_kuliah
             ),
             $namaFile
