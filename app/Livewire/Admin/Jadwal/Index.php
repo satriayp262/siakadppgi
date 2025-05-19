@@ -167,7 +167,7 @@ class Index extends Component
                             ->where('hari', $day)
                             ->count();
 
-                        if ($existingMatkulCount >= 2) {
+                        if ($existingMatkulCount >= 3) {
                             continue;
                         }
 
@@ -257,8 +257,14 @@ class Index extends Component
             $jadwals = $jadwals->where('kode_prodi', $this->prodi);
         }
 
-        $semesters = Semester::orderBy('created_at', 'desc')->take(12)->get();
-        $semesterfilters = Semester::orderBy('created_at', 'desc')->get();
+        $semesters = Semester::orderByRaw('LEFT(nama_semester, 4) DESC')
+                            ->orderByRaw('RIGHT(nama_semester, 1) ASC')
+                            ->take(12)
+                            ->get();
+
+        $semesterfilters = Semester::orderByRaw('LEFT(nama_semester, 4) DESC')
+                                    ->orderByRaw('RIGHT(nama_semester, 1) ASC')
+                                    ->get();
 
         return view('livewire.admin.jadwal.index', [
             'jadwals' => $jadwals,

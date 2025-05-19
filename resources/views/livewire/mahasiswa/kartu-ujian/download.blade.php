@@ -12,7 +12,7 @@
 
 <body style="margin-top:-3%; margin-left: -1%;">
 
-    <table style="width: 100%; border: none; margin: 0; border-spacing: 0;">
+    {{-- <table style="width: 100%; border: none; margin: 0; border-spacing: 0;">
         <tr style="vertical-align: top;">
             <!-- Logo Kiri -->
             <td style="width: 5%; text-align: left;">
@@ -46,7 +46,9 @@
                     style="border-top: 2px solid darkviolet; border-bottom: 1px solid darkviolet; border-left: none; border-right: none; height: 0; margin-top: 6px;">
             </td>
         </tr>
-    </table>
+    </table> --}}
+
+    <img src="{{ public_path('img/kop_surat.jpg') }}" alt="Kop Surat" style="width: 100%; margin-bottom: 10px;">
 
     <!-- Content -->
     <div>
