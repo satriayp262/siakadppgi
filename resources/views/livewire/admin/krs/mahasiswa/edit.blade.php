@@ -1,4 +1,8 @@
 <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full mx-2">
+    <div wire:loading wire:target="export,destroy"
+        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-60">
+        <div class="spinner loading-spinner"></div>
+    </div>
     <div class="flex md:flex-row flex-col  justify-between mb-4 items-center">
         <h2 class="text-lg  font-bold mb-4">KRS {{ $mahasiswa->nama }} Semester {{ $semester }}</h2>
         <div class="flex space-x-2">
@@ -34,7 +38,6 @@
             <thead>
                 <tr>
                     <th class="px-4 py-2 text-[15px] text-left border">Matkul</th>
-                    <th class="px-4 py-2 text-[15px] text-left border">Dosen</th>
                     <th class="px-4 py-2 text-[15px] text-left border">Kelas</th>
                     <th class="px-4 py-2 text-[15px] text-left border">Aksi</th>
                 </tr>
@@ -47,12 +50,11 @@
                                 <option disabled value="">Pilih Mata Kuliah</option>
                                 @foreach ($matkul as $x)
                                     <option value="{{ $x['id_mata_kuliah'] }}">
-                                        {{ $x['nama_mata_kuliah'] }}
+                                        {{ $x['nama_mata_kuliah'] . ' ('.$x['dosen']['nama_dosen'] . ')' }}
                                     </option>
                                 @endforeach
                             </select>
                         </td>
-                        <td class="px-4 py-2 border">{{ $item['matkul']['dosen']['nama_dosen'] }}</td>
                         <td class="px-4 py-2 border">
                             <select wire:model="selectedKelas.{{ $index }}" class="w-full px-2 py-1 border">
                                 <option disabled value="">-- Pilih Kelas --</option>

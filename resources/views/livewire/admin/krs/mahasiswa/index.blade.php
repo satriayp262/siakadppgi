@@ -1,7 +1,4 @@
 <div class="py-1 mx-5">
-    @php
-        $mahasiswa = App\Models\Mahasiswa::where('NIM', $NIM)->first();
-    @endphp
     @if ($mahasiswa)
         <div class="flex items-center justify-between max-w-full p-4 mt-4 mb-4 space-x-2 bg-white rounded-lg shadow-lg">
             <div class="flex justify-start space-x-2">

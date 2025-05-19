@@ -20,6 +20,7 @@ module.exports = {
                 customPurple: "#7b4f79",
                 purple2: "#A55BA5",
                 purple3: "#b596b3",
+                purple4: "#8c5a8b",
                 "pg-primary": colors.gray,
             },
         },

@@ -28,7 +28,7 @@
                             <div class="mb-4 text-left border w-full h-full p-2">
                                 <label for="{{ $field }}"
                                     class="block text-sm font-medium text-gray-700">{{ $label }}</label>
-                                <p class="text-sm text-gray-500">
+                                <p class="break-words whitespace-normal text-sm text-gray-500">
                                     @php
                                         $value = match ($field) {
                                             'jenis_kelamin' => $mahasiswa->getJenisKelamin(),
@@ -93,7 +93,7 @@
                         @foreach ($parentData as $label => $value)
                             <div class="mb-4 text-left border w-full h-full p-2">
                                 <label class="block text-sm font-medium text-gray-700">{{ $label }}</label>
-                                <p class="text-sm text-gray-500">{{ $value }}</p>
+                                <p class="whitespace-normal text-sm text-gray-500">{{ $value }}</p>
                             </div>
                         @endforeach
 

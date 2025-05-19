@@ -121,7 +121,9 @@
                         </div>
                     </div>
                 </div>
-                <button wire:click="export"
+                <livewire:admin.mahasiswa.export />
+
+                {{-- <button wire:click="export"
                     class="flex items-center py-2 pr-4 font-bold text-white bg-green-500 rounded hover:bg-green-700">
                     <svg class="mx-2" xmlns="http://www.w3.org/2000/svg" width="26" height="26"
                         viewBox="0 0 48 48">
@@ -145,7 +147,8 @@
                         </path>
                     </svg>
                     Export
-                </button>
+                </button> --}}
+                
                 {{-- @if ($showDeleteButton)
                     <button id="deleteButton"
                         class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700"

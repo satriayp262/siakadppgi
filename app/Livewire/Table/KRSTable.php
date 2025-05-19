@@ -54,7 +54,7 @@ final class KRSTable extends PowerGridComponent
         return [
             'prodi' => [
                 'nama_prodi',
-                'id_prodi',
+                'kode_prodi',
             ],
             'kelas' => [
                 'nama_kelas',
@@ -99,9 +99,9 @@ final class KRSTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::select('prodi.nama_prodi', 'id_prodi')
-                ->dataSource(Prodi::all()->map(fn($prodi) => [
-                    'value' => $prodi->id_prodi,
+            Filter::select('prodi.nama_prodi', 'kode_prodi')
+                ->dataSource(Prodi::all()->map(callback: fn($prodi) => [
+                    'value' => $prodi->kode_prodi,
                     'label' => $prodi->nama_prodi,
                 ]))
                 ->optionLabel('label')

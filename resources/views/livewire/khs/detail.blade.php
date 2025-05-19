@@ -127,7 +127,8 @@
                     }
                 @endphp
                 @if (count($khs) != 0)
-                    @if (($cekTagihan == true && $cekEmonev == true) || auth()->user()->role == 'dosen')
+                {{-- ($cekTagihan == true && $cekEmonev == true) || auth()->user()->role == 'dosen' --}}
+                    @if (true)
                         <div class="max-w-full p-4 mt-4 mb-4 bg-white rounded-lg shadow-lg ">
                             <div class="flex items-center justify-between my-2">
                                 <h2 class="font-bold text-[18px] ml-1 text-gray-700">Semester

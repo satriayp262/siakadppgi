@@ -45,7 +45,7 @@
                             <a wire:navigate.hover
                                 href="
                             @php
-$user = Auth::user();
+                                $user = Auth::user();
                                 if ($user->role == 'staff') {
                                     echo route('staff.profil');
                                 } elseif ($user->role == 'mahasiswa') {

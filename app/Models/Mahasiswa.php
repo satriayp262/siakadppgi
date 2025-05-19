@@ -149,6 +149,36 @@ class Mahasiswa extends Model
         return $semesterDifference;
     }
 
+// public function getSemesterByNumber($semesterNumber)
+// {
+//     if (!$this->mulai_semester || $semesterNumber < 1) {
+//         return null;
+//     }
+
+//     $initialSemester = Semester::find($this->mulai_semester);
+//     if (!$initialSemester) {
+//         return null;
+//     }
+
+//     $initialYear = (int) substr($initialSemester->nama_semester, 0, 4);
+//     $initialDigit = (int) substr($initialSemester->nama_semester, 4, 1);
+
+//     $targetDifference = $semesterNumber - 1;
+
+//     // Load all semesters sorted chronologically
+//     $semesters = Semester::orderBy('nama_semester')->get();
+
+//     foreach ($semesters as $semester) {
+//         $this->setRelation('semester', $initialSemester); // Temporarily set relation
+//         $diff = $this->getSemester($semester->id_semester);
+
+//         if ($diff === $targetDifference) {
+//             return $semester;
+//         }
+//     }
+
+//     return null;
+// }
 
     public function getIdAttribute()
     {

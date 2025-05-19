@@ -132,7 +132,7 @@ final class MahasiswaTable extends PowerGridComponent
     public function addColumns(): array
     {
         return [
-            'semester_difference' => fn(Mahasiswa $row) => $row->semester_difference,
+            // 'semester_difference' => fn(Mahasiswa $row) => $row->semester_difference,
 
         ];
     }

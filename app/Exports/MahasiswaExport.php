@@ -14,9 +14,37 @@ use Maatwebsite\Excel\Concerns\FromQuery;
 
 class MahasiswaExport implements FromQuery, WithHeadings, WithMapping, WithStyles, WithEvents
 {
+    protected $semester;
+    protected $prodi;
+    protected $kelas;
+
+    // Constructor to accept filters
+    public function __construct($semester = null, $prodi = null, $kelas = null)
+    {
+        $this->semester = $semester;
+        $this->prodi = $prodi;
+        $this->kelas = $kelas;
+    }
+
     public function query()
     {
-        return Mahasiswa::query()->with(['prodi', 'orangtuaWali']);
+        // Build the query with necessary filters
+        $query = Mahasiswa::query()->with(['prodi', 'orangtuaWali']);
+
+        // Apply filters if they are passed
+        if ($this->semester) {
+            $query->where('mulai_semester', $this->semester);
+        }
+
+        if ($this->prodi) {
+            $query->where('kode_prodi', $this->prodi);
+        }
+
+        if ($this->kelas) {
+            $query->where('id_kelas', $this->kelas);
+        }
+
+        return $query;
     }
 
     public function headings(): array
@@ -91,7 +119,7 @@ Contoh: 2000-02-20.',
 P : Perempuan.',
                     'Nomor Induk Kependudukan mahasiswa(16 Digit).',
                     '1 : Islam
-: Kristen
+2 : Kristen
 3 : Katholik
 4 : Hindu
 5 : Budha

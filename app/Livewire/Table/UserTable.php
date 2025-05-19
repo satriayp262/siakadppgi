@@ -26,10 +26,10 @@ final class UserTable extends PowerGridComponent
                 ->showSearchInput(),
             PowerGrid::footer()
                 ->showPerPage()
+                // perPage: 5, perPageValues: [5, 10, 50, 100]
                 ->showRecordCount(),
         ];
     }
-
     public function header(): array
     {
         return [

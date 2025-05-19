@@ -155,11 +155,7 @@ class Index extends Component
     }
 
 
-    public function export()
-    {
-        $fileName = 'Data Mahasiswa ' . now()->format('Y-m-d') . '.xlsx';
-        return Excel::download(new MahasiswaExport, $fileName);
-    }
+
 
     public function updatedSearch()
     {

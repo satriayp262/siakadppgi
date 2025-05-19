@@ -26,8 +26,11 @@ class Index extends Component
         $semester = Semester::where('id_semester', '>=', $mulai_semester)
             ->orderBy('nama_semester', 'asc')
             ->get();
+        $mahasiswa = Mahasiswa::where('NIM', $this->NIM)->first();
+
         return view('livewire.admin.krs.mahasiswa.index',[
             'semester' => $semester,
+            'mahasiswa' => $mahasiswa,
         ]);
     }
 }
