@@ -11,14 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('krs', function (Blueprint $table) {
-            $table->id('id_krs')->primary();
-            $table->string('NIM');
-            $table->integer('id_semester');
+        Schema::create('request_dosen', function (Blueprint $table) {
+            $table->id('id_request')->autoIncrement()->primary();
+            $table->string('nidn');
             $table->integer('id_mata_kuliah');
-            $table->integer('id_prodi');
             $table->integer('id_kelas');
-            $table->string('grup_praktikum')->nullable();
+            $table->string('hari');
+            $table->integer('sesi');
+            $table->string(column: 'to_hari')->nullable();
+            $table->integer('to_sesi')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('krs');
+        Schema::dropIfExists('request_dosen');
     }
 };

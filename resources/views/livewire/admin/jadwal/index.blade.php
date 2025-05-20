@@ -60,6 +60,16 @@
                         </div>
                     </div>
                     <div class="p-4">
+                        <div class="mb-4">
+                            <div class="flex items-center justify-between mb-2">
+                                <label for="">Batas Penhajuan Ubah Jadwal</label>
+                            </div>
+                            <input type="date" name="batas" id="batas" wire:model="batas"
+                                class="block w-full px-2 py-1 mt-1 border border-gray-700 rounded shadow-2xl focus:border-indigo-500 sm:text-sm">
+                            @error('batas')
+                                <span class="mt-1 text-sm text-red-500">{{ $message }}</span>
+                            @enderror
+                        </div>
                         <div class="p-4 max-h-[500px] overflow-y-auto">
                             <div class="grid grid-cols-4 gap-4 mb-4">
                                 @foreach ($semesters as $z)
@@ -390,7 +400,11 @@
                                     @else
                                         <td class="px-3 py-1 text-center">{{ $jadwal->jenis_ujian }}</td>
                                     @endif --}}
-                                    <td class="px-3 py-1 text-center">{{ $jadwal->matakuliah->nama_mata_kuliah }}</td>
+                                    @if ($jadwal->matakuliah->jenis_mata_kuliah == 'P')
+                                        <td class="px-3 py-1 text-center">{{ $jadwal->matakuliah->nama_mata_kuliah }} (Grup {{ $jadwal->grup }})</td>
+                                    @else
+                                        <td class="px-3 py-1 text-center">{{ $jadwal->matakuliah->nama_mata_kuliah }}</td>
+                                    @endif
                                     <td class="px-3 py-1 text-center">{{ $jadwal->dosen->nama_dosen }}</td>
                                     @if ($jadwal->id_ruangan == 'Online')
                                         <td class="px-3 py-1 text-center">Online</td>

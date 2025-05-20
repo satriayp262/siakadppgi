@@ -8,6 +8,7 @@ use App\Models\Kelas;
 use App\Models\KRS;
 use App\Models\Ruangan;
 use App\Models\Prodi;
+use App\Models\request_dosen;
 
 class Edit extends Component
 {
@@ -389,9 +390,32 @@ class Edit extends Component
         $ammo = jadwal::where('id_jadwal', $this->id_jadwal)
             ->first();
 
-        return view('livewire.admin.jadwal.edit',[
+        $request = request_dosen::all();
+
+        // Filter data yang cocok dengan ammo (untuk efisiensi & keterbacaan)
+        $matchRequest = $request->filter(function ($item) use ($ammo) {
+            return $item->nidn == $ammo->nidn &&
+                $item->id_mata_kuliah == $ammo->id_mata_kuliah &&
+                $item->id_kelas == $ammo->id_kelas &&
+                $item->hari == $ammo->hari &&
+                $item->sesi == $ammo->sesi;
+        });
+
+        // Cek apakah ada request dengan status 'edit' dan 'ok'
+        $l = $matchRequest->contains('status', 'edit');
+        $ok = $matchRequest->contains('status', 'ok');
+
+        // Ambil request pertama dengan status 'edit'
+        $editRequest = $matchRequest->firstWhere('status', 'edit');
+
+        // Return ke view
+        return view('livewire.admin.jadwal.edit', [
             'jadwals' => $jadwals,
-            'ammo' => $ammo
+            'ammo' => $ammo,
+            'l' => $l,
+            'ok' => $ok,
+            'request' => $request,
+            'editRequest' => $editRequest,
         ]);
     }
 }

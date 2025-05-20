@@ -17,20 +17,22 @@ return new class extends Migration {
             $table->integer('id_mata_kuliah');
             $table->string('kode_prodi');
             $table->integer('id_semester');
-            $table->date('tanggal')->nullable(); 
+            $table->string('grup')->nullable();
+            $table->date('tanggal')->nullable();
             $table->string('jenis_ujian')->nullable();
             $table->string('hari'); // Hari dalam seminggu
             $table->integer('sesi'); // Menyimpan urutan jam ke berapa
             $table->time('jam_mulai'); // Jam mulai
             $table->time('jam_selesai'); // Jam selesai
             $table->string('id_ruangan');
+            $table->date('batas_pengajuan');
             $table->timestamps();
             $table->foreign('id_kelas')->references('id_kelas')->on('kelas')->onDelete('cascade');
             $table->foreign('kode_prodi')->references('kode_prodi')->on('prodi')->onDelete('cascade');
         });
     }
 
-    /** 
+    /**
      * Reverse the migrations.
      */
     public function down(): void

@@ -6,6 +6,7 @@
                     <th class="px-3 py-2 text-center">Hari</th>
                     <th class="px-3 py-2 text-center">Sesi</th>
                     <th class="px-3 py-2 text-center">Kelas</th>
+                    <th class="px-3 py-2 text-center">Mata Kuliah</th>
                     <th class="px-3 py-2 text-center">Dosen</th>
                     <th class="px-3 py-2 text-center">Ruangan</th>
                 </tr>
@@ -38,6 +39,11 @@
                             </td>
                             <td class="px-3 py-1 text-center">{{ $jadwal->sesi }}</td>
                             <td class="px-3 py-1 text-center">{{ $jadwal->kelas->nama_kelas }}</td>
+                            @if ($jadwal->matakuliah->jenis_mata_kuliah == 'P')
+                                <td class="px-3 py-1 text-center">{{ $jadwal->matakuliah->nama_mata_kuliah }} (Grup {{ $jadwal->grup }})</td>
+                            @else
+                                <td class="px-3 py-1 text-center">{{ $jadwal->matakuliah->nama_mata_kuliah }}</td>
+                            @endif
                             <td class="px-3 py-1 text-center">{{ $jadwal->dosen->nama_dosen }}</td>
                             @if ($jadwal->id_ruangan == 'Online')
                                 <td class="px-3 py-1 text-center">Online</td>

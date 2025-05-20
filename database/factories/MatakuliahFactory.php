@@ -30,7 +30,7 @@ class MatakuliahFactory extends Factory
             'nama_mata_kuliah' => $this->faker->word(),        // Nama mata kuliah acak
             // Jika jenis mata kuliah adalah 'Umum', kode_prodi akan null, jika tidak ambil dari $kodeProdiList
             'kode_prodi' => $this->faker->randomElement($kodeProdiList),
-            'jenis_mata_kuliah' => $this->faker->randomElement(['A', 'W', 'B', 'C', 'S']),  // Jenis acak
+            'jenis_mata_kuliah' => $this->faker->randomElement(['A', 'W', 'P', 'B', 'C', 'S']),  // Jenis acak
             'nidn' => $this->faker->randomElement($nidnlist), // NIDN dengan 10 digit angka
             'sks_tatap_muka' => $this->faker->numberBetween(1, 4),  // SKS tatap muka
             'sks_praktek' => $this->faker->numberBetween(0, 2),     // SKS praktek
