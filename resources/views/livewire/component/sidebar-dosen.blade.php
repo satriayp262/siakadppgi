@@ -58,7 +58,7 @@
                         <span class="flex-1 ms-3 whitespace-nowrap">Aktifitas</span>
                     </a>
                 </li>
-                <li>
+                {{-- <li>
                     <a wire:navigate.hover href="{{ route('dosen.khs') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                     {{ request()->routeIs('dosen.khs') || request()->routeIs('dosen.khs.show') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
@@ -71,7 +71,7 @@
                         </svg>
                         <span class="flex-1 ms-3 whitespace-nowrap">KHS</span>
                     </a>
-                </li>
+                </li> --}}
                 <li>
                     <a wire:navigate.hover href="{{ route('dosen.berita_acara') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
