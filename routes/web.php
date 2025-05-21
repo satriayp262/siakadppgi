@@ -180,8 +180,8 @@ Route::middleware(['auth', CheckRole::class . ':dosen'])->prefix('dosen')->group
     Route::get('/presensi', App\Livewire\Dosen\Presensi\Index::class)->name('dosen.presensi');
     Route::get('/presensi/detail_presensi{id_mata_kuliah}', App\Livewire\Dosen\Presensi\AbsensiByKelas::class)->name('dosen.presensiByKelas');
     Route::get('/presensi/detail_presensi{id_mata_kuliah}/detail_kelas{id_kelas}', App\Livewire\Dosen\Presensi\AbsensiByToken::class)->name('dosen.presensiByToken');
-    Route::get('/detail_presensi/{token}', App\Livewire\Dosen\Presensi\DetailPresensi::class)->name('dosen.detail_presensi');
-
+    Route::get('/detail_presensi/{token:token}', App\Livewire\Dosen\Presensi\DetailPresensi::class)
+        ->name('dosen.detail_presensi');
     Route::get('/khs', App\Livewire\Khs\Index::class)->name('dosen.khs');
     Route::get('/khs/{nama_kelas}', App\Livewire\Khs\Show::class)->name('dosen.khs.show');
     Route::get('/khs/detail/{NIM}', App\Livewire\Khs\Detail::class)->name('dosen.khs.detail');
@@ -202,9 +202,3 @@ Route::middleware(['auth', CheckRole::class . ':staff'])->prefix('staff')->group
     Route::get('/tagihan/multiple-create', App\Livewire\Staff\Tagihan\MultipleCreate::class)->name('staff.tagihan.multiple-create');
     Route::get('/tagihan/update/{id_tagihan}', App\Livewire\Staff\Tagihan\Update::class)->name('staff.tagihan.update');
 });
-
-
-
-
-
-

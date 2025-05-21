@@ -108,7 +108,6 @@
         </div>
     </div>
 
-
     <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
         <livewire:table.detail-presensi-dosen-table />
     </div>

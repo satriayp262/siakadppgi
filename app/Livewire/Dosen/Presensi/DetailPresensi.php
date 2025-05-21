@@ -9,145 +9,126 @@ use App\Models\Token;
 use Livewire\Component;
 use Livewire\Attributes\On;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\PresensiExport;
 use App\Exports\PresensiMahasiswaByToken;
+use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 class DetailPresensi extends Component
 {
-    public $token;
+    public $tokenData; // Data token yang dipilih
     public $matkul;
-    public $search;
+    public $search = '';
     public $id_kelas;
     public $mahasiswa;
-    public $mahasiswaPresensi;
+    public $mahasiswaPresensi = [];
+    public $tokenString; // Menyimpan string token asli dari parameter
 
     public function mount($token)
     {
-        $this->token = Token::with('matkul')->where('token', $token)->first();
+        $this->tokenString = $token; // Simpan token dari parameter
 
-        if ($this->token) {
-            $this->id_kelas = $this->token->id_kelas;
-            $this->matkul = $this->token->matkul ? $this->token->matkul->nama_mata_kuliah : 'Mata kuliah tidak ditemukan';
-            $this->updateMahasiswa(); // Panggil metode untuk inisialisasi mahasiswa
-        } else {
-            $this->matkul = 'Token tidak valid';
-            $this->mahasiswa = collect(); // Kosongkan mahasiswa jika token tidak ditemukan
-        }
-    }
+        // 1. Ambil data token dengan relasi lengkap
+        $this->tokenData = Token::with(['matkul', 'kelas'])
+            ->where('token', $token)
+            ->first();
 
-    #[On('presensiUpdated')]
-    public function handlepresensiEdited()
-    {
-        $this->dispatch('updated', params: ['message' => 'Presensi updated Successfully']);
-    }
-
-    public function sanitizeFilename(string $name): string
-    {
-        // Ganti semua karakter selain huruf, angka, dash dan underscore dengan underscore
-        return preg_replace('/[^A-Za-z0-9-_]/', '_', strtolower($name));
-    }
-
-    public function exportExcel()
-    {
-        $namaKelas = $this->token->kelas->nama_kelas ?? 'kelas';
-        $namaMatkul = $this->token->matkul->nama_mata_kuliah ?? 'matkul';
-        $tokenString = $this->token->token;
-
-        $namaFile = 'presensi_' .
-            $this->sanitizeFilename($namaKelas) . '_' .
-            $this->sanitizeFilename($namaMatkul) . '_' .
-            $this->sanitizeFilename($tokenString) . '.xlsx';
-
-        return Excel::download(
-            new PresensiMahasiswaByToken(
-                $this->id_kelas,
-                $this->token->token,
-                $this->token->id_mata_kuliah
-            ),
-            $namaFile
-        );
-    }
-
-
-
-    public function updateMahasiswa()
-    {
-        $query = Mahasiswa::query();
-
-        // Filter mahasiswa berdasarkan kelas
-        $query->whereIn('NIM', KRS::where('id_kelas', $this->id_kelas)->pluck('NIM'));
-
-        // Tambahkan filter pencarian jika ada
-        if ($this->search) {
-            $query->where(function ($subQuery) {
-                $subQuery->where('nama', 'like', '%' . $this->search . '%')
-                    ->orWhere('NIM', 'like', '%' . $this->search . '%')
-                    ->orWhereHas('prodi', function ($prodiQuery) {
-                        $prodiQuery->where('nama_prodi', 'like', '%' . $this->search . '%');
-                    })
-                    ->orWhere('email', 'like', '%' . $this->search . '%');
-            });
+        if (!$this->tokenData) {
+            Log::error("Token tidak ditemukan", ['token' => $token]);
+            session()->flash('error', 'Token tidak valid');
+            return redirect()->route('dosen.presensi');
         }
 
-        $this->mahasiswa = $query->get();
+        // 2. Verifikasi data token
+        Log::info("Token ditemukan", [
+            'id' => $this->tokenData->id,
+            'token' => $this->tokenData->token,
+            'matkul' => $this->tokenData->matkul->nama_mata_kuliah ?? null,
+            'kelas' => $this->tokenData->kelas->nama_kelas ?? null
+        ]);
 
-        // Update data presensi yang relevan
-        $this->updatePresensiData();
+        // 3. Set data dasar
+        $this->id_kelas = $this->tokenData->id_kelas;
+        $this->matkul = $this->tokenData->matkul->nama_mata_kuliah ?? 'Mata kuliah tidak ditemukan';
+
+        // 4. Ambil data mahasiswa dan presensi
+        $this->loadData();
     }
 
-    public function updatePresensiData()
+    protected function loadData()
     {
-        $presensi = Presensi::where('token', $this->token->token)->get();
+        // 1. Ambil mahasiswa berdasarkan kelas dari token
+        $this->mahasiswa = Mahasiswa::whereIn('NIM', function ($query) {
+            $query->select('NIM')
+                ->from('krs')
+                ->where('id_kelas', $this->tokenData->id_kelas);
+        })->orderBy('nama')->get();
 
+        // 2. Ambil data presensi spesifik untuk token ini
+        $presensi = Presensi::where('token', $this->tokenData->token)
+            ->where('id_mata_kuliah', $this->tokenData->id_mata_kuliah)
+            ->get();
+
+        // 3. Gabungkan data
         $this->mahasiswaPresensi = $this->mahasiswa->map(function ($mhs) use ($presensi) {
             $presensiData = $presensi->firstWhere('nim', $mhs->NIM);
 
             return [
-                'id_presensi' => $presensiData ? $presensiData->id : null,
+                'id_presensi' => $presensiData?->id,
                 'nama' => $mhs->nama,
                 'nim' => $mhs->NIM,
-                'waktu_submit' => $presensiData ? $presensiData->waktu_submit : null,
-                'keterangan' => $presensiData ? $presensiData->keterangan : 'Belum Presensi',
-                'alasan' => $presensiData ? $presensiData->alasan : '-',
+                'waktu_submit' => $presensiData?->waktu_submit,
+                'keterangan' => $presensiData?->keterangan ?? 'Belum Presensi',
+                'alasan' => $presensiData?->alasan ?? '-',
             ];
-        });
+        })->toArray();
     }
 
+    public function exportExcel()
+    {
+        // Gunakan token dari route parameter yang sudah disimpan di mount()
+        $token = $this->tokenString;
+
+        // Cari data token lagi untuk memastikan masih valid
+        $tokenData = Token::with(['matkul', 'kelas'])
+            ->where('token', $token)
+            ->first();
+
+        if (!$tokenData) {
+            session()->flash('error', 'Token tidak valid');
+            return back();
+        }
+
+        return Excel::download(
+            new PresensiMahasiswaByToken(
+                $tokenData->id_kelas,
+                $tokenData->token,
+                $tokenData->id_mata_kuliah
+            ),
+            'presensi_' . $token . '_' . now()->format('Ymd_His') . '.xlsx'
+        );
+    }
+
+    #[On('presensiUpdated')]
+    public function handlePresensiUpdated()
+    {
+        $this->loadData(); // Refresh data setelah update
+    }
 
     public function updatedSearch()
     {
-        $this->updateMahasiswa(); // Perbarui mahasiswa saat search berubah
+        $this->loadData(); // Reload data dengan filter pencarian
     }
 
     public function back()
     {
-        return redirect()->route('dosen.presensi');
+        return redirect()->to(route('dosen.presensiByToken'));
     }
 
     public function render()
     {
-        $mahasiswa = Mahasiswa::whereIn('NIM', KRS::where('id_kelas', $this->id_kelas)->pluck('NIM'))->get();
-
-        // Ambil presensi yang sesuai dengan token
-        $presensi = Presensi::where('token', $this->token->token)->get();
-
-        // Gabungkan mahasiswa dengan presensi
-        $mahasiswaPresensi = $mahasiswa->map(function ($mhs) use ($presensi) {
-            $presensiData = $presensi->firstWhere('nim', $mhs->NIM);
-
-            return [
-                'id_presensi' => $presensiData ? $presensiData->id : null,
-                'nama' => $mhs->nama,
-                'nim' => $mhs->NIM,
-                'waktu_submit' => $presensiData ? $presensiData->waktu_submit : null,
-                'keterangan' => $presensiData ? $presensiData->keterangan : 'Belum Presensi',
-                'alasan' => $presensiData ? $presensiData->alasan : '-',
-            ];
-        });
-        // dd($mahasiswaPresensi);
-
         return view('livewire.dosen.presensi.detail_presensi', [
-            'mahasiswaPresensi' => $mahasiswaPresensi,
+            'mahasiswaPresensi' => $this->mahasiswaPresensi,
+            'matkul' => $this->matkul
         ]);
     }
 }

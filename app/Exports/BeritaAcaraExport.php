@@ -23,12 +23,22 @@ class BeritaAcaraExport implements FromCollection, WithHeadings
 
     public function collection()
     {
-        return BeritaAcara::with(['kelas', 'mataKuliah', 'dosen', 'semester'])
-            ->when($this->nidn, fn($query) => $query->where('nidn', $this->nidn))
-            ->when($this->semester, fn($query) => $query->where('id_semester', $this->semester))
-            ->when($this->kelas, fn($query) => $query->where('id_kelas', $this->kelas))
-            ->when($this->mataKuliah, fn($query) => $query->where('id_mata_kuliah', $this->mataKuliah))
-            ->get()
+        $query = BeritaAcara::with(['kelas', 'mataKuliah', 'dosen', 'semester'])
+            ->where('nidn', $this->nidn);
+
+        if ($this->semester) {
+            $query->where('id_semester', $this->semester);
+        }
+
+        if ($this->kelas) {
+            $query->where('id_kelas', $this->kelas);
+        }
+
+        if ($this->mataKuliah) {
+            $query->where('id_mata_kuliah', $this->mataKuliah);
+        }
+
+        return $query->get()
             ->map(function ($beritaAcara) {
                 return [
                     'Nama Dosen' => $beritaAcara->dosen->nama_dosen ?? '',

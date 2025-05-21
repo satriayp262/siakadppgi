@@ -13,64 +13,125 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\PeringatanMail;
 use App\Models\Semester;
 use Livewire\Attributes\On;
+use App\Models\MataKuliah;
+use App\Models\Kelas;
 
 class Index extends Component
 {
     use WithPagination;
 
-    public $semester; // Untuk menyimpan semester terpilih
-    public $semesters = []; // Untuk list semua semester
-    public $selectedProdi;
-    public $prodi;
+    public $semester = 'semua';
+    public $semesters = [];
+    public $selectedProdi = 'semua';
+    public $prodi = [];
     public $spSent = false;
     public $search = '';
+    public $id_mata_kuliah = 'semua';
+    public $id_kelas = 'semua';
+    public $filteredMatkulList = [];
+    public $filteredKelasList = [];
 
     public function mount()
     {
-        // Load all Prodi and Semester data for dropdowns and filters
         $this->prodi = Prodi::all();
-        $this->semesters = Semester::all(); // Ambil semua semester sebagai koleksi
+        $this->semesters = Semester::all();
+        $this->updateMatkulKelasOptions();
     }
 
-    public function getAllSemesters()
+    public function updatedSemester()
     {
-        return Semester::pluck('nama_semester', 'id_semester');
+        $this->updateMatkulKelasOptions();
+    }
+
+    public function updatedSelectedProdi()
+    {
+        $this->updateMatkulKelasOptions();
+    }
+
+    public function updateMatkulKelasOptions()
+    {
+        // Update filtered mata kuliah list
+        $matkulQuery = MataKuliah::query();
+        if ($this->selectedProdi !== 'semua') {
+            $matkulQuery->where('kode_prodi', $this->selectedProdi);
+        }
+        if ($this->semester !== 'semua') {
+            $matkulQuery->whereHas('semester', function ($q) {
+                $q->where('id_semester', $this->semester);
+            });
+        }
+        $this->filteredMatkulList = $matkulQuery->get()->all(); // Add ->all() to make it explicit this is an array
+
+        // Update filtered kelas list
+        $kelasQuery = Kelas::query();
+        if ($this->selectedProdi !== 'semua') {
+            $kelasQuery->where('kode_prodi', $this->selectedProdi);
+        }
+        if ($this->semester !== 'semua') {
+            $kelasQuery->where('id_semester', $this->semester);
+        }
+        $this->filteredKelasList = $kelasQuery->get()->all(); // Add ->all() to make it explicit this is an array
+
+        // Reset mata kuliah and kelas selections if they're no longer valid
+        if ($this->id_mata_kuliah !== 'semua' && !collect($this->filteredMatkulList)->contains('id_mata_kuliah', $this->id_mata_kuliah)) {
+            $this->id_mata_kuliah = 'semua';
+        }
+        if ($this->id_kelas !== 'semua' && !collect($this->filteredKelasList)->contains('id_kelas', $this->id_kelas)) {
+            $this->id_kelas = 'semua';
+        }
     }
 
     public function setDefaults()
     {
-        // Pastikan id_semester dan kode_prodi sudah diset
         if (!$this->semester) {
-            $this->semester = 'semua';  // Atau ID semester default jika tidak ada yang dipilih
+            $this->semester = 'semua';
         }
 
         if (!$this->selectedProdi) {
-            $this->selectedProdi = 'semua';  // Atau kode prodi default jika tidak ada yang dipilih
+            $this->selectedProdi = 'semua';
+        }
+
+        if (!$this->id_mata_kuliah) {
+            $this->id_mata_kuliah = 'semua';
+        }
+
+        if (!$this->id_kelas) {
+            $this->id_kelas = 'semua';
         }
     }
 
-
     public function exportExcel()
     {
-        // Menyiapkan nama file dengan kondisi semester dan prodi
-        $this->setDefaults();  // Memastikan id_semester dan id_prodi sudah diset
+        $this->setDefaults();
 
-        // Mendapatkan nama semester dan prodi berdasarkan ID
-        $semesterData = $this->semester ? Semester::where('id_semester', $this->semester)->first() : null;
-        $nama_semester = $semesterData ? $semesterData->nama_semester : 'Semua Semester';
+        $semesterData = $this->semester !== 'semua' ? Semester::find($this->semester) : null;
+        $nama_semester = $semesterData ? str_replace(['/', '\\'], '-', $semesterData->nama_semester) : 'Semua Semester';
 
-        // Mengecek apakah kode_prodi ada dan valid
-        $prodiData = $this->selectedProdi ? Prodi::where('kode_prodi', $this->selectedProdi)->first() : null;
-        $nama_prodi = $prodiData ? $prodiData->nama_prodi : 'Semua Prodi';
+        $prodiData = $this->selectedProdi !== 'semua' ? Prodi::find($this->selectedProdi) : null;
+        $nama_prodi = $prodiData ? str_replace(['/', '\\'], '-', $prodiData->nama_prodi) : 'Semua Prodi';
 
-        // Menentukan nama file berdasarkan semester dan prodi
-        $fileName = 'Data Presensi Mahasiswa ';
-        $fileName .= $nama_semester . ' ';
-        $fileName .= $nama_prodi . ' ';
-        $fileName .= now()->format('Y-m-d') . '.xlsx';
+        $matkulData = $this->id_mata_kuliah !== 'semua' ? MataKuliah::find($this->id_mata_kuliah) : null;
+        $nama_matkul = $matkulData ? str_replace(['/', '\\'], '-', $matkulData->nama_mata_kuliah) : 'Semua Mata Kuliah';
 
-        // Menjalankan ekspor data dengan filter berdasarkan semester dan prodi
-        return Excel::download(new MahasiswaPresensiExport($this->semester, $this->selectedProdi), $fileName);
+        $kelasData = $this->id_kelas !== 'semua' ? Kelas::find($this->id_kelas) : null;
+        $nama_kelas = $kelasData ? str_replace(['/', '\\'], '-', $kelasData->nama_kelas) : 'Semua Kelas';
+
+        // Create a clean filename without special characters
+        $fileName = 'Data Presensi Mahasiswa ' . $nama_semester . ' ' . $nama_prodi . ' ' .
+            $nama_matkul . ' ' . $nama_kelas . ' ' . now()->format('Y-m-d') . '.xlsx';
+
+        // Remove any remaining special characters that might cause issues
+        $fileName = preg_replace('/[\/\\\\:*?"<>|]/', '-', $fileName);
+
+        return Excel::download(
+            new MahasiswaPresensiExport(
+                $this->semester,
+                $this->selectedProdi,
+                $this->id_mata_kuliah,
+                $this->id_kelas
+            ),
+            $fileName
+        );
     }
 
     #[On('kirimEmail')]
@@ -78,7 +139,6 @@ class Index extends Component
     {
         $this->kirimEmail($nim);
     }
-
 
     public function kirimEmail($nim)
     {
@@ -91,26 +151,32 @@ class Index extends Component
 
         $mahasiswa = Mahasiswa::where('NIM', $nim)
             ->withCount(['presensi as alpha_count' => function ($query) {
-                $query->where('keterangan', 'Alpha');
+                $query->where('keterangan', 'Alpha')
+                    ->when($this->semester !== 'semua', function ($q) {
+                        $q->where('id_semester', $this->semester);
+                    })
+                    ->when($this->id_mata_kuliah !== 'semua', function ($q) {
+                        $q->where('id_mata_kuliah', $this->id_mata_kuliah);
+                    })
+                    ->when($this->id_kelas !== 'semua', function ($q) {
+                        $q->where('id_kelas', $this->id_kelas);
+                    });
             }])
             ->first();
 
         if ($mahasiswa && $mahasiswa->alpha_count >= 2 && $mahasiswa->user) {
-            // Generate nomor surat otomatis
-            $countSP = RiwayatSP::count() + 1; // Hitung jumlah surat sebelumnya
+            $countSP = RiwayatSP::count() + 1;
             $no_surat = sprintf("%03d", $countSP) . "/PPGI/11.7/" . date('m') . "/" . date('Y');
 
             $data = [
                 'nama' => $mahasiswa->nama,
                 'nim' => $mahasiswa->NIM,
                 'alpha_count' => $mahasiswa->alpha_count,
-                'no_surat' => $no_surat, // Sertakan nomor surat
+                'no_surat' => $no_surat,
             ];
 
-            // Kirim email dengan nomor surat
             Mail::to($mahasiswa->user->email)->send(new PeringatanMail($data));
 
-            // Simpan riwayat pengiriman SP dengan nomor surat
             RiwayatSP::create([
                 'nim' => $nim,
                 'sent_at' => now(),
@@ -119,7 +185,6 @@ class Index extends Component
             session()->flash('success', 'Surat peringatan berhasil dikirim dengan nomor surat.');
             $this->spSent = true;
 
-            // Emit event ke front-end untuk disable tombol
             $this->dispatch('pg:eventRefresh-presensi-mahasiwa-table-qyqn0i-table');
             $this->dispatch('spSentSuccess', nim: $nim);
         } else {
@@ -134,43 +199,11 @@ class Index extends Component
 
     public function render()
     {
-        $dataMahasiswa = Mahasiswa::with(['presensi' => function ($query) {
-            $query->select('nim', 'keterangan', 'created_at');
-        }])
-            ->withCount([
-                'presensi as hadir_count' => function ($query) {
-                    $query->where('keterangan', 'Hadir');
-                },
-                'presensi as alpha_count' => function ($query) {
-                    $query->where('keterangan', 'Alpha');
-                },
-                'presensi as ijin_count' => function ($query) {
-                    $query->where('keterangan', 'Ijin');
-                },
-                'presensi as sakit_count' => function ($query) {
-                    $query->where('keterangan', 'Sakit');
-                },
-            ])
-            ->when($this->search, function ($query) {
-                $query->where('nama', 'like', '%' . $this->search . '%')
-                    ->orWhere('NIM', 'like', '%' . $this->search . '%')
-                    ->orWhereHas('prodi', function ($prodiQuery) {
-                        $prodiQuery->where('nama_prodi', 'like', '%' . $this->search . '%');
-                    });
-            })
-            ->when($this->selectedProdi, function ($query) {
-                $query->where('kode_prodi', $this->selectedProdi);
-            })
-            ->paginate(10);
-
-        // Rename variables here to avoid conflict
-        $semesterList = Semester::all();
-        $prodiList = Prodi::all();
-
         return view('livewire.admin.presensi-mahasiswa.index', [
-            'dataMahasiswa' => $dataMahasiswa,
-            'semesterList' => $semesterList,  // Changed from 'semester'
-            'prodiList' => $prodiList       // Changed from 'prodi'
+            'semesterList' => $this->semesters,
+            'prodiList' => $this->prodi,
+            'matkulList' => $this->filteredMatkulList,
+            'kelasList' => $this->filteredKelasList,
         ]);
     }
 }

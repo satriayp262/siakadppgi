@@ -43,10 +43,6 @@ class PresensiDosenExport implements FromCollection, WithHeadings, WithMapping
                         $q->where('nama_prodi', 'like', '%' . $this->search . '%');
                     });
             })
-            // ->when($this->selectedProdi, function ($query) {
-            //     // Filter dosen berdasarkan kode_prodi
-            //     $query->where('kode_prodi', $this->selectedProdi);
-            // })
             ->get()
             ->map(function ($dosen) {
                 // Menambahkan kolom total_jam berdasarkan jumlah token yang dihitung
