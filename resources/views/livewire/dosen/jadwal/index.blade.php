@@ -5,9 +5,11 @@
                 <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
                     <th class="px-3 py-2 text-center">Hari</th>
                     <th class="px-3 py-2 text-center">Sesi</th>
+                    <th class="px-3 py-2 text-center">Mata Kuliah</th>
                     <th class="px-3 py-2 text-center">Prodi</th>
                     <th class="px-3 py-2 text-center">Kelas</th>
                     <th class="px-3 py-2 text-center">Ruangan</th>
+                    <th class="px-3 py-2 text-center">Ganti/Validasi</th>
                 </tr>
             </thead>
                 <tbody>
@@ -37,6 +39,7 @@
                                 @endif
                             </td>
                             <td class="px-3 py-1 text-center">{{ $jadwal->sesi }}</td>
+                            <td class="px-3 py-1 text-center">{{ $jadwal->matakuliah->nama_mata_kuliah }}</td>
                             <td class="px-3 py-1 text-center">{{ $jadwal->prodi->nama_prodi }}</td>
                             <td class="px-3 py-1 text-center">{{ $jadwal->kelas->nama_kelas }}</td>
                             @if ($jadwal->id_ruangan == 'Online')
@@ -44,6 +47,12 @@
                             @else
                                 <td class="px-3 py-1 text-center">{{ $jadwal->ruangan->kode_ruangan }}</td>
                             @endif
+                            <td class="px-3 py-1 text-center">
+                                <div class="flex flex-row justify-center">
+                                    <livewire:dosen.jadwal.request :id_jadwal="$jadwal->id_jadwal"
+                                        wire:key="edit-{{ $jadwal->id_jadwal }}" />
+                                </div>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>

@@ -130,6 +130,14 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
     Route::prefix('emonev/list-mahasiswa')->group(function () {
         Route::get('/', App\Livewire\Admin\Emonev\ListMahasiswa::class)->name('admin.emonev.list-mahasiswa');
     });
+    Route::get('/khs', App\Livewire\Khs\Index::class)->name('dosen.khs');
+    Route::get('/khs/{nama_kelas}', App\Livewire\Khs\Show::class)->name('dosen.khs.show');
+    Route::get('/khs/detail/{NIM}', App\Livewire\Khs\Detail::class)->name('dosen.khs.detail');
+    Route::get('/download/{NIM}/{id_semester}', [App\Http\Controllers\KHSController::class, 'generatePDF'])->name('dosen.khs.download');
+
+    Route::prefix('ttd')->group(function () {
+        Route::get('/', App\Livewire\Admin\Ttd\Index::class)->name('admin.ttd');
+    });
 });
 
 // mahasiswa
@@ -180,14 +188,14 @@ Route::middleware(['auth', CheckRole::class . ':dosen'])->prefix('dosen')->group
     Route::get('/presensi', App\Livewire\Dosen\Presensi\Index::class)->name('dosen.presensi');
     Route::get('/presensi/detail_presensi{id_mata_kuliah}', App\Livewire\Dosen\Presensi\AbsensiByKelas::class)->name('dosen.presensiByKelas');
     Route::get('/presensi/detail_presensi{id_mata_kuliah}/detail_kelas{id_kelas}', App\Livewire\Dosen\Presensi\AbsensiByToken::class)->name('dosen.presensiByToken');
-    Route::get('/detail_presensi/{token:token}', App\Livewire\Dosen\Presensi\DetailPresensi::class)
-        ->name('dosen.detail_presensi');
-    Route::get('/khs', App\Livewire\Khs\Index::class)->name('dosen.khs');
-    Route::get('/khs/{nama_kelas}', App\Livewire\Khs\Show::class)->name('dosen.khs.show');
-    Route::get('/khs/detail/{NIM}', App\Livewire\Khs\Detail::class)->name('dosen.khs.detail');
+    Route::get('/detail_presensi/{token}', App\Livewire\Dosen\Presensi\DetailPresensi::class)->name('dosen.detail_presensi');
+
+    // Route::get('/khs', App\Livewire\Khs\Index::class)->name('dosen.khs');
+    // Route::get('/khs/{nama_kelas}', App\Livewire\Khs\Show::class)->name('dosen.khs.show');
+    // Route::get('/khs/detail/{NIM}', App\Livewire\Khs\Detail::class)->name('dosen.khs.detail');
     Route::get('/emonev', App\Livewire\Dosen\Emonev\Index::class)->name('dosen.emonev');
     Route::get('/emonev/show/{kode}', App\Livewire\Dosen\Emonev\Show::class)->name('dosen.emonev.show');
-    Route::get('/download/{NIM}/{id_semester}', [App\Http\Controllers\KHSController::class, 'generatePDF'])->name('dosen.khs.download');
+    // Route::get('/download/{NIM}/{id_semester}', [App\Http\Controllers\KHSController::class, 'generatePDF'])->name('dosen.khs.download');
 });
 
 // staff

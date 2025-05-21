@@ -280,31 +280,40 @@
             <tr>
                 <td colspan="3" rowspan="3" style="text-align: right;"><strong>Ketidak Hadiran</strong></td>
                 <td style="text-align: left; border-right: none;"><strong>Izin<strong></td>
-                <td colspan="3" style="text-align: left; border-left: none;"><strong>= {{ ($presensi->ijin_count ?? 0) == 0 ? '0' : $presensi->ijin_count }} Jam<strong></td>
+                <td colspan="3" style="text-align: left; border-left: none;"><strong>=
+                        {{ ($presensi->ijin_count ?? 0) == 0 ? '0' : $presensi->ijin_count }} Jam<strong></td>
             </tr>
             <tr>
                 <td style="text-align: left; border-right: none;"><strong>Sakit<strong></td>
-                <td colspan="3" style="text-align: left; border-left: none;"><strong>= {{ ($presensi->sakit_count ?? 0) == 0 ? '0' : $presensi->sakit_count }} Jam<strong></td>
+                <td colspan="3" style="text-align: left; border-left: none;"><strong>=
+                        {{ ($presensi->sakit_count ?? 0) == 0 ? '0' : $presensi->sakit_count }} Jam<strong></td>
             </tr>
             <tr>
                 <td style="text-align: left; border-right: none;"><strong>Alpa<strong></td>
-                <td colspan="3" style="text-align: left; border-left: none;"><strong>= {{ ($presensi->alpa_count ?? 0) == 0 ? '0' : $presensi->alpa_count }} Jam<strong></td>
+                <td colspan="3" style="text-align: left; border-left: none;"><strong>=
+                        {{ ($presensi->alpa_count ?? 0) == 0 ? '0' : $presensi->alpa_count }} Jam<strong></td>
             </tr>
 
         </tbody>
     </table>
 
-    <div class="signature">
-        <p>Kebumen, {{ date('d F Y') }}<br>
-            Politeknik Piksi Ganesha Indonesia</p>
-        <br><br>
-        <br><br>
-        <br><br>
-        <br><br>
-        <br><br>
-        <p><strong>................................................</strong><br></p>
-        <p style="background-color: black; size: 20px;"></p>
+    <div class="signature" style="text-align: right;">
+        <div style="display: inline-block; text-align: left;">
+            <p>Kebumen, {{ date('d F Y') }}<br>
+                Politeknik Piksi Ganesha Indonesia</p>
+
+            @php
+                $ttd = App\Models\Ttd::where('jabatan', 'Pudir I Bidang Akademik')->first();
+            @endphp
+
+            <img src="{{ public_path('storage/' . $ttd->ttd) }}" style="width: 100px; height: auto;">
+
+            <p><strong>{{ $ttd->nama }}</strong><br></p>
+            <p><strong>{{ $ttd->jabatan }}</strong><br></p>
+        </div>
     </div>
+
+    <p style="background-color: black; size: 20px;"></p>
 
     <p>Tanggal Print: {{ date('Y-m-d H:i:s') }}</p>
 </body>

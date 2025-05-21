@@ -28,7 +28,7 @@ class Detail extends Component
         ]);
         if (auth()->user()->role == 'mahasiswa') {
             return redirect()->route('mahasiswa.khs.download', [$NIM, $id_semester]);
-        } else if (auth()->user()->role == 'dosen') {
+        } else if (auth()->user()->role == 'dosen' || auth()->user()->role == 'admin') {
             return redirect()->route('dosen.khs.download', [$NIM, $id_semester]);
         }
     }

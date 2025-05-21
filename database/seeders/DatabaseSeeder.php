@@ -443,7 +443,7 @@ class DatabaseSeeder extends Seeder
                 'kode_mata_kuliah' => $data['kode_mata_kuliah'],
                 'nama_mata_kuliah' => $data['nama_mata_kuliah'],
                 'kode_prodi' => $data['kode_prodi'],
-                'jenis_mata_kuliah' => fake()->randomElement(['A', 'W', 'B', 'C', 'S']),
+                'jenis_mata_kuliah' => fake()->randomElement(['A', 'W', 'P', 'B', 'C', 'S']),
                 'nidn' => $data['nidn'],
                 'sks_tatap_muka' => 2,
                 'sks_praktek' => 0,

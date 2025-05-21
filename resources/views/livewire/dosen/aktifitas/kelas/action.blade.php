@@ -14,6 +14,10 @@
     <a wire:navigate.hover
         href="{{ route('dosen.aktifitas.kelas.aktifitas', ['kode_mata_kuliah' => $row->kode_mata_kuliah, 'nama_kelas' => str_replace('/', '-', $row->nama_kelas), 'nama_aktifitas' => $row->nama_aktifitas]) }}"
         class="py-1 sm:py-3 px-3 sm:px-5 bg-blue-500 hover:bg-blue-700 rounded text-white text-sm">
-        ▶
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 inline" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4"
+                                    d="M9 5l7 7-7 7" />
+                            </svg>
     </a>
 </div>

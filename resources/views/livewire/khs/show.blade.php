@@ -28,8 +28,8 @@
                     </li>
                 </ol>
             </nav>
-            <input type="text" wire:model.live="search" placeholder="   Search"
-                class="px-2 ml-4 py-2 border border-gray-300 rounded-lg">
+            {{-- <input type="text" wire:model.live="search" placeholder="   Search"
+                class="px-2 ml-4 py-2 border border-gray-300 rounded-lg"> --}}
         </div>
     </div>
     <H2 class="px-4 font-bold text-[32px] text-purple2">
@@ -47,12 +47,20 @@
                     @if (auth()->user()->role == 'dosen')
                         <a wire:navigate.hover  href="{{ route('dosen.khs.detail', ['NIM' => $item->NIM]) }}"
                             class="py-2 px-4 bg-blue-500 hover:bg-blue-700 rounded flex items-center">
-                            <p>▶</p>
+                            <p><svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 inline" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4"
+                                    d="M9 5l7 7-7 7" />
+                            </svg></p>
                         </a>
                     @elseif(auth()->user()->role == 'admin')
                         <a wire:navigate.hover  href="{{ route('dosen.khs.detail', ['NIM' => $item->NIM]) }}"
                             class="py-2 px-4 bg-blue-500 hover:bg-blue-700 rounded flex items-center">
-                            <p>▶</p>
+                            <p><svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 inline" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4"
+                                    d="M9 5l7 7-7 7" />
+                            </svg></p>
                         </a>
                     @endif
                 </div>

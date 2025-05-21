@@ -56,6 +56,7 @@
                                 <option value="" disabled selected>Select</option>
                                 <option value="W">Wajib Nasional</option>
                                 <option value="A">Wajib Program Studi</option>
+                                <option value="P">Praktikum</option>
                                 <option value="B">Pilihan</option>
                                 <option value="C">Peminatan</option>
                                 <option value="S">TA/SKRIPSI/THESIS/DISERTASI</option>

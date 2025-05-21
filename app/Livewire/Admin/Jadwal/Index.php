@@ -11,6 +11,7 @@ use App\Models\Jadwal;
 use App\Models\Matakuliah;
 use App\Models\Prodi;
 use App\Models\KRS;
+use App\Models\request_dosen;
 use App\Models\Semester;
 use Carbon\Carbon;
 use Livewire\Attributes\On;
@@ -28,6 +29,7 @@ class Index extends Component
     public $semesterfilter;
     public $ujian;
     public $jenis;
+    public $batas;
 
 
     public function pilihSemester($semesterId)
@@ -49,75 +51,9 @@ class Index extends Component
 
     }
 
-    public function rules()
-    {
-        return [
-            'jenis' => 'required'
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-            'jenis.required' => 'Jenis Ujian harus dipilih'
-        ];
-    }
-
-    public function tanggal()
-    {
-        $this->validate();
-        // Ambil semua jadwal yang dikelompokkan berdasarkan 'kode_prodi'
-        $jadwalUjians = Jadwal::orderBy('id_kelas')
-            ->orderByRaw("FIELD(hari, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday')")
-            ->get()
-            ->groupBy('id_kelas'); // Kelompokkan berdasarkan id_kelas
-        // Iterasi melalui setiap grup jadwal berdasarkan 'kode_prodi'
-        foreach ($jadwalUjians as $group) {
-
-            // Ambil tanggal awal dari input
-            $tanggal = Carbon::parse($this->ujian);
-
-            // Inisialisasi hari sebelumnya untuk setiap grup
-            $previousHari = 'Monday';
-
-            // Iterasi untuk setiap jadwal dalam grup
-            foreach ($group as $jadwal) {
-                // Tentukan hari dan sesuaikan tanggal
-                if ($jadwal->hari !== $previousHari) {
-                    // Jika hari berubah, tambah 1 hari pada tanggal
-                    $tanggal = $tanggal->addDay();
-                }
-
-                // Update tanggal untuk jadwal ini
-                $jadwal->update([
-                    'tanggal' => $tanggal->toDateString(), // Simpan tanggal dalam format yang sesuai
-                    'jenis_ujian' => $this->jenis
-                ]);
-
-                // Simpan hari sebelumnya untuk perbandingan di iterasi berikutnya
-                $previousHari = $jadwal->hari;
-            }
-        }
-        $this->dispatch('updated', ['message' => 'Tanggal Ujian updated Successfully']);
-    }
-
-    public function clear2()
-    {
-        jadwal::query()->update(['jenis_ujian' => null]);
-
-        $this->dispatch('destroyed', ['message' => 'jenis Ujian Deleted Successfully']);
-    }
-
-    public function clear()
-    {
-        jadwal::query()->update(['tanggal' => null]);
-
-        $this->dispatch('destroyed', ['message' => 'tanggal Ujian Deleted Successfully']);
-    }
-
-
     public function generate()
     {
+        $this->batas;
         $kelasByProdi = Kelas::with('prodi')
             ->where('id_semester', $this->Semester)
             ->get()
@@ -171,33 +107,99 @@ class Index extends Component
                             continue;
                         }
 
-                        foreach ($timeSlots as $timeSlot) {
-                            // Cek apakah sesi ini sudah digunakan dalam kelas atau oleh dosen
-                            $conflict = Jadwal::where(function ($query) use ($kelas, $matkul, $timeSlot, $day) {
-                                $query->where('id_kelas', $kelas->id_kelas)
-                                    ->orWhere('nidn', $matkul->nidn);
-                            })
-                                ->where('sesi', $timeSlot['sesi'])
-                                ->where('hari', $day)
-                                ->exists();
+                        if ($matkul->jenis_mata_kuliah == 'P') {
+                                for ($i = 0; $i < count($timeSlots) - 1; $i++) {
+                                    $firstSlot = $timeSlots[$i];
+                                    $secondSlot = $timeSlots[$i + 1];
 
-                            if (!$conflict) {
+                                    $totalSesiHariIni = Jadwal::where('id_kelas', $kelas->id_kelas)
+                                        ->where('hari', $day)
+                                        ->count();
+
+                                    if ($totalSesiHariIni >= 2) {
+                                        continue;
+                                    }
+
+                                    // Cek apakah dua sesi ini berurutan dan tidak bentrok
+                                    $conflict = Jadwal::where(function ($query) use ($kelas, $matkul, $firstSlot, $secondSlot, $day) {
+                                        $query->where('id_kelas', $kelas->id_kelas)
+                                            ->orWhere('nidn', $matkul->nidn);
+                                    })
+                                    ->whereIn('sesi', [$firstSlot['sesi'], $secondSlot['sesi']])
+                                    ->where('hari', $day)
+                                    ->exists();
+
+                                    if (!$conflict) {
+                                        if ($ruangan) {
+
+                                            // Buat dua entri jadwal dengan grup A dan B
+                                            Jadwal::create([
+                                                'id_kelas' => $kelas->id_kelas,
+                                                'id_mata_kuliah' => $matkul->id_mata_kuliah,
+                                                'nidn' => $matkul->nidn,
+                                                'kode_prodi' => $prodi,
+                                                'id_semester' => $this->Semester,
+                                                'hari' => $day,
+                                                'jam_mulai' => $firstSlot['jam_mulai'],
+                                                'jam_selesai' => $firstSlot['jam_selesai'],
+                                                'sesi' => $firstSlot['sesi'],
+                                                'id_ruangan' => ($ruangan == 'Online') ? 'Online' : $ruangan->id_ruangan,
+                                                'grup' => 'A', // butuh kolom tambahan di tabel
+                                                'batas_pengajuan' => $this->batas
+                                            ]);
+
+                                            Jadwal::create([
+                                                'id_kelas' => $kelas->id_kelas,
+                                                'id_mata_kuliah' => $matkul->id_mata_kuliah,
+                                                'nidn' => $matkul->nidn,
+                                                'kode_prodi' => $prodi,
+                                                'id_semester' => $this->Semester,
+                                                'hari' => $day,
+                                                'jam_mulai' => $secondSlot['jam_mulai'],
+                                                'jam_selesai' => $secondSlot['jam_selesai'],
+                                                'sesi' => $secondSlot['sesi'],
+                                                'id_ruangan' => ($ruangan == 'Online') ? 'Online' : $ruangan->id_ruangan,
+                                                'grup' => 'B',
+                                                'batas_pengajuan' => $this->batas
+                                            ]);
+
+                                            // (Opsional) Simpan data grup ke tabel pivot krs_praktikum jika kamu ingin tahu siapa di grup A/B
+                                            // Contoh: foreach ($grupA as $mhs) { KrsPraktikum::create([...]); }
+
+                                            break 2; // sudah terjadwal
+                                        }
+                                    }
+                                }
+                        }else {
+                            foreach ($timeSlots as $timeSlot) {
+                                // Cek apakah sesi ini sudah digunakan dalam kelas atau oleh dosen
+                                $conflict = Jadwal::where(function ($query) use ($kelas, $matkul, $timeSlot, $day) {
+                                    $query->where('id_kelas', $kelas->id_kelas)
+                                        ->orWhere('nidn', $matkul->nidn);
+                                })
+                                    ->where('sesi', $timeSlot['sesi'])
+                                    ->where('hari', $day)
+                                    ->exists();
+
+                                if (!$conflict) {
 
 
-                                if ($ruangan) {
-                                    Jadwal::create([
-                                        'id_kelas' => $kelas->id_kelas,
-                                        'id_mata_kuliah' => $matkul->id_mata_kuliah,
-                                        'nidn' => $matkul->nidn,
-                                        'kode_prodi' => $prodi,
-                                        'id_semester' => $this->Semester,
-                                        'hari' => $day,
-                                        'jam_mulai' => $timeSlot['jam_mulai'],
-                                        'jam_selesai' => $timeSlot['jam_selesai'],
-                                        'sesi' => $timeSlot['sesi'],
-                                        'id_ruangan' => ($ruangan == 'Online') ? 'Online' : $ruangan->id_ruangan,
-                                    ]);
-                                    break 2; // Berhenti setelah satu mata kuliah dijadwalkan
+                                    if ($ruangan) {
+                                        Jadwal::create([
+                                            'id_kelas' => $kelas->id_kelas,
+                                            'id_mata_kuliah' => $matkul->id_mata_kuliah,
+                                            'nidn' => $matkul->nidn,
+                                            'kode_prodi' => $prodi,
+                                            'id_semester' => $this->Semester,
+                                            'hari' => $day,
+                                            'jam_mulai' => $timeSlot['jam_mulai'],
+                                            'jam_selesai' => $timeSlot['jam_selesai'],
+                                            'sesi' => $timeSlot['sesi'],
+                                            'id_ruangan' => ($ruangan == 'Online') ? 'Online' : $ruangan->id_ruangan,
+                                            'batas_pengajuan' => $this->batas
+                                        ]);
+                                        break 2; // Berhenti setelah satu mata kuliah dijadwalkan
+                                    }
                                 }
                             }
                         }
@@ -214,6 +216,7 @@ class Index extends Component
     {
         Jadwal::truncate();
         komponen_kartu_ujian::query()->update(['tanggal_dibuat' => null]);
+        request_dosen::truncate();
         $this->dispatch('destroyed', ['message' => 'Jadwal Deleted Successfully']);
     }
 
@@ -266,11 +269,14 @@ class Index extends Component
                                     ->orderByRaw('RIGHT(nama_semester, 1) ASC')
                                     ->get();
 
+        $request = request_dosen::all();
+
         return view('livewire.admin.jadwal.index', [
             'jadwals' => $jadwals,
             'prodis' => $prodis,
             'semesters' => $semesters,
-            'semesterfilters' => $semesterfilters
+            'semesterfilters' => $semesterfilters,
+            'request' => $request
         ]);
     }
 }
