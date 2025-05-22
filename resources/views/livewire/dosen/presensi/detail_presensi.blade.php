@@ -69,7 +69,7 @@
                         <td class="px-4 py-3 text-center">
                             <span class="px-3 py-1 text-xs font-semibold rounded-full
                                 {{ $item['keterangan'] === 'Hadir' ? 'bg-green-100 text-green-800' :
-                                   ($item['keterangan'] === 'Izin' ? 'bg-yellow-100 text-yellow-800' :
+                                   ($item['keterangan'] === 'Izin' ? 'bg-yellow-100 text-yellow-800' : $item['keterangan'] === 'Sakit' ? 'bg-yellow-100 text-yellow-800' :
                                    'bg-red-100 text-red-800') }}">
                                 {{ $item['keterangan'] }}
                             </span>
