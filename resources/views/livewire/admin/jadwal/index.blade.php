@@ -60,26 +60,55 @@
                         </div>
                     </div>
                     <div class="p-4">
-                        <div class="mb-4">
-                            <div class="flex items-center justify-between mb-2">
-                                <label for="">Batas Penhajuan Ubah Jadwal</label>
+                        <form wire:submit.prevent="pilihSemester" class="p-4 space-y-4">
+                            <!-- Input Batas Pengajuan -->
+                            <div>
+                                <label for="batas" class="block mb-2 font-semibold text-gray-700">
+                                    Batas Pengajuan Ubah Jadwal
+                                </label>
+                                <input type="date" name="batas" id="batas" wire:model="batas"
+                                       class="block w-full px-2 py-1 mt-1 border border-gray-700 rounded shadow focus:border-indigo-500 sm:text-sm">
+                                @error('batas')
+                                    <span class="mt-1 text-sm text-red-500">{{ $message }}</span>
+                                @enderror
                             </div>
-                            <input type="date" name="batas" id="batas" wire:model="batas"
-                                class="block w-full px-2 py-1 mt-1 border border-gray-700 rounded shadow-2xl focus:border-indigo-500 sm:text-sm">
-                            @error('batas')
-                                <span class="mt-1 text-sm text-red-500">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="p-4 max-h-[500px] overflow-y-auto">
-                            <div class="grid grid-cols-4 gap-4 mb-4">
-                                @foreach ($semesters as $z)
-                                    <button type="button" class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
-                                            wire:click="pilihSemester({{ $z->id_semester }})">
-                                        {{ $z->nama_semester }}
-                                    </button>
-                                @endforeach
+
+                            <!-- Pilih Semester -->
+                            <div class="mb-4">
+                                <label for="semester" class="block mb-2 font-semibold text-gray-700">Pilih Semester</label>
+                                <select id="semester" wire:model="Semester"
+                                        class="block w-full px-3 py-2 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring focus:border-blue-300">
+                                    <option value="">Pilih Semester</option>
+                                    @foreach ($semesters as $z)
+                                        <option value="{{ $z->id_semester }}">{{ $z->nama_semester }}</option>
+                                    @endforeach
+                                </select>
+                                @error('Semester')
+                                    <span class="mt-1 text-sm text-red-500">{{ $message }}</span>
+                                @enderror
                             </div>
-                        </div>
+
+                            <!-- Tombol Generate dengan Loading -->
+                            <div class="flex items-center space-x-4">
+                                <button type="submit"
+                                        wire:loading.attr="disabled"
+                                        wire:target="pilihSemester"
+                                        class="relative flex items-center justify-center px-6 py-2 font-semibold text-white bg-green-600 rounded hover:bg-green-700 disabled:opacity-50">
+                                    <!-- Teks tombol -->
+                                    <span wire:loading.remove wire:target="pilihSemester">
+                                        Generate Jadwal
+                                    </span>
+
+                                    <!-- Spinner -->
+                                    <svg wire:loading wire:target="pilihSemester"
+                                         class="w-6 h-6 text-white animate-spin"
+                                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" />
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
