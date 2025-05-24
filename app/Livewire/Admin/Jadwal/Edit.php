@@ -227,9 +227,9 @@ class Edit extends Component
         $request = request_dosen::where('nidn', $jadwal->nidn)
             ->where('id_mata_kuliah', $jadwal->id_mata_kuliah)
             ->where('id_kelas', $jadwal->id_kelas)
-            ->where('hari', $jadwal->hari)
-            ->where('sesi', $jadwal->sesi)
-            ->where('status', 'edit');
+            ->where('status', 'edit')
+            ->first();
+
 
         if (!$this->z) {
             $conflict3 = jadwal::where('hari', $jadwal->hari)
@@ -284,13 +284,18 @@ class Edit extends Component
                     'sesi' => $this->x
                 ]);
 
-                if ($request){
+                if ($request->to_hari == $this->z && $request->to_sesi == $this->x){
                     $request->update([
                         'status' => 'ok',
                         'to_hari' => null,
                         'to_sesi' => null
                     ]);
                 }
+
+                $request->update([
+                    'hari' => $this->z,
+                    'sesi' => $this->x
+                ]);
 
                 $this->clear($this->id_jadwal);
                 $this->dispatch('jadwalUpdated2');
