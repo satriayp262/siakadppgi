@@ -32,24 +32,32 @@ class Index extends Component
     public $batas;
 
 
-    public function pilihSemester($semesterId)
+    public function pilihSemester()
     {
-        // Menetapkan semester yang dipilih
-        $this->Semester = $semesterId;
+        // Validasi input
+        $this->validate([
+            'Semester' => 'required',
+            'batas' => 'required',
+        ], [
+            'Semester.required' => 'Semester harus dipilih.',
+            'batas.required' => 'Tanggal batas pengajuan wajib diisi.',
+        ]);
 
-        // Cek apakah ada kelas dengan semester yang dipilih
+        // Cek apakah ada kelas untuk semester yang dipilih
         $kelasCount = Kelas::where('id_semester', $this->Semester)->count();
 
         if ($kelasCount === 0) {
-            // Jika tidak ada kelas yang sesuai dengan semester, tampilkan pesan error
-            $this->dispatch('warning', ['message' => 'Tidak ada kelas yang terdaftar untuk semester ini']);
-            return; // Hentikan eksekusi lebih lanjut
-        }else{
-            // Setelah memilih semester, panggil generate
-            $this->generate();
+            $this->dispatchBrowserEvent('show-message', [
+                'type' => 'warning',
+                'message' => 'Tidak ada kelas yang terdaftar untuk semester ini.'
+            ]);
+            return;
         }
 
+        // Jalankan proses generate
+        $this->generate();
     }
+
 
     public function generate()
     {
@@ -207,7 +215,7 @@ class Index extends Component
                 }
             }
         }
-
+        sleep(5);
         $this->dispatch('created', ['message' => 'Jadwal Created Successfully']);
     }
 
