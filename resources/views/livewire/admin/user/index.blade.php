@@ -140,7 +140,7 @@
                                 {{ ucfirst($user->role) }}
                             </span>
                         </td>
-                        <td class="w-1/2 px-4 py-2 text-center">
+                        <td class="w-full max-w-2xl px-4 py-2 text-center">
                             <div class="flex justify-center space-x-2">
                                 <livewire:admin.user.edit :id="$user->id" wire:key="edit-{{ $user->id }}" />
                                 <button class="inline-block px-4 py-1 text-white bg-red-500 rounded hover:bg-red-700"

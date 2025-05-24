@@ -50,7 +50,7 @@
                         </td>
                         <td class="px-4 py-2 text-center w-1/4">{{ $semester->bulan_mulai }}</td>
                         <td class="px-4 py-2 text-center w-1/4">{{ $semester->bulan_selesai }}</td>
-                        <td class="px-4 py-2 text-center w-1/2">
+                        <td class="px-4 py-2 text-center w-full max-w-2xl">
                             <div class="flex justify-center space-x-2">
 
                                 @if (!$semester->is_active)

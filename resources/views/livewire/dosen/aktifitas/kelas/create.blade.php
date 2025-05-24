@@ -19,7 +19,7 @@
             class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-60">
             <div class="spinner loading-spinner"></div>
         </div>
-        <div class="w-1/2 bg-white rounded-lg shadow-lg">
+        <div class="w-full max-w-2xl bg-white rounded-lg shadow-lg">
             <!-- Modal Header -->
             <div class="flex items-center justify-between p-4 bg-gray-200 rounded-t-lg">
                 <h3 class="text-xl font-semibold">Create Aktifitas</h3>

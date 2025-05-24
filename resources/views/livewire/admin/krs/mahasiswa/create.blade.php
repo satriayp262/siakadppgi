@@ -17,7 +17,7 @@
             <div class="spinner loading-spinner"></div>
         </div>
         <!-- Modal Content -->
-        <div class="md:w-1/2 w-11/12 bg-white rounded-lg shadow-lg">
+        <div class="md:w-full max-w-2xl w-11/12 bg-white rounded-lg shadow-lg">
             <!-- Modal Header -->
             <div class="flex items-center justify-between p-4 bg-gray-200 rounded-t-lg">
                 <h3 class="text-xl font-semibold">Tambah Data KRS</h3>

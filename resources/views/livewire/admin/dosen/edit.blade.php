@@ -9,7 +9,7 @@
     <div>
         <!-- Modal Background -->
         <div x-data="{ load: false }" x-show="isOpen && load" x-init="load = true" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-75">
-            <div class="w-1/2 bg-white rounded-lg shadow-lg">
+            <div class="w-full max-w-2xl bg-white rounded-lg shadow-lg">
                 <div class="flex items-center justify-between p-4 bg-gray-200 rounded-t-lg">
                     <h3 class="text-xl font-semibold">Edit Dosen</h3>
                     <div @click="isOpen=false" class="px-3 rounded-sm shadow hover:bg-red-500">

@@ -41,7 +41,7 @@
 
                     <div x-show="isOpen && load" x-cloak
                         class="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-75">
-                        <div class="w-1/2 bg-white shadow-lg">
+                        <div class="w-full max-w-2xl bg-white shadow-lg">
                             <div wire:loading wire:target="import"
                                 class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-60">
                                 <div class="spinner loading-spinner"></div>
