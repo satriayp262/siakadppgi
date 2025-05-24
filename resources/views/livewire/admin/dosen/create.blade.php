@@ -12,7 +12,7 @@
 
     <!-- Modal -->
     <div x-show="isOpen && load" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-75">
-        <div class="w-full max-w-2xl bg-white rounded-lg shadow-lg">
+        <div class="w-full max-w-2xl mx-4 bg-white rounded-lg shadow-lg">
             <!-- Modal Header -->
             <div class="flex items-center justify-between p-4 bg-gray-200 rounded-t-lg">
                 <h3 class="text-xl font-semibold">Tambah Dosen</h3>

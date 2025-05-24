@@ -61,7 +61,7 @@
                         <td class="px-4 py-2 text-center w-1/4">{{ $ruangan->kode_ruangan }}</td>
                         <td class="px-4 py-2 text-center w-1/4">{{ $ruangan->nama_ruangan }}</td>
                         <td class="px-4 py-2 text-center w-1/4">{{ $ruangan->kapasitas }}</td>
-                        <td class="px-4 py-2 text-center w-full max-w-2xl">
+                        <td class="px-4 py-2 text-center w-full max-w-2xl mx-4">
                             <div class="flex justify-center space-x-2">
                                 <livewire:admin.ruangan.edit :id_ruangan="$ruangan->id_ruangan"
                                     wire:key="edit-{{ $ruangan->id_ruangan }}" />

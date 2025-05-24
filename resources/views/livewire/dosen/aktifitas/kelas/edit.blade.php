@@ -16,7 +16,7 @@
             class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-60">
             <div class="spinner loading-spinner"></div>
         </div>
-        <div class="md:w-full max-w-2xl bg-white rounded-lg shadow-lg">
+        <div class="md:w-full max-w-2xl mx-4 bg-white rounded-lg shadow-lg">
             <!-- Modal Header -->
             <div class="flex items-center justify-between p-4 bg-gray-200 rounded-t-lg">
                 <h3 class="text-xl font-semibold">Edit Aktifitas</h3>
