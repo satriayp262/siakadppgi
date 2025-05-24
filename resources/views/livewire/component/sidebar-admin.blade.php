@@ -16,7 +16,7 @@
                         <span class="flex-1 ms-3 whitespace-nowrap">Dashboard</span>
                     </a>
                 </li>
-                <li x-data="{ open: {{ request()->routeIs('admin.user', 'admin.pengumuman', 'admin.staff') ? 'true' : 'false' }} }">
+                <li x-data="{ open: {{ request()->routeIs('admin.user', 'admin.mahasiswa', 'admin.dosen', 'admin.staff', 'admin.kelas', 'admin.mata_kuliah', 'admin.semester', 'admin.prodi', 'admin.ruangan', 'admin.kurikulum') ? 'true' : 'false' }} }">
                     <button type="button" @click="open = !open"
                         class="flex items-center w-full p-2 text-base transition duration-75 rounded-lg group
                             hover:bg-purple2 hover:text-white
@@ -27,7 +27,7 @@
                             <path fill-rule="evenodd" clip-rule="evenodd"
                                 d="M9.586 2.586A2 2 0 0 1 11 2h2a2 2 0 0 1 2 2v.089l.473.196.063-.063a2.002 2.002 0 0 1 2.828 0l1.414 1.414a2 2 0 0 1 0 2.827l-.063.064.196.473H20a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-.089l-.196.473.063.063a2.002 2.002 0 0 1 0 2.828l-1.414 1.414a2 2 0 0 1-2.828 0l-.063-.063-.473.196V20a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-.089l-.473-.196-.063.063a2.002 2.002 0 0 1-2.828 0l-1.414-1.414a2 2 0 0 1 0-2.827l.063-.064L4.089 15H4a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h.09l.195-.473-.063-.063a2 2 0 0 1 0-2.828l1.414-1.414a2 2 0 0 1 2.827 0l.064.063L9 4.089V4a2 2 0 0 1 .586-1.414ZM8 12a4 4 0 1 1 8 0 4 4 0 0 1-8 0Z" />
                         </svg>
-                        <span class="flex-1 text-left ms-3 rtl:text-right whitespace-nowrap">Sistem</span>
+                        <span class="flex-1 text-left ms-3 rtl:text-right whitespace-nowrap">Data Master</span>
                         <svg class="w-3 h-3 mr-2 transform transition-transform duration-200"
                             :class="{ 'rotate-180': open }" xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 10 6">
@@ -45,10 +45,15 @@
                             </a>
                         </li>
                         <li>
-                            <a wire:navigate.hover href="{{ route('admin.pengumuman') }}"
-                                class="flex items-center mx-4 p-2 rounded-lg group
-                                    {{ request()->routeIs('admin.pengumuman') ? 'text-white bg-purple2' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
-                                <span class="flex-1 ms-3 whitespace-nowrap">Pengumuman</span>
+                            <a wire:navigate.hover href="{{ route('admin.mahasiswa') }}"
+                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.mahasiswa') ? 'text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
+                                <span class="flex-1 ms-3 whitespace-nowrap">Mahasiswa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a wire:navigate.hover href="{{ route('admin.dosen') }}"
+                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.dosen') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
+                                <span class="flex-1 ms-3 whitespace-nowrap">Dosen</span>
                             </a>
                         </li>
                         <li>
@@ -56,6 +61,42 @@
                                 class="flex items-center mx-4 p-2 rounded-lg group
                                     {{ request()->routeIs('admin.staff') ? 'text-white bg-purple2' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 <span class="flex-1 ms-3 whitespace-nowrap">Staff</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a wire:navigate.hover href="{{ route('admin.kelas') }}"
+                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.kelas') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
+                                <span class="flex-1 ms-3 whitespace-nowrap">Kelas</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a wire:navigate.hover href="{{ route('admin.mata_kuliah') }}"
+                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.mata_kuliah') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
+                                <span class="flex-1 ms-3 whitespace-nowrap">Mata Kuliah</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a wire:navigate.hover href="{{ route('admin.semester') }}"
+                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.semester') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
+                                <span class="flex-1 ms-3 whitespace-nowrap">Semester</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a wire:navigate.hover href="{{ route('admin.prodi') }}"
+                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.prodi') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
+                                <span class="flex-1 ms-3 whitespace-nowrap">Prodi</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a wire:navigate.hover href="{{ route('admin.ruangan') }}"
+                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.ruangan') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
+                                <span class="flex-1 ms-3 whitespace-nowrap">Ruangan</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a wire:navigate.hover href="{{ route('admin.kurikulum') }}"
+                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.kurikulum') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
+                                <span class="flex-1 ms-3 whitespace-nowrap">Kurikulum</span>
                             </a>
                         </li>
                         <li>
@@ -68,7 +109,7 @@
                     </ul>
                 </li>
 
-                <li x-data="{ open: {{ request()->routeIs('admin.kurikulum', 'admin.semester', 'admin.mata_kuliah', 'admin.prodi', 'admin.kelas', 'admin.ruangan') ? 'true' : 'false' }} }">
+                <li x-data="{ open: {{ request()->routeIs('admin.anggota', 'admin.krs', 'admin.paket', 'admin.presensiMahasiswa', 'admin.presensiDosen') ? 'true' : 'false' }} }">
                     <button type="button" @click="open = !open"
                         class="flex items-center w-full p-2 text-base transition duration-75 rounded-lg group hover:bg-purple2 text-purple3 hover:text-white {{ request()->routeIs('admin.kurikulum', 'admin.semester', 'admin.mata_kuliah', 'admin.prodi', 'admin.kelas', 'admin.ruangan') ? 'text-white bg-purple2' : 'text-purple3' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.kurikulum', 'admin.semester', 'admin.mata_kuliah', 'admin.prodi', 'admin.kelas', 'admin.ruangan') ? 'text-white' : '' }}"
@@ -88,45 +129,33 @@
 
                     <ul x-show="open" x-collapse class="py-2 space-y-2">
                         <li>
-                            <a wire:navigate.hover href="{{ route('admin.kurikulum') }}"
-                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.kurikulum') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
-                                <span class="flex-1 ms-3 whitespace-nowrap">Kurikulum</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a wire:navigate.hover href="{{ route('admin.semester') }}"
-                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.semester') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
-                                <span class="flex-1 ms-3 whitespace-nowrap">Semester</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a wire:navigate.hover href="{{ route('admin.mata_kuliah') }}"
-                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.mata_kuliah') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
-                                <span class="flex-1 ms-3 whitespace-nowrap">Mata Kuliah</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a wire:navigate.hover href="{{ route('admin.prodi') }}"
-                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.prodi') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
-                                <span class="flex-1 ms-3 whitespace-nowrap">Prodi</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a wire:navigate.hover href="{{ route('admin.kelas') }}"
-                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.kelas') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
-                                <span class="flex-1 ms-3 whitespace-nowrap">Kelas</span>
-                            </a>
-                        </li>
-                        <li>
                             <a wire:navigate.hover href="{{ route('admin.anggota') }}"
                                 class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.anggota') || request()->routeIs('admin.anggota.edit') || request()->routeIs('admin.anggota.show') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 <span class="flex-1 ms-3 whitespace-nowrap">Anggota Kelas</span>
                             </a>
                         </li>
                         <li>
-                            <a wire:navigate.hover href="{{ route('admin.ruangan') }}"
-                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.ruangan') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
-                                <span class="flex-1 ms-3 whitespace-nowrap">Ruangan</span>
+                            <a wire:navigate.hover href="{{ route('admin.krs') }}"
+                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.krs') ? 'text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
+                                <span class="flex-1 ms-3 whitespace-nowrap">KRS</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a wire:navigate.hover href="{{ route('admin.paketkrs') }}"
+                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.paketkrs') || request()->routeIs('admin.paketkrs.create') ? 'text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
+                                <span class="flex-1 ms-3 whitespace-nowrap">Paket KRS</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a wire:navigate.hover href="{{ route('admin.presensiMahasiswa') }}"
+                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.presensiMahasiswa') ? 'text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
+                                <span class="flex-1 ms-3 whitespace-nowrap">Presensi</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a wire:navigate.hover href="{{ route('admin.presensiDosen') }}"
+                                class="flex items-center mx-4 p-2 rounded-lg transition duration-75 group {{ request()->routeIs('admin.presensiDosen') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
+                                <span class="flex-1 ms-3 whitespace-nowrap">Presensi Mengajar</span>
                             </a>
                         </li>
                     </ul>
@@ -172,7 +201,7 @@
                         </li>
                     </ul>
                 </li>
-                <li x-data="{ open: {{ request()->routeIs('admin.mahasiswa', 'admin.krs', 'admin.paketkrs', 'admin.presensiMahasiswa') ? 'true' : 'false' }} }">
+                <li x-data="{ open: {{ request()->routeIs('admin.pengumuman', 'dosen.khs', 'admin.emonev','admin.pertanyaan','admin.emonev.periode', 'admin.emonev.list-mahasiswa') ? 'true' : 'false' }} }">
                     <button type="button" @click="open = !open"
                         class="flex items-center w-full p-2 text-base transition duration-75 rounded-lg group hover:bg-purple2 hover:text-white {{ request()->routeIs('admin.mahasiswa', 'admin.krs', 'admin.paketkrs', 'admin.presensiMahasiswa') ? 'bg-purple2 text-white' : 'text-purple3' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.mahasiswa') ? 'text-white' : '' }}"
@@ -182,59 +211,8 @@
                                 d="M12 6a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Zm-1.5 8a4 4 0 0 0-4 4 2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 4 4 0 0 0-4-4h-3Zm6.82-3.096a5.51 5.51 0 0 0-2.797-6.293 3.5 3.5 0 1 1 2.796 6.292ZM19.5 18h.5a2 2 0 0 0 2-2 4 4 0 0 0-4-4h-1.1a5.503 5.503 0 0 1-.471.762A5.998 5.998 0 0 1 19.5 18ZM4 7.5a3.5 3.5 0 0 1 5.477-2.889 5.5 5.5 0 0 0-2.796 6.293A3.501 3.501 0 0 1 4 7.5ZM7.1 12H6a4 4 0 0 0-4 4 2 2 0 0 0 2 2h.5a5.998 5.998 0 0 1 3.071-5.238A5.505 5.505 0 0 1 7.1 12Z"
                                 clip-rule="evenodd" />
                         </svg>
-                        <span class="flex-1 text-left ms-3 rtl:text-right whitespace-nowrap">Mahasiswa</span>
-                        <svg class="w-3 h-3 mr-2 transform transition-transform duration-200"
-                            :class="{ 'rotate-180': open }" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 10 6">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2" d="m1 1 4 4 4-4" />
-                        </svg>
-                    </button>
-
-                    <ul x-show="open" x-collapse class="py-2 space-y-2">
-                        <li>
-                            <a wire:navigate.hover href="{{ route('admin.mahasiswa') }}"
-                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.mahasiswa') ? 'text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
-                                <span class="flex-1 ms-3 whitespace-nowrap">Mahasiswa</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a wire:navigate.hover href="{{ route('admin.krs') }}"
-                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.krs') ? 'text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
-                                <span class="flex-1 ms-3 whitespace-nowrap">KRS</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a wire:navigate.hover href="{{ route('admin.paketkrs') }}"
-                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.paketkrs') || request()->routeIs('admin.paketkrs.create') ? 'text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
-                                <span class="flex-1 ms-3 whitespace-nowrap">Paket KRS</span>
-                            </a>
-                        </li>
-                         <li>
-                            <a wire:navigate.hover href="{{ route('dosen.khs') }}"
-                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.presensiMahasiswa') ? 'text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
-                                <span class="flex-1 ms-3 whitespace-nowrap">KHS</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a wire:navigate.hover href="{{ route('admin.presensiMahasiswa') }}"
-                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.presensiMahasiswa') ? 'text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
-                                <span class="flex-1 ms-3 whitespace-nowrap">Presensi</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li x-data="{ open: {{ request()->routeIs('admin.dosen', 'admin.presensiDosen') ? 'true' : 'false' }} }">
-                    <button type="button" @click="open = !open"
-                        class="flex items-center w-full p-2 text-base transition duration-75 rounded-lg group hover:bg-purple2 text-purple3 hover:text-white {{ request()->routeIs('admin.dosen', 'admin.presensiDosen') ? 'text-white bg-purple2' : 'text-purple3' }}">
-                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.dosen') ? 'text-white' : '' }}"
-                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                            viewBox="0 0 20 20">
-                            <path fill-rule="evenodd"
-                                d="M8 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4H6Zm7.25-2.095c.478-.86.75-1.85.75-2.905a5.973 5.973 0 0 0-.75-2.906 4 4 0 1 1 0 5.811ZM15.466 20c.34-.588.535-1.271.535-2v-1a5.978 5.978 0 0 0-1.528-4H18a4 4 0 0 1 4 4v1a2 2 0 0 1-2 2h-4.535Z"
-                                clip-rule="evenodd" />
-                        </svg>
-                        <span class="flex-1 text-left ms-3 rtl:text-right whitespace-nowrap">Dosen</span>
+                        <span class="flex-1 text-left ms-3 rtl:text-right whitespace-nowrap">Informasi & Evaluasi
+                        </span>
                         <svg class="w-3 h-3 mr-2 transform transition-transform duration-200"
                             :class="{ 'rotate-180': open }" xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 10 6">
@@ -244,41 +222,11 @@
                     </button>
                     <ul x-show="open" x-collapse class="py-2 space-y-2">
                         <li>
-                            <a wire:navigate.hover href="{{ route('admin.dosen') }}"
-                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.dosen') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
-                                <span class="flex-1 ms-3 whitespace-nowrap">Dosen</span>
+                            <a wire:navigate.hover href="{{ route('admin.emonev') }}"
+                                class="flex items-center mx-4 p-2 text-gray-100 rounded-lg group {{ request()->routeIs('admin.emonev') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
+                                <span class="flex-1 ms-3 whitespace-nowrap">Emonev</span>
                             </a>
                         </li>
-
-                        <li>
-                            <a wire:navigate.hover href="{{ route('admin.presensiDosen') }}"
-                                class="flex items-center mx-4 p-2 rounded-lg transition duration-75 group {{ request()->routeIs('admin.presensiDosen') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
-                                <span class="flex-1 ms-3 whitespace-nowrap">Presensi Mengajar</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li x-data="{ open: {{ request()->routeIs('admin.emonev', 'admin.pertanyaan', 'admin.emonev.periode', 'admin.emonev.list-mahasiswa') ? 'true' : 'false' }} }">
-                    <button type="button" @click="open = !open"
-                        class="flex items-center w-full p-2 text-base transition duration-75 rounded-lg group hover:bg-purple2 text-purple3 hover:text-white {{ request()->routeIs('admin.emonev', 'admin.pertanyaan', 'admin.emonev.periode', 'admin.emonev.list-mahasiswa') ? 'text-white bg-purple2' : 'text-purple3' }}"
-                        aria-controls="dropdown-emonev" data-collapse-toggle="dropdown-emonev">
-                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.emonev', 'admin.pertanyaan', 'admin.emonev.periode', 'admin.emonev.list-mahasiswa') ? ' text-white ' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
-                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M3 15v3c0 .5523.44772 1 1 1h10M3 15v-4m0 4h9m-9-4V6c0-.55228.44772-1 1-1h16c.5523 0 1 .44772 1 1v3M3 11h11m-2-.2079V19m3-4h1.9909M21 15c0 1.1046-.8954 2-2 2s-2-.8954-2-2 .8954-2 2-2 2 .8954 2 2Z" />
-                        </svg>
-                        <span class="flex-1 text-left ms-3 rtl:text-right whitespace-nowrap">Emonev</span>
-                        <svg class="w-3 h-3 mr-2 transform transition-transform duration-200"
-                            :class="{ 'rotate-180': open }" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 10 6">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2" d="m1 1 4 4 4-4" />
-                        </svg>
-                    </button>
-                    <ul x-show="open" x-collapse class="py-2 space-y-2">
                         <li>
                             <a wire:navigate.hover href="{{ route('admin.emonev.periode') }}"
                                 class="flex items-center mx-4 p-2 text-gray-100 rounded-lg group {{ request()->routeIs('admin.emonev.periode') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
@@ -292,19 +240,28 @@
                             </a>
                         </li>
                         <li>
-                            <a wire:navigate.hover href="{{ route('admin.emonev') }}"
-                                class="flex items-center mx-4 p-2 text-gray-100 rounded-lg group {{ request()->routeIs('admin.emonev') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
-                                <span class="flex-1 ms-3 whitespace-nowrap">Emonev</span>
-                            </a>
-                        </li>
-                        <li>
                             <a wire:navigate.hover href="{{ route('admin.emonev.list-mahasiswa') }}"
                                 class="flex items-center mx-4 p-2 text-gray-100 rounded-lg group {{ request()->routeIs('admin.emonev.list-mahasiswa') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 <span class="flex-1 ms-3 whitespace-nowrap">Log Pengisian</span>
                             </a>
                         </li>
+                        <li>
+                            <a wire:navigate.hover href="{{ route('admin.pengumuman') }}"
+                                class="flex items-center mx-4 p-2 rounded-lg group
+                                    {{ request()->routeIs('admin.pengumuman') ? 'text-white bg-purple2' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
+                                <span class="flex-1 ms-3 whitespace-nowrap">Pengumuman</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a wire:navigate.hover href="{{ route('dosen.khs') }}"
+                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.presensiMahasiswa') ? 'text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
+                                <span class="flex-1 ms-3 whitespace-nowrap">KHS</span>
+                            </a>
+                        </li>
+
                     </ul>
                 </li>
+                
             </ul>
         </div>
     </div>

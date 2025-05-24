@@ -70,11 +70,11 @@
     </div>
 
     <div class="flex mt-5 space-x-4">
-        <div class="w-1/2 p-4 bg-white rounded-lg shadow-lg">
+        <div class="w-full max-w-2xl mx-4 p-4 bg-white rounded-lg shadow-lg">
             <livewire:component.chart-component />
         </div>
 
-        <div class="w-1/2 p-4 bg-white rounded-lg shadow-lg">
+        <div class="w-full max-w-2xl mx-4 p-4 bg-white rounded-lg shadow-lg">
             <p class="text-3xl font-semibold text-center">COMING SOON!</p>
             <div
                 class="flex items-center justify-center p-4 mt-4 mb-4 border-4 border-gray-600 rounded-lg bg-neutral-400">

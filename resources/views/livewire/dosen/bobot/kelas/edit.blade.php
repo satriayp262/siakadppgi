@@ -16,7 +16,7 @@
     <div x-data="{ load: false }" x-show="isOpen && load" x-init="load = true" x-cloak
         class="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-75 ">
         <!-- Modal Content -->
-        <div class="mx-6 md:w-1/2 bg-white rounded-lg shadow-lg">
+        <div class="mx-6 md:w-full max-w-2xl mx-4 bg-white rounded-lg shadow-lg">
             <!-- Modal Header -->
             <div class="flex items-center justify-between p-4 bg-gray-200 rounded-t-lg">
                 <h3 class="text-xl font-semibold">Edit Bobot</h3>
