@@ -14,6 +14,7 @@ class Edit extends Component
 {
     public $id_jadwal;
     public $id_kelas;
+    public $nidn;
     public $id_ruangan;
     public $hari;
     public $jam_mulai;
@@ -34,6 +35,7 @@ class Edit extends Component
 
         $this->id_jadwal = $jadwal->id_jadwal;
         $this->id_kelas = $jadwal->id_kelas;
+        $this->nidn = $jadwal->nidn;
         $this->id_ruangan = $jadwal->id_ruangan;
         $this->hari = $jadwal->hari;
         $this->jam_mulai = $jadwal->jam_mulai;
@@ -75,79 +77,31 @@ class Edit extends Component
         $this->edit = 'ganti';
     }
 
+    public function gabung()
+    {
+        $this->edit = 'gabung';
+    }
+
     public function tukar()
     {
-        // dd($this->edit);
         $target = Jadwal::find($this->target);
         $ammo = Jadwal::find($this->id_jadwal);
+        $request = request_dosen::where('nidn', $target->nidn)
+            ->where('id_mata_kuliah', $target->id_mata_kuliah)
+            ->where('id_kelas', $target->id_kelas)
+            ->where('status', 'edit')
+            ->first();
+        $request2 = request_dosen::where('nidn', $ammo->nidn)
+            ->where('id_mata_kuliah', $ammo->id_mata_kuliah)
+            ->where('id_kelas', $ammo->id_kelas)
+            ->where('status', 'edit')
+            ->first();
 
         // Simpan nilai asli id_kelas ke variabel sementara
         $tempHari = $target->hari;
         $tempSesi = $target->sesi;
 
-        if ($ammo->id_ruangan == 'Online' || $target->id_ruangan == 'Online') {
-            $conflict = jadwal::where('hari', $target->hari)
-                ->where('sesi', $target->sesi)
-                ->where('nidn', $ammo->nidn)
-                ->exists();
 
-            $conflict2 = jadwal::where('hari', $ammo->hari)
-                ->where('sesi', $ammo->sesi)
-                ->where('nidn', $target->nidn)
-                ->exists();
-
-            if (!$conflict && !$conflict2) {
-                // Tukar id_kelas antara target dan ammo
-                $target->update([
-                    'hari' => $ammo->hari,
-                    'sesi' => $ammo->sesi,
-                ]);
-
-                $ammo->update([
-                    'hari' => $tempHari,
-                    'sesi' => $tempSesi,
-                ]);
-
-                $this->clear($this->id_jadwal);
-                $this->dispatch('jadwalUpdated');
-            } else {
-                if ($conflict) {
-
-                    if ($target->hari == 'Monday') {
-                        $target->hari = 'Senin';
-                    } elseif ($target->hari == 'Tuesday') {
-                        $target->hari = 'Selasa';
-                    } elseif ($target->hari == 'Wednesday') {
-                        $target->hari = 'Rabu';
-                    } elseif ($target->hari == 'Thursday') {
-                        $target->hari = 'Kamis';
-                    } elseif ($target->hari == 'Friday') {
-                        $target->hari = 'Jumat';
-                    }
-
-                    $dosen = $ammo->dosen->nama_dosen;
-                    $this->dispatch('warning', ['message' => 'Sudah ada jadwal untuk dosen ' . $dosen . ' di hari ' . $target->hari . ' sesi ' . $target->sesi]);
-
-                } elseif ($conflict2) {
-
-                    if ($ammo->hari == 'Monday') {
-                        $ammo->hari = 'Senin';
-                    } elseif ($ammo->hari == 'Tuesday') {
-                        $ammo->hari = 'Selasa';
-                    } elseif ($ammo->hari == 'Wednesday') {
-                        $ammo->hari = 'Rabu';
-                    } elseif ($ammo->hari == 'Thursday') {
-                        $ammo->hari = 'Kamis';
-                    } elseif ($ammo->hari == 'Friday') {
-                        $ammo->hari = 'Jumat';
-                    }
-
-                    $dosen = $target->kelas->matkul->dosen->nama_dosen;
-                    $this->dispatch('warning', ['message' => 'Sudah ada jadwal untuk dosen ' . $dosen . ' di hari ' . $ammo->hari . ' sesi ' . $ammo->sesi]);
-
-                }
-            }
-        }else{
             // $jumlahTarget = KRS::where('id_kelas', $target->id_kelas)->count();
             // $kapasitasTarget = Ruangan::where('id_ruangan', $target->id_ruangan)->first()->kapasitas;
             // $jumlahAmmo = KRS::where('id_kelas', $ammo->id_kelas)->count();
@@ -172,10 +126,41 @@ class Edit extends Component
                     'sesi' => $ammo->sesi
                 ]);
 
+                if ($request) {
+                    if ($request->to_hari == $ammo->hari && $request->to_sesi == $ammo->sesi) {
+                        $request->update([
+                            'status' => 'ok',
+                            'to_hari' => null,
+                            'to_sesi' => null
+                        ]);
+                    }
+
+                    $request->update([
+                        'hari' => $ammo->hari,
+                        'sesi' => $ammo->sesi
+                    ]);
+                }
+
                 $ammo->update([
                     'hari' => $tempHari,
                     'sesi' => $tempSesi
                 ]);
+
+                if ($request2) {
+                    if ($request2->to_hari == $tempHari && $request2->to_sesi == $tempSesi) {
+                        $request2->update([
+                            'status' => 'ok',
+                            'to_hari' => null,
+                            'to_sesi' => null
+                        ]);
+                    }
+
+                    $request2->update([
+                        'hari' => $tempHari,
+                        'sesi' => $tempSesi
+                    ]);
+
+                }
 
                 $this->clear($this->id_jadwal);
                 $this->dispatch('jadwalUpdated');
@@ -216,9 +201,20 @@ class Edit extends Component
 
                 }
             }
-        }
     }
 
+    public function combine()
+    {
+        $target = Jadwal::find($this->target);
+        $ammo = Jadwal::find($this->id_jadwal);
+
+        $target->update([
+            'hari' => $ammo->hari,
+            'sesi' => $ammo->sesi
+        ]);
+
+        $this->dispatch('updated', ['message' => 'Jadwal Combined Successfully']);
+    }
 
     public function update()
     {
@@ -284,18 +280,20 @@ class Edit extends Component
                     'sesi' => $this->x
                 ]);
 
-                if ($request->to_hari == $this->z && $request->to_sesi == $this->x){
+                if ($request) {
+                    if ($request->to_hari == $this->z && $request->to_sesi == $this->x) {
+                        $request->update([
+                            'status' => 'ok',
+                            'to_hari' => null,
+                            'to_sesi' => null
+                        ]);
+                    }
+
                     $request->update([
-                        'status' => 'ok',
-                        'to_hari' => null,
-                        'to_sesi' => null
+                        'hari' => $this->z,
+                        'sesi' => $this->x
                     ]);
                 }
-
-                $request->update([
-                    'hari' => $this->z,
-                    'sesi' => $this->x
-                ]);
 
                 $this->clear($this->id_jadwal);
                 $this->dispatch('jadwalUpdated2');
@@ -304,12 +302,55 @@ class Edit extends Component
                     'hari' => $this->z
                 ]);
 
+                if ($request) {
+                    if ($request->to_hari == $this->z && $request->to_sesi == null) {
+                        $request->update([
+                            'status' => 'ok',
+                            'to_hari' => null,
+                        ]);
+                    }
+
+                    if ($request->to_sesi == $request->sesi && $request->to_hari == $this->z) {
+                        $request->update([
+                            'status' => 'ok',
+                            'to_hari' => null,
+                            'to_sesi' => null
+                        ]);
+                    }
+
+                    $request->update([
+                        'hari' => $this->z,
+                    ]);
+                }
+
                 $this->clear($this->id_jadwal);
                 $this->dispatch('jadwalUpdated2');
             }elseif ($this->x) {
                 $jadwal->update([
                     'sesi' => $this->x
                 ]);
+
+                if ($request) {
+                    if ($request->to_sesi == $this->x && $request->to_hari == null) {
+                        $request->update([
+                            'status' => 'ok',
+                            'to_sesi' => null
+                        ]);
+                    }
+
+                    if ($request->to_sesi == $this->x && $request->to_hari == $request->hari) {
+                        $request->update([
+                            'status' => 'ok',
+                            'to_hari' => null,
+                            'to_sesi' => null
+                        ]);
+                    }
+
+                    $request->update([
+                        'sesi' => $this->x
+                    ]);
+
+                }
 
                 $this->clear($this->id_jadwal);
                 $this->dispatch('jadwalUpdated2');
@@ -406,6 +447,13 @@ class Edit extends Component
             ->orderByRaw("FIELD(hari, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday')")
             ->get();
 
+        $jadwals2 = jadwal::where('id_jadwal', '!=', $this->id_jadwal)
+            ->where('nidn', $this->nidn)
+            ->where('kode_prodi', $this->kode_prodi)
+            ->where('id_semester', $this->id_semester)
+            ->orderByRaw("FIELD(hari, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday')")
+            ->get();
+
         $ammo = jadwal::where('id_jadwal', $this->id_jadwal)
             ->first();
 
@@ -430,6 +478,7 @@ class Edit extends Component
         // Return ke view
         return view('livewire.admin.jadwal.edit', [
             'jadwals' => $jadwals,
+            'jadwals2' => $jadwals2,
             'ammo' => $ammo,
             'l' => $l,
             'ok' => $ok,

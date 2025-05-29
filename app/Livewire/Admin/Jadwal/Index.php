@@ -83,39 +83,37 @@ class Index extends Component
 
         foreach ($kelasByProdi as $prodi => $kelasList) {
             foreach ($kelasList as $kelas) {
-                $kelasSchedule = []; // Menyimpan jumlah mata kuliah per hari
 
                 // Cek apakah ruangan tersedia
                 $jumlahMahasiswa = KRS::where('id_kelas', $kelas->id_kelas)->count();
                 $ruangan = null;
 
-                if ($kelas->mode_kuliah == 'O') {
-                    $ruangan = 'Online';
-                } else {
-                    foreach ($ruanganList as $room) {
-                        $isRoomAvailable = !Jadwal::where('id_ruangan', $room->id_ruangan)
-                        ->exists();
+                $jumlahMahasiswa = KRS::where('id_kelas', $kelas->id_kelas)->count();
+                $ruanganTetap = null;
 
-
-                        if ($room->kapasitas >= $jumlahMahasiswa && $isRoomAvailable) {
-                            $ruangan = $room;
-                            break;
-                        }
+                foreach ($ruanganList as $room) {
+                    $isRoomAvailable = !Jadwal::where('id_ruangan', $room->id_ruangan)->exists();
+                    if ($room->kapasitas >= $jumlahMahasiswa && $isRoomAvailable) {
+                        $ruanganTetap = $room;
+                        break;
                     }
                 }
 
+
                 foreach (Matakuliah::where('kode_prodi', $kelas->kode_prodi)->get() as $matkul) {
+                    $ruangan = ($matkul->metode_pembelajaran == 'Online') ? 'Online' : $ruanganTetap;
+
                     foreach ($days as $day) {
-                        // Batasi maksimal 2 mata kuliah per hari per kelas
-                        $existingMatkulCount = Jadwal::where('id_kelas', $kelas->id_kelas)
-                            ->where('hari', $day)
-                            ->count();
+                            // Batasi maksimal 2 mata kuliah per hari per kelas
+                            $existingMatkulCount = Jadwal::where('id_kelas', $kelas->id_kelas)
+                                ->where('hari', $day)
+                                ->count();
 
-                        if ($existingMatkulCount >= 3) {
-                            continue;
-                        }
+                            if ($existingMatkulCount >= 3) {
+                                continue;
+                            }
 
-                        if ($matkul->jenis_mata_kuliah == 'P') {
+                            if ($matkul->jenis_mata_kuliah == 'P') {
                                 for ($i = 0; $i < count($timeSlots) - 1; $i++) {
                                     $firstSlot = $timeSlots[$i];
                                     $secondSlot = $timeSlots[$i + 1];
@@ -133,9 +131,9 @@ class Index extends Component
                                         $query->where('id_kelas', $kelas->id_kelas)
                                             ->orWhere('nidn', $matkul->nidn);
                                     })
-                                    ->whereIn('sesi', [$firstSlot['sesi'], $secondSlot['sesi']])
-                                    ->where('hari', $day)
-                                    ->exists();
+                                        ->whereIn('sesi', [$firstSlot['sesi'], $secondSlot['sesi']])
+                                        ->where('hari', $day)
+                                        ->exists();
 
                                     if (!$conflict) {
                                         if ($ruangan) {
@@ -178,35 +176,36 @@ class Index extends Component
                                         }
                                     }
                                 }
-                        }else {
-                            foreach ($timeSlots as $timeSlot) {
-                                // Cek apakah sesi ini sudah digunakan dalam kelas atau oleh dosen
-                                $conflict = Jadwal::where(function ($query) use ($kelas, $matkul, $timeSlot, $day) {
-                                    $query->where('id_kelas', $kelas->id_kelas)
-                                        ->orWhere('nidn', $matkul->nidn);
-                                })
-                                    ->where('sesi', $timeSlot['sesi'])
-                                    ->where('hari', $day)
-                                    ->exists();
+                            } else {
+                                foreach ($timeSlots as $timeSlot) {
+                                    // Cek apakah sesi ini sudah digunakan dalam kelas atau oleh dosen
+                                    $conflict = Jadwal::where(function ($query) use ($kelas, $matkul, $timeSlot, $day) {
+                                        $query->where('id_kelas', $kelas->id_kelas)
+                                            ->orWhere('nidn', $matkul->nidn);
+                                    })
+                                        ->where('sesi', $timeSlot['sesi'])
+                                        ->where('hari', $day)
+                                        ->exists();
 
-                                if (!$conflict) {
+                                    if (!$conflict) {
 
 
-                                    if ($ruangan) {
-                                        Jadwal::create([
-                                            'id_kelas' => $kelas->id_kelas,
-                                            'id_mata_kuliah' => $matkul->id_mata_kuliah,
-                                            'nidn' => $matkul->nidn,
-                                            'kode_prodi' => $prodi,
-                                            'id_semester' => $this->Semester,
-                                            'hari' => $day,
-                                            'jam_mulai' => $timeSlot['jam_mulai'],
-                                            'jam_selesai' => $timeSlot['jam_selesai'],
-                                            'sesi' => $timeSlot['sesi'],
-                                            'id_ruangan' => ($ruangan == 'Online') ? 'Online' : $ruangan->id_ruangan,
-                                            'batas_pengajuan' => $this->batas
-                                        ]);
-                                        break 2; // Berhenti setelah satu mata kuliah dijadwalkan
+                                        if ($ruangan) {
+                                            Jadwal::create([
+                                                'id_kelas' => $kelas->id_kelas,
+                                                'id_mata_kuliah' => $matkul->id_mata_kuliah,
+                                                'nidn' => $matkul->nidn,
+                                                'kode_prodi' => $prodi,
+                                                'id_semester' => $this->Semester,
+                                                'hari' => $day,
+                                                'jam_mulai' => $timeSlot['jam_mulai'],
+                                                'jam_selesai' => $timeSlot['jam_selesai'],
+                                                'sesi' => $timeSlot['sesi'],
+                                                'id_ruangan' => ($ruangan == 'Online') ? 'Online' : $ruangan->id_ruangan,
+                                                'batas_pengajuan' => $this->batas
+                                            ]);
+                                            break 2; // Berhenti setelah satu mata kuliah dijadwalkan
+                                        }
                                     }
                                 }
                             }
@@ -214,8 +213,6 @@ class Index extends Component
                     }
                 }
             }
-        }
-        sleep(5);
         $this->dispatch('created', ['message' => 'Jadwal Created Successfully']);
     }
 
@@ -269,12 +266,12 @@ class Index extends Component
         }
 
         $semesters = Semester::orderByRaw('LEFT(nama_semester, 4) DESC')
-                            ->orderByRaw('RIGHT(nama_semester, 1) ASC')
+                            ->orderByRaw('RIGHT(nama_semester, 1) DESC')
                             ->take(12)
                             ->get();
 
         $semesterfilters = Semester::orderByRaw('LEFT(nama_semester, 4) DESC')
-                                    ->orderByRaw('RIGHT(nama_semester, 1) ASC')
+                                    ->orderByRaw('RIGHT(nama_semester, 1) DESC')
                                     ->get();
 
         $request = request_dosen::all();

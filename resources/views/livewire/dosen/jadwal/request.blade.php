@@ -11,13 +11,16 @@
         <div class="w-full max-w-3xl bg-white rounded-lg shadow-lg">
             <!-- Modal Header -->
             <div class="flex items-center justify-between px-6 py-4 bg-blue-600 rounded-t-lg">
-                <h3 class="text-xl font-semibold text-white">Edit Jadwal</h3>
+                <h3 class="text-xl font-semibold text-white">Ganti/Validasi Jadwal</h3>
                 <button @click="isOpen=false" wire:click="clear({{ $id_jadwal }})" class="text-lg text-white">&times;</button>
             </div>
 
             <!-- Modal Content -->
             <div class="p-6 space-y-6">
                 <div class="overflow-x-auto">
+                    <div class="flex items-start mb-2">
+                        <span>Batas Pengajuan Request Edit Jadwal Pada Tanggal {{ \Carbon\Carbon::parse($batas->batas_pengajuan)->format('d-m-Y') }}</span>
+                    </div>
                     <table class="w-full text-left text-black border border-collapse border-gray-300 table-auto">
                         <thead class="bg-customPurple">
                             <tr>
@@ -75,16 +78,15 @@
                                     <option value="6">sesi 6, jam 15.30-17.00</option>
                                     <option value="7">sesi 7, jam 17.00-18.30</option>
                                     <option value="8">sesi 8, jam 18.30-20.00</option>
-                                    <option value="9">sesi 9, jam 20.00-21.30</option>
                                 </select>
                                 @error('x') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
                             </div>
                         </div>
                         <div class="flex justify-end space-x-4">
-                            <button type="button" @click="isOpen=false" wire:click="clear({{ $id_jadwal }})" class="px-4 py-2 font-bold text-white transition bg-red-600 rounded-lg hover:bg-red-800">Close</button>
                             <button type="submit" @click="isOpen=false" class="px-4 py-2 font-bold text-white transition bg-blue-600 rounded-lg hover:bg-blue-800">Submit</button>
                         </div>
                     </form>
+                    <button type="button" @click="isOpen=false" wire:click="clear({{ $id_jadwal }})" class="px-4 py-2 font-bold text-white transition bg-red-600 rounded-lg hover:bg-red-800">Close</button>
                     <button wire:click="update2" @click="isOpen=false" class="px-4 py-2 font-bold text-white transition bg-green-600 rounded-lg hover:bg-green-800">Validasi</button>
             </div>
         </div>

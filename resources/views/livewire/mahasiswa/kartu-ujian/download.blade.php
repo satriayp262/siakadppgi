@@ -139,9 +139,15 @@
                         <td style="padding: 1px; text-align: center; border: 1px solid black;">
                             {{ $jadwal->sesi }}
                         </td>
-                        <td style="padding: 1px; text-align: center; border: 1px solid black;">
-                            {{ $jadwal->matakuliah->nama_mata_kuliah }}
-                        </td>
+                        @if ($jadwal->matakuliah->jenis_mata_kuliah == 'P')
+                            <td style="padding: 1px; text-align: center; border: 1px solid black;">
+                                {{ $jadwal->matakuliah->nama_mata_kuliah }} (Grup {{ $jadwal->grup }})
+                            </td>
+                        @else
+                            <td style="padding: 1px; text-align: center; border: 1px solid black;">
+                                {{ $jadwal->matakuliah->nama_mata_kuliah }}
+                            </td>
+                        @endif
                         <td style="padding: 1px; text-align: center; border: 1px solid black;">
                             {{ $jadwal->dosen->nama_dosen }}
                         </td>

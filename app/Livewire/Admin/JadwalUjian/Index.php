@@ -2,11 +2,11 @@
 
 namespace App\Livewire\Admin\JadwalUjian;
 
-use App\Models\komponen_kartu_ujian;
 use Livewire\Component;
 use App\Models\Jadwal;
 use App\Models\Prodi;
 use App\Models\Semester;
+use App\Models\ttd;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 
@@ -46,7 +46,7 @@ class Index extends Component
     public function clear()
     {
         jadwal::query()->update(['jenis_ujian' => null, 'tanggal' => null]);
-        komponen_kartu_ujian::query()->update(['tanggal_dibuat' => null]);
+        ttd::query()->update(['tanggal_dibuat' => null]);
 
         $this->dispatch('destroyed', ['message' => 'Jadwal Ujian Deleted Successfully']);
     }
@@ -55,7 +55,7 @@ class Index extends Component
     {
         $this->validate();
 
-        $tanggalTTD = komponen_kartu_ujian::first();
+        $tanggalTTD = ttd::first();
 
         // Ambil data libur nasional dari API
         $response = Http::get('https://libur.deno.dev/api?year=' . Carbon::now()->year);

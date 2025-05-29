@@ -8,7 +8,7 @@ use Livewire\Component;
 use App\Models\Mahasiswa;
 use App\Models\Jadwal;
 use App\Models\Tagihan;
-use App\Models\komponen_kartu_ujian;
+use App\Models\ttd;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -31,7 +31,7 @@ class Index extends Component
             $query->where('NIM', $mahasiswa->NIM);
         })->first();
 
-        $komponen = komponen_kartu_ujian::first();
+        $komponen = ttd::first();
 
         $c = "";
         $y = "";
@@ -59,28 +59,18 @@ class Index extends Component
         $pdf = PDF::loadView('livewire.mahasiswa.kartu-ujian.download', $data);
         $pdf->setPaper('A5', 'landscape');
 
-        $pembayaran = Tagihan::where('NIM', Auth::user()->nim_nidn)->firstOrFail();
-        $w = $pembayaran->total_bayar;
-        $s = $pembayaran->total_tagihan;
-        $a = $s/2;
 
         if ($z == "UTS") {
-            if ($w < $a) {
-                $this->dispatch('warning', ['message' => 'Lunasi Pembayaran dari bulan A sampai bulan D terlebih dahulu']);
-            }else{
                 return response()->streamDownload(function () use ($pdf) {
                     echo $pdf->output();
                 }, 'kartu ' . $z . ' Semester ' . $c . ' Tahun Ajaran ' . $y . '-' . $y + 1 . '.pdf');
-            }
+
 
         }else{
-            if ($w < $s) {
-                $this->dispatch('warning', ['message' => 'Lunasi Semua Pembayaran terlebih dahulu']);
-            }else{
                 return response()->streamDownload(function () use ($pdf) {
                     echo $pdf->output();
                 }, 'kartu ' . $z . ' Semester ' . $c . ' Tahun Ajaran ' . $y . '-' . $y + 1 . '.pdf');
-            }
+
         }
     }
 
@@ -106,10 +96,6 @@ class Index extends Component
         $c = "";
         $y = "";
         $z = "";
-        $w = "";
-        $a = "";
-        $s = "";
-        $pembayaran = "";
 
         if ($ujian) {
             $x = substr($ujian->id_semester, -1);
@@ -124,29 +110,18 @@ class Index extends Component
 
             $z = $ujian->jenis_ujian;
 
-            $pembayaran = Tagihan::where('NIM', Auth::user()->nim_nidn)->first();
-            if ($pembayaran != null) {
-                $w = $pembayaran->total_bayar;
-                $s = $pembayaran->total_tagihan;
-                $a = $s / 2;
-            }
-
             $kelas = KRS::where('NIM', Auth::user()->nim_nidn)->firstOrFail();
 
-            $komponen = komponen_kartu_ujian::first();
+            $komponen = ttd::first();
         }
 
         return view('livewire.mahasiswa.kartu-ujian.index',[
             'jadwals' => $jadwals,
             'mahasiswa' => $mahasiswa,
-            'pembayaran' => $pembayaran,
             'ujian' => $ujian,
             'c' => $c,
             'y' => $y,
             'z' => $z,
-            'w' => $w,
-            'a' => $a,
-            's' => $s,
             'kelas' => $kelas,
             'groupedJadwals' => $groupedJadwals,
             'komponen' => $komponen

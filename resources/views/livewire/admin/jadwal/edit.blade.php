@@ -101,6 +101,7 @@
                 <div class="flex justify-center space-x-4">
                     <button wire:click='switch' class="px-4 py-2 font-bold text-white transition bg-blue-600 rounded-lg hover:bg-blue-800">Tukar Jadwal</button>
                     <button wire:click='ganti' class="px-4 py-2 font-bold text-white transition bg-blue-600 rounded-lg hover:bg-blue-800">Ganti Hari/Sesi</button>
+                    <button wire:click='gabung' class="px-4 py-2 font-bold text-white transition bg-blue-600 rounded-lg hover:bg-blue-800">Gabung Jadwal</button>
                 </div>
 
                 <!-- Form Handling -->
@@ -156,11 +157,37 @@
                                     <option value="6">sesi 6, jam 15.30-17.00</option>
                                     <option value="7">sesi 7, jam 17.00-18.30</option>
                                     <option value="8">sesi 8, jam 18.30-20.00</option>
-                                    <option value="9">sesi 9, jam 20.00-21.30</option>
                                 </select>
                                 @error('x') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
                             </div>
                         </div>
+                        <div class="flex justify-end space-x-4">
+                            <button type="button" @click="isOpen=false" wire:click="clear({{ $id_jadwal }})" class="px-4 py-2 font-bold text-white transition bg-red-600 rounded-lg hover:bg-red-800">Close</button>
+                            <button type="submit" @click="isOpen=false" class="px-4 py-2 font-bold text-white transition bg-green-600 rounded-lg hover:bg-green-800">Submit</button>
+                        </div>
+                    </form>
+                @elseif ($edit == 'gabung')
+                    <form wire:submit='combine' class="space-y-4">
+                        <select wire:model.live="target" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="" selected>Pilih Jadwal yang akan digabung</option>
+                            <option value="" disabled class="text-white bg-customPurple">Hari  /   Sesi   /   Mata Kuliah   /   Dosen</option>
+                            @foreach ($jadwals2 as $x)
+                                <option value="{{ $x->id_jadwal }}">
+                                    @if ($x->hari == "Monday")
+                                        Senin /
+                                    @elseif ($x->hari == "Tuesday")
+                                        Selasa /
+                                    @elseif ($x->hari == "Wednesday")
+                                        Rabu /
+                                    @elseif ($x->hari == "Thursday")
+                                        Kamis /
+                                    @elseif ($x->hari == "Friday")
+                                        Jumat /
+                                    @endif
+                                    {{ $x->sesi }} / {{ $x->matakuliah->nama_mata_kuliah }} / {{ $x->dosen->nama_dosen }}
+                                </option>
+                            @endforeach
+                        </select>
                         <div class="flex justify-end space-x-4">
                             <button type="button" @click="isOpen=false" wire:click="clear({{ $id_jadwal }})" class="px-4 py-2 font-bold text-white transition bg-red-600 rounded-lg hover:bg-red-800">Close</button>
                             <button type="submit" @click="isOpen=false" class="px-4 py-2 font-bold text-white transition bg-green-600 rounded-lg hover:bg-green-800">Submit</button>

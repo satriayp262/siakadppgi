@@ -9,6 +9,8 @@ use App\Models\KRS;
 use App\Models\Ruangan;
 use App\Models\Prodi;
 use App\Models\request_dosen;
+use Carbon\Carbon;
+
 
 class Request extends Component
 {
@@ -66,31 +68,80 @@ class Request extends Component
 
     public function update()
     {
-        $ammo = Jadwal::find($this->id_jadwal);
-        request_dosen::create([
-            'nidn' => $ammo->nidn,
-            'id_mata_kuliah' => $ammo->id_mata_kuliah,
-            'id_kelas' => $ammo->id_kelas,
-            'hari' => $ammo->hari,
-            'sesi' => $ammo->sesi,
-            'to_hari' => $this->z,
-            'to_sesi' => $this->x,
-            'status' => "edit"
-        ]);
+        $batas = Jadwal::find($this->id_jadwal);
+
+        if (Carbon::now()->format('Y-m-d') <= $batas->batas_pengajuan) {
+            $ammo = Jadwal::find($this->id_jadwal);
+
+            $cek = request_dosen::where('nidn', $ammo->nidn)
+                ->where('id_mata_kuliah', $ammo->id_mata_kuliah)
+                ->where('id_kelas', $ammo->id_kelas)
+                ->where('hari', $ammo->hari)
+                ->where('sesi', $ammo->sesi)
+                ->first();
+
+            if ($cek) {
+                request_dosen::where('id_request', $cek->id_request)->update([
+                    'nidn' => $ammo->nidn,
+                    'id_mata_kuliah' => $ammo->id_mata_kuliah,
+                    'id_kelas' => $ammo->id_kelas,
+                    'hari' => $ammo->hari,
+                    'sesi' => $ammo->sesi,
+                    'to_hari' => $this->z,
+                    'to_sesi' => $this->x,
+                    'status' => "edit"
+                ]);
+            }else {
+                request_dosen::create([
+                    'nidn' => $ammo->nidn,
+                    'id_mata_kuliah' => $ammo->id_mata_kuliah,
+                    'id_kelas' => $ammo->id_kelas,
+                    'hari' => $ammo->hari,
+                    'sesi' => $ammo->sesi,
+                    'to_hari' => $this->z,
+                    'to_sesi' => $this->x,
+                    'status' => "edit"
+                ]);
+            }
+
+            $this->dispatch('updated', ['message' => 'Request Edit Jadwal Created Successfully']);
+        }else {
+            $this->dispatch('warning', ['message' => 'Request Edit Jadwal Failed']);
+        }
     }
 
     public function update2()
     {
         $ammo = Jadwal::find($this->id_jadwal);
 
-        request_dosen::create([
-            'nidn' => $ammo->nidn,
-            'id_mata_kuliah' => $ammo->id_mata_kuliah,
-            'id_kelas' => $ammo->id_kelas,
-            'hari' => $ammo->hari,
-            'sesi' => $ammo->sesi,
-            'status' => "ok"
-        ]);
+        $cek = request_dosen::where('nidn', $ammo->nidn)
+            ->where('id_mata_kuliah', $ammo->id_mata_kuliah)
+            ->where('id_kelas', $ammo->id_kelas)
+            ->where('hari', $ammo->hari)
+            ->where('sesi', $ammo->sesi)
+            ->first();
+
+        if ($cek) {
+            request_dosen::where('id_request', $cek->id_request)->update([
+                'nidn' => $ammo->nidn,
+                'id_mata_kuliah' => $ammo->id_mata_kuliah,
+                'id_kelas' => $ammo->id_kelas,
+                'hari' => $ammo->hari,
+                'sesi' => $ammo->sesi,
+                'status' => "ok"
+            ]);
+        }else {
+            request_dosen::create([
+                'nidn' => $ammo->nidn,
+                'id_mata_kuliah' => $ammo->id_mata_kuliah,
+                'id_kelas' => $ammo->id_kelas,
+                'hari' => $ammo->hari,
+                'sesi' => $ammo->sesi,
+                'status' => "ok"
+            ]);
+        }
+
+        $this->dispatch('updated', ['message' => 'Jadwal Validated Successfully']);
     }
 
     public function render()
@@ -98,8 +149,11 @@ class Request extends Component
         $ammo = jadwal::where('id_jadwal', $this->id_jadwal)
             ->first();
 
+        $batas = Jadwal::find($this->id_jadwal);
+
         return view('livewire.dosen.jadwal.request',[
-            'ammo' => $ammo
+            'ammo' => $ammo,
+            'batas' => $batas
         ]);
     }
 }
