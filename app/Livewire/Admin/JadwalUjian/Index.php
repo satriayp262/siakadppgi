@@ -48,7 +48,7 @@ class Index extends Component
         jadwal::query()->update(['jenis_ujian' => null, 'tanggal' => null]);
         ttd::query()->update(['tanggal_dibuat' => null]);
 
-        $this->dispatch('destroyed', ['message' => 'Jadwal Ujian Deleted Successfully']);
+        $this->dispatch('destroyed', ['message' => 'Jadwal Ujian Berhasil Dihapus']);
     }
 
     public function tanggal()
@@ -97,7 +97,7 @@ class Index extends Component
             $this->dispatch('warning', ['message' => 'Belum Ada Jadwal']);
         } else {
             $tanggalTTD->update(['tanggal_dibuat' => $this->tanggalttd]);
-            $this->dispatch('updated', ['message' => 'Jadwal Ujian Created Successfully']);
+            $this->dispatch('updated', ['message' => 'Jadwal Ujian Berhasil Dibuat']);
         }
     }
 

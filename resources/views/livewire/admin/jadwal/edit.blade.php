@@ -50,6 +50,7 @@
                             <tr>
                                 <th class="px-4 py-2 text-white border border-gray-300">Hari</th>
                                 <th class="px-4 py-2 text-white border border-gray-300">Sesi</th>
+                                <th class="px-4 py-2 text-white border border-gray-300">Kelas</th>
                                 <th class="px-4 py-2 text-white border border-gray-300">Mata Kuliah</th>
                                 <th class="px-4 py-2 text-white border border-gray-300">Dosen</th>
                             </tr>
@@ -70,7 +71,12 @@
                                     @endif
                                 </td>
                                 <td class="px-4 py-2 border border-gray-300">{{ $ammo->sesi }}</td>
-                                <td class="px-4 py-2 border border-gray-300">{{ $ammo->matakuliah->nama_mata_kuliah }}</td>
+                                <td class="px-4 py-2 border border-gray-300">{{ $ammo->kelas->nama_kelas }}</td>
+                                @if ($ammo->matakuliah->jenis_mata_kuliah == "P")
+                                    <td class="px-4 py-2 border border-gray-300">{{ $ammo->matakuliah->nama_mata_kuliah }} (Grup {{ $ammo->grup }})</td>
+                                @else
+                                    <td class="px-4 py-2 border border-gray-300">{{ $ammo->matakuliah->nama_mata_kuliah }}</td>
+                                @endif
                                 <td class="px-4 py-2 border border-gray-300">{{ $ammo->dosen->nama_dosen }}</td>
                             </tr>
                         </tbody>
@@ -99,9 +105,16 @@
 
                 <!-- Action Buttons -->
                 <div class="flex justify-center space-x-4">
-                    <button wire:click='switch' class="px-4 py-2 font-bold text-white transition bg-blue-600 rounded-lg hover:bg-blue-800">Tukar Jadwal</button>
-                    <button wire:click='ganti' class="px-4 py-2 font-bold text-white transition bg-blue-600 rounded-lg hover:bg-blue-800">Ganti Hari/Sesi</button>
-                    <button wire:click='gabung' class="px-4 py-2 font-bold text-white transition bg-blue-600 rounded-lg hover:bg-blue-800">Gabung Jadwal</button>
+                    @if ($ammo->matakuliah->jenis_mata_kuliah == "P")
+                        <button wire:click='switch' class="px-4 py-2 font-bold text-white transition bg-blue-600 rounded-lg hover:bg-blue-800">Tukar Jadwal</button>
+                        <button wire:click='ganti' class="px-4 py-2 font-bold text-white transition bg-blue-600 rounded-lg hover:bg-blue-800">Ganti Hari/Sesi</button>
+                        <button wire:click='gabung' class="px-4 py-2 font-bold text-white transition bg-blue-600 rounded-lg hover:bg-blue-800">Gabung Jadwal</button>
+                        <button wire:click='ruangan' class="px-4 py-2 font-bold text-white transition bg-blue-600 rounded-lg hover:bg-blue-800">Ubah Ruangan</button>
+                    @else
+                        <button wire:click='switch' class="px-4 py-2 font-bold text-white transition bg-blue-600 rounded-lg hover:bg-blue-800">Tukar Jadwal</button>
+                        <button wire:click='ganti' class="px-4 py-2 font-bold text-white transition bg-blue-600 rounded-lg hover:bg-blue-800">Ganti Hari/Sesi</button>
+                        <button wire:click='gabung' class="px-4 py-2 font-bold text-white transition bg-blue-600 rounded-lg hover:bg-blue-800">Gabung Jadwal</button>
+                    @endif
                 </div>
 
                 <!-- Form Handling -->
@@ -109,7 +122,7 @@
                     <form wire:submit='tukar' class="space-y-4">
                         <select wire:model.live="target" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <option value="" selected>Pilih Jadwal yang akan ditukar</option>
-                            <option value="" disabled class="text-white bg-customPurple">Hari  /   Sesi   /   Mata Kuliah   /   Dosen</option>
+                            <option value="" disabled class="text-white bg-customPurple">Hari  /   Sesi   / Kelas /  Mata Kuliah   /   Dosen</option>
                             @foreach ($jadwals as $x)
                                 <option value="{{ $x->id_jadwal }}">
                                     @if ($x->hari == "Monday")
@@ -123,7 +136,7 @@
                                     @elseif ($x->hari == "Friday")
                                         Jumat /
                                     @endif
-                                    {{ $x->sesi }} / {{ $x->matakuliah->nama_mata_kuliah }} / {{ $x->dosen->nama_dosen }}
+                                    {{ $x->sesi }} / {{ $x->kelas->nama_kelas }} / {{ $x->matakuliah->nama_mata_kuliah }} / {{ $x->dosen->nama_dosen }}
                                 </option>
                             @endforeach
                         </select>
@@ -170,7 +183,7 @@
                     <form wire:submit='combine' class="space-y-4">
                         <select wire:model.live="target" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <option value="" selected>Pilih Jadwal yang akan digabung</option>
-                            <option value="" disabled class="text-white bg-customPurple">Hari  /   Sesi   /   Mata Kuliah   /   Dosen</option>
+                            <option value="" disabled class="text-white bg-customPurple">Hari  /   Sesi   / Kelas /  Mata Kuliah   /   Dosen</option>
                             @foreach ($jadwals2 as $x)
                                 <option value="{{ $x->id_jadwal }}">
                                     @if ($x->hari == "Monday")
@@ -184,10 +197,25 @@
                                     @elseif ($x->hari == "Friday")
                                         Jumat /
                                     @endif
-                                    {{ $x->sesi }} / {{ $x->matakuliah->nama_mata_kuliah }} / {{ $x->dosen->nama_dosen }}
+                                    {{ $x->sesi }} / {{ $x->kelas->nama_kelas }} / {{ $x->matakuliah->nama_mata_kuliah }} / {{ $x->dosen->nama_dosen }}
                                 </option>
                             @endforeach
                         </select>
+                        <div class="flex justify-end space-x-4">
+                            <button type="button" @click="isOpen=false" wire:click="clear({{ $id_jadwal }})" class="px-4 py-2 font-bold text-white transition bg-red-600 rounded-lg hover:bg-red-800">Close</button>
+                            <button type="submit" @click="isOpen=false" class="px-4 py-2 font-bold text-white transition bg-green-600 rounded-lg hover:bg-green-800">Submit</button>
+                        </div>
+                    </form>
+                @elseif ($edit == 'ruangan')
+                    <form wire:submit='room' class="space-y-4">
+                        <div>
+                                <select wire:model.live="r" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="" selected>Pilih Ruangan</option>
+                                    @foreach ($ruangans as $ruangan)
+                                    <option value="{{ $ruangan->id_ruangan }}" selected>{{ $ruangan->kode_ruangan }}</option>
+                                    @endforeach
+                                </select>
+                        </div>
                         <div class="flex justify-end space-x-4">
                             <button type="button" @click="isOpen=false" wire:click="clear({{ $id_jadwal }})" class="px-4 py-2 font-bold text-white transition bg-red-600 rounded-lg hover:bg-red-800">Close</button>
                             <button type="submit" @click="isOpen=false" class="px-4 py-2 font-bold text-white transition bg-green-600 rounded-lg hover:bg-green-800">Submit</button>

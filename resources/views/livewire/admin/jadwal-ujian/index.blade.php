@@ -46,7 +46,7 @@
                 class="flex items-center px-4 py-2 ml-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">
                 Input Jadwal Ujian
             </button>
-            <button wire:click='clear' class="px-2 py-1 ml-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">
+            <button onclick="confirmDeleteAll()" class="px-2 py-1 ml-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">
                 Hapus Jadwal Ujian
             </button>
 
@@ -464,7 +464,7 @@
     <script>
         function confirmDeleteAll(id) {
             Swal.fire({
-                title: `Apakah anda yakin ingin menghapus Jadwal?`,
+                title: `Apakah anda yakin ingin menghapus Jadwal Ujian?`,
                 text: "Data yang telah dihapus tidak dapat dikembalikan!",
                 icon: 'warning',
                 showCancelButton: true,
@@ -474,24 +474,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     // Panggil method Livewire jika konfirmasi diterima
-                    @this.call('destroy2', id);
-                }
-            });
-        }
-
-        function confirmDelete(id, nama_kelas) {
-            Swal.fire({
-                title: `Apakah anda yakin ingin menghapus jadwal ${nama_kelas}?`,
-                text: "Data yang telah dihapus tidak dapat dikembalikan!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#6c757d',
-                confirmButtonText: 'Hapus'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Panggil method Livewire jika konfirmasi diterima
-                    @this.call('destroy', id);
+                    @this.call('clear', id);
                 }
             });
         }

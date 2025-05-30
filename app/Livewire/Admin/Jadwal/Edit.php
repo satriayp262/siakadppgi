@@ -27,6 +27,7 @@ class Edit extends Component
     public $edit = '';
     public $z = '';
     public $x = '';
+    public $r = '';
 
 
     public function mount($id_jadwal)
@@ -80,6 +81,11 @@ class Edit extends Component
     public function gabung()
     {
         $this->edit = 'gabung';
+    }
+
+    public function ruangan()
+    {
+        $this->edit = 'ruangan';
     }
 
     public function tukar()
@@ -163,7 +169,7 @@ class Edit extends Component
                 }
 
                 $this->clear($this->id_jadwal);
-                $this->dispatch('jadwalUpdated');
+            $this->dispatch('updated', ['message' => 'Jadwal Berhasil Ditukar']);
             } else {
                 if ($conflict) {
 
@@ -196,7 +202,7 @@ class Edit extends Component
                         $ammo->hari = 'Jumat';
                     }
 
-                    $dosen = $target->kelas->matkul->dosen->nama_dosen;
+                    $dosen = $target->dosen->nama_dosen;
                     $this->dispatch('warning', ['message' => 'Sudah ada jadwal untuk dosen ' . $dosen . ' di hari ' . $ammo->hari . ' sesi ' . $ammo->sesi]);
 
                 }
@@ -213,7 +219,49 @@ class Edit extends Component
             'sesi' => $ammo->sesi
         ]);
 
-        $this->dispatch('updated', ['message' => 'Jadwal Combined Successfully']);
+        $this->dispatch('updated', ['message' => 'Jadwal Berhasil Digabungkan']);
+    }
+
+    public function room()
+    {
+        $jadwal = Jadwal::find($this->id_jadwal);
+
+        $conflict = jadwal::where('id_kelas', '!=', $jadwal->id_kelas)
+            ->where('id_jadwal', '!=', $jadwal->id_jadwal)
+            ->where('id_ruangan', $this->r)
+            ->where('hari', $jadwal->hari)
+            ->where('sesi', $jadwal->sesi)
+            ->exists();
+
+        $conflict2 = jadwal::where('id_kelas', $jadwal->id_kelas)
+            ->where('id_jadwal', '!=', $jadwal->id_jadwal)
+            ->where('id_ruangan', $this->r)
+            ->where('hari', $jadwal->hari)
+            ->where('sesi', $jadwal->sesi)
+            ->exists();
+
+        if (!$conflict && !$conflict2) {
+            $jadwal->update([
+                'id_ruangan' => $this->r
+            ]);
+
+            $this->dispatch('updated', ['message' => 'Ruangan Berhasil Diubah']);
+        }else {
+            if ($jadwal->hari == 'Monday') {
+                $jadwal->hari = 'Senin';
+            } elseif ($jadwal->hari == 'Tuesday') {
+                $jadwal->hari = 'Selasa';
+            } elseif ($jadwal->hari == 'Wednesday') {
+                $jadwal->hari = 'Rabu';
+            } elseif ($jadwal->hari == 'Thursday') {
+                $jadwal->hari = 'Kamis';
+            } elseif ($jadwal->hari == 'Friday') {
+                $jadwal->hari = 'Jumat';
+            }
+
+            $ruangan = ruangan::where('id_ruangan', $this->r)->first();
+            $this->dispatch('warning', ['message' => 'Ruangan ' . $ruangan->kode_ruangan . ' Pada Hari ' . $jadwal->hari . ' Dan Sesi ' . $jadwal->sesi . ' Sudah Dipakai']);
+        }
     }
 
     public function update()
@@ -296,7 +344,7 @@ class Edit extends Component
                 }
 
                 $this->clear($this->id_jadwal);
-                $this->dispatch('jadwalUpdated2');
+                $this->dispatch('updated', ['message' => 'Jadwal Berhasil Diedit']);
             }elseif ($this->z) {
                 $jadwal->update([
                     'hari' => $this->z
@@ -324,7 +372,7 @@ class Edit extends Component
                 }
 
                 $this->clear($this->id_jadwal);
-                $this->dispatch('jadwalUpdated2');
+                $this->dispatch('updated', ['message' => 'Jadwal Berhasil Diedit']);
             }elseif ($this->x) {
                 $jadwal->update([
                     'sesi' => $this->x
@@ -353,7 +401,7 @@ class Edit extends Component
                 }
 
                 $this->clear($this->id_jadwal);
-                $this->dispatch('jadwalUpdated2');
+                $this->dispatch('updated', ['message' => 'Jadwal Berhasil Diedit']);
             }
         }
 
@@ -459,6 +507,8 @@ class Edit extends Component
 
         $request = request_dosen::all();
 
+        $ruangans = Ruangan::all();
+
         // Filter data yang cocok dengan ammo (untuk efisiensi & keterbacaan)
         $matchRequest = $request->filter(function ($item) use ($ammo) {
             return $item->nidn == $ammo->nidn &&
@@ -480,6 +530,7 @@ class Edit extends Component
             'jadwals' => $jadwals,
             'jadwals2' => $jadwals2,
             'ammo' => $ammo,
+            'ruangans' => $ruangans,
             'l' => $l,
             'ok' => $ok,
             'request' => $request,

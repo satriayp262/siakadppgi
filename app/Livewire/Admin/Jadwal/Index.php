@@ -213,7 +213,7 @@ class Index extends Component
                     }
                 }
             }
-        $this->dispatch('created', ['message' => 'Jadwal Created Successfully']);
+        $this->dispatch('created', ['message' => 'Jadwal Berhasil Dibuat']);
     }
 
 
@@ -222,7 +222,7 @@ class Index extends Component
         Jadwal::truncate();
         komponen_kartu_ujian::query()->update(['tanggal_dibuat' => null]);
         request_dosen::truncate();
-        $this->dispatch('destroyed', ['message' => 'Jadwal Deleted Successfully']);
+        $this->dispatch('destroyed', ['message' => 'Jadwal Berhasil Dihapus']);
     }
 
     public function destroy($id_jadwal)
@@ -233,19 +233,7 @@ class Index extends Component
         $jadwal->delete();
 
         // Tampilkan pesan sukses
-        $this->dispatch('destroyed', ['message' => 'jadwal Deleted Successfully']);
-    }
-
-    #[On('jadwalUpdated')]
-    public function x()
-    {
-        $this->dispatch('created', ['message' => 'Jadwal Switched Successfully']);
-    }
-
-    #[On('jadwalUpdated2')]
-    public function z()
-    {
-        $this->dispatch('created', ['message' => 'Jadwal Edited Successfully']);
+        $this->dispatch('destroyed', ['message' => 'Jadwal Berhasil Dihapus']);
     }
 
     public function render()
