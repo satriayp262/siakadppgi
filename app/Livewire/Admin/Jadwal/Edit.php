@@ -7,7 +7,6 @@ use App\Models\Jadwal;
 use App\Models\Kelas;
 use App\Models\KRS;
 use App\Models\Ruangan;
-use App\Models\Prodi;
 use App\Models\request_dosen;
 
 class Edit extends Component
@@ -239,6 +238,12 @@ class Edit extends Component
             ->where('hari', $jadwal->hari)
             ->where('sesi', $jadwal->sesi)
             ->exists();
+
+        $ruangan = ruangan::where('id_ruangan', $this->r)->first();
+
+        $jumlah = krs::where('id_kelas', $jadwal->id_kelas)
+            ->where('grup_praktikum', $jadwal->grup)
+            ->count();
 
         if (!$conflict && !$conflict2) {
             $jadwal->update([
