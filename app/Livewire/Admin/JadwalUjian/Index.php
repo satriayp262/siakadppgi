@@ -105,7 +105,7 @@ class Index extends Component
     public function render()
     {
         $jadwals = Jadwal::orderBy('id_kelas', direction: 'asc')
-            ->orderByRaw("FIELD(hari, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday')")
+            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat')")
             ->orderBy(column: 'sesi', direction: 'asc')
             ->get();
 

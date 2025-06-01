@@ -32,19 +32,7 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="px-4 py-2 border border-gray-300">
-                                    @if ($ammo->hari == "Monday")
-                                        Senin
-                                    @elseif ($ammo->hari == "Tuesday")
-                                        Selasa
-                                    @elseif ($ammo->hari == "Wednesday")
-                                        Rabu
-                                    @elseif ($ammo->hari == "Thursday")
-                                        Kamis
-                                    @elseif ($ammo->hari == "Friday")
-                                        Jumat
-                                    @endif
-                                </td>
+                                <td class="px-4 py-2 border border-gray-300">{{ $ammo->hari }}</td>
                                 <td class="px-4 py-2 border border-gray-300">{{ $ammo->sesi }}</td>
                                 <td class="px-4 py-2 border border-gray-300">{{ $ammo->matakuliah->nama_mata_kuliah }}</td>
                                 <td class="px-4 py-2 border border-gray-300">{{ $ammo->dosen->nama_dosen }}</td>
@@ -59,11 +47,11 @@
                             <div>
                                 <select wire:model.live="z" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                                     <option value="" selected>Pilih Hari</option>
-                                    <option value="Monday">Senin</option>
-                                    <option value="Tuesday">Selasa</option>
-                                    <option value="Wednesday">Rabu</option>
-                                    <option value="Thursday">Kamis</option>
-                                    <option value="Friday">Jumat</option>
+                                    <option value="Senin">Senin</option>
+                                    <option value="Selasa">Selasa</option>
+                                    <option value="Rabu">Rabu</option>
+                                    <option value="Kamis">Kamis</option>
+                                    <option value="Jumat">Jumat</option>
                                 </select>
                                 @error('z') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
                             </div>

@@ -1,6 +1,7 @@
 <div class="max-w-full p-4 mt-4 mb-4 bg-white rounded-lg shadow-lg">
     <P class="px-4 py-2 text-lg font-bold text-customPurple">Jadwal Kelas {{ $jadwal->kelas->nama_kelas }}</P>
-        <table class="w-full mt-4 bg-white border border-gray-200">
+        <livewire:table.mahasiswa.jadwal.jadwal-table />
+        {{-- <table class="w-full mt-4 bg-white border border-gray-200">
             <thead>
                 <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
                     <th class="px-3 py-2 text-center">Hari</th>
@@ -21,17 +22,7 @@
                             <!-- Tampilkan Hari hanya jika berbeda dari hari sebelumnya -->
                             <td class="px-3 py-1 text-center">
                                 @if ($jadwal->hari != $previousDay)
-                                    @if ($jadwal->hari == 'Monday')
-                                        Senin
-                                    @elseif ($jadwal->hari == 'Tuesday')
-                                        Selasa
-                                    @elseif ($jadwal->hari == 'Wednesday')
-                                        Rabu
-                                    @elseif ($jadwal->hari == 'Thursday')
-                                        Kamis
-                                    @elseif ($jadwal->hari == 'Friday')
-                                        Jumat
-                                    @endif
+                                    {{ $jadwal->hari }}
                                     @php
                                         $previousDay = $jadwal->hari;
                                     @endphp
@@ -53,5 +44,5 @@
                         </tr>
                     @endforeach
                 </tbody>
-        </table>
+        </table> --}}
 </div>

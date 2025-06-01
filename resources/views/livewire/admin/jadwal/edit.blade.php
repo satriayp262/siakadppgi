@@ -57,19 +57,7 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="px-4 py-2 border border-gray-300">
-                                    @if ($ammo->hari == "Monday")
-                                        Senin
-                                    @elseif ($ammo->hari == "Tuesday")
-                                        Selasa
-                                    @elseif ($ammo->hari == "Wednesday")
-                                        Rabu
-                                    @elseif ($ammo->hari == "Thursday")
-                                        Kamis
-                                    @elseif ($ammo->hari == "Friday")
-                                        Jumat
-                                    @endif
-                                </td>
+                                <td class="px-4 py-2 border border-gray-300">{{ $ammo->hari }}</td>
                                 <td class="px-4 py-2 border border-gray-300">{{ $ammo->sesi }}</td>
                                 <td class="px-4 py-2 border border-gray-300">{{ $ammo->kelas->nama_kelas }}</td>
                                 @if ($ammo->matakuliah->jenis_mata_kuliah == "P")
@@ -87,18 +75,7 @@
                     <div>
                         <span>
                             Ingin diganti menjadi hari
-                            @if ($editRequest->to_hari)
-                                <b>
-                                    @switch($editRequest->to_hari)
-                                        @case('Monday') Senin @break
-                                        @case('Tuesday') Selasa @break
-                                        @case('Wednesday') Rabu @break
-                                        @case('Thursday') Kamis @break
-                                        @case('Friday') Jumat @break
-                                    @endswitch
-                                </b>
-                            @endif
-                            dan sesi <b>{{ $editRequest->to_sesi }}</b>
+                            <b>{{ $editRequest->to_hari }}</b> dan sesi <b>{{ $editRequest->to_sesi }}</b>
                         </span>
                     </div>
                 @endif
@@ -125,18 +102,7 @@
                             <option value="" disabled class="text-white bg-customPurple">Hari  /   Sesi   / Kelas /  Mata Kuliah   /   Dosen</option>
                             @foreach ($jadwals as $x)
                                 <option value="{{ $x->id_jadwal }}">
-                                    @if ($x->hari == "Monday")
-                                        Senin /
-                                    @elseif ($x->hari == "Tuesday")
-                                        Selasa /
-                                    @elseif ($x->hari == "Wednesday")
-                                        Rabu /
-                                    @elseif ($x->hari == "Thursday")
-                                        Kamis /
-                                    @elseif ($x->hari == "Friday")
-                                        Jumat /
-                                    @endif
-                                    {{ $x->sesi }} / {{ $x->kelas->nama_kelas }} / {{ $x->matakuliah->nama_mata_kuliah }} / {{ $x->dosen->nama_dosen }}
+                                    {{ $x->hari }} / {{ $x->sesi }} / {{ $x->kelas->nama_kelas }} / {{ $x->matakuliah->nama_mata_kuliah }} / {{ $x->dosen->nama_dosen }}
                                 </option>
                             @endforeach
                         </select>
@@ -151,11 +117,11 @@
                             <div>
                                 <select wire:model.live="z" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                                     <option value="" selected>Pilih Hari</option>
-                                    <option value="Monday">Senin</option>
-                                    <option value="Tuesday">Selasa</option>
-                                    <option value="Wednesday">Rabu</option>
-                                    <option value="Thursday">Kamis</option>
-                                    <option value="Friday">Jumat</option>
+                                    <option value="Senin">Senin</option>
+                                    <option value="Selasa">Selasa</option>
+                                    <option value="Rabu">Rabu</option>
+                                    <option value="Kamis">Kamis</option>
+                                    <option value="Jumat">Jumat</option>
                                 </select>
                                 @error('z') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
                             </div>
@@ -186,18 +152,7 @@
                             <option value="" disabled class="text-white bg-customPurple">Hari  /   Sesi   / Kelas /  Mata Kuliah   /   Dosen</option>
                             @foreach ($jadwals2 as $x)
                                 <option value="{{ $x->id_jadwal }}">
-                                    @if ($x->hari == "Monday")
-                                        Senin /
-                                    @elseif ($x->hari == "Tuesday")
-                                        Selasa /
-                                    @elseif ($x->hari == "Wednesday")
-                                        Rabu /
-                                    @elseif ($x->hari == "Thursday")
-                                        Kamis /
-                                    @elseif ($x->hari == "Friday")
-                                        Jumat /
-                                    @endif
-                                    {{ $x->sesi }} / {{ $x->kelas->nama_kelas }} / {{ $x->matakuliah->nama_mata_kuliah }} / {{ $x->dosen->nama_dosen }}
+                                    {{ $x->hari }} / {{ $x->sesi }} / {{ $x->kelas->nama_kelas }} / {{ $x->matakuliah->nama_mata_kuliah }} / {{ $x->dosen->nama_dosen }}
                                 </option>
                             @endforeach
                         </select>

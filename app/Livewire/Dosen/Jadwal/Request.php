@@ -104,9 +104,9 @@ class Request extends Component
                 ]);
             }
 
-            $this->dispatch('updated', ['message' => 'Request Edit Jadwal Created Successfully']);
+            $this->dispatch('updated', ['message' => 'Request Edit Jadwal Berhasil Dibuat']);
         }else {
-            $this->dispatch('warning', ['message' => 'Request Edit Jadwal Failed']);
+            $this->dispatch('warning', ['message' => 'Sudah Melewati Batas Pengajuan']);
         }
     }
 
@@ -141,7 +141,7 @@ class Request extends Component
             ]);
         }
 
-        $this->dispatch('updated', ['message' => 'Jadwal Validated Successfully']);
+        $this->dispatch('updated', ['message' => 'Jadwal Berhasil Divalidasi']);
     }
 
     public function render()

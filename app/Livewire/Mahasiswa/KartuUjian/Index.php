@@ -80,7 +80,7 @@ class Index extends Component
         $jadwals = Jadwal::whereHas('kelas.krs.mahasiswa', function ($query) use ($mahasiswa) {
             $query->where('NIM', $mahasiswa->NIM);
         })
-            ->orderByRaw("FIELD(hari, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')")  // Urutkan hari sesuai urutan minggu
+            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat')")  // Urutkan hari sesuai urutan minggu
             ->orderBy('sesi')  // Urutkan berdasarkan sesi
             ->get();
 
@@ -96,6 +96,8 @@ class Index extends Component
         $c = "";
         $y = "";
         $z = "";
+        $kelas = "";
+        $komponen = "";
 
         if ($ujian) {
             $x = substr($ujian->id_semester, -1);

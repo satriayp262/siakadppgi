@@ -31,6 +31,12 @@ class Index extends Component
     public $jenis;
     public $batas;
 
+    #[On('ruanganUpdated')]
+    public function handleruanganUpdated()
+    {
+        // $this->dispatch('pg:eventRefresh-ruangan-table-lw2rml-table');
+        $this->dispatch('updated', params: ['message' => 'Ruangan berhasil diubah!']);
+    }
 
     public function pilihSemester()
     {
@@ -69,7 +75,7 @@ class Index extends Component
             ->groupBy('kode_prodi');
 
         $ruanganList = Ruangan::all();
-        $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+        $days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'];
         $timeSlots = [
             ['sesi' => 1, 'jam_mulai' => '08:00', 'jam_selesai' => '09.30'],
             ['sesi' => 2, 'jam_mulai' => '09.30', 'jam_selesai' => '11.00'],
@@ -239,7 +245,7 @@ class Index extends Component
     public function render()
     {
         $jadwals = Jadwal::orderBy('id_kelas', direction: 'asc')
-            ->orderByRaw("FIELD(hari, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday')")
+            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat')")
             ->orderBy(column: 'sesi', direction: 'asc')
             ->get();
 

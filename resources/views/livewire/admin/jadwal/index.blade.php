@@ -171,13 +171,7 @@
                                     </td>
                                     <td class="px-3 py-1 text-center">
                                         @if ($jadwal->hari != $previousDay)
-                                            @switch($jadwal->hari)
-                                                @case('Monday') Senin @break
-                                                @case('Tuesday') Selasa @break
-                                                @case('Wednesday') Rabu @break
-                                                @case('Thursday') Kamis @break
-                                                @case('Friday') Jumat @break
-                                            @endswitch
+                                        {{ $jadwal->hari }}
                                             @php
                                                 $previousDay = $jadwal->hari;
                                             @endphp
@@ -278,13 +272,7 @@
                                     </td>
                                     <td class="px-3 py-1 text-center">
                                         @if ($jadwal->hari != $previousDay)
-                                            @switch($jadwal->hari)
-                                                @case('Monday') Senin @break
-                                                @case('Tuesday') Selasa @break
-                                                @case('Wednesday') Rabu @break
-                                                @case('Thursday') Kamis @break
-                                                @case('Friday') Jumat @break
-                                            @endswitch
+                                        {{ $jadwal->hari }}
                                             @php
                                                 $previousDay = $jadwal->hari;
                                             @endphp
@@ -406,13 +394,7 @@
                                     </td>
                                     <td class="px-3 py-1 text-center">
                                         @if ($jadwal->hari != $previousDay)
-                                            @switch($jadwal->hari)
-                                                @case('Monday') Senin @break
-                                                @case('Tuesday') Selasa @break
-                                                @case('Wednesday') Rabu @break
-                                                @case('Thursday') Kamis @break
-                                                @case('Friday') Jumat @break
-                                            @endswitch
+                                            {{ $jadwal->hari }}
                                             @php
                                                 $previousDay = $jadwal->hari;
                                             @endphp

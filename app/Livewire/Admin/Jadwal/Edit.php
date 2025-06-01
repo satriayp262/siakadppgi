@@ -245,13 +245,14 @@ class Edit extends Component
             ->where('grup_praktikum', $jadwal->grup)
             ->count();
 
-        if (!$conflict && !$conflict2) {
+        if (!$conflict && !$conflict2 && $ruangan->kapasitas >= $jumlah) {
             $jadwal->update([
                 'id_ruangan' => $this->r
             ]);
 
             $this->dispatch('updated', ['message' => 'Ruangan Berhasil Diubah']);
-        }else {
+            // $this->dispatch('ruanganUpdated');
+        }elseif ($conflict || $conflict2) {
             if ($jadwal->hari == 'Monday') {
                 $jadwal->hari = 'Senin';
             } elseif ($jadwal->hari == 'Tuesday') {
@@ -266,6 +267,8 @@ class Edit extends Component
 
             $ruangan = ruangan::where('id_ruangan', $this->r)->first();
             $this->dispatch('warning', ['message' => 'Ruangan ' . $ruangan->kode_ruangan . ' Pada Hari ' . $jadwal->hari . ' Dan Sesi ' . $jadwal->sesi . ' Sudah Dipakai']);
+        }elseif ($ruangan->kapasitas < $jumlah) {
+            $this->dispatch('warning', ['message' => 'Ruangan ' . $ruangan->kode_ruangan . ' Kapasitasnya Tidak Mencukupi']);
         }
     }
 
@@ -497,15 +500,13 @@ class Edit extends Component
             ->where('id_kelas', $this->id_kelas)
             ->where('kode_prodi', $this->kode_prodi)
             ->where('id_semester', $this->id_semester)
-            ->orderByRaw("FIELD(hari, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday')")
-            ->get();
+            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat')")            ->get();
 
         $jadwals2 = jadwal::where('id_jadwal', '!=', $this->id_jadwal)
             ->where('nidn', $this->nidn)
             ->where('kode_prodi', $this->kode_prodi)
             ->where('id_semester', $this->id_semester)
-            ->orderByRaw("FIELD(hari, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday')")
-            ->get();
+            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat')")            ->get();
 
         $ammo = jadwal::where('id_jadwal', $this->id_jadwal)
             ->first();
