@@ -90,7 +90,7 @@
                                                     @enderror
 
                                                     <div x-show="uploading" class="mt-2">
-                                                        <div class="mt-2 w-full flex flex-row items-center space-x-2">
+                                                        <div class="flex flex-row items-center w-full mt-2 space-x-2">
                                                             <div class="spinner"></div>
                                                             <div class="spinner-text">Memproses Permintaan...</div>
                                                         </div>
@@ -169,6 +169,7 @@
     </div>
 
     <div class="max-w-full p-4 mt-4 mb-4 bg-white rounded-lg shadow-lg">
+        <livewire:table.kelas-table />
         <table class="min-w-full mt-4 bg-white border border-gray-200">
             <thead>
                 <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
