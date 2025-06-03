@@ -1,4 +1,4 @@
-<div class="flex items-center justify-center p-10">
+<div class="flex items-center justify-center p-4">
     @if (!$ujian)
         <div class="flex items-center justify-center mt-10">
             <div class="flex flex-col items-center max-w-md p-6 text-center border border-purple-300 shadow-md backdrop-blur-md bg-white/50 rounded-xl">

@@ -74,8 +74,10 @@
                             <button type="submit" @click="isOpen=false" class="px-4 py-2 font-bold text-white transition bg-blue-600 rounded-lg hover:bg-blue-800">Submit</button>
                         </div>
                     </form>
-                    <button type="button" @click="isOpen=false" wire:click="clear({{ $id_jadwal }})" class="px-4 py-2 font-bold text-white transition bg-red-600 rounded-lg hover:bg-red-800">Close</button>
-                    <button wire:click="update2" @click="isOpen=false" class="px-4 py-2 font-bold text-white transition bg-green-600 rounded-lg hover:bg-green-800">Validasi</button>
+                    <div class="flex justify-center space-x-2">
+                        <button type="button" @click="isOpen=false" wire:click="clear({{ $id_jadwal }})" class="px-4 py-2 font-bold text-white transition bg-red-600 rounded-lg hover:bg-red-800">Close</button>
+                        <button wire:click="update2" @click="isOpen=false" class="px-4 py-2 font-bold text-white transition bg-green-600 rounded-lg hover:bg-green-800">Validasi</button>
+                    </div>
             </div>
         </div>
     </div>

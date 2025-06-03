@@ -32,12 +32,12 @@
                 @endforeach
             </select>
 
-            <select name="semesterfilter" id="semesterfilter" wire:model.live="semesterfilter" class="items-center px-4 py-2 pr-2 ml-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
+            {{-- <select name="semesterfilter" id="semesterfilter" wire:model.live="semesterfilter" class="items-center px-4 py-2 pr-2 ml-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
                 <option value="" selected>Pilih semester</option>
                 @foreach ($semesterfilters as $v)
                     <option value="{{ $v->id_semester }}">{{ $v->nama_semester }}</option>
                 @endforeach
-            </select>
+            </select> --}}
         </div>
 
         <div x-data="{ isOpen: false }" @modal-closed.window="isOpen = false">
