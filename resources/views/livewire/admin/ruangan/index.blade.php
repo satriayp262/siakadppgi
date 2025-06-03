@@ -37,8 +37,9 @@
         </div>
     </div>
 
-    <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
-        <table class="min-w-full mt-4 bg-white border border-gray-200">
+    <div class="max-w-full p-4 mt-4 mb-4 bg-white rounded-lg shadow-lg">
+        <livewire:table.ruangan-table />
+        {{-- <table class="min-w-full mt-4 bg-white border border-gray-200">
             <thead>
                 <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
                     <th class="px-4 py-2"><input type="checkbox" id="selectAll" wire:model="selectAll"></th>
@@ -58,10 +59,10 @@
                         </td>
                         <td class="px-4 py-2 text-center">
                             {{ ($ruangans->currentPage() - 1) * $ruangans->perPage() + $loop->iteration }}</td>
-                        <td class="px-4 py-2 text-center w-1/4">{{ $ruangan->kode_ruangan }}</td>
-                        <td class="px-4 py-2 text-center w-1/4">{{ $ruangan->nama_ruangan }}</td>
-                        <td class="px-4 py-2 text-center w-1/4">{{ $ruangan->kapasitas }}</td>
-                        <td class="px-4 py-2 text-center w-full max-w-2xl mx-4">
+                        <td class="w-1/4 px-4 py-2 text-center">{{ $ruangan->kode_ruangan }}</td>
+                        <td class="w-1/4 px-4 py-2 text-center">{{ $ruangan->nama_ruangan }}</td>
+                        <td class="w-1/4 px-4 py-2 text-center">{{ $ruangan->kapasitas }}</td>
+                        <td class="w-full max-w-2xl px-4 py-2 mx-4 text-center">
                             <div class="flex justify-center space-x-2">
                                 <livewire:admin.ruangan.edit :id_ruangan="$ruangan->id_ruangan"
                                     wire:key="edit-{{ $ruangan->id_ruangan }}" />
@@ -83,7 +84,7 @@
         <!-- Pagination Controls -->
         <div class="py-8 mt-4 mb-4 text-center">
             {{ $ruangans->links() }}
-        </div>
+        </div> --}}
     </div>
 
     <script>

@@ -50,7 +50,7 @@ class Index extends Component
         ]);
 
         // Cek apakah ada kelas untuk semester yang dipilih
-        $kelasCount = Kelas::where('id_semester', $this->Semester)->count();
+        $kelasCount = KRS::where('id_semester', $this->Semester)->count();
 
         if ($kelasCount === 0) {
             $this->dispatchBrowserEvent('show-message', [
@@ -68,8 +68,12 @@ class Index extends Component
     public function generate()
     {
         $this->batas;
+        $idKelasAktif = KRS::where('id_semester', $this->Semester)
+            ->pluck('id_kelas')
+            ->unique();
+
         $kelasByProdi = Kelas::with('prodi')
-            ->where('id_semester', $this->Semester)
+            ->whereIn('id_kelas', $idKelasAktif)
             ->get()
             ->shuffle()
             ->groupBy('kode_prodi');
@@ -89,10 +93,6 @@ class Index extends Component
 
         foreach ($kelasByProdi as $prodi => $kelasList) {
             foreach ($kelasList as $kelas) {
-
-                // Cek apakah ruangan tersedia
-                $jumlahMahasiswa = KRS::where('id_kelas', $kelas->id_kelas)->count();
-                $ruangan = null;
 
                 $jumlahMahasiswa = KRS::where('id_kelas', $kelas->id_kelas)->count();
                 $ruanganTetap = null;
