@@ -71,22 +71,13 @@
                     class="bg-purple2 hover:bg-customPurple text-white font-semibold py-2 px-6 rounded-lg shadow-lg transition-transform hover:scale-105">
                     Tampilkan
                 </button>
-                <a wire:click='download' target="_blank"
-                    class="bg-green-500 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg shadow-lg transition-transform hover:scale-105 flex items-center">
-                    <svg class="w-5 h-5 text-white mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                        width="24" height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 15v2a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-2m-8 1V4m0 12-4-4m4 4 4-4" />
-                    </svg>
-                    Download
-                </a>
             </div>
         </div>
 
         <!-- Tabel Data -->
         <div class="">
             @if ($selectedSemester)
-                @livewire('table.dosen.emonev.emonev-table', ['jawaban' => $jawaban])
+                @livewire('table.dosen.emonev.emonev-table', ['jawaban' => $selectedSemester, 'matakuliah' => $id, 'user' => $user])
             @endif
         </div>
     </div>
