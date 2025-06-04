@@ -170,7 +170,7 @@
 
     <div class="max-w-full p-4 mt-4 mb-4 bg-white rounded-lg shadow-lg">
         <livewire:table.kelas-table />
-        <table class="min-w-full mt-4 bg-white border border-gray-200">
+        {{-- <table class="min-w-full mt-4 bg-white border border-gray-200">
             <thead>
                 <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
                     <th class="px-4 py-2"><input type="checkbox" id="selectAll" wire:model="selectAll"></th>
@@ -235,19 +235,17 @@
                                                 d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
                                         </svg>
                                     </button>
-                                    {{-- <livewire:admin.kelas.add :id_kelas="$kelas->id_kelas"
-                                        wire:key="edit-{{ rand() . $kelas->id_kelas }}" /> --}}
                                 </div>
                             </div>
                         </td>
                     </tr>
                 @endforeach
             </tbody>
-        </table>
+        </table> --}}
         <!-- Pagination Controls -->
-        <div class="py-8 mt-4 mb-4 text-center">
+        {{-- <div class="py-8 mt-4 mb-4 text-center">
             {{ $kelases->links('') }}
-        </div>
+        </div> --}}
 
     </div>
 
