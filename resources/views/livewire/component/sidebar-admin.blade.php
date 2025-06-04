@@ -20,9 +20,9 @@
                     <button type="button" @click="open = !open"
                         class="flex items-center w-full p-2 text-base transition duration-75 rounded-lg group
                             hover:bg-purple2 hover:text-white
-                            {{ request()->routeIs('admin.user', 'admin.pengumuman', 'admin.staff') ? 'bg-purple2 text-white' : 'text-purple3' }}">
+                            {{ request()->routeIs('admin.user', 'admin.mahasiswa', 'admin.kelas', 'admin.staff', 'admin.dosen', 'admin.semester', 'admin.mata_kuliah', 'admin.prodi', 'admin.ruangan', 'admin.ttd', 'admin.kurikulum') ? 'bg-purple2 text-white' : 'text-purple3' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white
-                            {{ request()->routeIs('admin.user', 'admin.pengumuman', 'admin.staff') ? 'text-white' : '' }}"
+                            {{ request()->routeIs('admin.user', 'admin.mahasiswa', 'admin.kelas', 'admin.staff', 'admin.dosen', 'admin.semester', 'admin.mata_kuliah', 'admin.prodi', 'admin.ruangan', 'admin.ttd', 'admin.kurikulum') ? 'text-white' : '' }}"
                             xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                             <path fill-rule="evenodd" clip-rule="evenodd"
                                 d="M9.586 2.586A2 2 0 0 1 11 2h2a2 2 0 0 1 2 2v.089l.473.196.063-.063a2.002 2.002 0 0 1 2.828 0l1.414 1.414a2 2 0 0 1 0 2.827l-.063.064.196.473H20a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-.089l-.196.473.063.063a2.002 2.002 0 0 1 0 2.828l-1.414 1.414a2 2 0 0 1-2.828 0l-.063-.063-.473.196V20a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-.089l-.473-.196-.063.063a2.002 2.002 0 0 1-2.828 0l-1.414-1.414a2 2 0 0 1 0-2.827l.063-.064L4.089 15H4a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h.09l.195-.473-.063-.063a2 2 0 0 1 0-2.828l1.414-1.414a2 2 0 0 1 2.827 0l.064.063L9 4.089V4a2 2 0 0 1 .586-1.414ZM8 12a4 4 0 1 1 8 0 4 4 0 0 1-8 0Z" />
@@ -40,7 +40,7 @@
                         <li>
                             <a wire:navigate.hover href="{{ route('admin.user') }}"
                                 class="flex items-center mx-4 p-2 rounded-lg group
-                                    {{ request()->routeIs('admin.user') ? 'text-white bg-purple2' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
+                                    {{ request()->routeIs('admin.user') ? 'text-white ' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 <span class="flex-1 ms-3 whitespace-nowrap">User</span>
                             </a>
                         </li>
@@ -59,7 +59,7 @@
                         <li>
                             <a wire:navigate.hover href="{{ route('admin.staff') }}"
                                 class="flex items-center mx-4 p-2 rounded-lg group
-                                    {{ request()->routeIs('admin.staff') ? 'text-white bg-purple2' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
+                                    {{ request()->routeIs('admin.staff') ? 'text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 <span class="flex-1 ms-3 whitespace-nowrap">Staff</span>
                             </a>
                         </li>
@@ -102,17 +102,17 @@
                         <li>
                             <a wire:navigate.hover href="{{ route('admin.ttd') }}"
                                 class="flex items-center mx-4 p-2 rounded-lg group
-                                    {{ request()->routeIs('admin.ttd') ? 'text-white bg-purple2' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
+                                    {{ request()->routeIs('admin.ttd') ? 'text-white ' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 <span class="flex-1 ms-3 whitespace-nowrap">TTD</span>
                             </a>
                         </li>
                     </ul>
                 </li>
 
-                <li x-data="{ open: {{ request()->routeIs('admin.anggota', 'admin.krs', 'admin.paket', 'admin.presensiMahasiswa', 'admin.presensiDosen') ? 'true' : 'false' }} }">
+                <li x-data="{ open: {{ request()->routeIs('admin.anggota', 'admin.krs', 'admin.paket', 'admin.paketkrs', 'admin.presensiMahasiswa', 'admin.presensiDosen') ? 'true' : 'false' }} }">
                     <button type="button" @click="open = !open"
-                        class="flex items-center w-full p-2 text-base transition duration-75 rounded-lg group hover:bg-purple2 text-purple3 hover:text-white {{ request()->routeIs('admin.kurikulum', 'admin.semester', 'admin.mata_kuliah', 'admin.prodi', 'admin.kelas', 'admin.ruangan') ? 'text-white bg-purple2' : 'text-purple3' }}">
-                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.kurikulum', 'admin.semester', 'admin.mata_kuliah', 'admin.prodi', 'admin.kelas', 'admin.ruangan') ? 'text-white' : '' }}"
+                        class="flex items-center w-full p-2 text-base transition duration-75 rounded-lg group hover:bg-purple2 text-purple3 hover:text-white {{ request()->routeIs('admin.anggota', 'admin.paketkrs', 'admin.krs', 'admin.paket', 'admin.presensiMahasiswa', 'admin.presensiDosen') ? 'text-white bg-purple2' : 'text-purple3' }}">
+                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.anggota', 'admin.krs', 'admin.paketkrs', 'admin.paket', 'admin.presensiMahasiswa', 'admin.presensiDosen') ? 'text-white' : '' }}"
                             width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                             <path fill-rule="evenodd"
                                 d="M4 4a1 1 0 0 1 1-1h14a1 1 0 1 1 0 2v14a1 1 0 1 1 0 2H5a1 1 0 1 1 0-2V5a1 1 0 0 1-1-1Zm5 2a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H9Zm5 0a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1h-1Zm-5 4a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1a1 1 0 0 0-1-1H9Zm5 0a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1a1 1 0 0 0-1-1h-1Zm-3 4a2 2 0 0 0-2 2v3h2v-3h2v3h2v-3a2 2 0 0 0-2-2h-2Z"
@@ -201,10 +201,10 @@
                         </li> --}}
                     </ul>
                 </li>
-                <li x-data="{ open: {{ request()->routeIs('admin.pengumuman', 'dosen.khs', 'admin.emonev','admin.pertanyaan','admin.emonev.periode', 'admin.emonev.list-mahasiswa') ? 'true' : 'false' }} }">
+                <li x-data="{ open: {{ request()->routeIs('admin.pengumuman', 'dosen.khs', 'admin.emonev', 'admin.pertanyaan', 'admin.emonev.periode', 'admin.emonev.list-mahasiswa') ? 'true' : 'false' }} }">
                     <button type="button" @click="open = !open"
-                        class="flex items-center w-full p-2 text-base transition duration-75 rounded-lg group hover:bg-purple2 hover:text-white {{ request()->routeIs('admin.mahasiswa', 'admin.krs', 'admin.paketkrs', 'admin.presensiMahasiswa') ? 'bg-purple2 text-white' : 'text-purple3' }}">
-                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.mahasiswa') ? 'text-white' : '' }}"
+                        class="flex items-center w-full p-2 text-base transition duration-75 rounded-lg group hover:bg-purple2 hover:text-white {{ request()->routeIs('admin.pengumuman', 'dosen.khs', 'admin.emonev', 'admin.pertanyaan', 'admin.emonev.periode', 'admin.emonev.list-mahasiswa') ? 'bg-purple2 text-white' : 'text-purple3' }}">
+                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.pengumuman', 'dosen.khs', 'admin.emonev', 'admin.pertanyaan', 'admin.emonev.periode', 'admin.emonev.list-mahasiswa') ? 'text-white' : '' }}"
                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                             fill="currentColor" viewBox="0 0 24 24">
                             <path fill-rule="evenodd"
@@ -248,13 +248,13 @@
                         <li>
                             <a wire:navigate.hover href="{{ route('admin.pengumuman') }}"
                                 class="flex items-center mx-4 p-2 rounded-lg group
-                                    {{ request()->routeIs('admin.pengumuman') ? 'text-white bg-purple2' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
+                                    {{ request()->routeIs('admin.pengumuman') ? 'text-white ' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 <span class="flex-1 ms-3 whitespace-nowrap">Pengumuman</span>
                             </a>
                         </li>
                         <li>
                             <a wire:navigate.hover href="{{ route('dosen.khs') }}"
-                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.presensiMahasiswa') ? 'text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
+                                class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('dosen.khs') ? 'text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 <span class="flex-1 ms-3 whitespace-nowrap">KHS</span>
                             </a>
                         </li>
