@@ -17,6 +17,9 @@ final class TokenTable extends PowerGridComponent
     public int $id_mata_kuliah;
     public int $id_kelas;
 
+    protected $listeners = ['tokenCreated' => '$refresh'];
+
+
     public function setUp(): array
     {
         return [

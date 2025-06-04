@@ -111,8 +111,8 @@
 
                 <li x-data="{ open: {{ request()->routeIs('admin.anggota', 'admin.krs', 'admin.paket', 'admin.paketkrs', 'admin.presensiMahasiswa', 'admin.presensiDosen') ? 'true' : 'false' }} }">
                     <button type="button" @click="open = !open"
-                        class="flex items-center w-full p-2 text-base transition duration-75 rounded-lg group hover:bg-purple2 text-purple3 hover:text-white {{ request()->routeIs('admin.anggota', 'admin.paketkrs', 'admin.krs', 'admin.paket', 'admin.presensiMahasiswa', 'admin.presensiDosen') ? 'text-white bg-purple2' : 'text-purple3' }}">
-                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.anggota', 'admin.krs', 'admin.paketkrs', 'admin.paket', 'admin.presensiMahasiswa', 'admin.presensiDosen') ? 'text-white' : '' }}"
+                        class="flex items-center w-full p-2 text-base transition duration-75 rounded-lg group hover:bg-purple2 text-purple3 hover:text-white {{ request()->routeIs('admin.anggota', 'admin.paketkrs', 'admin.krs', 'admin.paket', 'admin.presensiMahasiswa', 'admin.presensiDosen', 'admin.presensiMahasiswa', 'admin.presensiDosen') ? 'text-white bg-purple2' : 'text-purple3' }}">
+                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.anggota', 'admin.krs', 'admin.paketkrs', 'admin.paket', 'admin.presensiMahasiswa', 'admin.presensiDosen', 'admin.presensiMahasiswa', 'admin.presensiDosen') ? 'text-white' : '' }}"
                             width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                             <path fill-rule="evenodd"
                                 d="M4 4a1 1 0 0 1 1-1h14a1 1 0 1 1 0 2v14a1 1 0 1 1 0 2H5a1 1 0 1 1 0-2V5a1 1 0 0 1-1-1Zm5 2a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H9Zm5 0a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1h-1Zm-5 4a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1a1 1 0 0 0-1-1H9Zm5 0a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1a1 1 0 0 0-1-1h-1Zm-3 4a2 2 0 0 0-2 2v3h2v-3h2v3h2v-3a2 2 0 0 0-2-2h-2Z"
@@ -203,8 +203,8 @@
                 </li>
                 <li x-data="{ open: {{ request()->routeIs('admin.pengumuman', 'dosen.khs', 'admin.emonev', 'admin.pertanyaan', 'admin.emonev.periode', 'admin.emonev.list-mahasiswa') ? 'true' : 'false' }} }">
                     <button type="button" @click="open = !open"
-                        class="flex items-center w-full p-2 text-base transition duration-75 rounded-lg group hover:bg-purple2 hover:text-white {{ request()->routeIs('admin.pengumuman', 'dosen.khs', 'admin.emonev', 'admin.pertanyaan', 'admin.emonev.periode', 'admin.emonev.list-mahasiswa') ? 'bg-purple2 text-white' : 'text-purple3' }}">
-                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.pengumuman', 'dosen.khs', 'admin.emonev', 'admin.pertanyaan', 'admin.emonev.periode', 'admin.emonev.list-mahasiswa') ? 'text-white' : '' }}"
+                        class="flex items-center w-full p-2 text-base transition duration-75 rounded-lg group hover:bg-purple2 hover:text-white {{ request()->routeIs('admin.mahasiswa', 'admin.krs', 'admin.paketkrs', 'admin.presensiMahasiswa') ? 'bg-purple2 text-white' : 'text-purple3' }}">
+                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.mahasiswa') ? 'text-white' : '' }}"
                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                             fill="currentColor" viewBox="0 0 24 24">
                             <path fill-rule="evenodd"

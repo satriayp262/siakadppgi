@@ -22,6 +22,9 @@ final class BeritaAcaraDosen extends PowerGridComponent
     public int $id_mata_kuliah;
     public int $id_kelas;
 
+    protected $listeners = ['acaraCreated' => '$refresh'];
+
+
     public function setUp(): array
     {
         return [
@@ -54,7 +57,7 @@ final class BeritaAcaraDosen extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id_berita_acara')
-            ->add('tanggal_formatted', fn (BeritaAcara $model) => Carbon::parse($model->tanggal)->format('d/m/Y'))
+            ->add('tanggal_formatted', fn(BeritaAcara $model) => Carbon::parse($model->tanggal)->format('d/m/Y'))
             ->add('materi')
             ->add('jumlah_mahasiswa')
             ->add('semester.nama_semester');

@@ -42,9 +42,6 @@ class CreateToken extends Component
     {
         $this->validate();
 
-        // Debugging untuk memastikan validasi berhasil
-        // dd('Validasi berhasil');
-
         $semesterAktif = Semester::where('is_active', 1)->first();
 
         if (!$semesterAktif) {
@@ -62,6 +59,8 @@ class CreateToken extends Component
             'valid_until' => $this->valid_until,
             'id' => Auth::user()->id,
         ]);
+
+        // dd($token);
 
         $this->reset();
         $this->dispatch('tokenCreated', $token);

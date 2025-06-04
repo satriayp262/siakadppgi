@@ -27,12 +27,16 @@ final class PresensiMahasiwaTable extends PowerGridComponent
         return [
             PowerGrid::header()
                 ->showSearchInput()
-                ->showToggleColumns()
                 ->includeViewOnTop('livewire.admin.presensi-mahasiswa.filters'),
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
         ];
+    }
+
+    public function boot(): void
+    {
+        config(['livewire-powergrid.filter' => 'outside']);
     }
 
     public function getSemestersProperty()

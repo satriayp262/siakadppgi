@@ -1,13 +1,15 @@
 <div class="flex justify-center space-x-1">
     @php
-        $date = new DateTime('now', new DateTimeZone('Asia/Bangkok'));
+        $now = new DateTime('now', new DateTimeZone('Asia/Bangkok'));
+        $isExpired = $row->valid_until < $now->format('Y-m-d H:i:s');
     @endphp
-    <button onclick="{{ $row->valid_until < $date->format('Y/m/d H:i:s') ? '' : 'copyToken(\'' . $row->token . '\')' }}"
-        class="px-2 py-1 text-white bg-blue-500 hover:bg-blue-600 rounded text-center
-        {{ $row->valid_until < $date->format('Y/m/d H:i:s') ? 'bg-gray-500 hover:bg-gray-600 cursor-not-allowed' : '' }}"
-        {{ $row->valid_until < $date->format('Y/m/d H:i:s') ? 'disabled' : '' }}>
-        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-            width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+
+    <button onclick="{{ !$isExpired ? 'copyToken(\'' . $row->token . '\')' : '' }}"
+        class="px-2 py-1 text-white rounded text-center
+           {{ $isExpired ? 'bg-gray-500 hover:bg-gray-600 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600' }}"
+        {{ $isExpired ? 'disabled' : '' }}>
+        <svg class="w-6 h-6 text-gray-800 dark:text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+            fill="currentColor" viewBox="0 0 24 24">
             <path fill-rule="evenodd"
                 d="M18 3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-1V9a4 4 0 0 0-4-4h-3a1.99 1.99 0 0 0-1 .267V5a2 2 0 0 1 2-2h7Z"
                 clip-rule="evenodd" />
@@ -16,9 +18,6 @@
                 clip-rule="evenodd" />
         </svg>
     </button>
-
-    {{-- <dd>{{ now() }}</dd> --}}
-
 
     <button onclick="window.location='{{ route('dosen.detail_presensi', $row->token) }}'"
         class="px-2 py-1 text-white bg-yellow-500 hover:bg-yellow-600 rounded"><svg
@@ -29,8 +28,4 @@
             <path stroke="currentColor" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
         </svg>
     </button>
-    {{-- @php
-        $date = new DateTime('now', new DateTimeZone('Asia/Bangkok'));
-        echo $date->format('Y/m/d H:i:s');
-    @endphp --}}
 </div>

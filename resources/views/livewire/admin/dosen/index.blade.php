@@ -6,12 +6,6 @@
             <div class="flex space-x-2">
                 <!-- Modal Form -->
                 <livewire:admin.dosen.create />
-                @if ($showDeleteButton)
-                    <button id="deleteButton" class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700"
-                        onclick="confirmDeleteSelected()">
-                        Hapus Data Terpilih
-                    </button>
-                @endif
                 {{-- modal import --}}
                 <div x-data="{ isOpen: false, load: false }" @modal-closed.window="isOpen = false">
                     <!-- Button to open the modal -->
@@ -112,107 +106,8 @@
                         </div>
                     </div>
                 </div>
-                <div>
-                    @if (session()->has('message'))
-                        @php
-                            $messageType = session('message_type', 'success'); // Default to success
-                            $bgColor =
-                                $messageType === 'error'
-                                    ? 'bg-red-500'
-                                    : (($messageType === 'warning'
-                                            ? 'bg-yellow-500'
-                                            : $messageType === 'update')
-                                        ? 'bg-blue-500'
-                                        : 'bg-green-500');
-                        @endphp
-                        <div id="flash-message"
-                            class="flex items-center justify-between p-2 mx-2 mt-4 text-white {{ $bgColor }} rounded">
-                            <span>{!! session('message') !!}</span>
-                            <button class="p-1" onclick="document.getElementById('flash-message').remove();"
-                                class="font-bold text-white">
-                                &times;
-                            </button>
-                        </div>
-                    @endif
-                </div>
-                <div>
-                    @if (session()->has('message2'))
-                        @php
-                            $messageType = session('message_type', 'success'); // Default to success
-                            $bgColor =
-                                $messageType === 'error'
-                                    ? 'bg-red-500'
-                                    : (($messageType === 'warning'
-                                            ? 'bg-yellow-500'
-                                            : $messageType === 'update')
-                                        ? 'bg-blue-500'
-                                        : 'bg-green-500');
-                        @endphp
-                        <div id="flash-message"
-                            class="flex items-center justify-between p-2 mx-2 mt-4 text-white {{ $bgColor }} rounded">
-                            <span>{!! session('message2') !!}</span>
-                            <button class="p-1" onclick="document.getElementById('flash-message').remove();"
-                                class="font-bold text-white">
-                                &times;
-                            </button>
-                        </div>
-                    @endif
-                </div>
-                @if ($showDeleteButton)
-                    <button id="deleteButton" class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700"
-                        onclick="confirmDeleteSelected()">
-                        Hapus Data Terpilih
-                    </button>
-                @endif
             </div>
-            {{-- <input type="text" wire:model.live="search" placeholder="   Search"
-                class="px-2 ml-4 border border-gray-300 rounded-lg"> --}}
         </div>
-    </div>
-    {{-- </div> --}}
-
-    <div>
-        @if (session()->has('message'))
-            @php
-                $messageType = session('message_type', 'success'); // Default to success
-                $bgColor =
-                    $messageType === 'error'
-                        ? 'bg-red-500'
-                        : (($messageType === 'warning'
-                                ? 'bg-yellow-500'
-                                : $messageType === 'update')
-                            ? 'bg-blue-500'
-                            : 'bg-green-500');
-            @endphp
-            <div id="flash-message"
-                class="flex items-center justify-between p-2 mx-2 mt-4 text-white {{ $bgColor }} rounded">
-                <span>{{ session('message') }}</span>
-                <button class="p-1 font-bold text-white"
-                    onclick="document.getElementById('flash-message').style.display='none'">
-                    &times;
-                </button>
-            </div>
-        @endif
-    </div>
-    <div>
-        @if (session()->has('message2'))
-            @php
-                $messageType = session('message_type2', 'warning');
-                $bgColor =
-                    $messageType === 'error'
-                        ? 'bg-red-500'
-                        : ($messageType === 'warning'
-                            ? 'bg-yellow-500'
-                            : 'bg-green-500');
-            @endphp
-            <div id="flash-message"
-                class="flex items-center justify-between p-2 mx-2 mt-4 text-white {{ $bgColor }} rounded">
-                <span>{!! session('message2') !!}</span>
-                <button class="p-1 font-bold text-white" onclick="document.getElementById('flash-message').remove();">
-                    &times;
-                </button>
-            </div>
-        @endif
     </div>
 
     <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
@@ -257,22 +152,32 @@
         //     });
         // });
 
-        // function confirmDelete(id_dosen, nama_dosen) {
-        //     Swal.fire({
-        //         title: `Apakah anda yakin ingin menghapus Dosen ${nama_dosen}?,
-        //         text: "Data yang telah dihapus tidak dapat dikembalikan!",
-        //         icon: 'warning',
-        //         showCancelButton: true,
-        //         confirmButtonColor: '#d33',
-        //         cancelButtonColor: '#28a745',
-        //         confirmButtonText: 'Hapus'
-        //     }).then((result) => {
-        //         if (result.isConfirmed) {
-        //             @this.call('destroy', id_dosen);
-        //         }
-        //     });
-        // }
-
+        document.addEventListener('DOMContentLoaded', function() {
+            window.addEventListener('created', event => {
+                Swal.fire({
+                    title: 'Success!',
+                    text: event.detail.params.message,
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    // Dispatch the modal-closed event to close the modal
+                    window.dispatchEvent(new CustomEvent('modal-closed'));
+                });
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            window.addEventListener('updated', event => {
+                Swal.fire({
+                    title: 'Success!',
+                    text: event.detail.params.message,
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    // Dispatch the modal-closed event to close the modal
+                    window.dispatchEvent(new CustomEvent('modal-closed'));
+                });
+            });
+        });
 
 
         window.addEventListener('bulkDelete.alert.dosen-table-lw2rml-table', (event) => {
