@@ -14,7 +14,7 @@
         </div>
     @else
         <div class="flex flex-col w-3/4 p-4 bg-white border border-black">
-            <div class="flex">
+            {{-- <div class="flex">
                 <img src="{{ asset('img/Politeknik_Piksi_Ganesha_Bandung.png') }}" alt="" style="width: 80px;" class="mr-4">
                 <div class="flex flex-col text-center">
                     <p class="text-2xl font-bold text-purple-700">
@@ -26,8 +26,9 @@
                                 Kebumen, Jawa Tengah, Indonesia 54311
                     </p>
                 </div>
-            </div>
-            <div style="border: 2px solid darkviolet; height: 2px; margin-top: 6px;"></div>
+            </div> --}}
+            <img src="{{ asset('img/kop_surat.jpg') }}" alt="Kop Surat" style="width: 100%; margin-bottom: 10px;">
+            <div style=" height: 2px; margin-top: 6px;"></div>
                 <div class="mb-2">
                     <span class="flex items-center justify-center mt-2 text-lg font-bold">
                         @if ($z == 'UTS')
