@@ -125,7 +125,7 @@
                 <!-- Submit & Score -->
                 <div class="flex flex-row flex-wrap justify-between items-center mt-6 gap-4">
                     <div class="text-lg font-semibold">
-                        Skor: <span class="text-customPurple" id="skor"></span><span
+                        Skor: <span class="text-customPurple" id="skor">0</span><span
                             class="text-customPurple">{{ ' / ' . $maxSkor }}</span>
                     </div>
                     <button type="submit"
@@ -142,11 +142,22 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        document.addEventListener('change', function() {
+        function updateSkor() {
             let totalSkor = [...document.querySelectorAll('.score-input:checked')]
                 .reduce((sum, radio) => sum + parseInt(radio.value), 0);
-
             document.getElementById('skor').textContent = totalSkor;
+        }
+
+        document.addEventListener('change', updateSkor);
+
+        // Update skor on Livewire updates (after DOM changes)
+        document.addEventListener('livewire:load', function() {
+            Livewire.hook('message.processed', function() {
+                updateSkor();
+            });
         });
+
+        // Initial update
+        updateSkor();
     });
 </script>

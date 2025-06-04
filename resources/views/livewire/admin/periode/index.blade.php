@@ -27,6 +27,21 @@
         });
     }
 
+    window.addEventListener('confirm-create-pengumuman', function() {
+        Swal.fire({
+            title: 'Periode berhasil ditambahkan!',
+            text: "Apakah Anda ingin membuat pengumuman?",
+            icon: 'success',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, buat pengumuman',
+            cancelButtonText: 'Tidak, nanti saja'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                @this.call('kirim');
+            }
+        });
+    });
+
     window.addEventListener('bulkDelete.alert.periode-table-hwo90b-table', (event) => {
         const ids = event.detail[0].ids;
 
@@ -43,7 +58,6 @@
             confirmButtonText: 'Hapus'
         }).then((result) => {
             if (result.isConfirmed) {
-
                 @this.call('destroySelected', ids);
             }
         });

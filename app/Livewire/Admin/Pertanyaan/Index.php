@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Pertanyaan;
 
+use App\Models\Jawaban;
 use Livewire\Component;
 use App\Models\Pertanyaan;
 use Livewire\WithPagination;
@@ -35,6 +36,11 @@ class Index extends Component
     public function destroy($id)
     {
         $pengumuman = Pertanyaan::find($id);
+        $jawaban = Jawaban::where('id_pertanyaan', $id)->count();
+        if ($jawaban > 0) {
+            $this->dispatch('warning', ['message' => 'Pertanyaan tidak bisa dihapus karena sudah ada data jawaban yang terkait']);
+            return;
+        }
         $pengumuman->delete();
         $this->dispatch('pg:eventRefresh-pertanyaan-table-adupmv-table');
         $this->dispatch('destroyed', ['message' => 'Pertanyaan Berhasil di Hapus']);
@@ -47,10 +53,6 @@ class Index extends Component
         $this->dispatch('destroyed', ['message' => 'Pertanyaan Berhasil di Hapus']);
     }
 
-    public function deleted()
-    {
-
-    }
     public function updatingSearch()
     {
         $this->refreshPage();

@@ -90,7 +90,7 @@ class Create extends Component
 
     public function render()
     {
-        $semesters = Semester::all();
+        $semesters = Semester::query()->orderBy('id_semester', 'desc')->get();
         return view('livewire.admin.periode.create', [
             'semesters' => $semesters
         ]);
