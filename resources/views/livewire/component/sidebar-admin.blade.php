@@ -203,8 +203,8 @@
                 </li>
                 <li x-data="{ open: {{ request()->routeIs('admin.pengumuman', 'dosen.khs', 'admin.emonev', 'admin.pertanyaan', 'admin.emonev.periode', 'admin.emonev.list-mahasiswa') ? 'true' : 'false' }} }">
                     <button type="button" @click="open = !open"
-                        class="flex items-center w-full p-2 text-base transition duration-75 rounded-lg group hover:bg-purple2 hover:text-white {{ request()->routeIs('admin.mahasiswa', 'admin.krs', 'admin.paketkrs', 'admin.presensiMahasiswa') ? 'bg-purple2 text-white' : 'text-purple3' }}">
-                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.mahasiswa') ? 'text-white' : '' }}"
+                        class="flex items-center w-full p-2 text-base transition duration-75 rounded-lg group hover:bg-purple2 hover:text-white {{ request()->routeIs('admin.pengumuman', 'dosen.khs', 'admin.emonev', 'admin.pertanyaan', 'admin.emonev.periode', 'admin.emonev.list-mahasiswa') ? 'bg-purple2 text-white' : 'text-purple3' }}">
+                        <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('admin.pengumuman', 'dosen.khs', 'admin.emonev', 'admin.pertanyaan', 'admin.emonev.periode', 'admin.emonev.list-mahasiswa') ? 'text-white' : '' }}"
                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                             fill="currentColor" viewBox="0 0 24 24">
                             <path fill-rule="evenodd"
@@ -224,7 +224,7 @@
                         <li>
                             <a wire:navigate.hover href="{{ route('admin.emonev') }}"
                                 class="flex items-center mx-4 p-2 text-gray-100 rounded-lg group {{ request()->routeIs('admin.emonev') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
-                                <span class="flex-1 ms-3 whitespace-nowrap">Emonev</span>
+                                <span class="flex-1 ms-3 whitespace-nowrap">e-Monev</span>
                             </a>
                         </li>
                         <li>
@@ -242,7 +242,7 @@
                         <li>
                             <a wire:navigate.hover href="{{ route('admin.emonev.list-mahasiswa') }}"
                                 class="flex items-center mx-4 p-2 text-gray-100 rounded-lg group {{ request()->routeIs('admin.emonev.list-mahasiswa') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
-                                <span class="flex-1 ms-3 whitespace-nowrap">Log Pengisian</span>
+                                <span class="flex-1 ms-3 whitespace-nowrap">Riwayat e-Monev</span>
                             </a>
                         </li>
                         <li>

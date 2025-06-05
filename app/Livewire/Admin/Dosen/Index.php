@@ -37,7 +37,7 @@ class Index extends Component
     public function handleuserCreated()
     {
         $this->dispatch('pg:eventRefresh-dosen-table-lw2rml-table');
-        $this->dispatch('created', params: ['message' => 'Dosen berhasil ditambahkan!']);
+        $this->dispatch('created', params: ['message' => 'Akun dosen berhasil ditambahkan!']);
     }
 
     #[On('dosenUpdated')]
@@ -48,7 +48,8 @@ class Index extends Component
     }
 
 
-    public function deleted(){
+    public function deleted()
+    {
 
         $this->dispatch('pg:eventRefresh-dosen-table-lw2rml-table');
         $this->dispatch('destroyed', ['message' => 'Dosen Berhasil di Hapus!']);
