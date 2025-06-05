@@ -43,10 +43,6 @@ Staff members have access related to payments. This includes managing student pa
 monitoring payment status, setting up billing, and generating financial reports related to payment 
 administration at the educational institution.
 
-## ERD
-
-![erd siakad(normalized)]()
-
 ## Installation
 
 1. Clone the repository:
@@ -112,4 +108,5 @@ Open your forked repository on GitHub, select the new branch you created, and cl
 
 ## Contact
 For any questions or concerns, please contact the project maintainers at:
-masdzukyarrouf16@gmail.com
+Email : masdzukyarrouf16@gmail.com
+Telp  : 
