@@ -6,10 +6,12 @@ use App\Models\Kelas;
 use App\Models\Mahasiswa;
 use Livewire\Component;
 use Livewire\Attributes\On;
+use Livewire\WithPagination;
 
 class Show extends Component
 {
 
+    use WithPagination;
     public $nama_kelas;
     public function destroy($id_mahasiswa)
     {
@@ -34,7 +36,7 @@ class Show extends Component
     {
         if (!(str_replace('-', '/', $this->nama_kelas) == 'Tanpa kelas')) {
             $kelas = Kelas::where('nama_kelas', str_replace('-', '/', $this->nama_kelas))->first();
-            $mahasiswa = Mahasiswa::where('id_kelas', $kelas->id_kelas)->get();
+            $mahasiswa = Mahasiswa::where('id_kelas', $kelas->id_kelas)->paginate(10);
         }else{
             $mahasiswa = Mahasiswa::where('id_kelas', null)->paginate(10);
         }

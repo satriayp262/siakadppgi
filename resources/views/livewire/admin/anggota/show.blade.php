@@ -5,7 +5,7 @@
                 <ol class="flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
                     <li aria-current="page">
                         <div class="flex items-center">
-                            <a wire:navigate.hover  href="{{ route('admin.anggota') }}"
+                            <a wire:navigate.hover href="{{ route('admin.anggota') }}"
                                 class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
                                 <span class="text-sm font-medium text-gray-500 ms-1 md:ms-2">Anggota Kelas</span>
                                 <svg class="w-3 h-3 mx-1 text-gray-400 rtl:rotate-180" aria-hidden="true"
@@ -14,7 +14,8 @@
                                         stroke-width="2" d="m1 9 4-4-4-4" />
                                 </svg>
                             </a>
-                            <a wire:navigate.hover  href="{{ route('admin.anggota.show', ['nama_kelas' => str_replace('/', '-', $nama_kelas)]) }}"
+                            <a wire:navigate.hover
+                                href="{{ route('admin.anggota.show', ['nama_kelas' => str_replace('/', '-', $nama_kelas)]) }}"
                                 class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
                                 <span
                                     class="text-sm font-medium text-gray-500 ms-1 md:ms-2">{{ str_replace('-', '/', $nama_kelas) }}</span>
@@ -33,39 +34,49 @@
             </H2>
         </div>
     </div>
-    <div class="flex justify-between mt-1">
-        @if ($nama_kelas !== 'Tanpa kelas')
-        <livewire:admin.anggota.edit :$nama_kelas />
-        @endif
-        <div></div>
-    </div>
-    @foreach ($mahasiswa as $item)
-        <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
-            <div class="flex flex-row justify-between">
-                <div class="flex flex-col">
-                    <span class="text-xl font-bold text-purple2">{{ $item->NIM }}</span>
-                    <span class="text-sm font-bold text-gray-400">
-                        {{ $item->nama }}</span>
-                </div>
-                <div class="flex justify-center space-x-2">
-                    <button wire:key="delete-{{ $item->id_kelas }}"
-                        class="inline-block px-3 py-2 ml-2 text-white bg-red-500 rounded hover:bg-red-700"
-                        onclick="confirmDelete('{{ $item->id_mahasiswa }}', '{{ $item->nama }}','{{ str_replace('-', '/', $nama_kelas) }}')"><svg
-                            class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
-                            viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
-                        </svg>
-                    </button>
-                </div>
+    <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg">
+        <div class="flex justify-between mt-1">
+            @if ($nama_kelas !== 'Tanpa kelas')
+                <livewire:admin.anggota.edit :$nama_kelas />
+            @endif
+            <div></div>
+        </div>
+        <div class="overflow-x-auto mt-4 mb-4">
+            <table class="min-w-full bg-white shadow-lg rounded-lg">
+                <thead class="bg-purple2 text-white">
+                    <tr>
+                        <th class="px-4 py-2 text-center">NIM</th>
+                        <th class="px-4 py-2 text-center">Nama</th>
+                        <th class="px-4 py-2 text-center">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($mahasiswa as $item)
+                        <tr class="border-b">
+                            <td class="px-4 py-2 border text-center font-bold text-purple2">{{ $item->NIM }}</td>
+                            <td class="px-4 py-2 border text-center text-gray-600">{{ $item->nama }}</td>
+                            <td class="px-4 py-2 border text-center">
+                                <button wire:key="delete-{{ $item->id_kelas }}"
+                                    class="inline-flex items-center justify-center px-3 py-2 text-white bg-red-500 rounded hover:bg-red-700"
+                                    onclick="confirmDelete('{{ $item->id_mahasiswa }}', '{{ $item->nama }}', '{{ str_replace('-', '/', $nama_kelas) }}')">
+                                    <svg class="w-5 h-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 7h14M10 11v6m4-6v6M9 4h6a1 1 0 011 1v2H8V5a1 1 0 011-1zm-3 3h12v12a1 1 0 01-1 1H7a1 1 0 01-1-1V7z" />
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+
+            <div class="py-4 text-center">
+                @if (!$mahasiswa->isEmpty())
+                    {{ $mahasiswa->links('') }}
+                @endif
             </div>
         </div>
-    @endforeach
-    <div class="py-8 mt-4 mb-4 text-center">
-        @if ( !count($mahasiswa) === 0)
-            {{ $mahasiswa->links('') }}
-        @endif
     </div>
 </div>
 <script>
