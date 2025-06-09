@@ -31,7 +31,7 @@ class ListMahasiswa extends Component
     public function loadData()
     {
         if ($this->selectedSemester == '') {
-            $this->dispatch('warning', ['message' => 'Pilih Periode']);
+            $this->dispatch('warning', ['message' => 'Harap Pilih Periode']);
             return;
         }
 
@@ -40,7 +40,6 @@ class ListMahasiswa extends Component
             ->first();
 
         $sesi = substr($periode->nama_periode, 6, 1);
-
 
         $mahasiswaList = Mahasiswa::whereIn('NIM', function ($query) use ($periode) {
             $query->select('NIM')

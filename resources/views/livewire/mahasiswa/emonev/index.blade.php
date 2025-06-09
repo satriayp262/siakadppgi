@@ -44,9 +44,9 @@
                 {{-- Ada data --}}
             @else
                 @php
-                    //$now = now()->toDateString();
+                    $now = now()->toDateString();
 
-                    $now = '2025-06-11';
+                    //$now = '2025-06-11';
 
                     $isPeriode1 = $periode1 && $now >= $periode1->tanggal_mulai && $now <= $periode1->tanggal_selesai;
                     $isPeriode2 = $periode2 && $now >= $periode2->tanggal_mulai && $now <= $periode2->tanggal_selesai;
@@ -88,9 +88,15 @@
                                         $emonev = MahasiswaEmonev::where('NIM', Auth::user()->nim_nidn)
                                             ->where('id_mata_kuliah', $item->matkul->id_mata_kuliah)
                                             ->where('id_semester', $semester1->id_semester)
-                                            ->first();
+                                            ->count();
 
-                                        $sesi = $emonev?->sesi;
+                                        if ($emonev > 1) {
+                                            $sesi = 2;
+                                        } elseif ($emonev == 1) {
+                                            $sesi = 1;
+                                        } else {
+                                            $sesi = 0;
+                                        }
 
                                         if (($isPeriode1 && $sesi == 1) || ($isPeriode2 && $sesi == 2)) {
                                             $sudahIsi = 'sudah';
@@ -98,6 +104,9 @@
                                         } elseif ($isPeriode2 && $sesi == 0) {
                                             $sudahIsi = 'terlambat';
                                             $x = $periode->id_periode - 1;
+                                        } elseif ($isPeriode1 && $sesi == 2) {
+                                            $sudahIsi = 'sudah';
+                                            $x = $periode->id_periode;
                                         } else {
                                             $sudahIsi = 'belum';
                                             $x = $periode->id_periode;
@@ -109,7 +118,7 @@
                                         <td class="px-2 py-2 text-center">{{ $loop->iteration }}</td>
                                         <td class="px-2 py-2">{{ $item->matkul->dosen->nama_dosen }}</td>
                                         <td class="px-2 py-2">{{ $item->matkul->nidn }}</td>
-                                        <td class="px-2 py-2">{{ $item->matkul->nama_mata_kuliah . ' ' . $x }}</td>
+                                        <td class="px-2 py-2">{{ $item->matkul->nama_mata_kuliah }}</td>
                                         <td class="px-2 py-2 text-center">
                                             @if ($sudahIsi == 'sudah')
                                                 <span
@@ -179,9 +188,15 @@
                                 $emonev = MahasiswaEmonev::where('NIM', Auth::user()->nim_nidn)
                                     ->where('id_mata_kuliah', $item->matkul->id_mata_kuliah)
                                     ->where('id_semester', $semester1->id_semester)
-                                    ->first();
+                                    ->count();
 
-                                $sesi = $emonev?->sesi;
+                                if ($emonev > 1) {
+                                    $sesi = 2;
+                                } elseif ($emonev == 1) {
+                                    $sesi = 1;
+                                } else {
+                                    $sesi = 0;
+                                }
 
                                 if (($isPeriode1 && $sesi == 1) || ($isPeriode2 && $sesi == 2)) {
                                     $sudahIsi = 'sudah';
@@ -189,6 +204,9 @@
                                 } elseif ($isPeriode2 && $sesi == 0) {
                                     $sudahIsi = 'terlambat';
                                     $x = $periode->id_periode - 1;
+                                } elseif ($isPeriode1 && $sesi == 2) {
+                                    $sudahIsi = 'sudah';
+                                    $x = $periode->id_periode;
                                 } else {
                                     $sudahIsi = 'belum';
                                     $x = $periode->id_periode;

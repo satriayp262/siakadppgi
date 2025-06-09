@@ -88,19 +88,21 @@ class Show extends Component
             ->where('id_semester', $semester->id_semester)
             ->first();
 
-        // Tentukan sesi (1 jika belum ada data, +1 jika sudah ada)
-        $sesi = $emon ? $emon->sesi + 1 : 1;
-
-        // Simpan data MahasiswaEmonev (gunakan update jika sudah ada)
         if ($emon) {
-            $emon->update(['sesi' => $sesi]);
+            $emon = MahasiswaEmonev::create([
+                'NIM' => $mahasiswa->NIM,
+                'id_semester' => $semester->id_semester,
+                'id_mata_kuliah' => $this->id,
+                'nidn' => $matkul->dosen->nidn,
+                'sesi' => 2,
+            ]);
         } else {
             $emon = MahasiswaEmonev::create([
                 'NIM' => $mahasiswa->NIM,
                 'id_semester' => $semester->id_semester,
                 'id_mata_kuliah' => $this->id,
                 'nidn' => $matkul->dosen->nidn,
-                'sesi' => $sesi,
+                'sesi' => 1,
             ]);
         }
 
