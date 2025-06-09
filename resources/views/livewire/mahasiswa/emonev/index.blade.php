@@ -182,12 +182,19 @@
                                     ->first();
 
                                 $sesi = $emonev?->sesi;
-                                $sudahIsi = ($isPeriode1 && $sesi == 1) || ($isPeriode2 && $sesi == 2);
-                                $kode = Hashids::encode(
-                                    $item->matkul->id_mata_kuliah,
-                                    $k->id_kelas,
-                                    $periode->id_periode,
-                                );
+
+                                if (($isPeriode1 && $sesi == 1) || ($isPeriode2 && $sesi == 2)) {
+                                    $sudahIsi = 'sudah';
+                                    $x = $periode->id_periode;
+                                } elseif ($isPeriode2 && $sesi == 0) {
+                                    $sudahIsi = 'terlambat';
+                                    $x = $periode->id_periode - 1;
+                                } else {
+                                    $sudahIsi = 'belum';
+                                    $x = $periode->id_periode;
+                                }
+
+                                $kode = Hashids::encode($item->matkul->id_mata_kuliah, $k->id_kelas, $x);
                             @endphp
                             <div class="border rounded-lg p-4 shadow-sm">
                                 <div class="font-semibold text-gray-700 mb-2">{{ $loop->iteration }}.
@@ -198,17 +205,33 @@
                                     {{ $item->matkul->nama_mata_kuliah }}</div>
                                 <div class="text-sm text-gray-600 mt-2">
                                     <strong>Status:</strong>
-                                    <span
-                                        class="inline-block px-2 py-1 rounded-full text-xs font-semibold {{ $sudahIsi ? 'bg-blue-200 text-blue-800' : 'bg-red-200 text-red-800' }}">
-                                        {{ $sudahIsi ? 'Sudah Mengisi' : 'Belum Mengisi' }}
-                                    </span>
+                                    @if ($sudahIsi == 'sudah')
+                                        <span
+                                            class="px-2 py-1 rounded-full text-xs font-semibold bg-blue-200 text-blue-800">
+                                            Sudah Mengisi
+                                        </span>
+                                    @elseif ($sudahIsi == 'terlambat')
+                                        <span
+                                            class="px-2 py-1 rounded-full text-xs font-semibold bg-yellow-200 text-yellow-800">
+                                            Terlambat Mengisi
+                                        </span>
+                                    @else
+                                        <span
+                                            class="px-2 py-1 rounded-full text-xs font-semibold bg-red-200 text-red-800">
+                                            Belum Mengisi
+                                        </span>
+                                    @endif
                                 </div>
                                 <div class="mt-3">
-                                    @if (!$sudahIsi)
-                                        <a wire:navigate.hover
-                                            href="{{ route('emonev.detail', ['id_mata_kuliah' => $kode, 'nama_semester' => $semester1->nama_semester]) }}"
+                                    @if ($sudahIsi == 'belum')
+                                        <a href="{{ route('emonev.detail', ['id_mata_kuliah' => $kode, 'nama_semester' => $semester1->nama_semester]) }}"
                                             class="bg-blue-500 hover:bg-blue-700 text-white w-full py-2 rounded-lg text-sm font-medium block text-center">
                                             Isi e-Monev
+                                        </a>
+                                    @elseif ($sudahIsi == 'terlambat')
+                                        <a href="{{ route('emonev.detail', ['id_mata_kuliah' => $kode, 'nama_semester' => $semester1->nama_semester]) }}"
+                                            class="bg-blue-500 hover:bg-blue-700 text-white w-full py-2 rounded-lg text-sm font-medium block text-center">
+                                            Isi e-Monev (Terlambat)
                                         </a>
                                     @else
                                         <button
