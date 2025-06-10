@@ -212,7 +212,7 @@
                     <div class="flex items-center justify-between">
                         <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
                         <div class="text-sm">
-                            <a href="/forgot-password"
+                            <a href="/forgot-password" tabindex="-1"
                                 class="text-purple2 hover:text-customPurple hover:underline">Forgot
                                 password?</a>
                         </div>
@@ -222,7 +222,7 @@
                             <input onclick="document.getElementById('flash-message').style.display='none'"
                                 class="pl-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 wire:model="password" type="password" name="password" id="password">
-                            <button type="button" onclick="togglePassword('password', this)"
+                            <button tabindex="-1" type="button" onclick="togglePassword('password', this)"
                                 class="absolute inset-y-0 right-0 flex items-center px-2 h-full">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 eye-icon" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor">

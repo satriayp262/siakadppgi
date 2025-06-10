@@ -32,6 +32,10 @@ class Detail extends Component
             return redirect()->route('dosen.khs.download', [$NIM, $id_semester]);
         }
     }
+    public function rekap($NIM)
+    {
+            return redirect()->route('dosen.khs.rekap', $NIM);
+    }
     public function calculate($NIM, $id_semester)
     {
         // Retrieve the KRS data for the given NIM and semester

@@ -1,5 +1,5 @@
 <div class="py-1 mx-5">
-    <div wire:loading wire:target="download"
+    <div wire:loading wire:target="download,rekap"
         class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-60">
         <div class="spinner loading-spinner"></div>
     </div>
@@ -8,7 +8,7 @@
             <ol class="flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
                 <li aria-current="page">
                     <div class="flex items-center">
-                        <a wire:navigate.hover  href="{{ route('dosen.khs') }}"
+                        <a wire:navigate.hover href="{{ route('dosen.khs') }}"
                             class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
                             <span class="text-sm font-medium text-gray-500 ms-1 md:ms-2">KHS</span>
                             <svg class="w-3 h-3 mx-1 text-gray-400 rtl:rotate-180" aria-hidden="true"
@@ -17,7 +17,7 @@
                                     stroke-width="2" d="m1 9 4-4-4-4" />
                             </svg>
                         </a>
-                        <a wire:navigate.hover  href="{{ route('dosen.khs.detail', ['NIM' => $NIM]) }}"
+                        <a wire:navigate.hover href="{{ route('dosen.khs.detail', ['NIM' => $NIM]) }}"
                             class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
                             <span class="text-sm font-medium text-gray-500 ">Detail</span>
                             <svg class="w-3 h-3 mx-1 text-gray-400 rtl:rotate-180" aria-hidden="true"
@@ -61,8 +61,23 @@
                     </p>
                 </div>
             </div>
-            <div>
-            </div>
+            @if (auth()->user()->role == 'admin')
+                
+            <a href="javascript:void(0)" wire:click="rekap('{{ $mahasiswa->NIM }}')"
+                class="md:px-3 md:py-3 px-2 py-2 font-bold text-white bg-purple2 rounded hover:bg-purple2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="feather feather-file-text">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <line x1="10" y1="9" x2="8" y2="9" />
+            </svg>
+        </a>
+        @else
+            <div></div>
+        @endif
         </div>
         <div class="">
             @php
@@ -127,7 +142,7 @@
                     }
                 @endphp
                 @if (count($khs) != 0)
-                {{-- ($cekTagihan == true && $cekEmonev == true) || auth()->user()->role == 'dosen' --}}
+                    {{-- ($cekTagihan == true && $cekEmonev == true) || auth()->user()->role == 'dosen' --}}
                     @if (true)
                         <div class="max-w-full p-4 mt-4 mb-4 bg-white rounded-lg shadow-lg ">
                             <div class="flex items-center justify-between my-2">
@@ -136,9 +151,11 @@
                                 <a href="javascript:void(0)"
                                     wire:click="download('{{ $mahasiswa->NIM }}', '{{ $x->id_semester }}', '{{ $IPK }}')"
                                     class="md:px-3 md:py-3 px-2 py-2 font-bold text-white bg-purple2 rounded hover:bg-purple2">
-                                    <img class="w-3 h-3 sm:w-6 sm:h-6 md:w-8 md:h-8"
-                                        src="https://img.icons8.com/material-sharp/24/download--v1.png"
-                                        alt="download--v1" />
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        fill="currentColor">
+                                        <path d="M19 9h-4V3H9v6H5l7 7 7-7zm-4 9H9v2h6v-2z" />
+                                    </svg>
+
                                 </a>
                             </div>
                             <div class="my-4" wire:key="semester-{{ $x->id_semester }}">
@@ -279,7 +296,7 @@
                                 <div class="flex items-center justify-between my-2">
                                     <h2 class="font-bold text-[18px] ml-1 text-gray-700">Mohon Lunasi Tagihan</h2>
                                     @if (auth()->user()->role == 'mahasiswa')
-                                        <a wire:navigate.hover  href="{{ route('mahasiswa.keuangan') }}"
+                                        <a wire:navigate.hover href="{{ route('mahasiswa.keuangan') }}"
                                             class="md:px-3 md:py-3 px-2 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
                                             <svg class="w-3 h-3 md:w-6 md:h-6 text-white" aria-hidden="true"
                                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -300,7 +317,7 @@
                                     <h2 class="font-bold text-[18px] ml-1 text-gray-700">Mohon Selesaikan E-monev
                                     </h2>
                                     @if (auth()->user()->role == 'mahasiswa')
-                                        <a wire:navigate.hover  href="{{ route('mahasiswa.emonev') }}"
+                                        <a wire:navigate.hover href="{{ route('mahasiswa.emonev') }}"
                                             class="md:px-3 md:py-3 px-2 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
                                             <svg class="flex-shrink-0 w-3 h-3 md:w-6 md:h-6 transition duration-75  }}"
                                                 aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
