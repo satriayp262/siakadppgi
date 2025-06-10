@@ -48,7 +48,10 @@ class Index extends Component
         } else {
             $query->where('id_semester', $this->mahasiswa->mulai_semester);
         }
+
         $this->krs = $query->get();
+
+
     }
 
 
