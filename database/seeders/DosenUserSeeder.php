@@ -31,14 +31,14 @@ foreach ($dosenList as $dosen) {
         $firstWord = explode(' ', trim($dosen->nama_dosen))[0];
 
         // Generate a default email using only the first word
-        $email = strtolower($firstWord) . '@example.com';
+        $email = strtolower($firstWord.rand(10,99)) . '@example.com';
 
         // Create the user
         $user = User::create([
             'name' => $dosen->nama_dosen,
             'email' => $email,
             'nim_nidn' => $dosen->nidn,
-            'password' => Hash::make('dosen'), // Default password
+            'password' => Hash::make($email), // Default password
             'role' => 'dosen',
         ]);
 

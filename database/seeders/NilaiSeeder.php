@@ -14,7 +14,7 @@ class NilaiSeeder extends Seeder
     public function run()
     {
         DB::transaction(function () {
-            $aktifitasList = ['UAS', 'UTS', 'Tugas 1', 'Tugas 2', 'Tugas 3', 'Tugas 4', 'Tugas 5','Partisipasi'];
+            $aktifitasList = ['UAS', 'UTS', 'Tugas 1', 'Tugas 2', 'Tugas 3', 'Tugas 4', 'Tugas 5', 'Partisipasi'];
 
             $krsRecords = KRS::all();
 
@@ -41,11 +41,11 @@ class NilaiSeeder extends Seeder
                         ],
                         [
                             'id_kelas' => $krs->id_kelas,
-                            'nilai' => rand(35, 100), 
+                            'nilai' => rand(35, 100),
                         ]
                     );
                 }
-                
+
             }
         });
 
@@ -54,23 +54,24 @@ class NilaiSeeder extends Seeder
         foreach ($nims as $nim) {
             // Get all unique semesters for this NIM
             $semesters = KRS::where('NIM', $nim)->distinct()->pluck('id_semester');
-    
+            $total = count($nims);
+            $counter = 0;
             foreach ($semesters as $id_semester) {
                 // Retrieve the KRS data for the given NIM and semester
                 $krsData = KRS::where('NIM', $nim)
                     ->where('id_semester', $id_semester)
                     ->get();
-    
+
                 // Skip if there's no KRS data
                 if ($krsData->isEmpty()) {
                     continue;
                 }
-    
+
                 foreach ($krsData as $krs) {
                     try {
                         // Call the KHS model to calculate the bobot
                         $bobot = KHS::calculateBobot($id_semester, $nim, $krs->id_mata_kuliah, $krs->id_kelas);
-    
+
                         // Create or update the KHS entry
                         KHS::updateOrCreate([
                             'NIM' => $nim,
@@ -81,15 +82,15 @@ class NilaiSeeder extends Seeder
                         ], [
                             'bobot' => $bobot
                         ]);
-    
+                        $counter++;
+                        echo "\r$counter/$total done";
+
                     } catch (\Exception $e) {
                         echo "Error updating NIM: $nim, Semester: $id_semester. Error: " . $e->getMessage() . "\n";
                     }
                 }
             }
-            echo($nim." done \n");
         }
-
-        echo "Done";
+        echo "\n";
     }
 }

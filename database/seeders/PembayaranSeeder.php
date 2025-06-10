@@ -20,17 +20,16 @@ class PembayaranSeeder extends Seeder
             try {
 
                 // Half 'Lunas', half 'Belum Lunas'
-                $statusTagihan =  'Lunas' ;
-                $totalBayar = ($statusTagihan === 'Lunas') ? 3000000 : 1500000;
+                $statusTagihan =  'Belum Lunas' ;
+                $totalBayar =  3000000 ;
 
                 // Create Tagihan for semester 6
                 Tagihan::create([
                     'NIM' => $mahasiswa->NIM,
                     'total_tagihan' => 3000000,
-                    'status_tagihan' => $statusTagihan,
-                    'id_semester' => 6,
-                    'Bulan' => '2025-02',
-                    'total_bayar' => $totalBayar,
+                    'status_tagihan' => 'Lunas',
+                    'id_semester' => 9,
+                    'total_bayar' => 3000000,
                     'id_staff' => 1,
                     'metode_pembayaran' => 'Midtrans Payment',
                     'jenis_tagihan' => 'aaaa',
@@ -42,8 +41,7 @@ class PembayaranSeeder extends Seeder
                     'NIM' => $mahasiswa->NIM,
                     'total_tagihan' => 3000000,
                     'status_tagihan' => 'Lunas',
-                    'id_semester' => 5,
-                    'Bulan' => '2025-02',
+                    'id_semester' => 10,
                     'total_bayar' => 3000000,
                     'id_staff' => 1,
                     'metode_pembayaran' => 'Midtrans Payment',
@@ -54,8 +52,18 @@ class PembayaranSeeder extends Seeder
                     'NIM' => $mahasiswa->NIM,
                     'total_tagihan' => 3000000,
                     'status_tagihan' => 'Lunas',
-                    'id_semester' => 7,
-                    'Bulan' => '2025-02',
+                    'id_semester' => 11,
+                    'total_bayar' => 3000000,
+                    'id_staff' => 1,
+                    'metode_pembayaran' => 'Midtrans Payment',
+                    'jenis_tagihan' => 'aaaa',
+                    'no_kwitansi' => rand(),
+                ]);
+                Tagihan::create([
+                    'NIM' => $mahasiswa->NIM,
+                    'total_tagihan' => 3000000,
+                    'status_tagihan' => $statusTagihan,
+                    'id_semester' => 12,
                     'total_bayar' => 3000000,
                     'id_staff' => 1,
                     'metode_pembayaran' => 'Midtrans Payment',
@@ -66,6 +74,7 @@ class PembayaranSeeder extends Seeder
                 echo "Created Tagihan for NIM: {$mahasiswa->NIM}\n";
             } catch (\Exception $e) {
                 echo "Error processing NIM: {$mahasiswa->NIM}. Error: " . $e->getMessage() . "\n";
+                return;
             }
         }
     }

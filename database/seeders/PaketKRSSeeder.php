@@ -16,27 +16,36 @@ class PaketKRSSeeder extends Seeder
      */
     public function run(): void
     {
-        $semester = [5, 6, 7];
+        $semester = [9, 10, 11, 12];
         $prodi = Prodi::all();
-        foreach ($semester as $s) {
-            foreach ($prodi as $p) {
-                $kelas = Kelas::where('kode_prodi', $p->kode_prodi)->get();
-                foreach ($kelas as $k) {
-                    if ($p->kode_prodi == 'AK-001' || $p->kode_prodi == 'MO-002') {
-                        $MataKuliah = Matakuliah::where('kode_prodi', $p->kode_prodi)->get();
-                    } else {
-                        $A = Matakuliah::where('kode_prodi', $p->kode_prodi)
-                            ->get()
-                            ->unique('kode_mata_kuliah');
-                        $all = Matakuliah::where('kode_prodi', $p->kode_prodi)->get();
-                        $B = $all->diff($A);
-                        if (str_starts_with($k->nama_kelas, 'A')) {
-                            $MataKuliah = $A;
-                        } else {
-                            $MataKuliah = $B;
-                        }
-                        echo ($p->kode_prodi . " " . $k->nama_kelas . " " . $s . " " . count($A) . " " . count($all) . " " . count($B) . " \n");
-                    }
+
+        foreach ($prodi as $p) {
+            // Select the appropriate mata kuliah once per prodi
+            if ($p->kode_prodi == 'AK-001' || $p->kode_prodi == 'MO-002') {
+                $allMataKuliah = Matakuliah::where('kode_prodi', $p->kode_prodi)->get();
+            } else {
+                $A = Matakuliah::where('kode_prodi', $p->kode_prodi)->get()->unique('kode_mata_kuliah');
+                $all = Matakuliah::where('kode_prodi', $p->kode_prodi)->get();
+                $B = $all->diff($A);
+                $allMataKuliah = $A->merge($B);
+            }
+
+            // Ensure enough mata kuliah
+            if ($allMataKuliah->count() < count($semester) * 5) {
+                continue; // or log warning
+            }
+
+            // Shuffle once and split into chunks of 5 for each semester
+            $chunks = $allMataKuliah->shuffle()->values()->chunk(5);
+            if ($chunks->count() < count($semester))
+                continue;
+
+            $kelas = Kelas::where('kode_prodi', $p->kode_prodi)->get();
+
+            foreach ($kelas as $k) {
+                foreach ($semester as $index => $s) {
+                    $MataKuliah = $chunks[$index];
+
                     foreach ($MataKuliah as $m) {
                         paketKRS::create([
                             'id_semester' => $s,
@@ -48,8 +57,9 @@ class PaketKRSSeeder extends Seeder
                         ]);
                     }
                 }
-
             }
         }
+
+
     }
 }

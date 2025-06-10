@@ -212,247 +212,63 @@ class DatabaseSeeder extends Seeder
             Pendidikan_Terakhir::create($pendidikan);
         }
 
-        Dosen::factory(36)->create();
+        $dosens = Dosen::factory(36)->create();
 
-        $matakuliahData = [
-            [
-                'kode_mata_kuliah' => 'STATIS_AK',
-                'nama_mata_kuliah' => 'Statistika',
-                'kode_prodi' => 'AK-001',
-                'nidn' => '1111111111'
-            ],
-            [
-                'kode_mata_kuliah' => 'PROWEB_AK',
-                'nama_mata_kuliah' => 'Pemrograman Web',
-                'kode_prodi' => 'AK-001',
-                'nidn' => '1111111112'
-            ],
-            [
-                'kode_mata_kuliah' => 'BASDAT_AK',
-                'nama_mata_kuliah' => 'Basis Data',
-                'kode_prodi' => 'AK-001',
-                'nidn' => '1111111113'
-            ],
-            [
-                'kode_mata_kuliah' => 'MOBILE_AK',
-                'nama_mata_kuliah' => 'Mobile Programming',
-                'kode_prodi' => 'AK-001',
-                'nidn' => '1111111114'
-            ],
-            [
-                'kode_mata_kuliah' => 'SISTOP_AK',
-                'nama_mata_kuliah' => 'Sistem Operasi',
-                'kode_prodi' => 'AK-001',
-                'nidn' => '1111111115'
-            ],
-            [
-                'kode_mata_kuliah' => 'ERPEEL_AK',
-                'nama_mata_kuliah' => 'RPL',
-                'kode_prodi' => 'AK-001',
-                'nidn' => '1111111116'
-            ],
-            [
-                'kode_mata_kuliah' => 'STATIS_MO',
-                'nama_mata_kuliah' => 'Statistika',
-                'kode_prodi' => 'MO-002',
-                'nidn' => '1111111117'
-            ],
-            [
-                'kode_mata_kuliah' => 'PROWEB_MO',
-                'nama_mata_kuliah' => 'Pemrograman Web',
-                'kode_prodi' => 'MO-002',
-                'nidn' => '1111111118'
-            ],
-            [
-                'kode_mata_kuliah' => 'BASDAT_MO',
-                'nama_mata_kuliah' => 'Basis Data',
-                'kode_prodi' => 'MO-002',
-                'nidn' => '1111111119'
-            ],
-            [
-                'kode_mata_kuliah' => 'MOBILE_MO',
-                'nama_mata_kuliah' => 'Mobile Programming',
-                'kode_prodi' => 'MO-002',
-                'nidn' => '1111111120'
-            ],
-            [
-                'kode_mata_kuliah' => 'SISTOP_MO',
-                'nama_mata_kuliah' => 'Sistem Operasi',
-                'kode_prodi' => 'MO-002',
-                'nidn' => '1111111121'
-            ],
-            [
-                'kode_mata_kuliah' => 'ERPEEL_MO',
-                'nama_mata_kuliah' => 'RPL',
-                'kode_prodi' => 'MO-002',
-                'nidn' => '1111111122'
-            ],
-            [
-                'kode_mata_kuliah' => 'STATIS_TE',
-                'nama_mata_kuliah' => 'Statistika',
-                'kode_prodi' => 'TE-003',
-                'nidn' => '1111111123'
-            ],
-            [
-                'kode_mata_kuliah' => 'PROWEB_TE',
-                'nama_mata_kuliah' => 'Pemrograman Web',
-                'kode_prodi' => 'TE-003',
-                'nidn' => '1111111124'
-            ],
-            [
-                'kode_mata_kuliah' => 'BASDAT_TE',
-                'nama_mata_kuliah' => 'Basis Data',
-                'kode_prodi' => 'TE-003',
-                'nidn' => '1111111125'
-            ],
-            [
-                'kode_mata_kuliah' => 'MOBILE_TE',
-                'nama_mata_kuliah' => 'Mobile Programming',
-                'kode_prodi' => 'TE-003',
-                'nidn' => '1111111126'
-            ],
-            [
-                'kode_mata_kuliah' => 'SISTOP_TE',
-                'nama_mata_kuliah' => 'Sistem Operasi',
-                'kode_prodi' => 'TE-003',
-                'nidn' => '1111111127'
-            ],
-            [
-                'kode_mata_kuliah' => 'ERPEEL_TE',
-                'nama_mata_kuliah' => 'RPL',
-                'kode_prodi' => 'TE-003',
-                'nidn' => '1111111128'
-            ],
-            [
-                'kode_mata_kuliah' => 'STATIS_MSDM',
-                'nama_mata_kuliah' => 'Statistika',
-                'kode_prodi' => 'MSDM-004',
-                'nidn' => '1111111135'
-            ],
-            [
-                'kode_mata_kuliah' => 'PROWEB_MSDM',
-                'nama_mata_kuliah' => 'Pemrograman Web',
-                'kode_prodi' => 'MSDM-004',
-                'nidn' => '1111111136'
-            ],
-            [
-                'kode_mata_kuliah' => 'BASDAT_MSDM',
-                'nama_mata_kuliah' => 'Basis Data',
-                'kode_prodi' => 'MSDM-004',
-                'nidn' => '1111111137'
-            ],
-            [
-                'kode_mata_kuliah' => 'MOBILE_MSDM',
-                'nama_mata_kuliah' => 'Mobile Programming',
-                'kode_prodi' => 'MSDM-004',
-                'nidn' => '1111111138'
-            ],
-            [
-                'kode_mata_kuliah' => 'SISTOP_MSDM',
-                'nama_mata_kuliah' => 'Sistem Operasi',
-                'kode_prodi' => 'MSDM-004',
-                'nidn' => '1111111139'
-            ],
-            [
-                'kode_mata_kuliah' => 'ERPEEL_MSDM',
-                'nama_mata_kuliah' => 'RPL',
-                'kode_prodi' => 'MSDM-004',
-                'nidn' => '1111111140'
-            ],
-            //duplicate
-            [
-                'kode_mata_kuliah' => 'STATIS_MSDM',
-                'nama_mata_kuliah' => 'Statistika',
-                'kode_prodi' => 'MSDM-004',
-                'nidn' => '1111111142'
-            ],
-            [
-                'kode_mata_kuliah' => 'PROWEB_MSDM',
-                'nama_mata_kuliah' => 'Pemrograman Web',
-                'kode_prodi' => 'MSDM-004',
-                'nidn' => '1111111143'
-            ],
-            [
-                'kode_mata_kuliah' => 'BASDAT_MSDM',
-                'nama_mata_kuliah' => 'Basis Data',
-                'kode_prodi' => 'MSDM-004',
-                'nidn' => '1111111144'
-            ],
-            [
-                'kode_mata_kuliah' => 'MOBILE_MSDM',
-                'nama_mata_kuliah' => 'Mobile Programming',
-                'kode_prodi' => 'MSDM-004',
-                'nidn' => '1111111145'
-            ],
-            [
-                'kode_mata_kuliah' => 'SISTOP_MSDM',
-                'nama_mata_kuliah' => 'Sistem Operasi',
-                'kode_prodi' => 'MSDM-004',
-                'nidn' => '1111111146'
-            ],
-            [
-                'kode_mata_kuliah' => 'ERPEEL_MSDM',
-                'nama_mata_kuliah' => 'RPL',
-                'kode_prodi' => 'MSDM-004',
-                'nidn' => '1111111141'
-            ],
-            //duplicate
-            [
-                'kode_mata_kuliah' => 'STATIS_TE',
-                'nama_mata_kuliah' => 'Statistika',
-                'kode_prodi' => 'TE-003',
-                'nidn' => '1111111129'
-            ],
-            [
-                'kode_mata_kuliah' => 'PROWEB_TE',
-                'nama_mata_kuliah' => 'Pemrograman Web',
-                'kode_prodi' => 'TE-003',
-                'nidn' => '1111111130'
-            ],
-            [
-                'kode_mata_kuliah' => 'BASDAT_TE',
-                'nama_mata_kuliah' => 'Basis Data',
-                'kode_prodi' => 'TE-003',
-                'nidn' => '1111111131'
-            ],
-            [
-                'kode_mata_kuliah' => 'MOBILE_TE',
-                'nama_mata_kuliah' => 'Mobile Programming',
-                'kode_prodi' => 'TE-003',
-                'nidn' => '1111111132'
-            ],
-            [
-                'kode_mata_kuliah' => 'SISTOP_TE',
-                'nama_mata_kuliah' => 'Sistem Operasi',
-                'kode_prodi' => 'TE-003',
-                'nidn' => '1111111133'
-            ],
-            [
-                'kode_mata_kuliah' => 'ERPEEL_TE',
-                'nama_mata_kuliah' => 'RPL',
-                'kode_prodi' => 'TE-003',
-                'nidn' => '1111111134'
-            ],
+        $dosenCount = $dosens->count();
+
+        // Define the list of kode_prodi
+        $kodeProdis = ['AK-001', 'MO-002', 'TE-003', 'MSDM-004'];
+        $mataKuliahNames = [
+            'Statistika',
+            'Pemrograman Web',
+            'Basis Data',
+            'Mobile Programming',
+            'Sistem Operasi',
+            'RPL',
+            'PBO',
+            'Algoritma',
+            'Jaringan Komputer',
+            'AI Dasar',
+            'UI/UX',
+            'Etika Profesi',
+            'Kalkulus',
+            'Pemrograman Dasar',
+            'Manajemen Proyek',
+            'Data Mining',
+            'Sistem Informasi',
+            'E-Business',
+            'Pemrograman Framework',
+            'Cloud Computing'
         ];
 
-        $nidnlist = Dosen::pluck('nidn')->toArray();
+        $dosenIndex = 0;
+
+        foreach ($kodeProdis as $kodeProdi) {
+            for ($i = 0; $i < 20; $i++) {
+                $mataKuliahName = $mataKuliahNames[$i % count($mataKuliahNames)];
+                $abbreviation = strtoupper(implode('', array_map(fn($word) => $word[0], explode(' ', $mataKuliahName))));
+                $kodeMataKuliah = substr($abbreviation, 0, 6) . substr(str_replace('-', '', $kodeProdi), 0, 2);
 
 
-        foreach ($matakuliahData as $data) {
-            $mataKuliah = Matakuliah::create([
-                'kode_mata_kuliah' => $data['kode_mata_kuliah'],
-                'nama_mata_kuliah' => $data['nama_mata_kuliah'],
-                'kode_prodi' => $data['kode_prodi'],
-                'jenis_mata_kuliah' => fake()->randomElement(['A', 'W', 'P', 'B', 'C', 'S']),
-                'nidn' => $data['nidn'],
-                'sks_tatap_muka' => 2,
-                'sks_praktek' => 0,
-                'sks_praktek_lapangan' => 0,
-                'sks_simulasi' => 0,
-                'metode_pembelajaran' => fake()->randomElement(['Online', 'Offline']),
-                'tgl_mulai_efektif' => fake()->date(),
-                'tgl_akhir_efektif' => fake()->date(),
-            ]);
+                $assignedDosen = $dosens[$dosenIndex % $dosenCount];
+
+                Matakuliah::create([
+                    'kode_mata_kuliah' => $kodeMataKuliah,
+                    'nama_mata_kuliah' => $mataKuliahName,
+                    'kode_prodi' => $kodeProdi,
+                    'jenis_mata_kuliah' => fake()->randomElement(['A', 'W', 'P', 'B', 'C', 'S']),
+                    'nidn' => $assignedDosen->nidn,
+                    'sks_tatap_muka' => 2,
+                    'sks_praktek' => 0,
+                    'sks_praktek_lapangan' => 0,
+                    'sks_simulasi' => 0,
+                    'metode_pembelajaran' => fake()->randomElement(['Online', 'Offline']),
+                    'tgl_mulai_efektif' => fake()->date(),
+                    'tgl_akhir_efektif' => fake()->date()
+                ]);
+
+                $dosenIndex++;
+            }
         }
         foreach ($prodiData as $data) {
             $xx = str_split($data['kode_prodi'], 2)[0];
@@ -510,7 +326,8 @@ class DatabaseSeeder extends Seeder
 
         DB::table('komponen_kartu_ujian')->insert([
             'jabatan' => 'Wakil Direktur Bidang Akademik',
-            'nama' => 'santoso']);
+            'nama' => 'santoso'
+        ]);
 
     }
 }

@@ -18,10 +18,16 @@ class PengajuanSeeder extends Seeder
     {
         $mahasiswa = Mahasiswa::all();
         $semester = Semester::all();
+        $total = count($mahasiswa);
+        $counter = 0;
 
         foreach ($mahasiswa as $m) {
             foreach ($semester as $s) {
-                $paketKRS = paketKRS::where('id_semester', $s->id_semester)->where('id_prodi', $m->prodi->id_prodi)->where('id_kelas', $m->id_kelas)->get();
+                $paketKRS = paketKRS::where('id_semester', $s->id_semester)
+                    ->where('id_prodi', $m->prodi->id_prodi)
+                    ->where('id_kelas', $m->id_kelas)
+                    ->get();
+
                 foreach ($paketKRS as $p) {
                     KRS::create([
                         'id_semester' => $s->id_semester,
@@ -32,7 +38,9 @@ class PengajuanSeeder extends Seeder
                     ]);
                 }
             }
-            echo($m->NIM." done \n");
+            $counter++;
+            echo "\r$counter/$total done";
         }
+        echo "\n";
     }
 }
