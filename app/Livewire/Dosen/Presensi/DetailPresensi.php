@@ -111,6 +111,7 @@ class DetailPresensi extends Component
     #[On('presensiUpdated')]
     public function handlePresensiUpdated()
     {
+        $this->dispatch('updated', params: ['message' => 'Presensi berhasil diedit']);
         $this->loadData(); // Refresh data setelah update
     }
 

@@ -95,7 +95,7 @@
                 text: 'Terjadi kesalahan saat proses presensi.',
                 confirmButtonText: 'OK'
             });
-        });`
+        });
     });
 
     document.addEventListener('DOMContentLoaded', function() {

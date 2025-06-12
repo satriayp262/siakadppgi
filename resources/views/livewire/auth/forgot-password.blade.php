@@ -174,7 +174,7 @@
         <div class='wave -two'></div>
         <div class='wave -three'></div>
     </div>
-    <div class="py-8 px-4 w-[400px] space-y-8 bg-white shadow-md rounded-lg">
+    <div class="py-8 px-4 w-[400px] space-y-8 bg-white shadow-md rounded-lg z-10">
         <div class="text-center">
             <img class="h-20 mx-auto" src="{{ asset('img/siakad_polda_logo.png') }}" alt="Your Company">
             <p class="mt-12 text-sm tracking-tight text-gray-900">
