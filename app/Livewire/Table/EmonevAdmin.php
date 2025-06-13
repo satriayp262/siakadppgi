@@ -20,10 +20,15 @@ use Illuminate\Support\Facades\DB;
 final class EmonevAdmin extends PowerGridComponent
 {
     public string $tableName = 'emonev-admin-jfjqjo-table';
+    public $periode;
+
+
     use WithExport;
 
     public function datasource(): Collection
     {
+        $periode = $this->periode;
+
         $pertanyaan = Pertanyaan::all();
         $query = Jawaban::join('emonev', 'jawaban.id_emonev', '=', 'emonev.id_emonev')
             ->join('pertanyaan', 'jawaban.id_pertanyaan', '=', 'pertanyaan.id_pertanyaan')
@@ -40,6 +45,10 @@ final class EmonevAdmin extends PowerGridComponent
                 'matkul.nama_mata_kuliah',
             );
 
+        $query->where('periode_emonev.nama_periode', $periode);
+
+        $totalExpr = [];
+
         foreach ($pertanyaan as $p) {
             $query->addSelect(DB::raw(
                 "
@@ -47,10 +56,37 @@ final class EmonevAdmin extends PowerGridComponent
              FROM jawaban jwbn 
              JOIN emonev em ON jwbn.id_emonev = em.id_emonev
              WHERE em.nidn = dosen.nidn 
+             AND em.nama_periode = periode_emonev.nama_periode
              AND jwbn.id_pertanyaan = $p->id_pertanyaan
             ) AS `pertanyaan_$p->id_pertanyaan`"
             ));
+
+            $totalExpr[] = "COALESCE((
+                SELECT ROUND(AVG(jwbn.nilai), 0) 
+                FROM jawaban jwbn 
+                JOIN emonev em ON jwbn.id_emonev = em.id_emonev
+                WHERE em.nidn = dosen.nidn 
+                AND em.nama_periode = periode_emonev.nama_periode
+                AND jwbn.id_pertanyaan = $p->id_pertanyaan
+            ), 0)";
         }
+
+        //$query->addSelect(DB::raw('(' . implode(' + ', $totalExpr) . ') AS total_skor'));
+
+        $query->addSelect(DB::raw('(
+            CONCAT(
+                (' . implode(' + ', $totalExpr) . '), 
+                " / ", 
+                (
+                    SELECT COUNT(DISTINCT jwbn.id_pertanyaan) * 10
+                    FROM jawaban jwbn
+                    JOIN emonev em ON jwbn.id_emonev = em.id_emonev
+                    WHERE em.nidn = dosen.nidn
+                    AND em.nama_periode = periode_emonev.nama_periode
+                )
+            )
+        ) AS total_skor'));
+
 
         $query->groupBy(
             'dosen.nidn',
@@ -123,6 +159,8 @@ final class EmonevAdmin extends PowerGridComponent
             $fields->add("pertanyaan_$p->id_pertanyaan");
         }
 
+        $fields->add('total_skor');
+
         return $fields;
     }
 
@@ -131,32 +169,39 @@ final class EmonevAdmin extends PowerGridComponent
         $columns = [];
 
         // Kolom dinamis untuk setiap pertanyaan
-        foreach (Pertanyaan::all() as $p) {
+        foreach (Pertanyaan::whereHas('jawaban.emonev', function ($q) {
+            $q->where('nama_periode', $this->periode);
+        })->get() as $p) {
             $columns[] = Column::make($p->pertanyaan ?? "$p->nama_pertanyaan", "pertanyaan_$p->id_pertanyaan")
                 ->sortable()
                 ->searchable();
         }
 
-        return array_merge([
-            Column::make('ID', 'id')->visibleInExport(false)->index(),
+        return array_merge(
+            [
+                Column::make('ID', 'id')->visibleInExport(false)->index(),
 
-            Column::make('Periode', 'nama_periode')
-                ->searchable()
-                ->sortable(),
 
-            Column::make('Dosen', 'nama_dosen')
-                ->searchable()
-                ->sortable(),
+                Column::make('Dosen', 'nama_dosen')
+                    ->searchable()
+                    ->sortable(),
 
-            Column::make('Prodi', 'nama_prodi')
-                ->searchable()
-                ->sortable(),
+                Column::make('Prodi', 'nama_prodi')
+                    ->searchable()
+                    ->sortable(),
 
-            Column::make('Mata Kuliah', 'nama_mata_kuliah')
-                ->searchable()
-                ->sortable(),
+                Column::make('Mata Kuliah', 'nama_mata_kuliah')
+                    ->searchable()
+                    ->sortable(),
 
-        ], $columns);
+            ],
+            $columns,
+            [
+                Column::make('Total NIlai', 'total_skor')
+                    ->sortable()
+                    ->searchable(),
+            ]
+        );
     }
 
     public function filters(): array
