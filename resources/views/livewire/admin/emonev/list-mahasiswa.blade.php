@@ -38,20 +38,49 @@
                     <p class="mt-1 text-xl font-bold text-white">{{ $mahasiswa }}</p>
                 </a>
 
-                <a wire:navigate.hover wire:click="$set('status', 'sudah')"
-                    class="relative block p-4 rounded-lg shadow-lg bg-lime-500 hover:bg-lime-600">
-                    <h2 class="text-lg font-semibold text-white">Sudah Isi Emonev</h2>
-                    <p class="mt-1 text-xl font-bold text-white">{{ $emonev }}</p>
-                </a>
+                @if ($status != null)
+                    @if ($status == 'sudah')
+                        <a wire:navigate.hover wire:click="$set('status', null)"
+                            class="relative block p-4 rounded-lg shadow-lg bg-lime-500 hover:bg-lime-600">
+                            <h2 class="text-lg font-semibold text-white">Sudah Isi Emonev</h2>
+                            <p class="mt-1 text-xl font-bold text-white">{{ $emonev }}</p>
+                        </a>
 
-                <a wire:navigate.hover " wire:click="$set('status', 'belum')"
-                    class="relative block p-4 rounded-lg shadow-lg bg-red-500 hover:bg-red-600">
-                    <h2 class="text-lg font-semibold text-white">Belum Mengisi</h2>
-                    <p class="mt-1 text-xl font-bold text-white">{{ $belum }}</p>
-                </a>
+                        <a wire:navigate.hover wire:click="$set('status', 'belum')"
+                            class="relative block p-4 rounded-lg shadow-lg bg-red-500 hover:bg-red-600">
+                            <h2 class="text-lg font-semibold text-white">Belum Mengisi</h2>
+                            <p class="mt-1 text-xl font-bold text-white">{{ $belum }}</p>
+                        </a>
+                    @else
+                        <a wire:navigate.hover wire:click="$set('status', 'sudah')"
+                            class="relative block p-4 rounded-lg shadow-lg bg-lime-500 hover:bg-lime-600">
+                            <h2 class="text-lg font-semibold text-white">Sudah Isi Emonev</h2>
+                            <p class="mt-1 text-xl font-bold text-white">{{ $emonev }}</p>
+                        </a>
+
+                        <a wire:navigate.hover wire:click="$set('status', null)"
+                            class="relative block p-4 rounded-lg shadow-lg bg-red-500 hover:bg-red-600">
+                            <h2 class="text-lg font-semibold text-white">Belum Mengisi</h2>
+                            <p class="mt-1 text-xl font-bold text-white">{{ $belum }}</p>
+                        </a>
+                    @endif
+                @else
+                    <a wire:navigate.hover wire:click="$set('status', 'sudah')"
+                        class="relative block p-4 rounded-lg shadow-lg bg-lime-500 hover:bg-lime-600">
+                        <h2 class="text-lg font-semibold text-white">Sudah Isi Emonev</h2>
+                        <p class="mt-1 text-xl font-bold text-white">{{ $emonev }}</p>
+                    </a>
+
+                    <a wire:navigate.hover wire:click="$set('status', 'belum')"
+                        class="relative block p-4 rounded-lg shadow-lg bg-red-500 hover:bg-red-600">
+                        <h2 class="text-lg font-semibold text-white">Belum Mengisi</h2>
+                        <p class="mt-1 text-xl font-bold text-white">{{ $belum }}</p>
+                    </a>
+                @endif
+
             </div>
             <div class="">
-                      @if ($status == 'sudah')
+                @if ($status == 'sudah')
                     <div class="flex flex-col">
                         <h1 class="text-2xl font-bold">Daftar Mahasiswa</h1>
                         <p class="text-sm text-gray-500">Daftar Mahasiswa yang <span
@@ -71,8 +100,8 @@
                     </div>
                     @livewire('table.emonev.belum-isi-emonev-table', ['mahasiswabelum' => $mahasiswabelum])
                 @else
+                @endif
+            </div>
         @endif
     </div>
-    @endif
-</div>
 </div>

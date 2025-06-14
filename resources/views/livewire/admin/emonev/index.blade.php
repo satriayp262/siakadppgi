@@ -22,7 +22,7 @@
                 </button>
             </div>
         </div>
-        <div class="mb-4  p-16">
+        <div class="mb-4 max-w-6xl p-4">
             @livewire('component.chart-emonev', ['x' => $nama_periode], key($selectedSemester))
         </div>
         @if ($nama_periode)

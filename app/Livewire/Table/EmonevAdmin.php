@@ -71,6 +71,13 @@ final class EmonevAdmin extends PowerGridComponent
             ), 0)";
         }
 
+        $query->addSelect(DB::raw('(
+            SELECT COUNT(DISTINCT em_sub.id_emonev)
+            FROM emonev em_sub
+            WHERE em_sub.nidn = dosen.nidn
+              AND em_sub.nama_periode = periode_emonev.nama_periode
+        ) AS jumlah_partisipan'));
+
         //$query->addSelect(DB::raw('(' . implode(' + ', $totalExpr) . ') AS total_skor'));
 
         $query->addSelect(DB::raw('(
@@ -159,6 +166,8 @@ final class EmonevAdmin extends PowerGridComponent
             $fields->add("pertanyaan_$p->id_pertanyaan");
         }
 
+        $fields->add('jumlah_partisipan');
+
         $fields->add('total_skor');
 
         return $fields;
@@ -193,10 +202,15 @@ final class EmonevAdmin extends PowerGridComponent
                     ->searchable()
                     ->sortable(),
 
+                Column::make('Total NIlai', 'total_skor')
+                    ->sortable()
+                    ->searchable(),
+
+
             ],
             $columns,
             [
-                Column::make('Total NIlai', 'total_skor')
+                Column::make('Partisipasi', 'jumlah_partisipan')
                     ->sortable()
                     ->searchable(),
             ]

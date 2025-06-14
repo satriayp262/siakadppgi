@@ -14,8 +14,6 @@ class ChartEmonev extends Component
     public $chartData = [];
     public $x;
 
-    protected $listeners = ['loadChart'];
-
     public function mount($x)
     {
         $this->x = $x;

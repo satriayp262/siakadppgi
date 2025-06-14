@@ -18,6 +18,8 @@ class Index extends Component
 
     public $id_kelas;
 
+    public $periode;
+
     public $id_mata_kuliah;
 
     public $id_semester;
