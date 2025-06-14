@@ -29,10 +29,9 @@ class Index extends Component
     public function handleProdiUpdated()
     {
         $this->dispatch('pg:eventRefresh-prodi-table-pzqflt-table');
-
         $this->dispatch('updated', ['message' => 'Prodi Berhasil di Update']);
     }
-   
+
     public function destroySelected($ids)
     {
         Prodi::whereIn('id_prodi', $ids)->delete();

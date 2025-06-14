@@ -168,7 +168,6 @@ final class EmonevAdmin extends PowerGridComponent
     {
         $columns = [];
 
-        // Kolom dinamis untuk setiap pertanyaan
         foreach (Pertanyaan::whereHas('jawaban.emonev', function ($q) {
             $q->where('nama_periode', $this->periode);
         })->get() as $p) {

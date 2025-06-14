@@ -10,12 +10,13 @@ use App\Models\Prodi;
 use App\Models\Semester;
 use Illuminate\Support\Facades\DB;
 use App\Models\PeriodeEMonev;
+use App\Livewire\Component\ChartEmonev;
 
 
 class Index extends Component
 {
     public $selectedSemester = '';
-    public $x;
+    public $nama_periode;
 
     public function loadData()
     {
@@ -28,17 +29,16 @@ class Index extends Component
             ->where('id_periode', $this->selectedSemester)
             ->first();
 
-        $this->x = $x->nama_periode;
+        $this->nama_periode = $x->nama_periode;
 
     }
 
+
     public function render()
     {
-
-
         return view('livewire.admin.emonev.index', [
             'periode' => PeriodeEMonev::all(),
-            'x' => $this->x,
+            'nama_periode' => $this->nama_periode,
         ]);
     }
 }

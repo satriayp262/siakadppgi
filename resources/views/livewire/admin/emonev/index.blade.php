@@ -22,9 +22,11 @@
                 </button>
             </div>
         </div>
-        @if ($selectedSemester)
-            @livewire('table.emonev-admin', ['periode' => $x], key($selectedSemester))
+        <div class="mb-4  p-16">
+            @livewire('component.chart-emonev', ['x' => $nama_periode], key($selectedSemester))
+        </div>
+        @if ($nama_periode)
+            @livewire('table.emonev-admin', ['periode' => $nama_periode], key($selectedSemester))
         @endif
     </div>
-    {{-- @livewire('component.chart-emonev', ['x' => $x], key($selectedSemester)) --}}
 </div>
