@@ -32,7 +32,6 @@ final class EmonevAdmin extends PowerGridComponent
         $pertanyaan = Pertanyaan::all();
         $query = Jawaban::join('emonev', 'jawaban.id_emonev', '=', 'emonev.id_emonev')
             ->join('pertanyaan', 'jawaban.id_pertanyaan', '=', 'pertanyaan.id_pertanyaan')
-            ->join('kelas', 'emonev.id_kelas', '=', 'kelas.id_kelas')
             ->join('matkul', 'emonev.id_mata_kuliah', '=', 'matkul.id_mata_kuliah')
             ->join('dosen', 'matkul.nidn', '=', 'dosen.nidn')
             ->join('periode_emonev', 'emonev.nama_periode', '=', 'periode_emonev.nama_periode')

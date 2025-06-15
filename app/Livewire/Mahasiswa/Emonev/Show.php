@@ -111,7 +111,6 @@ class Show extends Component
             'id_mata_kuliah' => $this->id,
             'nama_periode' => $periode->nama_periode,
             'nidn' => $matkul->dosen->nidn,
-            'id_kelas' => $this->id_kelas,
             'saran' => $this->saran,
         ]);
 

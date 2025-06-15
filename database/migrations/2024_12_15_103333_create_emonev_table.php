@@ -13,12 +13,10 @@ return new class extends Migration {
         Schema::create('emonev', function (Blueprint $table) {
             $table->integer('id_emonev')->primary()->autoIncrement();
             $table->integer('id_mata_kuliah');
-            $table->integer('id_kelas');
             $table->string('nidn');
             $table->string('saran', 50);
             $table->foreign('id_mata_kuliah')->references('id_mata_kuliah')->on('matkul');
             $table->foreign('nidn')->references('nidn')->on('dosen');
-            $table->foreign('id_kelas')->references('id_kelas')->on('kelas');
             $table->timestamps();
         });
     }

@@ -46,19 +46,18 @@
                 @php
                     $now = now()->toDateString();
 
-                    //$now = '2025-06-11';
+                    //$now = '2025-06-27';
 
                     $isPeriode1 = $periode1 && $now >= $periode1->tanggal_mulai && $now <= $periode1->tanggal_selesai;
                     $isPeriode2 = $periode2 && $now >= $periode2->tanggal_mulai && $now <= $periode2->tanggal_selesai;
                     $periode = $isPeriode1 ? $periode1 : ($isPeriode2 ? $periode2 : null);
-
                 @endphp
 
                 {{-- Di luar periode --}}
                 @if (!$isPeriode1 && !$isPeriode2)
-                    <p class="font-semibold">
+                    <h1 class="text-xl font-bold text-center mt-6">
                         e-Monev Semester {{ $periode1->semester->nama_semester }} tidak dapat diakses saat ini.
-                    </p>
+                    </h1>
                     <p>Periode 1: {{ $periode1->tanggal_mulai }} - {{ $periode1->tanggal_selesai }}</p>
                     <p>Periode 2: {{ $periode2->tanggal_mulai }} - {{ $periode2->tanggal_selesai }}</p>
                 @else
