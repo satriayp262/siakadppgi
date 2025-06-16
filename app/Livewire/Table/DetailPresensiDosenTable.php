@@ -73,6 +73,11 @@ final class DetailPresensiDosenTable extends PowerGridComponent
             ->add('semester.nama_semester');
     }
 
+    public function boot(): void
+    {
+        config(['livewire-powergrid.filter' => 'outside']);
+    }
+
     public function columns(): array
     {
         return [

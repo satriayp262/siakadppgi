@@ -145,7 +145,7 @@ class Index extends Component
         $sudahKirim = RiwayatSP::where('nim', $nim)->exists();
 
         if ($sudahKirim) {
-            session()->flash('error', 'Surat peringatan sudah pernah dikirim.');
+            $this->dispatch('spSentError', message: 'Surat peringatan sudah pernah dikirim.');
             return;
         }
 
@@ -182,13 +182,11 @@ class Index extends Component
                 'sent_at' => now(),
             ]);
 
-            session()->flash('success', 'Surat peringatan berhasil dikirim dengan nomor surat.');
             $this->spSent = true;
-
             $this->dispatch('pg:eventRefresh-presensi-mahasiwa-table-qyqn0i-table');
             $this->dispatch('spSentSuccess', nim: $nim);
         } else {
-            session()->flash('error', 'Mahasiswa tidak ditemukan atau belum memenuhi batas Alpha.');
+            $this->dispatch('spSentError', message: 'Mahasiswa tidak ditemukan atau belum memenuhi batas Alpha.');
         }
     }
 

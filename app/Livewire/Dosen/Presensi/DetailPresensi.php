@@ -108,16 +108,15 @@ class DetailPresensi extends Component
         );
     }
 
-    #[On('presensiUpdated')]
-    public function handlePresensiUpdated()
+    #[On('presensi-updated')]
+    public function refreshData()
     {
-        $this->dispatch('updated', params: ['message' => 'Presensi berhasil diedit']);
-        $this->loadData(); // Refresh data setelah update
+        $this->loadData(); 
     }
 
     public function updatedSearch()
     {
-        $this->loadData(); // Reload data dengan filter pencarian
+        $this->loadData();
     }
 
     public function back()

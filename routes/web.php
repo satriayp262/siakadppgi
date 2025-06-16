@@ -191,7 +191,7 @@ Route::middleware(['auth', CheckRole::class . ':dosen'])->prefix('dosen')->group
     Route::get('/presensi/detail_presensi{id_mata_kuliah}', App\Livewire\Dosen\Presensi\AbsensiByKelas::class)->name('dosen.presensiByKelas');
     Route::get('/presensi/detail_presensi{id_mata_kuliah}/detail_kelas{id_kelas}', App\Livewire\Dosen\Presensi\AbsensiByToken::class)->name('dosen.presensiByToken');
     Route::get('/detail_presensi/{token}', App\Livewire\Dosen\Presensi\DetailPresensi::class)->name('dosen.detail_presensi');
-
+    Route::get('/rekap_presensi/{id_mata_kuliah}/{id_kelas}', App\Livewire\Dosen\Presensi\RekapPresensi::class)->name('dosen.rekap_presensi');
 
     Route::get('/emonev', App\Livewire\Dosen\Emonev\Index::class)->name('dosen.emonev');
     Route::get('/emonev/show/{kode}', App\Livewire\Dosen\Emonev\Show::class)->name('dosen.emonev.show');

@@ -27,7 +27,6 @@ class Edit extends Component
         return $rules;
     }
 
-
     public function mount()
     {
         $presensi = Presensi::find($this->id_presensi);
@@ -35,20 +34,14 @@ class Edit extends Component
         if ($presensi) {
             $this->nama = $presensi->nama;
             $this->nim = $presensi->nim;
-            if ($presensi->keterangan == Null) {
-                $this->keterangan = '';
-            } else {
-                $this->keterangan = $presensi->keterangan;
-            }
+            $this->keterangan = $presensi->keterangan ?? '';
             $this->alasan = $presensi->alasan;
         } else {
             $mahasiswa = Mahasiswa::where('NIM', $this->nim)->first();
             $this->nama = $mahasiswa->nama;
             $this->nim = $mahasiswa->NIM;
         }
-        // dd($this->keterangan);
     }
-
 
     public function clear($id_presensi)
     {
@@ -63,7 +56,6 @@ class Edit extends Component
         }
     }
 
-
     public function update()
     {
         $validatedData = $this->validate();
@@ -74,9 +66,23 @@ class Edit extends Component
                 $validatedData['alasan'] = null;
             }
 
-            $presensi->update($validatedData);
+            if ($presensi->update($validatedData)) {
+                // Dispatch event untuk refresh data
+                $this->dispatch('presensi-updated');
 
-            $this->dispatch('presensiUpdated');
+                // Tutup modal edit (jika menggunakan modal)
+                $this->dispatch('close-modal');
+
+                // Tampilkan alert langsung dari komponen
+                $this->js("
+                Swal.fire({
+                    title: 'Sukses!',
+                    text: 'Data presensi berhasil diperbarui',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
+            ");
+            }
         }
     }
 

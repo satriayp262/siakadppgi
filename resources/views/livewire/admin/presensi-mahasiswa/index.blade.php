@@ -130,3 +130,31 @@
         <livewire:table.presensi-mahasiwa-table />
     </div>
 </div>
+
+@push('scripts')
+    <script>
+        document.addEventListener('livewire:initialized', () => {
+            // Listen for the spSentSuccess event
+            Livewire.on('spSentSuccess', (data) => {
+                Swal.fire({
+                    title: 'Berhasil!',
+                    text: 'Surat Peringatan telah berhasil dikirim ke mahasiswa.',
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                    timer: 3000,
+                    timerProgressBar: true,
+                });
+            });
+
+            // If you also want to show error messages
+            Livewire.on('spSentError', (message) => {
+                Swal.fire({
+                    title: 'Gagal!',
+                    text: message,
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            });
+        });
+    </script>
+@endpush

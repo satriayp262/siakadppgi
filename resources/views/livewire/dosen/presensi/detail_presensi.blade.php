@@ -100,20 +100,12 @@
 @push('scripts')
     <script>
         document.addEventListener('livewire:initialized', () => {
-            Livewire.on('updated', (event) => {
+            // Listener untuk event dari komponen Edit
+            Livewire.on('show-alert', (event) => {
                 Swal.fire({
-                    title: 'Berhasil!',
-                    text: event.params.message,
-                    icon: 'success',
-                    confirmButtonText: 'OK'
-                });
-            });
-
-            Livewire.on('error', (message) => {
-                Swal.fire({
-                    title: 'Error!',
-                    text: message,
-                    icon: 'error',
+                    title: event.title,
+                    text: event.message,
+                    icon: event.type,
                     confirmButtonText: 'OK'
                 });
             });

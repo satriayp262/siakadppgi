@@ -26,7 +26,6 @@
             confirmButtonText: 'Kirim'
         }).then((result) => {
             if (result.isConfirmed) {
-                // Kirim event ke komponen Livewire saat ini
                 Livewire.dispatch('kirimEmail', { nim: nim });
             }
         });

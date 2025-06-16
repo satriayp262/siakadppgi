@@ -43,6 +43,10 @@ final class PresensiMengajarTable extends PowerGridComponent
             ]);
     }
 
+    public function boot(): void
+    {
+        config(['livewire-powergrid.filter' => 'outside']);
+    }
 
     public function fields(): PowerGridFields
     {
