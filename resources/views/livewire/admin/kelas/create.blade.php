@@ -42,7 +42,16 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="kode_prodi" class="block text-sm font-medium text-gray-700">Nama Prodi</label>
+                            <label for="nama" class="block text-sm font-medium text-gray-700">Nama Kelas</label>
+                            <input type="text" id="nama" wire:model="nama" name="nama"
+                                class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
+                            @error('nama')
+                                <span class="text-sm text-red-500">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="kode_prodi" class="block text-sm font-medium text-gray-700">Prodi</label>
                             <select id="kode_prodi" wire:model.live="kode_prodi" name="kode_prodi"
                                 class="block w-full px-2 py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm">
                                 <option value="" disabled selected>Select</option>

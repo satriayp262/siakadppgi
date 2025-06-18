@@ -264,26 +264,7 @@
                     @this.call('destroy', id);
                 }
             });
-        }
-
-        const selectAllCheckbox = document.getElementById('selectAll');
-        const rowCheckboxes = document.querySelectorAll('.selectRow');
-
-        selectAllCheckbox.addEventListener('change', function() {
-            const isChecked = this.checked;
-
-            rowCheckboxes.forEach(function(checkbox) {
-                checkbox.checked = isChecked;
-            });
-
-            @this.set('selectedKelas', isChecked ? [...rowCheckboxes].map(cb => cb.value) : []);
-        });
-
-        rowCheckboxes.forEach(function(checkbox) {
-            checkbox.addEventListener('change', function() {
-                @this.set('selectedKelas', [...rowCheckboxes].filter(cb => cb.checked).map(cb => cb.value));
-            });
-        });
+        } 
 
 
         function confirmDeleteSelected() {

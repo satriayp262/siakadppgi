@@ -26,7 +26,7 @@ class Edit extends Component
             'semester' => 'required',
             'kode_prodi' => 'required',
             'id_mata_kuliah' => 'required',
-            'nama_kelas' => 'required|string|max:5',
+            'nama_kelas' => 'required|string',
             'lingkup_kelas' => 'required|string|max:1',
             'bahasan' => 'required|string',
             'mode_kuliah' => 'required|string|max:1',
@@ -37,7 +37,6 @@ class Edit extends Component
     {
         return [
             'nama_kelas.required' => 'Nama kelas tidak boleh kosong',
-            'nama_kelas.max' => 'Nama kelas maksimal 5 karakter',
             'nama_kelas.string' => 'Nama kelas harus berupa string',
             'semester.required' => 'Semester tidak boleh kosong',
             'kode_prodi.required' => 'Kode prodi tidak boleh kosong',
