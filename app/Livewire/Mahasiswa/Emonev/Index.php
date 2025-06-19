@@ -16,6 +16,10 @@ class Index extends Component
 {
     public $NIM;
 
+    public $krs;
+
+    public $listsemester;
+
     public $id_kelas;
 
     public $periode;
@@ -32,74 +36,52 @@ class Index extends Component
 
     public function mount()
     {
-        $user = auth()->user();
-        $this->mahasiswa = Mahasiswa::where('NIM', $user->nim_nidn)->first();
         $this->loadData();
     }
 
     public function loadData()
     {
+        $user = auth()->user();
+        $mahasiswa = Mahasiswa::where('NIM', $user->nim_nidn)->first();
+        $krs = KRS::where('NIM', $mahasiswa->NIM)->get();
 
-        $query = KRS::where('NIM', $this->mahasiswa->NIM);
+        $semesterIds = [];
+        foreach ($krs as $k) {
+            $semesterIds[] = $k->id_semester;
 
-        if (!empty($this->selectedSemester)) {
-
-            $findsemester = Semester::where('nama_semester', $this->selectedSemester)->first();
-            $query->where('id_semester', $findsemester->id_semester);
-
-        } else {
-            $query->where('id_semester', $this->mahasiswa->mulai_semester);
         }
 
-        $this->krs = $query->get();
+        $this->listsemester = Semester::whereIn('id_semester', $semesterIds)->get();
 
+        if ($this->selectedSemester == '') {
+            $periode = PeriodeEMonev::with('semester')->get();
+            foreach ($periode as $p) {
+                if ($p->isAktif()) {
+                    $this->selectedSemester = $p->semester->nama_semester;
 
+                }
+            }
+        }
+
+        $this->findsemester = Semester::where('nama_semester', $this->selectedSemester)->first();
+        $this->krs = $krs->where('id_semester', $this->findsemester->id_semester)->values();
+        $this->periode = PeriodeEMonev::where('id_semester', $this->findsemester->id_semester)->get();
+        foreach ($this->krs as $k) {
+            $this->id_kelas = $k->id_kelas;
+        }
+        $this->kelas = Kelas::where('id_kelas', $this->id_kelas)->first();
     }
 
 
     public function render()
     {
-        $semestermulai = Semester::where('id_semester', $this->mahasiswa->mulai_semester)->first();
-
-        $mahasiswajenjang = $this->mahasiswa->prodi->jenjang;
-
-        if ($mahasiswajenjang == 'D3') {
-            $totalsemester = 6;
-        } elseif ($mahasiswajenjang == 'S1') {
-            $totalsemester = 8;
-        } else {
-            return 'jenjang tidak terdaftar';
-        }
-
-        $items = [];
-        for ($i = $semestermulai->id_semester; $i < $semestermulai->id_semester + $totalsemester; $i++) {
-            $items[] = Semester::where('id_semester', $i)->get();
-        }
-
-        foreach ($this->krs as $k) {
-            $kelas = Kelas::where('id_kelas', $k->id_kelas)->first();
-        }
-
-        $findsemester = Semester::where('nama_semester', $this->selectedSemester)->first();
-
-        $nama_semester = Semester::where('id_semester', $this->mahasiswa->mulai_semester)->first();
-
-        if ($this->selectedSemester) {
-            $periode = PeriodeEMonev::where('id_semester', $findsemester->id_semester)->get();
-
-        } else {
-            $periode = PeriodeEMonev::where('id_semester', $this->mahasiswa->mulai_semester)->get();
-        }
-
         return view('livewire.mahasiswa.emonev.index', [
             'krs' => $this->krs,
-            'semester1' => $findsemester ?? $nama_semester,
-            'k' => $kelas ?? null,
-            'semesters' => $items,
-            'semestermulai' => $semestermulai,
-            'totalsemester' => $totalsemester,
-            'periode1' => $periode[0] ?? null,
-            'periode2' => $periode[1] ?? null,
+            'semester1' => $this->findsemester ?? null,
+            'kelas' => $this->kelas ?? null,
+            'semesters' => $this->listsemester,
+            'periode1' => $this->periode[0] ?? null,
+            'periode2' => $this->periode[1] ?? null,
         ]);
     }
 }

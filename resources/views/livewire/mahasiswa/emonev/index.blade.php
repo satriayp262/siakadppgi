@@ -15,9 +15,7 @@
                         class="w-full md:w-48 px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-purple-200">
                         <option value="" disabled>Pilih Semester</option>
                         @foreach ($semesters as $item)
-                            @foreach ($item as $semester)
-                                <option value="{{ $semester->nama_semester }}">{{ $semester->nama_semester }}</option>
-                            @endforeach
+                            <option value="{{ $item->nama_semester }}">{{ $item->nama_semester }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -111,7 +109,7 @@
                                             $x = $periode->id_periode;
                                         }
 
-                                        $kode = Hashids::encode($item->matkul->id_mata_kuliah, $k->id_kelas, $x);
+                                        $kode = Hashids::encode($item->matkul->id_mata_kuliah, $kelas->id_kelas, $x);
                                     @endphp
                                     <tr class="border-b border-gray-200 text-sm">
                                         <td class="px-2 py-2 text-center">{{ $loop->iteration }}</td>
@@ -211,7 +209,7 @@
                                     $x = $periode->id_periode;
                                 }
 
-                                $kode = Hashids::encode($item->matkul->id_mata_kuliah, $k->id_kelas, $x);
+                                $kode = Hashids::encode($item->matkul->id_mata_kuliah, $kelas->id_kelas, $x);
                             @endphp
                             <div class="border rounded-lg p-4 shadow-sm">
                                 <div class="font-semibold text-gray-700 mb-2">{{ $loop->iteration }}.
