@@ -28,11 +28,20 @@ class ListMahasiswa extends Component
     public $mahasiswaSudahIsi = [];
     public $mahasiswaBelumIsi = [];
 
+    public function mount()
+    {
+        $this->loadData();
+    }
+
     public function loadData()
     {
         if ($this->selectedSemester == '') {
-            $this->dispatch('warning', ['message' => 'Harap Pilih Periode']);
-            return;
+            $periodes = PeriodeEMonev::all();
+            foreach ($periodes as $periode) {
+                if ($periode->isAktif()) {
+                    $this->selectedSemester = $periode->id_periode;
+                }
+            }
         }
 
         $periode = PeriodeEMonev::with('semester')

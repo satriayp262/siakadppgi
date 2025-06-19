@@ -18,11 +18,20 @@ class Index extends Component
     public $selectedSemester = '';
     public $nama_periode;
 
+    public function mount()
+    {
+        $this->loadData();
+    }
+
     public function loadData()
     {
         if ($this->selectedSemester == '') {
-            $this->dispatch('warning', ['message' => 'Harap Pilih Periode']);
-            return;
+            $periodes = PeriodeEMonev::all();
+            foreach ($periodes as $periode) {
+                if ($periode->isAktif()) {
+                    $this->selectedSemester = $periode->id_periode;
+                }
+            }
         }
 
         $x = PeriodeEMonev::with('semester')

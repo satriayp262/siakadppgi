@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Pertanyaan;
 
+use App\Models\PeriodeEMonev;
 use App\Models\Pertanyaan;
 use Livewire\Component;
 
@@ -29,6 +30,14 @@ class Create extends Component
 
     public function save()
     {
+
+        $periodes = PeriodeEMonev::all();
+        foreach ($periodes as $periode) {
+            if ($periode->isAktif()) {
+                return $this->dispatch('warning', ['message' => 'Periode e-Monev ' . $periode->nama_periode . ' saat ini sedang aktif. Harap menunggu periode nonaktif tersebut sebelum menambahkan pertanyaan baru.']);
+            }
+        }
+
         $validatedData = $this->validate([
             'nama_pertanyaan.*' => 'required|string|max:255',
         ]);
@@ -41,7 +50,6 @@ class Create extends Component
 
         $this->reset();
         $this->dispatch('PertanyaanCreated');
-        session()->flash('message', 'Pertanyaan berhasil disimpan.');
     }
 
     public function render()
