@@ -18,20 +18,20 @@ use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 final class EmonevTable extends PowerGridComponent
 {
     public string $tableName = 'emonev-table-txlquc-table';
-    public $jawaban;
+    public $periode;
     public $matakuliah;
 
     use WithExport;
 
     public function datasource(): Collection
     {
-        $jawaban = $this->jawaban;
+        $periode = $this->periode;
+
         $matakuliah = $this->matakuliah;
 
         $query = Jawaban::join('emonev', 'jawaban.id_emonev', '=', 'emonev.id_emonev')
             ->join('pertanyaan', 'jawaban.id_pertanyaan', '=', 'pertanyaan.id_pertanyaan')
             ->join('periode_emonev', 'emonev.nama_periode', '=', 'periode_emonev.nama_periode')
-            ->join('kelas', 'emonev.id_kelas', '=', 'kelas.id_kelas')
             ->join('matkul', 'emonev.id_mata_kuliah', '=', 'matkul.id_mata_kuliah')
             ->join('dosen', 'matkul.nidn', '=', 'dosen.nidn')
             ->select(
@@ -43,7 +43,7 @@ final class EmonevTable extends PowerGridComponent
             );
 
         $query->where('dosen.nidn', auth()->user()->nim_nidn);
-        $query->where('emonev.nama_periode', $jawaban);
+        $query->where('emonev.nama_periode', $periode);
         $query->where('emonev.id_mata_kuliah', $matakuliah);
 
         $pertanyaan = Pertanyaan::all();

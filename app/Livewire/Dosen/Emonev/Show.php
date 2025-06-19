@@ -15,8 +15,6 @@ use Vinkla\Hashids\Facades\Hashids;
 class Show extends Component
 {
     public $selectedSemester = '';
-    public $selectedNilai = '';
-    public $selectedPertanyaan = '';
     public $jawaban = [];
     public $semesters = [];
     public $id;
@@ -24,13 +22,14 @@ class Show extends Component
     {
         $decoded = Hashids::decode($kode);
         $this->id = $decoded[0];
-
     }
 
     public function loadData()
     {
-        $selectedSemester = $this->selectedSemester;
-        return $selectedSemester;
+        if ($this->selectedSemester == '') {
+            $this->dispatch('warning', ['message' => 'Harap Pilih Periode']);
+            return;
+        }
     }
     public function render()
     {

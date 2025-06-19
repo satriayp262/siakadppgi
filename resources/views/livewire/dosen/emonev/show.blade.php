@@ -76,8 +76,9 @@
 
         <!-- Tabel Data -->
         <div class="">
+            <h1>{{ $selectedSemester }}</h1>
             @if ($selectedSemester)
-                @livewire('table.dosen.emonev.emonev-table', ['jawaban' => $selectedSemester, 'matakuliah' => $id, 'user' => $user])
+                @livewire('table.dosen.emonev.emonev-table', ['periode' => $selectedSemester, 'matakuliah' => $id, 'user' => $user], key($selectedSemester))
             @endif
         </div>
     </div>

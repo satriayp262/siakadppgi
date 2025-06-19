@@ -222,7 +222,7 @@
                     </button>
                     <ul x-show="open" x-collapse class="py-2 space-y-2">
                         <li>
-                            <a wire:navigate.hover href="{{ route('admin.emonev') }}"
+                            <a href="{{ route('admin.emonev') }}"
                                 class="flex items-center mx-4 p-2 text-gray-100 rounded-lg group {{ request()->routeIs('admin.emonev') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 <span class="flex-1 ms-3 whitespace-nowrap">e-Monev</span>
                             </a>
