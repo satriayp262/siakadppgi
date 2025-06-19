@@ -22,6 +22,13 @@ class PeriodeEMonev extends Model
         return $this->belongsTo(Semester::class, 'id_semester', 'id_semester');
     }
 
+    // Di model PeriodeEMonev.php
+    public function isAktif()
+    {
+        return now()->between($this->tanggal_mulai, $this->tanggal_selesai);
+    }
+
+
 
     use HasFactory;
 }

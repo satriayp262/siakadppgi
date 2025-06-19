@@ -26,7 +26,12 @@
             @livewire('component.chart-emonev', ['x' => $nama_periode], key($selectedSemester))
         </div>
         @if ($nama_periode)
-            @livewire('table.emonev-admin', ['periode' => $nama_periode], key($selectedSemester))
+            <div class="">
+                <h2 class="text-lg font-semibold mb-4 text-center">👨‍🏫 Detail Evaluasi Dosen Periode
+                    <span class=" text-purple2">{{ $nama_periode }}</span>
+                </h2>
+                @livewire('table.emonev-admin', ['periode' => $nama_periode], key($selectedSemester))
+            </div>
         @endif
     </div>
 </div>

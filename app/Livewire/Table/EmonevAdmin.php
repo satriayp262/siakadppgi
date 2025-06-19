@@ -49,26 +49,38 @@ final class EmonevAdmin extends PowerGridComponent
         $totalExpr = [];
 
         foreach ($pertanyaan as $p) {
-            $query->addSelect(DB::raw(
-                "
+            $avgQuery = "
             (SELECT ROUND(AVG(jwbn.nilai), 0) 
              FROM jawaban jwbn 
              JOIN emonev em ON jwbn.id_emonev = em.id_emonev
              WHERE em.nidn = dosen.nidn 
              AND em.nama_periode = periode_emonev.nama_periode
-             AND jwbn.id_pertanyaan = $p->id_pertanyaan
-            ) AS `pertanyaan_$p->id_pertanyaan`"
-            ));
+             AND jwbn.id_pertanyaan = {$p->id_pertanyaan}
+            )";
 
-            $totalExpr[] = "COALESCE((
-                SELECT ROUND(AVG(jwbn.nilai), 0) 
-                FROM jawaban jwbn 
-                JOIN emonev em ON jwbn.id_emonev = em.id_emonev
-                WHERE em.nidn = dosen.nidn 
-                AND em.nama_periode = periode_emonev.nama_periode
-                AND jwbn.id_pertanyaan = $p->id_pertanyaan
-            ), 0)";
+            $query->addSelect(DB::raw("$avgQuery AS pertanyaan_{$p->id_pertanyaan}"));
+
+            $totalExpr[] = "COALESCE($avgQuery, 0)";
+
         }
+
+        $maxSkorExpr = '(
+            SELECT COUNT(DISTINCT jwbn.id_pertanyaan) * 10
+            FROM jawaban jwbn
+            JOIN emonev em ON jwbn.id_emonev = em.id_emonev
+            WHERE em.nidn = dosen.nidn
+            AND em.nama_periode = periode_emonev.nama_periode
+        )';
+
+        $skor = '(' . implode(' + ', $totalExpr) . ')';
+
+        $skordevided = '(' . implode(' + ', $totalExpr) . ') / ' . count($totalExpr);
+
+        $query->addSelect(DB::raw("
+            CONCAT($skor, ' / ', $maxSkorExpr) AS total_skor,
+            ROUND(($skor / NULLIF($maxSkorExpr, 0)) * 100, 1) AS persentase,
+            ROUND($skordevided, 2) AS rata_rata
+        "));
 
         $query->addSelect(DB::raw('(
             SELECT COUNT(DISTINCT em_sub.id_emonev)
@@ -76,23 +88,6 @@ final class EmonevAdmin extends PowerGridComponent
             WHERE em_sub.nidn = dosen.nidn
               AND em_sub.nama_periode = periode_emonev.nama_periode
         ) AS jumlah_partisipan'));
-
-        //$query->addSelect(DB::raw('(' . implode(' + ', $totalExpr) . ') AS total_skor'));
-
-        $query->addSelect(DB::raw('(
-            CONCAT(
-                (' . implode(' + ', $totalExpr) . '), 
-                " / ", 
-                (
-                    SELECT COUNT(DISTINCT jwbn.id_pertanyaan) * 10
-                    FROM jawaban jwbn
-                    JOIN emonev em ON jwbn.id_emonev = em.id_emonev
-                    WHERE em.nidn = dosen.nidn
-                    AND em.nama_periode = periode_emonev.nama_periode
-                )
-            )
-        ) AS total_skor'));
-
 
         $query->groupBy(
             'dosen.nidn',
@@ -165,6 +160,32 @@ final class EmonevAdmin extends PowerGridComponent
             $fields->add("pertanyaan_$p->id_pertanyaan");
         }
 
+        $fields->add('rata_rata');
+
+        $fields->add('persentase', fn($row) => number_format((float) ($row->persentase ?? 0)) . '%');
+
+        $fields->add('persentase_badge', function ($row) {
+            $persen = (float) ($row->persentase ?? 0);
+
+            if ($persen >= 90) {
+                $text = 'Luar Biasa';
+                $label = 'bg-blue-100 text-blue-800';
+            } elseif ($persen >= 80) {
+                $text = 'Sangat Baik';
+                $label = 'bg-green-100 text-green-800';
+            } elseif ($persen >= 70) {
+                $text = 'Baik';
+                $label = 'bg-yellow-100 text-yellow-800';
+            } elseif ($persen >= 60) {
+                $text = 'Kurang';
+                $label = 'bg-red-100 text-red-800';
+            } else {
+                $text = 'Sangat Kurang';
+                $label = 'bg-grey-100 text-grey-800';
+            }
+            return "<span class='px-2 py-1 text-xs font-semibold rounded-full $label'>$text</span>";
+        });
+
         $fields->add('jumlah_partisipan');
 
         $fields->add('total_skor');
@@ -205,11 +226,22 @@ final class EmonevAdmin extends PowerGridComponent
                     ->sortable()
                     ->searchable(),
 
+                Column::make('Rata-rata', 'rata_rata')
+                    ->withAvg('Avg Dosen ', header: true, footer: false)
+                    ->sortable(),
+
+                Column::make('Persentase', 'persentase')
+                    ->sortable(),
+
+                Column::make('Keterangan', 'persentase_badge')
+
+                    ->sortable()
+                    ->searchable(),
 
             ],
             $columns,
             [
-                Column::make('Partisipasi', 'jumlah_partisipan')
+                Column::make('Partisipan', 'jumlah_partisipan')
                     ->sortable()
                     ->searchable(),
             ]
