@@ -34,7 +34,7 @@
                                 <option disabled value=" ">-- Pilih Mata Kuliah --</option>
                                 @foreach ($matkul as $k)
                                     <option value="{{ $k->id_mata_kuliah }}">
-                                        {{ $k->nama_mata_kuliah }}
+                                        {{ $k->nama_mata_kuliah. " (".$k->dosen->nama_dosen.")" }}
                                     </option>
                                 @endforeach
                             </select>

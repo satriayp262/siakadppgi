@@ -82,14 +82,14 @@ class NilaiSeeder extends Seeder
                         ], [
                             'bobot' => $bobot
                         ]);
-                        $counter++;
-                        echo "\r$counter/$total done";
-
+                        
                     } catch (\Exception $e) {
                         echo "Error updating NIM: $nim, Semester: $id_semester. Error: " . $e->getMessage() . "\n";
                     }
                 }
             }
+            $counter++;
+            echo "\r$counter/$total done";
         }
         echo "\n";
     }

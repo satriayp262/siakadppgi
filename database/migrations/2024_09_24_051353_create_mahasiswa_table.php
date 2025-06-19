@@ -11,7 +11,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('mahasiswa', function (Blueprint $table) {
-            $table->uuid('id_mahasiswa')->primary();
+            $table->integer('id_mahasiswa')->autoIncrement()->primary();
             $table->string('id_orangtua_wali')->nullable();
             // $table->foreignId('id');
             $table->string('NIM')->unique();

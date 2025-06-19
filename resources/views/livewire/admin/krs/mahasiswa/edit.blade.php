@@ -4,7 +4,7 @@
         <div class="spinner loading-spinner"></div>
     </div>
     <div class="flex md:flex-row flex-col  justify-between mb-4 items-center">
-        <h2 class="text-lg  font-bold mb-4">KRS {{ $mahasiswa->nama }} Semester {{ $semester }}</h2>
+        <h2 class="text-lg  font-bold mb-4">KRS {{ $mahasiswa->nama }} Semester {{ $mahasiswa->getSemester($semester) }}</h2>
         <div class="flex space-x-2">
             <button wire:click="export"
                 class="flex items-center pr-4 py-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">

@@ -14,6 +14,8 @@ class Index extends Component
         foreach ($paketKRS as $p) {
             $p->delete();
         }
+        $this->dispatch('pg:eventRefresh-paker-k-r-s-table-th1jhx-table');
+
         $this->dispatch('deletedPaketKRS', ['message' => 'Paket KRS deleted Successfully']);
     }
     public function render()

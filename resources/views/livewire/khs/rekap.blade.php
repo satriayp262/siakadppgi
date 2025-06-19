@@ -53,9 +53,9 @@
     <table style="width: 100%; margin-top: 10px; margin-bottom: 10px; font-size: 12px;">
         <tr>
             <td style="width: 50%; vertical-align: top;">
-                <table style="border-collapse: collapse; margin-left: 10%;">
+                <table style="border-collapse: collapse;">
                     <tr>
-                        <td style="padding: 3px 10px;">Nama</td>
+                        <td style="padding: 3px 10px;">NAMA</td>
                         <td style="padding: 3px 10px;">:</td>
                         <td style="padding: 3px 10px;">{{ $mahasiswa->nama }}</td>
                     </tr>
@@ -64,14 +64,24 @@
                         <td style="padding: 3px 10px;">:</td>
                         <td style="padding: 3px 10px;">{{ $mahasiswa->NIM }}</td>
                     </tr>
+                    <tr>
+                        <td style="padding: 3px 10px;">JENIS KELAMIN</td>
+                        <td style="padding: 3px 10px;">:</td>
+                        <td style="padding: 3px 10px;">{{ $mahasiswa->jenis_kelamin === 'L' ? 'Laki-laki' : 'Perempuan' }}</td>
+                    </tr>
                 </table>
             </td>
             <td style="width: 50%; vertical-align: top;">
                 <table style="border-collapse: collapse;">
                     <tr>
-                        <td style="padding: 3px 10px;">Program Studi</td>
+                        <td style="padding: 3px 10px;">PROGRAM STUDI</td>
                         <td style="padding: 3px 10px;">:</td>
                         <td style="padding: 3px 10px;">{{ $mahasiswa->prodi->nama_prodi }}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 3px 10px;">TAHUN MASUK</td>
+                        <td style="padding: 3px 10px;">:</td>
+                        <td style="padding: 3px 10px;">{{ substr($mahasiswa->semester->nama_semester, 0, 4) }}</td>
                     </tr>
                 </table>
             </td>
@@ -86,120 +96,114 @@
         $jumlahNilai = 0;
     @endphp
 
-@php
-    $rowCount1 = count($khs1);
-    $rowCount2 = count($khs2);
-    $maxRows = max($rowCount1, $rowCount2);
-@endphp
+    @php
+        $rowCount1 = count($khs1);
+        $rowCount2 = count($khs2);
+        $maxRows = max($rowCount1, $rowCount2);
+    @endphp
 
-<table style="width: 100%; table-layout: fixed; font-size: 11px;">
-    <tr>
-        <!-- Left Table -->
-        <td style="width: 40%; vertical-align: top; margint-right:2px;">
-            <table class="table" style="width: 100%;">
-                <thead>
-                    <tr>
-                        
-                        <th style="width: 8%">Kode MK</th>
-                        <th style="width: 40%">Mata Kuliah</th>
-                        <th style="width: 8%">SKS</th>
-                        <th style="width: 12%">Nilai Mutu</th>
-                        <th style="width: 12%">Nilai Angka</th>
-                        <th style="width: 12%">Total Nilai</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($khs1 as $index => $item)
-                        @php
-                            $sks =
-                                $item->matkul->sks_tatap_muka +
-                                $item->matkul->sks_simulasi +
-                                $item->matkul->sks_praktek +
-                                $item->matkul->sks_praktek_lapangan;
-                            $nilaiAngka = $item->getGrade($item->bobot)['angka'];
-                            $nilaiHuruf = $item->getGrade($item->bobot)['huruf'];
-                            $totalNilai = $nilaiAngka * $sks;
-                            if ($item->bobot > 59) {
-                                $jumlahSKS += $sks;
-                                $jumlahNilai += $nilaiAngka * $sks;
-                            }
-                        @endphp
+    <table style="width: 100%; table-layout: fixed; font-size: 11px;">
+        <tr>
+            <!-- Left Table -->
+            <td style="width: 40%; vertical-align: top; margint-right:2px;">
+                <table class="table" style="width: 100%;">
+                    <thead>
                         <tr>
-                            <td style="height: 25px">{{ $item->matkul->kode_mata_kuliah }}</td>
-                            <td style="height: 25px">{{ $item->matkul->nama_mata_kuliah }}</td>
-                            <td style="height: 25px">{{ $sks }}</td>
-                            <td style="height: 25px">{{ $nilaiHuruf }}</td>
-                            <td style="height: 25px">{{ $nilaiAngka }}</td>
-                            <td style="height: 25px">{{ $totalNilai }}</td>
-                        </tr>
-                    @endforeach
-                    @for ($i = $rowCount1; $i < $maxRows; $i++)
-                        <tr>
-                            <td colspan="7">&nbsp;</td>
-                        </tr>
-                    @endfor
-                </tbody>
-            </table>
-        </td>
 
-        <!-- Right Table -->
-        <td style="width: 40%; vertical-align: top; margint-left: 2px;">
-            <table class="table" style="width: 100%;">
-                <thead>
-                    <tr>
-                        
-                        <th style="width: 8%">Kode MK</th>
-                        <th style="width: 40%">Mata Kuliah</th>
-                        <th style="width: 8%">SKS</th>
-                        <th style="width: 12%">Nilai Mutu</th>
-                        <th style="width: 12%">Nilai Angka</th>
-                        <th style="width: 12%">Total Nilai</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($khs2 as $index => $item)
-                        @php
-                            $sks =
-                                $item->matkul->sks_tatap_muka +
-                                $item->matkul->sks_simulasi +
-                                $item->matkul->sks_praktek +
-                                $item->matkul->sks_praktek_lapangan;
-                            $nilaiAngka = $item->getGrade($item->bobot)['angka'];
-                            $nilaiHuruf = $item->getGrade($item->bobot)['huruf'];
-                            $totalNilai = $nilaiAngka * $sks;
-                            if ($item->bobot > 59) {
-                                $jumlahSKS += $sks;
-                                $jumlahNilai += $nilaiAngka * $sks;
-                            }
-                        @endphp
-                        <tr>
-                            
-                            <td style="height: 25px">{{ $item->matkul->kode_mata_kuliah }}</td>
-                            <td style="height: 25px">{{ $item->matkul->nama_mata_kuliah }}</td>
-                            <td style="height: 25px">{{ $sks }}</td>
-                            <td style="height: 25px">{{ $nilaiHuruf }}</td>
-                            <td style="height: 25px">{{ $nilaiAngka }}</td>
-                            <td style="height: 25px">{{ $totalNilai }}</td>
+                            <th style="width: 8%">Kode MK</th>
+                            <th style="width: 40%">Mata Kuliah</th>
+                            <th style="width: 8%">SKS</th>
+                            <th style="width: 12%">Nilai Mutu</th>
+                            <th style="width: 12%">Nilai Angka</th>
+                            <th style="width: 12%">Total Nilai</th>
                         </tr>
-                    @endforeach
-                    @for ($i = $rowCount2; $i < $maxRows; $i++)
-                        <tr>
-                            <td colspan="7">&nbsp;</td>
-                        </tr>
-                    @endfor
+                    </thead>
+                    <tbody>
+                        @foreach ($khs1 as $index => $item)
+                            @php
+                                $sks =
+                                    $item->matkul->sks_tatap_muka +
+                                    $item->matkul->sks_simulasi +
+                                    $item->matkul->sks_praktek +
+                                    $item->matkul->sks_praktek_lapangan;
+                                $nilaiAngka = $item->getGrade($item->bobot)['angka'];
+                                $nilaiHuruf = $item->getGrade($item->bobot)['huruf'];
+                                $totalNilai = $nilaiAngka * $sks;
+                                if ($item->bobot > 59) {
+                                    $jumlahSKS += $sks;
+                                    $jumlahNilai += $nilaiAngka * $sks;
+                                }
+                            @endphp
+                            <tr>
+                                <td style="height: 25px">{{ $item->matkul->kode_mata_kuliah }}</td>
+                                <td style="height: 25px">{{ $item->matkul->nama_mata_kuliah }}</td>
+                                <td style="height: 25px">{{ $sks }}</td>
+                                <td style="height: 25px">{{ $nilaiHuruf }}</td>
+                                <td style="height: 25px">{{ $nilaiAngka }}</td>
+                                <td style="height: 25px">{{ $totalNilai }}</td>
+                            </tr>
+                        @endforeach
+                        @for ($i = $rowCount1; $i < $maxRows; $i++)
+                            <tr>
+                                <td colspan="7">&nbsp;</td>
+                            </tr>
+                        @endfor
+                    </tbody>
+                </table>
+            </td>
 
-                    <!-- Total row -->
-                    <tr>
-                        <td colspan="2" style="text-align: right"><strong>Jumlah SKS</strong></td>
-                        <td><strong>{{ $jumlahSKS }}</strong></td>
-                        <td colspan="2" style="text-align: right;"><strong>Total Nilai</strong></td>
-                        <td><strong>{{ $jumlahNilai }}</strong></td>
-                    </tr>
-                </tbody>
-            </table>
-        </td>
-    </tr>
-</table>
+            <!-- Right Table -->
+            <td style="width: 40%; vertical-align: top; margint-left: 2px;">
+                <table class="table" style="width: 100%;">
+                    <thead>
+                        <tr>
+
+                            <th style="width: 8%">Kode MK</th>
+                            <th style="width: 40%">Mata Kuliah</th>
+                            <th style="width: 8%">SKS</th>
+                            <th style="width: 12%">Nilai Mutu</th>
+                            <th style="width: 12%">Nilai Angka</th>
+                            <th style="width: 12%">Total Nilai</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($khs2 as $index => $item)
+                            @php
+                                $sks =
+                                    $item->matkul->sks_tatap_muka +
+                                    $item->matkul->sks_simulasi +
+                                    $item->matkul->sks_praktek +
+                                    $item->matkul->sks_praktek_lapangan;
+                                $nilaiAngka = $item->getGrade($item->bobot)['angka'];
+                                $nilaiHuruf = $item->getGrade($item->bobot)['huruf'];
+                                $totalNilai = $nilaiAngka * $sks;
+                                if ($item->bobot > 59) {
+                                    $jumlahSKS += $sks;
+                                    $jumlahNilai += $nilaiAngka * $sks;
+                                }
+                            @endphp
+                            <tr>
+
+                                <td style="height: 25px">{{ $item->matkul->kode_mata_kuliah }}</td>
+                                <td style="height: 25px">{{ $item->matkul->nama_mata_kuliah }}</td>
+                                <td style="height: 25px">{{ $sks }}</td>
+                                <td style="height: 25px">{{ $nilaiHuruf }}</td>
+                                <td style="height: 25px">{{ $nilaiAngka }}</td>
+                                <td style="height: 25px">{{ $totalNilai }}</td>
+                            </tr>
+                        @endforeach
+                        <!-- Total row -->
+                        <tr>
+                            <td colspan="2" style="text-align: right"><strong>Jumlah SKS</strong></td>
+                            <td><strong>{{ $jumlahSKS }}</strong></td>
+                            <td colspan="2" style="text-align: right;"><strong>Total Nilai</strong></td>
+                            <td><strong>{{ $jumlahNilai }}</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
 
 
 

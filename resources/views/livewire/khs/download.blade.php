@@ -46,87 +46,61 @@
 </head>
 
 <body>
-    {{-- <table style="width: 100%; border: none; margin: 0; border-spacing: 0;">
-        <tr style="vertical-align: top;">
-            <!-- Logo Kiri -->
-            <td style="width: 5%; text-align: left;">
-                <img style="width: 64px;" src="img/Politeknik_Piksi_Ganesha_Bandung.png">
-            </td>
-
-            <!-- Informasi Kontak -->
-            <td style="width: 40%; text-align: center;">
-                <p
-                    style="color: darkviolet; font-size: 14px; margin: 5px 0; font-family: Arial, Helvetica, sans-serif; font-weight: bold;">
-                    <strong>SK. MENDIKBUDRISTEK RI NO. 122/D/OT/2021</strong>
-                </p>
-                <p
-                    style="color: darkviolet; font-size: 20px; margin: 5px 0; font-family: Arial, Helvetica, sans-serif; letter-spacing: 2px; font-weight: bold;">
-                    <strong>POLITEKNIK PIKSI GANESHA INDONESIA</strong>
-                </p>
-                <p style="color: darkviolet; margin: 5px 0; font-size: 10px;">
-                    Jln. Letnan Jendral Suprapto No. 73, Kranggan, Bumirejo, Kec. Kebumen, Kab. Kebumen, Jawa Tengah,
-                    Kebumen, Jawa Tengah, Indonesia 54316
-                </p>
-                <p style="color: darkviolet; margin: 5px 0; font-size: 10px;">
-                    Telepon/Faximile 0287-383 800, 381 116 0287-381 149 | email : info@politeknik-kebumen.ac.id
-                </p>
-            </td>
-
-            <!-- Logo Kanan -->
-            <td style="width: 5%; text-align: right;">
-                <img style="width: 64px; opacity: 50%;" src="img/tut2.png">
-            </td>
-        </tr>
-        <!-- Garis Horizontal -->
-        <tr>
-            <td colspan="3" style="padding: 0;">
-                <hr
-                    style="border-top: 3px solid darkviolet; height: 2px; border-bottom: 1px solid darkviolet; margin: 0;">
-            </td>
-        </tr>
-    </table> --}}
     <img src="{{ public_path('img/kop_surat.jpg') }}" alt="Kop Surat" style="width: 100%; margin-bottom: 10px;">
 
-    <table
-        style=" border-collapse: collapse; font-size: 12px; margin-bottom: 10px; margin-top: 10px;
-            margin-left: 15%;">
+    <table style="width: 100%; margin-top: 10px; margin-bottom: 10px; font-size: 12px;">
         <tr>
-            <td style="padding: 3px 10px;">Nama</td>
-            <td style="padding: 3px 10px;">:</td>
-            <td style="padding: 3px 10px;">{{ $mahasiswa->nama }}</td>
-        </tr>
-        <tr>
-            <td style="padding: 3px 10px;">NIM</td>
-            <td style="padding: 3px 10px;">:</td>
-            <td style="padding: 3px 10px;">{{ $mahasiswa->NIM }}</td>
-        </tr>
-        <tr>
-            <td style="padding: 3px 10px;">Program Studi</td>
-            <td style="padding: 3px 10px;">:</td>
-            <td style="padding: 3px 10px;">{{ $mahasiswa->prodi->nama_prodi }}</td>
-        </tr>
-        @php
-            $semesterMap = [
-                1 => '1 (SATU)',
-                2 => '2 (DUA)',
-                3 => '3 (TIGA)',
-                4 => '4 (EMPAT)',
-                5 => '5 (LIMA)',
-                6 => '6 (ENAM)',
-                7 => '7 (TUJUH)',
-                8 => '8 (DELAPAN)',
-                9 => '9 (SEMBILAN)',
-                10 => '10 (SEPULUH)',
-                11 => '11 (SEBELAS)',
-                12 => '12 (DUABELAS)',
-            ];
-            $semesterText =
-                $semesterMap[$mahasiswa->getSemester($x->id_semester)] ?? $mahasiswa->getSemester($x->id_semester);
-        @endphp
-        <tr>
-            <td style="padding: 3px 10px;">Semester</td>
-            <td style="padding: 3px 10px;">:</td>
-            <td style="padding: 3px 10px;">{{ $semesterText }}</td>
+            <td style="width: 50%; vertical-align: top;">
+                <table style="border-collapse: collapse;">
+                    <tr>
+                        <td style="padding: 3px 10px;">NAMA</td>
+                        <td style="padding: 3px 10px;">:</td>
+                        <td style="padding: 3px 10px;">{{ $mahasiswa->nama }}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 3px 10px;">NIM</td>
+                        <td style="padding: 3px 10px;">:</td>
+                        <td style="padding: 3px 10px;">{{ $mahasiswa->NIM }}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 3px 10px;">JENIS KELAMIN</td>
+                        <td style="padding: 3px 10px;">:</td>
+                        <td style="padding: 3px 10px;">{{ $mahasiswa->jenis_kelamin === 'L' ? 'Laki-laki' : 'Perempuan' }}</td>
+                    </tr>
+                </table>
+            </td>
+            @php
+                $semesterMap = [
+                    1 => '1 (SATU)',
+                    2 => '2 (DUA)',
+                    3 => '3 (TIGA)',
+                    4 => '4 (EMPAT)',
+                    5 => '5 (LIMA)',
+                    6 => '6 (ENAM)',
+                    7 => '7 (TUJUH)',
+                    8 => '8 (DELAPAN)',
+                    9 => '9 (SEMBILAN)',
+                    10 => '10 (SEPULUH)',
+                    11 => '11 (SEBELAS)',
+                    12 => '12 (DUABELAS)',
+                ];
+                $semesterText =
+                    $semesterMap[$mahasiswa->getSemester($x->id_semester)] ?? $mahasiswa->getSemester($x->id_semester);
+            @endphp
+            <td style="width: 50%; vertical-align: top;">
+                <table style="border-collapse: collapse;">
+                    <tr>
+                        <td style="padding: 3px 10px;">PROGRAM STUDI</td>
+                        <td style="padding: 3px 10px;">:</td>
+                        <td style="padding: 3px 10px;">{{ $mahasiswa->prodi->nama_prodi }}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 3px 10px;">SEMESTER</td>
+                        <td style="padding: 3px 10px;">:</td>
+                        <td style="padding: 3px 10px;">{{ $semesterText }}</td>
+                    </tr>
+                </table>
+            </td>
         </tr>
     </table>
 

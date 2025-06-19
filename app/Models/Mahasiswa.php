@@ -14,17 +14,17 @@ class Mahasiswa extends Model
 {
     use HasFactory;
     protected $primaryKey = 'id_mahasiswa';
-    public $incrementing = false;
-    protected $keyType = 'string';
+    // public $incrementing = false;
+    // protected $keyType = 'string';
     protected $table = 'mahasiswa';
 
-    protected static function boot()
-    {
-        parent::boot();
-        static::creating(function ($model) {
-            $model->{$model->getKeyName()} = (string) Str::uuid();
-        });
-    }
+    // protected static function boot()
+    // {
+    //     parent::boot();
+    //     static::creating(function ($model) {
+    //         $model->{$model->getKeyName()} = (string) Str::uuid();
+    //     });
+    // }
     protected $fillable = [
         'id_orangtua_wali',
         'NIM',

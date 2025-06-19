@@ -168,19 +168,20 @@
     </div>
 </div>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        window.addEventListener('updatedPaketKRS', event => {
-            Swal.fire({
-                title: 'Success!',
-                text: event.detail[0],
-                icon: 'success',
-                confirmButtonText: 'OK'
-            }).then(() => {
-                window.dispatchEvent(new CustomEvent('modal-closed'));
-                window.location.href = '{{ route('admin.paketkrs') }}';
-            });
+    document.addEventListener('DOMContentLoaded', function () {
+    Livewire.on('updatedPaketKRS', message => {
+        Swal.fire({
+            title: 'Success!',
+            text: message,
+            icon: 'success',
+            confirmButtonText: 'OK'
+        }).then(() => {
+            window.dispatchEvent(new CustomEvent('modal-closed'));
+            window.location.href = '{{ route('admin.paketkrs') }}';
         });
     });
+});
+
     document.addEventListener('DOMContentLoaded', function() {
         window.addEventListener('warningPaketKRS', event => {
             Swal.fire({
