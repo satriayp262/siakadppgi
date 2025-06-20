@@ -117,6 +117,7 @@
         <button onclick="confirmDeleteAll()" class='flex items-center px-4 py-2 ml-2 font-bold text-white bg-red-500 rounded hover:bg-red-700'>
             Hapus Semua Jadwal
         </button>
+        <button type="button" class="flex items-center px-4 py-2 ml-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700" wire:click='generatePdf()'>Download Kartu Ujian</button>
     </div>
 
     <div class="max-w-full p-4 mt-4 mb-4 bg-white rounded-lg shadow-lg">
@@ -132,129 +133,19 @@
                     <th class="px-3 py-2 text-center">Aksi</th>
                 </tr>
             </thead>
-            @if ($prodi)
+            @if($prodi != null)
                 <tbody>
                     @php
+                        $previousProdi = null;
+                        $previousSemester = null;
                         $previousDay = null;
                         $previous = null;
                     @endphp
 
-                    <!-- Kelompokkan Jadwal Berdasarkan Semester -->
-                    @foreach ($jadwals->groupBy('id_semester') as $idSemester => $jadwalsBySemester)
-                        @php
-                            $semester = $jadwalsBySemester->first()->semester->nama_semester ?? 'Semester Tidak Diketahui';
-                        @endphp
 
-                        <!-- Header Semester -->
-                        <tr>
-                            <td colspan="8" class="px-3 py-2 font-bold text-left bg-gray-100">
-                                Semester: {{ $semester }}
-                            </td>
-                        </tr>
-
-                        <!-- Tampilkan Jadwal -->
-                        @foreach ($jadwalsBySemester as $jadwal)
-                            @if ($previous != null && $previous != $jadwal->kelas->nama_kelas)
-                                <tr class="border-t border-gray-500">
-                                    <td colspan="8" class="py-4 bg-gray-100"></td>
-                                </tr>
-                            @endif
-                            <tr class="border-t" wire:key="jadwal-{{ $jadwal->id_jadwal }}">
-                                    <!-- Tampilkan Hari hanya jika berbeda dari hari sebelumnya -->
-                                    <td class="px-3 py-1 text-center">
-                                        @if ($jadwal->kelas->nama_kelas != $previous)
-                                            {{ $jadwal->kelas->nama_kelas }}
-                                            @php
-                                                $previous = $jadwal->kelas->nama_kelas;
-                                            @endphp
-                                        @endif
-                                    </td>
-                                    <td class="px-3 py-1 text-center">
-                                        @if ($jadwal->hari != $previousDay)
-                                        {{ $jadwal->hari }}
-                                            @php
-                                                $previousDay = $jadwal->hari;
-                                            @endphp
-                                        @endif
-                                    </td>
-                                    <td class="px-3 py-1 text-center">{{ $jadwal->sesi }}</td>
-                                    {{-- @if ($jadwal->tanggal == null)
-                                        <td class="px-3 py-1 text-center">Belum ada tanggal Ujian</td>
-                                    @else
-                                        <td class="px-3 py-1 text-center">{{ \Carbon\Carbon::parse($jadwal->tanggal)->locale('id')->isoFormat('D MMMM YYYY') }}</td>
-                                    @endif
-                                    @if ($jadwal->jenis_ujian == null)
-                                        <td class="px-3 py-1 text-center">Belum ada jenis Ujian</td>
-                                    @else
-                                        <td class="px-3 py-1 text-center">{{ $jadwal->jenis_ujian }}</td>
-                                    @endif --}}
-                                    <td class="px-3 py-1 text-center">{{ $jadwal->matakuliah->nama_mata_kuliah }}</td>
-                                    <td class="px-3 py-1 text-center">{{ $jadwal->dosen->nama_dosen }}</td>
-                                    @if ($jadwal->id_ruangan == 'Online')
-                                        <td class="px-3 py-1 text-center">Online</td>
-                                    @else
-                                            <td class="px-3 py-1 text-center">{{ $jadwal->ruangan->kode_ruangan }}</td>
-                                    @endif
-                                    <td class="px-3 py-1 text-center">
-                                        <div class="flex flex-row justify-center">
-                                            <livewire:admin.jadwal.edit :id_jadwal="$jadwal->id_jadwal"
-                                                wire:key="edit-{{ $jadwal->id_jadwal }}" />
-                                            <button
-                                                class="inline-block px-3 py-2 ml-2 text-white bg-red-500 rounded hover:bg-red-700"
-                                                onclick="confirmDelete({{ $jadwal->id_jadwal }}, '{{ $jadwal->kelas->nama_kelas }}')">
-                                                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
-                                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                    fill="none" viewBox="0 0 24 24">
-                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                        @endforeach
-                    @endforeach
-                </tbody>
-            @elseif ($semesterfilter)
-                <tbody>
-                    @php
-                        $previousDay = null;
-                        $previousProdi = null;
-                        $previousSemester = null;
-                    @endphp
-
-                    @foreach ($prodis as $prodi)
-                        <!-- Nama Prodi -->
-                        {{-- @if ($previousProdi != $prodi->nama_prodi)
-                            <tr>
-                                <td colspan="5" class="px-3 py-2 font-bold text-left bg-gray-200">
-                                    {{ $prodi->nama_prodi }}
-                                </td>
-                            </tr>
-                            @php
-                                $previousProdi = $prodi->nama_prodi;
-                            @endphp
-                        @endif --}}
-
-                        <!-- Jadwal untuk Prodi Berdasarkan Semester -->
-                        @foreach ($jadwals->where('kode_prodi', $prodi->kode_prodi)->groupBy('id_semester') as $idSemester => $jadwalsBySemester)
-                            @php
-                                $previous = null;
-                                $semester = $jadwalsBySemester->first()->semester->nama_semester ?? 'Semester Tidak Diketahui';
-                            @endphp
-
-                            <!-- Nama Semester -->
-                            @if ($previousSemester != $semester)
-                                <tr>
-                                    <td colspan="8" class="px-3 py-2 font-bold text-left bg-gray-100">
-                                        {{ $prodi->nama_prodi }} {{ $semester }}
-                                    </td>
-                                </tr>
-                            @endif
 
                             <!-- Jadwal -->
-                            @foreach ($jadwalsBySemester as $jadwal)
+                            @foreach ($jadwals as $jadwal)
                                 @if ($previous != null && $previous != $jadwal->kelas->nama_kelas)
                                     <tr class="border-gray-500 ">
                                         <td colspan="8" class="py-4 bg-gray-100"></td>
@@ -272,7 +163,7 @@
                                     </td>
                                     <td class="px-3 py-1 text-center">
                                         @if ($jadwal->hari != $previousDay)
-                                        {{ $jadwal->hari }}
+                                            {{ $jadwal->hari }}
                                             @php
                                                 $previousDay = $jadwal->hari;
                                             @endphp
@@ -289,7 +180,11 @@
                                     @else
                                         <td class="px-3 py-1 text-center">{{ $jadwal->jenis_ujian }}</td>
                                     @endif --}}
-                                    <td class="px-3 py-1 text-center">{{ $jadwal->matakuliah->nama_mata_kuliah }}</td>
+                                    @if ($jadwal->matakuliah->jenis_mata_kuliah == 'P')
+                                        <td class="px-3 py-1 text-center">{{ $jadwal->matakuliah->nama_mata_kuliah }} (Grup {{ $jadwal->grup }})</td>
+                                    @else
+                                        <td class="px-3 py-1 text-center">{{ $jadwal->matakuliah->nama_mata_kuliah }}</td>
+                                    @endif
                                     <td class="px-3 py-1 text-center">{{ $jadwal->dosen->nama_dosen }}</td>
                                     @if ($jadwal->id_ruangan == 'Online')
                                         <td class="px-3 py-1 text-center">Online</td>
@@ -315,17 +210,7 @@
                                     </td>
                                 </tr>
                             @endforeach
-                        @endforeach
 
-                        <!-- Jika Tidak Ada Jadwal -->
-                        @if ($jadwals->where('kode_prodi', $prodi->kode_prodi)->isEmpty())
-                            <tr>
-                                <td colspan="8" class="px-3 py-2 italic text-center text-gray-500">
-                                    Tidak ada jadwal untuk prodi ini.
-                                </td>
-                            </tr>
-                        @endif
-                    @endforeach
                 </tbody>
             @else
                 <tbody>

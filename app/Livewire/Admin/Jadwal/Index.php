@@ -13,7 +13,7 @@ use App\Models\Prodi;
 use App\Models\KRS;
 use App\Models\request_dosen;
 use App\Models\Semester;
-use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Livewire\Attributes\On;
 
 class Index extends Component
@@ -240,6 +240,28 @@ class Index extends Component
 
         // Tampilkan pesan sukses
         $this->dispatch('destroyed', ['message' => 'Jadwal Berhasil Dihapus']);
+    }
+
+    public function generatePdf()
+    {
+        $jadwals = Jadwal::orderBy('id_kelas', direction: 'asc')
+            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat')")
+            ->orderBy(column: 'sesi', direction: 'asc')
+            ->get();
+
+        $prodis = Prodi::all();
+
+        $data = [
+            'jadwals' => $jadwals,
+            'prodis' => $prodis
+        ];
+
+        $pdf = PDF::loadView('livewire.admin.jadwal.download', $data);
+
+
+        return response()->streamDownload(function () use ($pdf) {
+            echo $pdf->output();
+        }, 'Jadwal Perkulihan Semester ' . $jadwals[0]->semester->nama_semester . '.pdf');
     }
 
     public function render()
