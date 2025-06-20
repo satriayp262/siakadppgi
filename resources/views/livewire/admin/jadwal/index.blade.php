@@ -117,7 +117,7 @@
         <button onclick="confirmDeleteAll()" class='flex items-center px-4 py-2 ml-2 font-bold text-white bg-red-500 rounded hover:bg-red-700'>
             Hapus Semua Jadwal
         </button>
-        <button type="button" class="flex items-center px-4 py-2 ml-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700" wire:click='generatePdf()'>Download Kartu Ujian</button>
+        <button type="button" class="flex items-center px-4 py-2 ml-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700" wire:click='generatePdf()'>Download Jadwal Perkuliahan</button>
     </div>
 
     <div class="max-w-full p-4 mt-4 mb-4 bg-white rounded-lg shadow-lg">

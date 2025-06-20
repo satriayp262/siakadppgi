@@ -1,6 +1,7 @@
 <div class="max-w-full p-4 mt-4 mb-4 bg-white rounded-lg shadow-lg">
     <P class="px-4 py-2 text-lg font-bold text-customPurple">Jadwal Mengajar {{ $dosen->nama_dosen }}</P>
     <livewire:table.dosen.jadwal.jadwal-table />
+    <button type="button" class="flex items-center px-4 py-2 mt-2 ml-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700" wire:click='generatePdf()'>Download Jadwal Mengajar</button>
         {{-- <table class="w-full mt-4 bg-white border border-gray-200">
             <thead>
                 <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
