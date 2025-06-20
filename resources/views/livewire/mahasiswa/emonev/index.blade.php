@@ -56,15 +56,19 @@
                     <h1 class="text-xl font-bold text-center mt-6">
                         e-Monev Semester {{ $periode1->semester->nama_semester }} tidak dapat diakses saat ini.
                     </h1>
-                    <p>Periode 1: {{ $periode1->tanggal_mulai }} - {{ $periode1->tanggal_selesai }}</p>
-                    <p>Periode 2: {{ $periode2->tanggal_mulai }} - {{ $periode2->tanggal_selesai }}</p>
+                    <p>Periode 1: {{ \Carbon\Carbon::parse($periode1->tanggal_mulai)->format('d.m.Y') }} -
+                        {{ \Carbon\Carbon::parse($periode1->tanggal_selesai)->format('d.m.Y') }} : 23.59</p>
+                    <p>Periode 2: {{ \Carbon\Carbon::parse($periode2->tanggal_mulai)->format('d.m.Y') }} -
+                        {{ \Carbon\Carbon::parse($periode2->tanggal_selesai)->format('d.m.Y') }} : 23.69</p>
                 @else
                     {{-- Judul --}}
                     <h1 class="text-xl font-bold text-center mt-6"> e-Monev Dosen Semester
                         {{ $semester1->nama_semester }}
                     </h1>
-                    <p>Periode 1: {{ $periode1->tanggal_mulai }} - {{ $periode1->tanggal_selesai }}</p>
-                    <p>Periode 2: {{ $periode2->tanggal_mulai }} - {{ $periode2->tanggal_selesai }}</p>
+                    <p>Periode 1: {{ \Carbon\Carbon::parse($periode1->tanggal_mulai)->format('d.m.Y') }} -
+                        {{ \Carbon\Carbon::parse($periode1->tanggal_selesai)->format('d.m.Y') }} : 23.59</p>
+                    <p>Periode 2: {{ \Carbon\Carbon::parse($periode2->tanggal_mulai)->format('d.m.Y') }} -
+                        {{ \Carbon\Carbon::parse($periode2->tanggal_selesai)->format('d.m.Y') }} : 23.69</p>
 
                     {{-- Tabel versi desktop --}}
                     <div class="overflow-x-auto">
