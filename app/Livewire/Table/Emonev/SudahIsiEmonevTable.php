@@ -20,6 +20,7 @@ final class SudahIsiEmonevTable extends PowerGridComponent
 
     public function datasource(): Collection
     {
+
         $query = collect($this->mahasiswasudah);
 
         return $query;

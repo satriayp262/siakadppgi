@@ -25,7 +25,9 @@ class PeriodeEMonev extends Model
     // Di model PeriodeEMonev.php
     public function isAktif()
     {
-        return now()->between($this->tanggal_mulai, $this->tanggal_selesai);
+        $mulai = \Carbon\Carbon::parse($this->tanggal_mulai)->startOfDay();
+        $selesai = \Carbon\Carbon::parse($this->tanggal_selesai)->endOfDay();
+        return now()->between($mulai, $selesai);
     }
 
 

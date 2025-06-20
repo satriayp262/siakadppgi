@@ -20,15 +20,17 @@ class ListMahasiswa extends Component
     public $itung3;
     public $nama;
     public $semester;
-
     public $status = null;
-
     public $mahasiswaList = [];
-
     public $mahasiswaSudahIsi = [];
     public $mahasiswaBelumIsi = [];
 
     public function mount()
+    {
+        $this->loadData();
+    }
+
+    public function updatedStatus()
     {
         $this->loadData();
     }
@@ -40,6 +42,8 @@ class ListMahasiswa extends Component
             foreach ($periodes as $periode) {
                 if ($periode->isAktif()) {
                     $this->selectedSemester = $periode->id_periode;
+                } else {
+                    $this->selectedSemester = $periode->latest()->first()->id_periode;
                 }
             }
         }
@@ -85,13 +89,13 @@ class ListMahasiswa extends Component
 
         $this->mahasiswaBelumIsi = $mahasiswaBelumIsi;
         $this->mahasiswaSudahIsi = $mahasiswaSudahIsi;
+
     }
 
 
 
     public function render()
     {
-
         return view('livewire.admin.emonev.list-mahasiswa', [
             'periode' => PeriodeEMonev::all(),
             'nama' => $this->nama,

@@ -25,14 +25,18 @@ class Index extends Component
 
     public function loadData()
     {
-        if ($this->selectedSemester == '') {
+        if (empty($this->selectedSemester)) {
             $periodes = PeriodeEMonev::all();
             foreach ($periodes as $periode) {
                 if ($periode->isAktif()) {
                     $this->selectedSemester = $periode->id_periode;
+                } else {
+                    $this->selectedSemester = $periode->latest()->first()->id_periode;
                 }
             }
         }
+
+
 
         $x = PeriodeEMonev::with('semester')
             ->where('id_periode', $this->selectedSemester)
