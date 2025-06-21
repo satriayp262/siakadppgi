@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 class ListMahasiswa extends Component
 {
     public $selectedSemester = '';
+    public $periodes = [];
     public $itung;
     public $itung2;
     public $itung3;
@@ -37,14 +38,19 @@ class ListMahasiswa extends Component
 
     public function loadData()
     {
-        if ($this->selectedSemester == '') {
+        if (empty($this->selectedSemester)) {
             $periodes = PeriodeEMonev::all();
+            $aktif = false;
+
             foreach ($periodes as $periode) {
                 if ($periode->isAktif()) {
                     $this->selectedSemester = $periode->id_periode;
-                } else {
-                    $this->selectedSemester = $periode->latest()->first()->id_periode;
+                    $aktif = true;
                 }
+            }
+
+            if (!$aktif) {
+                $this->selectedSemester = PeriodeEMonev::latest()->first()->id_periode;
             }
         }
 
@@ -91,8 +97,6 @@ class ListMahasiswa extends Component
         $this->mahasiswaSudahIsi = $mahasiswaSudahIsi;
 
     }
-
-
 
     public function render()
     {

@@ -28,11 +28,7 @@
                         datasets: chartData.datasets
                     },
                     options: {
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
+                        indexAxis: 'y',
                     }
                 });
             }

@@ -16,6 +16,7 @@ use App\Livewire\Component\ChartEmonev;
 class Index extends Component
 {
     public $selectedSemester = '';
+    public $periodes = [];
     public $nama_periode;
 
     public function mount()
@@ -26,23 +27,26 @@ class Index extends Component
     public function loadData()
     {
         if (empty($this->selectedSemester)) {
-            $periodes = PeriodeEMonev::all();
-            foreach ($periodes as $periode) {
+            $this->periodes = PeriodeEMonev::all();
+            $aktif = false;
+
+            foreach ($this->periodes as $periode) {
                 if ($periode->isAktif()) {
                     $this->selectedSemester = $periode->id_periode;
-                } else {
-                    $this->selectedSemester = $periode->latest()->first()->id_periode;
+                    $aktif = true;
                 }
+            }
+
+            if (!$aktif) {
+                $this->selectedSemester = PeriodeEMonev::latest()->first()->id_periode;
             }
         }
 
-
-
-        $x = PeriodeEMonev::with('semester')
+        $periode = PeriodeEMonev::with('semester')
             ->where('id_periode', $this->selectedSemester)
             ->first();
 
-        $this->nama_periode = $x->nama_periode;
+        $this->nama_periode = $periode->nama_periode;
 
     }
 
@@ -50,7 +54,7 @@ class Index extends Component
     public function render()
     {
         return view('livewire.admin.emonev.index', [
-            'periode' => PeriodeEMonev::all(),
+            'periode' => $this->periodes,
             'nama_periode' => $this->nama_periode,
         ]);
     }

@@ -34,7 +34,7 @@ class Create extends Component
         $periodes = PeriodeEMonev::all();
         foreach ($periodes as $periode) {
             if ($periode->isAktif()) {
-                return $this->dispatch('warning', ['message' => 'Periode e-Monev ' . $periode->nama_periode . ' saat ini sedang aktif. Harap menunggu periode nonaktif tersebut sebelum menambahkan pertanyaan baru.']);
+                return $this->dispatch('warning', ['message' => 'Periode e-Monev ' . $periode->nama_periode . ' saat ini sedang aktif. Harap menunggu periode nonaktif sebelum menambahkan pertanyaan baru.']);
             }
         }
 
