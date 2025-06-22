@@ -1,6 +1,13 @@
 <div class="max-w-full p-4 mt-4 mb-4 bg-white rounded-lg shadow-lg">
     <P class="px-4 py-2 text-lg font-bold text-customPurple">Jadwal Kelas {{ $jadwal->kelas->nama_kelas }}</P>
-        <livewire:table.mahasiswa.jadwal.jadwal-table />
+    <div class="flex justify-end mt-2">
+        <button type="button"
+            class="flex px-4 py-2 ml-2 font-bold text-white align-middle bg-blue-500 rounded hover:bg-blue-700"
+            wire:click='generatePdf()'>
+            Download Jadwal Perkuliahan
+        </button>
+    </div>
+    <livewire:table.mahasiswa.jadwal.jadwal-table />
         {{-- <table class="w-full mt-4 bg-white border border-gray-200">
             <thead>
                 <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">

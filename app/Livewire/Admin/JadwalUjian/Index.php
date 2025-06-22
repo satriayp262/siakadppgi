@@ -9,6 +9,7 @@ use App\Models\Semester;
 use App\Models\ttd;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class Index extends Component
 {
@@ -101,6 +102,30 @@ class Index extends Component
         }
     }
 
+    public function generatePdf()
+    {
+        $jadwals = Jadwal::orderBy('id_kelas', direction: 'asc')
+            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat')")
+            ->orderBy(column: 'sesi', direction: 'asc')
+            ->get();
+
+        $prodis = Prodi::all();
+
+        $x = $jadwals->first();
+
+        $data = [
+            'jadwals' => $jadwals,
+            'prodis' => $prodis,
+            'x' => $x
+        ];
+
+        $pdf = PDF::loadView('livewire.admin.jadwal-ujian.download', $data);
+
+
+        return response()->streamDownload(function () use ($pdf) {
+            echo $pdf->output();
+        }, 'Jadwal Perkulihan Semester ' . $jadwals[0]->semester->nama_semester . '.pdf');
+    }
 
     public function render()
     {

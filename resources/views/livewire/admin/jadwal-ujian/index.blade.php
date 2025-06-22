@@ -49,6 +49,8 @@
             <button onclick="confirmDeleteAll()" class="px-2 py-1 ml-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">
                 Hapus Jadwal Ujian
             </button>
+            <button type="button" class="flex items-center px-4 py-2 ml-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700" wire:click='generatePdf()'>Download Jadwal Perkuliahan</button>
+
 
             <!-- Modal Background -->
                 <div x-data="{ load: false }" x-show="isOpen && load" x-init="load = true" wire:init="" x-cloak

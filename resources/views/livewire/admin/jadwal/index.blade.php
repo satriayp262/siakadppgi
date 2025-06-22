@@ -141,9 +141,6 @@
                         $previousDay = null;
                         $previous = null;
                     @endphp
-
-
-
                             <!-- Jadwal -->
                             @foreach ($jadwals as $jadwal)
                                 @if ($previous != null && $previous != $jadwal->kelas->nama_kelas)
@@ -375,5 +372,9 @@
                 }
             });
         }
+
+        Livewire.on('refreshPage', () => {
+        window.location.reload();
+    });
     </script>
 </div>

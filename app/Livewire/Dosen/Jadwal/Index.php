@@ -28,8 +28,11 @@ class Index extends Component
             ->orderBy('sesi')  // Urutkan berdasarkan sesi
             ->get();
 
+        $x = $jadwals->first();
+
         $data = [
-            'jadwals' => $jadwals
+            'jadwals' => $jadwals,
+            'x' => $x
         ];
 
         $pdf = PDF::loadView('livewire.dosen.jadwal.download', $data);

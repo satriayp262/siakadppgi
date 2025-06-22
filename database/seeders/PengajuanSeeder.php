@@ -41,6 +41,20 @@ class PengajuanSeeder extends Seeder
             $counter++;
             echo "\r$counter/$total done";
         }
+        $allKrs = KRS::orderBy('id_kelas')->orderBy('id_krs')->get();
+
+        $groupedByKelas = $allKrs->groupBy('id_kelas');
+
+        foreach ($groupedByKelas as $idKelas => $krsList) {
+            $total = $krsList->count();
+            $half = ceil($total / 2);
+
+            foreach ($krsList as $index => $krs) {
+                $grup = ($index < $half) ? 'A' : 'B';
+                $krs->update(['grup_praktikum' => $grup]);
+            }
+        }
+
         echo "\n";
     }
 }

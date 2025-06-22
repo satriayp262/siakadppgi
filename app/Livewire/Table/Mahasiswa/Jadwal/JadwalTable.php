@@ -3,7 +3,7 @@
 namespace App\Livewire\Table\Mahasiswa\Jadwal;
 
 use App\Models\Mahasiswa;
-use App\Models\Kelas;
+use App\Models\Semester;
 use App\Models\KRS;
 use App\Models\Jadwal;
 use Illuminate\Database\Eloquent\Builder;
@@ -22,11 +22,9 @@ final class JadwalTable extends PowerGridComponent
     public function datasource(): Builder
     {
         $mahasiswa = Mahasiswa::where('NIM', Auth()->user()->nim_nidn)->first();
-        $kelas = Kelas::whereHas('krs', function ($query) use ($mahasiswa) {
-            $query->where('NIM', $mahasiswa->NIM);
-        })->first();
+        $semester = semester::where('is_active', 1)->first();
         $krs = KRS::where('NIM', $mahasiswa->NIM)
-            ->where('id_semester', $kelas->id_semester)
+            ->where('id_semester', $semester->id_semester)
             ->first();
         return Jadwal::whereHas('kelas.krs', function ($query) use ($mahasiswa, $krs) {
             $query->where('NIM', $mahasiswa->NIM)

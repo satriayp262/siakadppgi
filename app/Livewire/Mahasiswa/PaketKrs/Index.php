@@ -17,6 +17,14 @@ class Index extends Component
 
         $paketKRSBySemester = $this->paketKRS->where('id_semester', $data);
         $rows = [];
+        $firstPaket = $paketKRSBySemester->first();
+        $jumlahmhs = Mahasiswa::where('id_kelas', $firstPaket->id_Kelas)->count();
+        $half = ceil($jumlahmhs / 2);
+        $urutan = Mahasiswa::where('id_kelas', $firstPaket->id_Kelas)
+            ->where('NIM', '<=', $this->mahasiswa->NIM) // atau pakai NIM jika konsisten
+            ->count();
+        $grup = ($urutan <= $half) ? 'A' : 'B';
+
         foreach ($paketKRSBySemester as $item) {
             $rows[] = [
                 'id_semester' => $data,
@@ -24,6 +32,7 @@ class Index extends Component
                 'id_kelas' => $item->id_kelas,
                 'id_mata_kuliah' => $item->id_mata_kuliah,
                 'id_prodi' => $item->id_prodi,
+                'grup_praktikum' => $grup,
                 'created_at' => now(),
                 'updated_at' => now(),
             ];

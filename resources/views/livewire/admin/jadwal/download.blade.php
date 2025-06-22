@@ -32,97 +32,116 @@
     .italic {
         font-style: italic;
     }
+
+    .kop-surat {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .heading {
+        font-size: 16px;
+        font-weight: bold;
+        color: black;
+        margin: 20px 0 5px 0;
+        text-align: center;
+    }
 </style>
 
-<table>
-    <thead>
-        <tr>
-            <th>Kelas</th>
-            <th>Hari</th>
-            <th>Sesi</th>
-            <th>Mata Kuliah</th>
-            <th>Dosen</th>
-            <th>Ruangan</th>
-        </tr>
-    </thead>
-    <tbody>
-        @php
-            $previousProdi = null;
-            $previousSemester = null;
-        @endphp
+<div>
+    <img src="{{ public_path('img/kop_surat.jpg') }}" alt="Kop Surat" class="kop-surat">
 
-        @foreach ($prodis as $prodi)
-            @if ($jadwals->where('kode_prodi', $prodi->kode_prodi)->isEmpty())
-                @if ($previousProdi != $prodi->nama_prodi)
-                    <tr>
-                        <td colspan="6" class="bg-gray-200">{{ $prodi->nama_prodi }}</td>
-                    </tr>
-                    @php $previousProdi = $prodi->nama_prodi; @endphp
-                @endif
-            @endif
+    <p class="heading">Jadwal Perkuliahan Semester {{ $x->semester->nama_semester }}</p>
 
-            @foreach ($jadwals->where('kode_prodi', $prodi->kode_prodi)->groupBy('id_semester') as $idSemester => $jadwalsBySemester)
-                @php
-                    $previousDay = null;
-                    $previous = null;
-                    $semester = $jadwalsBySemester->first()->semester->nama_semester ?? 'Semester Tidak Diketahui';
-                @endphp
+    <table>
+        <thead>
+            <tr>
+                <th>Kelas</th>
+                <th>Hari</th>
+                <th>Sesi</th>
+                <th>Mata Kuliah</th>
+                <th>Dosen</th>
+                <th>Ruangan</th>
+            </tr>
+        </thead>
+        <tbody>
+            @php
+                $previousProdi = null;
+                $previousSemester = null;
+            @endphp
 
-                @if ($previousSemester != $semester || $previousSemester == $semester)
-                    <tr>
-                        <td colspan="6" class="bg-gray-100">{{ $prodi->nama_prodi }} {{ $semester }}</td>
-                    </tr>
-                    @php $previousSemester = $semester; @endphp
-                @endif
-
-                @foreach ($jadwalsBySemester as $jadwal)
-                    @if ($previous != null && $previous != $jadwal->kelas->nama_kelas)
+            @foreach ($prodis as $prodi)
+                @if ($jadwals->where('kode_prodi', $prodi->kode_prodi)->isEmpty())
+                    @if ($previousProdi != $prodi->nama_prodi)
                         <tr>
-                            <td colspan="6" class="bg-gray-100">&nbsp;</td>
+                            <td colspan="6" class="bg-gray-200">{{ $prodi->nama_prodi }}</td>
                         </tr>
+                        @php $previousProdi = $prodi->nama_prodi; @endphp
+                    @endif
+                @endif
+
+                @foreach ($jadwals->where('kode_prodi', $prodi->kode_prodi)->groupBy('id_semester') as $idSemester => $jadwalsBySemester)
+                    @php
+                        $previousDay = null;
+                        $previous = null;
+                        $semester = $jadwalsBySemester->first()->semester->nama_semester ?? 'Semester Tidak Diketahui';
+                    @endphp
+
+                    @if ($previousSemester != $semester || $previousSemester == $semester)
+                        <tr>
+                            <td colspan="6" class="bg-gray-100">{{ $prodi->nama_prodi }} {{ $semester }}</td>
+                        </tr>
+                        @php $previousSemester = $semester; @endphp
                     @endif
 
-                    <tr>
-                        <td>
-                            @if ($jadwal->kelas->nama_kelas != $previous)
-                                {{ $jadwal->kelas->nama_kelas }}
-                                @php $previous = $jadwal->kelas->nama_kelas; @endphp
-                            @endif
-                        </td>
-                        <td>
-                            @if ($jadwal->hari != $previousDay)
-                                {{ $jadwal->hari }}
-                                @php $previousDay = $jadwal->hari; @endphp
-                            @endif
-                        </td>
-                        <td>{{ $jadwal->sesi }}</td>
+                    @foreach ($jadwalsBySemester as $jadwal)
+                        @if ($previous != null && $previous != $jadwal->kelas->nama_kelas)
+                            <tr>
+                                <td colspan="6" class="bg-gray-100">&nbsp;</td>
+                            </tr>
+                        @endif
 
-                        <td>
-                            @if ($jadwal->matakuliah->jenis_mata_kuliah == 'P')
-                                {{ $jadwal->matakuliah->nama_mata_kuliah }} (Grup {{ $jadwal->grup }})
-                            @else
-                                {{ $jadwal->matakuliah->nama_mata_kuliah }}
-                            @endif
-                        </td>
+                        <tr>
+                            <td>
+                                @if ($jadwal->kelas->nama_kelas != $previous)
+                                    {{ $jadwal->kelas->nama_kelas }}
+                                    @php $previous = $jadwal->kelas->nama_kelas; @endphp
+                                @endif
+                            </td>
+                            <td>
+                                @if ($jadwal->hari != $previousDay)
+                                    {{ $jadwal->hari }}
+                                    @php $previousDay = $jadwal->hari; @endphp
+                                @endif
+                            </td>
+                            <td>{{ $jadwal->sesi }}</td>
 
-                        <td>{{ $jadwal->dosen->nama_dosen }}</td>
+                            <td>
+                                @if ($jadwal->matakuliah->jenis_mata_kuliah == 'P')
+                                    {{ $jadwal->matakuliah->nama_mata_kuliah }} (Grup {{ $jadwal->grup }})
+                                @else
+                                    {{ $jadwal->matakuliah->nama_mata_kuliah }}
+                                @endif
+                            </td>
 
-                        <td>
-                            @if ($jadwal->id_ruangan == 'Online')
-                                Online
-                            @else
-                                {{ $jadwal->ruangan->kode_ruangan }}
-                            @endif
-                        </td>
-                    </tr>
+                            <td>{{ $jadwal->dosen->nama_dosen }}</td>
+
+                            <td>
+                                @if ($jadwal->id_ruangan == 'Online')
+                                    Online
+                                @else
+                                    {{ $jadwal->ruangan->kode_ruangan }}
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
                 @endforeach
-            @endforeach
 
-            @if ($jadwals->where('kode_prodi', $prodi->kode_prodi)->isEmpty())
-                <tr>
-                    <td colspan="6" class="italic text-center">Tidak ada jadwal untuk prodi ini.</td>
-                </tr>
-            @endif
-        @endforeach
-    </tbody>
-</table>
+                @if ($jadwals->where('kode_prodi', $prodi->kode_prodi)->isEmpty())
+                    <tr>
+                        <td colspan="6" class="italic text-center">Tidak ada jadwal untuk prodi ini.</td>
+                    </tr>
+                @endif
+            @endforeach
+        </tbody>
+    </table>
+</div>

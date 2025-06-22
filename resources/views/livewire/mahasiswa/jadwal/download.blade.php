@@ -2,19 +2,31 @@
     table {
         width: 100%;
         border-collapse: collapse;
-        margin-top: 20px;
-        font-size: 12px;
+        margin-top: 1rem;
     }
 
     th, td {
         border: 1px solid #ccc;
-        padding: 6px;
+        padding: 8px;
         text-align: center;
+        font-size: 12px;
     }
 
-    thead tr {
+    thead {
         background-color: #6b46c1;
         color: white;
+    }
+
+    .bg-gray-100 {
+        background-color: #f3f4f6;
+        font-weight: bold;
+        text-align: left;
+    }
+
+    .bg-gray-200 {
+        background-color: #e5e7eb;
+        font-weight: bold;
+        text-align: left;
     }
 
     .italic {
@@ -38,22 +50,21 @@
 <div>
     <img src="{{ public_path('img/kop_surat.jpg') }}" alt="Kop Surat" class="kop-surat">
 
-    <p class="heading">Jadwal Mengajar Dosen {{ $x->dosen->nama_dosen }} Semester {{ $x->semester->nama_semester }}</p>
+    <p class="heading">Jadwal Perkuliahan Semester {{ $jadwal->semester->nama_semester }} kelas {{ $jadwal->kelas->nama_kelas }}</p>
 
     <table>
         <thead>
             <tr>
                 <th>Hari</th>
                 <th>Sesi</th>
-                <th>Mata Kuliah</th>
-                <th>Prodi</th>
                 <th>Kelas</th>
+                <th>Mata Kuliah</th>
+                <th>Dosen</th>
                 <th>Ruangan</th>
             </tr>
         </thead>
         <tbody>
             @php $previousDay = null; @endphp
-
             @foreach ($jadwals as $jadwal)
                 <tr>
                     <td>
@@ -63,9 +74,14 @@
                         @endif
                     </td>
                     <td>{{ $jadwal->sesi }}</td>
-                    <td>{{ $jadwal->matakuliah->nama_mata_kuliah }}</td>
-                    <td>{{ $jadwal->prodi->nama_prodi }}</td>
                     <td>{{ $jadwal->kelas->nama_kelas }}</td>
+                    <td>
+                        {{ $jadwal->matakuliah->nama_mata_kuliah }}
+                        @if ($jadwal->matakuliah->jenis_mata_kuliah == 'P')
+                            (Grup {{ $jadwal->grup }})
+                        @endif
+                    </td>
+                    <td>{{ $jadwal->dosen->nama_dosen }}</td>
                     <td>
                         {{ $jadwal->id_ruangan == 'Online' ? 'Online' : $jadwal->ruangan->kode_ruangan }}
                     </td>

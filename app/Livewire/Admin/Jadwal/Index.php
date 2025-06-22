@@ -247,9 +247,19 @@ class Index extends Component
 
         $prodis = Prodi::all();
 
+        if ($this->prodi) {
+            $jadwals = $jadwals->where('kode_prodi', $this->prodi);
+        }
+
+        $x = $jadwals->first();
+
+        $v = $jadwals->pluck('id_prodi')->unique()->count();
+
         $data = [
             'jadwals' => $jadwals,
-            'prodis' => $prodis
+            'prodis' => $prodis,
+            'x' => $x,
+            'v' => $v
         ];
 
         $pdf = PDF::loadView('livewire.admin.jadwal.download', $data);
