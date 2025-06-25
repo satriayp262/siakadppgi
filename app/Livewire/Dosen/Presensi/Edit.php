@@ -8,7 +8,7 @@ use Livewire\Component;
 
 class Edit extends Component
 {
-    public $id_presensi, $nama, $nim, $keterangan, $alasan, $nama_mahasiswa;
+    public $id_presensi, $nama, $nim, $keterangan, $alasan, $nama_mahasiswa, $token;
 
     public function rules()
     {
@@ -27,21 +27,27 @@ class Edit extends Component
         return $rules;
     }
 
-    public function mount()
+    public function mount($nim, $token)
     {
-        $presensi = Presensi::find($this->id_presensi);
+        $this->nim = $nim;
+        $this->token = $token;
+        // dd($this->token);
+        $presensi = Presensi::where('token', $this->token)
+            ->where('nim', $this->nim)->first();
+
+        // dd($this->nim, $presensi->nim);
 
         if ($presensi) {
-            $this->nama = $presensi->nama;
-            $this->nim = $presensi->nim;
+            $this->nama = $presensi->mahasiswa->nama;
             $this->keterangan = $presensi->keterangan ?? '';
             $this->alasan = $presensi->alasan;
+            $this->id_presensi = $presensi->id;
         } else {
             $mahasiswa = Mahasiswa::where('NIM', $this->nim)->first();
             $this->nama = $mahasiswa->nama;
-            $this->nim = $mahasiswa->NIM;
         }
     }
+
 
     public function clear($id_presensi)
     {
@@ -58,30 +64,18 @@ class Edit extends Component
 
     public function update()
     {
+        // dd($this->validate());
         $validatedData = $this->validate();
 
         $presensi = Presensi::find($this->id_presensi);
+        // dd($this->id_presensi, $validatedData);
         if ($presensi) {
             if ($this->keterangan != 'Ijin') {
                 $validatedData['alasan'] = null;
             }
 
             if ($presensi->update($validatedData)) {
-                // Dispatch event untuk refresh data
                 $this->dispatch('presensi-updated');
-
-                // Tutup modal edit (jika menggunakan modal)
-                $this->dispatch('close-modal');
-
-                // Tampilkan alert langsung dari komponen
-                $this->js("
-                Swal.fire({
-                    title: 'Sukses!',
-                    text: 'Data presensi berhasil diperbarui',
-                    icon: 'success',
-                    confirmButtonText: 'OK'
-                });
-            ");
             }
         }
     }

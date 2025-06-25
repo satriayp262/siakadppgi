@@ -41,82 +41,9 @@
                 <livewire:dosen.berita_acara.create :id_mata_kuliah="$id_mata_kuliah" :id_kelas="$id_kelas" />
             </div>
         </div>
-        <div>
-            @if (session()->has('message'))
-                @php
-                    $messageType = session('message_type', 'success');
-                    $bgColor =
-                        $messageType === 'error'
-                            ? 'bg-red-500'
-                            : ($messageType === 'warning'
-                                ? 'bg-blue-500'
-                                : 'bg-green-500');
-                @endphp
-                <div id="flash-message"
-                    class="flex items-center justify-between p-2 mx-2 mt-2 text-white {{ $bgColor }} rounded">
-                    <span>{{ session('message') }}</span>
-                    <button class="p-1"
-                        onclick="document.getElementById('flash-message').style.display='none'">&times;</button>
-                </div>
-            @endif
-        </div>
     </div>
     <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
         <livewire:table.berita-acara-dosen :id_mata_kuliah="$id_mata_kuliah" :id_kelas="$id_kelas" />
-        {{-- <table class="min-w-full mt-4 bg-white text-sm border border-gray-200">
-            <thead>
-                <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
-                    <th class="px-4 py-2 text-center">No</th>
-                    <th class="px-4 py-2 text-center">Tanggal</th>
-                    <th class="px-4 py-2 text-center">Nama Dosen</th>
-                    <th class="px-4 py-2 text-center">Mata Kuliah</th>
-                    <th class="px-4 py-2 text-center">Materi</th>
-                    <th class="px-4 py-2 text-center">Jumlah Mahasiswa</th>
-                    <th class="px-4 py-2 text-center">Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($beritaAcara as $acara)
-                    <tr wire:key="berita_acara-{{ $acara->id_berita_acara }}">
-                        <td class="px-4 py-2 text-center">
-                            {{ ($beritaAcara->currentPage() - 1) * $beritaAcara->perPage() + $loop->iteration }}
-                        </td>
-                        <td class="px-4 py-2 text-center">
-                            {{ \Carbon\Carbon::parse($acara->tanggal)->translatedFormat('d F Y') }}
-                        </td>
-                        <td class="px-4 py-2 text-center">{{ $acara->dosen->nama_dosen }}</td>
-                        <td class="px-4 py-2 text-center">{{ $acara->matakuliah->nama_mata_kuliah }}</td>
-                        <td class="px-4 py-2 text-center">{{ $acara->materi }}</td>
-                        <td class="px-4 py-2 text-center">{{ $acara->jumlah_mahasiswa }}</td>
-                        <td class="px-4 py-2 text-center">
-                            <div class="flex flex-col">
-                                <div class="flex justify-center space-x-2">
-                                    <livewire:dosen.berita_acara.edit :id_berita_acara="$acara->id_berita_acara"
-                                        wire:key="edit-{{ $acara->id_berita_acara }}" />
-                                    <button
-                                        class="inline-block px-4 py-2 ml-2 text-white bg-red-500 rounded hover:bg-red-700"
-                                        wire:key="delete-{{ $acara->id_berita_acara }}"
-                                        onclick="confirmDelete('{{ $acara->id_berita_acara }}')">
-                                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
-                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                                stroke-width="2"
-                                                d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-
-        <!-- Pagination Controls -->
-        <div class="py-8 mt-4 text-center">
-            {{ $beritaAcara->links() }}
-        </div> --}}
     </div>
 </div>
 
@@ -140,10 +67,10 @@
     document.addEventListener('DOMContentLoaded', function() {
         const events = ['updated', 'created', 'destroyed'];
         events.forEach(eventType => {
-            window.addEventListener(eventType, event => {
+            Livewire.on(eventType, (data) => {
                 Swal.fire({
-                    title: 'Success!',
-                    text: event.detail.params.message,
+                    title: 'Sukses!',
+                    text: data.message,
                     icon: 'success',
                     confirmButtonText: 'OK'
                 }).then(() => {

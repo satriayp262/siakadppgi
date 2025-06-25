@@ -35,6 +35,11 @@ final class BeritaAcaraDosen extends PowerGridComponent
                 ->showRecordCount(),
         ];
     }
+    
+    public function boot(): void
+    {
+        config(['livewire-powergrid.filter' => 'outside']);
+    }
 
     public function datasource(): Builder
     {

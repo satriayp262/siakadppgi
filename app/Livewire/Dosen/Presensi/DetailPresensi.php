@@ -21,7 +21,7 @@ class DetailPresensi extends Component
     public $id_kelas;
     public $mahasiswa;
     public $mahasiswaPresensi = [];
-    public $tokenString; // Menyimpan string token asli dari parameter
+    public $tokenString;
 
     public function mount($token)
     {
@@ -49,38 +49,6 @@ class DetailPresensi extends Component
         // 3. Set data dasar
         $this->id_kelas = $this->tokenData->id_kelas;
         $this->matkul = $this->tokenData->matkul->nama_mata_kuliah ?? 'Mata kuliah tidak ditemukan';
-
-        // 4. Ambil data mahasiswa dan presensi
-        $this->loadData();
-    }
-
-    protected function loadData()
-    {
-        // 1. Ambil mahasiswa berdasarkan kelas dari token
-        $this->mahasiswa = Mahasiswa::whereIn('NIM', function ($query) {
-            $query->select('NIM')
-                ->from('krs')
-                ->where('id_kelas', $this->tokenData->id_kelas);
-        })->orderBy('nama')->get();
-
-        // 2. Ambil data presensi spesifik untuk token ini
-        $presensi = Presensi::where('token', $this->tokenData->token)
-            ->where('id_mata_kuliah', $this->tokenData->id_mata_kuliah)
-            ->get();
-
-        // 3. Gabungkan data
-        $this->mahasiswaPresensi = $this->mahasiswa->map(function ($mhs) use ($presensi) {
-            $presensiData = $presensi->firstWhere('nim', $mhs->NIM);
-
-            return [
-                'id_presensi' => $presensiData?->id,
-                'nama' => $mhs->nama,
-                'nim' => $mhs->NIM,
-                'waktu_submit' => $presensiData?->waktu_submit,
-                'keterangan' => $presensiData?->keterangan ?? 'Belum Presensi',
-                'alasan' => $presensiData?->alasan ?? '-',
-            ];
-        })->toArray();
     }
 
     public function exportExcel()
@@ -109,14 +77,20 @@ class DetailPresensi extends Component
     }
 
     #[On('presensi-updated')]
-    public function refreshData()
+    public function handlePresensiUpdated()
     {
-        $this->loadData(); 
-    }
-
-    public function updatedSearch()
-    {
-        $this->loadData();
+        $this->dispatch('pg:eventRefresh-detail-presensi-table');
+        $this->dispatch('close-modal');
+        $this->js(
+            "
+                Swal.fire({
+                    title: 'Sukses!',
+                    text: 'Data presensi berhasil diperbarui',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });"
+        );
+        // dd($this->mahasiswaPresensi);
     }
 
     public function back()
@@ -128,7 +102,8 @@ class DetailPresensi extends Component
     {
         return view('livewire.dosen.presensi.detail_presensi', [
             'mahasiswaPresensi' => $this->mahasiswaPresensi,
-            'matkul' => $this->matkul
+            'matkul' => $this->matkul,
+            'token' => $this->tokenString, // kirim token ke view
         ]);
     }
 }

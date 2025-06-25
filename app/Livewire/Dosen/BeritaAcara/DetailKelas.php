@@ -29,6 +29,7 @@ class DetailKelas extends Component
     #[On('acaraUpdated')]
     public function handleAcaraUpdated()
     {
+        $this->dispatch('pg:eventRefresh-berita-acara-dosen-cmhc6z-table');
         $this->dispatch('updated', params: ['message' => 'Berita Acara updated Successfully']);
     }
 
@@ -42,6 +43,7 @@ class DetailKelas extends Component
     #[On('acaraCreated')]
     public function handleAcaraCreated()
     {
+        $this->dispatch('pg:eventRefresh-berita-acara-dosen-cmhc6z-table');
         $this->dispatch('created', params: ['message' => 'Berita Acara created Successfully']);
     }
 

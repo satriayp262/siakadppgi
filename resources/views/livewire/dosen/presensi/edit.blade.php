@@ -43,7 +43,8 @@
                             </div>
 
                             <div class="mb-4">
-                                <label for="keterangan" class="block text-sm font-medium text-gray-700">Keterangan</label>
+                                <label for="keterangan"
+                                    class="block text-sm font-medium text-gray-700">Keterangan</label>
                                 <select id="keterangan" wire:model.change="keterangan" name="keterangan"
                                     class="block w-full py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 px-2 sm:text-sm">
                                     <option value="">Select</option>

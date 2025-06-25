@@ -8,18 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class Presensi extends Model
 {
     use HasFactory;
-
+    protected $keyType = 'string';
+    public $incrementing = false;
     protected $table = 'presensi';
     protected $fillable = ['nama', 'nim', 'token', 'waktu_submit', 'keterangan', 'alasan', 'id_kelas', 'id_mata_kuliah'];
 
-    public function token()
+    public function tokenlist()
     {
         return $this->belongsTo(Token::class, 'token', 'token');
     }
 
     public function mahasiswa()
     {
-        return $this->belongsTo(Mahasiswa::class);
+        return $this->belongsTo(Mahasiswa::class, 'nim', 'NIM');
     }
 
     public function matkul()
