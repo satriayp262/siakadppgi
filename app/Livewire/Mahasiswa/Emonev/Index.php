@@ -55,11 +55,15 @@ class Index extends Component
 
         if ($this->selectedSemester == '') {
             $periode = PeriodeEMonev::with('semester')->get();
+            $aktif = false;
             foreach ($periode as $p) {
                 if ($p->isAktif()) {
                     $this->selectedSemester = $p->semester->nama_semester;
-
+                    $aktif = true;
                 }
+            }
+            if (!$aktif) {
+                $this->selectedSemester = Semester::where('is_active', 1)->first()->nama_semester;
             }
         }
 

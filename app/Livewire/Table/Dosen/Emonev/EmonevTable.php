@@ -103,7 +103,9 @@ final class EmonevTable extends PowerGridComponent
     {
         $columns = [];
 
-        foreach (Pertanyaan::all() as $p) {
+        foreach (Pertanyaan::whereHas('jawaban.emonev', function ($q) {
+            $q->where('nama_periode', $this->periode);
+        })->get() as $p) {
             $columns[] = Column::make($p->pertanyaan ?? "$p->nama_pertanyaan", "pertanyaan_$p->id_pertanyaan")
                 ->sortable()
                 ->searchable();

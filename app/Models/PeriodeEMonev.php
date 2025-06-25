@@ -27,6 +27,8 @@ class PeriodeEMonev extends Model
     {
         $mulai = \Carbon\Carbon::parse($this->tanggal_mulai)->startOfDay();
         $selesai = \Carbon\Carbon::parse($this->tanggal_selesai)->endOfDay();
+        // $now = \Carbon\Carbon::parse('2025-07-01');
+        // return $now->between($mulai, $selesai);
         return now()->between($mulai, $selesai);
     }
 

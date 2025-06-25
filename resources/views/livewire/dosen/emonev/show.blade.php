@@ -24,10 +24,10 @@
         <div class=" flex items-stretch">
             <div class="">
                 <h2 class="text-gray-700 text-base md:text-md font-medium">
-                    Halaman ini menampilkan hasil survei Emonev yang telah diisi oleh mahasiswa.
+                    Halaman ini menampilkan hasil survei e-Monev yang telah diisi oleh mahasiswa.
                 </h2>
                 <h3 class="text-gray-700 text-base md:text-md font-medium">
-                    Silakan pilih semester yang diinginkan untuk melihat hasil survei Emonev.
+                    Silakan pilih semester yang diinginkan untuk melihat hasil survei e-Monev.
                 </h3>
 
             </div>
@@ -76,7 +76,6 @@
 
         <!-- Tabel Data -->
         <div class="">
-            <h1>{{ $selectedSemester }}</h1>
             @if ($selectedSemester)
                 @livewire('table.dosen.emonev.emonev-table', ['periode' => $selectedSemester, 'matakuliah' => $id, 'user' => $user], key($selectedSemester))
             @endif

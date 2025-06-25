@@ -77,11 +77,6 @@ final class EmonevAdmin extends PowerGridComponent
 
         $skordevided = '(' . implode(' + ', $totalExpr) . ') / ' . count($totalExpr);
 
-        $query->addSelect(DB::raw("
-            CONCAT($skor, ' / ', $maxSkorExpr) AS total_skor,
-            ROUND(($skor / NULLIF($maxSkorExpr, 0)) * 100, 1) AS persentase,
-            ROUND($skordevided, 2) AS rata_rata
-        "));
 
         $query->addSelect(DB::raw('(
             SELECT COUNT(DISTINCT em_sub.id_emonev)
@@ -103,15 +98,13 @@ final class EmonevAdmin extends PowerGridComponent
         END AS persentase_badge
     "));
 
-        $query->groupBy(
+        return $query->groupBy(
             'dosen.nidn',
             'dosen.nama_dosen',
             'matkul.nama_mata_kuliah',
             'prodi.nama_prodi',
             'periode_emonev.nama_periode',
         )->get();
-
-        return $query->get();
     }
 
     public function boot(): void
