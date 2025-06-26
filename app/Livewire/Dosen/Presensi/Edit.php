@@ -54,7 +54,7 @@ class Edit extends Component
         $this->resetExcept('prodi');
         $presensi = Presensi::find($id_presensi);
         if ($id_presensi) {
-            $this->id_presensi = $presensi->id_presensi;
+            $this->id_presensi = $presensi->id;
             $this->nama = $presensi->nama;
             $this->nim = $presensi->nim;
             $this->keterangan = $presensi->keterangan;
