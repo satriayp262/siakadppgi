@@ -17,9 +17,6 @@ final class TokenTable extends PowerGridComponent
     public int $id_mata_kuliah;
     public int $id_kelas;
 
-    protected $listeners = ['tokenCreated' => '$refresh'];
-
-
     public function setUp(): array
     {
         return [
@@ -37,7 +34,7 @@ final class TokenTable extends PowerGridComponent
             ->where('id', $userId)
             ->where('id_mata_kuliah', $this->id_mata_kuliah)
             ->where('id_kelas', $this->id_kelas)
-            ->latest(); // Urut berdasarkan created_at DESC
+            ->latest();
     }
 
 
@@ -45,9 +42,9 @@ final class TokenTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('token')
-            ->add('matkul.nama_mata_kuliah') // ambil nama dari relasi
-            ->add('kelas.nama_kelas')        // ambil nama dari relasi
-            ->add('semester.nama_semester')  // ambil nama dari relasi
+            ->add('matkul.nama_mata_kuliah')
+            ->add('kelas.nama_kelas')
+            ->add('semester.nama_semester')
             ->add('valid_until');
     }
 

@@ -23,18 +23,14 @@ class AbsensiByToken extends Component
     #[On('tokenCreated')]
     public function handletokenCreated($token)
     {
+        $this->dispatch('pg:eventRefresh-token-table');
         $this->dispatch('created', params: ['message' => 'Token created Successfully']);
-
-        // session()->flash('message', 'Token berhasil dibuat!');
-        // session()->flash('message_type', 'success');
     }
 
     public function mount($id_kelas, $id_mata_kuliah)
     {
         $this->id_kelas = $id_kelas;
         $this->id_mata_kuliah = $id_mata_kuliah;
-
-        // $this->CheckDosen = (Auth()->user()->nim_nidn == Matakuliah::where('id_mata_kuliah', Kelas::where('id_kelas', $this->id_kelas)->first()->id_mata_kuliah)->first()->nidn);
 
         // Ambil detail kelas
         $this->kelas = Kelas::with('matkul')->findOrFail($id_kelas);

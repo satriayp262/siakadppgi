@@ -14,13 +14,17 @@ class Index extends Component
 
     public function render()
     {
-        $beritaAcaraByMatkul = Matakuliah::where('nidn', auth()->user()->nim_nidn)
-            ->when($this->search, function ($query) {
-                $query->where('kode_mata_kuliah', 'like', '%' . $this->search . '%')
+        $nidn = auth()->user()->nim_nidn;
+        $query = Matakuliah::where('nidn', $nidn);
+
+        if (!empty($this->search)) {
+            $query->where(function ($q) {
+                $q->where('kode_mata_kuliah', 'like', '%' . $this->search . '%')
                     ->orWhere('nama_mata_kuliah', 'like', '%' . $this->search . '%');
-            })
-            ->latest()
-            ->paginate(10);
+            });
+        }
+
+        $beritaAcaraByMatkul = $query->paginate(10);
 
         return view('livewire.dosen.berita_acara.index', [
             'beritaAcaraByMatkul' => $beritaAcaraByMatkul,
