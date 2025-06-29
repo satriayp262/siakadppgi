@@ -4,6 +4,7 @@ namespace App\Livewire\Khs;
 
 use App\Models\Kelas;
 use App\Models\KHS;
+use App\Models\KonversiNilai;
 use App\Models\KRS;
 use App\Models\Mahasiswa;
 use App\Models\Semester;
@@ -28,17 +29,15 @@ class Show extends Component
 
         // Loop through each KRS record
         foreach ($krsData as $krs) {
-            // Call the KHS model to calculate the bobot
-            $bobot = KHS::calculateBobot($krs->id_kelas, $NIM,null,null);
-
+            if(KonversiNilai::where('id_krs', $krs->id_krs)->exists() ){
+                $bobot = KonversiNilai::where('id_krs', $krs->id_krs)->first()->nilai;
+                }else{
+                    $bobot = KHS::calculateBobot($krs->id_kelas, $NIM,null,null);
+                }
 
             // Create a new KHS entry for this specific class and bobot
             KHS::updateOrCreate([
-                'NIM' => $NIM,
-                'id_semester' => $id_semester,
-                'id_mata_kuliah' => $krs->id_mata_kuliah,
-                'id_kelas' => $krs->id_kelas,
-                'id_prodi' => $krs->id_prodi,
+                'id_krs' => $krs->id_krs
             ], [
                 'bobot' => $bobot
             ]);

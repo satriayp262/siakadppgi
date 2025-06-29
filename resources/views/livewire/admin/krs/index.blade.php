@@ -1,4 +1,5 @@
 <div class="mx-5">
+
     <div class="flex flex-col justify-between mx-4 mt-2">
         <div class="flex md:flex-row flex-col md:space-y-0 space-y-4  justify-between mt-2">
             <div class="flex space-x-2">
@@ -42,6 +43,10 @@
                                 </div>
                             </div>
                             <div class="p-4">
+                                <div wire:loading wire:target="import"
+                                    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-60">
+                                    <div class="spinner loading-spinner"></div>
+                                </div>
                                 <div class="p-4 max-h-[500px] overflow-y-auto">
                                     <form wire:submit.prevent="import">
                                         @csrf <!-- CSRF protection for form submission -->
@@ -49,7 +54,8 @@
                                             <div class="flex flex-col">
                                                 <label class="block text-sm font-medium text-gray-700">Template
                                                     Dokumen</label>
-                                                <a wire:navigate.hover  href="{{ asset('template/template_import_krs.xlsx') }}"
+                                                <a wire:navigate.hover
+                                                    href="{{ asset('template/template_import_krs.xlsx') }}"
                                                     class="flex items-center justify-between w-full px-2 py-1 mt-1 text-sm bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
 
                                                     <!-- Left icon -->
@@ -131,7 +137,8 @@
                             <path fill="#0c8045" d="M14 15.003H29V24.005000000000003H14z"></path>
                             <path fill="#17472a" d="M14 24.005H29V33.055H14z"></path>
                             <g>
-                                <path fill="#29c27f" d="M42.256,6H29v9.003h15V7.744C44,6.781,43.219,6,42.256,6z"></path>
+                                <path fill="#29c27f" d="M42.256,6H29v9.003h15V7.744C44,6.781,43.219,6,42.256,6z">
+                                </path>
                                 <path fill="#27663f" d="M29,33.054V42h13.257C43.219,42,44,41.219,44,40.257v-7.202H29z">
                                 </path>
                                 <path fill="#19ac65" d="M29 15.003H44V24.005000000000003H29z"></path>
@@ -157,6 +164,10 @@
                                 </div>
                             </div>
                             <div class="p-4">
+                                <div wire:loading wire:target="export"
+                                    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-60">
+                                    <div class="spinner loading-spinner"></div>
+                                </div>
                                 <div class="p-4 max-h-[500px] overflow-y-auto">
                                     <form wire:submit.prevent="export">
                                         @csrf <!-- CSRF protection for form submission -->
@@ -261,7 +272,7 @@
     </div>
 
     <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full overflow-x-auto">
-        <livewire:table.krstable/>
+        <livewire:table.krstable />
 
         {{-- <table class="min-w-full mt-4 bg-white border border-gray-200 md:text-[16px] text-[10px]">
             <thead>

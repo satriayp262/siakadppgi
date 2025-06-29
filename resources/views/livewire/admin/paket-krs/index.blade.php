@@ -128,7 +128,7 @@
     }
 </script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('livewire:navigated', function() {
         window.addEventListener('destroyed', event => {
             Swal.fire({
                 title: 'Success!',
@@ -141,7 +141,7 @@
             });
         });
     });
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('livewire:navigated', function() {
         window.addEventListener('deletedPaketKRS', event => {
             Swal.fire({
                 title: 'Success!',

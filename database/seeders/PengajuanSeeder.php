@@ -45,6 +45,7 @@ class PengajuanSeeder extends Seeder
 
         $groupedByKelas = $allKrs->groupBy('id_kelas');
 
+        $counter = 0;
         foreach ($groupedByKelas as $idKelas => $krsList) {
             $total = $krsList->count();
             $half = ceil($total / 2);
@@ -53,6 +54,8 @@ class PengajuanSeeder extends Seeder
                 $grup = ($index < $half) ? 'A' : 'B';
                 $krs->update(['grup_praktikum' => $grup]);
             }
+             $counter++;
+            echo "\r$counter/$total done";
         }
 
         echo "\n";

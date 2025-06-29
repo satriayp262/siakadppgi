@@ -41,4 +41,16 @@ class KRS extends Model
     {
         return $this->belongsTo(Mahasiswa::class, 'NIM', 'NIM');
     }
+    public function khs()
+    {
+        return $this->hasOne(KHS::class, 'id_krs', 'id_krs');
+    }
+    public function getKhsAttribute()
+    {
+        return $this->hasOne(KHS::class, 'id_krs', 'id_krs')->firstOrCreate([
+            'id_krs' => $this->id_krs,
+        ], [
+            'bobot' => 0,
+        ]);
+    }
 }

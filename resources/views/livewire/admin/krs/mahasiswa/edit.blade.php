@@ -1,5 +1,5 @@
 <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full mx-2">
-    <div wire:loading wire:target="export,destroy"
+    <div wire:loading wire:target="export,destroy,save"
         class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-60">
         <div class="spinner loading-spinner"></div>
     </div>

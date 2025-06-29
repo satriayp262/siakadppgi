@@ -5,6 +5,7 @@ namespace App\Livewire\Khs;
 use App\Models\Dosen;
 use App\Models\Kelas;
 use App\Models\KHS;
+use App\Models\KonversiNilai;
 use App\Models\KRS;
 use App\Models\Mahasiswa;
 use App\Models\Matakuliah;
@@ -20,9 +21,12 @@ class Index extends Component
 
     public function toggleClicked()
     {
-        $khs = KHS::where('id_semester', $this->semester)->
-            where('id_prodi', $this->prodi)->
-            get();
+        $khs = KRS::where('id_semester', $this->semester)
+            ->where('id_prodi', $this->prodi)
+            ->with('khs')
+            ->get()
+            ->pluck('khs');
+
         foreach ($khs as $x) {
             $x->publish = $this->toggleValue ? 'Yes' : 'No';
             $x->save();
@@ -54,12 +58,17 @@ class Index extends Component
     }
     public function load()
     {
-        $ada = KHS::where('id_semester', $this->semester)
+        $ada = KRS::where('id_semester', $this->semester)
             ->where('id_prodi', $this->prodi)
-            ->first()->publish ?? "No";
+            ->with('khs')
+            ->get()
+            ->pluck('khs')
+            ->filter()
+            ->first()?->publish ?? 'No';
+
         if ($ada === 'Yes') {
             $this->toggleValue = true;
-        }else{
+        } else {
             $this->toggleValue = false;
         }
     }
@@ -77,17 +86,17 @@ class Index extends Component
                 ->get();
 
             foreach ($krsData as $krs) {
-                // Call the KHS model to calculate the bobot
-                $bobot = KHS::calculateBobot($krs->id_kelas, $x,null,null);
+
+                if (KonversiNilai::where('id_krs', $krs->id_krs)->exists()) {
+                    $bobot = KonversiNilai::where('id_krs', $krs->id_krs)->first()->nilai;
+                } else {
+                    $bobot = KHS::calculateBobot($krs->id_kelas, $x, null, null);
+                }
 
 
                 // Create a new KHS entry for this specific class and bobot
                 KHS::updateOrCreate([
-                    'NIM' => $x,
-                    'id_semester' => $this->semester,
-                    'id_mata_kuliah' => $krs->id_mata_kuliah,
-                    'id_kelas' => $krs->id_kelas,
-                    'id_prodi' => $krs->id_prodi,
+                    'id_krs' => $krs->id_krs
                 ], [
                     'bobot' => $bobot
                 ]);
@@ -115,14 +124,14 @@ class Index extends Component
         $semesterList = Semester::orderBy('nama_semester', 'desc')->take(4)->get();
 
         $prodiList = Prodi::all();
-        
+
         //////////////////////////
         $kelas = Kelas::paginate(10);
 
 
         return view('livewire.khs.index', [
             // 'mahasiswa' => $Mahasiswa,
-            'kelas'=> $kelas,
+            'kelas' => $kelas,
             'semesterList' => $semesterList,
             'prodiList' => $prodiList,
         ]);

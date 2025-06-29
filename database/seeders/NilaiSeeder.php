@@ -50,12 +50,11 @@ class NilaiSeeder extends Seeder
         });
 
         $nims = KRS::distinct()->pluck('NIM');
-
+        $counter = 0;
         foreach ($nims as $nim) {
             // Get all unique semesters for this NIM
             $semesters = KRS::where('NIM', $nim)->distinct()->pluck('id_semester');
             $total = count($nims);
-            $counter = 0;
             foreach ($semesters as $id_semester) {
                 // Retrieve the KRS data for the given NIM and semester
                 $krsData = KRS::where('NIM', $nim)
@@ -74,15 +73,11 @@ class NilaiSeeder extends Seeder
 
                         // Create or update the KHS entry
                         KHS::updateOrCreate([
-                            'NIM' => $nim,
-                            'id_semester' => $id_semester,
-                            'id_mata_kuliah' => $krs->id_mata_kuliah,
-                            'id_kelas' => $krs->id_kelas,
-                            'id_prodi' => $krs->id_prodi,
+                            'id_krs' => $krs->id_krs
                         ], [
                             'bobot' => $bobot
                         ]);
-                        
+
                     } catch (\Exception $e) {
                         echo "Error updating NIM: $nim, Semester: $id_semester. Error: " . $e->getMessage() . "\n";
                     }

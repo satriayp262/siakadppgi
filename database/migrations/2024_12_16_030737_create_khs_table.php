@@ -13,13 +13,8 @@ return new class extends Migration
     {
         Schema::create('khs', function (Blueprint $table) {
             $table->integer('id_khs')->autoIncrement()->primary();
-            $table->string('NIM');
-            $table->integer('id_semester');
-            $table->integer('id_mata_kuliah');
-            $table->integer('id_kelas');
-            $table->integer('id_prodi');
-            $table->float('bobot');
-            $table->enum('publish', ['Yes', 'No'])->default('No');
+            $table->integer('id_krs');
+            $table->integer('bobot');
             $table->timestamps();
         });
     }

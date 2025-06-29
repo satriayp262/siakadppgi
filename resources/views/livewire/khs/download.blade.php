@@ -204,7 +204,7 @@
                             'presensi' => function ($query) use ($id_semester) {
                                 $query
                                     ->select('nim', 'keterangan', 'created_at')
-                                    ->whereHas('token', function ($tokenQuery) use ($id_semester) {
+                                    ->whereHas('tokenList', function ($tokenQuery) use ($id_semester) {
                                         $tokenQuery->where('id_semester', intval($id_semester));
                                     });
                             },
@@ -213,28 +213,28 @@
                             'presensi as hadir_count' => function ($query) use ($id_semester) {
                                 $query
                                     ->where('keterangan', 'Hadir')
-                                    ->whereHas('token', function ($tokenQuery) use ($id_semester) {
+                                    ->whereHas('tokenList', function ($tokenQuery) use ($id_semester) {
                                         $tokenQuery->where('id_semester', intval($id_semester));
                                     });
                             },
                             'presensi as alpa_count' => function ($query) use ($id_semester) {
                                 $query
                                     ->where('keterangan', 'Alpha')
-                                    ->whereHas('token', function ($tokenQuery) use ($id_semester) {
+                                    ->whereHas('tokenList', function ($tokenQuery) use ($id_semester) {
                                         $tokenQuery->where('id_semester', intval($id_semester));
                                     });
                             },
                             'presensi as ijin_count' => function ($query) use ($id_semester) {
                                 $query
                                     ->where('keterangan', 'Ijin')
-                                    ->whereHas('token', function ($tokenQuery) use ($id_semester) {
+                                    ->whereHas('tokenList', function ($tokenQuery) use ($id_semester) {
                                         $tokenQuery->where('id_semester', intval($id_semester));
                                     });
                             },
                             'presensi as sakit_count' => function ($query) use ($id_semester) {
                                 $query
                                     ->where('keterangan', 'Sakit')
-                                    ->whereHas('token', function ($tokenQuery) use ($id_semester) {
+                                    ->whereHas('tokenList', function ($tokenQuery) use ($id_semester) {
                                         $tokenQuery->where('id_semester', intval($id_semester));
                                     });
                             },

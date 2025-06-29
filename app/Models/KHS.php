@@ -19,31 +19,60 @@ class KHS extends Model
         'id_kelas',         //
         'id_prodi', //g perlu
         'bobot',
-        'publish', //g perlu
+        'id_krs',
     ];
 
-    public function prodi()
+
+    public function krs()
     {
-        return $this->belongsTo(Prodi::class, 'id_prodi', 'id_prodi');
+        return $this->belongsTo(KRS::class, 'id_krs', 'id_krs');
     }
 
-    public function semester()
+    public function getMatkulAttribute()
     {
-        return $this->belongsTo(Semester::class, 'id_semester', 'id_semester');
+        return $this->krs->matkul ?? null;
     }
 
-    public function matkul()
+    public function getKelasAttribute()
     {
-        return $this->belongsTo(Matakuliah::class, 'id_mata_kuliah', 'id_mata_kuliah');
+        return $this->krs->kelas ?? null;
     }
-    public function kelas()
+
+    public function getSemesterAttribute()
     {
-        return $this->belongsTo(Kelas::class, 'id_kelas', 'id_kelas');
+        return $this->krs->semester ?? null;
     }
-    public function mahasiswa()
+
+    public function getMahasiswaAttribute()
     {
-        return $this->belongsTo(Mahasiswa::class, 'NIM', 'NIM');
+        return $this->krs->mahasiswa ?? null;
     }
+
+    public function getIdSemesterAttribute()
+    {
+        return $this->krs->id_semester ?? null;
+    }
+
+    public function getIdMataKuliahAttribute()
+    {
+        return $this->krs->id_mata_kuliah ?? null;
+    }
+
+    public function getIdKelasAttribute()
+    {
+        return $this->krs->id_kelas ?? null;
+    }
+
+    public function getNimAttribute()
+    {
+        return $this->krs->NIM ?? null;
+    }
+
+    public function getGroupPraktikumAttribute()
+    {
+        return $this->krs->group_praktikum ?? null;
+    }
+
     public static function calculateBobot($id_semester, $NIM, $id_mata_kuliah, $id_kelas)
     {
 
@@ -110,22 +139,6 @@ class KHS extends Model
                     break;
             }
         }
-
-        // $PresensiCount = Presensi::where('id_mata_kuliah', $id_mata_kuliah)
-        //     ->where('id_kelas', $id_kelas)
-        //     ->get();
-
-        // $totalPresensi = $PresensiCount->count();
-        // $hadirCount = $PresensiCount->where('keterangan', 'Hadir')->count();
-
-        // if($totalPresensi != 0){
-        //     $NilaiPartisipasi = ($hadirCount / $totalPresensi) * 100;
-        // }else{
-        // $NilaiPartisipasi = 0;
-        // }
-
-
-
 
         $TotalNilai += (($JumlahnilaiTugas / $JumlahTugas)) * ($bobotTugas / 100);
 
