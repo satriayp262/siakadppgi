@@ -64,7 +64,16 @@ final class matkul extends PowerGridComponent
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'prodi' => [
+                'nama_prodi',
+                'kode_prodi',
+            ],
+            'dosen' => [
+                'nidn',
+                'nama_dosen',
+            ]
+        ];
     }
 
     public function fields(): PowerGridFields
@@ -101,9 +110,9 @@ final class matkul extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::select('prodi.nama_prodi', 'id_prodi')
+            Filter::select('prodi.nama_prodi', 'kode_prodi')
             ->dataSource(Prodi::all()->map(fn($prodi) => [
-                'value' => $prodi->id_prodi,
+                'value' => $prodi->kode_prodi,
                 'label' => $prodi->nama_prodi,
             ]))
             ->optionLabel('label')

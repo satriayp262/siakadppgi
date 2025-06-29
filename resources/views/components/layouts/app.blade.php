@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" >
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="utf-8">
@@ -9,9 +9,10 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@9.0.3"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
+
     <title> {{ $title ?? 'SIAKAD PPGI' }}</title>
     <link rel="icon" href="{!! asset('img/piksi.png') !!}" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     @livewireStyles
     <style>
         body {
@@ -63,8 +64,7 @@
     <livewire:component.navbar />
 
     <div class="flex flex-col min-h-screen md:flex-row z-12">
-        <aside
-            :class="showSidebar ? 'translate-x-0' : '-translate-x-full'"
+        <aside :class="showSidebar ? 'translate-x-0' : '-translate-x-full'"
             class="fixed z-20 left-0 w-64 min-h-screen bg-customPurple transform transition-transform duration-300 md:relative md:translate-x-0">
             @auth
                 @if (auth()->user()->role === 'admin')
@@ -81,8 +81,7 @@
 
         <div class="flex flex-col flex-1">
             <main class="flex-1 bg-gray-200">
-                <div wire:loading
-                    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-60">
+                <div wire:loading class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-60">
                     <div class="spinner loading-spinner"></div>
                 </div>
                 {{ $slot }}
@@ -184,7 +183,10 @@
             });
         });
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     @livewireScripts
+    <script src="{{ asset('vendor/pharaonic/pharaonic.select2.min.js') }}"></script>
 </body>
 
 </html>

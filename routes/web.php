@@ -139,6 +139,20 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
     Route::prefix('ttd')->group(function () {
         Route::get('/', App\Livewire\Admin\Ttd\Index::class)->name('admin.ttd');
     });
+    Route::prefix('konversi')->group(function () {
+        Route::get('/', App\Livewire\Admin\Konversi\Index::class)->name('admin.konversi');
+    });
+    Route::get('/download/konversi/{id}', function ($id) {
+        $model = App\Models\KonversiNilai::findOrFail($id);
+        $file = $model->file;
+        $path = storage_path('app/public/' . $file);
+
+        $nama = $model->krs->mahasiswa->nama ?? 'unknown';
+        $keterangan = $model->keterangan ?? 'file';
+        $filename = "konversi {$nama} ({$keterangan})." . pathinfo($file, PATHINFO_EXTENSION);
+
+        return response()->download($path, $filename);
+    })->name('konversi.download');
 });
 
 // mahasiswa
