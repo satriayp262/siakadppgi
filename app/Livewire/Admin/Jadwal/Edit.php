@@ -168,7 +168,7 @@ class Edit extends Component
                 }
 
                 $this->clear($this->id_jadwal);
-            $this->dispatch('updated', ['message' => 'Jadwal Berhasil Ditukar']);
+            $this->dispatch('Tukar');
             } else {
                 if ($conflict) {
 
@@ -213,12 +213,24 @@ class Edit extends Component
         $target = Jadwal::find($this->target);
         $ammo = Jadwal::find($this->id_jadwal);
 
+        $exists = Jadwal::where('id_jadwal', '!=', $target->id_jadwal)
+            ->where('id_jadwal', '!=', $ammo->id_jadwal)
+            ->where('hari', $ammo->hari)
+            ->where('sesi', $ammo->sesi)
+            ->exists();
+
+        if ($exists) {
+            $this->dispatch('warning', ['message' => 'Jadwal di hari ' . $ammo->hari . ' dan sesi ' . $ammo->sesi . ' sudah terpakai.']);
+            return;
+        }
+
         $target->update([
+            'id_ruangan' => $ammo->id_ruangan,
             'hari' => $ammo->hari,
             'sesi' => $ammo->sesi
         ]);
 
-        $this->dispatch('updated', ['message' => 'Jadwal Berhasil Digabungkan']);
+        $this->dispatch('Gabung');
     }
 
     public function room()
@@ -241,17 +253,17 @@ class Edit extends Component
 
         $ruangan = ruangan::where('id_ruangan', $this->r)->first();
 
-        $jumlah = krs::where('id_kelas', $jadwal->id_kelas)
+        $jumlah = Krs::where('id_kelas', $jadwal->id_kelas)
             ->where('grup_praktikum', $jadwal->grup)
-            ->count();
-
+            ->where('id_semester', $jadwal->id_semester)
+            ->distinct('NIM')
+            ->count('NIM');
         if (!$conflict && !$conflict2 && $ruangan->kapasitas >= $jumlah) {
             $jadwal->update([
                 'id_ruangan' => $this->r
             ]);
 
-            $this->dispatch('updated', ['message' => 'Ruangan Berhasil Diubah']);
-            // $this->dispatch('ruanganUpdated');
+            $this->dispatch('ruanganUpdated');
         }elseif ($conflict || $conflict2) {
             if ($jadwal->hari == 'Monday') {
                 $jadwal->hari = 'Senin';
@@ -352,7 +364,7 @@ class Edit extends Component
                 }
 
                 $this->clear($this->id_jadwal);
-                $this->dispatch('updated', ['message' => 'Jadwal Berhasil Diedit']);
+                $this->dispatch('Update');
             }elseif ($this->z) {
                 $jadwal->update([
                     'hari' => $this->z
@@ -380,7 +392,7 @@ class Edit extends Component
                 }
 
                 $this->clear($this->id_jadwal);
-                $this->dispatch('updated', ['message' => 'Jadwal Berhasil Diedit']);
+                $this->dispatch('Update');
             }elseif ($this->x) {
                 $jadwal->update([
                     'sesi' => $this->x
@@ -409,7 +421,7 @@ class Edit extends Component
                 }
 
                 $this->clear($this->id_jadwal);
-                $this->dispatch('updated', ['message' => 'Jadwal Berhasil Diedit']);
+                $this->dispatch('Update');
             }
         }
 
@@ -513,7 +525,15 @@ class Edit extends Component
 
         $request = request_dosen::all();
 
-        $ruangans = Ruangan::all();
+        $jadwal = Jadwal::find($this->id_jadwal);
+
+        $jumlahMahasiswa = Krs::where('id_kelas', $jadwal->id_kelas)
+            ->where('grup_praktikum', $jadwal->grup)
+            ->where('id_semester', $jadwal->id_semester)
+            ->distinct('NIM')
+            ->count('NIM');
+
+        $ruangans = Ruangan::where('kapasitas', '>=', $jumlahMahasiswa)->get();
 
         // Filter data yang cocok dengan ammo (untuk efisiensi & keterbacaan)
         $matchRequest = $request->filter(function ($item) use ($ammo) {

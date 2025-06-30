@@ -34,8 +34,25 @@ class Index extends Component
     #[On('ruanganUpdated')]
     public function handleruanganUpdated()
     {
-        // $this->dispatch('pg:eventRefresh-ruangan-table-lw2rml-table');
-        $this->dispatch('updated', params: ['message' => 'Ruangan berhasil diubah!']);
+        $this->dispatch('created', ['message' => 'Ruangan berhasil diubah!']);
+    }
+
+    #[On('Tukar')]
+    public function handlerTukar()
+    {
+        $this->dispatch('created', ['message' => 'Jadwal Berhasil Ditukar']);
+    }
+
+    #[On('Gabung')]
+    public function handlerGabung()
+    {
+        $this->dispatch('created', ['message' => 'Jadwal Berhasil Digabungkan']);
+    }
+
+    #[On('Update')]
+    public function handlerUpdate()
+    {
+        $this->dispatch('created', ['message' => 'Jadwal Berhasil Diedit']);
     }
 
     public function pilihSemester()
@@ -53,8 +70,7 @@ class Index extends Component
         $kelasCount = KRS::where('id_semester', $this->Semester)->count();
 
         if ($kelasCount === 0) {
-            $this->dispatchBrowserEvent('show-message', [
-                'type' => 'warning',
+            $this->dispatch('warning', [
                 'message' => 'Tidak ada kelas yang terdaftar untuk semester ini.'
             ]);
             return;
@@ -97,7 +113,8 @@ class Index extends Component
             foreach ($kelasList as $kelas) {
                 $jumlahMahasiswa = KRS::where('id_kelas', $kelas->id_kelas)
                     ->where('id_semester', $this->Semester)
-                    ->count();
+                    ->distinct('NIM')
+                    ->count('NIM');
 
                 $ruanganTetap = null;
 

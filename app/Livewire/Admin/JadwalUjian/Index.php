@@ -66,17 +66,19 @@ class Index extends Component
             $liburNasional = collect($response->json())->pluck('date')->toArray(); // Format: Y-m-d
         }
 
-        $jadwalUjians = Jadwal::orderBy('id_kelas')
-            ->orderByRaw("FIELD(hari, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday')")
+        $jadwalUjians = Jadwal::orderBy('id_kelas', 'asc')
+            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat')")
+            ->orderBy('sesi', 'asc')
             ->get()
             ->groupBy('id_kelas');
 
         foreach ($jadwalUjians as $group) {
             $tanggal = Carbon::parse($this->ujian);
             $previousHari = '';
+            $isFirst = true;
 
             foreach ($group as $jadwal) {
-                if ($jadwal->hari !== $previousHari) {
+                if (!$isFirst && $jadwal->hari !== $previousHari) {
                     $tanggal = $tanggal->addDay();
                 }
 
@@ -91,6 +93,7 @@ class Index extends Component
                 ]);
 
                 $previousHari = $jadwal->hari;
+                $isFirst = false;
             }
         }
 

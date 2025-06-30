@@ -85,14 +85,7 @@
                                                 @if ($index === 0)
                                                     <td class="px-1 py-1 text-center border border-gray-400" rowspan="{{ count($items) }}">
                                                         <div>
-                                                            @switch($hari)
-                                                                @case('Monday') Senin @break
-                                                                @case('Tuesday') Selasa @break
-                                                                @case('Wednesday') Rabu @break
-                                                                @case('Thursday') Kamis @break
-                                                                @case('Friday') Jumat @break
-                                                                @default {{ $hari }}
-                                                            @endswitch
+                                                            {{ \Carbon\Carbon::parse($jadwal->tanggal)->locale('id')->isoFormat('dddd') }}
                                                         </div>
                                                         <div class="text-sm">
                                                             {{ \Carbon\Carbon::parse($jadwal->tanggal)->locale('id')->isoFormat('D MMMM YYYY') }}

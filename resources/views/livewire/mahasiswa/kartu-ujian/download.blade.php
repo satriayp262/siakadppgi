@@ -122,14 +122,7 @@
                         @if ($index === 0)
                             <td rowspan="{{ count($items) }}" style="padding: 1px; text-align: center; border: 1px solid black;">
                                 <div>
-                                    @switch($hari)
-                                        @case('Monday') Senin @break
-                                        @case('Tuesday') Selasa @break
-                                        @case('Wednesday') Rabu @break
-                                        @case('Thursday') Kamis @break
-                                        @case('Friday') Jumat @break
-                                        @default {{ $hari }}
-                                    @endswitch
+                                    {{ \Carbon\Carbon::parse($jadwal->tanggal)->locale('id')->isoFormat('dddd') }}
                                 </div>
                                 <div style="font-size: 12px; margin-top: 1px;">
                                     {{ \Carbon\Carbon::parse($jadwal->tanggal)->locale('id')->isoFormat('D MMMM YYYY') }}
