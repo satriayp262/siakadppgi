@@ -203,7 +203,11 @@
                                         @endif
                                     </td>
                                     <td class="px-3 py-1 text-center">{{ $jadwal->sesi }}</td>
-                                    <td class="px-3 py-1 text-center">{{ $jadwal->matakuliah->nama_mata_kuliah }}</td>
+                                    @if ($jadwal->matakuliah->jenis_mata_kuliah == 'P')
+                                        <td class="px-3 py-1 text-center">{{ $jadwal->matakuliah->nama_mata_kuliah }} (Grup {{ $jadwal->grup }})</td>
+                                    @else
+                                        <td class="px-3 py-1 text-center">{{ $jadwal->matakuliah->nama_mata_kuliah }}</td>
+                                    @endif
                                     <td class="px-3 py-1 text-center">{{ $jadwal->dosen->nama_dosen }}</td>
                                     @if ($jadwal->id_ruangan == 'Online')
                                         <td class="px-3 py-1 text-center">Online</td>
@@ -439,7 +443,11 @@
                                         @endif
                                     </td>
                                     <td class="px-3 py-1 text-center">{{ $jadwal->sesi }}</td>
-                                    <td class="px-3 py-1 text-center">{{ $jadwal->matakuliah->nama_mata_kuliah }}</td>
+                                    @if ($jadwal->matakuliah->jenis_mata_kuliah == 'P')
+                                        <td class="px-3 py-1 text-center">{{ $jadwal->matakuliah->nama_mata_kuliah }} (Grup {{ $jadwal->grup }})</td>
+                                    @else
+                                        <td class="px-3 py-1 text-center">{{ $jadwal->matakuliah->nama_mata_kuliah }}</td>
+                                    @endif
                                     <td class="px-3 py-1 text-center">{{ $jadwal->dosen->nama_dosen }}</td>
                                     @if ($jadwal->id_ruangan == 'Online')
                                         <td class="px-3 py-1 text-center">Online</td>
