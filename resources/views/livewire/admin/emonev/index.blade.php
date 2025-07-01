@@ -1,4 +1,4 @@
-<div class="mx-auto" style="max-width: 76rem;">
+<div class="mx-5">
     <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg">
         <!-- Dropdown Semester -->
         <div class="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0 mb-4">
@@ -26,7 +26,7 @@
             @livewire('component.chart-emonev', ['x' => $nama_periode], key($selectedSemester))
         </div>
         @if ($nama_periode)
-            <div class="">
+            <div class="max-w-6xl">
                 <h2 class="text-lg font-semibold mb-4 text-center">👨‍🏫 Detail Evaluasi Dosen Periode
                     <span class=" text-purple2">{{ $nama_periode }}</span>
                 </h2>

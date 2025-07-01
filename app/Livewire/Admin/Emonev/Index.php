@@ -38,9 +38,19 @@ class Index extends Component
             }
 
             if (!$aktif) {
-                $this->selectedSemester = PeriodeEMonev::latest()->first()->id_periode;
+                if ($this->periodes->isEmpty()) {
+                    return $this->dispatch('warning', [
+                        'message' => 'Tidak ada periode yang tersedia.',
+                    ]);
+                } else {
+                    // If no active period is found, set to the latest period
+                    $this->selectedSemester = PeriodeEMonev::latest()->first()->id_periode;
+                }
+                //$this->selectedSemester = PeriodeEMonev::latest()->first()->id_periode;
             }
         }
+
+
 
         $periode = PeriodeEMonev::with('semester')
             ->where('id_periode', $this->selectedSemester)
