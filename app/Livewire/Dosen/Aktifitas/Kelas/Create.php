@@ -8,61 +8,42 @@ use Illuminate\Validation\ValidationException;
 
 class Create extends Component
 {
-    public $nama_aktifitas = " ", $id_kelas,$id_mata_kuliah, $catatan;
+    public $nama_aktifitas = " ", $id_kelas, $id_mata_kuliah, $catatan;
 
     public function save()
     {
-        
+        $lower = strtolower($this->nama_aktifitas);
+
         $this->validate([
             'nama_aktifitas' => [
                 'required',
-                function ($attribute, $value, $fail) {
-                    if (Aktifitas::where('id_kelas', $this->id_kelas)
-                        ->where('nama_aktifitas', $value)
+                function ($attribute, $value, $fail) use ($lower) {
+                    $exists = Aktifitas::where('id_kelas', $this->id_kelas)
                         ->where('id_mata_kuliah', $this->id_mata_kuliah)
-                        ->exists()) {
-                        $fail('Aktifitas ini sudah ada');
+                        ->whereRaw('LOWER(nama_aktifitas) = ?', [$lower])
+                        ->exists();
+
+                    if ($exists) {
+                        $fail("{$value} sudah ada pada kelas ini.");
                     }
                 },
             ],
         ], [
             'nama_aktifitas.required' => 'Nama Aktifitas Tidak Boleh Kosong',
         ]);
-        
-
-        $exists = Aktifitas::where('id_kelas', $this->id_kelas)
-            ->where('id_mata_kuliah', $this->id_mata_kuliah)
-            ->where('nama_aktifitas', $this->nama_aktifitas)
-            ->exists();
-
-        if (in_array($this->nama_aktifitas, ['UTS', 'UAS'])) {
-            $exists = Aktifitas::where('id_kelas', $this->id_kelas)
-                ->where('id_mata_kuliah', $this->id_mata_kuliah)
-                ->where('nama_aktifitas', $this->nama_aktifitas)
-                ->exists();
-
-            if ($exists) {
-                throw ValidationException::withMessages([
-                    'nama_aktifitas' => "{$this->nama_aktifitas} sudah ada pada kelas ini.",
-                ]);
-            }
-        }
-        if ($exists) {
-            throw ValidationException::withMessages([
-                'nama_aktifitas' => "{$this->nama_aktifitas} sudah ada pada kelas ini.",
-            ]);
-        }
 
         Aktifitas::create([
             'id_kelas' => $this->id_kelas,
             'id_mata_kuliah' => $this->id_mata_kuliah,
             'nama_aktifitas' => $this->nama_aktifitas,
-            'catatan' => $this->catatan ,
+            'catatan' => $this->catatan,
         ]);
 
-        $this->resetExcept('id_kelas');
+        $this->resetExcept('id_kelas', 'id_mata_kuliah');
         $this->dispatch('aktifitasCreated');
     }
+
+
 
 
 

@@ -67,7 +67,8 @@
                     <tr>
                         <td style="padding: 3px 10px;">JENIS KELAMIN</td>
                         <td style="padding: 3px 10px;">:</td>
-                        <td style="padding: 3px 10px;">{{ $mahasiswa->jenis_kelamin === 'L' ? 'Laki-laki' : 'Perempuan' }}</td>
+                        <td style="padding: 3px 10px;">
+                            {{ $mahasiswa->jenis_kelamin === 'L' ? 'Laki-laki' : 'Perempuan' }}</td>
                     </tr>
                 </table>
             </td>
@@ -129,10 +130,10 @@
                                 $nilaiAngka = $item->getGrade($item->bobot)['angka'];
                                 $nilaiHuruf = $item->getGrade($item->bobot)['huruf'];
                                 $totalNilai = $nilaiAngka * $sks;
-                                if ($item->bobot > 59) {
-                                    $jumlahSKS += $sks;
-                                    $jumlahNilai += $nilaiAngka * $sks;
-                                }
+                                // if ($item->bobot > 59) {
+                                $jumlahSKS += $sks;
+                                $jumlahNilai += $nilaiAngka * $sks;
+                                // }
                             @endphp
                             <tr>
                                 <td style="height: 25px">{{ $item->matkul->kode_mata_kuliah }}</td>
@@ -177,10 +178,10 @@
                                 $nilaiAngka = $item->getGrade($item->bobot)['angka'];
                                 $nilaiHuruf = $item->getGrade($item->bobot)['huruf'];
                                 $totalNilai = $nilaiAngka * $sks;
-                                if ($item->bobot > 59) {
-                                    $jumlahSKS += $sks;
-                                    $jumlahNilai += $nilaiAngka * $sks;
-                                }
+                                // if ($item->bobot > 59) {
+                                $jumlahSKS += $sks;
+                                $jumlahNilai += $nilaiAngka * $sks;
+                                // }
                             @endphp
                             <tr>
 
@@ -199,6 +200,19 @@
                             <td colspan="2" style="text-align: right;"><strong>Total Nilai</strong></td>
                             <td><strong>{{ $jumlahNilai }}</strong></td>
                         </tr>
+                        <tr>
+                            <td style="text-align: right" colspan="5">
+                                <strong>IPK</strong>
+                            </td>
+                            <td colspan="1">
+                                <p style="text-align: right; font-size: 14px;">
+                                    <strong>
+                                        {{ number_format($jumlahSKS > 0 ? $jumlahNilai / $jumlahSKS : 0, 2) }}
+                                    </strong>
+                                </p>
+                            </td>
+                        </tr>
+
                     </tbody>
                 </table>
             </td>

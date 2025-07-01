@@ -233,9 +233,13 @@
     </div>
 
     <div class="bg-white shadow-lg p-2 sm:p-4 mt-2 sm:mt-4 mb-2 sm:mb-4 rounded-lg max-w-full">
-        <h2 class="px-4 font-bold text-[20px] -ml-4">
-            {{ str_replace('-', '/', $nama_kelas) . '  (' . $kode_mata_kuliah . ')' }}
-        </h2>
+        <div class="flex flex-row justify-between mb-2">
+            <h2 class="px-4 font-bold text-[20px] -ml-4">
+                {{ str_replace('-', '/', $nama_kelas) . '  (' . $kode_mata_kuliah . ')' }}
+            </h2>
+            <livewire:dosen.bobot.kelas.edit :$id_kelas :$kode_mata_kuliah
+            wire:key="edit-{{ rand() . $id_kelas }}" />
+        </div>
         <livewire:table.aktifitas-table :$id_kelas :$id_mata_kuliah />
         {{-- <table class="min-w-full mt-2 sm:mt-4 bg-white text-xs sm:text-sm border border-gray-200">
             <thead>
