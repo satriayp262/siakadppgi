@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -16,12 +15,10 @@ return new class extends Migration
             $table->date('tanggal');
             $table->string('nidn');
             $table->string('materi');
-            $table->string('token');
             $table->string('keteranganan')->nullable();
             $table->integer('jumlah_mahasiswa');
             $table->timestamps();
             $table->foreign('nidn')->references('nidn')->on('dosen')->onDelete('cascade');
-            $table->foreign('token')->references('token')->on('token')->onDelete('cascade');
         });
     }
 
