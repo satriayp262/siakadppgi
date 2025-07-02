@@ -5,37 +5,31 @@ namespace App\Livewire\Table;
 use App\Models\BeritaAcara;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
-use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
-use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
+use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use Illuminate\Support\Facades\Auth;
 
 final class BeritaAcaraDosen extends PowerGridComponent
 {
-    public string $tableName = 'berita-acara-dosen-cmhc6z-table';
+    public string $tableName = 'berita-acara-dosen-table';
     public string $primaryKey = 'id_berita_acara';
     public string $sortField = 'id_berita_acara';
-
     public int $id_mata_kuliah;
     public int $id_kelas;
 
     protected $listeners = ['acaraCreated' => '$refresh'];
 
-
     public function setUp(): array
     {
         return [
-            PowerGrid::header()
-                ->showSearchInput(),
-            PowerGrid::footer()
-                ->showPerPage()
-                ->showRecordCount(),
+            PowerGrid::header()->showSearchInput(),
+            PowerGrid::footer()->showPerPage()->showRecordCount(),
         ];
     }
-    
+
     public function boot(): void
     {
         config(['livewire-powergrid.filter' => 'outside']);
@@ -43,19 +37,21 @@ final class BeritaAcaraDosen extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        $nidn = Auth::user()->nim_nidn;
-
-        return BeritaAcara::query()
-            ->with(['mataKuliah', 'kelas', 'semester', 'dosen'])
-            ->where('nidn', $nidn)
-            ->where('id_mata_kuliah', $this->id_mata_kuliah)
-            ->where('id_kelas', $this->id_kelas)
-            ->latest(); // Urut berdasarkan created_at DESC
+        return BeritaAcara::with('token')
+            ->whereHas('token', function ($query) {
+                $query->where('id_mata_kuliah', $this->id_mata_kuliah)
+                      ->where('id_kelas', $this->id_kelas);
+            })
+            ->where('nidn', Auth::user()->nim_nidn)
+            ->latest();
     }
 
+    // ✅ Ini WAJIB ada jika pakai relasi langsung di Column::make()
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'token' => ['pertemuan', 'sesi'],
+        ];
     }
 
     public function fields(): PowerGridFields
@@ -65,28 +61,37 @@ final class BeritaAcaraDosen extends PowerGridComponent
             ->add('tanggal_formatted', fn(BeritaAcara $model) => Carbon::parse($model->tanggal)->format('d/m/Y'))
             ->add('materi')
             ->add('jumlah_mahasiswa')
-            ->add('semester.nama_semester');
+            ->add('keterangan')
+            ->add('token.pertemuan')
+            ->add('token.sesi');
     }
 
     public function columns(): array
     {
         return [
+            Column::make('Pertemuan', 'token.pertemuan')
+                ->searchable(),
+
+            Column::make('Sesi', 'token.sesi')
+                ->sortable()
+                ->searchable(),
+
             Column::make('Tanggal', 'tanggal_formatted', 'tanggal')
                 ->sortable(),
 
-            Column::make('Materi', 'materi')
+            Column::make('Materi Yang Diajarkan', 'materi')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Jumlah mahasiswa', 'jumlah_mahasiswa')
+            Column::make('Mahasiswa', 'jumlah_mahasiswa')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Semester', 'semester.nama_semester')
+            Column::make('Keterangan', 'keterangan')
                 ->sortable()
                 ->searchable(),
 
-            Column::action('Action')
+            Column::action('Action'),
         ];
     }
 

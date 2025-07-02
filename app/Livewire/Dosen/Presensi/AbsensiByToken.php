@@ -20,22 +20,45 @@ class AbsensiByToken extends Component
     public $kelas;
     public $matkul;
 
-    #[On('tokenCreated')]
-    public function handletokenCreated($token)
+    #[On('tokenSuccessfullyCreated')]
+    public function handleTokenSuccessfullyCreated($token, $message)
     {
         $this->dispatch('pg:eventRefresh-token-table');
-        $this->dispatch('created', params: ['message' => 'Token created Successfully']);
+        $this->dispatch('createdTokenSuccess', params: ['message' => 'Token berhasil dibuat.']);
     }
+
+    #[On('acaraCreated')]
+    public function handleAcaraUpdated()
+    {
+        $this->dispatch('pg:eventRefresh-berita-acara-dosen-table');
+        $this->dispatch('created', params: ['message' => 'Berita Acara berhasil dibuat.']);
+    }
+
+    #[On('noSemesterActive')]
+    public function handleNoSemesterActive()
+    {
+        $this->dispatch('createdTokenFailed', params: ['message' => 'Tidak ada semester aktif saat ini.']);
+    }
+
+    #[On('noScheduleFound')]
+    public function handleNoScheduleFound()
+    {
+        $this->dispatch('createdTokenFailed', params: ['message' => 'Jadwal tidak ditemukan untuk dosen ini.']);
+    }
+
+    #[On('notWithinAllowedTime')]
+    public function handleNotWithinAllowedTime()
+    {
+        $this->dispatch('createdTokenFailed', params: ['message' => 'Token hanya dapat dibuat sesuai jadwal dan waktu yang ditentukan.']);
+    }
+
 
     public function mount($id_kelas, $id_mata_kuliah)
     {
         $this->id_kelas = $id_kelas;
         $this->id_mata_kuliah = $id_mata_kuliah;
 
-        // Ambil detail kelas
         $this->kelas = Kelas::with('matkul')->findOrFail($id_kelas);
-
-        // Ambil data mata kuliah berdasarkan ID
         $this->matkul = Matakuliah::findOrFail($id_mata_kuliah);
     }
 
@@ -45,10 +68,10 @@ class AbsensiByToken extends Component
             ->where('id_mata_kuliah', $this->id_mata_kuliah)
             ->where('id_kelas', $this->id_kelas)
             ->whereHas('matkul', function ($query) {
-                $query->where('nidn', Auth()->user()->nim_nidn) // Filter berdasarkan NIDN
+                $query->where('nidn', Auth()->user()->nim_nidn)
                     ->where(function ($query) {
-                        $query->where('nama_mata_kuliah', 'like', '%' . $this->search . '%') // Filter nama_mata_kuliah
-                            ->orWhere('id_mata_kuliah', 'like', '%' . $this->search . '%'); // Filter id_mata_kuliah
+                        $query->where('nama_mata_kuliah', 'like', '%' . $this->search . '%')
+                            ->orWhere('id_mata_kuliah', 'like', '%' . $this->search . '%');
                     });
             })
             ->where(function ($query) {

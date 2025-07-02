@@ -17,6 +17,10 @@ class Presensi extends Model
     {
         return $this->belongsTo(Token::class, 'token', 'token');
     }
+    public function token()
+    {
+        return $this->belongsTo(Token::class, 'token', 'token');
+    }
 
     public function mahasiswa()
     {

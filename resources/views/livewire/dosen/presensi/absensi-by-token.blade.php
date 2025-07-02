@@ -71,15 +71,39 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            window.addEventListener('created', event => {
-                Swal.fire({
-                    title: 'Success!',
-                    text: event.detail.params.message,
+            const eventMap = {
+                createdTokenSuccess: {
+                    title: 'Sukses!',
                     icon: 'success',
-                    confirmButtonText: 'OK'
-                }).then(() => {
-                    // Dispatch the modal-closed event to close the modal
-                    window.dispatchEvent(new CustomEvent('modal-closed'));
+                    button: 'OK'
+                },
+                createdTokenFailed: {
+                    title: 'Gagal!',
+                    icon: 'error',
+                    button: 'OK'
+                },
+                created: {
+                    title: 'Berhasil!',
+                    icon: 'success',
+                    button: 'OK'
+                }
+            };
+
+            Object.entries(eventMap).forEach(([eventType, config]) => {
+                Livewire.on(eventType, (data) => {
+                    console.log(`Livewire event [${eventType}] received:`, data);
+
+                    const message = (Array.isArray(data) && data[0]?.message) || data?.message ||
+                        'Terjadi kesalahan.';
+
+                    Swal.fire({
+                        title: config.title,
+                        text: message,
+                        icon: config.icon,
+                        confirmButtonText: config.button
+                    }).then(() => {
+                        window.dispatchEvent(new CustomEvent('modal-closed'));
+                    });
                 });
             });
         });

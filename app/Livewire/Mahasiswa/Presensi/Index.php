@@ -7,6 +7,7 @@ use App\Models\Token;
 use App\Models\Presensi;
 use App\Models\Mahasiswa;
 use App\Models\Krs;
+use App\Models\Jadwal;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
@@ -37,8 +38,6 @@ class Index extends Component
         $this->reset(['token', 'keterangan', 'alasan']);
     }
 
-    
-
     public function submit()
     {
         $this->validate([
@@ -55,19 +54,50 @@ class Index extends Component
             return;
         }
 
-        // Cek apakah token sudah expired
-        if (Carbon::now()->greaterThan($tokenData->valid_until)) {
-            $this->tandaiAlfa($tokenData);
-            $this->dispatch('error', ['message' => 'Token sudah tidak berlaku. Mahasiswa yang belum presensi ditandai sebagai Alfa.']);
+        if (Carbon::now()->gt($tokenData->valid_until)) {
+            $this->dispatch('error', ['message' => 'Token sudah tidak berlaku.']);
             return;
         }
 
-        $existingPresensi = Presensi::where('nim', $this->nim)
+        // Validasi KRS: Pastikan mahasiswa mengambil kelas dan matkul yang sesuai
+        $mahasiswa = Mahasiswa::where('NIM', $this->nim)->first();
+        $krsValid = Krs::where('id_mahasiswa', $mahasiswa->id_mahasiswa ?? null)
+            ->where('id_kelas', $tokenData->id_kelas)
+            ->where('id_mata_kuliah', $tokenData->id_mata_kuliah)
+            ->exists();
+
+        if (!$krsValid) {
+            $this->dispatch('error', ['message' => 'Anda tidak terdaftar di mata kuliah dan kelas ini.']);
+            return;
+        }
+
+        // Validasi Jadwal: Presensi hanya saat jadwal berlangsung
+        $jadwal = \App\Models\Jadwal::where('id_kelas', $tokenData->id_kelas)
+            ->where('id_mata_kuliah', $tokenData->id_mata_kuliah)
+            ->whereDate('tanggal', Carbon::now()->toDateString())
+            ->first();
+
+        if (!$jadwal) {
+            $this->dispatch('error', ['message' => 'Jadwal kuliah tidak ditemukan untuk hari ini.']);
+            return;
+        }
+
+        $now = Carbon::now();
+        $jamMulai = Carbon::parse($jadwal->tanggal . ' ' . $jadwal->jam_mulai);
+        $jamSelesai = Carbon::parse($jadwal->tanggal . ' ' . $jadwal->jam_selesai);
+
+        if (!$now->between($jamMulai, $jamSelesai)) {
+            $this->dispatch('error', ['message' => 'Presensi hanya bisa dilakukan saat sesi berlangsung.']);
+            return;
+        }
+
+        // Validasi presensi ganda
+        $alreadyPresensi = Presensi::where('nim', $this->nim)
             ->where('token', $tokenData->token)
             ->exists();
 
-        if ($existingPresensi) {
-            $this->dispatch('error', ['message' => 'Anda sudah melakukan presensi dengan token ini.']);
+        if ($alreadyPresensi) {
+            $this->dispatch('error', ['message' => 'Anda sudah melakukan presensi untuk token ini.']);
             $this->reset(['token', 'keterangan', 'alasan']);
             return;
         }
@@ -76,7 +106,7 @@ class Index extends Component
             'nama' => $this->nama,
             'nim' => $this->nim,
             'token' => $tokenData->token,
-            'waktu_submit' => Carbon::now(),
+            'waktu_submit' => $now,
             'keterangan' => $this->keterangan,
             'id_kelas' => $tokenData->id_kelas,
             'id_mata_kuliah' => $tokenData->id_mata_kuliah,

@@ -42,34 +42,58 @@ final class TokenTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('token')
-            ->add('matkul.nama_mata_kuliah')
-            ->add('kelas.nama_kelas')
             ->add('semester.nama_semester')
-            ->add('valid_until');
+            ->add('valid_until_formatted', fn($model) => \Carbon\Carbon::parse($model->valid_until)->format('H:i'))
+            ->add('created_at_formatted', function ($model) {
+                // Format: Senin, 2025-07-01
+                return \Carbon\Carbon::parse($model->created_at)
+                    ->locale('id') // gunakan lokal Indonesia
+                    ->translatedFormat('l, Y-m-d');
+            })
+            ->add('sesi')
+            ->add('pertemuan');
     }
+
 
     public function columns(): array
     {
         return [
-            Column::make('Token', 'token')->sortable()->searchable(),
-
-            Column::make('Mata Kuliah', 'matkul.nama_mata_kuliah')
+            Column::make('Pertemuan', 'pertemuan')
                 ->sortable()
-                ->searchable(),
+                ->searchable()
+                ->headerAttribute('text-center')
+                ->bodyAttribute('text-center'),
 
-            Column::make('Kelas', 'kelas.nama_kelas')
+            Column::make('Tanggal', 'created_at_formatted')
                 ->sortable()
-                ->searchable(),
+                ->headerAttribute('text-center')
+                ->bodyAttribute('text-center'),
+
+            Column::make('Sesi', 'sesi')
+                ->sortable()
+                ->searchable()
+                ->headerAttribute('text-center')
+                ->bodyAttribute('text-center'),
+
+            Column::make('Token', 'token')
+                ->sortable()
+                ->searchable()
+                ->headerAttribute('text-center')
+                ->bodyAttribute('text-center'),
 
             Column::make('Semester', 'semester.nama_semester')
                 ->sortable()
-                ->searchable(),
+                ->headerAttribute('text-center')
+                ->bodyAttribute('text-center'),
 
-            Column::make('Valid Until', 'valid_until')
+            Column::make('Valid Until', 'valid_until_formatted')
                 ->sortable()
-                ->searchable(),
+                ->headerAttribute('text-center')
+                ->bodyAttribute('text-center'),
 
-            Column::action('Aksi'),
+            Column::action('Aksi')
+                ->headerAttribute('text-center')
+                ->bodyAttribute('text-center'),
         ];
     }
 

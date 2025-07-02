@@ -2,47 +2,51 @@
 
 namespace App\Livewire\Dosen\BeritaAcara;
 
-use App\Models\Dosen;
 use App\Models\BeritaAcara;
-use App\Models\Matakuliah;
+use App\Models\Dosen;
 use App\Models\Kelas;
+use App\Models\Matakuliah;
+use App\Models\Presensi;
 use App\Models\Semester;
+use App\Models\Token;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class Create extends Component
 {
-    public $id_berita_acara, $tanggal, $nidn = '', $nama_dosen = '', $materi, $id_kelas, $id_mata_kuliah = '', $jumlah_mahasiswa, $matkul, $nama_kelas, $nama_mata_kuliah;
+    public $token;
+    public $tanggal;
+    public $pertemuan;
+    public $sesi;
+    public $nidn = '';
+    public $nama_dosen = '';
+    public $materi;
+    public $keterangan;
+    public $id_kelas;
+    public $id_mata_kuliah;
+    public $jumlah_mahasiswa;
+    public $nama_kelas;
+    public $nama_mata_kuliah;
 
-    public function rules()
+    public function mount($token)
     {
-        return [
-            'tanggal' => 'required|date',
-            'nidn' => 'required|string|min:10|max:10',
-            'materi' => 'required|string',
-            'id_mata_kuliah' => 'required|integer|max:255',
-            'jumlah_mahasiswa' => 'required|integer',
-            'id_kelas' => 'required|integer',
-        ];
-    }
+        $this->token = $token;
 
-    public function mount()
-    {
-        if ($this->id_mata_kuliah) {
-            // Fetch Matakuliah
-            $matkul = Matakuliah::find($this->id_mata_kuliah);
-            if ($matkul) {
-                $this->nama_mata_kuliah = $matkul->nama_mata_kuliah;
-            }
-        }
+        // Ambil data token dan relasinya
+        $tokenData = Token::with(['matkul', 'kelas'])->where('token', $token)->firstOrFail();
 
-        if ($this->id_kelas) {
-            $kelas = Kelas::find($this->id_kelas);
-            if ($kelas) {
-                $this->nama_kelas = $kelas->nama_kelas;
-            }
-        }
+        $this->tanggal = $tokenData->created_at->format('d-m-Y');
+        $this->pertemuan = $tokenData->pertemuan;
+        $this->sesi = $tokenData->sesi;
+        $this->id_mata_kuliah = $tokenData->id_mata_kuliah;
+        $this->id_kelas = $tokenData->id_kelas;
+        $this->nama_mata_kuliah = $tokenData->matkul->nama_mata_kuliah ?? '-';
+        $this->nama_kelas = $tokenData->kelas->nama_kelas ?? '-';
 
+        // Hitung jumlah mahasiswa dari presensi
+        $this->jumlah_mahasiswa = Presensi::where('token', $token)->count();
+
+        // Ambil dosen berdasarkan user login
         $user = Auth::user();
         $dosen = Dosen::where('nidn', $user->nim_nidn)->first();
 
@@ -52,42 +56,36 @@ class Create extends Component
         }
     }
 
-    public function save()
+    public function rules()
     {
-        $this->validate();
-
-        $semesterAktif = Semester::where('is_active', 1)->first();
-
-        if (!$semesterAktif) {
-            session()->flash('error', 'Tidak ada semester aktif.');
-            return;
-        }
-
-        BeritaAcara::create([
-            'tanggal' => $this->tanggal,
-            'nidn' => $this->nidn,
-            'id_mata_kuliah' => $this->id_mata_kuliah,
-            'materi' => $this->materi,
-            'jumlah_mahasiswa' => $this->jumlah_mahasiswa,
-            'id_kelas' => $this->id_kelas,
-            'id_semester' => $semesterAktif->id_semester,
-        ]);
-
-        session()->flash('success', 'Berita Acara berhasil disimpan.');
-        $this->resetExcept('nidn', 'id_mata_kuliah', 'id_kelas');
-        $this->dispatch('acaraCreated');
+        return [
+            'materi' => 'required|string',
+            'keterangan' => 'nullable|string',
+        ];
     }
 
     public function messages()
     {
         return [
-            'nidn.required' => 'Nama dosen tidak boleh kosong',
-            'tanggal.required' => 'Tanggal tidak boleh kosong',
             'materi.required' => 'Materi tidak boleh kosong',
-            'id_mata_kuliah.required' => 'Mata kuliah tidak boleh kosong',
-            'jumlah_mahasiswa.required' => 'Jumlah mahasiswa tidak boleh kosong',
-            'id_kelas.required' => 'Kelas tidak boleh kosong',
         ];
+    }
+
+    public function save()
+    {
+        $this->validate();
+
+        BeritaAcara::create([
+            'tanggal' => \Carbon\Carbon::createFromFormat('d-m-Y', $this->tanggal)->format('Y-m-d'),
+            'nidn' => $this->nidn,
+            'materi' => $this->materi,
+            'jumlah_mahasiswa' => $this->jumlah_mahasiswa,
+            'token' => $this->token,
+            'keterangan' => $this->keterangan,
+        ]);
+
+        $this->reset(['materi', 'keterangan']);
+        $this->dispatch('acaraCreated');
     }
 
     public function render()

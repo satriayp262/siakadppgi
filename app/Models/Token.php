@@ -16,6 +16,9 @@ class Token extends Model
         'id_kelas',
         'id_semester',
         'valid_until',
+        'pertemuan',
+        'hari',
+        'sesi',
         'id',
     ];
 

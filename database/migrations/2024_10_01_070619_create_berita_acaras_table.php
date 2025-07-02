@@ -15,16 +15,13 @@ return new class extends Migration
             $table->uuid('id_berita_acara')->primary();
             $table->date('tanggal');
             $table->string('nidn');
-            $table->integer('id_mata_kuliah');
             $table->string('materi');
+            $table->string('token');
+            $table->string('keteranganan')->nullable();
             $table->integer('jumlah_mahasiswa');
-            $table->integer('id_kelas');
-            $table->integer('id_semester');
             $table->timestamps();
             $table->foreign('nidn')->references('nidn')->on('dosen')->onDelete('cascade');
-            $table->foreign('id_mata_kuliah')->references('id_mata_kuliah')->on('matkul')->onDelete('cascade');
-            $table->foreign('id_kelas')->references('id_kelas')->on('kelas')->onDelete('cascade');
-            $table->foreign('id_semester')->references('id_semester')->on('semester')->onDelete('cascade');
+            $table->foreign('token')->references('token')->on('token')->onDelete('cascade');
         });
     }
 

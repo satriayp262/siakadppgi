@@ -160,7 +160,6 @@
                     icon: 'success',
                     confirmButtonText: 'OK'
                 }).then(() => {
-                    // Dispatch the modal-closed event to close the modal
                     window.dispatchEvent(new CustomEvent('modal-closed'));
                 });
             });
@@ -173,7 +172,6 @@
                     icon: 'success',
                     confirmButtonText: 'OK'
                 }).then(() => {
-                    // Dispatch the modal-closed event to close the modal
                     window.dispatchEvent(new CustomEvent('modal-closed'));
                 });
             });

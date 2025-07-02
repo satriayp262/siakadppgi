@@ -4,107 +4,126 @@ namespace Database\Seeders;
 
 use App\Models\Dosen;
 use App\Models\Kelas;
-use App\Models\KHS;
 use App\Models\KRS;
 use App\Models\Mahasiswa;
 use App\Models\Matakuliah;
 use App\Models\Presensi;
 use App\Models\Token;
 use App\Models\User;
-use Carbon\Carbon;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Jadwal;
+use App\Models\Semester;
 use Illuminate\Database\Seeder;
-use Log;
-use Str;
+use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class PresensiSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        $mataKuliahs = Matakuliah::all(); // Get all mata kuliah
+        // Buat user dosen dari semua NIDN di matakuliah
+        $nidns = Matakuliah::pluck('nidn')->unique();
+
+        foreach ($nidns as $nidn) {
+            User::firstOrCreate(
+                ['nim_nidn' => $nidn],
+                [
+                    'name' => 'Dosen ' . $nidn,
+                    'email' => 'dosen' . $nidn . '@example.com',
+                    'password' => bcrypt('password'),
+                    'role' => 'dosen',
+                ]
+            );
+        }
+
+        $mataKuliahs = Matakuliah::all();
+        $semester = Semester::where('is_active', 1)->first();
+
+        if (!$semester) {
+            echo "❌ Semester aktif tidak ditemukan\n";
+            return;
+        }
 
         foreach ($mataKuliahs as $mataKuliah) {
-            try {
-                echo "Processing Mata Kuliah ID: {$mataKuliah->id_mata_kuliah}\n";
+            echo "Processing Mata Kuliah ID: {$mataKuliah->id_mata_kuliah}\n";
 
-                // Get all mahasiswa in this mata kuliah & kelas
-                $khsRecords = KRS::where('id_mata_kuliah', $mataKuliah->id_mata_kuliah)->get();
+            $dosenUser = User::where('nim_nidn', $mataKuliah->nidn)->first();
+            if (!$dosenUser) {
+                echo "  ❌ Dosen user tidak ditemukan untuk NIDN: {$mataKuliah->nidn}\n";
+                continue;
+            }
 
-                if ($khsRecords->isEmpty()) {
-                    echo "No KHS records found for Mata Kuliah ID: {$mataKuliah->id_mata_kuliah}\n";
+            $krsRecords = KRS::where('id_mata_kuliah', $mataKuliah->id_mata_kuliah)->get();
+            if ($krsRecords->isEmpty()) {
+                echo "  ⚠️ Tidak ada mahasiswa KRS untuk matakuliah ini\n";
+                continue;
+            }
+
+            $kelasIds = $krsRecords->pluck('id_kelas')->unique()->values();
+
+            foreach ($kelasIds as $kelasId) {
+                echo "- Processing Kelas ID: {$kelasId}\n";
+
+                $kelas = Kelas::find($kelasId);
+                if (!$kelas) {
+                    echo "  ❌ Kelas ID {$kelasId} tidak ditemukan\n";
                     continue;
                 }
 
-                $kelasIds = $khsRecords->pluck('id_kelas')->unique()->values()->toArray();
-                echo "Found " . count($kelasIds) . " unique kelas IDs\n";
+                $jadwal = Jadwal::where('id_mata_kuliah', $mataKuliah->id_mata_kuliah)
+                    ->where('id_kelas', $kelasId)
+                    ->where('nidn', $mataKuliah->nidn)
+                    ->first();
 
-                foreach ($kelasIds as $id) {
-                    try {
-                        
-                        $kelas = Kelas::where('id_kelas', $id)->first();
+                $hari = $jadwal->hari ?? 'Senin';
+                $sesi = $jadwal->sesi ?? '1';
 
-                        if (!$kelas) {
-                            echo "No Kelas found for ID: {$id}\n";
+                foreach (range(1, 12) as $pertemuan) {
+                    echo "    - Membuat Token Pertemuan {$pertemuan}\n";
+
+                    $token = Token::create([
+                        'token' => Str::upper(Str::random(6)),
+                        'id_mata_kuliah' => $mataKuliah->id_mata_kuliah,
+                        'id_kelas' => $kelas->id_kelas,
+                        'id_semester' => $semester->id_semester,
+                        'valid_until' => Carbon::now()->addDay(),
+                        'hari' => $hari,
+                        'sesi' => $sesi,
+                        'pertemuan' => $pertemuan,
+                        'id' => $dosenUser->id,
+                    ]);
+
+                    $mahasiswaList = $krsRecords->where('id_kelas', $kelasId);
+
+                    foreach ($mahasiswaList as $krs) {
+                        $mahasiswa = Mahasiswa::where('NIM', $krs->NIM)->first();
+
+                        if (!$mahasiswa) {
+                            echo "      ⚠️ Mahasiswa NIM {$krs->NIM} tidak ditemukan\n";
                             continue;
                         }
 
-                        $krs = KRS::where('id_mata_kuliah', $mataKuliah->id_mata_kuliah)
-                        ->where('id_kelas', $id)->first();
-                        $id = User::where('nim_nidn', $mataKuliah->nidn)->first()->id;
-                        // Generate 12 tokens for this mata kuliah
-                        $tokens = [];
-                        foreach (range(1, 12) as $i) {
-                            try {
-                                $token = Token::create([
-                                    'token' => Str::random(10),
-                                    'id_mata_kuliah' => $mataKuliah->id_mata_kuliah,
-                                    'id_kelas' => $kelas->id_kelas,
-                                    'id_semester' => $krs->id_semester,
-                                    'valid_until' => Carbon::now()->addDays(1),
-                                    'id' => $id
-                                ]);
-                                $tokens[] = $token;
-                            } catch (\Exception $e) {
-                                echo "Error creating token: " . $e->getMessage() . "\n";
-                            }
+                        // Tentukan keterangan: Hadir, Izin, Sakit, Alpha (sedikit)
+                        $random = rand(1, 100);
+                        if ($random <= 85) {
+                            $keterangan = 'Hadir';
+                        } elseif ($random <= 95) {
+                            $keterangan = ['Izin', 'Sakit'][rand(0, 1)];
+                        } else {
+                            $keterangan = 'Alpha'; // hanya 5% kemungkinan
                         }
 
-                        // For each token, create presensi for every mahasiswa
-                        foreach ($tokens as $token) {
-                            foreach ($khsRecords as $khs) {
-                                try {
-                                    $mahasiswaNama = Mahasiswa::where('nim', $khs->NIM)->value('nama');
-
-                                    if (!$mahasiswaNama) {
-                                        echo "No Mahasiswa found for NIM: {$khs->NIM}\n";
-                                        continue;
-                                    }
-
-                                    Presensi::create([
-                                        'nama' => $mahasiswaNama,
-                                        'nim' => $khs->NIM,
-                                        'token' => $token->token,
-                                        'waktu_submit' => Carbon::now(),
-                                        'keterangan' => (rand(1, 10) <= 9) ? 'Hadir' : ['Sakit', 'Izin', 'Alpha'][array_rand(['Sakit', 'Izin', 'Alpha'])],
-                                        'alasan' => null,
-                                        'id_kelas' => $khs->id_kelas,
-                                        'id_mata_kuliah' => $khs->id_mata_kuliah,
-                                    ]);
-
-                                } catch (\Exception $e) {
-                                    echo "Error creating Presensi for NIM: {$khs->NIM}. Error: " . $e->getMessage() . "\n";
-                                }
-                            }
-                        }
-                    } catch (\Exception $e) {
-                        echo "Error processing Kelas ID: {$id}. Error: " . $e->getMessage() . "\n";
+                        Presensi::create([
+                            'nama' => $mahasiswa->nama,
+                            'nim' => $mahasiswa->NIM,
+                            'token' => $token->token,
+                            'waktu_submit' => Carbon::now(),
+                            'keterangan' => $keterangan,
+                            'alasan' => null,
+                            'id_kelas' => $kelas->id_kelas,
+                            'id_mata_kuliah' => $mataKuliah->id_mata_kuliah,
+                        ]);
                     }
                 }
-            } catch (\Exception $e) {
-                echo "Error processing Mata Kuliah ID: {$mataKuliah->id_mata_kuliah}. Error: " . $e->getMessage() . "\n";
             }
         }
     }
