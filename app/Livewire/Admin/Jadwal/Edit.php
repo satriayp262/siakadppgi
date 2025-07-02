@@ -533,7 +533,15 @@ class Edit extends Component
             ->distinct('NIM')
             ->count('NIM');
 
-        $ruangans = Ruangan::where('kapasitas', '>=', $jumlahMahasiswa)->get();
+        $ruanganTerpakai = Jadwal::where('hari', $jadwal->hari)
+            ->where('sesi', $jadwal->sesi)
+            ->where('id_jadwal', '!=', $jadwal->id_jadwal)
+            ->pluck('id_ruangan');
+
+        $ruangans = Ruangan::where('kapasitas', '>=', $jumlahMahasiswa)
+            ->whereNotIn('id_ruangan', $ruanganTerpakai)
+            ->where('id_ruangan', '!=', $jadwal->id_ruangan)
+            ->get();
 
         // Filter data yang cocok dengan ammo (untuk efisiensi & keterbacaan)
         $matchRequest = $request->filter(function ($item) use ($ammo) {

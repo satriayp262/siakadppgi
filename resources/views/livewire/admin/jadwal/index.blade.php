@@ -236,11 +236,13 @@
                             @php
                                 $previousDay = null;
                                 $previous = null;
-                                $semester = $jadwalsBySemester->first()->semester->nama_semester ?? 'Semester Tidak Diketahui';
+                                $semester = $jadwalsBySemester->first()->semester;
+                                $bulanMulai = \Carbon\Carbon::parse($semester->bulan_mulai)->format('m-Y');
+                                $bulanSelesai = \Carbon\Carbon::parse($semester->bulan_selesai)->format('m-Y');
                             @endphp
 
                             <!-- Nama Semester -->
-                            @if ($previousSemester != $semester)
+                            {{-- @if ($previousSemester != $semester)
                                 <tr>
                                     <td colspan="8" class="px-3 py-2 font-bold text-left bg-gray-100">
                                         {{ $prodi->nama_prodi }} {{ $semester }}
@@ -248,14 +250,14 @@
                                 </tr>
                                 @php
                                     $previousSemester = $semester;
-                                @endphp
-                            @elseif ($previousSemester == $semester)
+                                @endphp --}}
+                            {{-- @elseif ($previousSemester == $semester) --}}
                                 <tr>
                                     <td colspan="8" class="px-3 py-2 font-bold text-left bg-gray-100">
-                                        {{ $prodi->nama_prodi }} {{ $semester }}
+                                        {{ $prodi->nama_prodi }} {{ $semester->nama_semester }} ({{ $bulanMulai }} sampai {{ $bulanSelesai }})
                                     </td>
                                 </tr>
-                            @endif
+                            {{-- @endif --}}
 
                             <!-- Jadwal -->
                             @foreach ($jadwalsBySemester as $jadwal)
