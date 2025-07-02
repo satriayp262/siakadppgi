@@ -33,8 +33,9 @@
     </div>
     @php
         $mahasiswa = App\Models\Mahasiswa::where('NIM', $NIM)->first();
-        $IPK = 0;
-        $nilaiKumulatif = 0;
+        $totalNilaiKumulatif = 0; // Total (grade points × SKS) for all semesters
+        $totalSKSKumulatif = 0; // Total SKS for all semesters
+        $IPK = 0; // Will be calculated in the loop
     @endphp
     @if ($mahasiswa)
         <div class="flex items-center justify-between max-w-full p-4 mt-4 mb-4 space-x-2 bg-white rounded-lg shadow-lg">
@@ -79,10 +80,6 @@
             @endif
         </div>
         <div class="">
-            @php
-                $totalNilaiKumulatif = 0;
-                $totalSKSKumulatif = 0;
-            @endphp
             @foreach ($semester as $x)
                 @php
                     $khs = App\Models\KRS::where('id_semester', $x->id_semester)
@@ -124,15 +121,16 @@
                                 $khsItem->matkul->sks_praktek +
                                 $khsItem->matkul->sks_praktek_lapangan;
 
-                            if ($khsItem->bobot > 59) {
+                            // if ($khsItem->bobot > 59) {
                                 $jumlahSKS += $sks;
-                                $jumlahNilai += $khsItem->getGrade($khsItem->bobot)['angka'] * $sks;
-                            }
+                                $gradePoints = $khsItem->getGrade($khsItem->bobot)['angka'];
+                                $jumlahNilai += $gradePoints * $sks;
+                                $totalAngka += $gradePoints;
+                            // }
                         }
 
-                        if ($jumlahSKS !== 0) {
+                        if ($jumlahSKS > 0) {
                             $IPS = number_format(round($jumlahNilai / $jumlahSKS, 2), 2, '.', '');
-                            $nilaiKumulatif += $IPS;
                         }
 
                         $totalNilaiKumulatif += $jumlahNilai;
@@ -147,7 +145,6 @@
                     }
                 @endphp
                 @if (count($khs) != 0)
-                    {{-- ($cekTagihan == true && $cekEmonev == true) || auth()->user()->role == 'dosen' --}}
                     @if (true)
                         <div class="max-w-full p-4 mt-4 mb-4 bg-white rounded-lg shadow-lg ">
                             <div class="flex items-center justify-between my-2">
@@ -160,7 +157,6 @@
                                         fill="currentColor">
                                         <path d="M19 9h-4V3H9v6H5l7 7 7-7zm-4 9H9v2h6v-2z" />
                                     </svg>
-
                                 </a>
                             </div>
                             <div class="my-4" wire:key="semester-{{ $x->id_semester }}">
@@ -209,9 +205,6 @@
                                                     <td class="px-2 py-1 text-center border border-gray-500">
                                                         {{ $item->getGrade($item->bobot)['huruf'] }}</td>
                                                 </tr>
-                                                @php
-                                                    $totalAngka += $item->getGrade($item->bobot)['angka'];
-                                                @endphp
                                             @endif
                                         @endforeach
                                         <tr>
@@ -287,7 +280,6 @@
                                             <td class="px-2 py-1 text-center border-b  border-gray-500"></td>
                                             <td class="px-2 py-1 text-center border-b  border-r border-gray-500"></td>
                                         </tr>
-
                                     </tbody>
                                 </table>
                             </div>

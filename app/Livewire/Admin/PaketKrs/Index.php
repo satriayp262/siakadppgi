@@ -20,14 +20,14 @@ class Index extends Component
     }
     public function render()
     {
-        $paketKRS = paketKRS::whereIn(
-            'id_paket_krs',
-            paketKRS::selectRaw('MIN(id_paket_krs) as id_paket_krs')
-                ->groupBy('id_semester', 'id_prodi', 'id_kelas')
-        )->latest()
-            ->paginate(10);
+        // $paketKRS = paketKRS::whereIn(
+        //     'id_paket_krs',
+        //     paketKRS::selectRaw('MIN(id_paket_krs) as id_paket_krs')
+        //         ->groupBy('id_semester', 'id_prodi', 'id_kelas')
+        // )->latest()
+        //     ->paginate(10);
         return view('livewire.admin.paket-krs.index', [
-            'paketKRS' => $paketKRS
+            // 'paketKRS' => $paketKRS
         ]);
     }
 }

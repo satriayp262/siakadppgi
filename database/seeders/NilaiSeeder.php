@@ -41,7 +41,7 @@ class NilaiSeeder extends Seeder
                         ],
                         [
                             'id_kelas' => $krs->id_kelas,
-                            'nilai' => rand(35, 100),
+                            'nilai' => rand(60, 98),
                         ]
                     );
                 }

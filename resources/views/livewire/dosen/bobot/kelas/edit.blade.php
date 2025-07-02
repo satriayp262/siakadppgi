@@ -1,15 +1,14 @@
-<div x-data="{ isOpen: false }" @modal-closed.window="isOpen = false" >
-    <div wire:loading wire:target="update"
-        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-60">
-        <div class="spinner loading-spinner"></div>
-    </div>
+<div x-data="{ isOpen: false }" @modal-closed.window="isOpen = false">
+
     <!-- Button to open the modal -->
-    <button @click="isOpen=true" class="inline-block px-4 py-2  text-white bg-blue-500 rounded hover:bg-blue-700"><svg
+    <button @click="isOpen=true" class="inline-block px-4 py-2  text-white bg-blue-500 rounded hover:bg-blue-700">
+        {{-- <svg
             class="w-8 h-8 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
             width="24" height="24" fill="none" viewBox="0 0 24 24">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M10.779 17.779 4.36 19.918 6.5 13.5m4.279 4.279 8.364-8.643a3.027 3.027 0 0 0-2.14-5.165 3.03 3.03 0 0 0-2.14.886L6.5 13.5m4.279 4.279L6.499 13.5m2.14 2.14 6.213-6.504M12.75 7.04 17 11.28" />
-        </svg>
+        </svg> --}}
+        Edit Bobot
     </button>
 
     <!-- Modal Background -->
@@ -17,6 +16,10 @@
         class="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-75 ">
         <!-- Modal Content -->
         <div class="mx-6 md:w-full max-w-2xl mx-4 bg-white rounded-lg shadow-lg">
+            <div wire:loading wire:target="update"
+                class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-60">
+                <div class="spinner loading-spinner"></div>
+            </div>
             <!-- Modal Header -->
             <div class="flex items-center justify-between p-4 bg-gray-200 rounded-t-lg">
                 <h3 class="text-xl font-semibold">Edit Bobot</h3>
@@ -24,7 +27,7 @@
                     <button class="text-gray-900">&times;</button>
                 </div>
             </div>
-            <div class="p-4 text-left"> 
+            <div class="p-4 text-left">
                 <div class="p-4 max-h-[500px] overflow-y-auto">
                     <form wire:submit="update" class="flex space-x-2">
                         <input type="text" hidden wire:model="id_kelas">

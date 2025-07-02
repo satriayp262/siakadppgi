@@ -31,12 +31,14 @@ class KHSController extends Controller
     public function rekap($NIM)
     {
         $mahasiswa = Mahasiswa::where('NIM', $NIM)->firstOrFail();
-        $khs = $khs = KRS::where('NIM', $NIM)
-            ->with('khs.matkul') 
+        $khs = KRS::where('NIM', $NIM)
+            ->with('khs.krs.matkul')
             ->get()
             ->pluck('khs')
-            ->filter()           
-            ->unique(fn($item) => $item->matkul->kode_mata_kuliah)
+            ->flatten()
+            ->filter()
+            ->groupBy(fn($item) => $item->matkul?->kode_mata_kuliah)
+            ->map(fn($group) => $group->sortByDesc('bobot')->first())
             ->values();
 
         $pdf = Pdf::loadView('livewire.khs.rekap', compact('khs', 'mahasiswa'))->setPaper('A4', 'portrait');

@@ -31,12 +31,16 @@ class Show extends Component
         $this->dispatch('pg:eventRefresh-aktifitas-table-fonjfc-table');
         $this->dispatch('updated', ['message' => 'Aktifitas Updated Successfully']);
     }
+    #[On('kelasUpdated')]
+    public function handelKelasUpdated()
+    {
+
+        $this->dispatch('updated', ['message' => 'Bobot Berhasil Diupdate']);
+
+    }
     public function mount()
     {
         $this->id_mata_kuliah = Matakuliah::where('kode_mata_kuliah', $this->kode_mata_kuliah)->where('nidn', Auth()->user()->nim_nidn)->first()->id_mata_kuliah;
-
-        $aktifitas = new Aktifitas();
-        $aktifitas->createNilaiPartisipasi($this->id_mata_kuliah);
 
         $this->id_kelas = kelas::where('nama_kelas', str_replace('-', '/', $this->nama_kelas))->first()->id_kelas;
 
@@ -121,7 +125,7 @@ class Show extends Component
         } finally {
             $this->reset('file');
             $this->importing = false;
-        $this->dispatch('pg:eventRefresh-aktifitas-table-fonjfc-table');
+            $this->dispatch('pg:eventRefresh-aktifitas-table-fonjfc-table');
 
         }
     }
@@ -130,7 +134,7 @@ class Show extends Component
     {
         $nama_kelas = str_replace('/', '-', Kelas::where('id_kelas', $this->id_kelas)->first()->nama_kelas);
         $fileName = 'Data Aktifitas ' . $nama_kelas . ' ' . now()->format('Y-m-d') . '.xlsx';
-        return $excel->download(new NilaiExport($this->id_kelas), $fileName);
+        return $excel->download(new NilaiExport($this->id_kelas, $this->id_mata_kuliah), $fileName);
     }
 
 
@@ -139,19 +143,22 @@ class Show extends Component
         $aktifitas = Aktifitas::where('id_kelas', $this->id_kelas)
             ->where('id_mata_kuliah', $this->id_mata_kuliah)
             ->orderByRaw("
-        CASE 
-            WHEN nama_aktifitas IN ('UTS', 'UAS', 'Partisipasi') THEN 
                 CASE 
-                    WHEN nama_aktifitas = 'UTS' THEN 2
-                    WHEN nama_aktifitas = 'UAS' THEN 3
-                    WHEN nama_aktifitas = 'Partisipasi' THEN 4
-                    ELSE 1
+                    WHEN LOWER(TRIM(nama_aktifitas)) IN ('uts', 'uas', 'partisipasi') THEN 
+                CASE 
+                    WHEN LOWER(TRIM(nama_aktifitas)) = 'uts' THEN 2
+                    WHEN LOWER(TRIM(nama_aktifitas)) = 'uas' THEN 3
+                    WHEN LOWER(TRIM(nama_aktifitas)) = 'partisipasi' THEN 4
+                ELSE 1
                 END
             ELSE 1
         END
     ")
             ->get();
 
+        if (!$aktifitas->contains('nama_aktifitas', 'Partisipasi')) {
+            (new Aktifitas)->createNilaiPartisipasi($this->id_mata_kuliah);
+        }
         return view('livewire.dosen.aktifitas.kelas.show', [
             'aktifitas' => $aktifitas
         ]);

@@ -39,7 +39,7 @@
         <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
             <div class="flex flex-row justify-between">
                 <div class="flex flex-col">
-                    <span class="text-2xl font-bold text-purple2">{{ $item->nama }}</span>
+                    <span class="text-xl font-bold text-purple2">{{ $item->nama }}</span>
                     <span class="text-sm font-bold text-gray-400">NIM :
                         {{ $item->NIM }}</span>
                 </div>

@@ -26,7 +26,6 @@
                 class="px-2 ml-4 py-2 border border-gray-300 rounded-lg w-24 md:w-48">
         </div>
     </div>
-
     @foreach ($kelas as $item)
         <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
             <div class="flex flex-row justify-between">

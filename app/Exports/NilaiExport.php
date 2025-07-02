@@ -11,17 +11,21 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
+
 
 class NilaiExport implements FromCollection, WithHeadings, WithMapping, WithStyles, ShouldAutoSize
 {
-    protected $id_kelas;
+    protected $id_kelas, $id_mata_kuliah;
     protected $headers;
     protected $aktifitas;
 
-    public function __construct($id_kelas)
+    public function __construct($id_kelas, $id_mata_kuliah)
     {
         $this->id_kelas = $id_kelas;
+        $this->id_mata_kuliah = $id_mata_kuliah;
         $this->aktifitas = Aktifitas::where('id_kelas', $this->id_kelas)
+            ->where('id_mata_kuliah', $this->id_mata_kuliah)
             ->select('id_aktifitas', 'nama_aktifitas')
             ->get();
         $this->headers = $this->aktifitas->pluck('nama_aktifitas')->toArray();
@@ -32,7 +36,7 @@ class NilaiExport implements FromCollection, WithHeadings, WithMapping, WithStyl
     {
         return Mahasiswa::whereIn(
             'NIM',
-            Nilai::where('id_kelas', $this->id_kelas)->pluck('NIM')
+            Nilai::whereIn('id_aktifitas', $this->aktifitas->pluck('id_aktifitas'))->pluck('NIM')
         )->get();
     }
 
@@ -73,7 +77,9 @@ class NilaiExport implements FromCollection, WithHeadings, WithMapping, WithStyl
         ]);
 
         if ($headerCount > 2) {
-            $sheet->getStyle('C1:' . chr(64 + $headerCount) . '1')->applyFromArray([
+            $lastColumn = Coordinate::stringFromColumnIndex($headerCount);
+            $sheet->getStyle("C1:{$lastColumn}1")->applyFromArray([
+
                 'fill' => [
                     'fillType' => 'solid',
                     'color' => ['rgb' => 'FFDE21'],

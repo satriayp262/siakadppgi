@@ -33,15 +33,7 @@ class Detail extends Component
             return redirect()->route('dosen.khs.download', [$NIM, $id_semester]);
         }
     }
-/*************  ✨ Windsurf Command ⭐  *************/
-    /**
-     * Redirects to the 'dosen.khs.rekap' route for the given NIM.
-     *
-     * @param string $NIM The NIM of the mahasiswa to rekap.
-     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
-     */
-
-/*******  782819bf-015f-422c-ac2f-3d9ddab8ed1f  *******/
+    
     public function rekap($NIM)
     {
             return redirect()->route('dosen.khs.rekap', $NIM);

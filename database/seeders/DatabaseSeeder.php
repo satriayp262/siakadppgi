@@ -243,17 +243,28 @@ class DatabaseSeeder extends Seeder
 
         $dosenIndex = 0;
 
+        $usedCodes = [];
+
         foreach ($kodeProdis as $kodeProdi) {
             for ($i = 0; $i < 20; $i++) {
                 $mataKuliahName = $mataKuliahNames[$i % count($mataKuliahNames)];
                 $abbreviation = strtoupper(implode('', array_map(fn($word) => $word[0], explode(' ', $mataKuliahName))));
-                $kodeMataKuliah = substr($abbreviation, 0, 6) . substr(str_replace('-', '', $kodeProdi), 0, 2);
+                $baseCode = substr($abbreviation, 0, 6) . substr(str_replace('-', '', $kodeProdi), 0, 2);
 
+                // Ensure uniqueness
+                $finalCode = $baseCode;
+                $suffix = 1;
+                while (in_array($finalCode, $usedCodes)) {
+                    $finalCode = $baseCode . $suffix;
+                    $suffix++;
+                }
+
+                $usedCodes[] = $finalCode;
 
                 $assignedDosen = $dosens[$dosenIndex % $dosenCount];
 
                 Matakuliah::create([
-                    'kode_mata_kuliah' => $kodeMataKuliah,
+                    'kode_mata_kuliah' => $finalCode,
                     'nama_mata_kuliah' => $mataKuliahName,
                     'kode_prodi' => $kodeProdi,
                     'jenis_mata_kuliah' => fake()->randomElement(['A', 'W', 'P', 'B', 'C', 'S']),
@@ -270,6 +281,7 @@ class DatabaseSeeder extends Seeder
                 $dosenIndex++;
             }
         }
+
         foreach ($prodiData as $data) {
             $xx = str_split($data['kode_prodi'], 2)[0];
             $x = ['A/' . $xx . '/22', 'B/' . $xx . '/22'];
