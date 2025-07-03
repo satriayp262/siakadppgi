@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('preferensi_jadwal_dosen', function (Blueprint $table) {
             $table->id('id_preferensi');
-            $table->integer('id_dosen');
+            $table->integer('nidn');
             $table->string('hari');
             $table->integer('waktu');
             $table->timestamps();

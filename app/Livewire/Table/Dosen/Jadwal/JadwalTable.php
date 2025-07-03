@@ -50,7 +50,13 @@ final class JadwalTable extends PowerGridComponent
                 $jamSelesai = \Carbon\Carbon::parse($jadwal->jam_selesai)->format('H:i');
                 return 'Sesi ' . $jadwal->sesi . ' (' . $jamMulai . ' - ' . $jamSelesai . ')';
             })
-            ->add('matakuliah.nama_mata_kuliah')
+            ->add('matakuliah.nama_mata_kuliah', function ($ammo) {
+                if ($ammo->matakuliah->jenis_mata_kuliah == 'P') {
+                    return $ammo->matakuliah->nama_mata_kuliah . ' (Grup ' . $ammo->grup . ')';
+                } else {
+                    return $ammo->matakuliah->nama_mata_kuliah;
+                }
+            })
             ->add('prodi.nama_prodi')
             ->add('kelas.nama_kelas')
             ->add('ruangan_display', function ($jadwal) {

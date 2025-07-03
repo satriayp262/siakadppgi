@@ -202,7 +202,9 @@
                                             <span>-</span>
                                         @endif
                                     </td>
-                                    <td class="px-3 py-1 text-center">{{ $jadwal->sesi }}</td>
+                                    <td class="px-3 py-1 text-center">
+                                        Sesi {{ $jadwal->sesi }} ({{ \Carbon\Carbon::parse($jadwal->jam_mulai)->format('H:i') }} - {{ \Carbon\Carbon::parse($jadwal->jam_selesai)->format('H:i') }})
+                                    </td>
                                     @if ($jadwal->matakuliah->jenis_mata_kuliah == 'P')
                                         <td class="px-3 py-1 text-center">{{ $jadwal->matakuliah->nama_mata_kuliah }} (Grup {{ $jadwal->grup }})</td>
                                     @else
@@ -442,7 +444,9 @@
                                             <span>-</span>
                                         @endif
                                     </td>
-                                    <td class="px-3 py-1 text-center">{{ $jadwal->sesi }}</td>
+                                    <td class="px-3 py-1 text-center">
+                                        Sesi {{ $jadwal->sesi }} ({{ \Carbon\Carbon::parse($jadwal->jam_mulai)->format('H:i') }} - {{ \Carbon\Carbon::parse($jadwal->jam_selesai)->format('H:i') }})
+                                    </td>
                                     @if ($jadwal->matakuliah->jenis_mata_kuliah == 'P')
                                         <td class="px-3 py-1 text-center">{{ $jadwal->matakuliah->nama_mata_kuliah }} (Grup {{ $jadwal->grup }})</td>
                                     @else

@@ -12,6 +12,8 @@ class Index extends Component
 {
 
     public $dosen;
+    public $hari;
+    public $waktu;
 
     public function mount()
     {
@@ -46,8 +48,36 @@ class Index extends Component
 
     public function preferensi()
     {
+        // Validasi input
+        $this->validate([
+            'hari' => 'required',
+            'waktu' => 'required',
+        ], [
+            'hari.required' => 'Hari wajib dipilih.',
+            'waktu.required' => 'Waktu wajib dipilih.',
+        ]);
 
+        $cek = Preferensi_jadwal::where('nidn', $this->dosen->nidn)->first();
+
+        if ($cek) {
+            Preferensi_jadwal::where('id_preferensi', $cek->id_preferensi)->update([
+                'nidn' => $this->dosen->nidn,
+                'hari' => $this->hari != '' ? $this->hari : $cek->hari,
+                'waktu' => $this->waktu != '' ? $this->waktu : $cek->waktu
+            ]);
+
+            $this->dispatch('show-message', type: 'success', message: 'Preferensi Berhasil Diubah');
+        } else {
+            Preferensi_jadwal::create([
+                'nidn' => $this->dosen->nidn,
+                'hari' => $this->hari,
+                'waktu' => $this->waktu,
+            ]);
+
+            $this->dispatch('show-message', type: 'success', message: 'Preferensi Berhasil Dibuat');
+        }
     }
+
 
     public function render()
     {
@@ -60,8 +90,11 @@ class Index extends Component
             ->orderBy('sesi')
             ->get();
 
+        $preferensi = Preferensi_jadwal::where('nidn', $dosen->nidn)->first();
+
         return view('livewire.dosen.jadwal.index',[
-            'jadwals' => $jadwals
+            'jadwals' => $jadwals,
+            'preferensi' => $preferensi
         ]);
     }
 }
