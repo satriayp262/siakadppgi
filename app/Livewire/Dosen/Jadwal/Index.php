@@ -4,6 +4,7 @@ namespace App\Livewire\Dosen\Jadwal;
 
 use App\Models\Dosen;
 use App\Models\Jadwal;
+use App\Models\Preferensi_jadwal;
 use Livewire\Component;
 use Barryvdh\DomPDF\Facade\Pdf;
 
@@ -43,6 +44,11 @@ class Index extends Component
         }, 'Jadwal Mengajar Dosen ' . $dosen->nama_dosen . ' Semester ' . $jadwals[0]->semester->nama_semester . '.pdf');
     }
 
+    public function preferensi()
+    {
+
+    }
+
     public function render()
     {
         $dosen = Dosen::where('nidn', Auth()->user()->nim_nidn)->first();
@@ -51,7 +57,7 @@ class Index extends Component
             $query->where('nidn', $dosen->nidn);
         })
             ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat')")
-            ->orderBy('sesi')  // Urutkan berdasarkan sesi
+            ->orderBy('sesi')
             ->get();
 
         return view('livewire.dosen.jadwal.index',[

@@ -166,7 +166,9 @@
                                             @endphp
                                         @endif
                                     </td>
-                                    <td class="px-3 py-1 text-center">{{ $jadwal->sesi }}</td>
+                                    <td class="px-3 py-1 text-center">
+                                        Sesi {{ $jadwal->sesi }} ({{ \Carbon\Carbon::parse($jadwal->jam_mulai)->format('H:i') }} - {{ \Carbon\Carbon::parse($jadwal->jam_selesai)->format('H:i') }})
+                                    </td>
                                     {{-- @if ($jadwal->tanggal == null)
                                         <td class="px-3 py-1 text-center">Belum ada tanggal Ujian</td>
                                     @else
@@ -284,7 +286,9 @@
                                             @endphp
                                         @endif
                                     </td>
-                                    <td class="px-3 py-1 text-center">{{ $jadwal->sesi }}</td>
+                                    <td class="px-3 py-1 text-center">
+                                        Sesi {{ $jadwal->sesi }} ({{ \Carbon\Carbon::parse($jadwal->jam_mulai)->format('H:i') }} - {{ \Carbon\Carbon::parse($jadwal->jam_selesai)->format('H:i') }})
+                                    </td>
                                     {{-- @if ($jadwal->tanggal == null)
                                         <td class="px-3 py-1 text-center">Belum ada tanggal Ujian</td>
                                     @else

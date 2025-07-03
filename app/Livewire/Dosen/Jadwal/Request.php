@@ -88,7 +88,7 @@ class Request extends Component
                     'hari' => $ammo->hari,
                     'sesi' => $ammo->sesi,
                     'to_hari' => $this->z,
-                    'to_sesi' => $this->x,
+                    'to_sesi' => $this->x != '' ? $this->x : $ammo->sesi,
                     'status' => "edit"
                 ]);
             }else {
@@ -99,7 +99,7 @@ class Request extends Component
                     'hari' => $ammo->hari,
                     'sesi' => $ammo->sesi,
                     'to_hari' => $this->z,
-                    'to_sesi' => $this->x,
+                    'to_sesi' => $this->x != '' ? $this->x : $ammo->sesi,
                     'status' => "edit"
                 ]);
             }

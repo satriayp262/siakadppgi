@@ -59,7 +59,11 @@ final class JadwalTable extends PowerGridComponent
                 $lastHari = $currentHari;
                 return $currentHari;
             })
-            ->add('sesi')
+            ->add('sesi_display', function ($jadwal) {
+                $jamMulai = \Carbon\Carbon::parse($jadwal->jam_mulai)->format('H:i');
+                $jamSelesai = \Carbon\Carbon::parse($jadwal->jam_selesai)->format('H:i');
+                return 'Sesi ' . $jadwal->sesi . ' (' . $jamMulai . ' - ' . $jamSelesai . ')';
+            })
             ->add('kelas.nama_kelas')
             ->add('matakuliah_display', function ($jadwal) {
                 if ($jadwal->grup != null) {
@@ -85,7 +89,7 @@ final class JadwalTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Sesi', 'sesi')
+            Column::make('Sesi', 'sesi_display')
                 ->sortable()
                 ->searchable(),
 

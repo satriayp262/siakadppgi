@@ -1,4 +1,81 @@
 <div class="max-w-full p-4 mt-4 mb-4 bg-white rounded-lg shadow-lg">
+    <div x-data="{ isOpen: false }" @modal-closed.window="isOpen = false">
+        <!-- Container untuk meratakan tombol ke kanan -->
+        <div class="flex justify-end">
+            <!-- Button to open the modal -->
+            <button @click="isOpen=true"
+                class="flex items-center px-4 py-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">
+                Preferensi Jadwal
+            </button>
+        </div>
+
+        <!-- Modal Background -->
+            <div x-data="{ load: false }" x-show="isOpen && load" x-init="load = true" wire:init="" x-cloak
+                class="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-75">
+                <!-- Modal Content -->
+                <div class="w-full max-w-2xl mx-4 bg-white rounded-lg shadow-lg">
+                    <!-- Modal Header -->
+                    <div class="flex items-center justify-between p-4 bg-gray-200 rounded-t-lg">
+                        <h3 class="text-xl font-semibold">Preferensi Jadwal</h3>
+                        <div @click="isOpen=false" class="px-3 rounded-sm shadow hover:bg-red-500">
+                            <button class="text-gray-900">&times;</button>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <form wire:submit.prevent="preferensi" class="p-4 space-y-4">
+                            <!-- Input Preferensi Jadwal -->
+                            <div>
+                                <label for="hari" class="block mb-2 font-semibold text-gray-700">
+                                    Hari
+                                </label>
+                                <select name="hari" id="batas" wire:model="hari"
+                                    class="block w-full px-2 py-1 mt-1 border border-gray-700 rounded shadow focus:border-indigo-500 sm:text-sm">
+                                    <option value="">-- Pilih Hari --</option>
+                                    <option value="Senin">Senin</option>
+                                    <option value="Selasa">Selasa</option>
+                                    <option value="Rabu">Rabu</option>
+                                    <option value="Kamis">Kamis</option>
+                                    <option value="Jumat">Jumat</option>
+                                    <option value="Sabtu">Sabtu</option>
+                                    <option value="Minggu">Minggu</option>
+                                </select>
+                                @error('hari')
+                                    <span class="mt-1 text-sm text-red-500">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div>
+                                <label for="waktu" class="block mb-2 font-semibold text-gray-700">
+                                    Waktu
+                                </label>
+                                <select name="waktu" id="batas" wire:model="waktu"
+                                    class="block w-full px-2 py-1 mt-1 border border-gray-700 rounded shadow focus:border-indigo-500 sm:text-sm">
+                                    <option value="">-- Pilih Waktu --</option>
+                                    <option value="1">08.00 sampai 12.30</option>
+                                    <option value="2">12.30 sampai 17.00</option>
+                                    <option value="3">17.00 sampai 20.00</option>
+                                </select>
+                                @error('waktu')
+                                    <span class="mt-1 text-sm text-red-500">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <!-- Tombol Generate dengan Loading -->
+                            <div class="flex items-center space-x-4">
+                                <button type="submit"
+                                        wire:loading.attr="disabled"
+                                        wire:target="pilihSemester"
+                                        class="relative flex items-center justify-center px-6 py-2 font-semibold text-white bg-green-600 rounded hover:bg-green-700 disabled:opacity-50">
+                                    <!-- Teks tombol -->
+                                    <span wire:loading.remove wire:target="pilihSemester">
+                                        Generate Jadwal
+                                    </span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     <P class="px-4 py-2 text-lg font-bold text-customPurple">Jadwal Mengajar {{ $dosen->nama_dosen }}</P>
     <livewire:table.dosen.jadwal.jadwal-table />
     <button type="button" class="flex items-center px-4 py-2 mt-2 ml-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700" wire:click='generatePdf()'>Download Jadwal Mengajar</button>
