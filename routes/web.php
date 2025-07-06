@@ -160,7 +160,7 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
 Route::middleware(['auth', CheckRole::class . ':mahasiswa'])->prefix('mahasiswa')->group(function () {
     Route::get('/profil', App\Livewire\Mahasiswa\Profil\Index::class)->name('mahasiswa.profile');
     Route::get('/keuangan', App\Livewire\Mahasiswa\Keuangan\Index::class)->name('mahasiswa.keuangan');
-    Route::get('/presensi', App\Livewire\Mahasiswa\Presensi\Index::class)->name('mahasiswa.presensi');
+    Route::get('/presensi', App\Livewire\Mahasiswa\Presensi\DaftarMatkul::class)->name('mahasiswa.presensi');
     Route::get('/download/{no_kwitansi}', [App\Http\Controllers\PDFController::class, 'generatePDF'])->name('mahasiswa.download');
     Route::get('/krs', App\Livewire\Mahasiswa\Krs\Index::class)->name('mahasiswa.krs');
     Route::get('/emonev', App\Livewire\Mahasiswa\Emonev\Index::class)->name('mahasiswa.emonev');

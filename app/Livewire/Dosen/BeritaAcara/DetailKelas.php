@@ -52,10 +52,8 @@ class DetailKelas extends Component
         $this->id_kelas = $id_kelas;
         $this->id_mata_kuliah = $id_mata_kuliah;
 
-        // Ambil detail kelas
         $this->kelas = Kelas::with('matkul')->findOrFail($id_kelas);
 
-        // Ambil data mata kuliah berdasarkan ID
         $this->matkul = Matakuliah::findOrFail($id_mata_kuliah);
     }
 

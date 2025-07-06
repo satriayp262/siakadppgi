@@ -1,6 +1,7 @@
 <div x-data="{ isOpen: false }" @modal-closed.window="isOpen = false">
-    <button @click="isOpen=true"
-        class="flex items-center px-4 py-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">
+    <button @click="isOpen = true" x-bind:disabled="!@entangle('isWaktuAktif')"
+        x-bind:title="!@entangle('isWaktuAktif') ? 'Tidak ada jadwal aktif saat ini' : ''"
+        class="flex items-center px-4 py-2 font-bold text-white bg-green-500 rounded hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed">
         Buat Token
     </button>
 
@@ -29,25 +30,34 @@
                             class="w-full px-3 py-2 mt-1 bg-gray-200 border border-gray-300 rounded-md shadow-sm sm:text-sm">
                     </div>
 
-                    {{-- Valid Until --}}
+                    {{-- Valid Until (readonly berdasarkan jadwal aktif) --}}
                     <div>
-                        <label for="valid_until" class="block text-sm font-medium text-gray-700">Berlaku Hingga</label>
-                        <input type="datetime-local" id="valid_until" wire:model="valid_until"
-                            class="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm sm:text-sm">
-                        @error('valid_until') <span class="text-sm text-red-600">{{ $message }}</span> @enderror
+                        <label for="valid_until" class="block text-sm font-medium text-gray-700">Berlaku
+                            Hingga</label>
+                        <input type="text" id="valid_until" readonly value="{{ $valid_until }}"
+                            class="w-full px-3 py-2 mt-1 bg-gray-100 border border-gray-300 rounded-md shadow-sm sm:text-sm">
                     </div>
 
                     {{-- Pertemuan --}}
                     <div>
                         <label for="pertemuan" class="block text-sm font-medium text-gray-700">Pertemuan Ke</label>
-                        <select id="pertemuan" wire:model="pertemuan"
+                        <select id="pertemuan" wire:model.defer="pertemuan"
                             class="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm sm:text-sm">
                             <option value="">-- Pilih Pertemuan --</option>
                             @for ($i = 1; $i <= 16; $i++)
-                                <option value="{{ $i }}">Pertemuan {{ $i }}</option>
+                                @php
+                                    $sudahAda = \App\Models\Token::where('id_jadwal', $id_jadwal)
+                                        ->where('pertemuan', $i)
+                                        ->exists();
+                                @endphp
+                                <option value="{{ $i }}" @if ($sudahAda) disabled @endif>
+                                    Pertemuan {{ $i }} {{ $sudahAda ? '(sudah dibuat)' : '' }}
+                                </option>
                             @endfor
                         </select>
-                        @error('pertemuan') <span class="text-sm text-red-600">{{ $message }}</span> @enderror
+                        @error('pertemuan')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     {{-- Tombol Aksi --}}

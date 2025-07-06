@@ -137,10 +137,10 @@ class Index extends Component
     #[On('kirimEmail')]
     public function kirimEmailHandler($nim)
     {
-        $this->kirimEmail($nim);
+        $this->kirimEmail($nim, $this->id_mahasiswa);
     }
 
-    public function kirimEmail($nim)
+    public function kirimEmail($nim, $id_mahasiswa)
     {
         $sudahKirim = RiwayatSP::where('nim', $nim)->exists();
 
@@ -149,7 +149,7 @@ class Index extends Component
             return;
         }
 
-        $mahasiswa = Mahasiswa::where('NIM', $nim)
+        $mahasiswa = Mahasiswa::where('id_mahasiswa', $id_mahasiswa)
             ->withCount(['presensi as alpha_count' => function ($query) {
                 $query->where('keterangan', 'Alpha')
                     ->when($this->semester !== 'semua', function ($q) {

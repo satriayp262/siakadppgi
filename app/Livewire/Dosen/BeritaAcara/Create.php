@@ -32,16 +32,18 @@ class Create extends Component
     {
         $this->token = $token;
 
-        // Ambil data token dan relasinya
-        $tokenData = Token::with(['matkul', 'kelas'])->where('token', $token)->firstOrFail();
+        // Ambil data token dan relasinya termasuk jadwal
+        $tokenData = Token::with(['matkul', 'kelas', 'jadwal'])->where('token', $token)->firstOrFail();
 
         $this->tanggal = $tokenData->created_at->format('d-m-Y');
         $this->pertemuan = $tokenData->pertemuan;
-        $this->sesi = $tokenData->sesi;
         $this->id_mata_kuliah = $tokenData->id_mata_kuliah;
         $this->id_kelas = $tokenData->id_kelas;
         $this->nama_mata_kuliah = $tokenData->matkul->nama_mata_kuliah ?? '-';
         $this->nama_kelas = $tokenData->kelas->nama_kelas ?? '-';
+
+        // Ambil sesi dari relasi jadwal
+        $this->sesi = $tokenData->jadwal->sesi ?? '-';
 
         // Hitung jumlah mahasiswa dari presensi
         $this->jumlah_mahasiswa = Presensi::where('token', $token)->count();
@@ -55,6 +57,7 @@ class Create extends Component
             $this->nama_dosen = $dosen->nama_dosen;
         }
     }
+
 
     public function rules()
     {

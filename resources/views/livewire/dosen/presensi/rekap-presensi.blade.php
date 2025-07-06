@@ -53,10 +53,11 @@
         </nav>
     </div>
 
-    {{-- Tabel Rekap --}}
-    <div class="bg-white shadow-lg mt-4 mb-4 rounded-lg p-4 max-w-screen overflow-x-auto">
-        <div class="w-6xl">
-            <livewire:table.rekap-table :id_mata_kuliah="$id_mata_kuliah" :id_kelas="$id_kelas" class="overflow-x-auto max-w-6xl" />
-        </div>
+    {{-- Tabel Rekap Responsif --}}
+    <div class="bg-white shadow-lg mt-4 mb-4 rounded-lg p-4 max-w-[1000px]">
+    <div class="max-w-full">
+        <livewire:table.rekap-table :id_mata_kuliah="$id_mata_kuliah" :id_kelas="$id_kelas" />
     </div>
+    </div>
+
 </div>

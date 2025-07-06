@@ -1,12 +1,16 @@
-<div class="flex justify-center flex-col items-center space-y-1">
-    @php
-        $now = new DateTime('now', new DateTimeZone('Asia/Bangkok'));
-        $isExpired = $row->valid_until < $now->format('Y-m-d H:i:s');
-    @endphp
-    <div class="flex justify-center space-x-1">
+@php
+    use Carbon\Carbon;
+
+    $now = Carbon::now('Asia/Jakarta');
+    $validUntil = Carbon::parse($row->valid_until);
+    $isExpired = $validUntil->lt($now); // true jika sudah lewat waktunya
+@endphp
+
+<div class="flex justify-center flex-col items-center space-y-2">
+    <div class="flex justify-center space-x-2">
         <button onclick="{{ !$isExpired ? 'copyToken(\'' . $row->token . '\')' : '' }}"
             class="px-2 py-1 text-white rounded text-center
-           {{ $isExpired ? 'bg-gray-500 hover:bg-gray-600 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600' }}"
+                {{ $isExpired ? 'bg-gray-500 hover:bg-gray-600 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600' }}"
             {{ $isExpired ? 'disabled' : '' }}>
             <svg class="w-4 h-4 text-white" xmlns="http://www.w3.org/2000/svg" width="22" height="22"
                 fill="currentColor" viewBox="0 0 22 22">
@@ -20,14 +24,15 @@
         </button>
 
         <button onclick="window.location='{{ route('dosen.detail_presensi', $row->token) }}'"
-            class="px-2 py-1 text-white bg-yellow-500 hover:bg-yellow-600 rounded"><svg class="w-4 h-4 text-white"
-                aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none"
-                viewBox="0 0 22 22">
+            class="px-2 py-1 text-white bg-yellow-500 hover:bg-yellow-600 rounded">
+            <svg class="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="22"
+                height="22" fill="none" viewBox="0 0 22 22">
                 <path stroke="currentColor" stroke-width="2"
                     d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z" />
                 <path stroke="currentColor" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
             </svg>
         </button>
+
     </div>
 
     @php
@@ -35,10 +40,11 @@
     @endphp
 
     @if (!$exists)
-        <livewire:dosen.berita-acara.create :token="$row->token" wire:key="create-berita-acara-{{ $row->token }}" />
+        <livewire:dosen.berita-acara.create :token="$row->token"
+            wire:key="create-berita-acara-{{ rand() . $row->token }}" />
     @else
         <button
-            class="flex items-center p-1 text-sm font-bold text-white bg-gray-500 rounded hover:bg-gray-700 cursor-not-allowed"
+            class="flex items-center px-2 py-1 text-sm font-bold text-white bg-gray-500 rounded hover:bg-gray-700 cursor-not-allowed"
             disabled>
             <svg class="w-3 h-3 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 22 22"
                 stroke="currentColor">

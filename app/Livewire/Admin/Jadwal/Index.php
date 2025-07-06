@@ -108,6 +108,7 @@ class Index extends Component
             ['sesi' => 6, 'jam_mulai' => '15:30', 'jam_selesai' => '17:00'],
             ['sesi' => 7, 'jam_mulai' => '17:00', 'jam_selesai' => '18:30'],
             ['sesi' => 8, 'jam_mulai' => '18:30', 'jam_selesai' => '20:00']
+<<<<<<< Updated upstream
         ];
 
         $timeSlots1 = [
@@ -129,6 +130,8 @@ class Index extends Component
             ['sesi' => 6, 'jam_mulai' => '15:30', 'jam_selesai' => '17:00'],
             ['sesi' => 7, 'jam_mulai' => '17:00', 'jam_selesai' => '18:30'],
             ['sesi' => 8, 'jam_mulai' => '18:30', 'jam_selesai' => '20:00']
+=======
+>>>>>>> Stashed changes
         ];
 
         foreach ($kelasByProdi as $prodi => $kelasList) {

@@ -1,6 +1,6 @@
 <div x-data="{ isOpen: false }" @modal-closed.window="isOpen = false">
     <!-- Button -->
-    <button @click="isOpen=true" class="flex items-center p-1 text-sm font-bold text-white bg-teal-500 rounded hover:bg-teal-700">
+    <button @click="isOpen=true" class="flex items-center px-2 py-1 text-sm font-bold text-white bg-teal-500 rounded hover:bg-teal-700">
         <svg class="w-3 h-3 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 22 22"
             stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M12 4v16m8-8H4" />
