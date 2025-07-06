@@ -42,12 +42,21 @@ class Edit extends Component
 
         if ($presensi) {
             $this->id_presensi = $presensi->id;
+<<<<<<< Updated upstream
             $this->keterangan = $presensi->keterangan;
             $this->alasan = $presensi->alasan;
 
             // Ambil nama dan nim dari relasi mahasiswa
             $this->nama = $presensi->mahasiswaList->nama ?? '-';
             $this->nim = $presensi->mahasiswaList->NIM ?? '-';
+=======
+            $this->keterangan = $presensi->keterangan ?? '';
+            $this->alasan = $presensi->alasan;
+
+            // Ambil nama dan nim dari relasi mahasiswa
+            $this->nama = $presensi->mahasiswa->nama ?? '-';
+            $this->nim = $presensi->mahasiswa->NIM ?? '-';
+>>>>>>> Stashed changes
         } else {
             // Mahasiswa tetap diambil dari tabel mahasiswa jika presensi tidak ditemukan
             $mahasiswa = Mahasiswa::find($this->id_mahasiswa);
@@ -67,8 +76,13 @@ class Edit extends Component
             $this->alasan = $presensi->alasan;
 
             // Tetap ambil dari relasi
+<<<<<<< Updated upstream
             $this->nama = $presensi->mahasiswaList->nama ?? '-';
             $this->nim = $presensi->mahasiswaList->NIM ?? '-';
+=======
+            $this->nama = $presensi->mahasiswa->nama ?? '-';
+            $this->nim = $presensi->mahasiswa->NIM ?? '-';
+>>>>>>> Stashed changes
         }
     }
 

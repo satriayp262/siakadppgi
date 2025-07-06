@@ -14,12 +14,22 @@ final class DetailPresensiTable extends PowerGridComponent
 {
     public string $tableName = 'detail-presensi-table';
 
+<<<<<<< Updated upstream
     public string $primaryKey = 'id_mahasiswa';
 
+=======
+    // Gunakan primary key unik mahasiswa agar PowerGrid tidak cari kolom id
+    public string $primaryKey = 'id_mahasiswa';
+
+    // Parameter yang diterima dari luar (dikirim dari komponen induk)
+>>>>>>> Stashed changes
     public string $token;
     public int $id_kelas;
     public int $id_mata_kuliah;
 
+    /**
+     * Konfigurasi tampilan PowerGrid
+     */
     public function setUp(): array
     {
         return [
@@ -28,6 +38,9 @@ final class DetailPresensiTable extends PowerGridComponent
         ];
     }
 
+    /**
+     * Sumber data utama untuk tabel
+     */
     public function datasource(): Builder
     {
         // Subquery presensi terbaru berdasarkan token
@@ -43,27 +56,54 @@ final class DetailPresensiTable extends PowerGridComponent
             })
             ->where('krs.id_kelas', $this->id_kelas)
             ->where('krs.id_mata_kuliah', $this->id_mata_kuliah)
+<<<<<<< Updated upstream
+=======
+            ->leftJoin('presensi', function ($join) {
+                $join->on('mahasiswa.id_mahasiswa', '=', 'presensi.id_mahasiswa')
+                    ->where('presensi.token', '=', $this->token);
+            })
+>>>>>>> Stashed changes
             ->select(
                 'mahasiswa.id_mahasiswa',
                 'mahasiswa.nama',
                 'mahasiswa.NIM as nim',
+<<<<<<< Updated upstream
                 'latest_presensi.id',
                 'latest_presensi.keterangan',
                 'latest_presensi.created_at',
                 'latest_presensi.alasan'
             );
+=======
+                DB::raw('MAX(presensi.id) as id'), // ambil ID presensi jika ada
+                DB::raw('MAX(presensi.keterangan) as keterangan'),
+                DB::raw('MAX(presensi.created_at) as created_at'),
+                DB::raw('MAX(presensi.alasan) as alasan')
+            )
+            ->groupBy('mahasiswa.id_mahasiswa', 'mahasiswa.nama', 'mahasiswa.NIM');
+>>>>>>> Stashed changes
     }
 
+
+    /**
+     * Kolom yang tersedia di PowerGrid (data binding)
+     */
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
             ->add('nama')
             ->add('nim')
             ->add('keterangan')
+<<<<<<< Updated upstream
             ->add('created_at')
+=======
+            ->add('created_at') // untuk menampilkan tanggal presensi
+>>>>>>> Stashed changes
             ->add('alasan');
     }
 
+    /**
+     * Kolom yang ditampilkan di UI PowerGrid
+     */
     public function columns(): array
     {
         return [
@@ -85,6 +125,7 @@ final class DetailPresensiTable extends PowerGridComponent
             Column::make('Alasan', 'alasan')
                 ->sortable(),
 
+<<<<<<< Updated upstream
             Column::action('Action')
         ];
     }
@@ -95,6 +136,21 @@ final class DetailPresensiTable extends PowerGridComponent
         return view('livewire.dosen.presensi.action2', ['row' => $row]);
     }
 
+=======
+            //  Column::action('Action'), // opsional, bisa diisi tombol aksi custom
+        ];
+    }
+
+    // public function actionsFromView($row)
+    // {
+
+    //     return view('livewire.dosen.presensi.action2', ['row' => $row]);
+    // }
+
+    /**
+     * Filter tambahan (tidak dipakai saat ini)
+     */
+>>>>>>> Stashed changes
     public function filters(): array
     {
         return [];
