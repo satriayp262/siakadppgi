@@ -15,13 +15,19 @@ final class DetailPresensiTable extends PowerGridComponent
     public string $tableName = 'detail-presensi-table';
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     public string $primaryKey = 'id_mahasiswa';
 
 =======
+=======
+>>>>>>> Stashed changes
     // Gunakan primary key unik mahasiswa agar PowerGrid tidak cari kolom id
     public string $primaryKey = 'id_mahasiswa';
 
     // Parameter yang diterima dari luar (dikirim dari komponen induk)
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     public string $token;
     public int $id_kelas;
@@ -68,18 +74,24 @@ final class DetailPresensiTable extends PowerGridComponent
                 'mahasiswa.nama',
                 'mahasiswa.NIM as nim',
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                 'latest_presensi.id',
                 'latest_presensi.keterangan',
                 'latest_presensi.created_at',
                 'latest_presensi.alasan'
             );
 =======
+=======
+>>>>>>> Stashed changes
                 DB::raw('MAX(presensi.id) as id'), // ambil ID presensi jika ada
                 DB::raw('MAX(presensi.keterangan) as keterangan'),
                 DB::raw('MAX(presensi.created_at) as created_at'),
                 DB::raw('MAX(presensi.alasan) as alasan')
             )
             ->groupBy('mahasiswa.id_mahasiswa', 'mahasiswa.nama', 'mahasiswa.NIM');
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     }
 
@@ -94,7 +106,11 @@ final class DetailPresensiTable extends PowerGridComponent
             ->add('nim')
             ->add('keterangan')
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             ->add('created_at')
+=======
+            ->add('created_at') // untuk menampilkan tanggal presensi
+>>>>>>> Stashed changes
 =======
             ->add('created_at') // untuk menampilkan tanggal presensi
 >>>>>>> Stashed changes
@@ -126,6 +142,7 @@ final class DetailPresensiTable extends PowerGridComponent
                 ->sortable(),
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             Column::action('Action')
         ];
     }
@@ -141,6 +158,12 @@ final class DetailPresensiTable extends PowerGridComponent
         ];
     }
 
+=======
+            //  Column::action('Action'), // opsional, bisa diisi tombol aksi custom
+        ];
+    }
+
+>>>>>>> Stashed changes
     // public function actionsFromView($row)
     // {
 
@@ -150,6 +173,9 @@ final class DetailPresensiTable extends PowerGridComponent
     /**
      * Filter tambahan (tidak dipakai saat ini)
      */
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     public function filters(): array
     {

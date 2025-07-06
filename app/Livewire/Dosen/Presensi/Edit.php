@@ -43,6 +43,7 @@ class Edit extends Component
         if ($presensi) {
             $this->id_presensi = $presensi->id;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             $this->keterangan = $presensi->keterangan;
             $this->alasan = $presensi->alasan;
 
@@ -50,12 +51,17 @@ class Edit extends Component
             $this->nama = $presensi->mahasiswaList->nama ?? '-';
             $this->nim = $presensi->mahasiswaList->NIM ?? '-';
 =======
+=======
+>>>>>>> Stashed changes
             $this->keterangan = $presensi->keterangan ?? '';
             $this->alasan = $presensi->alasan;
 
             // Ambil nama dan nim dari relasi mahasiswa
             $this->nama = $presensi->mahasiswa->nama ?? '-';
             $this->nim = $presensi->mahasiswa->NIM ?? '-';
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         } else {
             // Mahasiswa tetap diambil dari tabel mahasiswa jika presensi tidak ditemukan
@@ -77,8 +83,13 @@ class Edit extends Component
 
             // Tetap ambil dari relasi
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             $this->nama = $presensi->mahasiswaList->nama ?? '-';
             $this->nim = $presensi->mahasiswaList->NIM ?? '-';
+=======
+            $this->nama = $presensi->mahasiswa->nama ?? '-';
+            $this->nim = $presensi->mahasiswa->NIM ?? '-';
+>>>>>>> Stashed changes
 =======
             $this->nama = $presensi->mahasiswa->nama ?? '-';
             $this->nim = $presensi->mahasiswa->NIM ?? '-';

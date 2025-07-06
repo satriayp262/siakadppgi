@@ -55,17 +55,23 @@
 
     {{-- Tabel Rekap Responsif --}}
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     <div class="bg-white shadow-lg mt-4 mb-4 rounded-lg p-4 max-w-[1000px]">
     <div class="max-w-full">
         <livewire:table.rekap-table :id_mata_kuliah="$id_mata_kuliah" :id_kelas="$id_kelas" />
     </div>
     </div>
 =======
+=======
+>>>>>>> Stashed changes
     <div class="bg-white shadow-lg mt-4 mb-4 rounded-lg p-4">
         <div class="max-w-[935px] overflow-x-auto overflow-y-hidden">
             <livewire:table.rekap-table :id_mata_kuliah="$id_mata_kuliah" :id_kelas="$id_kelas" />
         </div>
     </div>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
 </div>
