@@ -58,8 +58,8 @@ final class TokenTable extends PowerGridComponent
             ->add('valid_until', function ($model) {
                 return Carbon::parse($model->valid_until)
                     ->timezone('Asia/Jakarta') // Konversi timezone
-                    ->locale('id');         // Bahasa Indonesia
-                    // ->isoFormat('HH:mm'); // Format contoh: "Jumat, 2025-07-03 14:00"
+                    ->locale('id')             // Bahasa Indonesia
+                    ->isoFormat('HH:mm'); // Format contoh: "Jumat, 2025-07-03 14:00"
             });
     }
 
