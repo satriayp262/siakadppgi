@@ -35,18 +35,18 @@ class Edit extends Component
         // Load existing berita acara data
         $beritaAcara = BeritaAcara::findOrFail($id_berita_acara);
 
-        // Load token data and relationships
-        $tokenData = Token::with(['matkul', 'kelas'])
-                        ->where('token', $beritaAcara->token)
-                        ->firstOrFail();
+        // Load token data and relationships including jadwal
+        $tokenData = Token::with(['matkul', 'kelas', 'jadwal'])
+            ->where('token', $beritaAcara->token)
+            ->firstOrFail();
 
         $this->token = $beritaAcara->token;
-
-        // Fix: Ensure we're working with a Carbon instance
         $this->tanggal = Carbon::parse($beritaAcara->tanggal)->format('d-m-Y');
-
         $this->pertemuan = $tokenData->pertemuan;
-        $this->sesi = $tokenData->sesi;
+
+        // Ambil sesi dari relasi jadwal
+        $this->sesi = $tokenData->jadwal->sesi ?? '-';
+
         $this->id_mata_kuliah = $tokenData->id_mata_kuliah;
         $this->id_kelas = $tokenData->id_kelas;
         $this->nama_mata_kuliah = $tokenData->matkul->nama_mata_kuliah ?? '-';
@@ -64,6 +64,7 @@ class Edit extends Component
             $this->nama_dosen = $dosen->nama_dosen;
         }
     }
+
 
     public function rules()
     {

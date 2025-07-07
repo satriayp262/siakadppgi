@@ -110,27 +110,6 @@ class Index extends Component
             ['sesi' => 8, 'jam_mulai' => '18:30', 'jam_selesai' => '20:00']
         ];
 
-        $timeSlots1 = [
-            ['sesi' => 1, 'jam_mulai' => '08:00', 'jam_selesai' => '09:30'],
-            ['sesi' => 2, 'jam_mulai' => '09:30', 'jam_selesai' => '11:00'],
-            ['sesi' => 3, 'jam_mulai' => '11:00', 'jam_selesai' => '12:30'],
-            ['sesi' => 4, 'jam_mulai' => '12:30', 'jam_selesai' => '14:00']
-        ];
-
-        $timeSlots2 = [
-            ['sesi' => 3, 'jam_mulai' => '11:00', 'jam_selesai' => '12:30'],
-            ['sesi' => 4, 'jam_mulai' => '12:30', 'jam_selesai' => '14:00'],
-            ['sesi' => 5, 'jam_mulai' => '14:00', 'jam_selesai' => '15:30'],
-            ['sesi' => 6, 'jam_mulai' => '15:30', 'jam_selesai' => '17:00']
-        ];
-
-        $timeSlots3 = [
-            ['sesi' => 5, 'jam_mulai' => '14:00', 'jam_selesai' => '15:30'],
-            ['sesi' => 6, 'jam_mulai' => '15:30', 'jam_selesai' => '17:00'],
-            ['sesi' => 7, 'jam_mulai' => '17:00', 'jam_selesai' => '18:30'],
-            ['sesi' => 8, 'jam_mulai' => '18:30', 'jam_selesai' => '20:00']
-        ];
-
         foreach ($kelasByProdi as $prodi => $kelasList) {
             foreach ($kelasList as $kelas) {
                 $jumlahMahasiswa = KRS::where('id_kelas', $kelas->id_kelas)

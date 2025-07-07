@@ -9,6 +9,7 @@ use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\Column;
+use Carbon\Carbon;
 
 final class TokenTable extends PowerGridComponent
 {
@@ -30,11 +31,11 @@ final class TokenTable extends PowerGridComponent
         $userId = Auth::id();
 
         return Token::query()
-            ->with(['matkul', 'kelas', 'semester'])
+            ->with(['matkul', 'kelas', 'semester', 'jadwal'])
             ->where('id', $userId)
             ->where('id_mata_kuliah', $this->id_mata_kuliah)
             ->where('id_kelas', $this->id_kelas)
-            ->latest();
+            ->orderByDesc('pertemuan');
     }
 
 
@@ -43,15 +44,22 @@ final class TokenTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('token')
             ->add('semester.nama_semester')
-            ->add('valid_until_formatted', fn($model) => \Carbon\Carbon::parse($model->valid_until)->format('H:i'))
-            ->add('created_at_formatted', function ($model) {
-                // Format: Senin, 2025-07-01
-                return \Carbon\Carbon::parse($model->created_at)
-                    ->locale('id') // gunakan lokal Indonesia
-                    ->translatedFormat('l, Y-m-d');
+            ->add('jadwal.jam_selesai', function ($model) {
+                return \Carbon\Carbon::parse($model->jadwal->jam_selesai)->format('H:i');
             })
-            ->add('sesi')
-            ->add('pertemuan');
+            ->add('created_at_formatted', function ($model) {
+                return Carbon::parse($model->created_at)
+                    ->timezone('Asia/Jakarta') // Konversi timezone
+                    ->locale('id')             // Bahasa Indonesia
+                    ->isoFormat('dddd, YYYY-MM-DD'); // Format contoh: "Jumat, 2025-07-03"
+            })
+            ->add('jadwal.sesi')
+            ->add('pertemuan')
+            ->add('valid_until', function ($model) {
+                return Carbon::parse($model->valid_until)
+                    ->timezone('Asia/Jakarta') // Konversi timezone
+                    ->locale('id');             // Bahasa Indonesia
+            });
     }
 
 
@@ -69,7 +77,7 @@ final class TokenTable extends PowerGridComponent
                 ->headerAttribute('text-center')
                 ->bodyAttribute('text-center'),
 
-            Column::make('Sesi', 'sesi')
+            Column::make('Sesi', 'jadwal.sesi')
                 ->sortable()
                 ->searchable()
                 ->headerAttribute('text-center')
@@ -86,7 +94,7 @@ final class TokenTable extends PowerGridComponent
                 ->headerAttribute('text-center')
                 ->bodyAttribute('text-center'),
 
-            Column::make('Valid Until', 'valid_until_formatted')
+            Column::make('Valid Until', 'valid_until')
                 ->sortable()
                 ->headerAttribute('text-center')
                 ->bodyAttribute('text-center'),

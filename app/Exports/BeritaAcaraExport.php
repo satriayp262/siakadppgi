@@ -23,7 +23,7 @@ class BeritaAcaraExport implements FromCollection, WithHeadings
 
     public function collection()
     {
-        $query = BeritaAcara::with(['kelas', 'mataKuliah', 'dosen', 'semester'])
+        $query = BeritaAcara::with(['dosen', 'tokenList.kelas', 'tokenList.matkul', 'tokenList.semester'])
             ->where('nidn', $this->nidn);
 
         if ($this->semester) {
@@ -38,19 +38,21 @@ class BeritaAcaraExport implements FromCollection, WithHeadings
             $query->where('id_mata_kuliah', $this->mataKuliah);
         }
 
-        return $query->get()
-            ->map(function ($beritaAcara) {
-                return [
-                    'Nama Dosen' => $beritaAcara->dosen->nama_dosen ?? '',
-                    'NIDN' => $beritaAcara->nidn,
-                    'Mata Kuliah' => $beritaAcara->mataKuliah->nama_mata_kuliah ?? '',
-                    'Kelas' => $beritaAcara->kelas->nama_kelas ?? '',
-                    'Semester' => $beritaAcara->semester->nama_semester ?? '',
-                    'Tanggal' => $beritaAcara->tanggal ?? '',
-                    'Materi' => $beritaAcara->materi ?? '',
-                    'Jumlah Mahasiswa' => $beritaAcara->jumlah_mahasiswa ?? '',
-                ];
-            });
+        return $query->get()->map(function ($beritaAcara) {
+            return [
+                'Nama Dosen' => $beritaAcara->dosen->nama_dosen ?? '',
+                'NIDN' => $beritaAcara->nidn,
+                'Mata Kuliah' => $beritaAcara->tokenList->matkul->nama_mata_kuliah ?? '',
+                'Kelas' => $beritaAcara->tokenList->kelas->nama_kelas ?? '',
+                'Pertemuan' => $beritaAcara->tokenList->pertemuan ?? '',
+                'Sesi' => $beritaAcara->tokenList->sesi ?? '',
+                'Semester' => $beritaAcara->tokenList->semester->nama_semester ?? '',
+                'Tanggal' => optional($beritaAcara->tanggal)->format('d-m-Y') ?? '',
+                'Materi' => $beritaAcara->materi ?? '',
+                'Jumlah Mahasiswa' => $beritaAcara->jumlah_mahasiswa ?? '',
+                'Keterangan' => $beritaAcara->keteranganan ?? '',
+            ];
+        });
     }
 
     public function headings(): array
@@ -60,10 +62,13 @@ class BeritaAcaraExport implements FromCollection, WithHeadings
             'NIDN',
             'Mata Kuliah',
             'Kelas',
+            'Pertemuan',
+            'Sesi',
             'Semester',
             'Tanggal',
             'Materi',
             'Jumlah Mahasiswa',
+            'Keterangan',
         ];
     }
 }

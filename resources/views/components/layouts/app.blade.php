@@ -57,7 +57,13 @@
                 transform: rotate(360deg);
             }
         }
+
+        #nprogress .bar {
+            background: red;
+            /* Change to your desired color */
+        }
     </style>
+
 </head>
 
 <body x-data="{ showSidebar: false }" @toggle-sidebar.window="showSidebar = !showSidebar" class="flex flex-col w-full z-14">

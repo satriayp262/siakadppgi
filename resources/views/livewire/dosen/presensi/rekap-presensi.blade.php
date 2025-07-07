@@ -1,4 +1,4 @@
-<div class="mx-5">
+<div class="container mx-auto px-4">
     {{-- Breadcrumb --}}
     <div class="flex flex-col justify-between mx-4 mt-4">
         <nav aria-label="Breadcrumb">
@@ -53,10 +53,43 @@
         </nav>
     </div>
 
-    {{-- Tabel Rekap --}}
-    <div class="bg-white shadow-lg mt-4 mb-4 rounded-lg p-4 max-w-screen overflow-x-auto">
-        <div class="w-6xl">
-            <livewire:table.rekap-table :id_mata_kuliah="$id_mata_kuliah" :id_kelas="$id_kelas" class="overflow-x-auto max-w-6xl" />
+    {{-- Tabel Rekap Responsif --}}
+    <div class="bg-white shadow-lg mt-4 mb-4 rounded-lg p-4 max-w-[975px]">
+        <div class="max-w-[1000px]">
+            <livewire:table.rekap-table :id_mata_kuliah="$id_mata_kuliah" :id_kelas="$id_kelas" />
+        </div>
+
+    </div>
+    <div class="bg-white shadow-lg mt-4 mb-4 rounded-lg p-4 max-w-[975px]">
+        <h2 class="text-xl font-bold mb-4">Rekap Kehadiran</h2>
+        <p class="mb-2">Mata Kuliah: <strong>{{ $matkul->nama_mata_kuliah }}</strong></p>
+        <p class="mb-4">Kelas: <strong>{{ $kelas->nama_kelas }} / {{ $kelas->kode_prodi }} /
+                {{ substr($kelas->Semester->nama_semester, 3, 2) }}</strong></p>
+
+        <div class="overflow-x-auto">
+            <table class="min-w-full table-auto border border-gray-300">
+                <thead>
+                    <tr class="bg-customPurple text-white text-semibold">
+                        <th class="border px-2 py-1">Keterangan</th>
+                        @foreach ($jumlahPertemuan as $pertemuan)
+                            <th class="border px-2 py-1">{{ $pertemuan }}</th>
+                        @endforeach
+                    </tr>
+                </thead>
+                <tbody class="text-sm text-center">
+                    @foreach (['Hadir', 'Sakit', 'Ijin', 'Alpha'] as $status)
+                        <tr>
+                            <td class="border px-2 py-1 text-left font-medium">{{ $status }}</td>
+                            @foreach ($jumlahPertemuan as $pertemuan)
+                                <td class="border px-2 py-1">
+                                    {{ $rekap[$status][$pertemuan] ?? 0 }}
+                                </td>
+                            @endforeach
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
+
 </div>

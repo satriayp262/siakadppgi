@@ -6,9 +6,11 @@ use Livewire\Component;
 use App\Models\Token;
 use App\Models\Matakuliah;
 use App\Models\Kelas;
+use App\Models\Jadwal;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use Livewire\WithPagination;
+use Carbon\Carbon;
 
 class AbsensiByToken extends Component
 {
@@ -19,6 +21,10 @@ class AbsensiByToken extends Component
     public $id_mata_kuliah;
     public $kelas;
     public $matkul;
+    public $token;
+
+    public $jadwal;
+    public $tokenBisaDibuat = false;
 
     #[On('tokenSuccessfullyCreated')]
     public function handleTokenSuccessfullyCreated($token, $message)
@@ -31,6 +37,7 @@ class AbsensiByToken extends Component
     public function handleAcaraUpdated()
     {
         $this->dispatch('pg:eventRefresh-berita-acara-dosen-table');
+        $this->dispatch('pg:eventRefresh-token-table');
         $this->dispatch('created', params: ['message' => 'Berita Acara berhasil dibuat.']);
     }
 
@@ -52,7 +59,6 @@ class AbsensiByToken extends Component
         $this->dispatch('createdTokenFailed', params: ['message' => 'Token hanya dapat dibuat sesuai jadwal dan waktu yang ditentukan.']);
     }
 
-
     public function mount($id_kelas, $id_mata_kuliah)
     {
         $this->id_kelas = $id_kelas;
@@ -60,31 +66,36 @@ class AbsensiByToken extends Component
 
         $this->kelas = Kelas::with('matkul')->findOrFail($id_kelas);
         $this->matkul = Matakuliah::findOrFail($id_mata_kuliah);
+
+        // Ambil jadwal sesuai dosen, mata kuliah, dan kelas
+        $this->jadwal = Jadwal::where('id_kelas', $id_kelas)
+            ->where('id_mata_kuliah', $id_mata_kuliah)
+            ->where('nidn', Auth::user()->nim_nidn)
+            ->first();
+
+        if ($this->jadwal) {
+            $now = Carbon::now('Asia/Jakarta');
+            $hariIni = $now->isoFormat('dddd'); // contoh: "Senin"
+
+            // Cek hari + jam
+            if (
+                strtolower($this->jadwal->hari) === strtolower($hariIni) &&
+                $now->between(
+                    Carbon::createFromFormat('H:i:s', $this->jadwal->jam_mulai),
+                    Carbon::createFromFormat('H:i:s', $this->jadwal->jam_selesai)
+                )
+            ) {
+                $this->tokenBisaDibuat = true;
+            }
+        }
     }
 
     public function render()
     {
-        $tokens = Token::query()
-            ->where('id_mata_kuliah', $this->id_mata_kuliah)
-            ->where('id_kelas', $this->id_kelas)
-            ->whereHas('matkul', function ($query) {
-                $query->where('nidn', Auth()->user()->nim_nidn)
-                    ->where(function ($query) {
-                        $query->where('nama_mata_kuliah', 'like', '%' . $this->search . '%')
-                            ->orWhere('id_mata_kuliah', 'like', '%' . $this->search . '%');
-                    });
-            })
-            ->where(function ($query) {
-                $query->orWhere('valid_until', 'like', '%' . $this->search . '%')
-                    ->orWhere('created_at', 'like', '%' . $this->search . '%');
-            })
-            ->latest()
-            ->paginate(10);
-
         return view('livewire.dosen.presensi.absensi-by-token', [
             'kelas' => $this->kelas,
             'matkul' => $this->matkul,
-            'tokens' => $tokens,
+            'tokenBisaDibuat' => $this->tokenBisaDibuat,
         ]);
     }
 }

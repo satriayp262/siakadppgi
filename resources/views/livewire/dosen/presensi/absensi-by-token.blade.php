@@ -37,7 +37,36 @@
             </ol>
         </nav>
         <div class="flex justify-between items-center space-x-2 mt-2">
-            <livewire:dosen.presensi.create-token :id_mata_kuliah="$id_mata_kuliah" :id_kelas="$id_kelas" />
+            @php
+                use Carbon\Carbon;
+
+                $sekarang = Carbon::now('Asia/Jakarta');
+                $disabled = true;
+
+                if ($jadwal) {
+                    $hariIni = $sekarang->translatedFormat('l'); // "Senin", "Selasa", dst
+                    $jamMulai = Carbon::createFromFormat('H:i:s', $jadwal->jam_mulai);
+                    $jamSelesai = Carbon::createFromFormat('H:i:s', $jadwal->jam_selesai);
+
+                    if (
+                        strtolower($jadwal->hari) === strtolower($hariIni) &&
+                        $sekarang->between($jamMulai, $jamSelesai)
+                    ) {
+                        $disabled = false;
+                    }
+                }
+            @endphp
+
+            @if (!$disabled)
+                {{-- Komponen Livewire aktif hanya jika jadwal dan waktu sesuai --}}
+                <livewire:dosen.presensi.create-token :id_mata_kuliah="$id_mata_kuliah" :id_kelas="$id_kelas" />
+            @else
+                {{-- Tombol dummy jika tidak boleh membuat token --}}
+                <button disabled class="bg-gray-400 text-white px-4 py-2 rounded opacity-70 cursor-not-allowed">
+                    Buat Token
+                </button>
+            @endif
+
             <a href="{{ route('dosen.rekap_presensi', ['id_mata_kuliah' => $id_mata_kuliah, 'id_kelas' => $id_kelas]) }}"
                 class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">
                 Rekap
@@ -70,7 +99,7 @@
             });
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('livewire:navigated', function() {
             const eventMap = {
                 createdTokenSuccess: {
                     title: 'Sukses!',
@@ -91,14 +120,12 @@
 
             Object.entries(eventMap).forEach(([eventType, config]) => {
                 Livewire.on(eventType, (data) => {
-                    console.log(`Livewire event [${eventType}] received:`, data);
-
-                    const message = (Array.isArray(data) && data[0]?.message) || data?.message ||
-                        'Terjadi kesalahan.';
+                    console.log(`Livewire event [${eventType}] received:`, data.params.message);
+                    const message = (Array.isArray(data) && data[0]?.message) || data?.message;
 
                     Swal.fire({
                         title: config.title,
-                        text: message,
+                        text: data.params.message,
                         icon: config.icon,
                         confirmButtonText: config.button
                     }).then(() => {

@@ -15,10 +15,9 @@ class Token extends Model
         'id_mata_kuliah',
         'id_kelas',
         'id_semester',
-        'valid_until',
         'pertemuan',
-        'hari',
-        'sesi',
+        'id_jadwal',
+        'valid_until',
         'id',
     ];
 
@@ -26,6 +25,12 @@ class Token extends Model
     public function dosen()
     {
         return $this->belongsTo(User::class, 'id');
+    }
+
+    // Relasi ke jadwal
+    public function jadwal()
+    {
+        return $this->belongsTo(Jadwal::class, 'id_jadwal', 'id_jadwal');
     }
 
     // Relasi ke mata kuliah
@@ -43,10 +48,10 @@ class Token extends Model
         return $this->belongsTo(Semester::class, 'id_semester', 'id_semester');
     }
 
-    // Cek apakah token masih valid
-    public function isValid()
-    {
-        return $this->valid_until >= now();
-    }
+    // // Cek apakah token masih valid
+    // public function isValid()
+    // {
+    //     return $this->valid_until >= now();
+    // }
 }
 

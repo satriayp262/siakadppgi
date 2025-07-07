@@ -8,13 +8,17 @@ use Livewire\Component;
 
 class Edit extends Component
 {
-    public $id_presensi, $nama, $nim, $keterangan, $alasan, $nama_mahasiswa, $token;
+    public $id_presensi;
+    public $id_mahasiswa;
+    public $token;
+    public $nama;
+    public $nim;
+    public $keterangan;
+    public $alasan;
 
     public function rules()
     {
         $rules = [
-            'nama' => 'required|string|max:255',
-            'nim' => 'required|string|min:10|max:10',
             'keterangan' => 'required',
         ];
 
@@ -27,56 +31,66 @@ class Edit extends Component
         return $rules;
     }
 
-    public function mount($nim, $token)
+    public function mount($id_mahasiswa, $token)
     {
-        $this->nim = $nim;
+        $this->id_mahasiswa = $id_mahasiswa;
         $this->token = $token;
-        // dd($this->token);
-        $presensi = Presensi::where('token', $this->token)
-            ->where('nim', $this->nim)->first();
 
-        // dd($this->nim, $presensi->nim);
+        $presensi = Presensi::where('token', $this->token)
+            ->where('id_mahasiswa', $this->id_mahasiswa)
+            ->first();
+
+            // dd($presensi);
 
         if ($presensi) {
-            $this->nama = $presensi->mahasiswa->nama;
+            $this->id_presensi = $presensi->id;
             $this->keterangan = $presensi->keterangan ?? '';
             $this->alasan = $presensi->alasan;
-            $this->id_presensi = $presensi->id;
+
+            // Ambil nama dan nim dari relasi mahasiswa
+            $this->nama = $presensi->mahasiswa->nama ?? '-';
+            $this->nim = $presensi->mahasiswa->NIM ?? '-';
+            $this->keterangan = $presensi->id_mahasiswa ?? '';
+            $this->alasan = $presensi->alasan ?? '';
         } else {
-            $mahasiswa = Mahasiswa::where('NIM', $this->nim)->first();
-            $this->nama = $mahasiswa->nama;
+            // Mahasiswa tetap diambil dari tabel mahasiswa jika presensi tidak ditemukan
+            $mahasiswa = Mahasiswa::find($this->id_mahasiswa);
+            $this->nama = $mahasiswa->nama ?? '-';
+            $this->nim = $mahasiswa->NIM ?? '-';
         }
     }
 
-
     public function clear($id_presensi)
     {
-        $this->resetExcept('prodi');
+        $this->resetExcept(['id_mahasiswa', 'token']); // reset selain yang penting
         $presensi = Presensi::find($id_presensi);
-        if ($id_presensi) {
+
+        if ($presensi) {
             $this->id_presensi = $presensi->id;
-            $this->nama = $presensi->nama;
-            $this->nim = $presensi->nim;
             $this->keterangan = $presensi->keterangan;
             $this->alasan = $presensi->alasan;
+
+            // Tetap ambil dari relasi
+            $this->nama = $presensi->mahasiswa->nama ?? '-';
+            $this->nim = $presensi->mahasiswa->NIM ?? '-';
         }
     }
 
     public function update()
     {
-        // dd($this->validate());
         $validatedData = $this->validate();
 
         $presensi = Presensi::find($this->id_presensi);
-        // dd($this->id_presensi, $validatedData);
+
         if ($presensi) {
-            if ($this->keterangan != 'Ijin') {
+            if ($this->keterangan !== 'Ijin') {
                 $validatedData['alasan'] = null;
             }
 
-            if ($presensi->update($validatedData)) {
-                $this->dispatch('presensi-updated');
-            }
+            $presensi->update($validatedData);
+
+            // Kirim event ke komponen tabel agar bisa refresh
+            $this->dispatch('presensi-updated');
         }
     }
 

@@ -14,8 +14,8 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 final class RekapTable extends PowerGridComponent
 {
     public string $tableName = 'rekap-table';
-    public string $primaryKey = 'nim';
-    public string $sortField = 'nim';
+    public string $primaryKey = 'id_mahasiswa';
+    public string $sortField = 'nama';
 
     public int $id_mata_kuliah;
     public int $id_kelas;
@@ -36,16 +36,20 @@ final class RekapTable extends PowerGridComponent
 
         $query = Mahasiswa::query()
             ->whereIn('nim', $nimList)
-            ->select('id_mahasiswa', 'nim', 'nama');
+            ->select('id_mahasiswa', 'nim', 'nama')
+            ->orderBy('nama', 'asc');
 
-        // Tambahkan kolom pertemuan 1 sampai 16 dengan huruf awal keterangan
         for ($i = 1; $i <= 16; $i++) {
             $query->selectRaw("
                 (
-                    SELECT LEFT(presensi.keterangan, 1)
+                    SELECT
+                        CASE
+                            WHEN LEFT(presensi.keterangan, 1) = 'H' THEN '✔'
+                            ELSE LEFT(presensi.keterangan, 1)
+                        END
                     FROM presensi
                     JOIN token ON token.token = presensi.token
-                    WHERE presensi.nim = mahasiswa.nim
+                    WHERE presensi.id_mahasiswa = mahasiswa.id_mahasiswa
                     AND presensi.id_kelas = ?
                     AND presensi.id_mata_kuliah = ?
                     AND token.pertemuan = ?
@@ -54,18 +58,36 @@ final class RekapTable extends PowerGridComponent
             ", [$this->id_kelas, $this->id_mata_kuliah, $i]);
         }
 
-        // Tambahkan total Hadir, Ijin, Sakit, Alpha
         $query->selectRaw("
-            (SELECT COUNT(*) FROM presensi WHERE presensi.nim = mahasiswa.nim AND presensi.keterangan = 'Hadir' AND presensi.id_mata_kuliah = ? AND presensi.id_kelas = ?) as jumlah_hadir
+            (SELECT COUNT(*) FROM presensi
+             WHERE presensi.id_mahasiswa = mahasiswa.id_mahasiswa
+             AND LOWER(presensi.keterangan) = 'hadir'
+             AND presensi.id_mata_kuliah = ?
+             AND presensi.id_kelas = ?) as jumlah_hadir
         ", [$this->id_mata_kuliah, $this->id_kelas]);
+
         $query->selectRaw("
-            (SELECT COUNT(*) FROM presensi WHERE presensi.nim = mahasiswa.nim AND presensi.keterangan = 'Ijin' AND presensi.id_mata_kuliah = ? AND presensi.id_kelas = ?) as jumlah_ijin
+            (SELECT COUNT(*) FROM presensi
+             WHERE presensi.id_mahasiswa = mahasiswa.id_mahasiswa
+             AND LOWER(presensi.keterangan) = 'ijin'
+             AND presensi.id_mata_kuliah = ?
+             AND presensi.id_kelas = ?) as jumlah_ijin
         ", [$this->id_mata_kuliah, $this->id_kelas]);
+
         $query->selectRaw("
-            (SELECT COUNT(*) FROM presensi WHERE presensi.nim = mahasiswa.nim AND presensi.keterangan = 'Sakit' AND presensi.id_mata_kuliah = ? AND presensi.id_kelas = ?) as jumlah_sakit
+            (SELECT COUNT(*) FROM presensi
+             WHERE presensi.id_mahasiswa = mahasiswa.id_mahasiswa
+             AND LOWER(presensi.keterangan) = 'sakit'
+             AND presensi.id_mata_kuliah = ?
+             AND presensi.id_kelas = ?) as jumlah_sakit
         ", [$this->id_mata_kuliah, $this->id_kelas]);
+
         $query->selectRaw("
-            (SELECT COUNT(*) FROM presensi WHERE presensi.nim = mahasiswa.nim AND presensi.keterangan = 'Alpha' AND presensi.id_mata_kuliah = ? AND presensi.id_kelas = ?) as jumlah_alpha
+            (SELECT COUNT(*) FROM presensi
+             WHERE presensi.id_mahasiswa = mahasiswa.id_mahasiswa
+             AND LOWER(presensi.keterangan) = 'alpha'
+             AND presensi.id_mata_kuliah = ?
+             AND presensi.id_kelas = ?) as jumlah_alpha
         ", [$this->id_mata_kuliah, $this->id_kelas]);
 
         return $query->orderBy('nim');
@@ -97,20 +119,17 @@ final class RekapTable extends PowerGridComponent
     public function columns(): array
     {
         $columns = [
-            // Column::make('NIM', 'nim')->sortable()->searchable(),
             Column::make('Nama', 'nama')->sortable()->searchable(),
         ];
 
         for ($i = 1; $i <= 16; $i++) {
-            $columns[] = Column::make("$i", "p$i")
-                ->bodyAttribute('text-center lowercase'); // Tambahkan 'lowercase' di sini
+            $columns[] = Column::make("$i", "p$i")->bodyAttribute('text-center text-bold');
         }
 
-
-        // $columns[] = Column::make('H', 'jumlah_hadir')->bodyAttribute('text-center');
-        // $columns[] = Column::make('I', 'jumlah_ijin')->bodyAttribute('text-center');
-        // $columns[] = Column::make('S', 'jumlah_sakit')->bodyAttribute('text-center');
-        // $columns[] = Column::make('A', 'jumlah_alpha')->bodyAttribute('text-center');
+        $columns[] = Column::make('H', 'jumlah_hadir')->bodyAttribute('text-center');
+        $columns[] = Column::make('I', 'jumlah_ijin')->bodyAttribute('text-center');
+        $columns[] = Column::make('S', 'jumlah_sakit')->bodyAttribute('text-center');
+        $columns[] = Column::make('A', 'jumlah_alpha')->bodyAttribute('text-center');
 
         return $columns;
     }

@@ -17,15 +17,16 @@ return new class extends Migration
             $table->integer('id_mata_kuliah');
             $table->integer('id_kelas');
             $table->integer('id_semester');
+            $table->unsignedBigInteger('id_jadwal');
             $table->timestamp('valid_until');
-            $table->string('hari');
-            $table->string('sesi');
             $table->integer('pertemuan');
             $table->foreignId('id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
+
             $table->foreign('id_mata_kuliah')->references('id_mata_kuliah')->on('matkul')->onDelete('cascade');
             $table->foreign('id_kelas')->references('id_kelas')->on('kelas')->onDelete('cascade');
             $table->foreign('id_semester')->references('id_semester')->on('semester')->onDelete('cascade');
+            $table->foreign('id_jadwal')->references('id_jadwal')->on('jadwal')->onDelete('cascade');
         });
     }
 

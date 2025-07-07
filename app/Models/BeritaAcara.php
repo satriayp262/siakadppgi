@@ -15,7 +15,7 @@ class BeritaAcara extends Model
     public $incrementing = false; // Karena UUID tidak auto-increment
     protected $keyType = 'string'; // Tipe data UUID
 
-    protected $fillable = ['tanggal', 'nidn', 'materi', 'jumlah_mahasiswa', 'token', 'keteranganan'];
+    protected $fillable = ['tanggal', 'nidn', 'materi', 'jumlah_mahasiswa', 'token', 'keterangan'];
 
     // Menggunakan boot untuk menghasilkan UUID secara otomatis
     protected static function boot()
@@ -30,7 +30,7 @@ class BeritaAcara extends Model
     }
 
     // App\Models\BeritaAcara.php
-    public function token()
+    public function tokenList()
     {
         return $this->belongsTo(\App\Models\Token::class, 'token', 'token');
     }

@@ -37,20 +37,20 @@ final class BeritaAcaraDosen extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return BeritaAcara::with('token')
-            ->whereHas('token', function ($query) {
+        return BeritaAcara::with(['tokenList.jadwal']) // eager load relasi ke jadwal
+            ->whereHas('tokenList', function ($query) {
                 $query->where('id_mata_kuliah', $this->id_mata_kuliah)
-                      ->where('id_kelas', $this->id_kelas);
+                    ->where('id_kelas', $this->id_kelas);
             })
             ->where('nidn', Auth::user()->nim_nidn)
             ->latest();
     }
 
-    // ✅ Ini WAJIB ada jika pakai relasi langsung di Column::make()
     public function relationSearch(): array
     {
         return [
-            'token' => ['pertemuan', 'sesi'],
+            'tokenList' => ['pertemuan'],
+            'tokenList.jadwal' => ['sesi'], // tambahkan untuk searchable sesi dari jadwal
         ];
     }
 
@@ -62,17 +62,17 @@ final class BeritaAcaraDosen extends PowerGridComponent
             ->add('materi')
             ->add('jumlah_mahasiswa')
             ->add('keterangan')
-            ->add('token.pertemuan')
-            ->add('token.sesi');
+            ->add('token_pertemuan', fn($row) => optional($row->tokenList)->pertemuan)
+            ->add('token_sesi', fn($row) => optional($row->tokenList->jadwal)->sesi ?? '-');
     }
 
     public function columns(): array
     {
         return [
-            Column::make('Pertemuan', 'token.pertemuan')
+            Column::make('Pertemuan', 'token_pertemuan')
                 ->searchable(),
 
-            Column::make('Sesi', 'token.sesi')
+            Column::make('Sesi', 'token_sesi')
                 ->sortable()
                 ->searchable(),
 
