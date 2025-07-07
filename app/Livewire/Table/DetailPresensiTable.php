@@ -105,15 +105,15 @@ final class DetailPresensiTable extends PowerGridComponent
             Column::make('Alasan', 'alasan')
                 ->sortable(),
 
-            //  Column::action('Action'), // opsional, bisa diisi tombol aksi custom
+             Column::action('Action'), // opsional, bisa diisi tombol aksi custom
         ];
     }
 
-    // public function actionsFromView($row)
-    // {
+    public function actionsFromView($row)
+    {
 
-    //     return view('livewire.dosen.presensi.action2', ['row' => $row]);
-    // }
+        return view('livewire.dosen.presensi.action2', ['row' => $row]);
+    }
 
     /**
      * Filter tambahan (tidak dipakai saat ini)

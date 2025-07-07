@@ -46,7 +46,9 @@ class Create extends Component
         $this->sesi = $tokenData->jadwal->sesi ?? '-';
 
         // Hitung jumlah mahasiswa dari presensi
-        $this->jumlah_mahasiswa = Presensi::where('token', $token)->count();
+        $this->jumlah_mahasiswa = Presensi::where('token', $token)
+            ->where('keterangan', 'Hadir')
+            ->count();
 
         // Ambil dosen berdasarkan user login
         $user = Auth::user();

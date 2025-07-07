@@ -40,6 +40,8 @@ class Edit extends Component
             ->where('id_mahasiswa', $this->id_mahasiswa)
             ->first();
 
+            // dd($presensi);
+
         if ($presensi) {
             $this->id_presensi = $presensi->id;
             $this->keterangan = $presensi->keterangan ?? '';
@@ -48,6 +50,8 @@ class Edit extends Component
             // Ambil nama dan nim dari relasi mahasiswa
             $this->nama = $presensi->mahasiswa->nama ?? '-';
             $this->nim = $presensi->mahasiswa->NIM ?? '-';
+            $this->keterangan = $presensi->id_mahasiswa ?? '';
+            $this->alasan = $presensi->alasan ?? '';
         } else {
             // Mahasiswa tetap diambil dari tabel mahasiswa jika presensi tidak ditemukan
             $mahasiswa = Mahasiswa::find($this->id_mahasiswa);

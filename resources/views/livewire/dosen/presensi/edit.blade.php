@@ -28,7 +28,8 @@
                                 <label for="nama" class="block text-sm font-medium text-gray-700">Nama
                                     Mahasiswa</label>
                                 <input type="text" id="nama" wire:model="nama"
-                                    class="w-full px-3 py-2 mt-1 bg-gray-200 rounded-md shadow focus:border-indigo-500 sm:text-sm" disabled>
+                                    class="w-full px-3 py-2 mt-1 bg-gray-200 rounded-md shadow focus:border-indigo-500 sm:text-sm"
+                                    disabled>
                                 @error('nama')
                                     <span class="text-sm text-red-500">{{ $message }}</span>
                                 @enderror
@@ -38,17 +39,19 @@
                             <div class="mb-4">
                                 <label for="nim" class="block text-sm font-medium text-gray-700">NIM</label>
                                 <input type="number" id="nim" wire:model="nim"
-                                    class="w-full px-3 py-2 mt-1 bg-gray-200 rounded-md shadow focus:border-indigo-500 sm:text-sm" disabled>
+                                    class="w-full px-3 py-2 mt-1 bg-gray-200 rounded-md shadow focus:border-indigo-500 sm:text-sm"
+                                    disabled>
                                 @error('nim')
                                     <span class="text-sm text-red-500">{{ $message }}</span>
                                 @enderror
                             </div>
 
                             <!-- Keterangan -->
+                            <!-- Keterangan -->
                             <div class="mb-4">
                                 <label for="keterangan"
                                     class="block text-sm font-medium text-gray-700">Keterangan</label>
-                                <select id="keterangan" wire:model="keterangan"
+                                <select id="keterangan" wire:model.live="keterangan"
                                     class="w-full px-3 py-2 mt-1 bg-gray-200 rounded-md shadow focus:border-indigo-500 sm:text-sm">
                                     <option value="">Pilih</option>
                                     <option value="Hadir">Hadir</option>
@@ -67,8 +70,12 @@
                                     <label for="alasan" class="block text-sm font-medium text-gray-700">Alasan</label>
                                     <input type="text" id="alasan" wire:model="alasan"
                                         class="w-full px-3 py-2 mt-1 bg-gray-200 rounded-md shadow focus:border-indigo-500 sm:text-sm">
+                                    @error('alasan')
+                                        <span class="text-sm text-red-500">{{ $message }}</span>
+                                    @enderror
                                 </div>
                             @endif
+
 
                             <!-- Footer Buttons -->
                             <div class="flex justify-end gap-2 p-4 bg-gray-200 rounded-b-lg">

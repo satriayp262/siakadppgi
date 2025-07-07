@@ -39,7 +39,6 @@ final class RekapTable extends PowerGridComponent
             ->select('id_mahasiswa', 'nim', 'nama')
             ->orderBy('nama', 'asc');
 
-
         for ($i = 1; $i <= 16; $i++) {
             $query->selectRaw("
                 (
@@ -62,7 +61,7 @@ final class RekapTable extends PowerGridComponent
         $query->selectRaw("
             (SELECT COUNT(*) FROM presensi
              WHERE presensi.id_mahasiswa = mahasiswa.id_mahasiswa
-             AND presensi.keterangan = 'Hadir'
+             AND LOWER(presensi.keterangan) = 'hadir'
              AND presensi.id_mata_kuliah = ?
              AND presensi.id_kelas = ?) as jumlah_hadir
         ", [$this->id_mata_kuliah, $this->id_kelas]);
@@ -70,7 +69,7 @@ final class RekapTable extends PowerGridComponent
         $query->selectRaw("
             (SELECT COUNT(*) FROM presensi
              WHERE presensi.id_mahasiswa = mahasiswa.id_mahasiswa
-             AND presensi.keterangan = 'Ijin'
+             AND LOWER(presensi.keterangan) = 'ijin'
              AND presensi.id_mata_kuliah = ?
              AND presensi.id_kelas = ?) as jumlah_ijin
         ", [$this->id_mata_kuliah, $this->id_kelas]);
@@ -78,7 +77,7 @@ final class RekapTable extends PowerGridComponent
         $query->selectRaw("
             (SELECT COUNT(*) FROM presensi
              WHERE presensi.id_mahasiswa = mahasiswa.id_mahasiswa
-             AND presensi.keterangan = 'Sakit'
+             AND LOWER(presensi.keterangan) = 'sakit'
              AND presensi.id_mata_kuliah = ?
              AND presensi.id_kelas = ?) as jumlah_sakit
         ", [$this->id_mata_kuliah, $this->id_kelas]);
@@ -86,65 +85,12 @@ final class RekapTable extends PowerGridComponent
         $query->selectRaw("
             (SELECT COUNT(*) FROM presensi
              WHERE presensi.id_mahasiswa = mahasiswa.id_mahasiswa
-             AND presensi.keterangan = 'Alpha'
+             AND LOWER(presensi.keterangan) = 'alpha'
              AND presensi.id_mata_kuliah = ?
              AND presensi.id_kelas = ?) as jumlah_alpha
         ", [$this->id_mata_kuliah, $this->id_kelas]);
 
         return $query->orderBy('nim');
-
-    }
-
-    public function datasourceWithRekap(): \Illuminate\Support\Collection
-    {
-        $data = $this->datasource()->get();
-
-        $rekapRow = ['nim' => 'rekap', 'nama' => 'Rekap'];
-
-        for ($i = 1; $i <= 16; $i++) {
-            $rekap = DB::table('presensi')
-                ->join('token', 'presensi.token', '=', 'token.token')
-                ->where('token.pertemuan', $i)
-                ->where('presensi.id_kelas', $this->id_kelas)
-                ->where('presensi.id_mata_kuliah', $this->id_mata_kuliah)
-                ->selectRaw("
-                SUM(CASE WHEN keterangan = 'Hadir' THEN 1 ELSE 0 END) as H,
-                SUM(CASE WHEN keterangan = 'Ijin' THEN 1 ELSE 0 END) as I,
-                SUM(CASE WHEN keterangan = 'Sakit' THEN 1 ELSE 0 END) as S,
-                SUM(CASE WHEN keterangan = 'Alpha' THEN 1 ELSE 0 END) as A
-            ")
-                ->first();
-
-            // Handle null values if no data found
-            $h = $rekap->H ?? 0;
-            $i_count = $rekap->I ?? 0;
-            $s = $rekap->S ?? 0;
-            $a = $rekap->A ?? 0;
-
-            $rekapRow["p$i"] = "H:$h I:$i_count S:$s A:$a";
-
-            // Collect debug data instead of dd-ing immediately
-            $debugData["meeting_$i"] = [
-                'raw_rekap' => $rekap,
-                'processed' => ['H' => $h, 'I' => $i_count, 'S' => $s, 'A' => $a],
-                'formatted' => $rekapRow["p$i"]
-            ];
-        }
-
-        // Set empty values for summary columns
-        $rekapRow['jumlah_hadir'] = '';
-        $rekapRow['jumlah_ijin'] = '';
-        $rekapRow['jumlah_sakit'] = '';
-        $rekapRow['jumlah_alpha'] = '';
-
-        $data->push((object)$rekapRow);
-
-        return $data;
-    }
-
-    public function datasourceToCollection(): \Illuminate\Support\Collection
-    {
-        return $this->datasourceWithRekap();
     }
 
     public function relationSearch(): array
