@@ -113,8 +113,9 @@
                                     @php $previousDay = $jadwal->hari; @endphp
                                 @endif
                             </td>
-                            <td>{{ $jadwal->sesi }}</td>
-
+                            <td>
+                                Sesi {{ $jadwal->sesi }} ({{ \Carbon\Carbon::parse($jadwal->jam_mulai)->format('H:i') }} - {{ \Carbon\Carbon::parse($jadwal->jam_selesai)->format('H:i') }})
+                            </td>
                             <td>
                                 @if ($jadwal->matakuliah->jenis_mata_kuliah == 'P')
                                     {{ $jadwal->matakuliah->nama_mata_kuliah }} (Grup {{ $jadwal->grup }})

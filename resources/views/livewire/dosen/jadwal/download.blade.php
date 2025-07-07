@@ -62,7 +62,9 @@
                             @php $previousDay = $jadwal->hari; @endphp
                         @endif
                     </td>
-                    <td>{{ $jadwal->sesi }}</td>
+                    <td>
+                        Sesi {{ $jadwal->sesi }} ({{ \Carbon\Carbon::parse($jadwal->jam_mulai)->format('H:i') }} - {{ \Carbon\Carbon::parse($jadwal->jam_selesai)->format('H:i') }})
+                    </td>
                     <td>{{ $jadwal->matakuliah->nama_mata_kuliah }}</td>
                     <td>{{ $jadwal->prodi->nama_prodi }}</td>
                     <td>{{ $jadwal->kelas->nama_kelas }}</td>

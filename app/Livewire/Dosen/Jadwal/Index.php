@@ -81,6 +81,9 @@ class Index extends Component
 
     public function render()
     {
+        $bulanMulai = null;
+        $bulanSelesai = null;
+        
         $dosen = Dosen::where('nidn', Auth()->user()->nim_nidn)->first();
 
         $jadwals = Jadwal::whereHas('kelas.krs.mahasiswa', function ($query) use ($dosen) {
@@ -94,10 +97,12 @@ class Index extends Component
 
         $jadwal = $jadwals->first();
 
-        \Carbon\Carbon::setLocale('id');
+        if ($jadwal) {
+            \Carbon\Carbon::setLocale('id');
 
-        $bulanMulai = \Carbon\Carbon::parse($jadwal->semester->bulan_mulai)->translatedFormat('F Y');
-        $bulanSelesai = \Carbon\Carbon::parse($jadwal->semester->bulan_selesai)->translatedFormat('F Y');
+            $bulanMulai = \Carbon\Carbon::parse($jadwal->semester->bulan_mulai)->translatedFormat('F Y');
+            $bulanSelesai = \Carbon\Carbon::parse($jadwal->semester->bulan_selesai)->translatedFormat('F Y');
+        }
 
         return view('livewire.dosen.jadwal.index',[
             'jadwals' => $jadwals,

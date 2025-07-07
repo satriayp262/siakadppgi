@@ -323,7 +323,7 @@ class Index extends Component
 
     public function destroy2()
     {
-        Jadwal::truncate();
+        Jadwal::query()->delete();
         komponen_kartu_ujian::query()->update(['tanggal_dibuat' => null]);
         request_dosen::truncate();
         $this->dispatch('destroyed', ['message' => 'Jadwal Berhasil Dihapus']);
