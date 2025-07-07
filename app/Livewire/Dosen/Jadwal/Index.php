@@ -92,9 +92,18 @@ class Index extends Component
 
         $preferensi = Preferensi_jadwal::where('nidn', $dosen->nidn)->first();
 
+        $jadwal = $jadwals->first();
+
+        \Carbon\Carbon::setLocale('id');
+
+        $bulanMulai = \Carbon\Carbon::parse($jadwal->semester->bulan_mulai)->translatedFormat('F Y');
+        $bulanSelesai = \Carbon\Carbon::parse($jadwal->semester->bulan_selesai)->translatedFormat('F Y');
+
         return view('livewire.dosen.jadwal.index',[
             'jadwals' => $jadwals,
-            'preferensi' => $preferensi
+            'preferensi' => $preferensi,
+            'bulanMulai' => $bulanMulai,
+            'bulanSelesai' => $bulanSelesai
         ]);
     }
 }

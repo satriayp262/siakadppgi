@@ -110,6 +110,9 @@
                 </div>
             </div>
     </div>
+    <span class="px-4 py-2 font-bold text-black">
+        Periode {{ $bulanMulai }} sampai {{ $bulanSelesai }}
+    </span>
     <livewire:table.dosen.jadwal.jadwal-table />
     <button type="button" class="flex items-center px-4 py-2 mt-2 ml-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700" wire:click='generatePdf()'>Download Jadwal Mengajar</button>
         {{-- <table class="w-full mt-4 bg-white border border-gray-200">
