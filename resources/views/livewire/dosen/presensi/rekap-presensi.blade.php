@@ -1,4 +1,4 @@
-<div class="container mx-auto px-4">
+<div class="mx-5">
     {{-- Breadcrumb --}}
     <div class="flex flex-col justify-between mx-4 mt-4">
         <nav aria-label="Breadcrumb">
@@ -53,25 +53,10 @@
         </nav>
     </div>
 
-    {{-- Tabel Rekap Responsif --}}
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-    <div class="bg-white shadow-lg mt-4 mb-4 rounded-lg p-4 max-w-[1000px]">
-    <div class="max-w-full">
-        <livewire:table.rekap-table :id_mata_kuliah="$id_mata_kuliah" :id_kelas="$id_kelas" />
-    </div>
-    </div>
-=======
-=======
->>>>>>> Stashed changes
-    <div class="bg-white shadow-lg mt-4 mb-4 rounded-lg p-4">
-        <div class="max-w-[935px] overflow-x-auto overflow-y-hidden">
-            <livewire:table.rekap-table :id_mata_kuliah="$id_mata_kuliah" :id_kelas="$id_kelas" />
+    {{-- Tabel Rekap --}}
+    <div class="bg-white shadow-lg mt-4 mb-4 rounded-lg p-4 max-w-screen overflow-x-auto">
+        <div class="w-6xl">
+            <livewire:table.rekap-table :id_mata_kuliah="$id_mata_kuliah" :id_kelas="$id_kelas" class="overflow-x-auto max-w-6xl" />
         </div>
     </div>
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-
 </div>
