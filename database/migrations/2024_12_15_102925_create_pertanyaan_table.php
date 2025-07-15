@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('pertanyaan', function (Blueprint $table) {
             $table->integer('id_pertanyaan', true)->primary();
-            $table->string('nama_pertanyaan', 255);
+            $table->string('nama_pertanyaan', 60);
             $table->timestamps();
         });
     }

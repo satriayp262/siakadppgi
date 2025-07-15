@@ -12,7 +12,6 @@ class PeriodeEMonev extends Model
     protected $fillable = [
         'id_semester',
         'nama_periode',
-        'sesi',
         'tanggal_mulai',
         'tanggal_selesai',
     ];

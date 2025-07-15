@@ -27,6 +27,7 @@ final class EmonevTable extends PowerGridComponent
     {
         $periode = $this->periode;
 
+
         $matakuliah = $this->matakuliah;
 
         $query = Jawaban::join('emonev', 'jawaban.id_emonev', '=', 'emonev.id_emonev')

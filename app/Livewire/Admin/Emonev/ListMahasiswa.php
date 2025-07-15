@@ -39,10 +39,10 @@ class ListMahasiswa extends Component
     public function loadData()
     {
         if (empty($this->selectedSemester)) {
-            $periodes = PeriodeEMonev::all();
+            $this->periodes = PeriodeEMonev::all();
             $aktif = false;
 
-            foreach ($periodes as $periode) {
+            foreach ($this->periodes as $periode) {
                 if ($periode->isAktif()) {
                     $this->selectedSemester = $periode->id_periode;
                     $aktif = true;
@@ -58,6 +58,7 @@ class ListMahasiswa extends Component
                     // If no active period is found, set to the latest period
                     $this->selectedSemester = PeriodeEMonev::latest()->first()->id_periode;
                 }
+                //$this->selectedSemester = PeriodeEMonev::latest()->first()->id_periode;
             }
         }
 

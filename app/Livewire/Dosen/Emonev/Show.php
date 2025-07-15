@@ -22,21 +22,43 @@ class Show extends Component
     {
         $decoded = Hashids::decode($kode);
         $this->id = $decoded[0];
+        $this->loadData();
     }
 
     public function loadData()
     {
-        if ($this->selectedSemester == '') {
-            $this->dispatch('warning', ['message' => 'Harap Pilih Periode']);
-            return;
+        if (empty($this->selectedSemester)) {
+            $this->periodes = PeriodeEMonev::all();
+            $aktif = false;
+
+            foreach ($this->periodes as $periode) {
+                if ($periode->isAktif()) {
+                    $this->selectedSemester = $periode->nama_periode;
+                    $aktif = true;
+                }
+            }
+
+            if (!$aktif) {
+                if ($this->periodes->isEmpty()) {
+                    return $this->dispatch('warning', [
+                        'message' => 'Tidak ada periode yang tersedia.',
+                    ]);
+                } else {
+                    // If no active period is found, set to the latest period
+                    $this->selectedSemester = PeriodeEMonev::latest()->first()->nama_periode;
+                }
+                //$this->selectedSemester = PeriodeEMonev::latest()->first()->id_periode;
+            }
         }
     }
     public function render()
     {
 
+        $matakuliah = Matakuliah::where('id_mata_kuliah', $this->id)->first();
+
         return view('livewire.dosen.emonev.show', [
             'periode' => PeriodeEMonev::all(),
-            'Matakuliah' => Matakuliah::where('id_mata_kuliah', $this->id)->first()->value('nama_mata_kuliah'),
+            'Matakuliah' => $matakuliah->nama_mata_kuliah,
             'selectedSemester' => $this->selectedSemester,
             'id' => $this->id,
             'jawaban' => $this->jawaban,

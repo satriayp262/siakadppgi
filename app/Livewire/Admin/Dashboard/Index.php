@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Dashboard;
 
+use App\Models\PeriodeEMonev;
 use Livewire\Component;
 use App\Models\Matakuliah;
 use App\Models\Prodi;
@@ -56,7 +57,7 @@ class Index extends Component
         $kurikulums = Kurikulum::query()->count();
         $this->kurikulum = $kurikulums;
 
-        $this->tandaiAlfa();
+        //$this->tandaiAlfa();
     }
 
     private function tandaiAlfa()
@@ -104,6 +105,10 @@ class Index extends Component
 
     public function render()
     {
-        return view('livewire.admin.dashboard.index');
+
+
+        return view('livewire.admin.dashboard.index', [
+
+        ]);
     }
 }

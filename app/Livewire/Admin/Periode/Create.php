@@ -62,7 +62,6 @@ class Create extends Component
         $periode1 = PeriodeEMonev::create([
             'id_semester' => $validatedData['id_semester'],
             'nama_periode' => $namaSemester . '/1',
-            'sesi' => 1,
             'tanggal_mulai' => $validatedData['tanggal_mulai_1'],
             'tanggal_selesai' => $validatedData['tanggal_selesai_1'],
         ]);
@@ -70,7 +69,7 @@ class Create extends Component
         $periode2 = PeriodeEMonev::create([
             'id_semester' => $validatedData['id_semester'],
             'nama_periode' => $namaSemester . '/2',
-            'sesi' => 2,
+
             'tanggal_mulai' => $validatedData['tanggal_mulai_2'],
             'tanggal_selesai' => $validatedData['tanggal_selesai_2'],
         ]);

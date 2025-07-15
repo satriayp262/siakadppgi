@@ -12,11 +12,11 @@ return new class extends Migration {
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('nim_nidn')->nullable()->unique();
+            $table->string('name', 64);
+            $table->string('email', 60)->unique();
+            $table->char('nim_nidn', 12)->nullable()->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('password', length: 60);
             $table->enum('role', allowed: ['admin', 'dosen', 'mahasiswa', 'staff'])->default('mahasiswa');
             $table->rememberToken();
             $table->timestamps();

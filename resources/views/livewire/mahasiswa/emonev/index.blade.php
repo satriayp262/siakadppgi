@@ -42,9 +42,9 @@
                 {{-- Ada data --}}
             @else
                 @php
-                    $now = now()->toDateString();
+                    //$now = now()->toDateString();
 
-                    //$now = '2025-06-27';
+                    $now = '2025-07-09';
 
                     $isPeriode1 = $periode1 && $now >= $periode1->tanggal_mulai && $now <= $periode1->tanggal_selesai;
                     $isPeriode2 = $periode2 && $now >= $periode2->tanggal_mulai && $now <= $periode2->tanggal_selesai;

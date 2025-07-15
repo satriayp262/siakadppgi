@@ -14,10 +14,7 @@ class Index extends Component
     use WithPagination;
 
     public $selectedPertanyaan = [];
-    public $search = '';
-    public $selectAll = false;
     public $showDeleteButton = false;
-    protected $updatesQueryString = ['search'];
 
     #[On('PertanyaanCreated')]
     public function handlePertanyaanCreated()
@@ -61,12 +58,10 @@ class Index extends Component
 
     public function render()
     {
-        $pertanyaans = Pertanyaan::query()
-            ->where('nama_pertanyaan', 'like', '%' . $this->search . '%')
-            ->paginate(10);
+
 
         return view('livewire.admin.pertanyaan.index', [
-            'pertanyaans' => $pertanyaans
+
         ]);
     }
 }

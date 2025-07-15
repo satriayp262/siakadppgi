@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -14,7 +13,7 @@ return new class extends Migration
         Schema::create('dosen', function (Blueprint $table) {
             $table->integer('id_dosen')->autoIncrement()->primary();
             $table->string('nama_dosen');
-            $table->string('nidn')->unique();
+            $table->char('nidn', 12)->unique();
             $table->enum('jenis_kelamin', ['laki-laki', 'perempuan'])->default('laki-laki');
             $table->string('jabatan_fungsional');
             $table->string('kepangkatan');

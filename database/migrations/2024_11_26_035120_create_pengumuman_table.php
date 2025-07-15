@@ -12,10 +12,10 @@ return new class extends Migration {
     {
         Schema::create('pengumuman', function (Blueprint $table) {
             $table->integer('id_pengumuman')->autoIncrement();
-            $table->string('title');
+            $table->string('title', 64);
             $table->text('desc');
-            $table->string('image');
-            $table->string('file')->nullable();
+            $table->string('image', 64);
+            $table->string('file', 64)->nullable();
             $table->timestamps();
         });
     }

@@ -67,7 +67,6 @@ class Index extends Component
     public function render()
     {
         $this->dispatch('openKirimModal');
-
         $periode = PeriodeEMonev::with('semester')->paginate(10);
         return view('livewire.admin.periode.index', [
             'periode' => $periode,

@@ -87,13 +87,13 @@
                                 <span class="flex-1 ms-3 whitespace-nowrap">Prodi</span>
                             </a>
                         </li>
-                        <li>
+                        {{-- <li>
                             <a wire:navigate.hover href="{{ route('admin.ruangan') }}"
                                 class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.ruangan') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 <span class="flex-1 ms-3 whitespace-nowrap">Ruangan</span>
                             </a>
-                        </li>
-                        <li>
+                        </li> --}}
+                        {{-- <li>
                             <a wire:navigate.hover href="{{ route('admin.kurikulum') }}"
                                 class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.kurikulum') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 <span class="flex-1 ms-3 whitespace-nowrap">Kurikulum</span>
@@ -105,7 +105,7 @@
                                     {{ request()->routeIs('admin.ttd') ? 'text-white ' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 <span class="flex-1 ms-3 whitespace-nowrap">TTD</span>
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </li>
 
@@ -146,7 +146,7 @@
                                 <span class="flex-1 ms-3 whitespace-nowrap">Paket KRS</span>
                             </a>
                         </li>
-                        <li>
+                        {{-- <li>
                             <a wire:navigate.hover href="{{ route('admin.presensiMahasiswa') }}"
                                 class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.presensiMahasiswa') ? 'text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 <span class="flex-1 ms-3 whitespace-nowrap">Presensi</span>
@@ -157,10 +157,10 @@
                                 class="flex items-center mx-4 p-2 rounded-lg transition duration-75 group {{ request()->routeIs('admin.presensiDosen') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 <span class="flex-1 ms-3 whitespace-nowrap">Presensi Mengajar</span>
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </li>
-                <li x-data="{
+                {{-- <li x-data="{
                     open: {{ request()->routeIs('admin.jadwal', 'admin.ujian', 'admin.komponen_ujian') ? 'true' : 'false' }}
                 }">
                     <button type="button" @click="open = !open"
@@ -199,8 +199,8 @@
                                 <span class="flex-1 ms-3 whitespace-nowrap">komponen Kartu Ujian</span>
                             </a>
                         </li> --}}
-                    </ul>
-                </li>
+                {{-- </ul>
+                </li>  --}}
                 <li x-data="{ open: {{ request()->routeIs('admin.pengumuman', 'dosen.khs', 'admin.emonev', 'admin.pertanyaan', 'admin.emonev.periode', 'admin.emonev.list-mahasiswa') ? 'true' : 'false' }} }">
                     <button type="button" @click="open = !open"
                         class="flex items-center w-full p-2 text-base transition duration-75 rounded-lg group hover:bg-purple2 hover:text-white {{ request()->routeIs('admin.pengumuman', 'dosen.khs', 'admin.emonev', 'admin.pertanyaan', 'admin.emonev.periode', 'admin.emonev.list-mahasiswa') ? 'bg-purple2 text-white' : 'text-purple3' }}">

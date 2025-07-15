@@ -11,7 +11,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('emonev', function (Blueprint $table) {
-            $table->string('nama_periode', 50);
+            $table->string('nama_periode', 20);
             $table->foreign('nama_periode')->references('nama_periode')->on('periode_emonev')->onDelete('cascade');
         });
     }

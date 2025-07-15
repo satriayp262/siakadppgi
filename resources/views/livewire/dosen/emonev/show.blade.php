@@ -19,7 +19,7 @@
             </li>
         </ol>
     </nav>
-    <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg w-full" style="width: 1225px">
+    <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg">
 
         <div class=" flex items-stretch">
             <div class="">
@@ -75,7 +75,7 @@
         </div>
 
         <!-- Tabel Data -->
-        <div class="">
+        <div class="max-w-6xl p-4">
             @if ($selectedSemester)
                 @livewire('table.dosen.emonev.emonev-table', ['periode' => $selectedSemester, 'matakuliah' => $id, 'user' => $user], key($selectedSemester))
             @endif

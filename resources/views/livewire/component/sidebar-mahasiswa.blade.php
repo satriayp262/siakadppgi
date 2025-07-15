@@ -3,7 +3,7 @@
         class="w-64 h-full transition-transform bg-customPurple sm:translate-x-0" aria-label="Sidebar">
         <div class="h-full px-3 py-4 overflow-y-auto">
             <ul class="space-y-2 font-medium">
-                <li x-data="{ open: {{ request()->routeIs('mahasiswa.keuangan', 'mahasiswa.transaksi', 'mahasiswa.transaksi.konfirmasi', 'mahasiswa.transaksi.histori') ? 'true' : 'false' }} }">
+                {{-- <li x-data="{ open: {{ request()->routeIs('mahasiswa.keuangan', 'mahasiswa.transaksi', 'mahasiswa.transaksi.konfirmasi', 'mahasiswa.transaksi.histori') ? 'true' : 'false' }} }">
                     <button type="button" @click="open = !open"
                         class="flex items-center w-full p-2 text-base transition duration-75 rounded-lg group
                             hover:bg-purple2 hover:text-white
@@ -49,14 +49,13 @@
                             </a>
                         </li>
                     </ul>
-                </li>
+                </li> --}}
                 <li>
                     <a wire:navigate.hover href="{{ route('mahasiswa.krs') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                         {{ request()->routeIs('mahasiswa.krs') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('mahasiswa.krs') ? ' text-white ' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
-                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                            viewBox="0 0 20 20">
+                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd"
                                 d="M11.293 3.293a1 1 0 0 1 1.414 0l6 6 2 2a1 1 0 0 1-1.414 1.414L19 12.414V19a2 2 0 0 1-2 2h-3a1 1 0 0 1-1-1v-3h-2v3a1 1 0 0 1-1 1H7a2 2 0 0 1-2-2v-6.586l-.293.293a1 1 0 0 1-1.414-1.414l2-2 6-6Z"
                                 clip-rule="evenodd" />
@@ -64,7 +63,7 @@
                         <span class="flex-1 ms-3 whitespace-nowrap">KRS</span>
                     </a>
                 </li>
-                <li>
+                {{-- <li>
                     <a wire:navigate.hover href="{{ route('mahasiswa.paketkrs') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                         {{ request()->routeIs('mahasiswa.paketkrs') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
@@ -148,7 +147,7 @@
 
                         <span class="flex-1 ms-3 whitespace-nowrap">E-Presensi</span>
                     </a>
-                </li>
+                </li> --}}
                 <li>
                     <a wire:navigate.hover href="{{ route('mahasiswa.emonev') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
@@ -156,8 +155,7 @@
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('mahasiswa.emonev.semester', 'emonev.detail', 'mahasiswa.emonev') ? ' text-white ' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"
                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                             fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2"
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M3 15v3c0 .5523.44772 1 1 1h10M3 15v-4m0 4h9m-9-4V6c0-.55228.44772-1 1-1h16c.5523 0 1 .44772 1 1v3M3 11h11m-2-.2079V19m3-4h1.9909M21 15c0 1.1046-.8954 2-2 2s-2-.8954-2-2 .8954-2 2-2 2 .8954 2 2Z" />
                         </svg>
 

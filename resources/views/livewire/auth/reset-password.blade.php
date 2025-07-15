@@ -226,7 +226,7 @@
             <!-- Submit Button -->
             <div>
                 <button type="submit"
-                    class="flex w-full justify-center rounded-md bg-purple-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-700">
+                    class="flex w-full justify-center rounded-md bg-purple2 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-customPurple">
                     Reset Password
                 </button>
             </div>

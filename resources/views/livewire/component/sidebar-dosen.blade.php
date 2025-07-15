@@ -16,7 +16,7 @@
                         <span class="flex-1 ms-3 whitespace-nowrap">Dashboard</span>
                     </a>
                 </li>
-                <li>
+                {{-- <li>
                     <a wire:navigate.hover href="{{ route('dosen.jadwal') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                         {{ request()->routeIs('dosen.jadwal') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
@@ -29,7 +29,7 @@
                         </svg>
                         <span class="flex-1 ms-3 whitespace-nowrap">Jadwal Mengajar</span>
                     </a>
-                </li>
+                </li> --}}
                 {{-- <li>
                     <a wire:navigate.hover href="{{ route('dosen.bobot') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
@@ -44,7 +44,7 @@
                         <span class="flex-1 ms-3 whitespace-nowrap">Bobot Nilai</span>
                     </a>
                 </li> --}}
-                <li>
+                {{-- <li>
                     <a wire:navigate.hover href="{{ route('dosen.aktifitas') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                     {{ request()->routeIs('dosen.aktifitas') || request()->routeIs('dosen.aktifitas.kelas') || request()->routeIs('dosen.aktifitas.kelas.show') || request()->routeIs('dosen.aktifitas.kelas.aktifitas') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
@@ -57,7 +57,7 @@
                         </svg>
                         <span class="flex-1 ms-3 whitespace-nowrap">Penilaian</span>
                     </a>
-                </li>
+                </li> --}}
                 {{-- <li>
                     <a wire:navigate.hover href="{{ route('dosen.khs') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
@@ -72,7 +72,7 @@
                         <span class="flex-1 ms-3 whitespace-nowrap">KHS</span>
                     </a>
                 </li> --}}
-                <li>
+                {{-- <li>
                     <a wire:navigate.hover href="{{ route('dosen.berita_acara') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
                     {{ request()->routeIs('dosen.berita_acara') || request()->routeIs('dosen.berita_acara.detail_matkul') || request()->routeIs('dosen.berita_acara.detail_kelas') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
@@ -103,9 +103,9 @@
                         </svg>
                         <span class="flex-1 ms-3 whitespace-nowrap">E-Presensi</span>
                     </a>
-                </li>
+                </li> --}}
                 <li>
-                    <a wire:navigate.hover href="{{ route('dosen.emonev') }}"
+                    <a href="{{ route('dosen.emonev') }}"
                         class="flex items-center p-2 rounded-lg transition duration-75 group
     {{ request()->routeIs('dosen.emonev') ? ' text-white bg-purple2' : 'hover:bg-purple2 text-purple3 hover:text-white' }}">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-white {{ request()->routeIs('dosen.emonev') ? ' text-white ' : 'hover:bg-purple2 text-purple3 hover:text-white' }}"

@@ -24,6 +24,8 @@ class ForgotPassword extends Component
 
         $status = Password::sendResetLink(['email' => $this->email]);
 
+        //dd($status);
+
         if ($status === Password::RESET_LINK_SENT) {
             session()->flash('message', 'Tautan reset password telah dikirim ke email Anda.');
         } elseif ($status === Password::RESET_THROTTLED) {

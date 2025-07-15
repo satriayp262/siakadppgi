@@ -1,5 +1,5 @@
 <div wire:ignore>
-    <h2 class="text-lg font-semibold mb-4 text-center">🏆 Kategori Performa Dosen {{ $namaperiode }}</h2>
+    <h2 class="text-lg font-semibold mb-4 text-center">🏆 Kategori Performa Dosen</h2>
     <canvas id="myChart" width="400" height="200"></canvas>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -22,13 +22,13 @@
 
                 // Create new chart
                 myChart = new Chart(ctx, {
-                    type: 'bar',
+                    type: 'line',
                     data: {
                         labels: chartData.labels,
                         datasets: chartData.datasets
                     },
                     options: {
-                        indexAxis: 'y',
+                        indexAxis: 'x',
                     }
                 });
             }

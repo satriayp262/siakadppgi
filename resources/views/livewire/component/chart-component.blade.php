@@ -4,7 +4,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('livewire:init', function() {
             var ctx = document.getElementById('myBarChart').getContext('2d');
             var chartData = @json($chartData);
 

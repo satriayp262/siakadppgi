@@ -250,7 +250,7 @@
                     <button type="submit" wire:loading.remove
                         class="flex w-full justify-center rounded-md bg-purple2 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-customPurple">Masuk</button>
                     <button wire:loading disabled
-                        class="flex w-full justify-center rounded-md bg-purple2 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-purple-700">Masuk</button>
+                        class="flex w-full justify-center rounded-md bg-purple2 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-customPurple">Masuk</button>
 
                 </div>
             </div>

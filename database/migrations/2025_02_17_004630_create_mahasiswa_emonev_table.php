@@ -12,11 +12,11 @@ return new class extends Migration {
     {
         Schema::create('mahasiswa_emonev', function (Blueprint $table) {
             $table->integer('id_mahasiswa_emonev')->primary()->autoIncrement();
-            $table->string('NIM');
+            $table->char('NIM', 12);
             $table->integer('id_semester');
             $table->integer('id_mata_kuliah');
-            $table->string('nidn');
-            $table->integer('sesi');
+            $table->char('nidn', 12);
+            $table->tinyInteger('sesi');
             $table->foreign('id_mata_kuliah')->references('id_mata_kuliah')->on('matkul');
             $table->foreign('nidn')->references('nidn')->on('dosen');
             $table->foreign('NIM')->references('NIM')->on('mahasiswa');

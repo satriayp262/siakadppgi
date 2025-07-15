@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('emonev', function (Blueprint $table) {
             $table->integer('id_emonev')->primary()->autoIncrement();
             $table->integer('id_mata_kuliah');
-            $table->string('nidn');
+            $table->char('nidn', 12);
             $table->string('saran', 50);
             $table->foreign('id_mata_kuliah')->references('id_mata_kuliah')->on('matkul');
             $table->foreign('nidn')->references('nidn')->on('dosen');
