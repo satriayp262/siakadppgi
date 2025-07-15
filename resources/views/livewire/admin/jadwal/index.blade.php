@@ -1,13 +1,12 @@
-<div class="container p-4 mx-auto">
-    <div class="flex items-center justify-between">
-        <nav aria-label="Breadcrumb">
+<div class="max-w-screen-xl px-4 py-6 mx-auto">
+    <div class="flex flex-wrap items-center justify-between gap-4">
+        <!-- Breadcrumb -->
+        <nav aria-label="Breadcrumb" class="flex-1 min-w-[200px]">
             <ol class="flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
                 <li aria-current="page">
                     <div class="flex items-center">
-                        <svg class="w-3 h-3 mx-1 text-gray-400 rtl:rotate-180" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="m1 9 4-4-4-4" />
+                        <svg class="w-3 h-3 mx-1 text-gray-400 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
                         </svg>
                         <span class="text-sm font-medium text-gray-500 ms-1 md:ms-2">Jadwal Perkuliahan</span>
                     </div>
@@ -15,44 +14,26 @@
             </ol>
         </nav>
 
-        <div class="text-right">
-            <ol class="breadcrumb">
-                <li class="text-sm font-medium text-gray-700 breadcrumb-item">
-                    {{ \Carbon\Carbon::now()->locale('id')->isoFormat('dddd, D MMMM Y') }}
-                </li>
-            </ol>
+        <!-- Tanggal -->
+        <div class="text-sm font-medium text-gray-700">
+            {{ \Carbon\Carbon::now()->locale('id')->isoFormat('dddd, D MMMM Y') }}
         </div>
     </div>
-    <div class="flex mt-4">
-        <div class="absolute right-4">
-            <select name="prodi" id="prodi" wire:model.live="prodi" class="items-center px-4 py-2 pr-2 ml-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
-                <option value="" selected>Pilih Prodi</option>
-                @foreach ($prodis as $x)
-                <option value="{{ $x->kode_prodi }}">{{ $x->nama_prodi }}</option>
-                @endforeach
-            </select>
 
-            {{-- <select name="semesterfilter" id="semesterfilter" wire:model.live="semesterfilter" class="items-center px-4 py-2 pr-2 ml-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
-                <option value="" selected>Pilih semester</option>
-                @foreach ($semesterfilters as $v)
-                    <option value="{{ $v->id_semester }}">{{ $v->nama_semester }}</option>
-                @endforeach
-            </select> --}}
-        </div>
+    <!-- Filter & Actions -->
+    <div class="flex flex-wrap items-center justify-between gap-2 mt-4">
 
+        <!-- Modal Trigger -->
         <div x-data="{ isOpen: false }" @modal-closed.window="isOpen = false">
-        <!-- Button to open the modal -->
-        <button @click="isOpen=true"
-            class="flex items-center px-4 py-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">
-            Buat Jadwal
-        </button>
+            <button @click="isOpen=true"
+                class="flex items-center px-4 py-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">
+                Buat Jadwal
+            </button>
 
-        <!-- Modal Background -->
-            <div x-data="{ load: false }" x-show="isOpen && load" x-init="load = true" wire:init="" x-cloak
-                class="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-75">
-                <!-- Modal Content -->
-                <div class="w-full max-w-2xl mx-4 bg-white rounded-lg shadow-lg">
-                    <!-- Modal Header -->
+            <!-- Modal -->
+            <div x-data="{ load: false }" x-show="isOpen && load" x-init="load = true" x-cloak
+                class="fixed inset-0 z-50 flex items-center justify-center px-4 bg-gray-600 bg-opacity-75">
+                <div class="w-full max-w-2xl bg-white rounded-lg shadow-lg">
                     <div class="flex items-center justify-between p-4 bg-gray-200 rounded-t-lg">
                         <h3 class="text-xl font-semibold">Pilih Semester</h3>
                         <div @click="isOpen=false" class="px-3 rounded-sm shadow hover:bg-red-500">
@@ -60,24 +41,22 @@
                         </div>
                     </div>
                     <div class="p-4">
-                        <form wire:submit.prevent="pilihSemester" class="p-4 space-y-4">
-                            <!-- Input Batas Pengajuan -->
+                        <form wire:submit.prevent="pilihSemester" class="space-y-4">
                             <div>
                                 <label for="batas" class="block mb-2 font-semibold text-gray-700">
                                     Batas Pengajuan Ubah Jadwal
                                 </label>
                                 <input type="date" name="batas" id="batas" wire:model="batas"
-                                       class="block w-full px-2 py-1 mt-1 border border-gray-700 rounded shadow focus:border-indigo-500 sm:text-sm">
+                                    class="block w-full px-2 py-1 mt-1 border border-gray-700 rounded shadow focus:border-indigo-500 sm:text-sm">
                                 @error('batas')
                                     <span class="mt-1 text-sm text-red-500">{{ $message }}</span>
                                 @enderror
                             </div>
 
-                            <!-- Pilih Semester -->
-                            <div class="mb-4">
+                            <div>
                                 <label for="semester" class="block mb-2 font-semibold text-gray-700">Pilih Semester</label>
                                 <select id="semester" wire:model="Semester"
-                                        class="block w-full px-3 py-2 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring focus:border-blue-300">
+                                    class="block w-full px-3 py-2 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring focus:border-blue-300">
                                     <option value="">Pilih Semester</option>
                                     @foreach ($semesters as $z)
                                         <option value="{{ $z->id_semester }}">{{ $z->nama_semester }}</option>
@@ -88,21 +67,14 @@
                                 @enderror
                             </div>
 
-                            <!-- Tombol Generate dengan Loading -->
                             <div class="flex items-center space-x-4">
                                 <button type="submit"
-                                        wire:loading.attr="disabled"
-                                        wire:target="pilihSemester"
-                                        class="relative flex items-center justify-center px-6 py-2 font-semibold text-white bg-green-600 rounded hover:bg-green-700 disabled:opacity-50">
-                                    <!-- Teks tombol -->
-                                    <span wire:loading.remove wire:target="pilihSemester">
-                                        Generate Jadwal
-                                    </span>
-
-                                    <!-- Spinner -->
-                                    <svg wire:loading wire:target="pilihSemester"
-                                         class="w-6 h-6 text-white animate-spin"
-                                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                                    wire:loading.attr="disabled"
+                                    wire:target="pilihSemester"
+                                    class="relative flex items-center justify-center px-6 py-2 font-semibold text-white bg-green-600 rounded hover:bg-green-700 disabled:opacity-50">
+                                    <span wire:loading.remove wire:target="pilihSemester">Generate Jadwal</span>
+                                    <svg wire:loading wire:target="pilihSemester" class="w-6 h-6 text-white animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
                                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" />
                                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
                                     </svg>
@@ -114,14 +86,30 @@
             </div>
         </div>
 
-        <button onclick="confirmDeleteAll()" class='flex items-center px-4 py-2 ml-2 font-bold text-white bg-red-500 rounded hover:bg-red-700'>
+        <!-- Hapus & Download -->
+        <button onclick="confirmDeleteAll()" class="flex items-center px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">
             Hapus Semua Jadwal
         </button>
-        <button type="button" class="flex items-center px-4 py-2 ml-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700" wire:click='generatePdf()'>Download Jadwal Perkuliahan</button>
+        <button type="button" wire:click="generatePdf"
+            class="flex items-center px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
+            Download Jadwal Perkuliahan
+        </button>
+
+        <!-- Select Prodi -->
+       <div class="ml-auto">
+            <select name="prodi" id="prodi" wire:model.live="prodi"
+                class="px-4 py-2 pr-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
+                <option value="" selected>Pilih Prodi</option>
+                @foreach ($prodis as $x)
+                    <option value="{{ $x->kode_prodi }}">{{ $x->nama_prodi }}</option>
+                @endforeach
+            </select>
+        </div>
     </div>
 
-    <div class="max-w-full p-4 mt-4 mb-4 bg-white rounded-lg shadow-lg">
-        <table class="w-full mt-4 bg-white border border-gray-200">
+    <!-- Table -->
+    <div class="p-4 mt-6 mb-4 overflow-x-auto bg-white rounded-lg shadow-lg">
+        <table class="min-w-full bg-white border border-gray-200">
             <thead>
                 <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
                     <th class="px-3 py-2 text-center">Kelas</th>
@@ -344,6 +332,8 @@
             @endif
         </table>
     </div>
+
+    <!-- SweetAlert Scripts -->
     <script>
         function confirmDeleteAll(id) {
             Swal.fire({
@@ -356,7 +346,6 @@
                 confirmButtonText: 'Hapus'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Panggil method Livewire jika konfirmasi diterima
                     @this.call('destroy2', id);
                 }
             });
@@ -373,14 +362,13 @@
                 confirmButtonText: 'Hapus'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Panggil method Livewire jika konfirmasi diterima
                     @this.call('destroy', id);
                 }
             });
         }
 
         Livewire.on('refreshPage', () => {
-        window.location.reload();
-    });
+            window.location.reload();
+        });
     </script>
 </div>
