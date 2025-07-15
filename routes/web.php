@@ -102,9 +102,9 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
         Route::get('/', App\Livewire\Admin\JadwalUjian\Index::class)->name('admin.ujian');
     });
 
-    Route::prefix('komponen_kartu_ujian')->group(function () {
-        Route::get('/', App\Livewire\Admin\JadwalUjian\komponen::class)->name('admin.komponen_ujian');
-    });
+    // Route::prefix('komponen_kartu_ujian')->group(function () {
+    //     Route::get('/', App\Livewire\Admin\JadwalUjian\komponen::class)->name('admin.komponen_ujian');
+    // });
 
     Route::prefix('staff')->group(function () {
         Route::get('/', App\Livewire\Admin\Staff\Index::class)->name('admin.staff');
