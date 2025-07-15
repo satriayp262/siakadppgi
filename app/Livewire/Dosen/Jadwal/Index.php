@@ -27,7 +27,7 @@ class Index extends Component
         $jadwals = Jadwal::whereHas('kelas.krs.mahasiswa', function ($query) use ($dosen) {
             $query->where('nidn', $dosen->nidn);
         })
-            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat')")
+            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu')")
             ->orderBy('sesi')  // Urutkan berdasarkan sesi
             ->get();
 
@@ -83,13 +83,13 @@ class Index extends Component
     {
         $bulanMulai = null;
         $bulanSelesai = null;
-        
+
         $dosen = Dosen::where('nidn', Auth()->user()->nim_nidn)->first();
 
         $jadwals = Jadwal::whereHas('kelas.krs.mahasiswa', function ($query) use ($dosen) {
             $query->where('nidn', $dosen->nidn);
         })
-            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat')")
+            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu')")
             ->orderBy('sesi')
             ->get();
 

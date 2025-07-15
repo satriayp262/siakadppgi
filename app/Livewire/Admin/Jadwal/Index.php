@@ -343,7 +343,7 @@ class Index extends Component
     public function generatePdf()
     {
         $jadwals = Jadwal::orderBy('id_kelas', direction: 'asc')
-            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat')")
+            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu')")
             ->orderBy(column: 'sesi', direction: 'asc')
             ->get();
 
@@ -375,7 +375,7 @@ class Index extends Component
     public function render()
     {
         $jadwals = Jadwal::orderBy('id_kelas', direction: 'asc')
-            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat')")
+            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu')")
             ->orderBy(column: 'sesi', direction: 'asc')
             ->get();
 

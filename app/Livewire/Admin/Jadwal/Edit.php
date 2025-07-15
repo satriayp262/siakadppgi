@@ -512,13 +512,15 @@ class Edit extends Component
             ->where('id_kelas', $this->id_kelas)
             ->where('kode_prodi', $this->kode_prodi)
             ->where('id_semester', $this->id_semester)
-            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat')")            ->get();
+            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu')")
+            ->get();
 
         $jadwals2 = jadwal::where('id_jadwal', '!=', $this->id_jadwal)
             ->where('nidn', $this->nidn)
             ->where('kode_prodi', $this->kode_prodi)
             ->where('id_semester', $this->id_semester)
-            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat')")            ->get();
+            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu')")
+            ->get();
 
         $ammo = jadwal::where('id_jadwal', $this->id_jadwal)
             ->first();

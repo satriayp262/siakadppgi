@@ -33,7 +33,7 @@ final class JadwalTable extends PowerGridComponent
                         ->orWhere('grup', $krs->grup_praktikum); // Tampilkan yang cocok dengan grup
                 });
         })
-            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat')")
+            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu')")
             ->orderBy('sesi')
             ->with('prodi')
             ->with('mataKuliah')

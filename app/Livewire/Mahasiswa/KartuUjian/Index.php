@@ -29,7 +29,7 @@ class Index extends Component
                         ->orWhere('grup', $krs->grup_praktikum); // Tampilkan yang cocok dengan grup
                 });
         })
-            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat')")
+            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu')")
             ->orderBy('sesi')
             ->get();
 
@@ -96,7 +96,7 @@ class Index extends Component
                         ->orWhere('grup', $krs->grup_praktikum); // Tampilkan yang cocok dengan grup
                 });
         })
-            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat')")
+            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu')")
             ->orderBy('sesi')
             ->get();
 

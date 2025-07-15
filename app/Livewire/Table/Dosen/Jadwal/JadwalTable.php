@@ -20,7 +20,7 @@ final class JadwalTable extends PowerGridComponent
     public function datasource(): Builder
     {
         $dosen = Dosen::where('nidn', Auth()->user()->nim_nidn)->first();
-        return Jadwal::query()->where('nidn',$dosen->nidn)->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat')")
+        return Jadwal::query()->where('nidn',$dosen->nidn)->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu')")
         ->orderBy('sesi')
         ->with('prodi')
         ->with('mataKuliah')

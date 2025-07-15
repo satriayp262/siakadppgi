@@ -67,7 +67,7 @@ class Index extends Component
         }
 
         $jadwalUjians = Jadwal::orderBy('id_kelas', 'asc')
-            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat')")
+            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu')")
             ->orderBy('sesi', 'asc')
             ->get()
             ->groupBy('id_kelas');
@@ -108,7 +108,7 @@ class Index extends Component
     public function generatePdf()
     {
         $jadwals = Jadwal::orderBy('id_kelas', direction: 'asc')
-            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat')")
+            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu')")
             ->orderBy(column: 'sesi', direction: 'asc')
             ->get();
 
@@ -134,14 +134,13 @@ class Index extends Component
     {
         $jadwal = Jadwal::first();
 
-        if ($jadwal->jenis_ujian == null) {
+        if ($jadwal === null || $jadwal->jenis_ujian === null) {
             $jadwals = Jadwal::orderBy('id_kelas', direction: 'asc')
-                ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat')")
+                ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu')")
                 ->orderBy(column: 'sesi', direction: 'asc')
                 ->get();
         }else{
-            $jadwals = Jadwal::where('jenis_ujian', $jadwal->jenis_ujian)
-                ->orderBy('id_kelas', direction: 'asc')
+            $jadwals = Jadwal::orderBy('id_kelas', direction: 'asc')
                 ->orderBy('tanggal', direction: 'asc')
                 ->orderBy(column: 'sesi', direction: 'asc')
                 ->get();
