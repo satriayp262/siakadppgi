@@ -132,10 +132,20 @@ class Index extends Component
 
     public function render()
     {
-        $jadwals = Jadwal::orderBy('id_kelas', direction: 'asc')
-            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat')")
-            ->orderBy(column: 'sesi', direction: 'asc')
-            ->get();
+        $jadwal = Jadwal::first();
+
+        if ($jadwal->jenis_ujian == null) {
+            $jadwals = Jadwal::orderBy('id_kelas', direction: 'asc')
+                ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat')")
+                ->orderBy(column: 'sesi', direction: 'asc')
+                ->get();
+        }else{
+            $jadwals = Jadwal::where('jenis_ujian', $jadwal->jenis_ujian)
+                ->orderBy('id_kelas', direction: 'asc')
+                ->orderBy('tanggal', direction: 'asc')
+                ->orderBy(column: 'sesi', direction: 'asc')
+                ->get();
+        }
 
         if ($this->semesterfilter) {
             $jadwals = $jadwals->where('id_semester', $this->semesterfilter);

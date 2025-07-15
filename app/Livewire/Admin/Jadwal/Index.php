@@ -97,7 +97,7 @@ class Index extends Component
 
         $ruanganList = Ruangan::all();
 
-        $daysz = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'];
+        $daysz = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat','Sabtu'];
 
         $timeSlots = [
             ['sesi' => 1, 'jam_mulai' => '08:00', 'jam_selesai' => '09:30'],

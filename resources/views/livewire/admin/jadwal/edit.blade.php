@@ -122,6 +122,7 @@
                                     <option value="Rabu">Rabu</option>
                                     <option value="Kamis">Kamis</option>
                                     <option value="Jumat">Jumat</option>
+                                    <option value="Sabtu">Sabtu</option>
                                 </select>
                                 @error('z') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
                             </div>

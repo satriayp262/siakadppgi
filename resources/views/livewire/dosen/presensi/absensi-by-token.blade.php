@@ -1,10 +1,10 @@
 <div class="mx-5">
-    <div class="flex flex-row justify-between mx-4 mt-4 items-center">
+    <div class="flex flex-row items-center justify-between mx-4 mt-4">
         <nav aria-label="Breadcrumb">
             <ol class="flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
                 <li>
                     <a wire:navigate.hover href="{{ route('dosen.presensi') }}"
-                        class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
+                        class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700">
                         E-Presensi
                     </a>
                 </li>
@@ -17,7 +17,7 @@
                         </svg>
                         <a wire:navigate.hover
                             href="{{ route('dosen.presensiByKelas', ['id_mata_kuliah' => $matkul->id_mata_kuliah]) }}"
-                            class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
+                            class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700">
                             {{ $matkul->nama_mata_kuliah }}
                         </a>
                     </div>
@@ -36,7 +36,7 @@
                 </li>
             </ol>
         </nav>
-        <div class="flex justify-between items-center space-x-2 mt-2">
+        <div class="flex items-center justify-between mt-2 space-x-2">
             @php
                 use Carbon\Carbon;
 
@@ -62,19 +62,19 @@
                 <livewire:dosen.presensi.create-token :id_mata_kuliah="$id_mata_kuliah" :id_kelas="$id_kelas" />
             @else
                 {{-- Tombol dummy jika tidak boleh membuat token --}}
-                <button disabled class="bg-gray-400 text-white px-4 py-2 rounded opacity-70 cursor-not-allowed">
+                <button disabled class="px-4 py-2 text-white bg-gray-400 rounded cursor-not-allowed opacity-70">
                     Buat Token
                 </button>
             @endif
 
             <a href="{{ route('dosen.rekap_presensi', ['id_mata_kuliah' => $id_mata_kuliah, 'id_kelas' => $id_kelas]) }}"
-                class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">
+                class="px-4 py-2 font-semibold text-white bg-blue-500 rounded hover:bg-blue-600">
                 Rekap
             </a>
         </div>
     </div>
 
-    <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
+    <div class="max-w-full p-4 mt-4 mb-4 bg-white rounded-lg shadow-lg">
         <livewire:table.token-table :id_mata_kuliah="$id_mata_kuliah" :id_kelas="$id_kelas" />
     </div>
 
