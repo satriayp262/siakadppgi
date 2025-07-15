@@ -140,12 +140,12 @@
                                 <span class="flex-1 ms-3 whitespace-nowrap">KRS</span>
                             </a>
                         </li>
-                        <li>
+                        {{-- <li>
                             <a wire:navigate.hover href="{{ route('admin.paketkrs') }}"
                                 class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.paketkrs') || request()->routeIs('admin.paketkrs.create') ? 'text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 <span class="flex-1 ms-3 whitespace-nowrap">Paket KRS</span>
                             </a>
-                        </li>
+                        </li> --}}
                         <li>
                             <a wire:navigate.hover href="{{ route('admin.presensiMahasiswa') }}"
                                 class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.presensiMahasiswa') ? 'text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
