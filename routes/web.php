@@ -77,10 +77,10 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
         Route::get('/edit', App\Livewire\Admin\Anggota\Edit::class)->name('admin.anggota.edit');
     });
 
-    Route::prefix('PaketKRS')->group(function () {
-        Route::get('/', App\Livewire\Admin\paketKrs\Index::class)->name('admin.paketkrs');
-        Route::get('/create', App\Livewire\Admin\paketKrs\Create::class)->name('admin.paketkrs.create');
-    });
+    // Route::prefix('PaketKRS')->group(function () {
+    //     Route::get('/', App\Livewire\Admin\paketKrs\Index::class)->name('admin.paketkrs');
+    //     Route::get('/create', App\Livewire\Admin\paketKrs\Create::class)->name('admin.paketkrs.create');
+    // });
 
     Route::prefix('dosen')->group(function () {
         Route::get('/', App\Livewire\Admin\Dosen\Index::class)->name('admin.dosen');
@@ -102,9 +102,9 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
         Route::get('/', App\Livewire\Admin\JadwalUjian\Index::class)->name('admin.ujian');
     });
 
-    Route::prefix('komponen_kartu_ujian')->group(function () {
-        Route::get('/', App\Livewire\Admin\JadwalUjian\komponen::class)->name('admin.komponen_ujian');
-    });
+    // Route::prefix('komponen_kartu_ujian')->group(function () {
+    //     Route::get('/', App\Livewire\Admin\JadwalUjian\komponen::class)->name('admin.komponen_ujian');
+    // });
 
     Route::prefix('staff')->group(function () {
         Route::get('/', App\Livewire\Admin\Staff\Index::class)->name('admin.staff');
@@ -175,7 +175,7 @@ Route::middleware(['auth', CheckRole::class . ':mahasiswa'])->prefix('mahasiswa'
     Route::get('/keuangan/konfirmasi', App\Livewire\Mahasiswa\Keuangan\Konfirmasi::class)->name('mahasiswa.transaksi.konfirmasi');
     Route::get('/keuangan/histori', App\Livewire\Mahasiswa\Keuangan\Histori::class)->name('mahasiswa.transaksi.histori');
     Route::get('/kartu_ujian', App\Livewire\Mahasiswa\KartuUjian\Index::class)->name('mahasiswa.ujian');
-    Route::get('/PaketKRS', App\Livewire\Mahasiswa\paketKrs\Index::class)->name('mahasiswa.paketkrs');
+    // Route::get('/PaketKRS', App\Livewire\Mahasiswa\paketKrs\Index::class)->name('mahasiswa.paketkrs');
 });
 
 // dosen
