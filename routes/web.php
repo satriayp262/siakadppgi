@@ -77,10 +77,10 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
         Route::get('/edit', App\Livewire\Admin\Anggota\Edit::class)->name('admin.anggota.edit');
     });
 
-    Route::prefix('PaketKRS')->group(function () {
-        Route::get('/', App\Livewire\Admin\paketKrs\Index::class)->name('admin.paketkrs');
-        Route::get('/create', App\Livewire\Admin\paketKrs\Create::class)->name('admin.paketkrs.create');
-    });
+    // Route::prefix('PaketKRS')->group(function () {
+    //     Route::get('/', App\Livewire\Admin\paketKrs\Index::class)->name('admin.paketkrs');
+    //     Route::get('/create', App\Livewire\Admin\paketKrs\Create::class)->name('admin.paketkrs.create');
+    // });
 
     Route::prefix('dosen')->group(function () {
         Route::get('/', App\Livewire\Admin\Dosen\Index::class)->name('admin.dosen');
