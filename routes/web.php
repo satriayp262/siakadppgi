@@ -175,7 +175,7 @@ Route::middleware(['auth', CheckRole::class . ':mahasiswa'])->prefix('mahasiswa'
     Route::get('/keuangan/konfirmasi', App\Livewire\Mahasiswa\Keuangan\Konfirmasi::class)->name('mahasiswa.transaksi.konfirmasi');
     Route::get('/keuangan/histori', App\Livewire\Mahasiswa\Keuangan\Histori::class)->name('mahasiswa.transaksi.histori');
     Route::get('/kartu_ujian', App\Livewire\Mahasiswa\KartuUjian\Index::class)->name('mahasiswa.ujian');
-    Route::get('/PaketKRS', App\Livewire\Mahasiswa\paketKrs\Index::class)->name('mahasiswa.paketkrs');
+    // Route::get('/PaketKRS', App\Livewire\Mahasiswa\paketKrs\Index::class)->name('mahasiswa.paketkrs');
 });
 
 // dosen
