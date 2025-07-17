@@ -17,8 +17,8 @@ return new class extends Migration
             $table->integer('id_prodi');
             $table->integer('id_mata_kuliah');
             $table->integer('id_kelas');
-            $table->date('tanggal_mulai');
-            $table->date('tanggal_selesai');
+            // $table->date('tanggal_mulai');
+            // $table->date('tanggal_selesai');
             $table->timestamps();
         });
     }

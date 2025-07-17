@@ -11,7 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <title> {{ $title ?? 'SIAKAD PPGI' }}</title>
-    <link rel="icon" href="{!! asset('img/piksi.png') !!}" />
+    <link rel="icon" href="{!! asset('img/PIKSI.png') !!}" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     @livewireStyles
     <style>

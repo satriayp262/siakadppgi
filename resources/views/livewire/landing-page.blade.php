@@ -4,7 +4,7 @@
         <nav class="bg-customPurple py-2.5 shadow-md ">
             <div class="flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto">
                 <a href="#" class="flex items-center">
-                    <img src="{{ asset('img/piksi.png') }}" class="h-6 mr-3 sm:h-9" alt="Landwind Logo" />
+                    <img src="{{ asset('img/PIKSI.png') }}" class="h-6 mr-3 sm:h-9" alt="Landwind Logo" />
                     <span class="text-white tracking-widest text-xl font-bold"
                         style="font-family: 'Nunito', sans-serif;">SIAKAD
                         PPGI</span>
@@ -109,7 +109,7 @@
             <!-- Logo dan Informasi Utama -->
             <div class="mb-6 md:mb-0">
                 <div class="flex items-center space-x-4">
-                    <img src="{{ asset('img/piksi.png') }}" class="h-20" alt="Logo Politeknik Piksi Ganesha" />
+                    <img src="{{ asset('img/PIKSI.png') }}" class="h-20" alt="Logo Politeknik Piksi Ganesha" />
                     <div>
                         <h2 class="text-xl font-bold">Politeknik Piksi Ganesha Indonesia</h2>
                         <p class="text-sm mt-2">Jl. Letjend Suprapto No. 73, Kebumen, Jawa Tengah.</p>

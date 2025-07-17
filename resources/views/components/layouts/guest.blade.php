@@ -34,7 +34,7 @@
     </style>
     @vite('resources/css/app.css')
     <title>SIAKAD {{ $title ?? 'PPGI' }}</title>
-    <link rel="icon" href="{!! asset('img/piksi.png') !!}" />
+    <link rel="icon" href="{!! asset('img/PIKSI.png') !!}" />
     @livewireStyles
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
 
