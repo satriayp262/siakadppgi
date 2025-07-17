@@ -35,7 +35,7 @@
                 </p>
             </div>
         </div>
-        <livewire:table.ttdTable />
+        <livewire:table.TandaTangan />
     </div>
 </div>
 <script>
