@@ -35,7 +35,7 @@
     </div>
 
     <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">
-        <livewire:table.paker-krstable />
+        <livewire:table.PakerKRSTable />
         {{-- <table class="min-w-full mt-4 bg-white text-[8px] md:text-[16px]  border border-gray-200">
             <thead>
                 <tr class="items-center w-full text-[8px] md:text-[16px]  text-white align-middle bg-customPurple">
