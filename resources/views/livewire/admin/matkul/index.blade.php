@@ -57,7 +57,7 @@
     </div>
 
     <div class="max-w-full p-4 mt-4 mb-4 bg-white rounded-lg shadow-lg">
-        <livewire:table.matkul />
+        <livewire:table.matakulia />
         {{-- <table class="w-full mt-4 bg-white border border-gray-200">
             <thead>
                 <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
