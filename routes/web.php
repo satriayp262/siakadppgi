@@ -80,8 +80,8 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
     });
 
     Route::prefix('PaketKRS')->group(function () {
-        Route::get('/', App\Livewire\Admin\paketKrs\Index::class)->name('admin.paketkrs');
-        Route::get('/create', App\Livewire\Admin\paketKrs\Create::class)->name('admin.paketkrs.create');
+        Route::get('/', App\Livewire\Admin\PaketKrs\Index::class)->name('admin.paketkrs');
+        Route::get('/create', App\Livewire\Admin\PaketKrs\Create::class)->name('admin.paketkrs.create');
     });
 
     Route::prefix('dosen')->group(function () {
