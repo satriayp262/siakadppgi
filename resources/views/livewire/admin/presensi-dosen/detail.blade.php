@@ -88,7 +88,7 @@
                                             </option>
                                             @foreach ($matkuls as $item)
                                                 <option value="{{ $item->id_mata_kuliah }}">
-                                                    {{ $item->nama_mata_kuliah }}
+                                                    {{ $item->nama_mata_kuliah }} - {{ $item->dosen->nama_dosen }}
                                                 </option>
                                             @endforeach
                                         </select>

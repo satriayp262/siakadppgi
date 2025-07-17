@@ -27,6 +27,14 @@ class PresensiDosenExport implements FromCollection, WithHeadings, WithMapping
     public function collection()
     {
         return Dosen::with(['prodi'])
+            ->whereHas('tokens', function ($query) {
+                if ($this->selectedSemester) {
+                    $query->where('id_semester', $this->selectedSemester);
+                }
+                if ($this->selectedProdi) {
+                    $query->where('kode_prodi', $this->selectedProdi);
+                }
+            })
             ->withCount(['tokens as tokens_count' => function ($query) {
                 if ($this->selectedSemester) {
                     $query->where('id_semester', $this->selectedSemester);

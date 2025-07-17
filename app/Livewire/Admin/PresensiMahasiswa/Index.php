@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\PeringatanMail;
 use App\Models\Semester;
 use Livewire\Attributes\On;
-use App\Models\MataKuliah;
+use App\Models\Matakuliah;
 use App\Models\Kelas;
 
 class Index extends Component
@@ -51,7 +51,7 @@ class Index extends Component
     public function updateMatkulKelasOptions()
     {
         // Update filtered mata kuliah list
-        $matkulQuery = MataKuliah::query();
+        $matkulQuery = Matakuliah::query();
         if ($this->selectedProdi !== 'semua') {
             $matkulQuery->where('kode_prodi', $this->selectedProdi);
         }
@@ -110,7 +110,7 @@ class Index extends Component
         $prodiData = $this->selectedProdi !== 'semua' ? Prodi::find($this->selectedProdi) : null;
         $nama_prodi = $prodiData ? str_replace(['/', '\\'], '-', $prodiData->nama_prodi) : 'Semua Prodi';
 
-        $matkulData = $this->id_mata_kuliah !== 'semua' ? MataKuliah::find($this->id_mata_kuliah) : null;
+        $matkulData = $this->id_mata_kuliah !== 'semua' ? Matakuliah::find($this->id_mata_kuliah) : null;
         $nama_matkul = $matkulData ? str_replace(['/', '\\'], '-', $matkulData->nama_mata_kuliah) : 'Semua Mata Kuliah';
 
         $kelasData = $this->id_kelas !== 'semua' ? Kelas::find($this->id_kelas) : null;
@@ -137,10 +137,10 @@ class Index extends Component
     #[On('kirimEmail')]
     public function kirimEmailHandler($nim)
     {
-        $this->kirimEmail($nim);
+        $this->kirimEmail($nim, $this->id_mahasiswa);
     }
 
-    public function kirimEmail($nim)
+    public function kirimEmail($nim, $id_mahasiswa)
     {
         $sudahKirim = RiwayatSP::where('nim', $nim)->exists();
 
@@ -149,7 +149,7 @@ class Index extends Component
             return;
         }
 
-        $mahasiswa = Mahasiswa::where('NIM', $nim)
+        $mahasiswa = Mahasiswa::where('id_mahasiswa', $id_mahasiswa)
             ->withCount(['presensi as alpha_count' => function ($query) {
                 $query->where('keterangan', 'Alpha')
                     ->when($this->semester !== 'semua', function ($q) {

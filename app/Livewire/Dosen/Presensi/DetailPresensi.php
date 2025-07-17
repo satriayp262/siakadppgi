@@ -3,8 +3,6 @@
 namespace App\Livewire\Dosen\Presensi;
 
 use App\Models\Presensi;
-use App\Models\Mahasiswa;
-use App\Models\KRS;
 use App\Models\Token;
 use Livewire\Component;
 use Livewire\Attributes\On;
@@ -15,19 +13,17 @@ use Carbon\Carbon;
 
 class DetailPresensi extends Component
 {
-    public $tokenData; // Data token yang dipilih
+    public $tokenData;
     public $matkul;
     public $search = '';
     public $id_kelas;
-    public $mahasiswa;
     public $mahasiswaPresensi = [];
     public $tokenString;
 
     public function mount($token)
     {
-        $this->tokenString = $token; // Simpan token dari parameter
+        $this->tokenString = $token;
 
-        // 1. Ambil data token dengan relasi lengkap
         $this->tokenData = Token::with(['matkul', 'kelas'])
             ->where('token', $token)
             ->first();
@@ -38,7 +34,6 @@ class DetailPresensi extends Component
             return redirect()->route('dosen.presensi');
         }
 
-        // 2. Verifikasi data token
         Log::info("Token ditemukan", [
             'id' => $this->tokenData->id,
             'token' => $this->tokenData->token,
@@ -46,17 +41,19 @@ class DetailPresensi extends Component
             'kelas' => $this->tokenData->kelas->nama_kelas ?? null
         ]);
 
-        // 3. Set data dasar
         $this->id_kelas = $this->tokenData->id_kelas;
         $this->matkul = $this->tokenData->matkul->nama_mata_kuliah ?? 'Mata kuliah tidak ditemukan';
+
+        // Ambil presensi beserta mahasiswa yang berelasi dengan token ini
+        $this->mahasiswaPresensi = Presensi::with('mahasiswa')
+            ->where('token', $this->tokenData->token)
+            ->get();
     }
 
     public function exportExcel()
     {
-        // Gunakan token dari route parameter yang sudah disimpan di mount()
         $token = $this->tokenString;
 
-        // Cari data token lagi untuk memastikan masih valid
         $tokenData = Token::with(['matkul', 'kelas'])
             ->where('token', $token)
             ->first();
@@ -90,7 +87,6 @@ class DetailPresensi extends Component
                     confirmButtonText: 'OK'
                 });"
         );
-        // dd($this->mahasiswaPresensi);
     }
 
     public function back()
@@ -103,7 +99,7 @@ class DetailPresensi extends Component
         return view('livewire.dosen.presensi.detail_presensi', [
             'mahasiswaPresensi' => $this->mahasiswaPresensi,
             'matkul' => $this->matkul,
-            'token' => $this->tokenString, // kirim token ke view
+            'token' => $this->tokenString,
         ]);
     }
 }

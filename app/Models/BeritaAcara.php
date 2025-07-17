@@ -15,7 +15,7 @@ class BeritaAcara extends Model
     public $incrementing = false; // Karena UUID tidak auto-increment
     protected $keyType = 'string'; // Tipe data UUID
 
-    protected $fillable = ['tanggal', 'nidn', 'id_mata_kuliah', 'materi', 'jumlah_mahasiswa', 'id_kelas', 'id_semester'];
+    protected $fillable = ['tanggal', 'nidn', 'materi', 'jumlah_mahasiswa', 'token', 'keterangan'];
 
     // Menggunakan boot untuk menghasilkan UUID secara otomatis
     protected static function boot()
@@ -29,31 +29,15 @@ class BeritaAcara extends Model
         });
     }
 
-    /**
-     * Relasi dengan model Dosen
-     */
+    // App\Models\BeritaAcara.php
+    public function tokenList()
+    {
+        return $this->belongsTo(\App\Models\Token::class, 'token', 'token');
+    }
+
+
     public function dosen()
     {
         return $this->belongsTo(Dosen::class, 'nidn', 'nidn');
-    }
-
-    /**
-     * Relasi dengan model Matakuliah
-     */
-    public function mataKuliah()
-    {
-        return $this->belongsTo(Matakuliah::class, 'id_mata_kuliah', 'id_mata_kuliah');
-    }
-    /**
-     * Relasi dengan model Kelas
-     */
-    public function kelas()
-    {
-        return $this->belongsTo(Kelas::class, 'id_kelas', 'id_kelas');
-    }
-
-    public function semester()
-    {
-        return $this->belongsTo(Semester::class, 'id_semester', 'id_semester');
     }
 }

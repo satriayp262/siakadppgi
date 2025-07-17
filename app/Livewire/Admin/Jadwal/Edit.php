@@ -512,13 +512,15 @@ class Edit extends Component
             ->where('id_kelas', $this->id_kelas)
             ->where('kode_prodi', $this->kode_prodi)
             ->where('id_semester', $this->id_semester)
-            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat')")            ->get();
+            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu')")
+            ->get();
 
         $jadwals2 = jadwal::where('id_jadwal', '!=', $this->id_jadwal)
             ->where('nidn', $this->nidn)
             ->where('kode_prodi', $this->kode_prodi)
             ->where('id_semester', $this->id_semester)
-            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat')")            ->get();
+            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu')")
+            ->get();
 
         $ammo = jadwal::where('id_jadwal', $this->id_jadwal)
             ->first();
@@ -533,7 +535,15 @@ class Edit extends Component
             ->distinct('NIM')
             ->count('NIM');
 
-        $ruangans = Ruangan::where('kapasitas', '>=', $jumlahMahasiswa)->get();
+        $ruanganTerpakai = Jadwal::where('hari', $jadwal->hari)
+            ->where('sesi', $jadwal->sesi)
+            ->where('id_jadwal', '!=', $jadwal->id_jadwal)
+            ->pluck('id_ruangan');
+
+        $ruangans = Ruangan::where('kapasitas', '>=', $jumlahMahasiswa)
+            ->whereNotIn('id_ruangan', $ruanganTerpakai)
+            ->where('id_ruangan', '!=', $jadwal->id_ruangan)
+            ->get();
 
         // Filter data yang cocok dengan ammo (untuk efisiensi & keterbacaan)
         $matchRequest = $request->filter(function ($item) use ($ammo) {

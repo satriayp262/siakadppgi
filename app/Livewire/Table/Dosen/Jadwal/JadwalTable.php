@@ -20,7 +20,8 @@ final class JadwalTable extends PowerGridComponent
     public function datasource(): Builder
     {
         $dosen = Dosen::where('nidn', Auth()->user()->nim_nidn)->first();
-        return Jadwal::query()->where('nidn',$dosen->nidn)
+        return Jadwal::query()->where('nidn',$dosen->nidn)->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu')")
+        ->orderBy('sesi')
         ->with('prodi')
         ->with('mataKuliah')
         ->with('ruangan')
@@ -44,8 +45,18 @@ final class JadwalTable extends PowerGridComponent
                 $lastHari = $currentHari;
                 return $currentHari;
             })
-            ->add('sesi')
-            ->add('matakuliah.nama_mata_kuliah')
+            ->add('sesi_display', function ($jadwal) {
+                $jamMulai = \Carbon\Carbon::parse($jadwal->jam_mulai)->format('H:i');
+                $jamSelesai = \Carbon\Carbon::parse($jadwal->jam_selesai)->format('H:i');
+                return 'Sesi ' . $jadwal->sesi . ' (' . $jamMulai . ' - ' . $jamSelesai . ')';
+            })
+            ->add('matakuliah.nama_mata_kuliah', function ($ammo) {
+                if ($ammo->matakuliah->jenis_mata_kuliah == 'P') {
+                    return $ammo->matakuliah->nama_mata_kuliah . ' (Grup ' . $ammo->grup . ')';
+                } else {
+                    return $ammo->matakuliah->nama_mata_kuliah;
+                }
+            })
             ->add('prodi.nama_prodi')
             ->add('kelas.nama_kelas')
             ->add('ruangan_display', function ($jadwal) {
@@ -64,7 +75,7 @@ final class JadwalTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Sesi', 'sesi')
+            Column::make('Sesi', 'sesi_display')
                 ->sortable()
                 ->searchable(),
 

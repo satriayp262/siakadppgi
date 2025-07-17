@@ -61,41 +61,48 @@ class Index extends Component
 
     private function tandaiAlfa()
     {
-        $token = Token::all(); // Ambil semua token yang ada
-        $date = new DateTime('now', new DateTimeZone('Asia/Bangkok'));
-        $dateNow = $date->format('Y/m/d H:i:s');
+        $tokens = Token::all();
+        $now = new DateTime('now', new DateTimeZone('Asia/Jakarta'));
 
-        foreach ($token as $token) {
-            // Cek apakah waktu valid_until sudah lewat
-            if ($dateNow > $token->valid_until) {
+        foreach ($tokens as $token) {
+            // Convert valid_until to DateTime object for proper comparison
+            $validUntil = new DateTime($token->valid_until, new DateTimeZone('Asia/Jakarta'));
 
-                // Ambil mahasiswa yang terdaftar di kelas dan mata kuliah tertentu
-                $mahasiswaTerdaftar = Mahasiswa::whereIn(
+            // Debug: uncomment to see what's happening
+            // Log::info("Current time: " . $now->format('Y-m-d H:i:s'));
+            // Log::info("Valid until: " . $validUntil->format('Y-m-d H:i:s'));
+            // Log::info("Is expired: " . ($now > $validUntil ? 'YES' : 'NO'));
+
+            // Proper DateTime comparison
+            if ($now > $validUntil) {
+
+                // Get registered students for this class and subject
+                $registeredStudents = Mahasiswa::whereIn(
                     'NIM',
                     KRS::where('id_kelas', $token->id_kelas)
                         ->where('id_mata_kuliah', $token->id_mata_kuliah)
                         ->pluck('NIM')
                 )->get();
 
-                // Ambil mahasiswa yang sudah presensi
-                $sudahPresensi = Presensi::where('id_kelas', $token->id_kelas)
+                // Get students who already have attendance
+                $attendedStudentIds = Presensi::where('id_kelas', $token->id_kelas)
                     ->where('id_mata_kuliah', $token->id_mata_kuliah)
                     ->where('token', $token->token)
-                    ->pluck('nim');
+                    ->pluck('id_mahasiswa')
+                    ->toArray();
 
-                // Cari mahasiswa yang belum presensi
-                $belumPresensi = $mahasiswaTerdaftar->whereNotIn('NIM', $sudahPresensi);
+                // Find students who haven't attended
+                $absentStudents = $registeredStudents->whereNotIn('id_mahasiswa', $attendedStudentIds);
 
-                // Simpan presensi dengan keterangan "Alfa"
-                foreach ($belumPresensi as $mhs) {
+                // Mark absent students as "Alpha"
+                foreach ($absentStudents as $student) {
                     Presensi::create([
-                        'nim' => $mhs->NIM,
-                        'nama' => $mhs->nama,
+                        'id_mahasiswa' => $student->id_mahasiswa,
                         'id_mata_kuliah' => $token->id_mata_kuliah,
                         'id_kelas' => $token->id_kelas,
                         'token' => $token->token,
                         'keterangan' => 'Alpha',
-                        'waktu_submit' => $dateNow, // Waktu saat data disimpan
+                        'waktu_submit' => $now->format('Y-m-d H:i:s'),
                     ]);
                 }
             }

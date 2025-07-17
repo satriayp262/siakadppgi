@@ -37,9 +37,9 @@
                     </li>
                 </ol>
             </nav>
-            <div class="flex justify-between">
+            {{-- <div class="flex justify-between">
                 <livewire:dosen.berita_acara.create :id_mata_kuliah="$id_mata_kuliah" :id_kelas="$id_kelas" />
-            </div>
+            </div> --}}
         </div>
     </div>
     <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full">

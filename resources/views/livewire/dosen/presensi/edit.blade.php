@@ -20,62 +20,69 @@
                 </div>
                 <div class="p-4 text-left">
                     <div class="p-4 max-h-[500px] overflow-y-auto">
-                        <form wire:submit="update">
-                            <input type="text" hidden wire:model="id_presensi">
+                        <form wire:submit.prevent="update">
+                            <input type="hidden" wire:model="id_presensi">
 
+                            <!-- Nama -->
                             <div class="mb-4">
                                 <label for="nama" class="block text-sm font-medium text-gray-700">Nama
                                     Mahasiswa</label>
-                                <input type="text" id="nama" wire:model="nama" name="nama"
-                                    class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
+                                <input type="text" id="nama" wire:model="nama"
+                                    class="w-full px-3 py-2 mt-1 bg-gray-200 rounded-md shadow focus:border-indigo-500 sm:text-sm"
+                                    disabled>
                                 @error('nama')
                                     <span class="text-sm text-red-500">{{ $message }}</span>
                                 @enderror
                             </div>
 
+                            <!-- NIM -->
                             <div class="mb-4">
                                 <label for="nim" class="block text-sm font-medium text-gray-700">NIM</label>
-                                <input type="number" id="nim" wire:model="nim" name="nim"
-                                    class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
+                                <input type="number" id="nim" wire:model="nim"
+                                    class="w-full px-3 py-2 mt-1 bg-gray-200 rounded-md shadow focus:border-indigo-500 sm:text-sm"
+                                    disabled>
                                 @error('nim')
                                     <span class="text-sm text-red-500">{{ $message }}</span>
                                 @enderror
                             </div>
 
+                            <!-- Keterangan -->
+                            <!-- Keterangan -->
                             <div class="mb-4">
                                 <label for="keterangan"
                                     class="block text-sm font-medium text-gray-700">Keterangan</label>
-                                <select id="keterangan" wire:model.change="keterangan" name="keterangan"
-                                    class="block w-full py-2 mt-1 bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 px-2 sm:text-sm">
-                                    <option value="">Select</option>
+                                <select id="keterangan" wire:model.live="keterangan"
+                                    class="w-full px-3 py-2 mt-1 bg-gray-200 rounded-md shadow focus:border-indigo-500 sm:text-sm">
+                                    <option value="">Pilih</option>
                                     <option value="Hadir">Hadir</option>
                                     <option value="Alpha">Alpha</option>
                                     <option value="Ijin">Ijin</option>
                                     <option value="Sakit">Sakit</option>
                                 </select>
                                 @error('keterangan')
-                                    <span class="mt-1 text-sm text-red-500">{{ $message }}</span>
+                                    <span class="text-sm text-red-500">{{ $message }}</span>
                                 @enderror
                             </div>
 
-                            {{-- Input alasan hanya muncul saat Ijin --}}
+                            <!-- Alasan (jika Ijin) -->
                             @if ($keterangan === 'Ijin')
-                                <div class="mb-4 transition-all duration-300 ease-in-out">
+                                <div class="mb-4">
                                     <label for="alasan" class="block text-sm font-medium text-gray-700">Alasan</label>
-                                    <input type="text" id="alasan" wire:model="alasan" name="alasan"
-                                        class="block w-full px-2 py-1 mt-1 bg-gray-200 border-gray-700 rounded-md shadow-2xl focus:border-indigo-500 sm:text-sm">
+                                    <input type="text" id="alasan" wire:model="alasan"
+                                        class="w-full px-3 py-2 mt-1 bg-gray-200 rounded-md shadow focus:border-indigo-500 sm:text-sm">
                                     @error('alasan')
                                         <span class="text-sm text-red-500">{{ $message }}</span>
                                     @enderror
                                 </div>
                             @endif
 
-                            <!-- Submit Button inside the form -->
-                            <div class="flex justify-end p-4 bg-gray-200 rounded-b-lg">
+
+                            <!-- Footer Buttons -->
+                            <div class="flex justify-end gap-2 p-4 bg-gray-200 rounded-b-lg">
                                 <button type="button" wire:click="clear({{ $id_presensi }})" @click="isOpen = false"
-                                    class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">Close</button>
+                                    class="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-700">Tutup</button>
                                 <button type="submit"
-                                    class="px-4 py-2 ml-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">Submit</button>
+                                    class="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-700">Simpan</button>
                             </div>
                         </form>
                     </div>

@@ -9,6 +9,7 @@ use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\Column;
+use Carbon\Carbon;
 
 final class TokenTable extends PowerGridComponent
 {
@@ -30,11 +31,11 @@ final class TokenTable extends PowerGridComponent
         $userId = Auth::id();
 
         return Token::query()
-            ->with(['matkul', 'kelas', 'semester'])
+            ->with(['matkul', 'kelas', 'semester', 'jadwal'])
             ->where('id', $userId)
             ->where('id_mata_kuliah', $this->id_mata_kuliah)
             ->where('id_kelas', $this->id_kelas)
-            ->latest();
+            ->orderByDesc('pertemuan');
     }
 
 
@@ -42,34 +43,65 @@ final class TokenTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('token')
-            ->add('matkul.nama_mata_kuliah')
-            ->add('kelas.nama_kelas')
             ->add('semester.nama_semester')
-            ->add('valid_until');
+            ->add('jadwal.jam_selesai', function ($model) {
+                return \Carbon\Carbon::parse($model->jadwal->jam_selesai)->format('H:i');
+            })
+            ->add('created_at_formatted', function ($model) {
+                return Carbon::parse($model->created_at)
+                    ->timezone('Asia/Jakarta') // Konversi timezone
+                    ->locale('id')             // Bahasa Indonesia
+                    ->isoFormat('dddd, YYYY-MM-DD'); // Format contoh: "Jumat, 2025-07-03"
+            })
+            ->add('jadwal.sesi')
+            ->add('pertemuan')
+            ->add('valid_until', function ($model) {
+                return Carbon::parse($model->valid_until)
+                    ->timezone('Asia/Jakarta') // Konversi timezone
+                    ->locale('id');             // Bahasa Indonesia
+            });
     }
+
 
     public function columns(): array
     {
         return [
-            Column::make('Token', 'token')->sortable()->searchable(),
-
-            Column::make('Mata Kuliah', 'matkul.nama_mata_kuliah')
+            Column::make('Pertemuan', 'pertemuan')
                 ->sortable()
-                ->searchable(),
+                ->searchable()
+                ->headerAttribute('text-center')
+                ->bodyAttribute('text-center'),
 
-            Column::make('Kelas', 'kelas.nama_kelas')
+            Column::make('Tanggal', 'created_at_formatted')
                 ->sortable()
-                ->searchable(),
+                ->headerAttribute('text-center')
+                ->bodyAttribute('text-center'),
+
+            Column::make('Sesi', 'jadwal.sesi')
+                ->sortable()
+                ->searchable()
+                ->headerAttribute('text-center')
+                ->bodyAttribute('text-center'),
+
+            Column::make('Token', 'token')
+                ->sortable()
+                ->searchable()
+                ->headerAttribute('text-center')
+                ->bodyAttribute('text-center'),
 
             Column::make('Semester', 'semester.nama_semester')
                 ->sortable()
-                ->searchable(),
+                ->headerAttribute('text-center')
+                ->bodyAttribute('text-center'),
 
             Column::make('Valid Until', 'valid_until')
                 ->sortable()
-                ->searchable(),
+                ->headerAttribute('text-center')
+                ->bodyAttribute('text-center'),
 
-            Column::action('Aksi'),
+            Column::action('Aksi')
+                ->headerAttribute('text-center')
+                ->bodyAttribute('text-center'),
         ];
     }
 

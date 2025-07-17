@@ -11,6 +11,8 @@ use App\Models\Kelas;
 use App\Models\Matakuliah;
 use Livewire\WithPagination;
 use Livewire\Attributes\Url;
+use App\Models\Token;
+
 
 class Detail extends Component
 {
@@ -36,60 +38,50 @@ class Detail extends Component
     {
         $this->semesters = Semester::orderBy('nama_semester')->get();
         $this->kelasList = Kelas::orderBy('nama_kelas')->get();
-        $this->matkuls = Matakuliah::orderBy('nama_mata_kuliah')->get();
+
+        // Hanya ambil matkul yang diajar oleh dosen ini
+        $this->matkuls = Matakuliah::where('nidn', $this->nidn)
+            ->orderBy('nama_mata_kuliah')
+            ->get();
     }
+
 
     public function exportExcel()
     {
-        // Debug: Cek nilai filter sebelum export
-        logger()->info('Export Params:', [
-            'nidn' => $this->nidn,
-            'semester' => $this->id_semester,
-            'kelas' => $this->id_kelas,
-            'matkul' => $this->id_mata_kuliah
-        ]);
-
-        // Dapatkan nama-nama untuk filename
-        $dosenName = BeritaAcara::with('dosen')
-            ->where('nidn', $this->nidn)
-            ->first()
-            ->dosen->nama_dosen ?? 'Dosen';
-
-        $semesterName = $this->id_semester !== 'semua'
-            ? $this->semesters->firstWhere('id_semester', $this->id_semester)->nama_semester
-            : 'Semua Semester';
-
-        $kelasName = $this->id_kelas !== 'semua'
-            ? $this->kelasList->firstWhere('id_kelas', $this->id_kelas)->nama_kelas
-            : 'Semua Kelas';
-
-        $matkulName = $this->id_mata_kuliah !== 'semua'
-            ? $this->matkuls->firstWhere('id_mata_kuliah', $this->id_mata_kuliah)->nama_mata_kuliah
-            : 'Semua Matkul';
-
-        // Generate filename
-        $filename = 'Berita Acara ' . $dosenName . ' - ' . $kelasName . ' - ' . $matkulName . ' - ' . $semesterName . '.xlsx';
-        $filename = preg_replace('/[^A-Za-z0-9 \-\.]/', '', $filename);
-        $filename = preg_replace('/\s+/', ' ', $filename);
-
-        // Cek data sebelum export
-        $query = BeritaAcara::with(['kelas', 'mataKuliah', 'dosen', 'semester'])
+        $query = BeritaAcara::with(['tokenList.matkul', 'tokenList.kelas', 'dosen', 'semester'])
             ->where('nidn', $this->nidn);
 
         if ($this->id_semester !== 'semua') {
-            $query->where('id_semester', $this->id_semester);
+            $query->whereHas('token', fn($q) =>
+            $q->where('id_semester', $this->id_semester));
         }
 
         if ($this->id_kelas !== 'semua') {
-            $query->where('id_kelas', $this->id_kelas);
+            $query->whereHas('token', fn($q) =>
+            $q->where('id_kelas', $this->id_kelas));
         }
 
         if ($this->id_mata_kuliah !== 'semua') {
-            $query->where('id_mata_kuliah', $this->id_mata_kuliah);
+            $query->whereHas('token', fn($q) =>
+            $q->where('id_mata_kuliah', $this->id_mata_kuliah));
         }
 
         $count = $query->count();
-        logger()->info('Data count before export: ' . $count);
+
+        $dosenName = BeritaAcara::with('dosen')->where('nidn', $this->nidn)->first()?->dosen->nama_dosen ?? 'Dosen';
+        $semesterName = $this->id_semester !== 'semua'
+            ? $this->semesters->firstWhere('id_semester', $this->id_semester)?->nama_semester
+            : 'Semua Semester';
+        $kelasName = $this->id_kelas !== 'semua'
+            ? $this->kelasList->firstWhere('id_kelas', $this->id_kelas)?->nama_kelas
+            : 'Semua Kelas';
+        $matkulName = $this->id_mata_kuliah !== 'semua'
+            ? $this->matkuls->firstWhere('id_mata_kuliah', $this->id_mata_kuliah)?->nama_mata_kuliah
+            : 'Semua Matkul';
+
+        $filename = "Berita Acara {$dosenName} - {$kelasName} - {$matkulName} - {$semesterName}.xlsx";
+        $filename = preg_replace('/[^A-Za-z0-9 \-\.]/', '', $filename);
+        $filename = preg_replace('/\s+/', ' ', $filename);
 
         return Excel::download(new BeritaAcaraExport(
             $this->nidn,
@@ -106,19 +98,22 @@ class Detail extends Component
 
     public function render()
     {
-        $beritaAcaras = BeritaAcara::with(['kelas', 'mataKuliah', 'dosen'])
+        $beritaAcaras = BeritaAcara::with(['tokenList.matkul', 'tokenList.kelas', 'dosen'])
             ->where('nidn', $this->nidn)
-            ->when($this->selectedMatkul, fn($query) =>
-            $query->where('id_mata_kuliah', $this->selectedMatkul))
-            ->when($this->selectedKelas, fn($query) =>
-            $query->where('id_kelas', $this->selectedKelas))
-            ->when($this->selectedSemester, fn($query) =>
-            $query->where('id_semester', $this->selectedSemester))
-            ->when($this->search, function ($query) {
-                $query->where(function ($q) {
-                    $q->whereHas('kelas', fn($q) =>
+            ->when($this->selectedSemester, fn($q) =>
+            $q->whereHas('token', fn($sub) =>
+            $sub->where('id_semester', $this->selectedSemester)))
+            ->when($this->selectedKelas, fn($q) =>
+            $q->whereHas('token', fn($sub) =>
+            $sub->where('id_kelas', $this->selectedKelas)))
+            ->when($this->selectedMatkul, fn($q) =>
+            $q->whereHas('token', fn($sub) =>
+            $sub->where('id_mata_kuliah', $this->selectedMatkul)))
+            ->when($this->search, function ($q) {
+                $q->where(function ($sub) {
+                    $sub->whereHas('token.kelas', fn($q) =>
                     $q->where('nama_kelas', 'like', '%' . $this->search . '%'))
-                        ->orWhereHas('mataKuliah', fn($q) =>
+                        ->orWhereHas('token.matkul', fn($q) =>
                         $q->where('nama_mata_kuliah', 'like', '%' . $this->search . '%'));
                 });
             })

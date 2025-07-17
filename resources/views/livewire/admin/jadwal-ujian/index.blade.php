@@ -1,5 +1,7 @@
-<div class="container p-4 mx-auto">
-    <div class="flex items-center justify-between">
+<div class="max-w-screen-xl px-4 py-6 mx-auto">
+    <!-- Header -->
+    <div class="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+        <!-- Breadcrumb -->
         <nav aria-label="Breadcrumb">
             <ol class="flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
                 <li aria-current="page">
@@ -15,110 +17,97 @@
             </ol>
         </nav>
 
-        <div class="text-right">
-            <ol class="breadcrumb">
-                <li class="text-sm font-medium text-gray-700 breadcrumb-item">
-                    {{ \Carbon\Carbon::now()->locale('id')->isoFormat('dddd, D MMMM Y') }}
-                </li>
-            </ol>
+        <!-- Tanggal -->
+        <div class="text-sm font-medium text-gray-700">
+            {{ \Carbon\Carbon::now()->locale('id')->isoFormat('dddd, D MMMM Y') }}
         </div>
     </div>
-    <div class="flex mt-4">
-        <div class="absolute right-4">
-            <select name="prodi" id="prodi" wire:model.live="prodi" class="items-center px-4 py-2 pr-2 ml-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
-                <option value="" selected>Pilih Prodi</option>
-                @foreach ($prodis as $x)
-                <option value="{{ $x->kode_prodi }}">{{ $x->nama_prodi }}</option>
-                @endforeach
-            </select>
 
-            {{-- <select name="semesterfilter" id="semesterfilter" wire:model.live="semesterfilter" class="items-center px-4 py-2 pr-2 ml-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
-                <option value="" selected>Pilih semester</option>
-                @foreach ($semesterfilters as $v)
-                    <option value="{{ $v->id_semester }}">{{ $v->nama_semester }}</option>
-                @endforeach
-            </select> --}}
-        </div>
-
-        <div x-data="{ isOpen: false }" @modal-closed.window="isOpen = false" class="right-0 flex">
-            <!-- Button to open the modal -->
+    <!-- Filter & Tombol -->
+   <div class="flex flex-wrap items-center justify-between gap-2 mt-4">
+        <!-- Tombol-tombol -->
+        <div x-data="{ isOpen: false }" @modal-closed.window="isOpen = false">
             <button @click="isOpen=true"
-                class="flex items-center px-4 py-2 ml-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">
+                class="px-4 py-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">
                 Input Jadwal Ujian
             </button>
-            <button onclick="confirmDeleteAll()" class="px-2 py-1 ml-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">
-                Hapus Jadwal Ujian
-            </button>
-            <button type="button" class="flex items-center px-4 py-2 ml-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700" wire:click='generatePdf()'>Download Jadwal Perkuliahan</button>
-
-
-            <!-- Modal Background -->
-                <div x-data="{ load: false }" x-show="isOpen && load" x-init="load = true" wire:init="" x-cloak
-                    class="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-75">
-                    <!-- Modal Content -->
-                    <div class="w-1/4 bg-white rounded-lg shadow-lg">
-                        <!-- Modal Header -->
-                        <div class="flex items-center justify-between p-4 bg-gray-200 rounded-t-lg">
-                            <h3 class="text-xl font-semibold">Jadwal Ujian</h3>
-                            <div @click="isOpen=false" class="px-3 rounded-sm shadow hover:bg-red-500">
-                                <button class="text-gray-900">&times;</button>
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <div class="p-4 max-h-[500px] overflow-y-auto">
-                                <form wire:submit='tanggal'>
-                                    <div class="flex flex-col justify-center">
-                                        <div class="mb-4">
-                                           <div class="flex items-center justify-between mb-2">
-                                                <label for="">Jenis Ujian</label>
-                                            </div>
-                                            <select name="jenis" id="jenis" wire:model="jenis"
-                                                    class="block w-full px-2 py-1 mt-1 border border-gray-700 rounded shadow-2xl focus:border-indigo-500 sm:text-sm">
-                                                <option value="" selected>Pilih Jenis</option>
-                                                <option value="UTS">UTS</option>
-                                                <option value="UAS">UAS</option>
-                                            </select>
-                                            @error('jenis')
-                                                <span class="mt-1 text-sm text-red-500">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                        <div class="mb-4">
-                                            <div class="flex items-center justify-between mb-2">
-                                                <label for="">Tanggal Pertama Ujian</label>
-                                            </div>
-                                            <input type="date" name="ujian" id="ujian" wire:model="ujian"
-                                                class="block w-full px-2 py-1 mt-1 border border-gray-700 rounded shadow-2xl focus:border-indigo-500 sm:text-sm">
-                                            @error('ujian')
-                                                <span class="mt-1 text-sm text-red-500">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                        <div class="mb-4">
-                                            <div class="flex items-center justify-between mb-2">
-                                                <label for="">Tanggal TTD</label>
-                                            </div>
-                                            <input type="date" name="tanggalttd" id="tanggalttd" wire:model="tanggalttd"
-                                                class="block w-full px-2 py-1 mt-1 border border-gray-700 rounded shadow-2xl focus:border-indigo-500 sm:text-sm">
-                                            @error('tanggalttd')
-                                                <span class="mt-1 text-sm text-red-500">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="flex justify-end p-4 bg-gray-200 rounded-b-lg">
-                                        <button type="button" @click="isOpen = false"
-                                            class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">Close</button>
-                                        <button type="submit"
-                                            class="px-4 py-2 ml-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">Submit</button>
-                                    </div>
-                                </form>
-                            </div>
+            <!-- Modal -->
+            <div x-data="{ load: false }" x-show="isOpen && load" x-init="load = true" wire:init="" x-cloak
+                class="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-75">
+                <div class="w-[90%] max-w-md bg-white rounded-lg shadow-lg">
+                    <div class="flex items-center justify-between p-4 bg-gray-200 rounded-t-lg">
+                        <h3 class="text-xl font-semibold">Jadwal Ujian</h3>
+                        <div @click="isOpen=false" class="px-3 rounded-sm shadow hover:bg-red-500">
+                            <button class="text-gray-900">&times;</button>
                         </div>
                     </div>
+                    <div class="p-4 max-h-[500px] overflow-y-auto">
+                        <form wire:submit='tanggal' class="space-y-4">
+                            <!-- Jenis Ujian -->
+                            <div>
+                                <label class="block mb-1">Jenis Ujian</label>
+                                <select name="jenis" wire:model="jenis"
+                                    class="block w-full px-2 py-1 border border-gray-700 rounded shadow focus:border-indigo-500 sm:text-sm">
+                                    <option value="" selected>Pilih Jenis</option>
+                                    <option value="UTS">UTS</option>
+                                    <option value="UAS">UAS</option>
+                                </select>
+                                @error('jenis')<span class="text-sm text-red-500">{{ $message }}</span>@enderror
+                            </div>
+
+                            <!-- Tanggal Ujian -->
+                            <div>
+                                <label class="block mb-1">Tanggal Pertama Ujian</label>
+                                <input type="date" name="ujian" wire:model="ujian"
+                                    class="block w-full px-2 py-1 border border-gray-700 rounded shadow focus:border-indigo-500 sm:text-sm">
+                                @error('ujian')<span class="text-sm text-red-500">{{ $message }}</span>@enderror
+                            </div>
+
+                            <!-- Tanggal TTD -->
+                            <div>
+                                <label class="block mb-1">Tanggal TTD</label>
+                                <input type="date" name="tanggalttd" wire:model="tanggalttd"
+                                    class="block w-full px-2 py-1 border border-gray-700 rounded shadow focus:border-indigo-500 sm:text-sm">
+                                @error('tanggalttd')<span class="text-sm text-red-500">{{ $message }}</span>@enderror
+                            </div>
+
+                            <!-- Tombol Modal -->
+                            <div class="flex justify-end gap-2 pt-4 border-t">
+                                <button type="button" @click="isOpen = false"
+                                    class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">Close</button>
+                                <button type="submit"
+                                    class="px-4 py-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">Submit</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
+            </div>
+        </div>
+            <button onclick="confirmDeleteAll()"
+                class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">
+                Hapus Jadwal Ujian
+            </button>
+            <button type="button"
+                class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
+                wire:click='generatePdf()'>
+                Download Jadwal Perkuliahan
+            </button>
+
+        <!-- Pilih Prodi -->
+        <div class="ml-auto">
+            <select name="prodi" id="prodi" wire:model.live="prodi"
+                class="px-4 py-2 pr-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
+                <option value="" selected>Pilih Prodi</option>
+                @foreach ($prodis as $x)
+                    <option value="{{ $x->kode_prodi }}">{{ $x->nama_prodi }}</option>
+                @endforeach
+            </select>
         </div>
     </div>
 
-    <div class="max-w-full p-4 mt-4 mb-4 bg-white rounded-lg shadow-lg">
-        <table class="w-full mt-4 bg-white border border-gray-200">
+    <!-- TABEL -->
+    <div class="w-full mt-4 overflow-x-auto">
+        <table class="w-full min-w-[900px] bg-white border border-gray-200">
             <thead>
                 <tr class="items-center w-full text-sm text-white align-middle bg-customPurple">
                     <th class="px-3 py-2 text-center">Kelas</th>
@@ -202,7 +191,9 @@
                                             <span>-</span>
                                         @endif
                                     </td>
-                                    <td class="px-3 py-1 text-center">{{ $jadwal->sesi }}</td>
+                                    <td class="px-3 py-1 text-center">
+                                        Sesi {{ $jadwal->sesi }} ({{ \Carbon\Carbon::parse($jadwal->jam_mulai)->format('H:i') }} - {{ \Carbon\Carbon::parse($jadwal->jam_selesai)->format('H:i') }})
+                                    </td>
                                     @if ($jadwal->matakuliah->jenis_mata_kuliah == 'P')
                                         <td class="px-3 py-1 text-center">{{ $jadwal->matakuliah->nama_mata_kuliah }} (Grup {{ $jadwal->grup }})</td>
                                     @else
@@ -442,7 +433,9 @@
                                             <span>-</span>
                                         @endif
                                     </td>
-                                    <td class="px-3 py-1 text-center">{{ $jadwal->sesi }}</td>
+                                    <td class="px-3 py-1 text-center">
+                                        Sesi {{ $jadwal->sesi }} ({{ \Carbon\Carbon::parse($jadwal->jam_mulai)->format('H:i') }} - {{ \Carbon\Carbon::parse($jadwal->jam_selesai)->format('H:i') }})
+                                    </td>
                                     @if ($jadwal->matakuliah->jenis_mata_kuliah == 'P')
                                         <td class="px-3 py-1 text-center">{{ $jadwal->matakuliah->nama_mata_kuliah }} (Grup {{ $jadwal->grup }})</td>
                                     @else
@@ -471,6 +464,7 @@
             @endif
         </table>
     </div>
+
     <script>
         function confirmDeleteAll(id) {
             Swal.fire({
@@ -483,7 +477,6 @@
                 confirmButtonText: 'Hapus'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Panggil method Livewire jika konfirmasi diterima
                     @this.call('clear', id);
                 }
             });

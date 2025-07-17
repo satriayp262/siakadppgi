@@ -37,8 +37,9 @@ class PresensiMahasiswaByToken implements FromCollection, WithHeadings, WithMapp
             ->orderBy('nama')
             ->get()
             ->map(function($mhs) {
+                // Gantilah 'id_mahasiswa' sesuai dengan nama kolom sebenarnya di tabel presensi
                 $presensi = Presensi::where('token', $this->token)
-                    ->where('nim', $mhs->NIM)
+                    ->where('id_mahasiswa', $mhs->id) // Perbaikan di sini
                     ->first();
 
                 return (object) [

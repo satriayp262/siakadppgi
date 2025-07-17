@@ -29,7 +29,7 @@ class DetailKelas extends Component
     #[On('acaraUpdated')]
     public function handleAcaraUpdated()
     {
-        $this->dispatch('pg:eventRefresh-berita-acara-dosen-cmhc6z-table');
+        $this->dispatch('pg:eventRefresh-berita-acara-dosen-table');
         $this->dispatch('updated', params: ['message' => 'Berita Acara updated Successfully']);
     }
 
@@ -43,7 +43,7 @@ class DetailKelas extends Component
     #[On('acaraCreated')]
     public function handleAcaraCreated()
     {
-        $this->dispatch('pg:eventRefresh-berita-acara-dosen-cmhc6z-table');
+        $this->dispatch('pg:eventRefresh-berita-acara-dosen-table');
         $this->dispatch('created', params: ['message' => 'Berita Acara created Successfully']);
     }
 
@@ -52,48 +52,14 @@ class DetailKelas extends Component
         $this->id_kelas = $id_kelas;
         $this->id_mata_kuliah = $id_mata_kuliah;
 
-        // $this->CheckDosen = (Auth()->user()->nim_nidn == Matakuliah::where('id_mata_kuliah', Kelas::where('id_kelas', $this->id_kelas)->first()->id_mata_kuliah)->first()->nidn);
-
-        // Ambil detail kelas
         $this->kelas = Kelas::with('matkul')->findOrFail($id_kelas);
 
-        // Ambil data mata kuliah berdasarkan ID
         $this->matkul = Matakuliah::findOrFail($id_mata_kuliah);
     }
 
     public function render()
     {
-        // Ambil semua NIM dari mahasiswa yang mengambil mata kuliah ini di tabel KRS
-        $krsEntries = KRS::where('id_mata_kuliah', $this->matkul->id_mata_kuliah)->pluck('NIM');
-
-        // Cari kelas dari mahasiswa tersebut
-        $kelas = Kelas::whereIn('id_kelas', function ($query) use ($krsEntries) {
-            $query->select('id_kelas')
-                ->from('mahasiswa')
-                ->whereIn('NIM', $krsEntries);
-        })->get();
-
-        // Ambil ID kelas yang ditemukan
-        $kelasIds = $kelas->pluck('id_kelas');
-
-        // Ambil berita acara berdasarkan nidn, id mata kuliah, dan id kelas yang cocok
-        $beritaAcara = BeritaAcara::query()
-            ->where('nidn', auth()->user()->nim_nidn)
-            ->where('id_mata_kuliah', $this->matkul->id_mata_kuliah)
-            ->when($kelasIds->isNotEmpty(), function ($query) use ($kelasIds) {
-                $query->whereIn('id_kelas', $kelasIds);
-            })
-            ->when($this->search, function ($query) {
-                $query->where(function ($q) {
-                    $q->where('materi', 'like', '%' . $this->search . '%')
-                        ->orWhere('jumlah_mahasiswa', 'like', '%' . $this->search . '%');
-                });
-            })
-            ->latest()
-            ->paginate(10);
-
         return view('livewire.dosen.berita_acara.detail-kelas', [
-            'beritaAcara' => $beritaAcara,
             'kelas' => $this->kelas,
             'matkul' => $this->matkul,
             'id_kelas' => $this->kelas->id_kelas,

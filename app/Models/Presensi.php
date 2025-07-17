@@ -11,9 +11,13 @@ class Presensi extends Model
     protected $keyType = 'string';
     public $incrementing = false;
     protected $table = 'presensi';
-    protected $fillable = ['nama', 'nim', 'token', 'waktu_submit', 'keterangan', 'alasan', 'id_kelas', 'id_mata_kuliah'];
+    protected $fillable = ['id_mahasiswa', 'token', 'keterangan', 'alasan', 'id_kelas', 'id_mata_kuliah'];
 
     public function tokenlist()
+    {
+        return $this->belongsTo(Token::class, 'token', 'token');
+    }
+    public function token()
     {
         return $this->belongsTo(Token::class, 'token', 'token');
     }
@@ -21,6 +25,11 @@ class Presensi extends Model
     public function mahasiswa()
     {
         return $this->belongsTo(Mahasiswa::class, 'nim', 'NIM');
+    }
+
+    public function mahasiswalist()
+    {
+        return $this->belongsTo(Mahasiswa::class, 'id_mahasiswa', 'id_mahasiswa');
     }
 
     public function matkul()

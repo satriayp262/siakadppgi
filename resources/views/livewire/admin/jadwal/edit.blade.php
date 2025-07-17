@@ -82,16 +82,10 @@
 
                 <!-- Action Buttons -->
                 <div class="flex justify-center space-x-4">
-                    @if ($ammo->matakuliah->jenis_mata_kuliah == "P")
                         <button wire:click='switch' class="px-4 py-2 font-bold text-white transition bg-blue-600 rounded-lg hover:bg-blue-800">Tukar Jadwal</button>
                         <button wire:click='ganti' class="px-4 py-2 font-bold text-white transition bg-blue-600 rounded-lg hover:bg-blue-800">Ganti Hari/Sesi</button>
                         <button wire:click='gabung' class="px-4 py-2 font-bold text-white transition bg-blue-600 rounded-lg hover:bg-blue-800">Gabung Jadwal</button>
                         <button wire:click='ruangan' class="px-4 py-2 font-bold text-white transition bg-blue-600 rounded-lg hover:bg-blue-800">Ubah Ruangan</button>
-                    @else
-                        <button wire:click='switch' class="px-4 py-2 font-bold text-white transition bg-blue-600 rounded-lg hover:bg-blue-800">Tukar Jadwal</button>
-                        <button wire:click='ganti' class="px-4 py-2 font-bold text-white transition bg-blue-600 rounded-lg hover:bg-blue-800">Ganti Hari/Sesi</button>
-                        <button wire:click='gabung' class="px-4 py-2 font-bold text-white transition bg-blue-600 rounded-lg hover:bg-blue-800">Gabung Jadwal</button>
-                    @endif
                 </div>
 
                 <!-- Form Handling -->
@@ -122,6 +116,7 @@
                                     <option value="Rabu">Rabu</option>
                                     <option value="Kamis">Kamis</option>
                                     <option value="Jumat">Jumat</option>
+                                    <option value="Sabtu">Sabtu</option>
                                 </select>
                                 @error('z') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
                             </div>

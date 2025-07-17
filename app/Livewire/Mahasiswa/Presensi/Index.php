@@ -15,6 +15,7 @@ class Index extends Component
 {
     public $nama;
     public $nim;
+    public $id_mahasiswa;
     public $token;
     public $keterangan;
     public $alasan;
@@ -22,9 +23,11 @@ class Index extends Component
     public function mount()
     {
         $mahasiswa = Mahasiswa::where('NIM', Auth::user()->nim_nidn)->first();
+
         if ($mahasiswa) {
             $this->nama = $mahasiswa->nama;
             $this->nim = $mahasiswa->NIM;
+            $this->id_mahasiswa = $mahasiswa->id; // simpan id_mahasiswa
         } else {
             session()->flash('error', 'Data mahasiswa tidak ditemukan.');
         }
@@ -36,8 +39,6 @@ class Index extends Component
         $this->dispatch('created',  ['message' => 'Presensi berhasil dibuat']);
         $this->reset(['token', 'keterangan', 'alasan']);
     }
-
-    
 
     public function submit()
     {
@@ -55,26 +56,35 @@ class Index extends Component
             return;
         }
 
-        // Cek apakah token sudah expired
-        if (Carbon::now()->greaterThan($tokenData->valid_until)) {
-            $this->tandaiAlfa($tokenData);
-            $this->dispatch('error', ['message' => 'Token sudah tidak berlaku. Mahasiswa yang belum presensi ditandai sebagai Alfa.']);
+        if (Carbon::now()->gt($tokenData->valid_until)) {
+            $this->dispatch('error', ['message' => 'Token sudah tidak berlaku.']);
             return;
         }
 
-        $existingPresensi = Presensi::where('nim', $this->nim)
+        $krsValid = Krs::where('NIM', $this->nim)
+            ->where('id_kelas', $tokenData->id_kelas)
+            ->where('id_mata_kuliah', $tokenData->id_mata_kuliah)
+            ->exists();
+
+        if (!$krsValid) {
+            $this->dispatch('error', ['message' => 'Anda tidak terdaftar di mata kuliah dan kelas ini.']);
+            return;
+        }
+
+        // Validasi presensi ganda berdasarkan id_mahasiswa
+        $alreadyPresensi = Presensi::where('id_mahasiswa', $this->id_mahasiswa)
             ->where('token', $tokenData->token)
             ->exists();
 
-        if ($existingPresensi) {
-            $this->dispatch('error', ['message' => 'Anda sudah melakukan presensi dengan token ini.']);
+        if ($alreadyPresensi) {
+            $this->dispatch('error', ['message' => 'Anda sudah melakukan presensi untuk token ini.']);
             $this->reset(['token', 'keterangan', 'alasan']);
             return;
         }
 
+        // Simpan presensi menggunakan id_mahasiswa
         Presensi::create([
-            'nama' => $this->nama,
-            'nim' => $this->nim,
+            'id_mahasiswa' => $this->id_mahasiswa,
             'token' => $tokenData->token,
             'waktu_submit' => Carbon::now(),
             'keterangan' => $this->keterangan,

@@ -53,4 +53,12 @@ class KRS extends Model
             'bobot' => 0,
         ]);
     }
+
+    public function jadwal()
+    {
+        return $this->hasOne(\App\Models\Jadwal::class, 'id_mata_kuliah', 'id_mata_kuliah')
+            ->where(function ($query) {
+                $query->whereColumn('jadwal.id_kelas', 'krs.id_kelas');
+            });
+    }
 }

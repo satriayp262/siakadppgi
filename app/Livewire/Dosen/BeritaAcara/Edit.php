@@ -2,92 +2,102 @@
 
 namespace App\Livewire\Dosen\BeritaAcara;
 
-use App\Models\Dosen;
 use App\Models\BeritaAcara;
+use App\Models\Dosen;
+use App\Models\Kelas;
 use App\Models\Matakuliah;
+use App\Models\Presensi;
+use App\Models\Token;
 use Livewire\Component;
+use Carbon\Carbon;
 
 class Edit extends Component
 {
-    public $id_berita_acara, $tanggal, $nidn, $nama_dosen, $materi, $id_mata_kuliah, $nama_mata_kuliah, $jumlah_mahasiswa;
-    public $matkul, $dosen;
+    public $id_berita_acara;
+    public $token;
+    public $tanggal;
+    public $pertemuan;
+    public $sesi;
+    public $nidn = '';
+    public $nama_dosen = '';
+    public $materi;
+    public $keterangan;
+    public $id_kelas;
+    public $id_mata_kuliah;
+    public $jumlah_mahasiswa;
+    public $nama_kelas;
+    public $nama_mata_kuliah;
+
+    public function mount($id_berita_acara)
+    {
+        $this->id_berita_acara = $id_berita_acara;
+
+        // Load existing berita acara data
+        $beritaAcara = BeritaAcara::findOrFail($id_berita_acara);
+
+        // Load token data and relationships including jadwal
+        $tokenData = Token::with(['matkul', 'kelas', 'jadwal'])
+            ->where('token', $beritaAcara->token)
+            ->firstOrFail();
+
+        $this->token = $beritaAcara->token;
+        $this->tanggal = Carbon::parse($beritaAcara->tanggal)->format('d-m-Y');
+        $this->pertemuan = $tokenData->pertemuan;
+
+        // Ambil sesi dari relasi jadwal
+        $this->sesi = $tokenData->jadwal->sesi ?? '-';
+
+        $this->id_mata_kuliah = $tokenData->id_mata_kuliah;
+        $this->id_kelas = $tokenData->id_kelas;
+        $this->nama_mata_kuliah = $tokenData->matkul->nama_mata_kuliah ?? '-';
+        $this->nama_kelas = $tokenData->kelas->nama_kelas ?? '-';
+        $this->materi = $beritaAcara->materi;
+        $this->keterangan = $beritaAcara->keterangan;
+
+        // Count students from presensi
+        $this->jumlah_mahasiswa = Presensi::where('token', $beritaAcara->token)->count();
+
+        // Load dosen data
+        $dosen = Dosen::where('nidn', $beritaAcara->nidn)->first();
+        if ($dosen) {
+            $this->nidn = $dosen->nidn;
+            $this->nama_dosen = $dosen->nama_dosen;
+        }
+    }
+
 
     public function rules()
     {
         return [
-            'tanggal' => 'required|date',
-            'nidn' => 'required|string|min:10|max:10',
             'materi' => 'required|string',
-            'id_mata_kuliah' => 'required|integer|max:255',
-            'jumlah_mahasiswa' => 'required|integer|min:1',
+            'keterangan' => 'nullable|string',
         ];
     }
 
-    public function mount($id_berita_acara)
+    public function messages()
     {
-        $acara = BeritaAcara::find($id_berita_acara);
-        $this->dosen = Dosen::all();
-        $this->matkul = Matakuliah::all();
-
-        if ($acara) {
-            $this->id_berita_acara = $acara->id_berita_acara;
-            $this->tanggal = $acara->tanggal;
-            $this->nidn = $acara->nidn;
-            $this->id_mata_kuliah = $acara->id_mata_kuliah;
-            $this->materi = $acara->materi;
-            $this->jumlah_mahasiswa = $acara->jumlah_mahasiswa;
-            $this->loadDosenName($acara->nidn);
-            $this->loadMataKuliahName($acara->id_mata_kuliah);
-        }
-    }
-
-    public function clear($id_berita_acara)
-    {
-        $this->reset();
-
-        $acara = BeritaAcara::find($id_berita_acara);
-        if ($acara) {
-            $this->id_berita_acara = $acara->id_berita_acara;
-            $this->tanggal = $acara->tanggal;
-            $this->nidn = $acara->nidn;
-            $this->id_mata_kuliah = $acara->id_mata_kuliah;
-            $this->materi = $acara->materi;
-            $this->jumlah_mahasiswa = $acara->jumlah_mahasiswa;
-            $this->loadDosenName($acara->nidn);
-            $this->loadMataKuliahName($acara->id_mata_kuliah);
-        }
-    }
-
-    protected function loadDosenName($nidn)
-    {
-        $dosen = Dosen::where('nidn', $nidn)->first();
-        $this->nama_dosen = $dosen ? $dosen->nama_dosen : '';
-    }
-
-    protected function loadMataKuliahName($id_mata_kuliah)
-    {
-        $matkul = Matakuliah::find($id_mata_kuliah);
-        $this->nama_mata_kuliah = $matkul ? $matkul->nama_mata_kuliah : 'Mata Kuliah Tidak Ditemukan';
+        return [
+            'materi.required' => 'Materi tidak boleh kosong',
+        ];
     }
 
     public function update()
     {
-        $validatedData = $this->validate();
+        $this->validate();
 
-        $acara = BeritaAcara::find($this->id_berita_acara);
-        if ($acara) {
-            $acara->update($validatedData);
+        $beritaAcara = BeritaAcara::findOrFail($this->id_berita_acara);
 
-            $this->reset();
-            $this->dispatch('acaraUpdated');
-        }
+        $beritaAcara->update([
+            'materi' => $this->materi,
+            'keterangan' => $this->keterangan,
+            'jumlah_mahasiswa' => $this->jumlah_mahasiswa,
+        ]);
+
+        $this->dispatch('acaraUpdated');
     }
 
     public function render()
     {
-        $matkuls = Matakuliah::all();
-        return view('livewire.dosen.berita_acara.edit', [
-            'matkuls' => $matkuls
-        ]);
+        return view('livewire.dosen.berita_acara.edit');
     }
 }
