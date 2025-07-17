@@ -15,7 +15,7 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use Livewire\Attributes\On;
 
-final class matkul extends PowerGridComponent
+final class Matkul extends PowerGridComponent
 {
     public ?string $primaryKeyAlias = 'id_mata_kuliah';
     public string $primaryKey = 'matkul.id_mata_kuliah';
