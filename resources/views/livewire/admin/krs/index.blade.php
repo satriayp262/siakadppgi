@@ -272,7 +272,7 @@
     </div>
 
     <div class="bg-white shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-full overflow-x-auto">
-        <livewire:table.krstable />
+        <livewire:table.KRSTable />
 
         {{-- <table class="min-w-full mt-4 bg-white border border-gray-200 md:text-[16px] text-[10px]">
             <thead>

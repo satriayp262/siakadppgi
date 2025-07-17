@@ -38,7 +38,7 @@
                 </p>
             </div>
         </div>
-        <livewire:table.konversi-table />
+        <livewire:table.konversiTable />
     </div>
 </div>
 <script>
