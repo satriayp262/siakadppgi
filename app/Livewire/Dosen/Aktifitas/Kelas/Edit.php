@@ -63,7 +63,7 @@ class Edit extends Component
             $aktifitas->update([
                 'id_kelas' => $this->id_kelas,
                 'id_mata_kuliah' => $this->id_mata_kuliah,                
-                'nama_aktifitas' => $this->nama_aktifitas,
+                'nama_aktifitas' => (string)$this->nama_aktifitas,
                 'catatan' => $this->catatan,
             ]);
         } else {

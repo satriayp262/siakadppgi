@@ -5,6 +5,9 @@ namespace App\Livewire\Dosen\Aktifitas\Kelas;
 use App\Exports\NilaiExport;
 use App\Models\Aktifitas;
 use App\Models\Kelas;
+use App\Models\KHS;
+use App\Models\KonversiNilai;
+use App\Models\KRS;
 use App\Models\Matakuliah;
 use App\Models\Nilai;
 use Livewire\Component;
@@ -19,35 +22,41 @@ class Show extends Component
     use WithFileUploads;
     public $id_kelas, $kode_mata_kuliah, $id_mata_kuliah, $CheckDosen = false, $file, $nama_kelas;
 
+    
     #[On('aktifitasCreated')]
     public function handleAktifitasCreated()
     {
         $this->dispatch('pg:eventRefresh-aktifitas-table-fonjfc-table');
+        $this->dispatch('pg:eventRefresh-aktivitas2-orj78l-table');
         $this->dispatch('created', ['message' => 'Aktifitas Created Successfully']);
     }
     #[On('aktifitasUpdated')]
     public function handleAktifitasUpdated()
     {
+        $this->dispatch('pg:eventRefresh-aktivitas2-orj78l-table');
         $this->dispatch('pg:eventRefresh-aktifitas-table-fonjfc-table');
         $this->dispatch('updated', ['message' => 'Aktifitas Updated Successfully']);
     }
     #[On('kelasUpdated')]
     public function handelKelasUpdated()
     {
+        $this->dispatch('pg:eventRefresh-aktivitas2-orj78l-table');
         $this->dispatch('pg:eventRefresh-aktifitas-table-fonjfc-table');
         $this->dispatch('updated', ['message' => 'Bobot Berhasil Diupdate']);
 
     }
-     #[On('nilaiUpdated')]
+    #[On('nilaiUpdated')]
     public function handelNilaiUpdated()
     {
+        $this->dispatch('pg:eventRefresh-aktivitas2-orj78l-table');
         $this->dispatch('pg:eventRefresh-aktifitas-table-fonjfc-table');
         $this->dispatch('updated', ['message' => 'Nilai Berhasil Diupdate']);
 
     }
-         #[On('aktivitasDeleted')]
+    #[On('aktivitasDeleted')]
     public function handelAktivitasDeletedd()
     {
+        $this->dispatch('pg:eventRefresh-aktivitas2-orj78l-table');
         $this->dispatch('pg:eventRefresh-aktifitas-table-fonjfc-table');
         $this->dispatch('destroyed', ['message' => 'NilAktifitas dan Nilaiai Berhasil dihapus']);
 
@@ -73,12 +82,38 @@ class Show extends Component
             $nilai->delete();
         }
         $acara->delete();
+        $this->calculateKHS();
         $this->dispatch('pg:eventRefresh-aktifitas-table-fonjfc-table');
-
+        $this->dispatch('pg:eventRefresh-aktivitas2-orj78l-table');
         $this->dispatch('destroyed', ['message' => 'Aktifitas dan Nilai deleted successfully']);
 
     }
+    protected function calculateKHS()
+    {
+        $krsData = KRS::where('id_kelas', $this->id_kelas)
+            ->where('id_mata_kuliah', $this->id_mata_kuliah)
+            ->get();
 
+        foreach ($krsData as $krs) {
+            if (KonversiNilai::where('id_krs', $krs->id_krs)->exists()) {
+                $bobot = KonversiNilai::where('id_krs', $krs->id_krs)->first()->nilai;
+            } else {
+                $bobot = KHS::calculateBobot(
+                    $krs->id_semester,
+                    $krs->NIM,
+                    $krs->id_mata_kuliah,
+                    $krs->id_kelas
+                );
+            }
+
+            KHS::updateOrCreate([
+                'id_krs' => $krs->id_krs
+            ], [
+                'bobot' => $bobot
+            ]);
+        }
+
+    }
 
     public function import(Excel $excel)
     {
@@ -139,6 +174,7 @@ class Show extends Component
         } finally {
             $this->reset('file');
             $this->importing = false;
+            $this->dispatch('pg:eventRefresh-aktivitas2-orj78l-table');
             $this->dispatch('pg:eventRefresh-aktifitas-table-fonjfc-table');
 
         }

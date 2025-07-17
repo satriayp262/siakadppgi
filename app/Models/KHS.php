@@ -75,7 +75,7 @@ class KHS extends Model
 
     public static function calculateBobot($id_semester, $NIM, $id_mata_kuliah, $id_kelas)
     {
-
+        // Pastikan KRS ada
         $krsEntries = KRS::where('NIM', $NIM)
             ->where('id_semester', $id_semester)
             ->get();
@@ -83,18 +83,19 @@ class KHS extends Model
         if ($krsEntries->isEmpty()) {
             throw new \Exception('KRS entries not found for the given NIM and semester.');
         }
-        $cek = 1;
 
+        // Pastikan mata kuliah ada
         $matkul = matakuliah::where('id_mata_kuliah', $id_mata_kuliah)->first();
-
         if (!$matkul) {
             throw new \Exception('Matakuliah not found for the given KHS.');
         }
 
+        // Ambil atau buat bobot
         $bobot = Bobot::firstOrCreate([
             'id_kelas' => $id_kelas,
-            'id_mata_kuliah' => $id_mata_kuliah
+            'id_mata_kuliah' => $id_mata_kuliah,
         ]);
+
         $bobotTugas = $bobot->tugas ?? 0;
         $bobotUTS = $bobot->uts ?? 0;
         $bobotUAS = $bobot->uas ?? 0;
@@ -102,6 +103,7 @@ class KHS extends Model
 
         $totalWeight = $bobotTugas + $bobotUTS + $bobotUAS + $bobotPartisipasi;
 
+        // Normalisasi jika total bukan 100 dan bukan 0
         if ($totalWeight != 100 && $totalWeight != 0) {
             $bobotTugas = ($bobotTugas / $totalWeight) * 100;
             $bobotUTS = ($bobotUTS / $totalWeight) * 100;
@@ -109,15 +111,24 @@ class KHS extends Model
             $bobotPartisipasi = ($bobotPartisipasi / $totalWeight) * 100;
         }
 
+        // Ambil semua aktifitas
         $aktifitas = Aktifitas::where('id_kelas', $id_kelas)
-            ->where('id_mata_kuliah', $id_mata_kuliah)->get();
+            ->where('id_mata_kuliah', $id_mata_kuliah)
+            ->get();
 
         if ($aktifitas->isEmpty()) {
             return 0;
         }
 
-        $TotalNilai = $NilaiUAS = $NilaiUTS = $NilaiPartisipasi = $JumlahnilaiTugas = $JumlahTugas = 0;
+        // Inisialisasi nilai
+        $TotalNilai = 0;
+        $NilaiUAS = 0;
+        $NilaiUTS = 0;
+        $NilaiPartisipasi = 0;
+        $JumlahnilaiTugas = 0;
+        $JumlahTugas = 0;
 
+        // Loop aktifitas
         foreach ($aktifitas as $y) {
             $nilai = Nilai::where('NIM', $NIM)
                 ->where('id_aktifitas', $y->id_aktifitas)
@@ -133,25 +144,26 @@ class KHS extends Model
                 case 'Partisipasi':
                     $NilaiPartisipasi = $nilai;
                     break;
-                default:
+                default: // Tugas
                     $JumlahTugas++;
                     $JumlahnilaiTugas += $nilai;
                     break;
             }
         }
 
-        $TotalNilai += (($JumlahnilaiTugas / $JumlahTugas)) * ($bobotTugas / 100);
+        // Hitung nilai tugas dengan aman
+        if ($JumlahTugas > 0) {
+            $TotalNilai += (($JumlahnilaiTugas / $JumlahTugas) * ($bobotTugas / 100));
+        }
 
+        // Tambah nilai lain
         $TotalNilai += $NilaiUAS * ($bobotUAS / 100);
-
         $TotalNilai += $NilaiUTS * ($bobotUTS / 100);
-
         $TotalNilai += $NilaiPartisipasi * ($bobotPartisipasi / 100);
-
-        // dd($TotalNilai ,$JumlahnilaiTugas / $JumlahTugas,$NilaiUAS,$NilaiUTS,$NilaiPartisipasi );
 
         return round($TotalNilai);
     }
+
 
     public $bobotNilai = [
         ['min' => 80, 'max' => 100, 'huruf' => 'A', 'angka' => 4],

@@ -232,68 +232,21 @@
         </div>
     </div>
 
-    <div class="bg-white shadow-lg p-2 sm:p-4 mt-2 sm:mt-4 mb-2 sm:mb-4 rounded-lg max-w-full">
+            
+    <div style="max-width: 92%;" class="bg-white shadow-lg p-2 sm:p-4 mt-2 sm:mt-4 mb-2 sm:mb-4 rounded-lg ">
         <div class="flex flex-row justify-between mb-2">
             <h2 class="px-4 font-bold text-[20px] -ml-4">
                 {{ str_replace('-', '/', $nama_kelas) . '  (' . $kode_mata_kuliah . ')' }}
             </h2>
-            <livewire:dosen.bobot.kelas.edit :$id_kelas :$kode_mata_kuliah
-            wire:key="edit-{{ rand() . $id_kelas }}" />
+            {{-- <livewire:dosen.bobot.kelas.edit :$id_kelas :$kode_mata_kuliah :key="$id_kelas . $kode_mata_kuliah" /> --}}
         </div>
-        <button>Switch</button>
-        <livewire:table.aktifitas-table :$id_kelas :$id_mata_kuliah />
-        <livewire:table.aktivitas2 :$id_kelas :$id_mata_kuliah />
-        {{-- <table class="min-w-full mt-2 sm:mt-4 bg-white text-xs sm:text-sm border border-gray-200">
-            <thead>
-                <tr class="items-center w-full text-white align-middle bg-gray-800">
-                    <th class="px-2 sm:px-4 py-1 sm:py-2 text-center">Nama aktifitas</th>
-                    <th class="px-2 sm:px-4 py-1 sm:py-2 text-center">Catatan</th>
-                    <th class="px-2 sm:px-4 py-1 sm:py-2 text-center">Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($aktifitas as $item)
-                    <tr wire:key="item-{{ $item->id_aktifitas }}">
-                        <td class="px-2 sm:px-4 py-1 sm:py-2 text-center">{{ $item->nama_aktifitas }}</td>
-                        <td class="px-2 sm:px-4 py-1 sm:py-2 text-center">
-                            {{ $item->catatan ?? 'Belum ada Catatan' }}
-                        </td>
-                        <td class="px-2 sm:px-4 py-1 sm:py-2 text-center">
-                            <div class="flex flex-row justify-center space-x-1 sm:space-x-2">
-                                <livewire:dosen.aktifitas.kelas.edit 
-                                    :id_aktifitas="$item->id_aktifitas" 
-                                    :$id_kelas 
-                                    :$id_mata_kuliah 
-                                    wire:key="edit-{{ rand() . $item->id_aktifitas }}" />
-    
-                                <button
-                                    class="inline-block px-2 sm:px-4 py-1 sm:py-2 text-white bg-red-500 rounded hover:bg-red-700"
-                                    wire:key="delete-{{ $item->id_aktifitas }}"
-                                    onclick="confirmDelete('{{ $item->id_aktifitas }}')">
-                                    <svg class="w-4 sm:w-6 h-4 sm:h-6 text-white" aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
-                                    </svg>
-                                </button>
-    
-                                <a wire:navigate.hover  href="{{ route('dosen.aktifitas.kelas.aktifitas', ['kode_mata_kuliah' => $kode_mata_kuliah, 'nama_kelas' => str_replace('/', '-', $nama_kelas), 'nama_aktifitas' => $item->nama_aktifitas]) }}"
-                                    class="py-1 sm:py-2 px-3 sm:px-5 bg-blue-500 hover:bg-blue-700 rounded text-white text-sm">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 inline" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4"
-                                    d="M9 5l7 7-7 7" />
-                            </svg>
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table> --}}
+        <div class="powergrid-container">
+            <livewire:table.aktifitas-table :$id_kelas :$id_mata_kuliah />
+        </div>
     </div>
-
+    <div style="max-width: 92%;" class="bg-white shadow-lg p-2 sm:p-4 mt-2 sm:mt-4 mb-2 sm:mb-4 rounded-lg">
+        <livewire:table.aktivitas2 :$id_kelas :$id_mata_kuliah />
+    </div>
 </div>
 <script>
     function confirmDelete(id_aktifitas) {

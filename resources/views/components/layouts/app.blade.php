@@ -59,11 +59,31 @@
         }
 
         #nprogress .bar {
-            background: red;
+            /* background: red; */
             /* Change to your desired color */
         }
     </style>
+    <style>
+        /* Container for horizontal scrolling */
+        .powergrid-container {
+            /* overflow-x: auto; */
+            white-space: nowrap;
+            /* max-width: 99%; */
+        }
 
+        /* Fix the header row */
+        .powergrid-container table thead tr {
+            position: sticky;
+            top: 0;
+            /* background: white; */
+            z-index: 10;
+        }
+
+        /* Optional: Add shadow when scrolling */
+        .powergrid-container table thead {
+            box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 
 <body x-data="{ showSidebar: false }" @toggle-sidebar.window="showSidebar = !showSidebar" class="flex flex-col w-full z-14">
