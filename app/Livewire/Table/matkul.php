@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\table;
+namespace App\Livewire\Table;
 
 use App\Models\Dosen;
 use App\Models\matakuliah;
