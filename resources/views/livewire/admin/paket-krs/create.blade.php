@@ -31,6 +31,11 @@
     </nav>
     <div class="shadow-lg p-4 mt-4 mb-4 rounded-lg max-w-6xl mx-5">
         <div class="p-6 bg-white shadow-md rounded-lg max-w-6xl mx-auto space-y-6">
+            <div class="">
+                <h1 class="text-2xl font-bold text-customPurple">Form Paket KRS</h1>
+                <p class="text-sm text-gray-500">Halaman ini ditunjukan untuk membuat KRS per Kelas sesuai dengan Anggota Kelas</p>
+                </p>
+            </div>
             <!-- Semester and Prodi -->
             <div class="grid md:grid-cols-2 gap-4">
                 <div>
@@ -60,7 +65,7 @@
             </div>
 
             <!-- Tanggal -->
-            <div class="grid md:grid-cols-2 gap-4">
+            {{-- <div class="grid md:grid-cols-2 gap-4">
                 <div>
                     <label for="tanggal_mulai" class="block text-sm font-semibold mb-1">Tanggal Mulai:</label>
                     <input type="date" wire:model="tanggal_mulai" class="w-full px-3 py-2 border rounded">
@@ -75,7 +80,7 @@
                         <span class="text-sm text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
-            </div>
+            </div> --}}
 
             <!-- Kelas + Button -->
             <div class="grid md:grid-cols-2 gap-4 items-end">
@@ -168,19 +173,19 @@
     </div>
 </div>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-    Livewire.on('updatedPaketKRS', message => {
-        Swal.fire({
-            title: 'Success!',
-            text: message,
-            icon: 'success',
-            confirmButtonText: 'OK'
-        }).then(() => {
-            window.dispatchEvent(new CustomEvent('modal-closed'));
-            window.location.href = '{{ route('admin.paketkrs') }}';
+    document.addEventListener('DOMContentLoaded', function() {
+        Livewire.on('updatedPaketKRS', message => {
+            Swal.fire({
+                title: 'Success!',
+                text: message,
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                window.dispatchEvent(new CustomEvent('modal-closed'));
+                window.location.href = '{{ route('admin.paketkrs') }}';
+            });
         });
     });
-});
 
     document.addEventListener('DOMContentLoaded', function() {
         window.addEventListener('warningPaketKRS', event => {

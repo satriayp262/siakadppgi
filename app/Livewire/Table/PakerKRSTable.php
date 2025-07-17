@@ -90,8 +90,9 @@ final class PakerKRSTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('semester.nama_semester')
             ->add('kelas.nama_kelas')
-            ->add('tanggal_mulai_formatted', fn (paketKRS $model) => Carbon::parse($model->tanggal_mulai)->format('d/m/Y'))
-            ->add('tanggal_selesai_formatted', fn (paketKRS $model) => Carbon::parse($model->tanggal_selesai)->format('d/m/Y'));
+            ->add('created_at');
+            // ->add('tanggal_mulai_formatted', fn (paketKRS $model) => Carbon::parse($model->tanggal_mulai)->format('d/m/Y'))
+            // ->add('tanggal_selesai_formatted', fn (paketKRS $model) => Carbon::parse($model->tanggal_selesai)->format('d/m/Y'));
     }
 
     public function columns(): array
@@ -103,11 +104,13 @@ final class PakerKRSTable extends PowerGridComponent
             Column::make('Kelas', 'kelas.nama_kelas')
                 ->searchable(),
 
-            Column::make('Tanggal mulai', 'tanggal_mulai_formatted', 'tanggal_mulai')
-                ->sortable(),
+                Column::make('Dibuat Pada', 'created_at')->sortable(),
 
-            Column::make('Tanggal selesai', 'tanggal_selesai_formatted', 'tanggal_selesai')
-                ->sortable(),
+            // Column::make('Tanggal mulai', 'tanggal_mulai_formatted', 'tanggal_mulai')
+            //     ->sortable(),
+
+            // Column::make('Tanggal selesai', 'tanggal_selesai_formatted', 'tanggal_selesai')
+            //     ->sortable(),
 
             Column::action('Action')
         ];
