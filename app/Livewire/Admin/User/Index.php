@@ -80,23 +80,23 @@ class Index extends Component
 
     public function render()
     {
-        $usersQuery = User::query();
+        // $usersQuery = User::query();
 
-        // Apply the role filter if selectedRole is not empty
-        if ($this->selectedRole) {
-            $usersQuery->where('role', $this->selectedRole);
-        }
+        // // Apply the role filter if selectedRole is not empty
+        // if ($this->selectedRole) {
+        //     $usersQuery->where('role', $this->selectedRole);
+        // }
 
-        // Search functionality (if implemented)
-        if ($this->search) {
-            $usersQuery->where(function ($query) {
-                $query->where('name', 'like', '%' . $this->search . '%')
-                    ->orWhere('email', 'like', '%' . $this->search . '%');
-            });
-        }
+        // // Search functionality (if implemented)
+        // if ($this->search) {
+        //     $usersQuery->where(function ($query) {
+        //         $query->where('name', 'like', '%' . $this->search . '%')
+        //             ->orWhere('email', 'like', '%' . $this->search . '%');
+        //     });
+        // }
         
         return view('livewire.admin.user.index', [
-            'users' => $usersQuery->latest()->paginate(10),
+            // 'users' => $usersQuery->latest()->paginate(10),
         ]);
     }
 }

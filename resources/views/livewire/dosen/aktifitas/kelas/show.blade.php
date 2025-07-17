@@ -1,5 +1,5 @@
 <div class="mx-5">
-    <div wire:loading wire:target="save,export,destroy"
+    <div wire:loading wire:target="save,export,destroy,saveGrades"
         class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
         <div class="spinner loading-spinner"></div>
     </div>
@@ -240,7 +240,9 @@
             <livewire:dosen.bobot.kelas.edit :$id_kelas :$kode_mata_kuliah
             wire:key="edit-{{ rand() . $id_kelas }}" />
         </div>
+        <button>Switch</button>
         <livewire:table.aktifitas-table :$id_kelas :$id_mata_kuliah />
+        <livewire:table.aktivitas2 :$id_kelas :$id_mata_kuliah />
         {{-- <table class="min-w-full mt-2 sm:mt-4 bg-white text-xs sm:text-sm border border-gray-200">
             <thead>
                 <tr class="items-center w-full text-white align-middle bg-gray-800">

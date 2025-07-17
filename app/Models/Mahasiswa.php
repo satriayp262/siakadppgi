@@ -84,6 +84,37 @@ class Mahasiswa extends Model
     {
         return $this->hasMany(Tagihan::class, 'NIM', 'NIM');
     }
+    //////////////////////////////////////////////////
+    public function nilai()
+    {
+        return $this->hasMany(Nilai::class, 'NIM', 'NIM');
+    }
+    public function aktifitas()
+    {
+
+        return $this->hasManyThrough(
+            Aktifitas::class,
+            Nilai::class,
+            'NIM',          // Foreign key on Nilai table
+            'id_aktifitas',  // Foreign key on Aktifitas table
+            'NIM',          // Local key on Mahasiswa table
+            'id_aktifitas'  // Local key on Nilai table
+        );
+    }
+
+    protected $appends = ['nama_lengkap'];
+
+    public function getNamaLengkapAttribute()
+    {
+        return $this->attributes['nama'];
+    }
+
+    protected $casts = [
+        'tanggal_lahir' => 'date',
+        'tanggal_masuk_kuliah' => 'date',
+        'terima_kps' => 'boolean',
+    ];
+    //////////////////////////////////
     public function getSemesterDifferenceAttribute()
     {
         // Retrieve the latest semester information

@@ -15,6 +15,7 @@
         "livewire/livewire": "^3.5",
         "maatwebsite/excel": "^3.1",
         "midtrans/midtrans-php": "^2.6",
+        "mpdf/mpdf": "^8.2",
         "openspout/openspout": "^4.0",
         "pharaonic/livewire-select2": "^1.2",
         "power-components/livewire-powergrid": "^6.3",

@@ -158,6 +158,13 @@
                                 <span class="flex-1 ms-3 whitespace-nowrap">Presensi Mengajar</span>
                             </a>
                         </li>
+                        <li>
+                            <a wire:navigate.hover href="{{ route('admin.konversi') }}"
+                                class="flex items-center mx-4 p-2 rounded-lg group
+                                    {{ request()->routeIs('admin.konversi') ? 'text-white ' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
+                                <span class="flex-1 ms-3 whitespace-nowrap">Konversi</span>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li x-data="{

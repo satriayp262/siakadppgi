@@ -180,10 +180,10 @@ class Edit extends Component
     public function rules()
     {
         return [
-            'nim' => 'required|string|unique:mahasiswa,NIM,' . $this->id_mahasiswa . ',id_mahasiswa',
-            'nik' => 'required|string|unique:mahasiswa,NIK,' . $this->id_mahasiswa . ',id_mahasiswa',
-            'nisn' => 'required|string',
-            'npwp' => 'nullable|string',
+            'nim' => 'required|integer|unique:mahasiswa,NIM,' . $this->id_mahasiswa . ',id_mahasiswa',
+            'nik' => 'required|integer|unique:mahasiswa,NIK,' . $this->id_mahasiswa . ',id_mahasiswa',
+            'nisn' => 'required|integer',
+            'npwp' => 'nullable|integer',
             'nama' => 'required|string',
             'tempat_lahir' => 'required|string',
             'tanggal_lahir' => 'required|date',

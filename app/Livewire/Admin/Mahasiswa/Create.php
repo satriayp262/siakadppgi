@@ -63,10 +63,10 @@ class Create extends Component
     public function rules()
     {
         return [
-            'nim' => 'required|string|unique:mahasiswa,NIM',
-            'nik' => 'required|string|unique:mahasiswa,NIK',
-            'nisn' => 'required|string',
-            'npwp' => 'nullable|string',
+            'nim' => 'required|integer|unique:mahasiswa,NIM',
+            'nik' => 'required|integer|unique:mahasiswa,NIK',
+            'nisn' => 'required|integer',
+            'npwp' => 'nullable|integer',
             'nama' => 'required|string',
             'tempat_lahir' => 'required|string',
             'tanggal_lahir' => 'required|date',

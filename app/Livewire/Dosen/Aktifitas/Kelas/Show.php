@@ -34,8 +34,22 @@ class Show extends Component
     #[On('kelasUpdated')]
     public function handelKelasUpdated()
     {
-
+        $this->dispatch('pg:eventRefresh-aktifitas-table-fonjfc-table');
         $this->dispatch('updated', ['message' => 'Bobot Berhasil Diupdate']);
+
+    }
+     #[On('nilaiUpdated')]
+    public function handelNilaiUpdated()
+    {
+        $this->dispatch('pg:eventRefresh-aktifitas-table-fonjfc-table');
+        $this->dispatch('updated', ['message' => 'Nilai Berhasil Diupdate']);
+
+    }
+         #[On('aktivitasDeleted')]
+    public function handelAktivitasDeletedd()
+    {
+        $this->dispatch('pg:eventRefresh-aktifitas-table-fonjfc-table');
+        $this->dispatch('destroyed', ['message' => 'NilAktifitas dan Nilaiai Berhasil dihapus']);
 
     }
     public function mount()

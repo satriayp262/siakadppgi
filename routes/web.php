@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\KHSController;
 use App\Models\Aktifitas;
 use App\Models\Dosen;
 use App\Models\Kelas;
@@ -14,6 +15,7 @@ use App\Livewire\Auth\VerifyEmail;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Middleware\CheckRole;
 
+Route::post('/verifikasi-khs', [KHSController::class, 'verifikasi'])->name('verifikasi.khs');
 
 // auth
 Route::get('/', App\Livewire\LandingPage::class)->name('landing');
@@ -135,6 +137,7 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group
     Route::get('/khs/download/{NIM}/{id_semester}', [App\Http\Controllers\KHSController::class, 'generatePDF'])->name('dosen.khs.download');
     Route::get('/khs/rekap/{NIM}', [App\Http\Controllers\KHSController::class, 'rekap'])->name('dosen.khs.rekap');
     Route::get('/khs/{nama_kelas}', App\Livewire\Khs\Show::class)->name('dosen.khs.show');
+    Route::get('/preview-khs/{nim}/{id_semester}', [KHSController::class, 'preview'])->name('preview.khs');
 
     Route::prefix('ttd')->group(function () {
         Route::get('/', App\Livewire\Admin\Ttd\Index::class)->name('admin.ttd');
