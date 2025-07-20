@@ -1,5 +1,5 @@
 <div class="max-w-full p-4 mt-4 mb-4 bg-white rounded-lg shadow-lg">
-    <P class="px-4 py-2 text-lg font-bold text-customPurple">Jadwal Kelas {{ $jadwal->kelas->nama_kelas }}</P>
+    <P class="px-4 py-2 text-lg font-bold text-customPurple">Jadwal Kelas {{ $krs->kelas->nama_kelas }}</P>
     <div class="flex justify-end mt-2">
         <button type="button"
             class="flex px-4 py-2 ml-2 font-bold text-white align-middle bg-blue-500 rounded hover:bg-blue-700"
