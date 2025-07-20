@@ -14,12 +14,12 @@ use Livewire\Attributes\On;
 class Edit extends Component
 {
     public $id_kelas, $kode_mata_kuliah, $id_mata_kuliah;
-    public $tugas, $uts, $uas, $partisipasi;
+    public $tugas, $uts, $uas, $partisipasi, $nidn;
 
     public function mount()
     {
         $matkul = Matakuliah::where('kode_mata_kuliah', $this->kode_mata_kuliah)
-            ->where('NIDN', Auth()->user()->nim_nidn)->first();
+            ->where('NIDN', $this->nidn)->first();
         $this->id_mata_kuliah = $matkul->id_mata_kuliah;
 
         $bobot = null;
@@ -80,6 +80,7 @@ class Edit extends Component
 
     public function update()
     {
+        // dd('wut');
         $validatedData = $this->validate($this->rules(), $this->customMessages());
 
         // Custom validation for the sum

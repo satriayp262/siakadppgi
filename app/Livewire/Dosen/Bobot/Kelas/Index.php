@@ -13,7 +13,7 @@ use Livewire\WithPagination;
 
 class Index extends Component
 {
-    public $kode_mata_kuliah, $url;
+    public $kode_mata_kuliah, $url,$nidn;
 
     #[On('kelasUpdated')]
     public function handelKelasUpdated()
@@ -27,7 +27,7 @@ class Index extends Component
     {
         $this->url = request()->url();
 
-        $mataKuliah = MataKuliah::where('nidn', Auth()->user()->nim_nidn)->where('kode_mata_kuliah', $this->kode_mata_kuliah)->first();
+        $mataKuliah = MataKuliah::where('nidn', $this->nidn)->where('kode_mata_kuliah', $this->kode_mata_kuliah)->first();
 
         $kelasEntries = KRS::where('id_mata_kuliah', $mataKuliah->id_mata_kuliah)->distinct()->pluck('id_kelas');
 

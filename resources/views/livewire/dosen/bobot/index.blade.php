@@ -5,9 +5,21 @@
                 <ol class="flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
                     <li aria-current="page">
                         <div class="flex items-center">
-                            <a wire:navigate.hover  href="{{ route('dosen.bobot') }}"
+                            <a wire:navigate.hover  href="{{ route('admin.bobot') }}"
                                 class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
                                 <span class="text-sm font-medium text-gray-500 ms-1 md:ms-2">Bobot</span>
+                                <svg class="w-3 h-3 mx-1 text-gray-400 rtl:rotate-180" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="m1 9 4-4-4-4" />
+                                </svg>
+                            </a>
+                            @php
+                                $nama = App\Models\Dosen::where('nidn', $nidn)->first()->nama_dosen;
+                            @endphp
+                            <a wire:navigate.hover  href="{{ route('admin.bobot.dosen',['nidn' => $nidn]) }}"
+                                class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
+                                <span class="text-sm font-medium text-gray-500 ms-1 md:ms-2">{{$nama}}</span>
                                 <svg class="w-3 h-3 mx-1 text-gray-400 rtl:rotate-180" aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -18,8 +30,6 @@
                     </li>
                 </ol>
             </nav>
-            <input type="text" wire:model.live="search" placeholder="   Search"
-                class="px-2 ml-4 py-2 border border-gray-300 rounded-lg">
         </div>
     </div>
 
@@ -33,7 +43,7 @@
                         {{ $matkul->kode_mata_kuliah }}</span>
                 </div>
                 <div class="flex justify-center space-x-2 py-2">
-                    <a wire:navigate.hover  href="{{ route('dosen.bobot.kelas', ['kode_mata_kuliah' => $matkul->kode_mata_kuliah]) }}">
+                    <a wire:navigate.hover  href="{{ route('admin.bobot.kelas', ['nidn'=>$nidn,'kode_mata_kuliah' => $matkul->kode_mata_kuliah]) }}">
                         <p class="py-2 px-4 bg-blue-500 hover:bg-blue-700 rounded"><svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 inline" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4"

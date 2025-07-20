@@ -1,7 +1,25 @@
 <div class="mx-5">
-
     <div class="flex flex-col justify-between mx-4 mt-2">
         <div class="flex md:flex-row flex-col md:space-y-0 space-y-4  justify-between mt-2">
+            <div class="flex justify-between items-center mt-4 ml-4">
+        <nav aria-label="Breadcrumb">
+            <ol class="flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+                <li aria-current="page">
+                    <div class="flex items-center">
+                        <a wire:navigate.hover href="{{ route('admin.krs') }}"
+                            class="text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center">
+                            <span class="text-sm font-medium text-gray-500 ms-1 md:ms-2">KRS</span>
+                            <svg class="w-3 h-3 mx-1 text-gray-400 rtl:rotate-180" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="m1 9 4-4-4-4" />
+                            </svg>
+                        </a>
+                    </div>
+                </li>
+            </ol>
+        </nav>
+    </div>
             <div class="flex space-x-2">
                 <!-- Modal Form -->
                 {{-- <livewire:admin.mahasiswa.create /> --}}

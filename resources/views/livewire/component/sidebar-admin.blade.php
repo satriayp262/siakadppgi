@@ -141,7 +141,7 @@
                             </a>
                         </li>
                         <li>
-                            <a wire:navigate.hover href="{{ route('admin.paketkrs') }}"
+                            <a wire:navigate.hover href="{{ route('admin.paketkrs.create') }}"
                                 class="flex items-center mx-4 p-2 text-gray-500 rounded-lg group {{ request()->routeIs('admin.paketkrs') || request()->routeIs('admin.paketkrs.create') ? 'text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 <span class="flex-1 ms-3 whitespace-nowrap">Paket KRS</span>
                             </a>
@@ -156,6 +156,12 @@
                             <a wire:navigate.hover href="{{ route('admin.presensiDosen') }}"
                                 class="flex items-center mx-4 p-2 rounded-lg transition duration-75 group {{ request()->routeIs('admin.presensiDosen') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 <span class="flex-1 ms-3 whitespace-nowrap">Presensi Mengajar</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a wire:navigate.hover href="{{ route('admin.bobot') }}"
+                                class="flex items-center mx-4 p-2 rounded-lg transition duration-75 group {{ request()->routeIs('admin.presensiDosen') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
+                                <span class="flex-1 ms-3 whitespace-nowrap">Bobot</span>
                             </a>
                         </li>
                         <li>
@@ -265,7 +271,6 @@
                                 <span class="flex-1 ms-3 whitespace-nowrap">KHS</span>
                             </a>
                         </li>
-
                     </ul>
                 </li>
 
