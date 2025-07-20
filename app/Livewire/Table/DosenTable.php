@@ -20,11 +20,13 @@ final class DosenTable extends PowerGridComponent
     public string $primaryKey = 'id_dosen';
     public string $sortField = 'id_dosen';
     public string $tableName = 'dosen-table-lw2rml-table';
-
+    public string $url;
 
     public function setUp(): array
     {
-        $this->showCheckBox();
+        if (!($this->url == 'bobot')) {
+            $this->showCheckBox();
+        }
 
         return [
             PowerGrid::header()
@@ -39,14 +41,18 @@ final class DosenTable extends PowerGridComponent
     {
         $this->checkboxAttribute = 'id_dosen';
         // dd($this);
-        return [
-            Button::add('bulk-delete')
-                ->slot('Hapus data terpilih (<span x-text="window.pgBulkActions.count(\'' . $this->tableName . '\')"></span>)')
-                ->class('bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700')
-                ->dispatch('bulkDelete.' . $this->tableName, [
-                    // 'ids' => $this->checkboxValues
-                ]),
-        ];
+        if (!($this->url == 'bobot')) {
+            return [
+                Button::add('bulk-delete')
+                    ->slot('Hapus data terpilih (<span x-text="window.pgBulkActions.count(\'' . $this->tableName . '\')"></span>)')
+                    ->class('bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700')
+                    ->dispatch('bulkDelete.' . $this->tableName, [
+                        // 'ids' => $this->checkboxValues
+                    ]),
+            ];
+        }else{
+            return [];
+        }
     }
 
     #[On('bulkDelete.{tableName}')]
@@ -144,8 +150,11 @@ final class DosenTable extends PowerGridComponent
 
     public function actionsFromView($row)
     {
-
-        return view('livewire.admin.dosen.action', ['row' => $row]);
+        if ($this->url == 'bobot') {
+            return view('livewire.admin.bobot.action', ['row' => $row]);
+        } else {
+            return view('livewire.admin.dosen.action', ['row' => $row]);
+        }
     }
 
     /*

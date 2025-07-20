@@ -92,7 +92,7 @@
             });
         }
 
-        function confirmActive(id) {
+        function confirmActive(nama_semester) {
             Swal.fire({
                 title: `Apakah anda yakin ingin mengaktifkan Semester ini?`,
                 text: "Semester yang telah diaktifkan tidak dapat dikembalikan!",
@@ -103,7 +103,7 @@
                 confirmButtonText: 'Aktifkan'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    @this.call('active', id);
+                    @this.call('active', nama_semester);
                 }
             });
         }

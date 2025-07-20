@@ -13,6 +13,7 @@ class Index extends Component
     public $selectedSemester = [];
     public $selectAll = false;
     public $showDeleteButton = false;
+    public $id_semester;
 
     #[On('semesterCreated')]
     public function handlesemesterCreated()
@@ -44,6 +45,8 @@ class Index extends Component
 
         // Activate the selected semester
         $semester = Semester::find($id_semester);
+
+
         if ($semester) {
             $semester->is_active = true;
             $semester->save();

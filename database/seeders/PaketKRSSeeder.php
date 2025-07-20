@@ -52,8 +52,8 @@ class PaketKRSSeeder extends Seeder
                             'id_prodi' => $p->id_prodi,
                             'id_mata_kuliah' => $m->id_mata_kuliah,
                             'id_kelas' => $k->id_kelas,
-                            'tanggal_mulai' => '2025-03-10',
-                            'tanggal_selesai' => '2025-04-10',
+                            // 'tanggal_mulai' => '2025-03-10',
+                            // 'tanggal_selesai' => '2025-04-10',
                         ]);
                     }
                 }

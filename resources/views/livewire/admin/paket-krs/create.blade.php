@@ -173,7 +173,7 @@
     </div>
 </div>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('livewire:navigated', function() {
         Livewire.on('updatedPaketKRS', message => {
             Swal.fire({
                 title: 'Success!',
@@ -187,7 +187,7 @@
         });
     });
 
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('livewire:navigated', function() {
         window.addEventListener('warningPaketKRS', event => {
             Swal.fire({
                 title: 'Warning!',
