@@ -41,7 +41,6 @@ Route::middleware(['auth'])->group(function () {
 // admin
 Route::middleware(['auth', CheckRole::class . ':admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', App\Livewire\Admin\Dashboard\Index::class)->name('admin.dashboard');
-
     Route::prefix('bobot')->group(function () {
         Route::get('/', App\Livewire\Admin\Bobot\Index::class)->name('admin.bobot');
         Route::get('/{nidn}', App\Livewire\Dosen\Bobot\Index::class)->name('admin.bobot.dosen');

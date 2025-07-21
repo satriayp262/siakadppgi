@@ -28,7 +28,6 @@ final class DosenTable extends PowerGridComponent
             $this->showCheckBox();
         }
 
-        //test
         return [
             PowerGrid::header()
                 ->showSearchInput(),
