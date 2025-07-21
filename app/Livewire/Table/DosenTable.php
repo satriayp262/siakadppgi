@@ -27,7 +27,7 @@ final class DosenTable extends PowerGridComponent
         if (!($this->url == 'bobot')) {
             $this->showCheckBox();
         }
-
+//test
         return [
             PowerGrid::header()
                 ->showSearchInput(),
