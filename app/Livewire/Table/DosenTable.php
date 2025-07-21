@@ -20,7 +20,7 @@ final class DosenTable extends PowerGridComponent
     public string $primaryKey = 'id_dosen';
     public string $sortField = 'id_dosen';
     public string $tableName = 'dosen-table-lw2rml-table';
-    public string $url;
+    public string $url = 'default';
 
     public function setUp(): array
     {
