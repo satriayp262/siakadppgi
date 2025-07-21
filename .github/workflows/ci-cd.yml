@@ -16,7 +16,7 @@ jobs:
       # Setup PHP
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2'
+          php-version: '8.3.6'
 
       # Install dependencies
       - run: composer install --no-progress --prefer-dist --optimize-autoloader
@@ -36,8 +36,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd /var/www/proyekmu
-            git pull origin main
+            cd ../var/www/siakadppgi
+            git pull
             composer install --no-interaction --prefer-dist --optimize-autoloader
-            php artisan migrate --force
             php artisan optimize
