@@ -40,25 +40,19 @@ class Edit extends Component
             ->where('id_mahasiswa', $this->id_mahasiswa)
             ->first();
 
-            // dd($presensi);
-
         if ($presensi) {
             $this->id_presensi = $presensi->id;
             $this->keterangan = $presensi->keterangan ?? '';
-            $this->alasan = $presensi->alasan;
-
-            // Ambil nama dan nim dari relasi mahasiswa
-            $this->nama = $presensi->mahasiswa->nama ?? '-';
-            $this->nim = $presensi->mahasiswa->NIM ?? '-';
-            $this->keterangan = $presensi->id_mahasiswa ?? '';
-            $this->alasan = $presensi->alasan ?? '';
+            $this->alasan = $presensi->alasan ?? null;
+            $this->nama = $presensi->mahasiswalist->nama ?? '-';
+            $this->nim = $presensi->mahasiswalist->NIM ?? '-';
         } else {
-            // Mahasiswa tetap diambil dari tabel mahasiswa jika presensi tidak ditemukan
-            $mahasiswa = Mahasiswa::find($this->id_mahasiswa);
-            $this->nama = $mahasiswa->nama ?? '-';
-            $this->nim = $mahasiswa->NIM ?? '-';
+            $mahasiswalist = Mahasiswa::find($this->id_mahasiswa);
+            $this->nama = $mahasiswalist->nama ?? '-';
+            $this->nim = $mahasiswalist->NIM ?? '-';
         }
     }
+
 
     public function clear($id_presensi)
     {

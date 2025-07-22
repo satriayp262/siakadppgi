@@ -158,12 +158,12 @@
                                 <span class="flex-1 ms-3 whitespace-nowrap">Presensi Mengajar</span>
                             </a>
                         </li>
-                        <li>
+                        {{-- <li>
                             <a wire:navigate.hover href="{{ route('admin.bobot') }}"
                                 class="flex items-center mx-4 p-2 rounded-lg transition duration-75 group {{ request()->routeIs('admin.presensiDosen') ? ' text-white' : 'text-purple3 hover:bg-purple2 hover:text-white' }}">
                                 <span class="flex-1 ms-3 whitespace-nowrap">Bobot</span>
                             </a>
-                        </li>
+                        </li> --}}
                         <li>
                             <a wire:navigate.hover href="{{ route('admin.konversi') }}"
                                 class="flex items-center mx-4 p-2 rounded-lg group
